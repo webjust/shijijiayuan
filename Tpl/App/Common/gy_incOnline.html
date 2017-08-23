@@ -1,0 +1,34 @@
+<noempty name="ary_online">
+	<present name="ary_online">
+		<!--联系我们   开始-->
+		<div class="contactUs">
+			<div>
+				<ul>
+					<li><span>联系我们</span></li>
+					<volist name="ary_online" id="online">
+						<li>
+							{$online.o_name}{$online.o_code}
+						</li>
+					</volist>
+				</ul>
+				<a href="#top" target="_self" class="top">Top</a>
+			</div>
+			<span class="onli">在线客服</span>
+		</div>
+		<!--联系我们   结束-->
+		<script type="text/javascript">
+		$(function(){
+		//联系我们
+		$(".contactUs span.onli").toggle(function(){
+				$(this).prev().animate({
+					marginRight:"-124px",
+					},"slow").end().css("background-position","left 0px")
+			},function(){
+				$(this).prev().animate({
+					marginRight:"0px",
+					},"slow").end().css("background-position","right 0px")
+			})
+		});
+		</script>
+	</present>
+</noempty>

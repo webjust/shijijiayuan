@@ -1,0 +1,290 @@
+<div id="content">
+    <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title" style="background-image:none;">
+                    <th colspan="99">
+                        <p class="conOneP" style="float: left;padding-left:0px;">
+                            <a href="javascript:void(0);" class="btnG ico_add">新增分配</a>
+                        </p>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <!-- 添加库存分配 start -->
+        <form action="{:u('Admin/Inventory/doInventoryAdd')}" method="POST" id="form" style="display:none;">
+            <input type="hidden" name="g_id" value="{$filter.id}" />
+            <table width="100%" class="tbForm">
+                <tbody>
+                    <tr>
+                        <td class="first">对应商家编码：</td>
+                        <td>
+                            <select id="pdt_id" name="pdt_id" class="medium">
+                                <volist name="product" id="detail">
+                                    <option value="{$detail.pdt_id}">{$detail.pdt_sn}</option>
+                                </volist>
+                                <!-- <option value="0">--请选择商品类型--</option> -->
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">选择会员：</td>
+                        <td>
+                            <input type="text" maxlength="30" class="small" value="" id="g_name" name="g_name">
+                            <!-- <font style="color:#ff0000;">*</font> -->
+                            <span style="color:#ff0000;" class="g_name"></span>
+                            <br>
+                            <span style="color:gray;"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">分配库存：</td>
+                        <td>
+                            <input type="text" value="" name="ipl_num" id="ipl_num" class="small not_null input_number">
+                            <span style="color:gray;">可分配数:</span>
+                            <span style="color:gray;" id="stock">{$product.0.pdt_stock|default=0}</span>
+                            <span style="color:#ff0000;"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">库存买断：</td>
+                        <td><input type="checkbox" class="" value="1" id="buyout" name="is_payed"></td>
+                        <td></td>
+                    </tr>
+                    <tr id="expired_display">
+                        <td class="first">库存到期时间：</td>
+                        <td>
+                            <input type="text" name="expired_time" value="" class="small timer" style="width:100px;" id="expired">
+                            <span style="color:#ff0000;"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first"></td>
+                        <td>
+                            <button class="btnA submit-button" id="btn_save">保存</button>
+                            <button class="btnA" id="btn_cancel">取消当前</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <!-- 添加库存分配 end -->
+        <!-- 数据列表 start -->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr>
+                    <th style="width:20px;">操作</th>
+    				<th>分销商</th>
+                    <th>级别</th>
+                    <th>已分配库存数</th>
+                    <th>商家编码</th>
+                    <th style="text-align: left;">买断</th>
+                    <th>库存到期时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="datas">
+                <tr id="gid_{$datas.iny_pdt_id}">
+                    <td>
+                        <a class="blue isDel delete" href="javascript:void(0);" title="删除记录" iny_pdt_id="{$datas.iny_pdt_id}" data-uri='{:U("Admin/Inventory/doInventoryisDel")}' data-acttype="ajax"></a>
+                    </td>
+                    <td>{$datas.m_name}</td>
+                    <td>{$datas.ml_name}</td>
+                    <td>{$datas.ipl_num}</td>
+                    <td>{$datas.pdt_sn}</td>
+                    <td style="text-align:left;text-indent:10px;">
+                        <if condition="$datas.iny_is_payed eq 1">买断<else/>锁定</if>
+                    </td>
+                    <td id="point_{$datas.g_id}">
+                        {$datas.iny_expired_time|default="0000-00-00 00:00:00"}
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <!-- 数据列表 end -->
+    </div><!--rightInner  end-->
+</div>
+<script type="text/javascript">
+//删除商品
+$(".isDel").click(function(){
+    var url = $(this).attr("data-uri");
+    var iny_pdt_id = $(this).attr("iny_pdt_id");
+    var title = $(this).attr('title');
+    if(iny_pdt_id == ''){
+        $("#J_ajax_loading").addClass('ajax_error').html("分配库存编号不能为空").show().fadeOut(5000);
+        return false;
+    }
+    if(confirm("确定要"+title+"？")){
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:"json",
+            data: {iny_pdt_id:iny_pdt_id},
+            type:"POST",
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                if(msgObj.status == '1'){
+                    $("#gid_"+iny_pdt_id).remove();
+                    $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                    // window.reload();
+                    window.top.location.reload();
+                }else{
+                    $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                }
+            }
+        });
+        
+    }
+});
+$(document).ready(function(){
+    check_buyout();
+    // 新增分类
+    $('.ico_add').bind('click',function(){
+        var form = $('#form');
+        if(form.css('display')=='block') form.hide();
+        else form.show();
+    });
+    // 取消当前
+    $('#btn_cancel').bind('click',function(){
+        $('#form').hide();
+        return false;
+    });
+    // 买断库存
+    $('#buyout').bind('click',function(){
+        check_buyout();
+    });
+    // 库存判断
+    $('#ipl_num').bind('blur',function(){
+        check_stock();
+    });
+    // 判断是否存在该会员
+    $('#g_name').bind('blur',function(){
+        check_member();
+    });
+    // pdt_id商品规格更换
+    $('#pdt_id').bind('change',function(){
+        var pdt_id = $('#pdt_id').val();
+        $.ajax({
+            url:"{:u('Admin/Inventory/changePdtStock')}",
+            cache:false,
+            dataType:"json",
+            data: {pdt_id:pdt_id},
+            type:"POST",
+            beforeSend:function(){},
+            error:function(){},
+            success:function(msgObj){
+                $('#stock').text(msgObj);
+            }
+        });
+    });
+    $('input[name="expired_time"]').bind('blur',function(){
+        check_expired();
+    });
+    // form表单提交
+    $('#btn_save').bind('click',function(){
+        if(check_member() && check_stock() && check_expired()){
+            $('#form').submit();
+        }else{
+            return false;
+        }
+    });
+    // 检查是否买断库存
+    function check_buyout(){
+        var buyout = $('#buyout');
+        if(buyout.attr('checked') == 'checked'){
+            $('#expired_display').hide();
+        }else{
+            $('#expired_display').show();
+            $('#expired').next().html('');
+        }
+    }
+    // 检查用户
+    function check_member(){
+        var m_name = $('#g_name');
+        if(m_name.val() == ''){
+            m_name.next().html('请输入会员名');
+            m_name.focus();
+            return false;
+        }
+        // ajax验证
+        $.ajax({
+            url:"{:u('Admin/Inventory/checkMember')}",
+            cache:false,
+            dataType:"json",
+            data: {m_name:m_name.val()},
+            type:"POST",
+            beforeSend:function(){},
+            error:function(){},
+            success:function(msgObj){
+                if(msgObj){
+                    m_name.next().html('');
+                }else{
+                    m_name.next().html('不存在该用户!');
+                    m_name.focus();
+                    return false;
+                }
+            }
+        });
+        return true;
+    }
+    // 检查库存
+    function check_stock(){
+        var stock = $('#stock');
+        var now_stock = $('#ipl_num').val();
+        // 判断是否为空/是否是数字
+        if(now_stock == '' || isNaN(now_stock) || now_stock == undefined){
+            stock.next().html('请正确输入库存');
+            $('#ipl_num').val('');
+            $('#ipl_num').focus();
+            return false;
+        }
+        // 判断原来库存是否为空
+        if(isNaN(stock.text()) || stock.text() == 0){
+            stock.next().html('没有可分配的库存');
+            $('#ipl_num').val('');
+            $('#ipl_num').focus();
+            return false;
+        }
+        // 判断是否超过库存
+        if(parseInt(stock.text())<parseInt(now_stock)){
+            $('#ipl_num').val(stock.text());
+            // $('#ipl_num').focus();
+            return false;
+        }
+        // 默认去除提示
+        stock.next().html('');
+        return true;
+    }
+    // 检查库存时间
+    function check_expired(){
+        var expired = $('#expired');
+        var buyout = $('#buyout').attr('checked');
+        if(buyout != 'checked' && expired.val() == ''){
+            expired.next().html('请填写日期');
+            return false;
+        }
+        expired.next().html('');
+        return true;
+    }
+});
+</script>

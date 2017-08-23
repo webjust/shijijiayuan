@@ -1,0 +1,106 @@
+<tr>
+	<td style="text-align:left;margin-left:100px;" colspan="3">
+		分类：
+		<select name="search_cats" class="related_goods_form medium">
+			<option value="0"> -请选择- </option>
+			<volist name="array_category" id="cat">
+			<option value="{$cat.gc_id}"><php>for($j=0;$j<$cat['gc_level'];$j++){echo '--';}</php>{$cat.gc_name}</option>
+			</volist>
+		</select>
+		品牌：
+		<select name="search_brand" class="related_goods_form medium">
+			<option value="0"> -请选择- </option>
+			<volist name="array_brand" id="vo">
+				<option value="{$vo.gb_id}">{$vo.gb_name}</option>
+			</volist>
+		</select>
+		关键词：
+		<input type="text" name="keywords" class="related_goods_form medium" id="search_keywords" value="" />
+		<button type="button" id="related_goods_form_search" class="btnA">搜索</button>
+	</td>
+</tr>
+<tr>
+	<td style="width:40%;text-align:center;">搜索出来的可选商品</td>
+	<td style="width:20%;text-align:center;">操作</td>
+	<td style="width:40%;text-align:center;">与该商品关联的商品</td>
+</tr>
+<tr>
+	<td style="width:40%;text-align:center;">
+		<select name="xxxxx1" class="large" id="g_related_goods_ids_selected" multiple="multiple" style="margin-left:auto;margin-right:auto;height:200px;"></select>
+	</td>
+	<td style="width:20%;text-align:center;">
+		<span>
+			<input type="radio" name="goods[g_related_type]" value="1" id="related_tyoe_1" <if condition="$goods.g_related_type eq 1 || !isset($goods['g_related_type']) || 0 == $goods['g_related_type']">checked</if> style="vertical-align:middle;" />
+			<label for="related_tyoe_1" style="vertical-align:middle;">单向关联</label>
+		<span>
+		<br />
+		<br />
+		<span>
+			<input type="radio" name="goods[g_related_type]" value="2" id="related_tyoe_2" <if condition="$goods.g_related_type eq 2">checked</if>  style="vertical-align:middle;" />
+			<label for="related_tyoe_2" style="vertical-align:middle;">双向关联</label>
+		<span>
+		<br />
+		<br />
+		<button type="button" id="related_button_right" class="btnA" onclick="removeTORight();" style="width:100px;text-align:center;">>></button>
+		<br />
+		<br />
+		<button type="button" id="related_button_left" class="btnA" onclick="removeTOLeft();" style="width:100px;text-align:center;"><<</button>
+	</td>
+	<td style="width:40%;text-align:center;">
+		<input type="hidden" name="goods[g_related_goods_ids]" value="{$goods.g_related_goods_ids}" id="g_related_goods_ids" />
+		<select name="xxxxx2" id="g_related_goods_list" class="large" multiple="multiple" style="margin-left:auto;margin-right:auto;height:200px;">
+			<volist name="related_goods_list" id="related_goods">
+				<option value="{$related_goods.g_id}">{$related_goods.g_name}</option>
+			</volist>
+		</select>
+	</td>
+</tr>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#related_goods_form_search").click(function(){
+		var request_url = "{:U('Admin/Goods/adminSearchGoods')}?";
+		$(".related_goods_form").each(function(){
+			request_url += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + '&';
+		});
+		$.ajax({
+			url:request_url,
+			data:{},
+			success:function(htmlObj){
+				var htmls_options = "";
+				for (var x in htmlObj){
+					var goods = htmlObj[x];
+					htmls_options += '<option value="' + goods.g_id + '">' + goods.g_name + '</option>';
+				}
+				$("#g_related_goods_ids_selected").html(htmls_options);
+			},
+			type:'GET',
+			timeout:30000,
+			dataType:'json'
+		});
+	});
+});
+function removeTORight(){
+	$("#g_related_goods_ids_selected option").each(function(){
+		if($(this).attr("selected")){
+			$("#g_related_goods_list").append($(this).removeAttr("selected"));
+		}
+	});
+	var related_goods_ids = "";
+	$("#g_related_goods_list option").each(function(){
+		related_goods_ids += $(this).attr("value") + ',';
+	});
+	return $("#g_related_goods_ids").val(related_goods_ids);
+}
+
+function removeTOLeft(){
+	var related_goods_ids = "";
+	$("#g_related_goods_list option").each(function(){
+		if($(this).attr("selected")){
+			$(this).remove();
+		}else{
+			related_goods_ids += $(this).attr("value") + ',';
+		}
+	});
+	return $("#g_related_goods_ids").val(related_goods_ids);
+}
+</script>

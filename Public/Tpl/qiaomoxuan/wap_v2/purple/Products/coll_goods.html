@@ -1,0 +1,21 @@
+{__NOLAYOUT__}
+<link href="{$Think.config.DOMAIN_HOST}__CSS__collgoods.css" rel="stylesheet" type="text/css"/>
+<if condition="$this_coll.gname neq ''">
+	 <div class="dpLink">
+	 <a href="/Wap/Products/detail/gid/{$this_coll.gid}"><img src="{$Think.config.DOMAIN_HOST}{$this_coll['gpic']}" title="{$this_coll.gname}">
+	 <p>{$this_coll.gcoll_price|sprintf='%.2f',###}</p>
+	 </a>
+	 </div>
+	<volist name="coll_goods" id="goods">
+		<switch name="key">
+		<case value="0|1|2|3|4|5|6|7|8|9">
+		<div class="plusOne">+</div>
+		 <div class="dpLink">
+			 <a href="/Wap/Products/detail/gid/{$goods.gid}" title="{$goods.gname}"><img src="{$Think.config.DOMAIN_HOST}{$goods['gpic']}">
+			 <p>&yen;{$goods.gcoll_price|sprintf='%.2f',###}</p>
+			 </a>
+		 </div>
+		</case>
+		</switch>
+	</volist>					
+</if>

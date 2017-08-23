@@ -1,0 +1,57 @@
+<div>自定义标签测试</div>
+
+<hr>
+<h3>商品列表标签</h3>
+<Gyfx:goodslist name="aaa" num="10" >
+    <li>{$aaa.g_id} - {$aaa.g_name} - {$aaa.gt_name}</li>
+</Gyfx:goodslist>
+
+
+<hr>
+<h3>商品标签</h3>
+<Gyfx:goodsinfo name="bbb" gid="888" >
+    品牌名称：{$bbb.gb_name}<br>
+    分类名称：{$bbb.gt_name}
+</Gyfx:goodsinfo>
+
+<hr>
+<h3>友情链接标签</h3>
+<Gyfx:link name="bbb" sort="desc" >
+    品牌名称：{$bbb.ul_name}
+    分类名称：{$bbb.ul_link_url}<br>
+</Gyfx:link>
+
+<hr>
+<h3>会员登录标签</h3>
+<Gyfx:member name="member" mid="1">
+    品牌名称：{$member.m_name}
+    分类名称：{$member.ul_link_url}<br>
+</Gyfx:member>
+
+<hr>
+<h3>商品评论标签</h3>
+<Gyfx:comment name="comment" gid="1">
+    品牌名称：{$comment.m_name}
+    分类名称：{$comment.ul_link_url}<br>
+</Gyfx:comment>
+
+<hr>
+<h3>菜单标签</h3>
+<Gyfx:nav name="nav" gid="1">
+    链接名称：{$nav.n_name}
+    链接地址：{$nav.n_url}<br>
+</Gyfx:nav>
+
+<hr>
+<h3>面包屑标签</h3>
+<Gyfx:breadcrumbs name="breadcrumbs" gid="1120" gname="title">
+   {$breadcrumbs}>{$gname}
+</Gyfx:breadcrumbs>
+
+<hr>
+<h3>购物车标签</h3>
+<Gyfx:cart name="cart" row="10">
+    {$cart.pdt_id}<br/>
+</Gyfx:cart>
+{$pdt.pdt_weight}
+{$pdt.pdt_momery}

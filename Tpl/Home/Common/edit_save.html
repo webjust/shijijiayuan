@@ -1,0 +1,62 @@
+<script>
+    function gy_mod_save(){
+        //alert('TODO：保存当前模块的操作');
+        //根据每个block的GUID依次修改，后添加的模块需要生成GUID
+
+		
+		var str = $('body').html();
+        var loading;
+        
+        $.ThinkBox.confirm('保存之前建议您先备份一下,确定要保存首页吗？',{
+            'ok':function(){
+                this.hide();
+                $.ajax({
+                    'url':'/Home/Edit/save/',
+                    cache:false,
+                    dataType:"json",
+                    type:'POST',
+                    data:{content:str,dir:dir},
+                    beforeSend:function(){
+                        loading = $.ThinkBox.loading('正在玩命保存首页模板中！~~~请稍后。。。');
+                    },
+                    error:function(){
+                        loading.hide();
+                        $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">没有权限</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                    },
+                    success:function(msgObj){
+                        if(msgObj){
+                            loading.hide();
+                            $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">恭喜您~ 保存首页成功！。。。。</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                        }else{
+                            loading.hide();
+                            $.ThinkBox.error('保存失败！');
+                        }
+                    }
+                });
+            },
+            'cancel':function(){this.hide();}
+        });
+    }
+
+    function gy_mod_zancun(){
+        //alert('TODO：保存当前模块的操作');
+        //根据每个block的GUID依次修改，后添加的模块需要生成GUID
+        var str = $('body').html();
+        //alert(str);
+        var url = '/Home/Edit/zancun/';
+        $.post(url,{content:str,dir:dir},function(result){
+            if(result){
+                alert('暂存成功');
+            }
+        },'json');
+    }
+
+    /*生成一个全局唯一的标识符*/
+    function genGuid(){
+        var guid = '';
+        var rnd = (new Date()).getTime() + parseInt(Math.random() *100000);
+        guid = 'GUID' + rnd.toString(16).toUpperCase();
+        //alert(guid);
+        return guid;
+    }
+</script>

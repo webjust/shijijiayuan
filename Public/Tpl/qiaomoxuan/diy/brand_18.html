@@ -1,0 +1,237 @@
+<link rel="stylesheet" href="__PUBLIC__/css/tony.css"/>
+<!--头部-->
+<div id="ty_top">
+    <div class="ty_top_box">
+        <div class="ty_top_logo">
+            <a href=""><img src="__PUBLIC__/images/tony_logo.png" alt=""/></a>
+        </div>
+        <div class="ty_top_right">
+            <div class="ty_top_product">
+                <a href="#"><img src="__PUBLIC__/images/tony_top_product.png" alt=""/></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--导航-->
+<div id="ty_nav">
+    <div class="ty_nav_box">
+        <ul class="ty_nav_left">
+            <li><a>首页</a></li>
+            <li><a>所有产品</a></li>
+            <li>
+                <a>热卖推荐</a>
+                <div>
+                    <div class="ty_nav_ico"></div>
+                    <div class="ty_nav_ico_content">HOT</div>
+                </div>
+            </li>
+            <li>
+                <a>韩国新品</a>
+                <div>
+                    <div class="ty_nav_ico ty_nav_info"></div>
+                    <div class="ty_nav_ico_content ty_nav_ico_content_info">NEW</div>
+                </div>
+            </li>
+            <li><a>品牌活动</a></li>
+        </ul>
+        <div class="ty_nav_right">
+            <input type="text"/><a href="#"></a>
+        </div>
+    </div>
+</div>
+<!--大海报-->
+<div id="ty_bigPoster">
+    <div class="ty_bigPoster_box">
+         <div class="ty_bigPoster_link1"><a href=""></a><div>点击产品查看详情&nbsp;>></div></div>
+         <div class="ty_bigPoster_link2"><a href=""></a><div class="ty_bigPoster_tip1">点击产品查看详情&nbsp;>></div></div>
+         <div class="ty_bigPoster_link3"><a href=""></a><div class="ty_bigPoster_tip2">点击产品查看详情&nbsp;>></div></div>
+    </div>
+</div>
+<!--限时特惠-->
+<div id="ty_limit">
+    <div class="ty_limit_box">
+         <div class="ty_limit_time">
+             <div><img src="__PUBLIC__/images/ty_limit_ico.png" alt=""/></div>
+             <div>距离结束：05时30分50秒</div>
+         </div>
+         <div class="ty_limit_product1">
+             <a href=""><img src="__PUBLIC__/images/ty_limit_product1.png" alt=""/></a>
+         </div>
+         <div class="ty_limit_product2">
+             <a href=""><img src="__PUBLIC__/images/ty_limit_product2.png" alt=""/></a>
+         </div>
+    </div>
+</div>
+<!--小海报1-->
+<div id="ty_smallPoster1">
+    <div class="ty_smallPoster1_box">
+        <a href=""></a>
+    </div>
+</div>
+<!--品牌热销-->
+<div id="ty_quotation">
+    <div class="ty_quotation_box">
+        <div class="ty_common_title">
+            <div class="ty_common_title_left">
+                品牌热销
+            </div>
+            <div class="ty_common_title_right">
+                <a href="#">所有商品&nbsp;+</a>
+            </div>
+        </div>
+        <div class="ty_quotation_products">
+            <ul>
+                <Gyfx:goodslist name="showlist" bid="18" pagesize="12">
+                <li>
+                    <div class="ty_quotation_product_content">
+                        <div class="ty_quotation_product_img"><a href="{$showlist.gurl}"><img src="{$Think.config.DOMAIN_HOST}{$showlist.gpic}" alt=""/></a></div>
+                        <div class="ty_quotation_product_state">
+                            <div title="{$showlist.gname}">{$showlist.gname} <!--<span>300ML</span>--></div>
+                            <div>补充肌肤缺失的水分，整天水嫩嫩</div>
+                        </div>
+                        <div class="ty_quotation_product_line">
+                            <div></div>
+                        </div>
+                        <div class="ty_quotation_product_price">
+                            <div>¥{$showlist.gprice|sprintf='%.0f',###}</div>
+                            <div>成交 <span>{$showlist.comment_nums}</span>笔</div>
+                        </div>
+                    </div>
+                    <div class="ty_quotation_product_handle">
+                        <a href="#" class="ty_quotation_product_buy">立即抢购</a>
+                        <a href="javascript:void(0)" class="ty_quotation_product_car" <if condition="$showlist['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$showlist.authorize}','{$showlist.gid}');"<else />onClick='addGoodsCartElse("{$showlist.gid}","{$showlist.authorize}");'</if> class="add_cart_large btnCart" _src="{$Think.config.DOMAIN_HOST}{$showlist.gpic|showImage=###,220,220}"></a>
+                        <a href="javascript:addToInterests('{$showlist.gid}');" class="add_cart_small ty_quotation_product_collect">收藏</a>
+                    </div>
+                </li>
+                </Gyfx:goodslist>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--小海报2-->
+<div id="ty_smallPoster2">
+    <div class="ty_smallPoster2_box">
+        <a href="#"></a>
+    </div>
+</div>
+<!--新品上市-->
+<div id="ty_newArrival">
+    <div class="ty_newArrival_box">
+        <div class="ty_common_title">
+            <div class="ty_common_title_left">
+                新品上市
+            </div>
+            <div class="ty_common_title_right">
+                <a href="#">所有商品&nbsp;+</a>
+            </div>
+        </div>
+        <div class="ty_newArrival_products">
+            <ul>
+                <Gyfx:goodslist name="showlist" bid="18" pagesize="12">
+                <li>
+                    <div class="ty_quotation_product_content">
+                        <div class="ty_quotation_product_img"><a href="{$showlist.gurl}"><img src="{$Think.config.DOMAIN_HOST}{$showlist.gpic}" alt=""/></a></div>
+                        <div class="ty_quotation_product_state">
+                            <div title="{$showlist.gname}">{$showlist.gname} <!--<span>300ML</span>--></div>
+                            <div>补充肌肤缺失的水分，整天水嫩嫩</div>
+                        </div>
+                        <div class="ty_quotation_product_line">
+                            <div></div>
+                        </div>
+                        <div class="ty_quotation_product_price">
+                            <div>¥{$showlist.gprice|sprintf='%.0f',###}</div>
+                            <div>成交 <span>{$showlist.comment_nums}</span>笔</div>
+                        </div>
+                    </div>
+                </li>
+                </Gyfx:goodslist>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--小海报3-->
+<div id="ty_smallPoster3">
+    <div class="ty_smallPoster3_box">
+        <a href="#"></a>
+    </div>
+</div>
+<script>
+    function addToInterests(gid){
+        if(parseInt(gid) <= 0){
+            alert("商品不存在或者已经被下架");return false;
+        }
+        $.ajax({
+            url:"/Home/Products/doAddGoodsCollect",
+            cache:false,
+            dataType:"json",
+            data:{gid:gid},
+            type:"post",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    $.ThinkBox.success("加入收藏成功");
+                }else{
+                    $.ThinkBox.error(msgObj.info);
+                }
+            }
+        });
+    }
+    $(".ty_quotation_products ul li").mouseenter(function(){
+        $(this).css('border','1px solid #919191').css('box-shadow','0 0 5px rgba(0,0,0,.3)');
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_line").children("div").animate({width:'264px'});
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_state").css({color:'black'});
+        $(this).children('div.ty_quotation_product_handle').show().prev().css({border:'1px solid transparent'});
+    });
+    $(".ty_quotation_products ul li").mouseleave(function(){
+        $(this).css('border','1px solid transparent').css('box-shadow','none');
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_line").children("div").animate({width:'30px'});
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_state").css({color:'#aaaaaa'});
+        $(this).children('div.ty_quotation_product_handle').hide().prev().css({border:'1px solid #919191'});
+    });
+    $(".ty_newArrival_products ul li").mouseenter(function(){
+        $(this).children('div.ty_quotation_product_content').css({'box-shadow':'0 0 5px rgba(0,0,0,.3)'});
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_line").children("div").animate({width:'264px'});
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_state").css({color:'black'});
+    });
+    $(".ty_newArrival_products ul li").mouseleave(function(){
+        $(this).children('div.ty_quotation_product_content').css({'box-shadow':'none'});
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_line").children("div").animate({width:'30px'});
+        $(this).children('div.ty_quotation_product_content').children("div.ty_quotation_product_state").css({color:'#aaaaaa'});
+    });
+    $(".ty_bigPoster_box>div").hover(function(){
+        $(this).children("div").fadeIn();
+    },function(){
+        $(this).children("div").fadeOut();
+    });
+    $(".ty_common_title_right a").hover(function(){
+        $(this).css("border","1px solid #e83568").css("color","#e83568");
+    },function(){
+        $(this).css("border","1px solid #7f7f7f").css("color","#7f7f7f");
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

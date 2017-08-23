@@ -1,0 +1,81 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>预存款充值 - 充值卡充值</span></h2>
+    <div class="deposit"><!--deposit  start-->
+        <p class="p01">
+            <span class="span01">充值账户：</span><strong>{$members.m_name}</strong>
+            <span class="span02">账户余额：</span><b>{$members['m_balance'] |number_format=2}</b> 元
+        </p>
+        <div class="depositCon"><!--depositCon  start-->
+            <p class="depositConP">
+                <span id="depositConP1"><a href="{:U('Ucenter/Financial/pageDepositOnline')}">线上预存款充值</a></span>
+                <span id="depositConP2"><a href="{:U('Ucenter/Financial/pageDepositOffline')}">线下预存款充值</a></span>
+                <span id="depositConP3" class="onHover">充值卡充值</span>
+				<span id="depositConP4" ><a href="{:U('Ucenter/Financial/pageDepositWithdraw')}">预存款提现</a></span>
+            </p>
+            <div id="con_depositConP_3" class="depositLine"><!--depositLine   start-->
+                <form action="{:U('Ucenter/Financial/doAddPrepaidCard')}" method="post" id="PrepaidCard_add" name="PrepaidCard_add">
+                    <table class="online">
+                        <tr>
+                            <td width="102" align="right">输入充值卡卡号：</td>
+                            <td>
+                                <input type="text" class="input01" id="pc_card_number" name="pc_card_number" validate="{ required:true}" />
+                            </td>
+                            <td><span>请输入正确的充值卡卡号</span></td>
+                        </tr>
+                        <tr>
+                            <td width="102" align="right">输入充值卡密码：</td>
+                            <td>
+                                <input type="text" class="input01" id="pc_password" name="pc_password" validate="{ required:true}" />
+                            </td>
+                            <td><span>请输入正确的充值卡密码</span></td>
+                        </tr>
+                        <tr>
+                            <td align="right"></td>
+                            <td><span style="color:green" id="money"></span></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><button class="brown" id="submit">充 值</button></td>
+                        </tr>
+                    </table>
+                </form>
+                <div class="clear"></div>
+            </div><!--depositLine   end-->
+        </div><!--depositCon  end-->
+    </div><!--deposit   end-->
+</div><!--contentRightBox  end-->
+<!-- 右侧主题内容结束 -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.metadata.setType("attr","validate");
+        $("#PrepaidCard_add").validate();
+        $("#submit").click(function(){
+            if(false != $("#PrepaidCard_add").valid()){
+                $("#PrepaidCard_add").submit();
+            }
+        });
+        $("#submit").attr('disabled','disabled');
+    });
+    $('.input01').blur(function(){
+        var pc_card_number = $("#pc_card_number").val();
+        var pc_password = $("#pc_password").val();
+        $("#money").html('');
+        if(pc_card_number != '' && pc_password != ''){
+            $.post("{:U('Ucenter/Financial/doCheckPrepaidCard')}",{pc_card_number:pc_card_number,pc_password:pc_password},function(dataMsg){
+                if(dataMsg.status){
+                    var pay_money = parseInt(dataMsg.msg).toFixed(2);
+                    $("#submit").removeAttr('disabled');
+                    $("#money").css({color:'green'});
+                    $("#money").html("充值金额 "+pay_money + "元");
+                }else{
+                    $("#submit").attr('disabled','disabled');
+                    $("#money").css({color:'red'});
+                    $("#money").html(dataMsg.msg);
+                }
+            },'json');
+        }
+        
+        
+    });
+</script>

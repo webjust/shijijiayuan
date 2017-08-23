@@ -1,0 +1,31 @@
+<!--中间内容开始-->
+<div class="YKwarp">
+	<div class="YKadver"></div>
+    <div class="content1000"><!--content1190  start-->
+        <Gyfx:articleinfo name="artinfo" aid="$aid" >
+    	<div class="goodList_navtitle">
+            <a href="{:U('Home/Index/index')}">首页</a> &nbsp;&nbsp;>&nbsp;&nbsp;
+            <php>if(!empty($artinfo['cname'])){</php>
+            <a href="{:U('Home/Article/articlelist',array('cid'=>$artinfo['cid']))}">{$artinfo.cname}</a> &nbsp;&nbsp;>&nbsp;&nbsp; 
+            <php>}</php>
+            <span>{$artinfo.atitle}</span>
+        </div>
+        <div class="YKproDeCon tous"><!--YKproDeCon  start-->
+            <div class="HXmain"><!--YKproDeRight  start--->
+            	<div class="comCon"><!--comCon  start-->
+                    
+                        <h2 style="text-align:center">{$artinfo.atitle}</h2>
+                    <div class="YKndet"><!--YKndet  start-->
+                    	{$artinfo.acontent}
+                    </div><!--YKndet  end-->
+                    
+                	
+                </div><!--comCon  end-->
+            </div><!--YKproDeRight  end--->
+        </div><!--YKproDeCon  end-->
+        </Gyfx:articleinfo>
+        <div style="clear:both"></div>
+    </div><!--content1190  end-->
+</div>
+<!--中间内容结束-->
+

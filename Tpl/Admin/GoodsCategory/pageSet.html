@@ -1,0 +1,35 @@
+<div class="rightInner">
+    <form id="category_form" name="category_form" method="post" action="{:U('Admin/GoodsCategory/doSet')}" onsubmit="return javascriptCheckBeforeSubmit();">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">分类设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">是否启用分类属性：</td>
+                    <td>
+                        <input id="GCTYPE" type="checkbox" value="1" name="GCTYPE" onclick="oncheck(this)" <if condition="$GCTYPE eq 1 ">  checked </if>>
+                    </td>                    
+                    <td class="last">勾选启用分类属性楼层，店铺的功能</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/GoodsCategory/pageList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#category_form").validate(); 
+    });
+</script>

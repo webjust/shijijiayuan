@@ -1,0 +1,58 @@
+<div class="rightInner">
+<form id="categoryForm" method="post" action="{$category?U('Admin/Online/doEditCate'):U('Admin/Online/doAddCate')}">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">{$category?'修改在线客服分类':'添加在线客服分类'}</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="first">* 分类名称：</td>
+		<td><input class="medium" type="text" name="oc_name" value="{$category.oc_name}" id="oc_name" validate="{required:true}"></td>
+	</tr>
+	<tr>
+	    <td class="first">上级分类：</td>
+	    <td>
+	        <select class="medium" name="oc_parent_id">
+	        	<option value="0">--作为一级分类--</option>
+	        	<volist name="cateList" id="cate">
+	        	<option value="{$cate.oc_id}"{$cate[oc_id]==$category[oc_parent_id]?' selected="selected"':''}>{$cate.oc_name}</option>
+	        	</volist>
+	        </select>
+	        <samp style="font-style:italic;">支持二级类目</samp>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">排序：</td>
+		<td>
+			<input class="small" type="text" name="oc_order" value="{$category.oc_order}" id="oc_order">
+			<samp style="font-style:italic;">填写正整数，值越小，同分类下排序越靠前</samp>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">描述：</td>
+		<td>
+			<textarea class="mediumBox" name="oc_desc" id="oc_desc">{$category.oc_desc}</textarea>
+		</td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" >
+            <input type="button" onclick="window.history.go(-1);" value="取 消" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+<input name="oc_id" type="hidden" value="{$category.oc_id}"/>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#categoryForm').validate();
+    });
+</script>

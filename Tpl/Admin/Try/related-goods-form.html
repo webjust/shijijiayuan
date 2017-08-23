@@ -1,0 +1,196 @@
+<table class="tbForm" width="100%" style="margin-top:10px">
+	<tbody>
+<tr>
+	<td style="text-align:left;margin-left:100px;" colspan="3">
+	<style type="text/css">
+	.loading-box{background-color:#FFF8ED;width:auto;min-width:100px;font-size:16px;padding:3px;border:1px solid #FF9900;display:none;}
+	</style>
+	选择省:
+	<select id="province" name="province" class="medium" child_id="city" val="{$region['province']}">
+	   <option value="0" selected="selected">请选择省份</option>
+	</select>
+	<select id="city" name="city" child_id="region1" class="medium" val="{$region['city']}" >
+	   <option value="0" selected="selected">请选择城市</option>
+	</select>
+	<span class="loading-box">请稍等，载入中......</span>
+		<button type="button" id="related_goods_form_search" class="btnA">搜索</button>
+	</td>
+</tr>
+<tr>
+	<td style="width:40%;text-align:center;">搜索出来的可选市区</td>
+	<td style="width:20%;text-align:center;">操作</td>
+	<td style="width:40%;text-align:center;">与该团购关联的市区</td>
+</tr>
+<tr>
+	<td style="width:40%;text-align:center;">
+		<select name="xxxxx1" class="large" id="g_related_goods_ids_selected" multiple="multiple" style="margin-left:auto;margin-right:auto;height:200px;"></select>
+	</td>
+	<td style="width:20%;text-align:center;">
+		<span>
+			<label for="related_tyoe_1" style="vertical-align:middle;">关联</label>
+		<span>
+		<br />
+		<br />
+		<button type="button" id="related_button_right" class="btnA" onclick="removeTORight();" style="width:100px;text-align:center;">>></button>
+		<br />
+		<br />
+		<button type="button" id="related_button_left" class="btnA" onclick="removeTOLeft();" style="width:100px;text-align:center;"><<</button>
+	</td>
+	<td style="width:40%;text-align:center;">
+		<input type="hidden" name="goods[g_related_goods_ids]" value="{$ary_data.gs_related_city}" id="g_related_goods_ids" />
+		<select name="xxxxx2" id="g_related_goods_list" class="large" multiple="multiple" style="margin-left:auto;margin-right:auto;height:200px;">
+			<volist name="info.related_areas" id="city">
+				<option value="{$city.cr_id}">{$city.cr_name}</option>
+			</volist>
+		</select>
+	</td>
+</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+$(document).ready(function(){
+	//文档载入完成以后自动加载一级省市区
+    loadChildCityRegion(1,'province',$('#province'));
+	$("#related_goods_form_search").click(function(){
+		var request_url = "{:U('Admin/Groupbuy/cityRegionOptions')}";
+		var parent_id = $('#province').val();
+		var type = $('#good_type').val();
+		if(type == '1'){
+			var g_id = $('#g_related_goods_ids_selected_info').val();
+			if(g_id == '0'){
+				showAlert(false,'请先选择商品信息');
+				return false;
+			}
+		}
+		$.ajax({
+			url:request_url,
+			data:{parent_id:parent_id,g_id:g_id},
+			success:function(htmlObj){
+				if(true === htmlObj.status && null !== htmlObj.data){
+					var data = htmlObj.data;
+					var htmls_options = "";
+					for (var x in data){
+						htmls_options += '<option value="' + x + '">' + data[x] + '</option>';
+					}
+					$("#g_related_goods_ids_selected").html(htmls_options);
+				}
+			},
+			type:'POST',
+			timeout:30000,
+			dataType:'json'
+		});
+	});
+
+});
+function removeTORight(){
+	var is_have = 0;
+	$("#g_related_goods_ids_selected option").each(function(){
+		if($(this).attr("selected")){
+			var select_val = $(this).attr("value");
+			$("#g_related_goods_list option").each(function(){
+				if($(this).attr("value") == select_val){
+					is_have = 1; 
+				}
+			});
+			if(is_have != '1'){
+				$("#g_related_goods_list").append($(this).removeAttr("selected"));
+			}
+		}
+	});
+	var related_goods_ids = "";
+	$("#g_related_goods_list option").each(function(){
+		related_goods_ids += $(this).attr("value") + ',';
+	});
+	return $("#g_related_goods_ids").val(related_goods_ids);
+}
+
+function removeTOLeft(){
+	var related_goods_ids = "";
+	var is_have = 0;
+	$("#g_related_goods_list option").each(function(){
+		
+		if($(this).attr("selected")){
+			var select_html = $(this).html();
+			var select_val = $(this).attr('value');
+			$("#g_related_goods_ids_selected option").each(function(){
+				if($(this).attr('value') == select_val){
+					is_have = 1;
+				}
+			});
+			if(is_have != '1'){
+				$("#g_related_goods_ids_selected").append('<option value="'+select_val+'">'+select_html+'</option>');
+			}
+			$(this).remove();
+		}else{
+			related_goods_ids += $(this).attr("value") + ',';
+		}
+	});
+	return $("#g_related_goods_ids").val(related_goods_ids);
+}
+
+function openLoadingBox(){
+	$(".loading-box").show();
+}
+function closeLoadingBox(){
+	$(".loading-box").hide();
+}
+function loadChildCityRegion(parent_id,selectDomId,clickObj){
+	//如果当前选中的行政区ID小于等于0，则表示选择的是“请选择”，将后面的行政区select清楚
+	$(clickObj).nextAll("select").hide().empty();
+	//如果选中了“请选择”，则不理会。
+	if(parent_id <= 0 || "region" == $(clickObj).attr("id")){
+		return false;
+	}
+	//定义异步加载行政区的url
+	var load_options_url = "{:U('Admin/Groupbuy/cityRegionOptions')}";
+	//ajax异步加载下一级行政区域数据
+	$.ajax({
+		url:load_options_url,
+		data:{parent_id:parent_id},
+		beforeSend:openLoadingBox(),
+		type:'POST',
+		success:function(jsonObj){
+			if(true === jsonObj.status && null !== jsonObj.data){
+				$(clickObj).next("select").show();
+				//select options 元素数据拼接
+				var html_options = '<option value="0" selected="selected">请选择</option>';
+				var next_child_parent = 0;
+				for(var index in jsonObj.data){
+					html_options += '<option value="' + index + '" ';
+					if(index == $(clickObj).attr('val')){
+						html_options += 'selected="selected" ';
+						next_child_parent = index;
+					}
+					html_options += '>' + jsonObj.data[index] + '</option>';
+				}
+
+				//将拼接的结果追加到DOM中
+				$("#" + selectDomId).html(html_options);
+				
+				//递归加载数据，用于初始化的时候
+				if(next_child_parent > 0){
+					var selectChildDomId = $("#" + selectDomId).attr("child_id");
+					loadChildCityRegion(next_child_parent,selectChildDomId,$("#" + selectChildDomId));
+				}
+				
+				//对空seletet元素进行隐藏操作
+				if($("#province").val() <= 0){
+					$("#province").nextAll("select").hide().empty();
+				}else if($("#city").val() <= 0){
+					$("#city").nextAll("select").hide().empty();
+				}
+                
+			}else{
+				if("region" == $(clickObj).attr("id")){
+					$(clickObj).empty().hide();
+				}else{
+					$(clickObj).next("select").empty().hide();
+				}
+				
+			}
+			closeLoadingBox();
+		},
+		dataType:'json'
+	});
+}
+</script>

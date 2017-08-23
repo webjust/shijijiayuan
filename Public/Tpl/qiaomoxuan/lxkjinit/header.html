@@ -1,0 +1,208 @@
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<input type="hidden" value="{$commonInfo['GY_SHOP_OPEN']}" name ="gy_shop_open" id="gy_shop_open"/>
+<!--header-->
+<eq name="navindex" value="1">
+    <gyfx:advertising name='nav'  position="indtop">
+        <div class="top_bar"><a href="{$nav.naurl}" target="{$nav.ntarget}" ><img src="{$nav.nimgurl}" alt="{$nav.nname}"></a></div>
+    </gyfx:advertising>
+</eq>
+
+<div id="topbar">
+	<div class="top_in">
+        <div class="top_l">
+            <span class="one"><a href="javascript:void(0);" onclick="AddFavorite('我的网站',location.href)">收藏</a> |</span>
+            <span class="two">嗨~~欢迎来到{$commonInfo['GY_SHOP_TITLE']}！ </span>
+            <span id="shopping_member_list" class="two">
+                <empty name="Think.session.Members.m_name">
+                    请<a href="{:U( URL_PREFIX . '/Home/User/login')}" id="Think_session_Members_m_name" >登陆</a>
+                    <a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}">免费注册</a>
+                </empty>
+                <notempty name="Think.session.Members.m_name">
+                   <strong style="color:#e5582b;">{$Think.session.Members.m_name}</strong>&nbsp;&nbsp;&nbsp;
+                   <a href="{:U('Ucenter/User/doLogout')}">[{$Think.lang.TOP_LOGOUT}]</a>
+                </notempty>
+                <input type="hidden" name="no_login" value="{$Think.session.Members.m_name}" id="no_login" />
+            </span>
+			
+
+        </div>
+        <div class="top_r">
+        	<ul>
+                <li><i></i><a href="/Ucenter/Cart/pageList">购物车<span class="cart_price_number">{$price_data.all_nums|default='0'}</span>件</a></li>
+                <li><a href="{:U('Ucenter/Index/index')}">我的账户</a> </li>
+                <li><a href="{:U('Ucenter/Orders/pageList')}">我的订单</a></li>
+                <li><a href="{:U('Home/Article/articlelist')}">帮助中心</a></li>
+                <li><a href="{:U('Home/Article/articleDetail/aid/4')}">关于我们</a></li>
+                <li><a href="{:U('Home/Article/articleDetail/aid/3')}">联系我们</a></li>
+                <li><a href="http://weibo.com/u/6008148736?refer_flag=0000015012_&from=feed&loc=nickname&is_hot=1" target="_blank">新浪微博</a></li>
+        	</ul>
+        </div>
+    </div>
+</div>
+<div id="header">
+    <div class="header">
+        <a href="/" class="logo_l"><img src="__TPL__images/logo.png" /></a>
+    	<div class="logo_r">
+        	<div class="search">
+            	<div class="top">
+					<if condition="$itemInfo.keyword neq ''">
+						<input type="text" class="txt" id="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value=' 搜搜呗....说不定有您喜欢的...'}" value=" 搜搜呗....说不定有您喜欢的..." onfocus="if(value==' 搜搜呗....说不定有您喜欢的...') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+					<else/>
+						<input type="text" class="txt" id="head_serach_keyword" onBlur="if (value=='') {value=' 搜搜呗....说不定有您喜欢的...'}" value=" 搜搜呗....说不定有您喜欢的..." onFocus="if(value==' 搜搜呗....说不定有您喜欢的...') {value=''}" name="keyword" onKeyPress="EnterPress(event)" onKeyDown="EnterPress()" />
+					</if>
+					<input type="submit" id="search_submit_button" value="" class="sub" />
+                </div>
+                <ul class="bottom">
+                	<gyfx:navigation name='nav' position="hot">
+                    	<li><a href="{$nav.nurl}" target="{$nav.ntarget}" <eq name="nav.nkey" value="1"> class="n_key" </eq>>{$nav.nname}</a></li>
+					</gyfx:navigation>
+                </ul>	
+            </div>          
+        </div>
+        <div class="pic">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<div id="nav">
+    <dl class="nav_in">
+        <dt class="alldt">
+            <div class="navsort">
+                <div class='allsort'>                     
+                    <div class='mt' ><a href="/Home/Products/Index">商品分类</a></div>                     
+                    <div class='mc <neq name="navindex" value="1"> md</neq>'>
+                        <Gyfx:goodscate name="cate" k="k">
+                        <div class='item'>
+                            <span>
+                                <if condition="$k lt 13">
+	                            	<h3 >
+                                        <a href="{$cate.curl}">{$cate.cname}</a>
+                                        <eq name="cate.gc_key" value="1"> <b><img src="__TPL__images/love.png" alt=""></b> </eq>
+                                    </h3>
+                                </if>
+								<present name="cate['sub']">
+									<volist name="cate['sub']" id="cat" key="cat_key" >
+	                            		<h2>
+                                            <a href="{$cat.curl}">{$cat.cname}</a>
+                                            <eq name="cat.gc_key" value="1"> <b><img src="__TPL__images/love.png" alt=""></b> </eq>
+                                        </h2>
+									</volist>
+								</present>
+                            </span>
+                            <div class='i-mc'>
+                                <div class='subitem'>
+									<present name="cate['sub']">
+										<volist name="cate['sub']" id="cat" >
+		                                    <dl class='fore'>
+		                                        <dt><a href="{$cat.curl}">{$cat.cname}</a></dt>
+		                                        <dd>
+													<present name="cat['sub']">
+														<volist name="cat['sub']" id="sub_cat" >
+		                                            		<em <eq name="sub_cat.gc_key" value="1"> class="spe" </eq>><a href="{$sub_cat.curl}">{$sub_cat.cname}</a></em>
+														</volist>
+													</present>
+		                                        </dd>
+		                                    </dl>
+										</volist>
+									</present>
+                                </div>
+                            </div>
+                        </div>
+						</Gyfx:goodscate>
+                    </div>
+                     
+                </div><!--allsort end-->  
+            </div>         
+        <script type="text/javascript"> 
+        $(".allsort").hoverForIE6({current:"allsorthover",delay:200});
+        $(".allsort .item").hoverForIE6({delay:150});
+        </script>
+        </dt>    
+        <dd class="bigD">
+        	<gyfx:navigation name='nav'  position="top">
+				<a href="{$nav.nurl}" target="{$nav.ntarget}" <present name="Think.request.name"><eq name="Think.request.name" value="$nav['nname']"> class="on" </eq> </present> >{$nav.nname}</a>
+			</gyfx:navigation>
+        </dd>
+    </dl>
+</div>
+
+
+<!--右侧贴边导航quick_links.js控制-->
+<div class="mui-mbar-tabs">
+    <div class="quick_link_mian">
+        <div class="quick_links_panel">
+            <div id="quick_links" class="quick_links">
+                <li>
+                    <a href="javascript:void(0);" class="spe my_qlinks"><i class="setting"></i></a>
+                    <div class="ibar_login_box status_login">
+                        <gyfx:user_img name='nav'>
+                            <empty name="nav">
+                                <div class="avatar_box">
+                                    <p class="avatar_imgbox"><img src="__TPL__images/touxiang.png" /></p>
+                                    <div class="user_info">阿哩阿瑟哟！请 <a href="{:U( URL_PREFIX . '/Home/User/login')}">登陆</a> 或 <a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}">注册</a></div>
+                                </div>
+                            <else />
+                                <div class="avatar_box">
+                                    <p class="avatar_imgbox"><img src="{$nav.user_img|default='__TPL__images/touxiang.png'}" style="max-height: 100%;max-width: 100%;" /></p>
+                                    <div class="user_info">亲爱的，{$nav.m_real_name}欢迎回来！</div>
+                                </div>
+                                <div class="login_btnbox">
+                                    <a href="{:U( URL_PREFIX . '/Ucenter/Orders/pageList')}" class="spe login_order ">我的订单</a>
+                                    <a href="{:U( URL_PREFIX . '/Ucenter/Collect/pageList')}" class="spe login_favorite">我的收藏</a>
+                                </div>
+                            </empty>
+                        </gyfx:user_img>
+                        <i class="icon_arrow_white"></i>
+                    </div>
+                </li>
+                <li id="shopCart"  class="common_css common_css1">
+                    <a href="javascript:void(0);" class="message_list" id="message_list" ><i class="message"></i><div class="span">购物车</div><span class="cart_num cart_price_number">{$price_data.all_nums|default='0'}</span></a>
+                </li>
+                <li class="common_css">
+                    <a href="{:U( URL_PREFIX . '/Ucenter/Financial/pageDepositList')}" class="history_list"><i class="view"></i></a>
+                    <div class="mp_tooltip" style=" visibility:hidden;">我的资产<i class="icon_arrow_right_black"></i></div>
+                </li>
+
+                <li class="common_css">
+                    <a href="{:U( URL_PREFIX . '/Ucenter/Collect/pageList')}" class="mpbtn_wdsc"><i class="wdsc"></i></a>
+                    <div class="mp_tooltip">我的收藏<i class="icon_arrow_right_black"></i></div>
+                </li>
+                <li class="common_css">
+                    <a href="#" class="mpbtn_caiz"><i class="caiz"></i></a>
+                    <div class="mp_tooltip">彩妆小知识<i class="icon_arrow_right_black"></i></div>
+                </li>
+            </div>
+            <div class="quick_toggle">
+                <li>
+                    <a href="javascript:void(0);" class="spe"><i class="kfzx"></i></a>
+                    <div class="mp_qrcode" style="width: 80px;left: -100px;height: auto;top: -70px;">
+                        <i class="icon_arrow_right_black"></i>
+                        <gyfx:onlineservice name='online' ocid="1">
+                            <volist name="online['客服宝贝们']" id="online_list" >
+                                {$online_list.o_code}
+                            </volist>
+                        </gyfx:onlineservice>
+                    </div>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="spe"><i class="mpbtn_qrcode"></i></a>
+                    <div class="mp_qrcode" style="display:none;"><img src="__TPL__images/weixin_code_145.png" width="148" height="175" /><i class="icon_arrow_white"></i></div>
+                </li>
+                <li><a href="#top" class="spe return_top"><i class="top"></i></a></li>
+            </div>
+        </div>
+        <div id="quick_links_pop" class="quick_links_pop quick_message_list">
+            <a href="javascript:;" class="ibar_closebtn" title="关闭"></a>
+            <div class="ibar_plugin_title"><h3>购物车</h3></div>
+            <div class="pop_panel">
+                <div class="loading" style="padding:30px 80px"><i></i><span>Loading...</span></div>
+            </div>
+            <div class="arrow"><i></i></div>
+            <div class="fix_bg"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,513 @@
+
+
+<div class=bannerBox>
+    <div class=slideBoxNav>
+        <gyfx:advertising name='nav'  position="banner">
+          <a href="javascript:void(0)"></a>
+        </gyfx:advertising>
+    </div>
+    <div class=slideBox>
+        <ul>
+          <gyfx:advertising name='nav'  position="banner">
+            <li style="background: url({$nav.nimgurl}) no-repeat center top">
+              <a href="{$nav.naurl}" target="{$nav.ntarget}" ><p></p></a>
+            </li>
+          </gyfx:advertising>
+          <div style="clear:both;"></div>
+        </ul>
+    </div>
+    <div class="aside">
+        <empty name="Think.session.Members.m_name">
+                <div class="asidelogo"><img src="__TPL__images/touxiang.png" alt=""></div>
+                <p class="wenzi">Hi·你好！</p>
+                <div class="asideform">
+                    <a href="{:U( URL_PREFIX . '/Home/User/login')}" class="a_1" rel="nofollow">登录</a>
+                    <a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}" class="a_2" rel="nofollow">免费注册&gt;</a>
+                </div>
+        </empty>
+        <notempty name="Think.session.Members.m_name">
+                <div class="asidelogo"><img src="{$Think.session.Members.m_head_img|default='__TPL__images/touxiang.png'}" alt=""></div>
+                <p class="wenzi"><br>亲爱的，</p>
+                <p class="wenzi">{$Think.session.Members.m_name}</p>
+                <p class="wenzi">欢迎回来！</p>
+                <div class="asideform">
+                </div>
+        </notempty>
+        <div class="objList">
+            <ul>
+                <gyfx:navigation name='nav' position="middle" row="4">
+                    <li><a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a></li>
+                </gyfx:navigation>
+            </ul>           
+        </div>
+
+        <div class="recommends_con">
+            <gyfx:advertising name='nav'  position="dtyc" row='1'>
+                <a href="{$nav.naurl}" target="{$nav.ntarget}">
+                    <img class="icon_pic" src="{$nav.nimgurl}">
+                    <div class="title">{$nav.nname}></div>
+                </a>
+            </gyfx:advertising>
+        </div>
+        <div class="service_list">
+            <ul>
+                <li class="slzy">
+                    <a href="javascript:void(0)">韩国直邮</a>
+                </li>
+                <li class="slfh">
+                    <a href="javascript:void(0)">急速发货</a>
+                </li>
+                <li class="slhk">
+                    <a href="javascript:void(0)">30天换货</a>
+                </li>
+            </ul>
+        </div>
+        <div class="current_period">
+            <a href="javascript:void(0)">
+                本期特卖
+            </a>
+        </div>
+        <div class="ppjf">
+            <dl>
+                <dt><a href="javascript:void(0)"><img src="__TPL__images/ppjf_product.jpg" alt=""/></a></dt>
+                <dd>某某品牌全场</dd>
+                <dd>五倍积分</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<div class="news" id="news">
+    <div class="slideTxtBox">
+        <div class="hd">
+            <ul><li>头条</li><li>热门</li><li>直播</li><li>论坛</li></ul>
+        </div>
+        <div class="bd">
+            <ul>
+                <gyfx:advertising name='nav'  position="nhead" row="2">
+                  <li><a href="{$nav.naurl}" target="{$nav.ntarget}" >
+                      <div class="pic"><img src="{$nav.nimgurl}" alt="{$nav.nname}"><p class="date">{$nav.nname}</p></div>
+                      <div class="word">{$nav.description}</div>              
+                  </a></li>
+                </gyfx:advertising>
+            </ul>
+            <ul>
+                <gyfx:advertising name='nav'  position="nhot" row="2">
+                  <li><a href="{$nav.naurl}" target="{$nav.ntarget}" >
+                      <div class="pic"><img src="{$nav.nimgurl}" alt="{$nav.nname}"><p class="date">{$nav.nname}</p></div>
+                      <div class="word">{$nav.description}</div>              
+                  </a></li>
+                </gyfx:advertising>
+            </ul>    
+            <ul>
+                <gyfx:advertising name='nav'  position="nlive" row="2">
+                  <li><a href="{$nav.naurl}" target="{$nav.ntarget}" >
+                      <div class="pic"><img src="{$nav.nimgurl}" alt="{$nav.nname}"><p class="date">{$nav.nname}</p></div>
+                      <div class="word">{$nav.description}</div>              
+                  </a></li>
+                </gyfx:advertising>      
+            </ul>
+            <ul>as
+                <gyfx:advertising name='nav'  position="nbbs" row="2">
+                  <li><a href="{$nav.naurl}" target="{$nav.ntarget}" >
+                      <div class="pic"><img src="{$nav.nimgurl}" alt="{$nav.nname}"><p class="date">{$nav.nname}</p></div>
+                      <div class="word">{$nav.description}</div>              
+                  </a></li>
+                </gyfx:advertising>
+            </ul>
+        </div>
+    </div>
+    <div id="busniss">
+      <div class="ladyScroll">
+        <a class="prev" href="javascript:void(0)"></a>
+        <div class="scrollWrap">
+            <div class="dlList">
+                <gyfx:advertising name='nav'  position="rcde" row="6">
+                  <dl><a href="{$nav.naurl}" target="{$nav.ntarget}" >            
+                      <dt><div class="item-title">{$nav.nname}</div></dt>
+                      <dd><div class="item-sub-title">{$nav.description}</div></dd>
+                      <dd><div class="img-con">
+                          <img alt="{$nav.nname}" src="{$nav.nimgurl}">
+                      </div></dd>
+                  </a></dl>
+                </gyfx:advertising>
+            </div>
+        </div>
+        <a class="next" href="javascript:void(0)"></a>
+      </div>
+    <script type="text/javascript">
+      jQuery(".ladyScroll").slide({ mainCell:".dlList", effect:"leftLoop",vis:4, autoPlay:true});
+    </script>
+    </div>    
+</div>
+<div class="clear"></div>
+
+<gyfx:advertising name='nav'  position="ppzq" row='1'>
+    <div class="little_banner">
+        <a href="{$nav.naurl}" target="{$nav.ntarget}"><img src="{$nav.nimgurl}" alt="{$nav.nname}" id="ppzqm"></a>
+    </div>
+</gyfx:advertising>
+
+<div id="f1"> 
+    <div class="slideTxtBox">               
+        <div class="hd">
+            <ul>
+                <li class="on"><a href="javascript:void(0)">品牌街</a></li>
+            </ul>            
+        </div>
+        <div class="bd">
+            <ul class="big_ul">
+                <li class="left">
+                    <gyfx:goodsbrand name="nav" limit="0,1" >
+                      <div class="pic"><a href="{$nav.burl}" target="_blank"><img src="{$nav.bpic}" alt="{$nav.bname}"></a></div>
+                      <div class="word">{$nav.gbdetail}</div>
+                    </gyfx:goodsbrand>
+                </li>
+                <li class="right">
+                    <ul>
+                      <gyfx:goodsbrand name="nav" limit="0,24" >
+                        <li class="brand-item" data-word="{$nav.gbdetail}" data-src="{$nav.bpic}" alt="{$nav.bname}">                     
+                            <div class="brand-img">
+                              <img src="{$nav.bpic}" alt="{$nav.bname}">
+                            </div>
+                            <div class="brand-mask">
+                              <div class="enter">
+                                <a href="{$nav.burl}" target="_blank">进入品牌</a>
+                              </div>
+                            </div>
+                        </li>
+                      </gyfx:goodsbrand>
+                    </ul>
+                </li>
+                <li class="bottom1">
+                    <ul>
+                      <gyfx:goodsbrand name="nav" limit="24,7" >
+                        <li class="brand-item" data-word="{$nav.gbdetail}" data-src="{$nav.bpic}" alt="{$nav.bname}">                     
+                            <div class="brand-img">
+                              <img src="{$nav.bpic}" alt="{$nav.bname}">
+                            </div>
+                            <div class="brand-mask">
+                              <div class="enter">
+                                <a href="{$nav.burl}" target="_blank">进入品牌</a>
+                              </div>
+                            </div>
+                        </li>
+                      </gyfx:goodsbrand>
+                      <li class="brand-item more"> 
+                      <a href="{:U('/Home/Brand')}" target="_blank">更多品牌></a>
+                      </li> 
+                    </ul>                   
+                </li>
+            </ul>
+        </div>
+        <!-- 下面是前/后按钮代码，如果不需要删除即可 -->         
+        <!-- <span class="arrow"><a class="next"></a><a class="prev"></a></span> -->
+    <div class="clear"></div>
+    </div>
+</div>
+<script type="text/javascript">jQuery(".slideTxtBox").slide();</script> 
+
+<gyfx:advertising name='nav'  position="tmzq" row='1'>
+    <div class="little_banner">
+        <a href="{$nav.naurl}" target="{$nav.ntarget}"><img src="{$nav.nimgurl}" alt="{$nav.nname}" id="mszq"></a>
+    </div>
+</gyfx:advertising>
+
+<div id="jrfq"> 
+    <div class="tabBox">
+        <div class="hd">
+          <ul>
+            <li class="on"><a href="javascript:void(0);">今日疯抢</a></li>
+            <li><a href="javascript:void(0);">明日预告</a></li>
+          </ul>
+        </div>
+        <div class="bd">
+            <div class="slide">
+                <gyfx:spikelist name="nav" start="0" >
+                    <div class="bigbox">
+                        <div class="left"><a href="{$nav.sp_url}" target="_blank"><img src="{$nav.sp_picture}" alt="{$nav.sp_title}"></a></div>
+                        <div class="right">
+                            <div class="box">
+                            <div class="title">{$nav.sp_title}</div>
+                            <div class="word">{$nav.sp_desc}</div>
+                            <dl class="right_dl">
+                                <dt>￥<span>{$nav.sp_price}</span></dt>
+                                <dd>距离特卖结束:
+                                    <span id="day_show_{$nav.sp_id}"></span>
+                                    <span id="hour_show_{$nav.sp_id}"></span>
+                                    <span id="minute_show_{$nav.sp_id}"></span>
+                                    <span id="second_show_{$nav.sp_id}"></span>
+                                    <span id="day_time_{$nav.sp_id}"></span>
+                                </dd>
+                                <script type="text/javascript">
+                                $(function () {
+                                    timer({$nav.sp_end_djs},'{$nav.sp_id}',0);
+                                });
+                                </script>
+                            </dl>
+                            <div class="ljqg">
+                                <div class="rd"><span style="width:{$nav.sp_syljdt}%;"></span></div>
+                                <div class="qg"><a href="{$nav.sp_url}" target="_blank">立即抢购</a></div>
+                                <notempty name="nav.sp_syjs"><div class="sy">仅剩<span>{$nav.sp_syjs}</span>件</div></notempty>
+                            </div>
+                            <div class="right_icon">
+                                <span class="fkrx">疯狂热销 / </span>
+                                <span class="kbpj">口碑评价<img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""></span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </gyfx:spikelist>
+            </div>
+            <div class="slide">
+                <gyfx:spikelist name="nav" start="1" >
+                    <div class="bigbox">
+                        <div class="left"><a href="{$nav.sp_url}"><img src="{$nav.sp_picture}" alt="{$nav.sp_title}"></a></div>
+                        <div class="right">
+                            <div class="box">
+                            <div class="title">{$nav.sp_title}</div>
+                            <div class="word">{$nav.sp_desc}</div>
+                            <dl class="right_dl">
+                                <dt>￥<span>{$nav.sp_price}</span></dt>
+                                <dd>距离特卖开始: 
+                                    <span id="day_show_{$nav.sp_id}"></span>
+                                    <span id="hour_show_{$nav.sp_id}"></span>
+                                    <span id="minute_show_{$nav.sp_id}"></span>
+                                    <span id="second_show_{$nav.sp_id}"></span>
+                                    <span id="day_time_{$nav.sp_id}"></span>
+                                </dd>
+                                <script type="text/javascript">
+                                $(function () {
+                                    timer({$nav.sp_start_djs},'{$nav.sp_id}',1);
+                                });
+                                </script>
+                            </dl>
+                            <div class="ljqg">
+                                <div class="rd"><span style="width:{$nav.sp_syljdt}%;"></span></div>
+                                <div class="qg"><a href="{$nav.sp_url}">立即抢购</a></div>
+                                <div class="sy">仅剩<span>{$nav.sp_syjs}</span>件</div>
+                            </div>
+                            <div class="right_icon">
+                                <span class="fkrx">疯狂热销 / </span>
+                                <span class="kbpj">口碑评价<img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""><img src="__TPL__images/star.png" alt=""></span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </gyfx:spikelist>
+            </div>
+        </div>
+    </div>   
+</div>
+<script type="text/javascript">
+jQuery(".tabBox").slide({ delayTime:0, switchLoad:"_src", trigger:"click" });
+</script> 
+
+<gyfx:advertising name='nav'  position="xpzq" row='1'>
+    <div class="little_banner">
+        <a href="{$nav.naurl}" target="{$nav.ntarget}"><img src="{$nav.nimgurl}" alt="{$nav.nname}"></a>
+    </div>
+</gyfx:advertising>
+
+<script src="__JS__productslist.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<div class="main">
+    <div id="plist">
+        <ul>
+            <gyfx:goodslist name='nav' new='1' mod='3' num="14">
+                <li <eq name="mod" value="2"> class="last"</eq> >
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></div>
+                        <div class="p-name"><a href="{$nav.gurl}" target="_blank">{$nav.gname}</a></div>
+                        <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><span class="extra"><strong>{$nav.gsales}</strong>人已经购买</span></div>
+                        <div class="btns">
+                            <a href="javascript:void(0)" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$nav.authorize}','{$nav.gid}');"<else />onClick='addGoodsCartElse("{$nav.gid}","{$nav.authorize}");'</if> class="add_cart_large btnCart" _src="{$nav.gpic}">放入购物车</a>
+                            <a href="javascript:addToInterests('{$nav.gid}');" class="add_cart_small"><img src="__TPL__images/gray_love.png" alt="">收藏</a>
+                        </div>
+                        <if condition="$nav['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                            <input type="hidden" name="type" value="item" id="item_type_{$nav.gid}" />
+                            <input type="hidden" value="{$nav.pdt_id}" name="pdt_id" id="pdt_id_{$nav.gid}" />
+                            <input type="hidden" value="{$nav.pdt_stock}" name="pdt_stock" id="pdt_stock_{$nav.gid}" />  
+                            <input type="hidden" value="1" id="item_num_{$nav.gid}" name="num" /> 
+                        </if>
+                    </div>
+                    <div class="fwm"><img src="__TPL__images/fwm.png" alt=""></div>
+                </li>
+            </gyfx:goodslist>
+            <li class="last more">
+                <a href="{:U('/Home/NewList')}" target="_blank">更多新品 > > ></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<gyfx:advertising name='nav'  position="rxzq" row='1'>
+    <div class="little_banner">
+        <a href="{$nav.naurl}" target="{$nav.ntarget}"><img src="{$nav.nimgurl}" alt="{$nav.nname}" id="rexiao"></a>
+    </div>
+</gyfx:advertising>
+
+<div class="main main2">
+    <span id="newshop"></span>
+    <div id="plist">
+        <ul>
+            <gyfx:goodslist name='nav' hot='1' mod='4' num="19">
+            <li <eq name="mod" value="3"> class="last"</eq> >
+                <div class="lh_wrap">
+                    <div class="p-img"><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></div>
+                    <div class="p-name">{$nav.gname}..</div>
+                    <div class="scj">市场价: <em>￥{$nav.maprice|sprintf='%.2f',###}</em></div>
+                    <div class="p-price">商城价:<span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><span class="extra">(已有<strong>{$nav.comment_nums}</strong>人评论)</span></div>
+                    <div class="btns">
+                        <a href="javascript:void(0);" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCart('{$nav.authorize}','{$nav.gid}',1);"<else />onClick='addGoodsCart("{$nav.gid}","{$nav.authorize}",1);'</if> class="add_cart_large">立即购买</a>
+                        <a href="javascript:void(0)" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$nav.authorize}','{$nav.gid}');"<else />onClick='addGoodsCartElse("{$nav.gid}","{$nav.authorize}");'</if> class="add_cart_small btnCart" _src="{$nav.gpic}">放入购物车</a>
+                    </div>
+                    <if condition="$nav['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                        <input type="hidden" name="type" value="item" id="item_type_{$nav.gid}" />
+                        <input type="hidden" value="{$nav.pdt_id}" name="pdt_id" id="pdt_id_{$nav.gid}" />
+                        <input type="hidden" value="{$nav.pdt_stock}" name="pdt_stock" id="pdt_stock_{$nav.gid}" />  
+                        <input type="hidden" value="1" id="item_num_{$nav.gid}" name="num" /> 
+                    </if>
+                </div>
+            </li>
+            </gyfx:goodslist>
+            <li class="last more">
+                    <a href="{:U('/Home/HotList')}" target="_blank">更多热销 > > ></a>
+            </li>
+        </ul>
+    </div>
+    <div id="flyItem" class="fly_item" style="z-index: 99999;"><img _src="__TPL__images/item-pic.jpg" width="40" height="40"></div>
+</div>
+<gyfx:advertising name='nav'  position="qwbl" row='1'>
+    <div class="little_banner">
+        <a href="{$nav.naurl}" target="{$nav.ntarget}"><img src="{$nav.nimgurl}" alt="{$nav.nname}" id="xyzq"></a>
+    </div>
+</gyfx:advertising>
+<div class="j_channel channel-con j_exposureCon fp-floor" data-floorname="Channel" data-spm="2015039">
+    <div class="module-body j_channelBody clearfix" style="opacity: 1;">
+        <div class="channel-column color-type-0  ">
+            <gyfx:advertising name='nav' row="15" mod="5" position="tribe">
+                <eq name="mod" value="0">
+                    <a href="{$nav.naurl}" target="{$nav.ntarget}" class="channel-item j_exposureParam" data-exposure="">
+                        <div class="item-title">{$nav.nname}</div>
+                        <div class="item-sub-title">{$nav.description}</div>
+                        <div class="img-con">
+                            <div class="img-mask"></div>
+                            <img alt="" src="{$nav.nimgurl}" alt="{$nav.nname}">
+                        </div>
+                    </a>
+                    <neq name="key" value="10"><div class="seprate"></div></neq>
+                </eq>
+            </gyfx:advertising>
+        </div>
+
+        <div class="channel-column color-type-1  ">
+            <gyfx:advertising name='nav' row="15" mod="5" position="tribe">
+                <eq name="mod" value="1">
+                    <a href="{$nav.naurl}" target="{$nav.ntarget}" class="channel-item j_exposureParam" data-exposure="">
+                        <div class="item-title">{$nav.nname}</div>
+                        <div class="item-sub-title">{$nav.description}</div>
+                        <div class="img-con">
+                            <div class="img-mask"></div>
+                            <img alt="" src="{$nav.nimgurl}" alt="{$nav.nname}">
+                        </div>
+                    </a>
+                    <neq name="key" value="11"><div class="seprate"></div></neq>
+                </eq>
+            </gyfx:advertising>
+        </div>
+
+        <div class="channel-column color-type-2  ">
+            <gyfx:advertising name='nav' row="15" mod="5" position="tribe">
+                <eq name="mod" value="2">
+                    <a href="{$nav.naurl}" target="{$nav.ntarget}" class="channel-item j_exposureParam" data-exposure="">
+                        <div class="item-title">{$nav.nname}</div>
+                        <div class="item-sub-title">{$nav.description}</div>
+                        <div class="img-con">
+                            <div class="img-mask"></div>
+                            <img alt="" src="{$nav.nimgurl}" alt="{$nav.nname}">
+                        </div>
+                    </a>
+                    <neq name="key" value="12"><div class="seprate"></div></neq>
+                </eq>
+            </gyfx:advertising>
+        </div>
+
+        <div class="channel-column color-type-3   last-990 ">
+            <gyfx:advertising name='nav' row="15" mod="5" position="tribe">
+                <eq name="mod" value="3">
+                    <a href="{$nav.naurl}" target="{$nav.ntarget}" class="channel-item j_exposureParam" data-exposure="">
+                        <div class="item-title">{$nav.nname}</div>
+                        <div class="item-sub-title">{$nav.description}</div>
+                        <div class="img-con">
+                            <div class="img-mask"></div>
+                            <img alt="" src="{$nav.nimgurl}" alt="{$nav.nname}">
+                        </div>
+                    </a>
+                    <neq name="key" value="13"><div class="seprate"></div></neq>
+                </eq>
+            </gyfx:advertising>
+        </div>
+
+        <div class="channel-column color-type-4  last-1230  ">
+            <gyfx:advertising name='nav' row="15" mod="5" position="tribe">
+                <eq name="mod" value="4">
+                    <a href="{$nav.naurl}" target="{$nav.ntarget}" class="channel-item j_exposureParam" data-exposure="">
+                        <div class="item-title">{$nav.nname}</div>
+                        <div class="item-sub-title">{$nav.description}</div>
+                        <div class="img-con">
+                            <div class="img-mask"></div>
+                            <img alt="" src="{$nav.nimgurl}" alt="{$nav.nname}">
+                        </div>
+                    </a>
+                    <neq name="key" value="14"><div class="seprate"></div></neq>
+                </eq>
+            </gyfx:advertising>
+        </div>
+    </div>
+</div>
+
+<!-- 侧边栏浮动 -->
+<div class="leftfloat"> 
+    <ul>
+        <li><a href="#ppzqm">品牌</a><span>品牌中心</span></li>
+        <li><a href="#mszq">活动</a><span>特惠活动</span></li>
+        <li><a href="#rexiao">热销</a><span>HOT热销</span></li>
+        <li><a href="#xyzq">促销</a><span>促销专区</span></li>
+        <li><a href="javascript:void(0);" class="gotop">返回顶部</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+/*加入收藏*/
+function addToInterests(gid){
+    if(parseInt(gid) <= 0){
+        alert("商品不存在或者已经被下架");return false;
+    }
+    $.ajax({
+        url:"/Home/Products/doAddGoodsCollect",
+        cache:false,
+        dataType:"json",
+        data:{gid:gid},
+        type:"post",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success("加入收藏成功");
+            }else{
+                $.ThinkBox.error(msgObj.info);
+            }
+        }
+    });
+}
+$(document).ready(function(){
+//    var window_w = $(window).width()/2-656
+    var window_q = $(window).width()/2-600;
+//     if(window_w>0){
+//        $(".leftfloat").css({"left":window_w})
+        $(".aside").css({"right":window_q});
+//     }else{
+//        $(".leftfloat").css({"left":"0"})
+
+//     }
+})
+</script>

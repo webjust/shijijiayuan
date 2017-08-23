@@ -1,0 +1,111 @@
+<div class="rightInner tableColor">
+    <!--<form method="post" action="{:U('Admin/GoodsBrand/doDelBrands')}" id="">-->
+    <table width="100%" class="tbList" data-uri='{:U("Admin/Sms/pageList")}'>
+        <thead>
+            <tr class="title">
+                <th style="text-align:right;font-size: 12px;" colspan="99">
+                    <form id="searchForm" method="post" href='{:U("Admin/Sms/pageList")}'>
+                       手机号:
+                        <input type="text" value="{$ary_request['mobile']}" name="mobile" class="medium">
+						验证码:
+						<input type="text" value="{$ary_request['code']}" name="code" class="small">
+						验证状态:
+						<select name="check_status">
+							<option value="-1" <if condition="$ary_request['check_status'] eq -1 ">selected</if>>选择</option>
+							<option value="0" <if condition="$ary_request['check_status'] eq 0">selected</if>>未认证</option>
+							<option value="1" <if condition="$ary_request['check_status'] eq 1">selected</if>>已认证</option>
+							<option value="2" <if condition="$ary_request['check_status'] eq 2">selected</if>>无效</option>
+						</select>
+						发送类型:
+						<select name="sms_type">
+							<option value="-1" <if condition="$ary_request['sms_type'] eq -1 ">selected</if>>选择</option>
+							<option value="0" <if condition="$ary_request['sms_type'] eq 0">selected</if>>普通短信</option>
+							<option value="1" <if condition="$ary_request['sms_type'] eq 1">selected</if>>手机绑定</option>
+							<option value="2" <if condition="$ary_request['sms_type'] eq 2">selected</if>>更换手机号</option>
+							<option value="3" <if condition="$ary_request['sms_type'] eq 3">selected</if>>密码找回</option>
+							<option value="4" <if condition="$ary_request['sms_type'] eq 4">selected</if>>重置密码</option>
+							<option value="5" <if condition="$ary_request['sms_type'] eq 5">selected</if>>支付验证</option>
+							<option value="6" <if condition="$ary_request['sms_type'] eq 6">selected</if>>门店提货短信提示</option>
+						</select>
+						发送时间:
+						<input type="text" name="start_time" class="medium timer" value="{$ary_request.start_time}"  >
+						-
+						<input type="text" name="end_time" class="medium timer" value="{$ary_request.end_time}"  >
+                        <input class="btnHeader inpButton" type="submit" value="搜 索">
+                    </form>
+                </th>
+            </tr>
+            <tr>
+                <th>手机号</th>
+                <th>发送内容</th>
+                <th>验证状态</th>
+                <th>验证码</th>
+                <th>发送时间</th>
+                <th>修改时间</th>     
+                <th>发送类型</th>     
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_sms" id="sms">
+            <tr>
+                <td>{$sms['mobile']}</td>
+                <td>
+				{$sms['content']}
+				</td>
+                <td>
+				<if condition="$sms.check_status eq 0">
+				未验证
+				</if>
+				<if condition="$sms.check_status eq 1">
+				已验证
+				</if>
+				<if condition="$sms.check_status eq 2">
+				失效
+				</if>
+				</td>
+                <td>{$sms.code}</td>
+                <td>{$sms.create_time}</td>
+                <td>
+					{$sms.update_time}
+                </td>
+                <td>
+				<if condition="$sms.sms_type eq 0">
+				普通发送短信
+				</if>
+				<if condition="$sms.sms_type eq 1">
+				手机绑定
+				</if>
+				<if condition="$sms.sms_type eq 2">
+				更换手机号
+				</if>
+				<if condition="$sms.sms_type eq 3">
+				密码找回
+				</if>
+				<if condition="$sms.sms_type eq 4">
+				重置密码
+				</if>
+				<if condition="$sms.sms_type eq 5">
+				支付验证
+				</if>	
+				<if condition="$sms.sms_type eq 6">
+				门店提货短信提示
+				</if>					
+                </td>
+            </tr>
+            </volist>
+            <empty name="ary_sms">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+		
+            <tr>
+                <td colspan="99">
+               <span class="right page">{$page}</span></td>
+            </tr>
+		
+        </tfoot>
+    </table>
+    <!--</form>-->
+    <div class="clear"></div>
+</div>

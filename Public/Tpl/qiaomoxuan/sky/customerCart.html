@@ -1,0 +1,77 @@
+{__NOLAYOUT__}
+
+<a href="#" class="shopcart triggerBtn">购物车<span id="count_goods">{$price_data.all_nums|default='0'}</span></a>
+<div class="ToCart detail">
+<php>if(count($cart_data)>=5){</php>
+<div class='detail2'>
+<php>}else{</php>
+<div>
+<php>}</php>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th scope="col">商品</th>
+            <th scope="col">数量</th>
+            <th scope="col">价格</th>
+            <th scope="col">删除</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="cart_data" id="data">
+        <php>if($data[0]['pdt_rule_name']=='自由推荐'){</php>
+        <volist name="data" id="da">
+            <tr>
+                <td><img src="{$Think.config.DOMAIN_HOST}{$da['g_picture']}" height="20" width="40"></td>
+                <td>{$da.pdt_nums}</td>
+                <td><span class="price">&yen;{$da.f_price|sprintf='%.2f',###}</span></td>
+                <td><a href="javascript:void(0);" onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});"><span class="delete"></span></a></td>
+            </tr>
+        </volist>
+        <php>}elseif($data[0]['type'] == '6'){</php>
+        <volist name="data" id="da">
+            <tr>
+                <td><img src="{$Think.config.DOMAIN_HOST}{$da['g_picture']}" height="20" width="40"></td>
+                <td>{$da.pdt_nums}</td>
+                <td><span class="price">&yen;{$da.f_price|sprintf='%.2f',###}</span></td>
+                <td><a href="javascript:void(0);" onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});"><span class="delete"></span></a></td>
+            </tr>
+        </volist>
+        <php>}else{</php>
+            <tr>
+                <td><img src="{$Think.config.DOMAIN_HOST}{$data['g_picture']}" height="20" width="40"></td>
+                <td>{$data.pdt_nums}</td>
+                <td><span class="price">&yen;{$data.f_price|sprintf='%.2f',###}</span></td>
+                <td><a href="javascript:void(0);" onclick="deleteFromMyCart({$data.pdt_id},{$data.type|default='0'});"><span class="delete"></span></a></td>
+            </tr>
+        <php>}</php>
+        </volist>
+        </tbody>
+    </table>
+	</div>
+                    <span class="totalPrice detail1">
+                     <notempty name="cart_data">
+                    <p>合计：<span>￥{$price_data.all_price|default="0.00"}</span></p>
+                     </notempty>
+                    <empty name="cart_data">
+                        <span style="margin-left: 47px;">您的购物车还没有任何宝贝。</span>
+                    </empty>
+                    <a href="{:U('Ucenter/Cart/pageList')}" class="goTobuy"></a> </span>
+</div>
+<script>
+    $(function(){
+            var dtl=$(".ToCart")
+            $('#online li .shopcart').click(function(){
+
+                $(this).siblings().find('.detail').hide()
+                if(dtl.length) {
+                    if(dtl.is(":hidden")) {
+                        dtl.animate({speed:300,width:"show"});
+                        $(this).parent().addClass('red').siblings().removeClass('red');
+                    }else{
+                        dtl.animate({speed:300,width:"hide"});
+                        $(this).parent().removeClass('red').siblings().removeClass('red');
+                    }
+                }
+            });
+        });
+</script>

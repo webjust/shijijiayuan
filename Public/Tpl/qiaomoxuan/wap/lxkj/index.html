@@ -1,0 +1,189 @@
+    <script></script>
+    <link rel="stylesheet" href="__TPL__/css/base.css">
+    <link rel="stylesheet" href="__TPL__/css/swiper.css">
+    <script src="__TPL__/js/TouchSlide.1.1.js"></script>
+    <script src="__TPL__/js/swiper.jquery.js"></script>
+    <div class="alltop"><img src="__TPL__/images/top.png" alt=""></div>
+    <div class="mg ov">
+        <div class="headerTop">
+            <div class="header_in">
+                <div class="home"><a href="/Wap/"><img src="__TPL__/images/home.png" alt=""></a></div>
+                <div class="logo"><a href="/Wap/" title=""><img src="__TPL__/images/logo.png"></a></div>
+                <div class="search"><a href="/Wap/Index/search"><img src="__TPL__/images/search.png" alt=""></a></div>
+            </div>
+        </div>
+        <div id="nav">
+            <div class="nav">
+                <ul>
+                    <li class="spe"><a href="/Wap/">首页</a></li>
+                    <Gyfx:goodscate name="cate" k="k">
+                        <li><a href="/Wap/Products/index?cid={$cate.cid}">{$cate.cname}</a></li>
+                    </Gyfx:goodscate>
+                </ul>
+            </div> 
+        </div>      
+        <div id="focus" class="focus">
+            <div class="hd">
+                <ul></ul>
+            </div>
+            <div class="bd">
+                <ul>
+                    <gyfx:adwaptising name='nav'  position="banner">
+                        <li><a href="{$nav.naurl}" target="{$nav.ntarget}" ><img _src="{$nav.nimgurl}" src="{$nav.nimgurl}" /></a></li>
+                    </gyfx:adwaptising>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+            TouchSlide({ 
+                slideCell:"#focus",
+                titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:".bd ul", 
+                effect:"left", 
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+            });
+        </script>
+        <div id="icon">
+            <div class="icon">
+                <ul>
+                    <gyfx:adwaptising name='nav' position="nav" row="8">
+                        <li><a href="{$nav.naurl}">
+                            <div class="pic"><img src="{$nav.nimgurl}" alt=""></div>
+                            <div class="title">{$nav.nname}</div>
+                        </a></li>
+                    </gyfx:adwaptising>
+                </ul>
+            </div>
+        </div>
+
+        <gyfx:adwaptising name='nav' position="ppzq" row="1">
+            <div class="banner"><a href="{$nav.naurl}"><img src="{$nav.nimgurl}" alt=""></a></div>
+        </gyfx:adwaptising>
+
+        <ul class="index_pp">
+            <gyfx:goodsbrand name="nav" limit="0,11" >
+                <li>
+                    <a href="{$nav.burlm}"><img src="{$nav.bpic}" alt="{$nav.bname}"></a>
+                </li>
+            </gyfx:goodsbrand>
+            <li class="spe"><a href="###">更多品牌></a></li>
+        </ul>
+
+        <gyfx:adwaptising name='nav' position="tmzq" row="1">
+            <div class="banner"><a href="{$nav.naurl}"><img src="{$nav.nimgurl}" alt=""></a></div>
+        </gyfx:adwaptising>
+
+        
+        <div id="jrfq"> 
+            <div id="tabBox1" class="tabBox">
+                <div class="hd">
+                  <ul>
+                    <li class="on"><a href="javascript:void(0);">今日特惠</a></li>
+                    <li><a href="javascript:void(0);">明日预告</a></li>
+                  </ul>
+                </div>
+                <div class="bd"  id="tabBox1-bd">
+                    <div class="con">
+                        <ul>
+                            <gyfx:spikelist name="nav" start="0" >
+                                <li><a href="/Wap/Products/detail/gid/{$nav.sp_id}"><img src="{$nav.sp_picture_wap}" alt="{$nav.sp_title}"></a></li>
+                            </gyfx:spikelist>
+                        </ul>
+                    </div>
+                    <div class="con">
+                        <ul>
+                            <gyfx:spikelist name="nav" start="1" >
+                                <li><a href="/Wap/Products/detail/gid/{$nav.sp_id}"><img src="{$nav.sp_picture_wap}" alt="{$nav.sp_title}"></a></li>
+                            </gyfx:spikelist>
+                        </ul>
+                    </div>
+                </div>
+            </div>   
+        </div>
+            <script type="text/javascript">
+            TouchSlide( { slideCell:"#tabBox1",
+
+                endFun:function(i){ //高度自适应
+                    var bd = document.getElementById("tabBox1-bd");
+                    bd.parentNode.style.height = bd.children[i].children[0].offsetHeight+"px";
+                    if(i>0)bd.parentNode.style.transition="200ms";//添加动画效果
+                }
+
+            } );</script>
+        <gyfx:adwaptising name='nav' position="rxzq" row="1">
+            <div class="banner"><a href="{$nav.naurl}"><img src="{$nav.nimgurl}" alt=""></a></div>
+        </gyfx:adwaptising>
+
+        <div id="gdrx">
+            <ul>
+                <gyfx:goodslist name='nav' hot='1' mod='3' num="13">
+                    <li>
+                        <div class="lh_wrap">
+                            <div class="p-img"><a href="/Wap/Products/detail/gid/{$nav.gid}"><img alt="" src="{$nav.gpic}"></a></div>
+                            <div class="p-name"><a href="/Wap/Products/detail/gid/{$nav.gid}">{$nav.gname}</a></div>
+                            <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><span class="extra"><strong>{$nav.gsales}</strong>人已经购买</span></div>
+                            <div class="btns">
+                                <a href="/Wap/Products/detail/gid/{$nav.gid}" class="add_cart_large btnCart">立即抢购</a>
+                                <a href="javascript:addToInterests('{$nav.gid}');" class="add_cart_small btnCart"><img src="__TPL__/images/gray_love.png" alt="">收藏</a>
+                            </div>
+                        </div>
+                    </li>
+                </gyfx:goodslist>
+                <li class="spe gdspea"><a href="{:U('/Wap/Products/index')}">更多热销……</a></li>
+            </ul>  
+        </div>
+
+        <gyfx:adwaptising name='nav' position="xpzq" row="1">
+            <div class="banner"><a href="{$nav.naurl}"><img src="{$nav.nimgurl}" alt=""></a></div>
+        </gyfx:adwaptising>
+        
+        
+        <div id="gdth">
+            <ul>
+	            <gyfx:goodslist name='nav' new='1' mod='4' num="14">
+	                <li>
+	                    <div class="lh_wrap">
+	                        <div class="p-img"><a href="/Wap/Products/detail/gid/{$nav.gid}"><img alt="" src="{$nav.gpic}"></a></div>
+	                        <div class="p-name"><a href="/Wap/Products/detail/gid/{$nav.gid}">{$nav.gname}</a></div>
+	                        <div class="p-price">商城价:<span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><span class="extra">原价:￥<strong>{$nav.maprice|sprintf='%.2f',###}</strong></span></div>
+	                        <div class="btns"><a href="/Wap/Products/detail/gid/{$nav.gid}" class="add_cart_large btnCart">立即抢购</a></div>
+	                    </div>
+	                </li>
+	            </gyfx:goodslist>
+                <li class="spe gdspeb"><a href="{:U('/Wap/Products/index?order=_new')}">更多新品……</a></li>
+            </ul>  
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $(".gdspea").height($(".gdspea").prev().height());
+            $(".gdspeb").height($(".gdspeb").prev().height());
+            //wimb = $(".footer li").eq(0).find('a').find('img').attr("src");
+            wimw = $(".footer li").eq(0).find('a').find('img').attr("_src");
+            $(".footer li").eq(0).find('a').addClass("on");
+            //$(".footer li").eq(0).find('a').find('img').attr('_src',wimb);
+            $(".footer li").eq(0).find('a').find('img').attr('src',wimw);
+        });
+        </script>
+
+        <gyfx:adwaptising name='nav' position="qwbl" row="1">
+            <div class="banner"><a href="{$nav.naurl}"><img src="{$nav.nimgurl}" alt=""></a></div>
+        </gyfx:adwaptising>
+        
+        
+        
+        <div id="xyzq">
+            <ul>
+                <gyfx:adwaptising name='nav' position="tribe" row="9">
+                    <li>
+                        <div class="lh_wrap">
+                            <div class="p-img"><a href="{$nav.naurl}"><img alt="" src="{$nav.nimgurl}"></a></div>
+                            <div class="p-name"><a href="{$nav.naurl}">{$nav.nname}</a></div>
+                            <div class="p-price">商城价:<span class="price">￥<strong>68</strong></span></div>
+                            <div class="btns"><a href="javascript:;" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                    </li>
+                </gyfx:adwaptising>
+            </ul>  
+        </div>

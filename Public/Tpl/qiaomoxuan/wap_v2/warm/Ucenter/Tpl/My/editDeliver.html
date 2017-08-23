@@ -1,0 +1,123 @@
+
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+
+
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a  href="javascript:void(0);" onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">修改收货地址</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javascript:void(0);">-->
+                <!--<span class="headmore"></span>-->
+            <!--</a>-->
+        <!--</div>-->
+    </div>
+</div>
+
+<form action="" id="edit_deliverTable">
+    <div class="container">
+        <div class="address">
+            <div class="orderL">
+                <h1>使用新地址
+                    <!--<span class="closeit"></span>-->
+                </h1>
+                <div class="odrderD orderE">
+                    <span class="addr_edit">收货人*</span>
+                    <input type="text" id="ra_name" name="ra_name" class="input_order" value="{$edit_city.ra_name}" placeholder="名字"/>
+                </div>
+                <p></p>
+                <div class="odrderD orderE">
+                    <span class="addr_edit">联系电话*</span>
+                    <input type="text" id="ra_mobile_phone" name="ra_mobile_phone"  value="{$edit_city.ra_mobile_phone}" class="input_order"  placeholder="手机或固话"/>
+                </div>
+                <p></p>
+                <div class="odrderD orderE">
+                    <span class="addr_edit">收货区域</span>
+                    <div class="Select">
+                        <select id="province"  class="selectCity " name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city','');"/>
+                        <option>省</option>
+                        <volist name="citys" id="val">
+                            <option id="option_add_{$val.cr_id}" value="{$val.cr_id}">{$val.cr_name}</option>
+                        </volist>
+                        </select>
+                    </div>
+                    <div class="Select">
+                        <select  id="city" class="selectCity" name="city" onchange="selectCityRegion(this, 'region','');">
+                            <option value="0" selected="selected">市</option>
+                        </select>
+                    </div>
+                    <div class="Select">
+                        <select id="region"  class="selectCity" onchange="selectCityRegion(this, '','');" name="region" >
+                            <option value="0" selected="selected">区</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="odrderD orderE">
+                    <span class="addr_edit">街道地址</span>
+                    <input type="text" class="input_order" id="ra_detail" value="{$edit_city.ra_detail}" name="ra_detail"  />
+                </div>
+                <p></p>
+                <div class="odrderD orderE">
+                    <span class="addr_edit">邮政编码</span>
+                    <input type="text" class="input_order" id="ra_post_code" name="ra_post_code" value="{$edit_city.ra_post_code}"/>
+                </div>
+                <p></p>
+                <div class="odrderD orderE">
+                    <span class="addr_edit"></span>
+                    <label class="setDefault">
+                        <input type="checkbox"  id="ra_is_default" value="1" name="ra_is_default" <if condition="$edit_city.ra_is_default eq 1">checked</if> />
+                        设为默认地址
+                    </label>
+                </div>
+                <p></p>
+                <div class="odrderD orderE">
+                    <span class="addr_edit"></span>
+                    <input type="hidden" name="pids" id="pids" value="{$pids}">
+                    <input type="hidden" name="m_id" id="m_id" value="{$m_id}">
+                    <input type="hidden" name="raid" id="raid" value="{$raid}">
+                    <if condition="$zt eq '1'">
+                        <input type="hidden" name="is_zt" id="is_zt" value="{$zt}">
+                    </if>
+                    <a  class="confirm_addr" href="javascript:void(0);"   id="ajax_pageDeliver">保存</a>
+                    <span class="addr_edit"></span>
+                </div>
+            </div>
+        </div>
+        <div class="member_editpass" style="display: none;">
+            <b></b>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    function selectCityRegion(obj, item, default_value) {
+        var value = obj.value;
+        if (!value) {
+            value = obj;
+        }
+        var url = '/Wap/Address/getCityRegion/';
+        $('#'+item).load(url, {
+            'parent': value,
+            'default_value':default_value
+        }, function(){
+            if('' != default_value) {
+                this.value = default_value;
+            }
+        });
+
+    }
+    function initSelectCityRegion() {
+        $('#city').html('<option value="0">请选择</option>');
+        $('#region').html('<option value="0">请选择</option>');
+    }
+</script>
+<if condition="$raid gt 0 ">
+    {$js_city}
+</if>
+

@@ -1,0 +1,50 @@
+<div class="warp marTop10 yellow">
+	<div class="bglist">
+        <a href="{$ary_ads.ad_url}"><img src="{$ary_ads.ad_pic_url}" /></a>
+    </div>
+    <div class="content">
+        <div class="bgcon"><!--bgcon  start-->
+            <ul>
+                <volist name="data" id="try">
+                    <li>
+                        <a href="{:U('Home/Products/detail',array('gid'=>$try['g_id']))}" class="bgpic"><img src="{$try.try_picture}" width="360" height="360" /></a>
+                        <i></i>
+                        <em></em>
+                        <a href="{:U('Home/Products/detail',array('gid'=>$try['g_id']))}" class="bgname">{$try.g_name}</a>
+                        <p class="p01">价值：<span>&yen; <strong>{$try.g_price|sprintf='%.2f',###}</strong></span>提供：<b>{$try.try_num}</b>份</p>
+                        <div class="bgdiv">
+                            <p class="p02"><span>试用已结束</span><a href="{:U('Home/Try/ReportDetail',array('tryid'=>$try['try_id']))}">查看报告（<label>4</label>）>>></a></p>
+                            <p class="p03">
+                                <span>1. 所有会员都可以免费申请，申请成功无需支付邮费</span>
+                                <span>2. 申请成功需要提交真实原创的试用报告</span>
+                                <label></label>
+                            </p>
+                        </div>
+                    </li>
+                </volist>
+            </ul>
+        </div><!--bgcon  end-->
+        <div class="fenye">
+            {$page}
+            <!-- <a href="#" class="on"><<上一页</a>
+            <a href="#" class="on">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a><strong>...</strong>
+            <a href="#">下一页>></a>
+            <label>共100页，到第</label>
+            <span><input type="text" class="txt" value="1"/></span>
+            <label>页</label>
+            <span class="span02"><input type="submit" class="sub" value="确定" /></span> -->
+        </div>
+    </div>
+</div>
+<!--中间内容  结束--->
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>

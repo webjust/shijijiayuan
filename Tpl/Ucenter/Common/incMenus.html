@@ -1,0 +1,14 @@
+<div class="contentLeft" id="menus">
+    <volist name="menus" id="voMenus1" key="k">
+        <h2><span class="{$tops[$key]['class']}">{$tops[$key]['name']}</span></h2>
+        <php>$second_menus_id = $key;</php>
+<!--        <ul class="subMenus" <neq name="k" value="$nav2">style="display:none;"</neq> >-->
+        <ul class="subMenus" >
+            <volist name="voMenus1" id="voMenus2" >
+            <if condition="$voMenus2.name neq '' ">
+                <li><a href="{$voMenus2.url}" <if condition="($key eq $nav3) and ($second_menus_id eq $nav2)">class="on"</if> >{$voMenus2.name}</a></li>
+            </if>
+            </volist>
+        </ul>
+    </volist>
+</div>

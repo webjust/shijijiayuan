@@ -1,0 +1,104 @@
+<!--中间内容 开始-->
+<link href="__CSS__presale.css" rel="stylesheet">
+<div class="wrap wrapT">
+    <div class="content">
+        <div class="tgList"><!--tgList-->
+            <div class="goodList_navtitle block">
+                <a href="/Home/Index/index">首页</a><span>&gt;</span><a href="javascript:void(0);">预售列表</a>
+            </div>
+            <!--<div class="prtad">-->
+                <!--<img src="__IMAGES__/prtad.jpg" alt="">-->
+            <!--</div>-->
+            <!--prtad end-->
+            <div class="tgOne"><!--tgTwo-->
+                <!--导航-->
+                <div class="goodList_nav tuanNav block">
+                    <ul>
+                        <li><span>区域:</span>
+                            <div class="rightC">
+                                <a href="{:U('Home/Presale/index')}?startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get.cr_id eq ''"> class="cur" </if>>全部</a>
+                                <volist name="city" id="city_info">
+                                    <a href="{:U('Home/Presale/index')}?cr_id={$city_info.cr_id}&startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get['cr_id'] eq $city_info['cr_id']">class="cur"</if>>{$city_info['cr_name']}</a>
+                                </volist>
+                            </div>
+                        </li>
+
+                        <li><span>价格:</span>
+                            <div class="rightC">
+                                <a href="{:U('Home/Presale/index')}?cr_id={$get.cr_id}" <if condition="($get.startPrice eq '') and  ($get.endPrice eq '')"> class="cur"  </if>>全部</a>
+                                <a href="{:U('Home/Presale/index')}?startPrice=0&endPrice={$priceSet.min_price}&cr_id={$get.cr_id}" <if condition="$get.endPrice eq $priceSet['min_price']" >class="cur"</if>>0-{$priceSet.min_price}</a>
+                                <volist name="priceSet.prices" id="price">
+                                    <a href="{:U('Home/Presale/index')}?startPrice={$price['from']}&endPrice={$price['to']}&cr_id={$get.cr_id}" <if condition="$get.endPrice eq $price['to']" >class="cur"</if>>{$price['from']}-{$price['to']}</a>
+                                </volist>
+                                <a href="{:U('Home/Presale/index')}?startPrice={$priceSet['max_price']}&cr_id={$get.cr_id}" <if condition="$get.startPrice eq $priceSet['max_price']" >class="cur"</if>>{$priceSet['max_price']}以上</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--导航-->
+                <div class="tgL">
+                    <div class="tgL_t">
+                        <h2>限时预售</h2>
+                    </div>
+                    <div class="guide-bd">
+                        <ul class="clearfix">
+                            <volist name="data" id="list">
+                                <li class="fl rel w485">
+                                    <p class="tgL_img">
+                                        <a href="{:U('Home/Presale/detail')}?p_id={$list['p_id']}" target="_blank">
+                                            <img src="{$list.p_picture|showImage=###,380,380}" width="380" height="380" alt="{$list.p_title}">
+                                        </a>
+                                    </p>
+                                    <div class="tgL_title">
+                                        <p class="tgL_name"><span>{$list.p_title}</span><em>{$list['p_now_number']}人已购买</em></p>
+                                        <p class="tgL_price">¥<em>{$list.p_price|sprintf='%.2f',###}</em><i>原价：￥{$list.cost_price|sprintf='%.2f',###}</i></p>
+                                        <div class="tgL_btn">
+                                            <a  href="{:U('Home/Presale/detail')}?p_id={$list['p_id']}"target="_blank" class="tgL_btn" starthref=" ">马上抢</a>
+                                        </div>
+                                    </div>
+                                    <div class="tgL_tip abs">
+                                        <!--<p class="tip"><i></i>剩余时间：2天 08时 31分 50秒 </p>-->
+                                        <p class="tip">
+                                            <i></i>剩余时间：
+                                            <span id="day{$list.p_id}">0</span>天
+                                            <span id="hours{$list.p_id}">0</span>时
+                                            <span id="minutes{$list.p_id}">0</span>分
+                                            <span id="seconds{$list.p_id}">0</span>秒
+                                            <script>setTuanGouTime('{$list.p_end_time}','day{$list.p_id}','hours{$list.p_id}','minutes{$list.p_id}','seconds{$list.p_id}',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                        </p>
+                                    </div>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <!--今日新团结束-->
+            </div>
+            <!--/tgThree-->
+            <div class="fenye">
+                <a href="javascript:void(0);" class="prev no">首页</a>
+                <a href="javascript:void(0);" class="prev no">上一页</a>
+                <a href="javascript:void(0);" class="prev no">下一页</a>
+                <a href="javascript:void(0);" class="prev no">尾页</a> &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <!--/tgList-->
+    </div>
+    <include file="$commonIncOnline" />
+</div>
+<!--中间内容 结束-->
+        <script>
+            $(function(){
+                var wrap=$(".wrap");
+                wrap.css({"padding-top":0});
+                setInterval("setTime()",50000);
+            })
+            function setTime(){
+                $(".tgL_tip").find('p').each(function(){
+                    if(parseInt($(this).find("span").eq(0).html())<= 0 && parseInt($(this).find("span").eq(1).html()) <= 0 && parseInt($(this).find("span").eq(2).html())<=0 && parseInt($(this).find("span").eq(3).html()) <= 0){
+                        $(this).parent().prev().find("a").addClass("finished");
+                        $(this).parent().prev().find("a").html("已抢光");
+                    }
+                });;
+            }
+        </script>

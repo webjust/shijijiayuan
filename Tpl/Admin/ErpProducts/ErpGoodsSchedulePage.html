@@ -1,0 +1,23 @@
+{__NOLAYOUT__}
+<div>
+    <p align="center"><img src="Public/Admin/images/loging.gif"/></p>
+    <p>正在同步第 <span id="pageon">{$pageon}</span> 条数据，共 {$count} 条，请稍后...... 30 %</p>
+    
+    <div style="min-width:400px; width:auto; min-height:8px; height:auto; border:1px solid silver; padding:2px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;">
+        <div id="loading" style="height:8px; background-color:green; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;">
+        </div>
+    </div>
+</div>
+<script>
+
+  function saveAll(){
+      page_no++;
+      var page_no = 0;
+      var page_num = 1242 ;
+      for(page_no;page_no<page_num;page_no++){
+          
+          $("#pageon").html('');
+          $("#pageon").append(page_no);
+      }
+  }
+</script>

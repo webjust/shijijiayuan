@@ -1,0 +1,58 @@
+<!--#########################################################################-->
+<!--########################### 编辑器风格设置 ################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<style>
+    *{ outline: none;}
+    body{ margin-top: 100px;}
+    /*浮在模块上的蓝色半透明编辑框*/
+    #hover{display: none; z-index: 200; position: absolute; border: 1px dashed #0000FF; background-color: rgba(0,128,255,0.75);cursor: move;}
+    #hover a{ font-size: 12px; color: rgb(255,0,0); text-decoration: none;}
+    #hover a:hover{ color: rgb(255,255,255); text-decoration: underline;}
+
+    /*选中的模块*/
+    .hold{ opacity: 0.5; border: 0px dashed #777;}
+
+    /*移动的模块*/
+    .move{}
+
+    /* 当前正在修改的模块 */
+    .edit{}
+
+    /*待添加的区域位置*/
+    .add{margin-top: 5px;width:120px; height: 40px; line-height: 40px; font-size: 14px; color: rgb(255,255,255); text-align: center; border: 1px dashed rgb(100,100,100); background-color: rgba(255,0,0,0.5); cursor: pointer;}
+
+    /*可视化编辑器操作面板*/
+    #gy_edit_controller{ height: 90px;}
+    #gy_edit_controller td{padding: 2px 8px; border-left:1px solid rgb(200,200,200);}
+    #gy_edit_controller td.first{ border-left: none;}
+    #gy_edit_controller a{ color: rgb(255,0,0); font-weight: bold;}
+
+    /*对话框表格*/
+    .dialog_table td{ padding: 3px;}
+    .dialog_table th{ width: 80px;}
+    .dialog_table .textShort{ width: 50px;}
+    .dialog_table .textMedium{ width: 120px;}
+    .dialog_table .textLong{ width: 300px;}
+    .dialog_table .vSlider{ float:left; height: 60px; margin: 5px 10px;}
+    .dialog_table .hSlider{ margin-top: 10px;}
+
+    .dialog_table .slider_red .ui-slider-range { background: #ef2929; }
+    .dialog_table .slider_red .ui-slider-handle { border-color: #ef2929; }
+    .dialog_table .slider_green .ui-slider-range { background: #8ae234; }
+    .dialog_table .slider_green .ui-slider-handle { border-color: #8ae234; }
+    .dialog_table .slider_blue .ui-slider-range { background: #729fcf; }
+    .dialog_table .slider_blue .ui-slider-handle { border-color: #729fcf; }
+    
+    .ckytable tbody tr th {width:160px; text-align:right; padding:5px 10px 5px 0px; vertical-align: top}
+    .ckytable tbody tr td {display:inline-block; padding:5px 0px;}
+    .ckytable tbody tr td label {display:line-block; float:left; margin-right:10px;}
+    .ckytable tbody tr td select {display:line-block; float:left; margin-right:10px;}
+    .ckytable tbody tr td input {display:inline-block; margin:0px 10px;}
+    .ckytable tbody tr td div {float:left; width:100%; margin-bottom:10px;}
+</style>

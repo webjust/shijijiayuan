@@ -1,0 +1,85 @@
+<script src="__PUBLIC__/Ucenter/js/cart.js"></script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>{$Think.lang.MY_CART}</span></h2>
+    <form action="#" method="post" id="cartForm" name="cartForm">
+    <div class="myCart"><!--myCart   start-->
+        <p class="p01"></p>
+        <table>
+            <thead>
+                <tr>
+                    <td width="40"><input type="checkbox" name="select_all" id="select_all1"></td>
+                    <td width="82">{$Think.lang.GOODS_PIC}</td>
+                    <td width="332">{$Think.lang.GOODS_NAME}</td>
+                    <td width="81">{$Think.lang.MEMBER_PRICE}</td>
+                    <td width="122">{$Think.lang.BUY_NUM}</td>
+                    <td width="108">{$Think.lang.STOCK}</td>
+                    <td width="97">{$Think.lang.COUNT}</td>
+                    <td >{$Think.lang.OPERATION}</td>
+                </tr>
+            </thead>
+            <tbody>
+            <if condition="$cart_data NEQ ''">
+                <volist name="cart_data"  id="vo">
+                    <tr class="cartPdt{$vo.pdt_id}">
+                        <td width="40"><input type="checkbox" value="{$vo.pdt_id}" name="pid[]"></td>
+                        <td width="82" valign="top">
+                            <div class="cartProPic">
+                                <a href="#">
+                                    <img src='{$Think.config.DOMAIN_HOST}__PUBLIC__/{$vo.g_picture|showImage=###,68,68|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" class="thumb" />
+                                    <input type="hidden" id="pdt_price{$vo.pdt_id}" value="{$vo.pdt_sale_price}" />
+                                </a>
+                            </div>
+                        </td>
+                        <td width="332" align="left">
+                            <div class="cartProName">
+                                <a href="#">{$vo.g_name}</a>
+                                <span>{$Think.lang.PRODUCT_SN}：{$vo.pdt_sn}</span>
+                                <span>{$Think.lang.GOODS_SPEC}：{$vo.pdt_spec}</span>
+                            </div>
+                        </td>
+                        <td width="81" value="{$vo.f_price}"><i>￥</i> {$vo.f_price}</td>
+                        <td width="122">
+                            <a href="javascript:void(0);" class="reduce cartRed add" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}" pdt_sale_price="{$vo.pdt_sale_price}" type="1"></a>
+                            <input type="text" class="inputNum" value="{$vo.pdt_nums}" types="3" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}"  />
+                            <input type="hidden" value="{$vo.pdt_nums}" />
+                            <a href="javascript:void(0);" class="add" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}" pdt_sale_price="{$vo.pdt_sale_price}" type="2"></a>
+                        </td>
+                        <td width="108">{$vo.pdt_stock}</td>
+                        <td width="97" id="xiao_price{$vo.pdt_id}" value="{$vo.f_price}" >
+                            <i>￥</i> {$vo.pdt_momery}
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="favorite" onclick="javascript:ajaxReturn('{:U("Ucenter/Products/doCollect","gid=$vo[g_id]")}');" >{$Think.lang.ADD_COLLECT}</a>
+                            <a href="javascript:void(0);" class="delete" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Ucenter/Cart/doDel","pid=$vo[pdt_id]")}');}" pdt_id ="{$vo.pdt_id}">{$Think.lang.DELETE}</a>
+                        </td>
+                    </tr>
+                </volist>
+                <else />
+                <tr><td colspan="8">{$Think.lang.EMPTY_CART}</td></tr>
+            </if>
+            </tbody>
+        </table>
+        <p class="p02"><input type="checkbox" name="select_all" id="select_all2"><label>{$Think.lang.SELECT_ALL}</label>
+            <a href="javascript:void(0);" id="delSelected" onclick="javascript:if(!confirm('{$Think.lang.CONFIRM_DELETE_CART}')){return false;}else{ ajaxReturn('{:U("Ucenter/Cart/doDel")}', $('#cartForm').serialize());}">{$Think.lang.DELETE_SELECTED}</a> -
+            <a href="{:U('Ucenter/Cart/doDelAll')}" id="delAll" onclick="javascript:if(!confirm('{$Think.lang.CONFIRM_CLEAR_CART}')){return false;}">{$Think.lang.CLEAR_CART}</a> -
+            <a href="javascript:void(0);" onclick="javascript:ajaxReturn('{:U("Ucenter/Products/doCollect")}', $('#cartForm').serialize());">{$Think.lang.ADD_COLLECT_SELECTED}</a>
+        </p>
+
+        <ul class="cartUl01">
+            <li><span>{$Think.lang.GOODS_PRICE_TOTAL}：</span><label id="pdt_price"><i>￥ </i> <if condition="$price_data['all_pdt_price'] neq ''">{$price_data['all_pdt_price']}<else />0.00</if></label></li>
+            <input type="hidden" value="{$price_data['all_pdt_price']}" id="all_pdt_price">
+            <li><span>{$Think.lang.GOODS_CUTOFF_TOTAL}：</span><label id="label_pre_price"><i>￥ </i> <if condition="$price_data['pre_price'] neq ''">{$price_data['pre_price']}<else />0.00</if></label></li>
+            <input type="hidden" value="{$price_data['pre_price']}" id="pre_price">
+            <li><span><b>{$Think.lang.TOTAL}</b>（{$Think.lang.WITHOUT_FREIGHT}）：</span><strong id="strong_all_price"><em>￥ </em><if condition="$price_data['all_price'] neq ''"> {$price_data['all_price']}<else />0.00</if></strong></li>
+            <input type="hidden" value="{$price_data['all_price']}" id="all_price_dis">
+            <input type="hidden" value="{$cart.tt_id}" id="tt_id" />
+            <li style="text-align: center;">
+                <a href="{:U('Ucenter/Products/pageList')}" class="blue">{$Think.lang.CONTINUE_BUY}</a>&nbsp;&nbsp;
+                <a href="{:U('Ucenter/Trdorders/pageAddTrdorders/')}" class="brown">{$Think.lang.CHECKOUT}</a>
+            </li>
+        </ul>
+    </div><!--myCart   end-->
+    </form>
+</div>
+<!-- 右侧主题内容结束 -->

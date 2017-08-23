@@ -1,0 +1,47 @@
+<div class="rightInner" style="height:auto">
+    <table width="100%" class="tbList" >
+        <thead>
+            <tr class="title">
+                <th colspan="20">
+                <span style="text-align:right;font-size: 12px;float: left;">
+                    <form id="searchForm" method="get" action="{:U('Admin/MergerPayment/pageList')}" style='width:55%;'>
+                        批量支付订单号：<input type="text" name="mp_id" class="large" value="{$filter.mp_id}" style="width: 145px;">
+                        排序：<select name="sort">
+                                <option value="createTime_ASC" <if condition="$filter.sort eq 'createTime_ASC'">selected='selected'</if>>创建时间升序</option>
+                                <option value="createTime_DESC" <if condition="$filter.sort eq 'createTime_DESC'">selected='selected'</if>>创建时间降序</option>
+                            </select>
+						<input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                </span>
+                </th>
+			</tr>
+        <tr>
+            <th>合并支付单号</th>
+			<th>已支付总金额</th>
+            <th>合并订单总金额</th>
+            <th>创建时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="order">
+            <tr>
+                <td style="width:52px" >
+                    <span><a href="{:U('Admin/Orders/pageList')}?mp_id={$order.mp_id}">{$order.mp_id}</a></span>
+                </td>
+				<td style="width:52px" title="{$order.g_name}"><span class="proN">{$order.o_pay}</span></td>
+                <td style="width:52px" title="{$order.g_name}"><span class="proN">{$order.mp_all_price}</span></td>
+                <td style="width:52px" title="{$order.g_name}"><span class="proN">{$order.mp_create_time}</span></td>
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="left page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

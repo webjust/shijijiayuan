@@ -1,0 +1,80 @@
+<div class="rightInner">
+   
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">供应商列表</th>
+                    </tr>
+                 <form method="get" action="{:U('Admin/Members/doDel')}" id="members_del">
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>供应商名称</th>
+                    <th>产品注册商标</th>
+					<th>营业执照</th>
+                    <th>税务登记证</th>
+                     <th>状&nbsp;&nbsp;态</th>
+                    <th>审&nbsp;&nbsp;核</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="ary_supplier" id="supplier">
+            <!-- 会员id -->
+                <tr id="list_{$supplier.m_id}">
+                    <td><input type="checkbox" class="checkSon" name="m_id[]" value="{$supplier.m_id}" /></td>
+                    <td>{$supplier.s_name}</td>
+                    <td>
+                    <if condition="$supplier[s_business_photo] eq true">
+                        <elseif/>
+                          <img src="{$supplier.s_business_photo}"  height="150" width="150">
+                        </if>
+                        </td>
+
+                        <td>
+                       <if condition="$supplier[s_trademark_photo] eq true">
+                         <elseif/>
+                        <img src="{$supplier.s_trademark_photo}"  height="150" width="150">
+                        </if>
+                        </td>
+
+                        <td>
+                    <if condition="$supplier[s_tax_photo] eq true">
+                        <elseif/>
+                      <img src="{$supplier.s_tax_photo}"  height="150" width="150">
+                        </if>
+                             </td>
+                     <td>
+                        <if condition="$supplier[s_status] eq 0">×
+                        <elseif condition="$supplier[s_status] eq 1" />√
+                     </if>
+                    </td>                  
+                  <td>
+                         <if condition="$supplier[s_status] eq 0"><a href="javascript:void(0)" onclick="javascript:check({$supplier.m_id},0);">不通过</a>
+                        <elseif condition="$supplier[s_status] eq 1" /><a href="javascript:void(0)" onclick="javascript:check({$supplier.m_id},1);">通过</a>
+                     </if>
+                  </td>
+                </tr>
+            </volist>
+            <empty name="ary_supplier">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+                 </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99"><input type="button" data-uri='{:U("Admin/Members/doBatDelMembers")}' data-field="m_id" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<include file="advance-search" />
+<script type="text/javascript">
+function check(m_id,s_status){
+        var url ="{:U('Admin/Members/doSupplierCheck')}";
+        $.post(url,{'m_id':m_id,'s_status':s_status},function(data){
+            if(data){ 
+                // alert(data);
+                window.location.reload();
+            }
+        });
+}
+</script>

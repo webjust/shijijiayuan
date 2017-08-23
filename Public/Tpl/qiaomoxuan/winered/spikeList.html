@@ -1,0 +1,103 @@
+<!--中间内容 开始-->
+<link href="__CSS__spike.css" rel="stylesheet">
+<div class="wrap wrapT" style="padding-top: 61px;">
+    <div class="content">
+        <div class="tgList"><!--tgList-->
+            
+            <!--prtad end-->
+            <div class="tgOne"><!--tgTwo-->
+                <div class="tg_Nav">
+                    <p><a href="javascript:void(0)">限时秒杀</a></p>
+                    <ul>
+                        <volist name="sp_cat" id="cate">
+                            <li <if condition="($cate['gc_id'] eq $get['scid'])">class="cur"</if> >
+                            <a href="{:U('Home/Spike/index',"scid=$cate[gc_id]")}"">{$cate.gc_name}</a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+                <div class="tgL">
+                    <div class="tgL_t">
+                        <h2>限时秒杀</h2>
+                    </div>
+                    <div class="guide-bd">
+                        <ul class="clearfix">
+                            <volist name="data" id="list">
+                                <li class="fl rel w485">
+                                    <p class="tgL_img">
+                                        <a href="{:U('Home/Spike/detail')}?sp_id={$list['sp_id']}"  target="_blank">
+                                            <img src="{$Think.config.DOMAIN_HOST}{$list.sp_picture}" width="380" height="380" alt="{$list.sp_title}"/>
+                                        </a>
+                                    </p>
+                                    <div class="tgL_title">
+                                        <p class="tgL_name"><span>{$list.sp_title}</span><em>已秒杀{$list.sp_now_number}件</em></p>
+                                        <p class="tgL_price">¥<em>{$list.sp_price|sprintf='%.2f',###}</em>
+                                            <i>原价：￥<php> echo $list['detail']['gprice'];</php></i>
+                                        </p>
+                                        <div class="tgL_btn"> <a  href="{:U('Home/Spike/detail')}?sp_id={$list['sp_id']}" target="_blank" class="tgL_btn">立即秒杀</a> </div>
+                                    </div>
+                                    <div class="tgL_tip abs">
+                                        <p class="tip">
+                                            <php>$time = date("Y-m-d H:i:s");</php>
+											<php>if($time <= $list['sp_start_time']){</php>
+												<span id="showGroupTime{$list['sp_id']}" class="time gpendtime qproPriceB"><label id="showText{$list['sp_id']}">距开始还剩：</label><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+												 <i></i>
+												<script>setGroupbuyTime('{$list.sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$list.sp_end_time}',"{$list['sp_id']}","{$list['g_id']}");</script>
+											<php>}elseif($time >= $list['sp_end_time']){</php>
+												<span class="time gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+												 <i></i>
+											<php>}else{</php>
+												<span id="showGroupTime{$list['sp_id']}" class="time gpendtime qproPriceB"><label id="showText{$list['sp_id']}">剩余时间：</label><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+												 <i></i>
+												<script>setGroupbuyTime('{$list.sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$list['sp_id']}","{$list['g_id']}");</script>
+											<php>}</php>
+                                        </p>
+                                    </div>
+                                </li>
+
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <!--今日新团结束-->
+                <include file="$commonIncOnline" />
+            </div>
+
+            <div class="fenye">
+                <a href="javascript:void(0);" class="prev no">首页</a>
+                <notempty name="pagearr.showlist.upPage">
+                    <a href="{$pagearr.showlist.upUrl}" class="prev no">上一页</a>
+                    <else/>
+                    <a href="javascript:void(0);" class="prev no">上一页</a>
+                </notempty>
+                <notempty name="pagearr.showlist.downPage">
+                    <a href="{$pagearr.showlist.downUrl}" class="prev no">下一页</a>
+                    <else/>
+                    <a href="javascript:void(0);" class="prev no">下一页</a>
+                </notempty>
+                <a href="javascript:void(0);" class="prev no">尾页</a> &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <!--/tgList-->
+    </div>
+</div>
+<!--中间内容 结束-->
+<script>
+    $(function(){
+        var wrap=$(".wrap");
+        wrap.css({"padding-top":0});
+        setInterval("setTime()",50000);
+    });
+    function setTime(){
+        $(".tgL_tip").find('p').each(function(){
+            if(parseInt($(this).find("span").eq(0).html())<= 0 && parseInt($(this).find("span").eq(1).html()) <= 0 && parseInt($(this).find("span").eq(2).html())<=0 && parseInt($(this).find("span").eq(3).html()) <= 0){
+                $(this).parent().prev().find("a").addClass("finished");
+                $(this).parent().prev().find("a").html("已抢光");
+            }
+        });;
+    }
+
+
+
+
+</script>

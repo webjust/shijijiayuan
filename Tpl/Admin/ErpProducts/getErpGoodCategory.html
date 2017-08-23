@@ -1,0 +1,106 @@
+{__NOLAYOUT__}
+<div style=" padding:5px 0px; width:450px;"><!--弹框  开始-->
+    <if condition="$filter.zh eq '0'">
+            <form <if condition="$filter.field eq 'syn'">action='{:U("Admin/ErpProducts/synAdvancedGoods","QY_SPZH=$filter[zh]")}'<else />action="{:U('Admin/ErpProducts/erpPageList')}"</if> method="post" onsubmit="return ValidateForm(this);">
+        <else />
+            <form <if condition="$filter.field eq 'syn'">action="{:U('Admin/ErpProducts/synAdvancedGoods')}"<else />action="{:U('Admin/ErpProducts/erpGoodsZhList')}"</if> method="post"  onsubmit="return ValidateForm(this);">
+    </if>
+    
+        <table class="alertTable">
+            <tr>
+                <td align="right" width="105" valign="top">分类：</td>
+                <td>
+                    <select size="8" multiple="multiple" id="multipleselect" name="category[]">
+                        <volist name="category" id="vo">
+                            <option value='{$vo.gc_json}'>{$vo.title_show}</option>
+                        </volist>
+                    </select>
+                    <p class="gray6">以上选项，可以按住CTRL来进行多选</p>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">商品同步状态：</td>
+                <td id="syngood">
+                    <input type="checkbox" class="inputRadio" id="ra01" name="syn" value='1' /> <label for="ra01">已同步</label>
+                    <input type="checkbox" class="inputRadio" id="ra02" name="syn" value="0" /> <label for="ra02">不同步</label>
+                    <label id="syngood_msg" val='0' class="msg"></label>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">ERP上下架状态：</td>
+                <td id="synstatus">
+                    <input type="checkbox" class="inputRadio" id="ra03" name="sj" value="1" /> <label for="ra03">在架</label>
+                    <input type="checkbox" class="inputRadio" id="ra04" name="sj" value="0"/> <label for="ra04">下架</label>
+                    <label id="synstatus_msg" val='0' class="msg"></label>
+                </td>
+            </tr>
+            <tr>
+                <td align="right" style="width: 106px;">分销上下架状态：</td>
+                <td id="fxstatus">
+                    <input type="checkbox" class="inputRadio" id="ra05" name="status" value='1'/> <label for="ra05">在架</label>
+                    <input type="checkbox" class="inputRadio" id="ra06" name="status" value='2'/> <label for="ra06">下架</label>
+                    <label id="fxstatus_msg" val='0' class="msg"></label>
+                </td>
+            </tr>
+            <td align="right">可下单库存：</td>
+            <td>
+                <select class="small" name="stockSymbol">
+                    <option value="gt">大于</option>
+                    <option value="lt">小于</option>
+                    <option value="eq">等于</option>
+                    <option value="egt">大于等于</option>
+                    <option value="elt">小于等于</option>
+                </select>
+                <input type="text" class="medium" value="" name="stock" />
+            </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <if condition="$filter.field eq 'syn'">
+                        <input type="hidden" class="medium" value="syns" name="sc" />
+                    <else />
+                        <input type="hidden" class="medium" value="searchs" name="sc" />
+                    </if>
+                    <input type="submit" class="btnA" <if condition="$filter.field eq 'syn'">value="同 步"<else />value="搜 索"</if>> 
+                    <input type="button" class="btnA" value="取 消" id="goodClose">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div><!--弹框  结束-->
+<script>
+    $(document).ready(function(){
+        $("#goodClose").click(function(){
+            $("#good_dialog").dialog('destroy');
+            $('#tip_dialog').append($('#good_dialog'));
+        });
+        
+        $(".inputRadio").die().click(function(){
+            var vid = $(this).parent().attr("id");
+            var count = $("#"+vid+" input[type='checkbox']:checked").length;
+            if(parseInt(count) >='2'){
+                $("#"+vid+"_msg").html("<font color='red'>只能选其一</font>");
+                $("#"+vid+"_msg").attr("val","1");
+            }else{
+                $("#"+vid+"_msg").html("");
+            }
+        });
+    });
+    
+    function ValidateForm(){
+        var count = '';
+        $(".alertTable .msg").each(function(){
+            var val = $(this).attr("val");
+            if(val == '1'){
+                count = '1';
+            }else{
+                count = '0';
+            }
+        });
+        if(count == '1'){
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>

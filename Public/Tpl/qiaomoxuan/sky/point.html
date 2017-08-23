@@ -1,0 +1,152 @@
+<!---中间内容部分  开始-->
+<link href="__CSS__point.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery.colorbox-min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<div class="wrap wrapT" style="padding-top: 61px;">
+    <div class="content">
+        <div class="tgList"><!--tgList-->
+            <Gyfx:goodscate name="catepic" cid="$ary_request['cid']"></Gyfx:goodscate>
+            <div class="prtad">
+                <img src="{$Think.config.DOMAIN_HOST}{$catepic['gc_pic_url']|default='__IMAGES__prtad.jpg'}" width="1180px" height="300px"/>
+            </div>
+            <!--prtad end-->
+            <div class="tgOne"><!--tgTwo-->
+                <div class="tg_Nav">
+                    <p><a href="javascript:void(0)">积分商城</a></p>
+                    <ul>
+                        <Gyfx:goodscate name="cate">
+                            <li <if condition="($cate['cid'] eq $ary_request['cid']) or ($cate['cid'] eq $ary_request['gpc_id'])">class="cur"</if> >
+                                <a href="{:U('Home/Point/index',"cid=$cate[cid]")}"">{$cate.cname}</a>
+                            </li>
+                        </Gyfx:goodscate>
+                        <!--<li class="cur"><a href="#">女装</a></li>-->
+                        <!--<li><a href="#">男装</a></li>-->
+                        <!--<li><a href="#">鞋包</a></li>-->
+                        <!--<li><a href="#">内衣</a></li>-->
+                        <!--<li><a href="#">女装</a></li>-->
+                        <!--<li><a href="#">女装</a></li>-->
+                        <!--<li><a href="#">女装</a></li>-->
+                        <!--<li><a href="#">女装</a></li>-->
+                        <!--<li><a href="#">女装</a></li>-->
+                        <!--<li><a href="#">女装</a></li>-->
+                    </ul>
+                </div>
+                <div class="tgL">
+                    <div class="tgL_t">
+                        <h2>积分商城</h2>
+                    </div>
+                    <div class="guide-bd">
+                        <ul class="clearfix">
+                            <Gyfx:goodslist name='showlist' pagesize="6" type="1" start="$ary_request[start]" cid="$ary_request['cid']" gname="$ary_request[keyword]">
+                            <li class="fl rel w485">
+                                <p class="tgL_img">
+                                    <a href="{$showlist.gurl}" target="_blank">
+                                        <img src="{$showlist.gpic|showImage=###,380,380}" width="380" height="380" alt="{$showlist.gname}">
+                                    </a>
+                                </p>
+                                <div class="tgL_title">
+                                    <p class="tgL_name"><span>{$showlist.gname}</span><em>¥{$showlist.gprice}</em></p>
+                                    <p class="tgL_price">
+                                        <em>{$showlist.gpoint}积分</em><b style="color:#333; padding:0px 10px; font-size:14px; font-weight:normal;">商家编码:{$showlist.gsn}</b>
+                                    </p>
+                                    <div class="tgL_btn">
+                                        <input type="button" value="立即兑换" class="tgL_btn" name="jf_button" data-id="{$showlist[gid]}"   data-uri='{:U("Home/Products/getAddToCartDetail")}' onclick="yDh(this)">
+                                        <!--<a href="" target="_blank" class="tgL_btn" starthref="">立即兑换</a>-->
+                                    </div>
+                                </div>
+                                <div class="tgL_tip abs">
+                                </div>
+                            </li>
+                            </Gyfx:goodslist>
+                            <!--<li class="fl rel w485">-->
+                                <!--<p class="tgL_img"><a href="" target="_blank"><img src="__IMAGES__imgPic/products_1.jpg" width="380" height="380" alt="荣耀 7i 全网通版"></a></p>-->
+                                <!--<div class="tgL_title abs">-->
+                                    <!--<p class="tgL_name"><span> ZDORZI/卓多姿中国风刺绣绣花上衣</span><em>¥1899</em></p>-->
+                                    <!--<p class="tgL_price"><em>1000</em>积分<b style="color:#333; padding:0px 10px; font-size:14px; font-weight:normal;">商家编码:100200</b></p>-->
+                                    <!--<div class="tgL_btn"> <a href=" " target="_blank" class="tgL_btn" starthref=" ">立即兑换</a> </div>-->
+                                <!--</div>-->
+                                <!--<div class="tgL_tip abs">-->
+                                <!--</div>-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                </div>
+                <!--今日新团结束-->
+                <include file="$commonIncOnline" />
+            </div>
+
+            <div class="fenye">
+                <a href="javascript:void(0);" class="prev no">首页</a>
+                <notempty name="pagearr.showlist.upPage">
+                    <a href="{$pagearr.showlist.upUrl}" class="prev no">上一页</a>
+                    <else/>
+                        <a href="javascript:void(0);" class="prev no">上一页</a>
+                </notempty>
+                <notempty name="pagearr.showlist.downPage">
+                    <a href="{$pagearr.showlist.downUrl}" class="prev no">下一页</a>
+                    <else/>
+                    <a href="javascript:void(0);" class="prev no">下一页</a>
+                </notempty>
+                <a href="javascript:void(0);" class="prev no">尾页</a> &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <!--/tgList-->
+    </div>
+</div>
+<!---中间内容部分  结束-->
+<!--弹窗-积分兑换   开始-->
+<div style="display:none;" id="pdt_div">
+  <div id="yDhu" class="CPM" style="height:300px"></div>
+</div>
+<!--弹窗-积分兑换   结束-->
+
+<script type="text/javascript">
+$(".borderPadd ul li").hover(function(){
+	$(".navUL ul li").children("dl").hide();
+	$(this).children("dl").show();
+},function(){
+	$(this).children("dl").hide();
+});
+    /** 积分商城页面**/
+//商品数量更改
+function countNum(i){
+    var _this = $("#point_goods_num");
+    var num=parseInt(_this.val());
+        num=num+i;
+        if((num<=0)||(num>999)){return false;}
+        else{_this.val(num);}
+}
+//是否登录
+function isLogin(){
+    var flag = true;
+	if("{$Think.session.Members}" == ''){
+		$.post('/Home/User/doBulkLogin/',{},function(htmlMsg){
+			$.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+		},'html');
+		return false;
+	}
+    return flag;
+}
+
+function yDh(obj) {
+    if(isLogin()){
+        var _this = $(obj),
+                g_id = _this.attr('data-id');
+        url = _this.attr('data-uri');
+        $.post(url,{item_id:g_id,item_type: 1},function(data){
+//                $('#yDhu').html(data);
+            var box = $.ThinkBox(data, {'title' : '积分兑换','width':'402px','drag' : true,'unload':true});
+        },'TEXT');
+        //$.colorbox({ inline: true, href: "#yDhu", width: "402px", height: "302px", unload: true});
+    }
+}
+/** 积分商城end**/
+</script>
+<script>
+    $(function(){
+        var wrap=$(".wrap");
+        wrap.css({"padding-top":0});
+    })
+
+</script>

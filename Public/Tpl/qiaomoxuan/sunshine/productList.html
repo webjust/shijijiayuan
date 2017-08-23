@@ -1,0 +1,307 @@
+<script src="__JS__productslist.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery-1.7.2.min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+
+<div class="wrap">
+	<div class="content">
+    	<div class="proList"><!--proList-->
+        	<div class="proLeft"><!--proLeft-->
+            	<div class="hotSell proLOne"><!--hotSell-->
+                	<h2 class="normalH2">热销Top5</h2>
+                    <ul>
+                    <gyfx:sales name='sale'  limit="5" titlelen='32'>
+                    	<li>
+                        	<a href="{$sale.gurl}" class="proPic">
+								<img src="{$Think.config.DOMAIN_HOST}{$sale.gpicture|showImage=###,175,175}" width="175" height="175">
+							</a>
+                            <a href="{$sale.gurl}" class="proN">{$sale.gname}</a>
+							<code>销售量：<label style="color:red">{$sale.gsales}</label>件</code>
+							<span>零售价：<label>&yen; {$sale.gprice|sprintf='%.2f',###}</label></span>
+                        </li>
+					</Gyfx:sales>
+                    </ul>
+                </div><!--/hotSell-->
+            </div><!--/proLeft-->
+
+            <div class="proRight"><!--proRight-->
+            	<div class="navBox"><!-- 面包屑导航开始 -->
+                    <a href="{:U('Home/Index/index')}">首页</a>
+					<php>$ary_tmp_cate = array();</php>
+					<Gyfx:catebreadcrumb name='cate'  cid="{$ary_request.cid}">
+						<if condition="$cate.gcname neq ''">
+						<span>></span><a href="{$cate.gcurl}">{$cate.gcname}</a>
+						</if>
+					<php>$ary_tmp_cate[] = $cate['gcid'];</php><!-- 将一级分类保存在变量中 -->
+					</Gyfx:catebreadcrumb>
+					<present name="ary_request.name">
+						{$ary_request.name}   
+					</present>
+                </div><!-- 面包屑导航结束 -->
+				
+            	<notempty name="ary_ads">
+					<div id="focus5">
+						<dl>
+							<volist name="ary_ads" id="ads">
+							<dd>
+								<a href="{$ads.ad_url}">
+									<img src="{$ads.ad_pic_url}" >
+								</a>
+							</dd>
+							</volist>
+						</dl>
+					</div>
+				</notempty><!-- 该分类品牌下的新品推荐 -->
+                <div class="proRTwo"><!--proRTwo-->				
+                	<h2><strong><if condition="$cate.gcname neq '' ">{$cate.gcname}-</if>商品筛选</strong><!-- <a href="javascript::void(0)" onClick="resertSelect();"><i></i>重置筛选条件</a></h2> -->
+                    <dl>
+						<dt>分类</dt>
+						<dd>
+							<a href="{:U('Home/Products/index')}" <if condition="($ary_request.cid eq '')">class="on"</if>>全部</a>
+							<php>$cname;$cid; $ary_cate = array();</php><!-- 将一级分类数据保存在变量中 -->
+							<Gyfx:goodscate name="cate" >
+								<a href="{$cate.curl}" <if condition="$ary_tmp_cate[0] eq $cate[cid]">class="on"</if>>{$cate.cname}</a>
+                                    <php>
+                                        if($cate['cid'] == $ary_tmp_cate[0]){
+                                            $cname = $cate['cname'];
+                                            $cid = $cate['cid'];
+                                            $ary_cate = $cate['sub'];
+                                        }
+                                    </php>																
+							</Gyfx:goodscate>		
+						</dd>
+						
+						<!-- 显示二级分类开始 -->
+						<if condition="$cname neq '' ">
+						<dt>{$cname}</dt>
+						<dd>
+							<a href='{:U("Home/Products/index")}?cid={$cid}&bid={$ary_request.bid}' <if condition="$cid eq $ary_request[cid]">class="on"</if> >全部</a><!-- 当分类为一级大分类时显示 -->
+							<php>foreach($ary_cate as $key=>$val){</php>
+								<a href="{$val.curl}" <if condition="$val[cid] eq $ary_tmp_cate[1]">class="on"</if>>{$val.cname}</a>
+							<php>}</php>		
+						</dd>		
+						<div style="clear:both"></div>
+						</if>
+						<!-- 显示二级分类结束 -->
+                    	<dt>品牌</dt>
+                        <dd>
+                        	<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="($ary_request.bid eq '')">class="on"</if>>全部</a>
+							
+							<Gyfx:goodsbrand name="brand" cid="$ary_request.cid">
+							
+							<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$brand.bid}&tid={$ary_request.tid}&path={$ary_request.path}" 
+							<if condition="($brand.bid eq $ary_request['bid'])&& ($ary_request.bid neq '')">class="on"</if>>{$brand.bname}</a>
+							</Gyfx:goodsbrand>
+                        </dd>
+						
+                        <dt>价格</dt>
+                        <dd>
+                        	<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="($ary_request.startPrice eq '') AND ($ary_request.endPrice eq '')">class="on"</if>>全部</a>
+							<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=0&endPrice=100&path={$ary_request.path}" <if condition="($ary_request.endPrice eq 100)">class="on"</if>>100元以下</a>
+							<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=100&endPrice=300&path={$ary_request.path}" <if condition="($ary_request.endPrice eq 300)">class="on"</if>>100-300元</a>
+							<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=300&path={$ary_request.path}" <if condition="($ary_request.startPrice eq 300)">class="on"</if>>300元以上</a>
+							<h2 id="priceSapn">
+                            	<div style="float:left;margin-left:150px">
+									<input type="text" class="price" id="startPrice" placeholder="¥" value="{$ary_request['startPrice']}">
+								</div>
+                                <div style="float:left;width:10px;text-align:center">-</div>
+                                <div style="float:left">
+									<input type="text" class="price" id="endPrice" placeholder="¥" value="{$ary_request['endPrice']}">
+								</div>
+								<div style="float:left;margin-left:2px">
+									<input type="submit" value="确定" id="submitPrice" class="btn">
+								</div>
+                            </h2>
+						</dd>				
+                    </dl>
+                </div><!--/proRTwo-->
+
+                <div class="proRThree"><!--proRThree-->
+                	<p class="left">
+                    	<code>排序方式</code>
+						<php>if(isset($itemInfo['order'])){</php>
+                            <if condition="$ret['hot'][0] neq ''">
+                            <a href="javascript:void(0);" class="clickThisTab mask2" k="t" c="hot" t="{$ret['hot'][0]}">
+                                <i>销量</i>
+                            </a>
+                            <else/>
+                                <if condition="$itemInfo.order eq '_hot'">
+                                    <a href="javascript:void(0);" class="clickThisTab mask2" k="c" c="hot" t="hot">
+                                        <i>销量</i>
+                                    </a>
+                                <else/>
+                                    <a href="javascript:void(0);" class="clickThisTab up mask2" k="c" c="hot" t="_hot">
+                                        <i>销量</i>
+                                    </a>
+                                </if>
+                            </if>
+                            <if condition="$ret['price'][0] neq ''">
+                            <a href="javascript:void(0);" class="clickThisTab mask2" k="t" c="price" t="{$ret['price'][0]}" >
+                                <i>价格</i>
+                            </a>
+                            <else/>
+                                <if condition="$itemInfo.order eq '_price'">
+                                    <a href="javascript:void(0);" class="clickThisTab mask2" k="c" c="price" t="price">
+                                        <i>价格</i>
+                                    </a>
+                                <else/>
+                                    <a href="javascript:void(0);" class="clickThisTab up mask2" k="c" c="price" t="_price">
+                                        <i>价格</i>
+                                    </a>
+                                </if>
+                            </if>
+                            <if condition="$ret['new'][0] neq ''">
+                            <a href="javascript:void(0);" class="clickThisTab mask2" k="t" c="new" t="new" >
+                                <i>新品</i>
+                            </a>
+                            <else/>
+                                <if condition="$itemInfo.order eq '_new'">
+                                    <a href="javascript:void(0);" class="clickThisTab mask2" k="c" c="new" t="new">
+                                        <i>新品</i>
+                                    </a>
+                                <else/>
+                                    <a href="javascript:void(0);" class="clickThisTab up mask2" k="c" c="new" t="_new">
+                                        <i>新品</i>
+                                    </a>
+                                </if>
+                            </if>
+                        <php>}else{</php>
+                            <a href="javascript:void(0);" class="clickThisTab mask2" k="c" c="hot" t="_hot"><i>销量</i></a>
+                            <a href="javascript:void(0);" class="clickThisTab mask2" k="c" c="price" t="price"><i>价格</i></a>
+                            <a href="javascript:void(0);" class="clickThisTab mask2" k="c" c="new" t="new"><i>新品</i></a>
+                        <php>}</php>
+                    </p>
+					<Gyfx:goodslist name="lists" bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" path="$ary_request[path]" order="$ary_request[order]" pagesize="20" start="$ary_request['start']">
+					</Gyfx:goodslist>
+                    <p class="right">
+						<php>if($pagearr['lists']['nowPage'] == 1){</php>
+							<span>{$pagearr.lists.nowPage}/{$pagearr.lists.totalPage}</span>
+						<php>}</php>
+						<php>if(empty($pagearr['lists']['nowPage'])){</php>
+						<span>暂无数据</span>
+						<php>}else{</php>
+							<php>if(($pagearr['lists']['nowPage'] != 1)){</php>
+								<a href="{$pagearr.lists.upUrl}" class="prev01">上一页</a>
+								<span>{$pagearr.lists.nowPage}/{$pagearr.lists.totalPage}</span>
+							<php>}</php>
+							<php>if($pagearr['lists']['nowPage'] == $pagearr['lists']['totalPage']){</php>
+								<a href="javascript:void(0);" class="next01">下一页</a>
+							<php>}else{</php>
+								<a href="{$pagearr.lists.downUrl}" class="next">下一页<i></i></a>
+							<php>}</php>
+						<php>}</php>
+                    </p>
+                </div><!--/proRThree-->
+                <div class="proRFour"><!--proRFour-->
+                	<ul>
+						<Gyfx:goodslist name="showlist" bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" gname="$ary_request[keyword]"
+							startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" path="$ary_request[path]" 
+							order="$ary_request[order]"
+							pagesize="20" start="$ary_request['start']">
+                    	<li>
+                        	<a href="{$showlist.gurl}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$showlist.gpic|showImage=###,220,220}" width="220" height="220"></a>
+                            <a href="{$showlist.gurl}" class="proN">{$showlist.gname}<b>{$showlist.gdescription}</b></a>
+                            <p class="p01">
+                            	<label>市场价：<del>&yen; {$showlist.maprice|sprintf='%.2f',###}</del></label>
+                                <span class="star"><i style="width:100%"></i></span>
+                            </p>
+                            <p class="p02">
+                            	<span>商城价：</span>
+								<b>&yen;{$showlist['gs_price']}</b>
+								<label>(已有{$showlist.comment_nums}人评论)</label>
+                            </p>
+							<if condition="$showlist['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+								<input type="hidden" name="type" value="item" id="item_type_{$showlist.gid}" />
+								<input type="hidden" value="{$showlist.pdt_id}" name="pdt_id" id="pdt_id_{$showlist.gid}" />
+								<input type="hidden" value="{$showlist.pdt_stock}" name="pdt_stock" id="pdt_stock_{$showlist.gid}" />  
+								<input type="hidden" value="1" id="item_num_{$showlist.gid}" name="num" /> 
+							</if>					
+							
+                            <p class="p03">
+                            	<a href="javascript:void(0);" <if condition="$showlist['products']['specName'] eq ''">onClick="addGoodsProductsCart('{$showlist.authorize}','{$showlist.gid}',1);"<else />onClick='addGoodsCart("{$showlist.gid}","{$showlist.authorize}",1);'</if> class="buyN">
+									<i></i>立即购买
+								</a>
+                                <a href="javascript:void(0)" <if condition="$showlist['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$showlist.authorize}','{$showlist.gid}');"<else />onClick='addGoodsCartElse("{$showlist.gid}","{$showlist.authorize}");'</if> class="addCart buy">
+									<i></i>放入购物车
+								</a>
+                            </p>
+                        </li>
+						</Gyfx:goodslist>
+                    </ul>
+                </div><!--/proRFour-->
+
+                <div class="fenye">
+					<php>if($pagearr['showlist']['nowPage'] == 1){</php>
+						<a href="javascript:void(0);" class="prev no">首页</a>
+						<a href="javascript:void(0);" class="prev no">上一页</a>
+					<php>}</php>
+					<php>if($pagearr['showlist']['nowPage'] != 1){</php>
+						<php>if(empty($pagearr['showlist']['nowPage'])){</php>
+							<a href="javascript:void(0);" class="prev no">首页</a>
+							<a href="javascript:void(0);" class="prev no">上一页</a>
+						<php>}else{</php>
+							<a href="<php>echo rtrim(substr($pagearr['showlist']['upUrl'],0),'/').'/';</php>" class="prev">首页</a>
+							<a href="{$pagearr.showlist.upUrl}" class="prev">上一页</a>
+						<php>}</php>
+					<php>}</php>
+					<php>
+					$int_i = 1;
+					$totalPage = 0;
+					if($pagearr['showlist']['nowPage']<5 && $pagearr['showlist']['totalPage']>5){
+						$totalPage = 5;
+					}else if($pagearr['showlist']['nowPage']<5 && $pagearr['showlist']['totalPage']<=5){
+						$totalPage = $pagearr['showlist']['totalPage'];
+					}
+					if($pagearr['showlist']['nowPage'] >=3){
+						$minPage = $pagearr['showlist']['totalPage'] - $pagearr['showlist']['nowPage'];
+						
+						if($minPage <4){
+							$totalPage = $pagearr['showlist']['totalPage'];
+							$int_i = $pagearr['showlist']['totalPage']-4;
+						}else{
+							$totalPage = $pagearr['showlist']['nowPage']+2;
+							$int_i = $pagearr['showlist']['nowPage']-2;
+						}
+						if($int_i < 0){
+							$int_i = 1;
+						}
+					}
+					for($i=$int_i;$i<=$totalPage;$i++){
+						if($i == $pagearr['showlist']['nowPage']){
+							echo "&nbsp;<a class='on'>".$i."</a>&nbsp;";
+						}else{
+							if($i > $pagearr['showlist']['nowPage']){
+								$url = rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/'.'start/'.$i;
+								echo "<a href=".$url.">&nbsp;".$i."&nbsp;</a>&nbsp;";
+							}else{
+								$url = rtrim(substr($pagearr['showlist']['upUrl'],0,-8),'/').'/'.'start/'.$i;
+								echo "<a href=".$url.">&nbsp;".$i."&nbsp;</a>&nbsp;";
+							}
+						}
+					}
+					</php>
+					<php>if($pagearr['showlist']['nowPage'] == $pagearr['showlist']['totalPage']){</php>
+						<a href="javascript:void(0);" class="prev no">下一页</a>
+						<a href="javascript:void(0);" class="prev no">尾页</a>
+					<php>}</php>
+					<php>if($pagearr['showlist']['nowPage'] < $pagearr['showlist']['totalPage']){</php>
+						<a href="{$pagearr.showlist.downUrl}" class="next">下一页</a>
+						<a href="<php>echo rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['showlist']['totalPage']}" class="next">尾页</a>
+					<php>}</php>					
+					
+					<input type="hidden" name="stock_error_1" value="{$Think.lang.STOCK_ERROR_1}" id="stock_error_1" />
+					<input type="hidden" name="stock_error_2" value="{$Think.lang.STOCK_ERROR_2}" id="stock_error_2" />
+					<input type="hidden" name="stock_error_3" value="{$Think.lang.STOCK_ERROR_3}" id="stock_error_3" />
+					<input type="hidden" name="stock_error_4" value="{$Think.lang.STOCK_ERROR_4}" id="stock_error_4" />
+					<input type="hidden" name="cid" value="{$ary_request['cid']}" id="cid" />
+					<input type="hidden" name="bid" value="{$ary_request['bid']}" id="bid" />
+					<input type="hidden" name="is_new" value="{$ary_request['is_new']}" id="is_new" />
+					<input type="hidden" name="is_hot" value="{$ary_request['is_hot']}" id="is_hot" />
+					<input type="hidden" name="startPrice" value="{$ary_request['startPrice']}" id="startPrice" />
+					<input type="hidden" name="endPrice" value="{$ary_request['endPrice']}" id="endPrice" />
+                </div>
+            </div><!--/proRight-->
+        </div><!--/proList-->
+    </div>
+</div>
+<!--/wrap-->

@@ -1,0 +1,43 @@
+{__NOLAYOUT__}
+<empty name="reply_data">
+<table class="tbForm" width="100%;">
+	<tbody>
+        <tr>
+			<td align="left">{申请单号已不存在或已审核}</td>
+			<input type="hidden" value="0" id="reply_status_{$ary_data.id}" />
+		</tr>
+	</tbody>
+</table>
+</empty>
+<notempty name="reply_data">
+<table class="tbForm" width="100%;">
+	<tbody>
+        <tr>
+			<td align="left">要支付的订单号：</td>
+			<td align="left">
+				{$ary_data.oid}<input type="hidden" value="1" id="reply_status_{$ary_data.id}" />
+            </td>
+		</tr>
+		<tr>
+			<td align="left">支付方式：</td>
+			<td align="left">
+				<input type="radio" value="1" checked name="pay_type" />通过用户预存款
+				<input type="radio" value="2" name="pay_type" />强制支付
+				<span style="color:gray;">
+				<br />
+				通过用户预存款方式会消耗用户预存款,预存款金额不足不能支付。
+				<br />
+				通过强制支付是强制更改订单状态为已支付，此状态支付流水单号必填。
+				</span>
+            </td>
+		</tr>		
+		<tr>
+			<td align="left">支付流水单号：</td>
+			<td align="left">
+				<input type="text" value="" name="ps_gateway_sn" id="ps_gateway_sn""  />
+            </td>
+		</tr>
+	</tbody>
+</table>
+</notempty>
+

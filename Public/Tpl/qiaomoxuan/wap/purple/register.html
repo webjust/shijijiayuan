@@ -1,0 +1,170 @@
+<!--content-->
+<div class="container"><!--container-->
+	<div class="loginRegBox">
+		<div class="login-reg">
+			<a href="#" class="on">注册</a><a href="{:U('Wap/User/login')}">登录</a>
+		</div>
+		<form method="post" action="{:U('Wap/User/doRegister')}" id="regform">
+		<div class="regBox">
+			<h1>新会员注册</h1>
+			<h2>还不是会员？快速注册会员</h2>
+			<div class="input_text">
+				<span>用户名：</span>
+				<input type="text" name='m_name' id='m_name'>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="input_text">
+				<span>用户邮箱：</span>
+				<input type="text" name='m_email' id='m_email' value=""/>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="input_text">
+				<span>密&nbsp;&nbsp; 码：</span>
+				<input type="password" name='m_password' id='m_password'>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="input_text">
+				<span>确认密码：</span>
+				<input type="password" name='m_password_confirm' id='m_password_confirm'>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="input_text">
+				<span>验证码：</span>
+				<input type="text" class="verify_input" name='verify' id='verify'>
+				<span class="yazm">
+					<a href="javascript:void(0);" >
+					<img id="loginverify" alt="换一张" title="换一张" src="__APP__/Wap/User/verify/" width="60" height="30" style="margin-left:5px" onClick="this.src='__APP__/Wap/User/verify/'+Math.random()">
+					</a>
+                </span>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<input name="jumpUrl" type="hidden" value="{$jumpUrl}"/>
+            <notempty name="resgister_field_extend">
+                <volist name="resgister_field_extend" id="field">
+                    <input type="hidden" name="{$field.fields_content}" value="{$field.content}" />
+                </volist>
+            </notempty>
+			<notempty name="m_recommended">
+				<input type="hidden" name="m_recommended" value="{$m_recommended}" >
+			</notempty>
+			<div class="btn_text">
+				<span></span>
+				<input type="submit" value="注册" class="login_btn">
+				<span></span>
+			</div>
+			<div class="btn_text">
+				<span></span><input type="checkbox" name="agreement" id="ischeck" checked="checked"> <label>我已阅读并同意《<a href="{:U('Wap/User/reg_term')}" class="bg0066FF">服务协议</a>》</label>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>    
+<!--/container-->
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script>
+	var swiper = new Swiper('#swiper-container2', {
+		autoplay:3000,
+		slidesPerView: 1,
+		pagination:".swiper-pagination",
+		paginationClickable: true,
+		spaceBetween: 0,
+		freeMode: true,
+		prevButton:'.swiper-button-prev',
+		nextButton:'.swiper-button-next',
+	});
+</script>
+<script type='text/javascript'>
+    $(function(){
+        $("#regform").validate({
+            errorPlacement: function(error, element) {
+				var error_td = element.parent().next();
+				if (element.is(':text') || element.is(':password')) {  
+					var eid = element.attr('name');
+					error_td.append(error);
+				}
+            },
+            submitHandler:function(form){
+                //form.submit();
+				var ischeck = $("input[type='checkbox']").is(':checked');
+                var formdata = $("#regform").serialize();
+				if(ischeck == true){
+					$.ajax({
+						url:"{:U('Wap/User/doRegister')}",
+						data:formdata,
+						dataType:"json",
+						type:"post",
+						success:function(msgObj){
+							if(msgObj.status == 1){
+								$.ThinkBox.success("注册成功,等待跳转……");
+								window.location.href = "{:U('Wap/User/Login')}";
+							}else{
+							   $.ThinkBox.error(msgObj.info);
+							   window.location.href = "{:U('Wap/User/Login')}";
+							   return false;
+							}
+						}
+					});
+				}else{
+					$.ThinkBox.error("请勾选注册协议！");return false;
+				}
+            },
+            rules : {
+                m_name : {
+                    required:true,
+                    minlength:4,
+                    isCheck:true,
+                    remote:'/Wap/User/checkName'
+                },
+				m_email : {
+					required:true,
+					email:true,
+					remote : '/Wap/User/checkEmail'
+				},
+                m_password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                m_password_confirm : {
+                    required : true,
+                    equalTo  : '#m_password'
+                },
+                verify : {
+                    required:true,
+                    digits:true,
+                    remote:'/Wap/User/checkVerify',
+                    rangelength:[4,4]
+                }
+            },
+            messages : {
+                m_name : {
+                    required : '用户名不能为空',
+                    minlength : '用户名不能少于4位',
+                    isCheck: '用户名不能包含敏感字符',
+                    remote:'该用户名已经存在'
+                },
+				m_email : {
+					required : '邮箱不能为空',
+					remote : '该邮箱已被注册'
+				},
+                m_password  : {
+                    required : '密码不能为空',
+                    minlength: '密码长度应在6-20个字符之间',
+                    maxlength: '密码长度应在6-20个字符之间'
+                },
+                m_password_confirm : {
+                    required : '请再次输入您的密码',
+                    equalTo  : '两次输入的密码不一致'
+                },
+                verify : {
+                    required:'请输入验证码',
+                    digits:'对不起，请输入正确的验证码',
+                    rangelength:'验证码长度为4',
+                    remote: '对不起，请输入正确的验证码'
+                }
+            }
+        });
+    });
+</script>

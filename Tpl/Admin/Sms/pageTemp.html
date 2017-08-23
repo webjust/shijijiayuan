@@ -1,0 +1,63 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+<form id="noticeForm" method="post" action="/Admin/Sms/doEdit">
+	<table class="tbForm" width="100%">
+		<thead>
+			<tr class="title">
+				<th colspan="99">短信模板设置</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="first"><span class="red">*</span>短信模板：</td>
+				<td>
+					<select style="width: auto" class="small" name="temp_id" id="temp_id" onchange="changetemp()">
+						<option value="0">选择模板类型</option>
+						<option value="1">忘记密码发送验证码</option>
+						<option value="2">账号注册发送验证码</option>
+						<option value="3">忘记密码重置密码</option>
+						<option value="4">手机更换</option>
+						<option value="5">支付发送验证码</option>
+						<option value="6">提现发送验证码</option>
+						<option value="7">门店提货短信提示</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="first">模板内容：</td>
+				<td><script id="editor" name="temp_content" type="text/plain"></script></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td></td>
+				<td colspan="99">
+					<input type="submit" value="保 存" class="btnA" >
+					<input type="button" onclick="window.history.go(-1);" value="取 消" class="btnA" >
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+   	//实例化编辑器
+	var editor = UE.getEditor('editor');
+	function changetemp(){
+		 var temp_id = $("#temp_id").val();
+		 var url = "/Admin/Sms/getTemp";
+		 $.post(url,{'temp_id':temp_id},function(data){
+			if(data.status==true){
+				editor.setContent(data.info);
+			}else {
+				editor.setContent('');
+			}
+		 });
+	}
+</script>

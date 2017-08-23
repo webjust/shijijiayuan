@@ -1,0 +1,161 @@
+{__NOLAYOUT__}
+<div class="disCon"><!--disCon  start-->
+    <ul>
+        <volist name="data" id="cinfo" >
+        <if condition="$comment['type'] eq 1">
+        <li>
+            <dl>
+                <dt>
+                    <p><em></em><i style="width:{$cinfo.gcom_star_score}%"></i></p>
+                    <span><abbr>{$cinfo.gcom_mbname|default="匿名用户"}</abbr></span>
+                </dt>
+                <dd>
+                    <p class="p01">{$cinfo[gcom_content]}</p>
+                    <if condition="$cinfo[reply] neq ''">
+                    <p class="p02"><strong>客服回复：</strong>{$cinfo[reply][gcom_content]}</p>
+                    </if>
+                    <span>{$cinfo[gcom_create_time]}</span>
+                </dd>
+            </dl>
+        </li>
+        <else/>
+            <if condition="$cinfo['gcom_verify'] eq 1">
+                <li>
+                    <dl>
+                        <dt>
+                            <p><em></em><i style="width:{$cinfo.gcom_star_score}%"></i></p>
+                            <span><abbr>{$cinfo.gcom_mbname|default="匿名用户"}</abbr></span>
+                        </dt>
+                        <dd>
+                            <p class="p01">{$cinfo[gcom_content]}</p>
+                            <if condition="$cinfo[reply] neq ''">
+                            <p class="p02"><strong>客服回复：</strong>{$cinfo[reply][gcom_content]}</p>
+                            </if>
+                            <span>{$cinfo[gcom_create_time]}</span>
+                        </dd>
+                    </dl>
+                </li>
+            </if>
+        </if>
+        </volist>
+    </ul>
+<div class="fenye">
+        <php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+        <if condition="$a eq $page['nowPage']">
+        <a href="javascript:void(0);" class="on">{$a}</span>
+        <else/>
+        <a onclick="CommentPage('{$g_id}','{$a}')">{$a}</a>
+        </if>
+        <php>}</php>
+</div>
+
+<h3 class="titH3" style="margin-top:30px" id="titH3">发表评论</h3>
+<form id="connentForm" name="connentForm" method="post" action="#">
+    <div class="sendDis"><!--sendDis  start-->
+        <table>
+            <tr>
+                <th width="120" align="right" valign="top"><b>*</b> 打分：</th>
+                <td>
+                    <p><em></em><i style="width:100%" id="setStyle"></i>
+                        <label class="lb01 hoverX" x="20" sorce="一星"></label>
+                        <label class="lb02 hoverX" x="40" sorce="二星"></label>
+                        <label class="lb03 hoverX" x="60" sorce="三星"></label>
+                        <label class="lb04 hoverX" x="80" sorce="四星"></label>
+                        <label class="lb05 hoverX" x="100" sorce="五星"></label>
+                    </p>
+                     <strong id="sorce">五星</strong> <!-- <span>（商品样式和质量感觉一般。）</span> -->
+                </td>
+            </tr>
+            <tr>
+                <th align="right" valign="top"><b>*</b> 标题：</th>
+                <td>
+                    <input type="text" validate="{ required:true,messages:{required:'请输入标题'}}" id="gcom_title" name="gcom_title" class="sub" style="background:none repeat scroll 0 0 white;border:1px solid #DBDBDB;display:inline;float:left;line-height:19px;overflow:hiddwn;width:200px;height:25px;margin:2px 0 0;" />
+                    &nbsp;&nbsp;<span style="color:red;display:none" class="spanWrong"></span>
+                </td>
+            </tr>
+            <tr>
+                <th align="right" valign="top"><b>*</b> 联系方式：</th>
+                <td>
+                    <input type="text" validate="{ required:true,messages:{required:'请输入联系方式'}}" class="sub" id="gcom_email" name="gcom_email" style="background:none repeat scroll 0 0 white;border:1px solid #DBDBDB;display:inline;float:left;line-height:19px;overflow:hiddwn;width:200px;height:25px;margin:2px 0 0;" />
+                    &nbsp;&nbsp;<span style="color:red;display:none" class="spanWrong"></span>
+                    <span>（可以是电话、email、qq等）</span>
+                </td>
+            </tr>
+            <tr>
+                <th align="right" valign="top"><b>*</b> 总评：</th>
+                <td><textarea validate="{ required:true,messages:{required:'请输入评论'}}" id="gcom_content" name="gcom_content">{$comment['comments_default_content']}</textarea>
+                &nbsp;&nbsp;<span style="color:red;display:none" class="spanWrong"></span></td>
+            </tr>
+            <tr>
+                <th><input type="hidden" id="gcom_star_score" name="gcom_star_score" value="100" /></th>
+                <td><input type="button" id="addComment" value="发表评论" class="sendD"></td>
+            </tr>
+        </table>
+    </div><!--sendDis  end-->
+</form>
+<script>
+$('.hoverX').hover(function(){
+    var x = $(this).attr('x');
+    $("#setStyle").css({width:x+'%'});
+    var sorce = $(this).attr('sorce');
+    $("#sorce").html(sorce);
+    $("#gcom_star_score").val(x);
+});   
+$('#connentForm').validate({
+    errorPlacement: function(error, element) {
+    },
+    showErrors: function(errors) {
+        for (var name in errors) {
+            $('#' + name).next('span').show();
+            $('#' + name).next('span').html(errors[name]);
+        }
+        return false;
+    },
+    onkeyup: false,
+    onfocusout: false
+});
+$("#addComment").click(function(){
+    $('.spanWrong').hide();
+    $('.spanWrong').html('');
+    var g_id = $("#gid").val();
+    var res = $('#connentForm').valid();
+    var data = $('#connentForm').serialize();
+    data += "&g_id=" + g_id;
+    if(res){
+        $.post('/Home/Comment/addComment',data,function(dataMsg){
+            if(dataMsg.success == 1) {
+                $.ThinkBox.success(dataMsg.msg);
+                getCommentPage(g_id);
+            } else {
+                $.ThinkBox.error(dataMsg.msg);
+            }
+
+        },'json');
+    }
+    
+});
+function CommentPage(gid,page){
+    $.ajax({
+        url:'/Home/Comment/getCommentPage',
+        dataType:'HTML',
+        type:'POST',
+        data:{
+            gid:gid,
+			p:page
+        },
+        success:function(msgObj){
+            $("#con_tabAbp_2").html(msgObj);
+            return false;
+        }
+    }); 
+}
+</script>
+    <script>
+        $(document).ready(function(){
+            if("{$count}"){
+                $('#show_comment_num').html("("+"{$ary_gcs.total_count|default=0}" +")");
+                $("#comment_count").html("全部评价("+'{$ary_gcs.total_count}'+')');
+            }
+
+        });
+    </script>

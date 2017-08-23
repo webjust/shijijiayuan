@@ -1,0 +1,96 @@
+{__NOLAYOUT__}
+<div style="margin-left:75px; width:887px" class='ajax_show_area'><!--rightInner  start-->
+    <table width="100%" class="tbNew">
+        <tbody>
+        <tr id="add_goods_tr">
+            <td>
+                <table id="raGoodsId" class="tbList" width="100%">
+                    <thead>
+                    <tr>
+                        <!--<th style="text-align:center;">
+                            <input type="checkbox" onclick="checkAll()" class="checkAll_tr">
+                        </th>-->
+                        <th style="text-align:center;">商品名称</th>
+                        <th style="text-align:center;">商品编号</th>
+                        <th style="text-align:center;">销售价（元）</th>
+                       <!-- <th style="text-align:center;">
+                            预售价（元）<br/>
+                            <span style="font-size: 10px;font-weight: lighter;">本输入框仅用于<span style="color: #AD0132;">批量设置</span>该商品对应的所有的货品金额。默认为0，无实际意义</span>
+                        </th>-->
+                        <th style="text-align:center;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="getGoodsTr">
+                    <include file="Presale:getGoodsTr"/>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <!--<tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td width="90px">批量设置折扣：</td>
+                        <td id="discounts_all" style="display:block">
+                            <input type="text" class="small" id="cfg_discounts_all" name="cfg_discounts_all" value="{$config['cfg_discount_all']}" validate="{ number:true}" >
+                            <span style="font-size: 10px; ">请输入折扣，0.80表示统一设置为8折</span>
+                            <a href="javascript:void(0);" id="cfg_discounts_setAll" >批量设置</a>&nbsp;&nbsp;
+
+                            <input type="text" class="small" style="display:none" id="cfg_discounts_system_all" name="cfg_discounts_system_all" validate="{ required:true,number:true,min:0.01}" value="{$config['cfg_discounts_system_all']}"/>
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>-->
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var types=$("input:radio[name='cfg_goods_area']:checked").val();
+        if(types == -1){
+            //如果是全部商品则隐藏商品
+            $("#add_goods_tr").hide();
+            $('#add_goods').hide();
+            $("#raGoodsId tbody").remove();
+            $("#discounts_system_all").css("display","block");  
+        }
+         
+    });
+
+    /*
+     * 设置价格
+     */
+    function shortcut(gid){
+        $(".shortcut_pro_"+gid).val($("#shortcut_goods_"+gid).val());
+    }
+    /*批量设置商品折扣*/
+    $(function(){
+        $('#cfg_discounts_setAll').click(function(){
+            //$("#cfg_discounts_system_all").show();
+            var discount = parseFloat($('#cfg_discounts_all').val());
+            if(confirm('你确定将所有已选择商品设置为'+(discount*10)+'折优惠吗？')){
+                $('.cfg_discounts').each(function(){
+                    var data_original = parseFloat($(this).attr('data-original'));
+                    $(this).val((data_original*discount).toFixed(2));
+                });
+            }
+
+            //$('.cfg_discounts').val($('#cfg_discounts_all').val());
+        });
+        
+    });
+    //显示商品选择框
+    function add_pmn_goods() {
+		$("#gifts").hide();
+		$("#g_gifts").val("0");
+		if($("#goodsSelect").attr('g_gifts') != '0'){
+			$("#goodsSelecterList").html("");
+		}
+		
+		//$("#goodsSelecterList").html("");
+        $('#goodsSelect').dialog('open');
+    }
+</script>

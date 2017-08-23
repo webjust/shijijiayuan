@@ -1,0 +1,89 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+<div class="contentRightBox"><!--contentRightBox start-->
+    <div class="partner"><!--pageList start-->
+        <h2 class="publicH2"><span>成为VIP合伙人</span></h2>
+        <div class="myPartner">
+            <p class="myPartner_button">
+                <a href="" class="btn1 active">成为VIP合伙人</a>
+                <a href="" class="btn2">成为金牌合伙人</a>
+                <a href="" class="btn3">成为钻石合伙人</a>
+            </p>
+            <div class="partner_content">
+                <div class="fadeout in">
+                    <div class="partner_content_img">
+                        <img src="__PUBLIC__/Ucenter/images/hhr_img.png" />
+                    </div>
+                    <div class="helpList">
+                        <div class="helpListCon">
+                            <ul>
+                                <li class="partner_content_title"><i></i><span>晋级方式</span><i></i></li>
+                                <li>1、通过其唯一二维码推荐注册成功会员累计超过50人（重复会员除外）并需累计购买超过300元；</li>
+                                <li>2、实体商店营业面积20平方以下；</li>
+                                <li>3、200人以下的社团、组织、机构、公司负责人。</li>
+                                <li>注：会员只需满足合伙人任一条件即可申请成为合伙人。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="partner_content_btn">
+                        <a href="partnerReg" class="partner_content_btn_a">注册VIP合伙人</a>
+                    </p>
+                </div>
+                <div class="fadeout">
+                    <div class="partner_content_img">
+                        <img src="__PUBLIC__/Ucenter/images/hhr_img.png" />
+                    </div>
+                    <div class="helpList">
+                        <div class="helpListCon">
+                            <ul>
+                                <li class="partner_content_title"><i></i><span>晋级方式</span><i></i></li>
+                                <li>1、通过其唯一二维码推荐注册成功会员累计超过50人（重复会员除外）并需累计购买超过300元；</li>
+                                <li>2、实体商店营业面积20平方以下；</li>
+                                <li>3、200人以下的社团、组织、机构、公司负责人。</li>
+                                <li>注：会员只需满足合伙人任一条件即可申请成为合伙人。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="partner_content_btn">
+                        <a href="partnerReg" class="partner_content_btn_a">注册金牌合伙人</a>
+                    </p>
+                </div>
+                <div class="fadeout">
+                    <div class="partner_content_img">
+                        <img src="__PUBLIC__/Ucenter/images/hhr_img.png" />
+                    </div>
+                    <div class="helpList">
+                        <div class="helpListCon">
+                            <ul>
+                                <li class="partner_content_title"><i></i><span>晋级方式</span><i></i></li>
+                                <li>1、通过其唯一二维码推荐注册成功会员累计超过50人（重复会员除外）并需累计购买超过300元；</li>
+                                <li>2、实体商店营业面积20平方以下；</li>
+                                <li>3、200人以下的社团、组织、机构、公司负责人。</li>
+                                <li>注：会员只需满足合伙人任一条件即可申请成为合伙人。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="partner_content_btn">
+                        <a href="partnerReg" class="partner_content_btn_a">注册钻石合伙人</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div><!--pageList end-->
+</div><!--contentRightBox end-->
+<script>
+    $('.myPartner_button>a').mouseenter(function(){
+        if($(this).hasClass('active')){
+            $(this).siblings().removeClass('active');
+        }else{
+            $(this).addClass('active').siblings().removeClass('active');
+        }
+        var index=$(this).index();
+        if($('.partner_content>div').eq(index).attr('class','fadeout in')){
+            $('.partner_content>div').eq(index).siblings().attr('class','fadeout');
+        }else{
+            $('.partner_content>div').eq(index).attr('class','fadeout in').siblings().attr('class','fadeout');
+        }
+    });
+</script>

@@ -1,0 +1,87 @@
+/***********添加评价开始***********/
+.infoP1 .infoPic {
+    padding: 20px 4%;
+    border-bottom: 1px solid #d4d4d4;
+    margin: 0px;
+    overflow: hidden;
+    display: flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    -ms-flex-direction: row;
+    -ms-flex-pack: justfy;
+    display: flex;
+    -webkit-flex-direction: row /* works with row or column */
+flex-direction: row;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+.infoB .gobuy {
+    background-color: #E4393C;
+    color: #ffffff;
+    border-radius: 4px;
+    width: 30%;
+    padding: 12px 0;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 8px;
+    border: none;
+}
+.CalculateInfo{padding:0px;}
+.CalculateInfo .infoPic{margin-top:15px;border-top: 1px solid #d4d4d4;}
+.CalculateD{padding:10px 4%;
+    border-bottom:1px solid #d6d6d6;}
+.calEdit .orderA{overflow:hidden; display:flex; display:-moz-box; display: -moz-flex; display:-webkit-box; display: -webkit-flex; display: flex; -webkit-flex-direction: row; flex-direction: row; /*-webkit-align-items: center; align-items:top; -webkit-justify-content: center; justify-content: center; */display: -ms-flexbox; -ms-flex-direction:row; -ms-flex-pack:justfy; margin-top: 15px;
+    padding: 0px 4%;}
+.calEdit .orderA span{  width:50px;line-height: 42px;}
+.calEdit .orderA .input_textarea{padding: 10px 5px;
+    border: 1px solid #BEBEBE;width: 478px;
+    border-radius: 4px; min-height:80px;}
+.calEdit .orderA .textareaA{-webkit-flex:1; flex:1 0 0; -moz-flex:1; -o-flex:1; -ms-flex:1; -webkit-box-flex:1; width:0; box-align: stretch; overflow:hidden;}
+.CalculateInfo .infoB{border:none;  text-align: right;margin-top:10px;margin-right: 23px;}
+.CalculateInfo .infoB label{line-height:22px;  margin-right: 20px;}
+.CalculateInfo .infoB label input{width:20px; height:20px; vertical-align:middle;}
+.CalculateInfo .infoB .gobuy{float:none;}
+.picLoad{overflow:hidden; display:flex; display:-moz-box; display: -moz-flex; display:-webkit-box; display: -webkit-flex; display: flex; -webkit-flex-direction: row; flex-direction: row; /*-webkit-align-items: center; align-items:top; -webkit-justify-content: center; justify-content: center; */display: -ms-flexbox; -ms-flex-direction:row; -ms-flex-pack:justfy; margin-top: 15px;
+    padding: 0px 4%;}
+.picLoad span{line-height:40px;}
+.picLoad .imgS{-webkit-flex:1; flex:1 0 0; -moz-flex:1; -o-flex:1; -ms-flex:1; -webkit-box-flex:1; width:0; box-align: stretch; overflow:hidden;margin-bottom: 10px}
+/*.picLoad .imgS .img{width:18%; float:left; padding:1px; margin-left:2%; border-radius:2px;}*/
+/*.picLoad .imgS .img img{width:100%; height:100%; min-height:45px; min-width:45px;}*/
+
+.info_left {
+    float: left;
+    width: 80px;
+}
+.infoPic img {
+    width: 80px;
+    height: 80px;
+}
+.info_right {
+    float: left;
+    padding-left: 15px;
+    -webkit-flex: 1;
+    flex: 1 0 0;
+    -moz-flex: 1;
+    -o-flex: 1;
+    -ms-flex: 1;
+    -webkit-box-flex: 1;
+    text-align: left;
+    box-align: stretch;
+    overflow: hidden;
+}
+.info_right p {
+    line-height: 22px;
+    margin-top: 3px;
+    color: #3e3a39;
+}
+/***********添加评价 结束***********/
+
+.fenye{
+    float: right;
+}

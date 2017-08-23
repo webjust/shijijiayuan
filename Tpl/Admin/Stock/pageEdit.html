@@ -1,0 +1,114 @@
+<style type="text/css">
+.tbForm tbody{ margin-top:5px;}
+.tbForm tbody td{border:1px solid gray;}
+.tbForm tbody td input,.tbForm tbody td select{width:95%;}
+</style>
+<script type="text/javascript" src="__PUBLIC__/Lib/jquery/js/jquery.autocomplete.js"></script>
+<link href="__PUBLIC__/Lib/jquery/css/base/jquery.autocomplete.css" rel="stylesheet" />
+<div class="rightInner">
+<form id="stockForm" method="post" action="{:U('Admin/Stock/doEdit')}" onsubmit="return stockFormCheck();">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">修改库存调整单</th>
+    </tr>
+</thead>
+<tbody id="detail_tbody">
+	<tr>
+		<td style="text-align:right;">库存调整单备注：</td>
+		<td colspan="5">
+			<input type="hidden" name="srr_id" value="{$receipt_info.srr_id}" />
+			<textarea name="desc" style="border: 1px solid #999999;height: 40px; margin: 3px 3px 3px 0; padding: 3px; width: 700px;">{$receipt_info.srr_desc}</textarea>
+		</td>
+	</tr>
+	<tr style="text-align:center;">
+		<td width="100">操作</td>
+		<td width="150">商品编码</td>
+		<td width="80">变更类型</td>
+		<td width="60">调整数量</td>
+		<td width="150">商品名称</td>
+		<td width="120">商品编号</td>
+	</tr>
+	<volist name="array_products" id="pdt">
+	<tr class="stock_revise_receipt_detail">
+		<td>
+			<a href="javascript:void(0);" class="btnB" onclick="return aotuAddOneRow();">新增行</a>
+			<a href="javascript:void(0);" class="btnB" onclick="return deleteDetailRows(this);">删除行</a>
+		</td>
+		<td>
+			<input type="text" name="detail[pdt_sn][]" value="{$pdt.pdt_sn}" class="input_pdt_sn width200" />
+		</td>
+		<td>
+			<select name="detail[srrd_type][]" class="small">
+				<option value="-1" <if condition="$pdt.srrd_type neq 0 and $pdt.srrd_type neq 1">selected="selected" </if>>请选择</option>
+				<option value="0" <if condition="$pdt.srrd_type eq 0">selected="selected"</if>>增加</option>
+				<option value="1" <if condition="$pdt.srrd_type eq 1">selected="selected"</if>>扣减</option>
+			</select>
+		</td>
+		<td>
+			<input type="text" name="detail[srrd_num][]" value="{$pdt.srrd_num}" class="small srrd_num_input" />
+		</td>
+		<td class="g_content">{$pdt.g_name}</td>
+		<td class="g_content">{$pdt.g_sn}</td>
+	</tr>
+	</volist>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" />
+            <input type="button" id="goback" value="取 消" class="btnA" />
+        </td>
+    </tr>
+</tfoot>
+</table>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+$("document").ready(function(){
+	$("#goback").click(function(){
+		location.href="{:U("Admin/Stock/pageList")}";
+	});
+	$(".input_pdt_sn").autocomplete("{:U('Admin/Stock/getProductSn')}", {
+		matchContains: true,
+		selectFirst: false
+	});
+});
+function aotuAddOneRow(){
+	var domObj = $(".stock_revise_receipt_detail:first").clone();
+	domObj.appendTo("#detail_tbody").find("input[type='text']").val("");
+	domObj.find("select").val(-1);
+	domObj.find(".g_content").html("");
+	domObj.find(".input_pdt_sn").autocomplete("{:U('Admin/Stock/getProductSn')}", {matchContains: true,selectFirst: false});
+}
+function deleteDetailRows(clickObj){
+	if(confirm("确定要删除此行吗？")){
+		$(clickObj).parent("td").parent("tr").remove();
+	}
+	return false;
+}
+function stockFormCheck(){
+	var x = true;
+	$(".srrd_type_selected").each(function(){
+		var selected_val = parseInt($(this).val());
+		if(selected_val < 0){
+			alert("请选择库存调整类型。");
+			$(this).focus();
+			x = false;
+			return false;
+		}
+	});
+	$(".srrd_num_input").each(function(){
+		var selected_val = $(this).val();
+		if(isNaN(selected_val)){
+			alert("该项必须输入一个数字。");
+			$(this).focus();
+			x = false;
+			return false;
+		}
+	});
+	return x;
+}
+</script>

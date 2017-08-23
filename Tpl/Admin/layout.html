@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <include file="Common:incHeader" />
+	<php> if(!empty($_SESSION['OSS']['GY_OSS_PIC_URL']) || (!empty($_SESSION['OSS']['GY_OTHER_IP']) && !empty($_SESSION['OSS']['GY_OTHER_ON']) )){</php>
+    <input type="hidden" value="1" id="oss_id" />
+   	<php>}else{</php>
+   	<input type="hidden" value="0" id="oss_id" />
+   	<php>}</php>
+	<php> if($_SESSION['OSS']['GY_QN_ON'] == '1'){</php>
+    <input type="hidden" value="1" id="qn_id" />
+   	<php>}else{</php>
+   	<input type="hidden" value="0" id="qn_id" />
+   	<php>}</php>
+    <body class="mainBox">
+        <div id="J_ajax_loading" class="ajax_loading">提交请求中，请稍候...</div>
+        <div class="header">
+            <include file="Common:incTop" />
+        </div><!-- header end -->
+        <div id="tip_dialog">
+            
+        </div>
+        <div class="contentBox">
+            <div class="sidebar">
+                <div class="sildebarBox">
+                    <div class="sidebarMasg">
+                        <h2>{$Think.lang.TOP_HELLO}<span>{$Think.session.admin_name}</span></h2>
+                        <ul>
+                            <h3>待办事务</h3>
+                            <li>
+							<a href="{:U('Admin/Orders/pageWaitDeliverOrdersList')}" style="color:#fff;">待发货订单({$wtrade_num}笔)</a>&nbsp;
+							<a href="{:U('Admin/Seo/deleteMemcache')}" style="float:right;color:#fff;">清空缓存</a>
+							</li>
+                        </ul>
+                        <a href="###">&nbsp;</a>
+                        <a href="{:U('Home/Index/index')}" target="_blank" class="sc" title="{$Think.lang.TOP_HOME}">{$Think.lang.TOP_HOME}</a>
+                        <a href="{:U('Admin/User/doLogout')}" class="out" title="{$Think.lang.TOP_LOGOUT}">{$Think.lang.TOP_LOGOUT}</a>
+                        <a href="{:U('Admin/Index/index')}" class="more" title="{$Think.lang.MORE}">{$Think.lang.MORE}</a>
+                        <a href="{:U('Admin/System/pageEditAdminPasswd')}" class="editpasswd" title="{$Think.lang.EDITPW}">{$Think.lang.EDITPW}</a>
+                    
+                    </div>   
+            		
+                    <!-- 侧导航开始 -->
+                    <!--左侧导航-->
+                    <div class="sliderNavBox" id="sliderNavBox">
+                        <include file="Common:incMenus" />
+                    </div>
+                    
+                    <!-- 侧导航结束 -->
+                </div>
+            </div><!-- 左侧结束 -->
+            <!-- 中间内容开始 -->
+            <div class="breadcrumb">
+                <include file="Common:incNavigate" />
+            </div>
+            <div class="content">
+                <php>if($is_user_access == '1'){</php>
+                {__CONTENT__}
+                <php>}</php>
+
+                <if condition="$is_user_access neq 1">
+                您无权限访问此页。
+                </if>
+            </div>
+            <!--<div class="fav-nav" style="background: url('__PUBLIC__/Admin/images/fav-nav-bg.png') repeat-x scroll left top transparent;height: 28px;line-height: 28px;">-->
+			<div class="fav-nav" style="height: 28px;line-height: 28px;">               
+			   <div style="text-align: center; width: 100%;" id="index_footer_text">版权所有 上海管易云</div>
+                <div id="panellist"></div>
+                <div id="paneladd"></div>
+                <input type="hidden" id="menuid" value="">
+                <input type="hidden" id="bigid" value="" />
+                <div id="help" class="fav-help"></div>
+            </div>
+        </div>
+        <include file="Common:incFooter" />
+        <include file="Common:incAlert" />
+        <include file="Common:incSpeech" />
+		<script type="text/javascript">
+			//load();
+			function load(){
+				$.ajax({
+				    url:'{:U("Script/Batch/ajaxAsynchronous")}',//请求的url地址 
+					type:"post", //请求的方式 
+					dataType:"json", //数据的格式
+					data:{}, //请求的数据 
+					success:function(data){ //请求成功时，处理返回来的数据 
+						
+					} 
+				})
+			}
+			/**
+            var footer_text = '';
+            var footer_text_index = 0;
+            function footerTextWaveEffect(){
+                var str = footer_text;
+                var array_text = str.split('');
+                for(var i =0;i<array_text.length;i++){
+                    if(i == footer_text_index){
+                        array_text[i] = '<span style="color:#ff0000;font-size:18px;">' + array_text[i] + '</span>';
+                    }
+                }
+                $("#index_footer_text").html(array_text.join(''));
+                footer_text_index ++ ;
+                if(array_text[footer_text_index] == ' '){
+                    footer_text_index ++;
+                }
+                if(footer_text_index >= array_text.length){
+                    footer_text_index = 0;
+                }
+            }
+            //默认页面加载
+            $(document).ready(function(){
+                footer_text = $("#index_footer_text").html();
+                setInterval("footerTextWaveEffect()",350);
+            });
+			**/
+		</script>
+        <!-- <script type="text/javascript" src="alires://MsgHistory/unknownurl.pnghttp://g.tbcdn.cn/sj/securesdk/0.0.3/securesdk_v2.js" id="J_secure_sdk_v2" data-appkey="12541234"></script> -->
+    </body>
+</html>

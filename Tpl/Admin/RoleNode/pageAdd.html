@@ -1,0 +1,73 @@
+<div class="rightInner">
+    <form id="rolenode_form" name="rolenode_form" method="post" action="{:U('Admin/RoleNode/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">添加节点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">说明：</td>
+                    <td colspan="2">
+                        1. 只填写模块，为模块的公共授权<br>
+                        2. 填写操作与模块，为指定模块中节点的授权
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">操作：</td>
+                    <td>
+                        <input type="text" name="action" id="action" class="medium" value=""/> <br> 
+                    </td>
+                    <td class="last">(请填写控制器的相应Action，如index,insert... 非系统管理员请勿随意修改)</td>
+                </tr>
+                <tr>
+                    <td class="first">操作名称：</td>
+                    <td>
+                        <input type="text" name="action_name" id="action_name" class="medium" value=""/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">模块：</td>
+                    <td>
+                        <input type="text" name="module" id="module" class="medium" value="" validate="{ required:true,maxlength:60}"/> <br> 
+                    </td>
+                    <td class="last">(请填写控制器的相应名称，如RoleNode,Article... 非系统管理员请勿随意修改)</td>
+                </tr>
+                <tr>
+                    <td class="first">模块名称：</td>
+                    <td>
+                        <input type="text" name="module_name" id="module_name" class="medium" value="" validate="{ required:true,maxlength:60}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">节点排序：</td>
+                    <td>
+                        <input type="text" name="sort" id="sort" class="medium" value="10" validate="{ required:true,rangelength:[1,6],digits:true}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">状态：</td>
+                    <td>
+                        <input type="radio" value="1" checked=""  name="status" /> 启用 
+                        <input type="radio" value="0"  name="status" /> 禁用 
+                    </td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#rolenode_form').validate();
+    });
+</script>

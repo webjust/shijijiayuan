@@ -1,0 +1,181 @@
+<div id="alert_div" style="display:none;">
+    <!-- ajax发送前的等待页面 -->
+    <div id="ajaxsenddiv">
+	<div id="ajaxsenddiv_loading"><img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/images/loading_crcle.gif">提交中请稍候...</div>
+    </div>
+</div>
+<div class="contentRightBox">
+	<h2 class="publicH2"><span>淘宝商品库存上传</span></h2>
+    <div class="myOrder">
+        <table class="tableTop">
+            
+                <tr>
+                    <td width="81">淘宝店铺：</td>
+                    <td width="180">
+                        <select id="shop_id">
+						    <option value="0">请选择</option>
+						  <volist name="shops" id="ra">
+                            <option value="{$ra.ts_id}">{$ra.ts_title}</option>
+                          </volist>
+                        </select>
+                    </td>
+                    <td>
+					
+					<button class="blue" style="color: rgb(255, 255, 255); background-color: rgb(23, 144, 203); text-decoration: none;" onclick="alertTaobao('{:U('Ucenter/Distribution/AddThdShop')}')">授 权</button>
+					<button class="blue"  style="color: rgb(255, 255, 255); background-color: rgb(23, 144, 203); text-decoration: none;" onclick="ajaxToTaobao()">搜 索</button>
+					<button class="blue"  style="color: rgb(255, 255, 255); background-color: rgb(23, 144, 203); text-decoration: none;" id="synStore_button">同 步</button>
+					<button class="blue"  style="color: rgb(255, 255, 255); background-color: rgb(23, 144, 203); text-decoration: none;" id="clear_button">清除关联</button>
+					</td>
+                </tr>
+               
+        </table>
+        <div class="chooseProCon" style="background:#FFF ;" id="submit_button_float_div">
+        </div>
+    </div>  
+</div>
+        
+<!-- 中间内容结束 -->
+<script type="text/javascript">
+function ajaxToTaobao(){
+    var shopID = jQuery("#shop_id  option:selected").val();
+	if(shopID == 'undefined' || shopID == 0) {
+	   alert('请选择淘宝店铺');
+	   return false;
+	}
+	
+	$.ajax({
+			url:"{:U('Ucenter/UploadStock/showItemsTopAjax')}",
+			type:'POST',
+			dataType:'html',
+			cache:false,
+			data:{shopID:shopID},
+			beforeSend:function(){
+				$('#ajaxsenddiv_loading').dialog({
+			        height:'auto',
+			        width:400,
+			        modal:true,
+			        title:'提示：',
+					close:function (){
+						$("#ajaxsenddiv_loading").dialog('destroy');
+						$('#ajaxsenddiv').append($('#ajaxsenddiv_loading'));
+					}
+			    });
+			},
+			success: function(htm) {
+			    $('#submit_button_float_div').html(htm);
+				$("#ajaxsenddiv_loading").dialog("close");
+				
+			},
+			error: function(json) {
+				$("#ajaxsenddiv_loading").dialog("close");
+				alert('提交超时！');
+			}
+		});
+}
+//弹出淘宝登陆窗口
+function alertTaobao(url){
+    window.location.href = url;
+}
+
+
+$(document).ready(function(){
+     //一个店铺下面全部商品同步 
+        $("#synStore_button").click(function(){
+			   var num_iids = '';
+			   $.each($("input:hidden"), function(i,val){  
+					if(val.name =='item_num_iid' && val.value !=""){
+					    var tag="'";
+					    if(num_iids==''){
+							num_iids = num_iids + val.value  ;
+						}else{
+							num_iids = num_iids + ',' + val.value  ;
+						}
+					}
+			   });  
+		       var shopID = jQuery("#shop_id  option:selected").val();
+			   if(shopID == 'undefined' || shopID == 0) {
+					alert('请选择淘宝店铺');
+					return false;
+				}
+				$.ajax({
+					url:"{:U('Ucenter/UploadStock/doSynStock')}",
+					type:'POST',
+					dataType:'json',
+					cache:false,
+					data:{shopID:shopID,num_iids:num_iids},
+					beforeSend:function(){
+						$('#ajaxsenddiv_loading').dialog({
+						height:'auto',
+						width:400,
+						modal:true,
+						title:'提示：',
+						close:function (){
+							$("#ajaxsenddiv_loading").dialog('destroy');
+							$('#ajaxsenddiv').append($('#ajaxsenddiv_loading'));
+						}
+					});
+				},
+				success: function(json) {
+					
+					$("#ajaxsenddiv_loading").dialog("close");
+					if(json.status == 1){
+						if(json.fail >0) {
+					   
+							alert('成功上传修改'+json.success+'个商品,'+json.success_sku_num+'个规格的库存数量,失败上传'+json.fail+'个商品,'+json.msg);
+						
+						} else {
+							alert('成功上传修改'+json.success+'个商品,'+json.success_sku_num+'个规格的库存数量');
+					
+						}
+					}
+					else {
+					    alert(json.msg);
+					}
+					return false;
+				},
+				error: function(json) {
+					$("#ajaxsenddiv_loading").dialog("close");
+					alert('提交超时！');
+				}
+			});
+				
+		});
+		
+		$("#clear_button").click(function(){
+		     var shopID = jQuery("#shop_id  option:selected").val();
+				$.ajax({
+					url:"{:U('Ucenter/UploadStock/clearItem')}",
+					type:'POST',
+					dataType:'json',
+					cache:false,
+					data:{shopID:shopID},
+					beforeSend:function(){
+						$('#ajaxsenddiv_loading').dialog({
+						height:'auto',
+						width:400,
+						modal:true,
+						title:'提示：',
+						close:function (){
+							$("#ajaxsenddiv_loading").dialog('destroy');
+							$('#ajaxsenddiv').append($('#ajaxsenddiv_loading'));
+						}
+					});
+				},
+				success: function(json) {
+					
+					$("#ajaxsenddiv_loading").dialog("close");
+                                        if(json.status == 1){ 
+                                            $('.pdt_sn_td').html('');
+                                            $('.pdt_spec_td').html('');
+                                         }					
+       					alert(json.msg);
+					return false;
+				},
+				error: function(json) {
+					$("#ajaxsenddiv_loading").dialog("close");
+					alert('提交超时！');
+				}
+			});
+		});
+});
+</script>

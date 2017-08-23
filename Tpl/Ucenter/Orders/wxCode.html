@@ -1,0 +1,43 @@
+<link href="__PUBLIC__/Ucenter/css/Cart.css" rel="stylesheet">
+<script src="__PUBLIC__/Ucenter/js/qrcode.js"></script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>订单扫码支付</span></h2>
+	<div class="checkInformation orderSuccess"><!--myCart   start-->
+    	<p class="topPic"></p>
+        <form id="successorderForm" name="successorderForm" method="POST" action="__APP__/Ucenter/Orders/paymentPage/">
+        <div class="paymentSucCon"><!--paymentSucCon  start-->
+            <div class="clear"></div>
+            <div class="car_box"><!--car_box start-->
+            	订单号：{$oid}  &nbsp;&nbsp;&nbsp;
+                    <a href="{:U("Ucenter/Orders/pageShow/","oid=$oid")}" class="wordBlue orderDet">
+                        查看订单详情
+                    </a>&nbsp; 
+                    <a href="{:U("Ucenter/Products/pageList")}" class="wordBlue orderDet">
+                        继续购物
+                    </a>
+                </p>
+				<div align="center" id="qrcode">
+				</div>
+            </div><!--car_box end-->
+            <div class="car_bj"></div>
+        </div><!--paymentSucCon  end-->
+        </form>
+	</div><!--myCart   end-->
+</div><!--contentRightBox  end-->
+<php>if(!empty($code_url)){</php>
+<script>
+		var url = "{$code_url}";
+		//参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
+		var qr = qrcode(10, 'M');
+		qr.addData(url);
+		qr.make();
+		var wording=document.createElement('p');
+		wording.innerHTML = "扫我支付";
+		var code=document.createElement('DIV');
+		code.innerHTML = qr.createImgTag();
+		var element=document.getElementById("qrcode");
+		element.appendChild(wording);
+		element.appendChild(code);
+</script>
+<php>}</php>

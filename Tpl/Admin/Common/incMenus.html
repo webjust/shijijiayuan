@@ -1,0 +1,15 @@
+
+<div id="sliderNavBoxInner" style="display: block; overflow:visible;">
+    <volist name="menus[$nav1]" id="menu1" key="k">
+        <assign name="mk" value="$key" />
+        <h2><img class="title" <eq name="nav2" value="$key">src="__PUBLIC__/Admin/images/silderNavIcoF.png"<else />src="__PUBLIC__/Admin/images/silderNavIcoJ.png"</eq> />{$menu1[0]['name']}</h2>
+        <dl <neq name="nav2" value="$key">style="display: none;"</neq> >
+            <volist name="menu1" id="menu2">
+                <neq name="i" value="1">
+                <dd <if condition="($key eq $nav3) and ($mk eq $nav2)">class="on"</if> ><a href="{$menu2['url']}">{$menu2['name']}</a></dd>
+                </neq>
+            </volist>
+        </dl>
+    </volist>
+    <div class="clear"></div>
+</div>

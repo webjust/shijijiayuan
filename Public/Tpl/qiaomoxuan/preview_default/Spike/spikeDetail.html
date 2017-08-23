@@ -1,0 +1,221 @@
+<link href="{$Think.config.DOMAIN_HOST}__CSS__slider.style.css" rel="stylesheet" type="text/css"/>
+<div class="warp">
+    <div class="head">
+        <p>秒杀商品详情</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/Cart/pageCartList')}" class="gocart"></a>
+        <a href="javascript:void(0);" onclick="addToInterests('{$g_id}');" class="jia"></a>
+    </div>
+    <Gyfx:goodsinfo name="detail" gid="$g_id" erpguid="$g_id"  ></Gyfx:goodsinfo>
+    <input type="hidden" value="{$gid}" id="gid">
+    <input type='hidden' id='m_id' value='{$Think.session.Members.m_id}' />
+    <!--<php>//dump($detail);die;</php>-->
+    
+    <input type='hidden' name='goods_type' value='{$goods_type}' />
+    <div class="proDetail"><!--proDetail 开始-->
+        
+        <!--轮播开始-->
+        <div class="proImg">
+            <div class="addWrap">
+              <div class="swipe" id="mySwipe">
+                <div class="swipe-wrap">	
+                    <div><a href="javascript:;"><img width="100%" height="100%" src="{$Think.config.DOMAIN_HOST}{$sp_picture|showImage=###,640,640}" /></a></div>				
+                    <volist name="detail.gpics" id="pic">
+                    <div><a href="javascript:;"><img width="100%" height="100%" src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,640}" /></a></div>
+                    </volist>
+                </div>
+              </div>
+              <ul id="position">
+				<li class="cur"></li>
+                <volist name="detail.gpics" id="pic" >
+                <if condition="$i eq '0'">
+                <li ></li>
+                <else />
+                <li class=""></li>
+                </if>
+                </volist>
+                
+              </ul>
+            </div>
+        </div>
+        <script src="{$Think.config.DOMAIN_HOST}__JS__swipe.min.js"></script> 
+        <script type="text/javascript">
+        var bullets = document.getElementById('position').getElementsByTagName('li');
+        var banner = Swipe(document.getElementById('mySwipe'), {
+            auto: 2000,
+            continuous: true,
+            disableScroll:false,
+            callback: function(pos) {
+                var i = bullets.length;
+                while (i--) {
+                  bullets[i].className = ' ';
+                }
+                bullets[pos].className = 'cur';
+            }
+        });
+        </script>
+        <!--轮播结束-->
+        <p class="repeat_x"></p>
+        <div class="proDCon"><!--proDCon 开始-->
+            <form id="goodsForm" name="goodsForm" method="post" action="javascript:void(0);">
+            <div class="proDO">
+                <h2><a href="{:U('Wap/Products/description')}?g_id={$ary_request[gid]}&sp_id={$sp_id}" style="width:100%;display:block;">商品信息</a></h2>
+                <div class="proDOC" style="font-size:15px;">
+                    <p class="p01">{$sp_title}<if condition="$detail['gremark'] neq '' ">，{$detail.gremark}</if></p>
+					<p>商品编号：<label>{$detail.gsn}</label></p>
+                        <p class="p02">秒杀价:<strong ><i>¥</i><span>{$sp_price|sprintf='%.2f',###}</span><span id="showPrice" style="display:none"></span></strong>&nbsp;&nbsp;<del>市场价:<i></i><span id="showMarketPirice">{$detail.mprice|sprintf='%.2f',###}</span></del>
+（为您节省<i>&yen;</i><span>{$detail['mprice']-$sp_price}</span>） 折扣： <span><php>$gp_price =$detail['mprice'];$cust_price =$sp_price;  echo sprintf('%.2f',(($cust_price/$gp_price)*10))</php></span> 折
+						</p>
+						<P class="time">
+						<i></i>
+						<php>$time = date("Y-m-d H:i:s");</php>
+						<php>if($time <= $sp_start_time){</php>
+                            <span  id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+                            <script>setGroupbuyTime('{$sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$sp_end_time}',"{$sp_id}","{$detail['gid']}");</script>
+                        <php>}elseif($time >= $sp_end_time){</php>
+                            <span  class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+                        <php>}else{</php>
+                            <span  id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+                            <script>setGroupbuyTime('{$sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$sp_id}","{$detail['gid']}");</script>
+                        <php>}</php>
+						</P>
+						<p>
+						  剩余数量：<b class="numb" id="surplus">{$gstock}</b> 件 （秒杀数量：<b class="numb">{$sp_now_number|default=0}</b> 件）
+						</p>						
+                </div>
+            </div>
+            <div class="proDTC"><!--proDTC 开始-->
+                <div class="proDT">
+                           <ul id="proHover" class="on"><!-- 选择信息资料后，ul加上class="on"；默认是没有的 -->
+						   
+                                <li id="showDetailSkus">
+                                    商品规格加载中，请稍后。。。
+                                    <script type="text/javascript">
+                                        getDetailSkus('{$sp_id}', 8);
+                                    </script>
+                                </li>						   
+                            </ul>          
+						<if condition="$detail.authorize eq 1">	
+					   <php>$time = date("Y-m-d H:i:s");</php>
+					   <span id="showGrouupbuy{$sp_id}">
+						<php>if($time <= $sp_start_time){</php>
+						<a href="javascript:void(0);" class="goBuy " disabled  gid="{$gid}" >未开始</a>
+						<php>}elseif($time >= $sp_end_time){</php>
+						<a href="javascript:void(0);" class="goBuy " disabled gid="{$gid}" >秒杀结束</a>
+						<php>}else{</php>
+						<a href="javascript:void(0);" class="goBuy addToOrder"   id="addToOrder" gid="{$gid}" >立即抢购</a>
+						<php>}</php>
+						</span>
+						<else />
+						   您不能购买此商品吆～～
+						</if>
+                </div>
+                
+                <i></i>
+            </div><!--proDTC 结束-->
+            </form>
+            <!--<div class="taocan">&lt;!&ndash;taocan 开始&ndash;&gt;
+                <h2>优惠套餐</h2>
+                <div class="tcCon" id='coll_goods'>
+                    &lt;!&ndash;由ajax填入&ndash;&gt;
+                </div>
+            </div>&lt;!&ndash;taocan 结束&ndash;&gt;-->
+            <div class="proDTh">
+                <div class="proDThC">
+                    <a href="{:U('Wap/Products/specifications')}?g_id={$ary_request[gid]}">规格参数</a>
+                    <a href="{:U('Wap/Comment/getCommentPage')}?g_id={$ary_request[gid]}">商品评价（{$comments_count}）</a>
+                    <a href="{:U('Wap/Products/getGoodsAdvice')}?g_id={$ary_request[gid]}">购买咨询（{$advice_count}）</a>
+                </div>
+                <i></i>
+            </div>
+        </div><!--proDCon 结束-->
+    </div><!--proDetail 结束-->
+</div>
+<input type="hidden" id="sp_id" value="{$sp_id}" />
+<input type="hidden" id="m_id" value="{$Think.session.Members.m_id}" />
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__product.js"></script>
+<input type="hidden" id="is_spike" value="{$is_spike}" />
+<script type="text/javascript">
+$("#item_num").blur(function(){
+    $(this).val(1);
+});
+//提交到购物车
+$(document).ready(function(){
+    var surplusNums = $("#surplus").html();
+    if(0 == surplusNums){
+        $("#addToOrder").attr("class", "notSpike goBuy");
+    }
+	$('#addToOrder').live('click',function(){
+        var res = allSpecSelectedCheck('on');
+        if(res[0] == false) {
+            $.ThinkBox.error('请选择要购买的商品规格！');return false;
+        }
+        var pdt_id = $('#pdt_id').val();
+        var g_id = $('#g_id').val();
+        var sp_id = $('#sp_id').val();
+        var pdt_stock = parseInt($('#pdt_stock').val());
+        var num = parseInt($('#item_num').val());
+		var is_spike = $("#is_spike").val();
+		if(is_spike == 1){
+			showAlert(false,"您已秒杀过该商品！");
+			return false;
+		}
+        <if condition="$delivery eq '1'">
+        var cr_id = parseInt($("#cr_ids").val());
+        if(isNaN(cr_id)){
+            showAlert(false,"请选择配送区域");
+            return;
+        }
+        </if>
+        if (isNaN(num)){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return;
+        }
+        if (num < 1){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return;
+        }
+        if (num > 1){
+            $.ThinkBox.error("秒杀商品限购1件");
+            return;
+        }
+        if (pdt_stock < 1){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_2}");
+            return;
+        }
+        if (num > pdt_stock){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_3}");
+            return;
+        }
+        if (pdt_id == ""){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+            return;
+        }
+        //发送ajax请求
+//        var data = $('#goodsForm').serialize();
+        var data = new Object();
+        data['cart'] = {};
+        data['cart']['pdt_id'] = pdt_id;
+        data['cart']['g_id'] = g_id;
+        data['cart']['sp_id'] = sp_id;
+        data['cart']['num'] = num;
+        data['type'] = 'spike';
+		var m_id = $('#m_id').val();
+        if(m_id == ''){
+			location.href="/Wap/User/login?jumpUrl=/Wap/Spike/detail?sp_id="+sp_id;return;
+        }
+            if (data != ''){
+//                data = data + '&skip=1';
+                $.post('/Wap/Cart/doAdd',data,function(dataMsg){
+                    if(dataMsg.status){
+                        $.ThinkBox.success("正在跳转……");
+                        location.href='/Wap/Orders/pageSpikeAdd';
+                    }else{
+                        $.ThinkBox.error('加入购物车失败'+dataMsg.msg);
+                    }
+                },'json');
+        }
+    });
+});
+</script>
+

@@ -1,0 +1,173 @@
+<script src="__PUBLIC__/Addmin/js/member.js"></script>
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="brand_form" name="brand_form" method="post" action="{:U('Admin/GoodsBrand/doEdit')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">商品品牌添加</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">品牌名称：</td>
+                    <td>
+                        <input type="text" name="gb_name" id="gb_name" class="medium" value="{$brand.gb_name}" validate="{ required:true}" /> <font color="red">*</font><br> 
+                        <input type="hidden" name="gb_id" id="gb_id" value="{$brand.gb_id}"/>
+                    </td>       
+                   <td class="last">
+                   
+                   </td>               
+                </tr>
+                <tr>
+                    <td class="first">品牌首字母：</td>
+                    <td>
+                        <input type="text" name="gb_letter" id="gb_letter" class="medium" value="{$brand.gb_letter}" validate="{ required:true}" /> <font color="red">*</font><br> 
+                    </td>       
+                   <td class="last">
+                   
+                   </td>               
+                </tr>
+                <tr>
+                    <td class="first">品牌网址：</td>
+                    <td>
+                        <input type="text" name="gb_url" id="gb_url" class="medium" value="{$brand.gb_url}" validate='{ url:true}' /> <br> 
+                    </td>
+                    <td class="last">请输入正确的网站地址，以“<span style="color:#ff0000;">http://</span>”或者“<span style="color:#ff0000;">https://</span>”开头。</td>
+                </tr>
+                <tr>
+                    <td class="first">品牌地区：</td>
+                    <td>
+                        <input type="text" name="gb_region" id="gb_region" class="medium" value="{$brand.gb_region}" validate="{ required:true}" /> <font color="red">*</font><br>
+                    </td>
+                   <td class="last">
+                   
+                   </td>            
+                </tr>
+                <tr>
+                    <td class="first">品牌LOGO：</td>
+                    <td>
+                       <a href="javascript:upImage();" class="btnG ico_upload">上传图片</a>
+						
+						   <span id="logo_pic">
+                        <img width="50px" height="50px" src="{$Think.config.DOMAIN_HOST}{$brand.gb_logo}" id="show_pic">
+						<if condition="$brand.gb_logo neq '' " >
+								<a id="delPic" url="{:U('Admin/GoodsBrand/delLogoPic')}?gb_id={$brand.gb_id}" >删除</a></if>
+						   </span>
+						
+                        &nbsp;
+                        <input type="hidden" id="gb_logo" name="gb_logo" value="{$brand.gb_logo}"/>(343*264,透明背景)
+                    </td>     
+                   <td class="last">
+                   
+                   </td>
+                </tr>
+
+
+                <tr>
+                    <td class="first">排序：</td>
+                    <td>
+                        <input type="text" name="gb_order" id="gb_order" class="medium" value="{$brand.gb_order}"  /> <br> 
+                    </td>
+                    <td class="last">请输入等级名称</td>
+                </tr>
+                <tr>
+                    <td class="first">是否显示：</td>
+                    <td>
+						<input type="radio" name="gb_display" value="1"<if condition="$brand.gb_display eq '1'">checked="checked"</if> />是
+	                    <input type="radio" name="gb_display" value="0"<if condition="$brand.gb_display eq '0'">checked="checked"</if> />否
+                    </td>
+                </tr>
+                <tr>
+                <td class="first">品牌title：</td>
+                    <td>
+                        <textarea class="mediumBox" name="gb_title" id="gb_title" validate="{required:true}">{$brand.gb_title}</textarea>
+                    </td>
+                </tr>
+                <td class="first">品牌keywords：</td>
+                    <td>
+                        <textarea class="mediumBox" name="gb_keywords" id="gb_keywords" validate="{required:true}">{$brand.gb_keywords}</textarea>
+                    </td>
+                </tr>
+                <td class="first">品牌描述：</td>
+                    <td>
+                        <textarea class="mediumBox" name="gb_detail" id="gb_detail" validate="{required:true}">{$brand.gb_detail}</textarea><font color="red">*</font>
+                    </td>
+                    <td class="last">说明文字</td>
+                </tr>
+                <tr>
+                    <td class="first">* 海报：</td>
+                    <td>
+                        <script id="editor" name="gb_banner" type="text/plain">{$brand.gb_banner}</script>
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="first">* 授权书：</td>
+                    <td>
+                        <script id="editor2" name="gb_certificate" type="text/plain">{$brand.gb_certificate}</script>
+                    </td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/GoodsBrand/pageList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script type="text/javascript">
+$(document).ready(function(){   
+	$("#brand_form").validate();   
+});
+	
+    var dialog;
+    var editor = new UE.ui.Editor({
+        imageRealPath:"editor"
+    });
+    editor.render("myEditor");
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            for(index in arg){
+                var image_path = arg[index]['src'];
+                $("#gb_logo").val(image_path);
+                $("#show_pic").attr({src:image_path});
+                
+            }
+        });
+        
+    });
+    
+    function upImage() {
+        dialog.open();
+    }
+
+$("#delPic").click(function(){
+    var url = $(this).attr("url");
+   $.ajax({url:url,cache:false,dataType:'json',type:'POST',
+       success:function(msgObj){
+		$("#logo_pic").css("display","none");			
+       },
+       error:function(msgObj){
+   		alert('删除失败');		
+       }
+	});
+});
+</script>
+
+<script type="text/javascript">
+    //实例化编辑器
+    UE.getEditor('editor');
+    UE.getEditor('editor2');
+</script>

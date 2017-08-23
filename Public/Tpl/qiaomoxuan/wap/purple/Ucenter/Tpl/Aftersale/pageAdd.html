@@ -1,0 +1,297 @@
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="application/javascript" src="__UJS__ucenter.js"></script>
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.form.js"></script>
+<script src="__PUBLIC__/Ucenter/js/aftersale.js?adsd=111"></script>
+<!--content-->
+<div class="container">
+    <!--container-->
+    <div class="titleTop"> <!--titleTop-->
+        <p class="detailT"><a href="#">首页</a>/<a href="#">售后申请表</a></p>
+        <h1><span>售后申请表</span></h1>
+    </div><!--titleTop-->
+    <!--Ucenter-->
+    <div class="Ucenter">
+        <!--userInfo-->
+        <div class="userInfo" id="userInfo">
+            <script>
+                getcommoninfo();
+            </script>
+        </div>
+        <!--userInfo-->
+        <!--ucenter_S-->
+        <div class="ucenter_S">
+            <div class="selectort"><span class="select">售后列表</span>
+                <ul style="display: none;">
+                    <li><a href="" selectid="10">售后列表</a></li>
+                    <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                    <li><a href="{:U('Wap/Orders/orderList')}"  selectid="2">我的订单</a></li>
+                    <li><a href="{:U('Wap/My/pageDeliver')}" selectid="4">我的地址</a></li>
+                    <li><a href="{:U('Wap/Message/pageMailBox')}" selectid="5">站内消息</a></li>
+                    <li><a href="{:U('Wap/Collect/pagelist')}" selectid="6">收藏列表</a></li>
+                    <li><a href="{:U('Wap/PointLog/pagelist')}" selectid="8">我的积分</a></li>
+                    <li><a href="{:U('Wap/Coupon/couponList')}" selectid="9">我的优惠券</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--ucenter_S-->
+        <!--Myorder-->
+        <div class="Myorder">
+            <!--order-->
+            <if condition="($data.value eq '1') OR ($data.value eq '')">
+            <!--订单详情开始-->
+            <div class="orderInfo">
+                <!--订单图片信息开始-->
+
+                <div class="infoP infoP1">
+
+                    <h1 class="proTitle">申请<if condition="$refund_type eq '1'">退款<elseif condition="$refund_type eq '2'" />退货</if>的商品</h1>
+                    <!--订单图片信息1开始-->
+                    <form class="info-tb form-tb" id="aftersale_form" name="aftersale_form" method="post" action='{:U("/Wap/Aftersale/doAdd")}' enctype="multipart/form-data" >
+                    <volist name="products_info" id="products">
+                    <div class="infoPic products_tr">
+                        <if condition="$refund_type eq '2'">
+                            <label class="checkbox">
+                                <input type="checkbox" checked="checked" class="list-check checkSon" name="checkSon[]" value={$products.oi_id} class="checkSon" pdt_id="{$products.oi_id}" promotion_price="{$products.promotion_price}" oi_price="{$products.oi_price|sprintf='%.3f',###}" id="checkSon_{$products.oi_id}" />
+                            </label>
+                        <else/>
+                            <input type="hidden" name="checkSon[]" value="{$products.oi_id}" checked>
+                        </if>
+                        <input type="hidden" name="inputNum[{$products.oi_id}]" id="refund_products_{$products.oi_id}" value="{$products.oi_nums}">
+                        <div class="info_left"><a href='{:U("/Wap/Products/detail")}?gid={$products.g_id}'><img src='{$Think.config.DOMAIN_HOST}{$products.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="87" height="87"></a></div>
+                        <div class="info_right">
+                            <p>商品： {$products.oi_g_name}</p>
+                            <notempty name="products[pdt_spec]">
+                            <p>{$products.pdt_spec}</p>
+                             </notempty>
+                            <p>价格：{$products.pdt_sale_price}元 <em>X{$products.oi_nums}</em></p>
+                        </div>
+                        <if condition="$refund_type eq '2'">
+                            <span class="num" style="float:right">
+                                <input type="text" style="width:20px" name="inputNum[{$products.oi_id}]" fprice="{$products.oi_price}" readonly="readonly"  class="refund_products_nums" id="refund_products_{$products.oi_id}" hiddenvalue="{$products.oi_nums}" value="{$products.oi_nums}" validate="{ number:true,digits:true,range:[0,{$product.pdt_stock}],messages:{required:'数字填写错误'}}">
+                            </span>
+                        </if>
+                    </div>
+                    <!--订单图片信息1结束-->
+                    </volist>
+					<if condition="$ary_orders.allow_refund_delivery eq '1'">
+						<input type="hidden" name="allow_refund_delivery" id="allow_refund_delivery" value="{$ary_orders.o_cost_freight}" checked>
+					</if>
+                </div>
+                <!--订单图片信息结束-->
+                <div class="orderDetail">
+                    <h1 class="proTitle">订单信息</h1>
+
+                    <div class="orderF"><span>订单总数量：</span><span>{$ary_orders.oi_nums}</span></div>
+                    <div class="orderF"><span>订单编号：</span><span>{$ary_orders.o_id}</div>
+                    <div class="orderF"><span>运费：</span><span>{$ary_orders.o_cost_freight|sprintf='%.2f',###}</span></div>
+                    <div class="orderF"><span>订单状态：</span><span>:{$ary_orders.str_pay_status} {$ary_orders.deliver_status} {$ary_orders.refund_status} {$ary_orders.refund_goods_status}</span></div>
+                    <div class="orderF"><span>订单总价：</span><span>{$ary_orders.o_all_price|sprintf='%.2f',###}</span></div>
+
+                </div>
+                <div class="userEdit afterEdit">
+                    <div class="infoL">
+                        <h1>申请售后的详细原因</h1>
+                        <if condition="$refund_type eq '2'">
+                        <div class="orderA"><span class="name">是否收到货</span>
+                        <span class="returnBack">
+                            <div class="verify">
+                                <label class="tranfer">
+                                        <input type="radio" name="sh_radio" value="1" checked>
+                                        已收到货
+                                </label>
+                            </div>
+                        </span>
+                        </div>
+                        <div class="orderA" id="th_tr">
+                            <span class="name">是否退货</span>
+                            <span class="returnBack">
+                                 <div class="verify">
+                                    <label class="tranfer">
+                                        <input type="radio" id="th_whea01" name="th_radio" value="1" checked>
+                                        需要退货
+                                    </label>
+                                 </div>
+                                <div class="verify">
+                                     <label class="tranfer">
+                                        <input type="radio" id="th_whea02" name="th_radio" value="0">
+                                            无需退货
+                                     </label>
+                                </div>
+                            </span>
+                        </div>
+                        </if>
+                        <div class="orderA orderE">
+                            <span class="addr_edit" id="refund_td">
+                                <if condition="$refund_type eq '1'">退款<elseif condition="$refund_type eq '2'" />退货</if>原因
+                            </span>
+                            <div class="Select">
+                                <select class="selectCity" name="ary_reason" id="ary_reason">
+                                    <option value="">请选择原因</option>
+                                    <volist name="ary_reason" id="reason" >
+                                        <option value="{$reason}">{$reason}</option>
+                                    </volist>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="orderA">
+                            <span class="addr_edit" id="logu_money_tr_why">申请退款金额</span>
+                            <div class="after_order">
+                                <input type="text" id="application_money" name="application_money" money="{$ary_orders.refund_pay|sprintf='%.2f',###}" value="0" class="input_after">元
+                                <p>
+                                    （金额不得高于<em id="max_price">{$ary_orders.refund_pay|sprintf='%.2f',###}</em>元）
+                                </p>
+                                <p class="warning">请填写与客服协商一致的金额，否则可能导致申请驳回！</p>
+                            </div>
+                        </div>
+                        <if condition="$refund_type eq '2'">
+                            <div class="orderA" id="logi_no_tr">
+                                <span class="addr_edit">退货物流单号</span>
+                                <div class="after_order">
+                                  <input type="text" class="input_after input_order1" id="od_logi_no" name="od_logi_no" value="">
+                                </div>
+                            </div>
+                        </if>
+                        <div class="orderA"><span class="addr_edit">备注</span>
+                            <div class="textareaA">
+                                <input id="or_buyer_memo" name="or_buyer_memo" class="input_textarea" type="text"/>
+                                <input type="hidden" id="or_refund_type" name="or_refund_type" value="{$refund_type}"/>
+                            </div>
+                        </div>
+                        <if condition="$refund_type eq '2'">
+                        <div class="orderA">
+                            <span class="addr_edit">上传凭证</span>
+                            <div class="after_order">
+
+                                <input name="upload_file_0" value="上传图片" type="file" id="upload_file_0" onchange="uploadImg();">
+                                <input type="hidden" name="extend_field_0" id="extend_field_0" value=''/>
+                                <p class="warning">
+                                    片不超过5M，支持GIF，JPG，JPEG，PNG，BMP，格式
+                                </p>
+                            </div>
+                        </div>
+                        </if>
+                        <volist name="ary_extend_data" id="data">
+                            <div class="orderA">
+                                <div class="addr_edit">{$data.gs_name}</div>
+                                <div class="after_order">
+                                    <if condition="$data.gs_input_type eq 1">
+                                        <input name="extend_field_{$data.gs_id}" type="text"  value="" class="input_after input_order1" style="margin-left:71px"/>
+                                    </if>
+                                    <if condition="$data.gs_input_type eq 2">
+                                        <input type="file" value="上传图片" name="upload_file_{$data.gs_id}" style="margin-left: 71px"/>
+                                        <p class="wordGray" style="margin-left: 71px">上传大小不超过5M，请打包上传,支持格式rar,zip</p>
+                                    </if>
+                                    <if condition="$data.gs_input_type eq 3">
+                                        <textarea name="extend_field_{$data.gs_id}" style="margin-left: 71px;border: 1px solid #bebebe;border-radius: 4px;width:400px;height:152px"></textarea>
+                                    </if>
+                                </div>
+                            </div>
+                        </volist>
+                        <div class="orderA">
+                            <span class="addr_edit"></span>
+                            <input type="hidden" id="o_id" name="o_id" value="{$ary_orders.o_id}"/>
+                            <button type="submit" class="submit" id="refer">提交申请</button>
+                            <button type="reset" class="cancelA">重置</button>
+                        </div>
+                    </div>
+                </div>
+                <!--订单详情结束-->
+                </form>
+
+            </div>
+            </if>
+            <!--Myorder-->
+        </div>
+
+        <!--Ucenter-->
+    </div>
+    <!--/container-->
+<script type="text/javascript">
+    $("#application_money").blur(function(){
+        var money = $(this).attr('money');
+        if((money-this.value)<0){
+             $(this).val(money);
+        }
+    });
+    <if condition="$refund_type eq '2'">
+    function uploadImg() {
+        $("#aftersale_form").ajaxSubmit({
+            url:"{:U('Wap/Aftersale/upLoadFile')}",
+            dataType:"json",
+            type:"post",
+            success:function(msgObj){
+            if(msgObj.status == 1){
+
+               $("#extend_field_0").val(msgObj.img_src);
+            }else{
+               alert(msgObj.info);
+               return false;
+                            }
+            },
+               resetForm: false,
+               clearForm: false
+            });
+    }
+
+    $(function(){
+                //是否退货按钮响应
+        $("input[name='th_radio']").click(function(){
+            if($(this).val() == 0){
+                 $('#od_logi_no').val('');
+                 $('#logi_no_tr').hide();
+                 $('#logu_money_tr_why').html("申请退款金额：");
+                 $(".products_tr").each(function(){
+                       var _this = $(this);
+                       _this.find('.refund_products_nums').attr('disabled',false);
+                       _this.find('.checkSon').attr('disabled',false);
+                 });
+
+                        $("#refund_td").html('退款原因：');
+                 }else{
+                     $('#logi_no_tr').show();
+                     $('#logu_money_tr_why').html("申请退货金额：");
+
+                     $("#refund_td").html('退货原因：');
+                 }
+        });
+                //是否已收货按钮响应
+        $("input[name='sh_radio']").click(function(){
+                    //$('#ckeckAll').attr('disabled')
+           if($(this).val() == 0){
+              $('#od_logi_no').val('');
+              $('#logi_no_tr').hide();
+              $('#logi_no_tr').hide();
+              $('#th_tr').hide();//隐藏退货一行
+              $(".products_tr").each(function(){
+                   var _this = $(this);
+                  _this.find('.refund_products_nums').attr('disabled',true);
+                  _this.find('.checkSon').attr('disabled',true);
+              });
+
+                  $("#refund_td").html('退款原因：');
+              }
+              else{
+                  $('#logi_no_tr').show();
+                  $('#th_tr').show();//显示退货一行
+                  if($("input[name='th_radio']:checked").val()==1){
+                      $(".products_tr").each(function(){
+                           var _this = $(this);
+                            _this.find('.refund_products_nums').attr('disabled',false);
+                            _this.find('.checkSon').attr('disabled',false);
+                      });
+
+                            $("#refund_td").html('退货原因：');
+                      }
+                  }
+
+           });
+        });
+  </if>
+</script>

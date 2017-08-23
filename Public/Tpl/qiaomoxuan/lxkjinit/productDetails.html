@@ -1,0 +1,251 @@
+<!--商品细节图-->
+<script src="__JS__js.js"></script>
+<script src="__JS__productsdetail.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script type="text/javascript" src="__JS__jquery.jqzoom.js"></script>
+<script type="text/javascript" src="__JS__jqzoombase.js"></script>
+
+<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+<gyfx:goodslist name="sale" gid="$ary_request[gid]"></gyfx:goodslist>
+<div class="detail_page">
+    <div class="top">
+        <div class="left">
+            <div class="title">{$detail.gname}</div>
+            <div class="word">
+				<Gyfx:unsalespecs name="specgod" gid="$ary_request[gid]"   >
+					<eq name="specgod.gs_name" value="产品名称">{$specgod.gsd_aliases}</eq>
+				</Gyfx:unsalespecs>
+            </div><!-- 
+            						<volist name="unsalespecslist" id="pic">
+            								{$pic.gsd_aliases}
+            						</volist> -->
+			<php>
+				$gpicture = $detail['gpics'][0]['gp_picture'] ;
+			</php>
+            <div class="picFocus" style="margin:0 auto">
+                <div class="bd">
+                     <ul class="bigImg">
+						<volist name="detail.gpics" id="pic">
+							<li>
+								<img src="{$pic['gp_picture']|showImage=###,340,340}" />
+							</li>
+						</volist>
+                    </ul>
+                </div>
+                <div class="smallScroll">
+                    <a class="sPrev" href="javascript:void(0)"></a>
+                    <div class="smallImg">
+                            <ul>
+								<volist name="detail.gpics" id="pic">
+									<li><img src="{$pic['gp_picture']|showImage=###,340,340}" /></li>
+								</volist>
+                            </ul>
+                    </div>
+                    <a class="sNext" href="javascript:void(0)"></a>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="deal_right detChoose">
+			<form id="goodsForm" name="goodsForm" method="post" action="#">
+                <div class="r_first clearfix">
+                </div>
+                <div class="r_second">
+                    <ul class="price_module clearfix">
+                    <!--非组合start-->
+                        <li class="jumei_price"><em class="jp_cur">¥</em>{$detail.gprice|sprintf='%.2f',###}</li>
+                        <li class="market_price"><em class="currency_arial">¥</em>{$g_market_price|sprintf='%.2f',###}</li>
+                        <li class="sh_mark sh_mark_price" id="sh_mark_price" style="display: list-item;cursor: pointer;" onclick="addToInterests('{$ary_request[gid]}');">
+                            <span class="rmb_tax">收藏</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="people clearfix">
+                    <!--秒杀不显示心愿 购买人数-->
+                    <div class="num fl"><em>{$detail.comment_nums}</em>人已购买</div>
+                </div>
+                <div class="r_third">
+                    <dl class="mail_policy clearfix">
+                        <dt class="fl">服务政策：</dt>
+                        <dd class="global_mail">
+                            <span class="day"></span>本商品支持7天无条件退货
+                        </dd>
+                    </dl>
+                    <notempty name="detail.gifts_point">
+	                    <div class="r_third_bottom">
+	                        <div class="fan">返</div>
+	                        <div class="jifen">最高可返<span>{$detail.gifts_point}</span>积分</div>
+	                        <div class="problem"><a href="javascript:void(0)">?</a></div>
+	                    </div>
+                    </notempty>
+                </div>
+				<if condition="$detail['gname'] eq '商品不存在！'">
+					<div id="r_third" style="padding:20px 0;font-weight:bold;font-size:24px;">该商品已下柜，非常抱歉！</div>
+				<else/>
+	                <div id="showDetailSkus">商品规格加载中......</div>
+					<script>
+						var goods_url = new Array();
+						<volist name="detail.goods_url" id="da" key="k">
+							goods_url['{$key}'] = "{$da}";
+						</volist>
+					</script>
+	                <div class="share_to">
+	                    <dl>
+	                		<!-- JiaThis Button BEGIN -->
+	                        <dt>分享给好友</dt>
+	                        <dd id="ckepop">
+	                            <a class="jiathis_button_qzone" style="float: left;"></a>
+	                            <a class="jiathis_button_tsina" class="share_to1" style="float: left;"></a>
+	                            <a class="jiathis_button_tqq" class="share_to2" style="float: left;"></a>
+	                            <a class="jiathis_button_renren" class="share_to3" style="float: left;"></a>
+	                            <a class="jiathis_button_kaixin001" class="share_to4" style="float: left;"></a>
+	                        	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	                        </dd>
+	                    	<!-- JiaThis Button END -->
+	                    </dl>
+	                </div>
+	                <div class="tb-action">
+						<input type="hidden" name="way_type" value="" id="way_type"/>
+	                    <div class="tb-btn-buy"><a href="javascript:void(0)" id="addToOrder" class="J_LinkBuy">立即购买</a></div>
+	                    <div class="tb-btn-basket"><a href="javascript:void(0)" id="addToCart">加入购物车&gt</a></div>
+	                </div>
+				</if>
+            </form>
+            </div>
+        </div>
+    </div>
+    <!-- 修改 -->
+    <div id="relate_goods">
+    </div>
+	<!--修改  -->
+</div>
+
+<div class="detail_page2">
+    <div class="deal_detail">
+      <div class="deal_tab_nav" id="anchorbar" style="">
+        <div class="inner">
+          <ul class="clearfix fl">
+            <li><a href="#spxx" class="">商品信息</a></li>
+            <li><a href="#spxq" class="">商品详情</a></li>
+            <li><a href="#spsp" class="">商品实拍</a></li>
+            <li><a href="#hgzy" class="">韩国直邮说明</a></li>
+            <li id="yhkb_link" class="yhkb_link"><a href="#comments">买家评论</a></li>
+          </ul>                                                    
+          <div class="nav_fixed_pric fr" style="display: none;"> <span class="nav_fprice"> <strong class="jm_price">¥139</strong> <span class="nav_price">(<span class="market_price" style="display: none;"><em class="currency_arial">¥</em>159</span>)</span> </span> <span class="btn"><a href="javascript:;" id="anchorbarBuyBtn" class="fixed_buy_now">加入购物车</a></span> </div>
+        </div>
+      </div>
+      <div class="content_nav_con content_book"> 
+        <!--授权书-->
+        <div class="detail_content consumer_box"></div>
+        <div class="content_text"> <img src="__TPL__images/14743573798831.png" class="w720"> </div>
+        <!--品牌介绍（店铺介绍）--> 
+      </div>
+      <div class="ptb_30">
+        <div id="spxx" class="content_nav_con " loaded="loaded">
+          <div class="detail_content guts_box"></div>
+          <div class="content_text">
+            <div class="deal_con_content">
+				<table border="0" cellpadding="0" cellspacing="0" style="font-family:arial;background: url(__TPL__images/3096444_200_200.jpg) top right no-repeat;width: 100%;">
+					<tbody>
+						<Gyfx:unsalespecs name="spec" gid="$ary_request[gid]"   >
+							<tr>
+								<td width="85" align="left">{$spec.gs_name}：</td>
+								<td width="500">{$spec.gsd_aliases}</td>
+							</tr>
+						</Gyfx:unsalespecs>
+					</tbody>
+				</table>
+				<span id="hgzy"></span>
+            </div>
+          </div>
+          <div class="content_img"> <img src="__TPL__images/htbsqPC.jpg" alt="gyhwg_img"> </div>
+        </div>
+        <div id="spxq" class="content_nav_con" loaded="loaded">
+         	{$detail.gdesc}
+        </div>
+        <div id="spsp" class="content_nav_con" loaded="loaded">
+          <div class="detail_content spsp_box"></div>
+          <div class="content_text">
+				<volist name="detail.gpics" id="pic">
+					<img src="{$pic['gp_picture']}" />
+				</volist>
+          </div>
+        </div>
+
+		<!-- 商品评价 开始 -->
+		<if condition="$common['comments_switch'] eq 1">
+	        <div id="comments" class="content_nav_con" loaded="loaded">
+	          <div class="detail_content comments"></div>
+	          <div class="tabAbpCon" id="con_tabAbp_2"></div>
+	        </div>
+			
+		</if>
+		<!-- 商品评价 结束 -->
+
+      </div>
+    </div>
+</div>
+<input type="hidden" name="error_1" value="{$Think.lang.STOCK_ERROR_1}" id="error_1" />
+<input type="hidden" name="error_2" value="{$Think.lang.STOCK_ERROR_2}" id="error_2" />
+<input type="hidden" name="error_3" value="{$Think.lang.STOCK_ERROR_3}" id="error_3" />
+<input type="hidden" name="error_4" value="{$Think.lang.STOCK_ERROR_4}" id="error_4" />
+<input type="hidden" value="{$detail.gid}" id="gid">
+<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Ucenter/Orders/pageAdd">
+<input type="hidden" name="pid[]" id="submitSkipItemPid" value="" />
+<input type="hidden" name="type[]" id="submitSkipItemtype" value=""/>
+</form>
+<script type="text/javascript">
+$(function(){
+    $(window).scroll(function(e) {
+        var topH = $(window).scrollTop();
+        //$('title').html(topH)
+        
+        //如果topH大于730px它要定位在上面，如果小于或等于，它还在box里面（标准流）
+        if(topH>1020){
+            $('.deal_tab_nav').css('position','fixed').css('top',0)  
+        }else{
+            $('.deal_tab_nav').css('position','static')
+        }
+    });
+})
+//	var IS_ON_MULTIPLE = '{$is_on_mulitiple}';
+	getDetailSkus('{$ary_request.gid}');
+	getGoodsAdvice('{$ary_request.gid}',1);
+	getCollGoodsPage('{$ary_request.gid}');
+	getRelateGoodsPage('{$ary_request.gid}');
+	<if condition="$common['comments_switch'] eq 1">
+	getCommentPage('{$ary_request.gid}');
+	</if>
+	//getBuyRecordPage('{$ary_request.gid}',20);
+	function setTabs(name, cursel, n){
+		for (i = 1; i <= n; i++){
+			var tab = document.getElementById(name + i);
+			var con = document.getElementById("con_" + name + "_" + i);
+			tab.className = i == cursel?"onHover":"";
+			con.style.display = i == cursel?"block":"none";
+		}
+	};
+</script>
+
+<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+<script type="text/javascript">
+    //大图切换
+    jQuery(".picFocus").slide({ titCell:".smallImg li", mainCell:".bigImg", effect:"fold", autoPlay:true,delayTime:200,
+        startFun:function(i,p){
+            //控制小图自动翻页
+            if(i==0){ jQuery(".picFocus .sPrev").click() } else if( i%4==0 ){ jQuery(".picFocus .sNext").click()}
+        }
+    });
+    //小图左滚动切换
+    jQuery(".picFocus .smallScroll").slide({ mainCell:"ul",delayTime:100,vis:4,scroll:4,effect:"left",autoPage:true,prevCell:".sPrev",nextCell:".sNext",pnLoop:false });
+    jQuery(".picFocus").slide({ mainCell:".bd ul",effect:"fade",autoPlay:false});
+</script>

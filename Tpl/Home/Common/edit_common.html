@@ -1,0 +1,46 @@
+<!--#########################################################################-->
+<!--############################### Ueditor #################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<script type="text/javascript" charset="utf-8">
+var dialog;
+var objIDD;
+var editor = new UE.ui.Editor({
+    imageRealPath:"editor"
+});
+editor.render("myEditor");
+editor.ready(function(){
+    editor.hide();
+    dialog = editor.getDialog("insertimage");
+    editor.addListener('beforeInsertImage',function(t, arg){
+        var str = arg[0].src;
+        str = str.replace('/Lib/ueditor/php/../../../', '/');
+		str = str.replace('/Public/Lib/ueditor/php/', '');			
+		var oss_val = document.getElementById("oss_id").value;
+		var qn_val = document.getElementById("qn_id").value;
+		if(qn_val == 0 && oss_val == 0){
+			str = str.replace('//', '/');
+		}
+        //str = str.replace('//', '/');
+        saveImagePath(str,objIDD);
+    });
+    
+});
+function upImage(objID) {
+    objIDD = objID;
+    dialog.open();
+}
+function saveImagePath(path,obj){
+    obj.val(path);
+}
+</script>

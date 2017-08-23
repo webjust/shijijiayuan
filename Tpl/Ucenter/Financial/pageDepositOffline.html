@@ -1,0 +1,130 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>预存款充值 - 线下预存款充值</span></h2>
+
+    <div class="deposit"><!--deposit  start-->
+        <p class="p01">
+            <span class="span01">充值账户：</span><strong>{$members.m_name}</strong>
+            <span class="span02">账户余额：</span><b>{$members['m_balance'] |number_format=2}</b> 元
+        </p>
+
+        <div class="depositCon"><!--depositCon  start-->
+            <p class="depositConP">
+                <span id="depositConP1"><a href="{:U('Ucenter/Financial/pageDepositOnline')}">线上预存款充值</a></span>
+                <span id="depositConP2" class="onHover">线下预存款充值</span>
+                <if condition="$PREPAID_OPEN['sc_value'] eq '1'">
+                <span id="depositConP3"><a href="{:U('Ucenter/Financial/pagePrepaidCard')}">充值卡充值</a></span>
+                </if>
+				<span id="depositConP4" ><a href="{:U('Ucenter/Financial/pageDepositWithdraw')}">预存款提现</a></span>
+            </p>
+
+            <div id="con_depositConP_2" class="depositLine">
+                <form action="{:U('Ucenter/Financial/doAddDepositOffline')}" method="post" id="offline_add" name="offline_add">
+                    <div class="OffLine01"><!--OffLine01  start-->
+                        <table>
+                            <volist name="list" id="ac">
+                                <tr id="bank" data-value="1">
+                                    <td width="34" align="center">
+										<input type="radio" name="a_id" value="{$ac.a_id}" <eq name="ac.a_default" value="1"> checked="checked"</eq>  />
+									</td>
+                                    <td>
+                                        <span>开户名：{$ac.a_apply_name}</span>
+                                        <span>开户行：{$ac.a_apply_bank}</span>
+                                        <span>账&nbsp;&nbsp;&nbsp;号：{$ac.a_account_number}</span>
+                                    </td>
+                                    <td>
+                                <eq name="ac.a_type" value="0">银行汇款<else/>在线平台转账</eq>
+                                </td>
+                                </tr>
+                            </volist>
+                        </table>
+                    </div><!--OffLine01  end-->
+
+                    <div class="OffLine02"><!--OffLine02  start-->
+                        <table>
+                            <notempty name="oid">
+                            <tr>
+                                <td align="right"><i class="red">*</i> 订单号：</td>
+                                <td><input type="text" class="input01" name="o_id" value="{$oid}" readOnly="true"/></td>
+                                <td><span>付款订单号</span></td>
+                            </tr>
+                            </notempty>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 汇款人：</td>
+                                <td><input type="text" class="input01" name="re_name" validate="{ required:true}" /></td>
+                                <td><span>请填写汇款人姓名</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 充值金额：</td>
+                                <td>
+                                    <input type="text" class="input01" name="re_money" validate="{ required:true,number:true,min:0}" <if condition="$oid neq ''"> value="{$price}" readOnly="true" </if>/>
+                                </td>
+								<td><span>单位：元,请在此输入打款金额,最大金额999万，例: 100.55。</span></td>
+								<!--
+                                <td><span>单位：元。请在此输入打款金额的整数部分，最大金额999万，例: 100。</span></td>
+								-->
+                            </tr>
+                            <tr>
+                                <td align="right">银行打款尾数：</td>
+                                <td><input type="text" class="input01" name="re_money_end" validate="{ number:true,digits:true,range:[0,99]}" /></td>
+                                <td><span>单位：分。0-99整数，并与实际打款尾数相同；用来和充值金额验证。</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 汇款单号：</td>
+                                <td><input type="text" class="input01" name="re_payment_sn" validate="{ required:true}" /></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 汇款时间：</td>
+                                <td><input type="text" class="input01 dater" name="re_time" validate="{ required:true,isDate:true}" /></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top">给管理员留言：</td>
+                                <td>
+                                    <textarea name="re_message"></textarea>
+                                </td>
+                                <td><span>200个字以内</span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><a href="###" class="brown" id="submit">我已汇款</a></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div><!--OffLine02  end-->
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div><!--depositCon  end-->
+
+    </div><!--deposit   end-->
+
+</div><!--contentRightBox  end-->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.metadata.setType("attr","validate");
+        $("#offline_add").validate();
+        $("#submit").click(function(){
+            // 检验是否选择了银行帐号
+            var tag = true;
+            var tag = $('#bank').attr('data-value');
+            if(tag == undefined){
+                $.ThinkBox.error("请通知管理员添加开户行!");
+                return false;
+            }
+            $('input[name=a_id]').each(function(){
+                if(this.checked) tag = false;
+            });
+            if(tag){
+                $.ThinkBox.error("请选择开户行!");
+                return false;
+            }
+            if(false != $("#offline_add").valid()){
+                $("#offline_add").submit();
+            }
+        });
+    });
+</script>

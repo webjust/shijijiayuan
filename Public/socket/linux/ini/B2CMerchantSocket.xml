@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<BOCOMB2C><Setting>T</Setting><ConnetionTimeOut>30000</ConnetionTimeOut><ReadTimeOut>30000</ReadTimeOut><Certs><CertInf><MerchantCertFile>301310063009501.PFX</MerchantCertFile><MerchantCertPassword>12345678</MerchantCertPassword></CertInf></Certs></BOCOMB2C>

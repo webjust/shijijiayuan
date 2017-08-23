@@ -1,0 +1,91 @@
+<div class="rightInner">
+    <form id="coupon_add" enctype="multipart/form-data" name="coupon_add" method="post" action="{:U('Admin/GoodsFreeRecommend/doEdit')}" onsubmit="return addRecommend();">
+        <table class="tbForm" width="100%" id="wrap">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑自由搭配</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">* 搭配名称：</td>
+                    <td>
+                    	<input type="text"  value="{$fr_name}" id="fr_name" name="fr_name" onblur='checkGname(this)' class="large" maxlength="60"/>
+                        <span class="gname_error" style="color:#ff0000;"></span>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="first">分类：</td>
+                    <td  colspan="2" style="text-align:left;padding-left:5px;">
+                        <select name="search_cats" class="related_goods_form_info medium" >
+                            <option value="0"> -请选择- </option>
+                            <volist name="array_category" id="cat">
+                            <option value="{$cat.gc_id}"><php>for($j=0;$j<$cat['gc_level'];$j++){echo '--';}</php>{$cat.gc_name}</option>
+                            </volist>
+                        </select>
+                        品牌：
+                        <select name="search_brand" class="related_goods_form_info medium">
+                            <option value="0"> -请选择- </option>
+                            <volist name="array_brand" id="vo">
+                                <option value="{$vo.gb_id}">{$vo.gb_name}</option>
+                            </volist>
+                        </select>
+                        关键词：
+                        <input type="text" name="keywords" class="related_goods_form_info medium" id="search_keywords" value="" />
+                        <button type="button" id="related_goods_form_search_info" class="btnA">搜索</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">* 搭配商品：</td>
+                    <td>
+                        <input type="hidden" id="fr_original_price" name="fr_original_price" value="{$fr_original_price}" />
+                        <select name="g_id" style="width:auto" class="medium" id="g_related_goods_ids_selected_info" onchange="showPic()" validate="{ required:true}">
+                        	<option value="{$goods.g_id}">{$goods.g_field}</option>
+                        	
+                        </select>
+                        <span class="gname_error" style="color:#ff0000;"></span>
+                        <img width="50px" height="50px" src="{$goods.g_picture}" id="show_pic" style="position:absolute;">
+                        <input type="hidden" name="fr_goods_picture" id="fr_goods_picture" value="{$goods.g_picture}" />
+                        
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td class="first">* 搭配价：</td>
+                    <td>
+                        <input type="text"  value="{$fr_price}" class="small" name="fr_price" id="fr_price" />
+                        <span class="gname_error" style="color:#ff0000;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">有效时间段：</td>
+                    <td>
+                        <input type="text" value="{$fr_statr_time}" name="fr_statr_time" id="fr_statr_time" class="medium timer" />
+                        	至
+                        <input type="text" value="{$fr_end_time}" name="fr_end_time" id="fr_end_time" class="medium timer" />
+                    </td>
+                    <td class="last"></td>
+                </tr> 				
+	            <tr>
+                    <td class="first">是否启用：</td>
+                    <td>
+                        <input type="checkbox"  onclick="checkedStatus(this);" <if condition="$fr_status eq 1">checked value="1"<else/>value="0"</if>  />
+                        <input type="hidden" name="fr_status" id="fr_status" <if condition="$fr_status eq 1"> value="1"<else/>value="0"</if>  />
+                    </td>
+                    <td class="last">不勾选代表停用</td>
+                </tr>		               								
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" name="fr_id" id="fr_id" value="{$fr_id}">
+    </form>
+    <div class="clear"></div>
+</div>
+<script src="__PUBLIC__/Admin/js/admin-recommend.js"></script>

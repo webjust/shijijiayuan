@@ -1,0 +1,269 @@
+<p class="tabListP" id="tabs">
+    <span id="tabListP1" <if condition="$tabs eq 'pageEdit'">class="onHover"</if>><a href='{:U("Admin/Members/pageEdit","mid=$members[m_id]")}'>会员编辑</a></span>
+    <span id="tabListP2" <if condition="$tabs eq 'pointList'">class="onHover"</if> ><a href='{:U("Admin/Members/pointList","mid=$members[m_id]")}'>积分历史</a></span>
+</p>
+<div class="rightInner" id="tabList1">
+    <form id="members_form" name="members_form" method="post" action="{:U('Admin/Members/doEdit')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <tbody>
+                <tr>
+                    <td class="first">预存款：</td>
+                    <td>
+                        {$members.m_balance}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">红包：</td>
+                    <td>
+                        {$members.m_bonus}
+                    </td>
+                </tr>
+                <notempty name="plname">
+                <tr>
+                    <td class="first">当前积分等级：</td>
+                    <td>
+                        {$plname}
+                    </td>
+                </tr>
+                </notempty>
+                <tr>
+                    <td class="first">当前积分：</td>
+                    <td>
+                        {$members.total_point}
+                        <input type="hidden" name="total_point" id="total_point" value="{$members.total_point}"/>
+                    </td>
+                </tr>
+                <if condition="$members.subcompany_name neq ''">
+                <tr>
+                    <td class="first">关联子公司：</td>
+                    <td>
+                        {$members.subcompany_name}
+                        <input type="hidden" name="subcompany_name" id="subcompany_name" value="{$members.subcompany_name}"/>
+                    </td>
+                </tr>
+                </if>
+                <volist name="ary_extend_data" id="data">
+                    <tr>
+                        <td class="first">{$data.field_name}：</td>
+                        <td <if condition="$data.fields_type eq 'file'">style="position:relative;"</if> >
+                            <if condition="$data.fields_type eq 'radio'">
+                                <volist name="data.fields_content" id="field_content">
+                                    <input name="extend_field_{$data.id}" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'checkbox'">
+                                <volist name="data.fields_content" id="field_content" >
+                                    <input name="extend_field_{$data.id}[]" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'select'">
+                                <if condition="$data.id eq 14 ">
+                                    <include file="Address:addressPage" />
+                                <else />
+                                <select class="medium" name="extend_field_{$data.id}" >
+                                    <volist name="data.fields_content" id="field_content" >
+                                        <option value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">selected="selected"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>> {$field_content}</option>
+                                    </volist>
+                                </select>
+                                </if>
+                            </if>     
+                            <if condition="$data.fields_type eq 'text'">
+                                <input <if condition="($data.type eq 1 )">name="{$data.fields_content}"<else /> name="extend_field_{$data.id}"</if> <if condition="($data.fields_content eq 'm_password' or $data.fields_content eq 'm_password_1')">type="password"  <else /> type="text" </if>  <if condition="($data.fields_content neq 'm_password' and $data.fields_content neq 'm_password_1')">value="{$data.content}"</if> class="medium" <if condition="($data.is_need eq 1 and $data.fields_content neq 'm_password' and $data.fields_content neq 'm_password_1')"> validate="{ required:true}"</if> <if condition="($data.fields_content eq 'm_name')"> disabled="disabled" </if>/>
+                                <if condition="$data['fields_content'] eq 'm_mobile' and $data['fields_content'] neq '' "><input type="hidden" name="mobile" value="{$data.content}"/><a href="javascript:void(0);" onClick="lookMobile(this);">查看手机号</a></if>
+                            </if>
+                            <if condition="$data.fields_type eq 'file'">
+                                <if condition="$data.content neq ''"><img src="{$data.content}" width="100px" height="100px" class="hoverPic"/><img src="{$data.content}" width="400px" height="400px" style="display: none;left:100px;z-index:999"></if>
+                                <input name="extend_field_{$data.id}" type="file"  value="{$data.content}" class="medium" />
+                                <input name="extend_field_{$data.id}" type="hidden"  value="{$data.content}" class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> />
+                            </if>
+                        </td>
+                        <if condition="($data.type eq 1 )">
+                            <td class="last">系统默认属性项</td>
+                        <else />
+                            <td class="last">自定义会员属性项</td>
+                        </if>
+                    </tr> 
+                </volist>
+                <tr>
+                    <td class="first">会员等级：</td>
+                    <td>
+                        <select name="ml_id" class="medium">
+                            <option  value="0"> 请选择</option>
+                            <volist name="members_level" id="level">
+                                <option  value="{$level.ml_id}" {$level[ml_id]==$members[ml_id]?' selected="selected"':''}> {$level.ml_name}</option>
+                            </volist>
+                        </select> <br>
+                    </td>
+                    <td class="last">说明文字</td>
+                </tr>
+                <tr>
+                    <td class="first">会员类型：</td>
+                    <td>
+                        <select name="m_type" class="medium">
+                            <option  value="0" {$members[m_type]==0?' selected="selected"':''}>分销商类型</option>
+                            <option  value="1" {$members[m_type]==1?' selected="selected"':''}>普通类型</option>
+                        </select> <br>
+                    </td>
+                    <td class="last">说明文字</td>
+                </tr>
+                <tr>
+                     <td class="first">会员所属平台：</td>
+                    <td>
+                       <volist name="ary_platform" id="platform">
+                           <input type="checkbox" name="platform[]" id=""  <if condition="$platform.is_select eq 1"> checked="checked" </if> value="{$platform.sp_id}" /> {$platform.sp_name}
+                       </volist>
+                    </td>
+                </tr>
+                <notempty name="members.shop_code">
+				<tr>
+                    <td class="first">店铺编码：</td>
+                    <td><input type="text" class="medium input01" name="shop_code" value="{$members.shop_code}" id="shop_code" readonly="readonly"></td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+				</notempty>
+                <tr>
+                    <td class="first">出生日期：</td>
+                    <td><input type="text" class="medium input01" name="m_birthday" value="{$members.m_birthday}" id="m_birthday" validate="{ isCheck:true,messages:{isCheck:'您输入的参数非法，请重新输入'}}"></td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td class="first">性别：</td>
+                   
+                    <td>
+                        <input type="radio" name="m_sex" {$members[m_sex]==1?' checked="checked"':''} value="1" /> 男 
+                        <input type="radio" name="m_sex" {$members[m_sex]==0?' checked="checked"':''} value="0"/> 女 
+                        <input type="radio" name="m_sex" {$members[m_sex]==2?' checked="checked"':''} value="2"/> 保密 
+                    </td>
+                    <td class="last">说明文字</td>
+                </tr>
+                <notempty name="members.m_card_no">
+                <tr>
+                    <td class="first">长益卡号：</td>
+                    <td>
+                        <input type="text" name="m_card_no" value="{$members.m_card_no}" readonly="readonly" disabled="disabled"/> 
+                    </td>
+                    <td class="last">对应长益同步的卡号</td>
+                </tr>
+                </notempty>
+                <notempty name="members.m_ali_card_no">
+                <tr>
+                    <td class="first">阿里卡号：</td>
+                    <td>
+                        <input type="text" name="m_ali_card_no" value="{$members.m_ali_card_no}" readonly="readonly" disabled="disabled"/> 
+                    </td>
+                    <td class="last">对应阿里同步的卡号</td>
+                </tr>
+                </notempty>
+                
+            <tr>
+                <td class="first">是否已经审核：</td>
+                <td>
+                    <input type="radio" value="0" {$members[m_verify]==0?' checked="checked"':''}  name="m_verify" /> 未审核 
+                    <input type="radio" value="2" {$members[m_verify]==2?' checked="checked"':''} name="m_verify" /> 审核通过 
+                    <input type="radio" value="4" {$members[m_verify]==4?' checked="checked"':''} name="m_verify" /> 待审核 
+                </td>
+                <td class="last">说明文字</td>
+            </tr> 
+            <tr>
+                <td class="first">是否冻结：</td>
+                <td>
+                    <input type="checkbox" value="1" {$members[m_status]==0?' checked="checked"':''}  name="mStatus" /> 是 
+     
+                </td>
+                <td class="last">说明文字</td>
+            </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/Members/pageList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <input type="hidden" id="m_id" name="m_id" value="{$members[m_id]}">
+    </form>
+    <div class="clear"></div>
+</div>
+
+
+<script type="text/javascript">
+    $("document").ready(function(){
+        $("#m_birthday").datepicker({
+            showButtonPanel: true,
+            changeMonth: true,
+            autoSize: true,
+            minDate: new Date(1940, 1 - 1, 1),
+            yearRange: '1940:+5',
+            changeYear: true
+        });
+        $('#members_form').validate();
+        $(".dater").datepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        $(".timer").datetimepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+    });
+
+function selectCityRegion(obj, item, default_value) {
+    var value = obj.value;
+    if (!value) {
+        value = obj;
+    }
+    if (value == 0) {
+        $('#region').html('<option value="0">请选择</option>');
+        return false;
+    }
+    var url = '__URL__/getCityRegion/';
+    $('#' + item).load(url, {'parent': value, 'item': item ,'val':default_value}, function(msgObj) {
+        $("#"+item+"Class").html(msgObj);
+        if(msgObj == ''){
+            $("#"+item).css("display","none");
+        }else{
+            $("#"+item).css("display","");
+            if ('' != default_value) {
+            	this.value = default_value;
+            }
+        }
+    });
+}
+
+function initSelectCityRegion() {
+    $('#city').html('<option value="0">请选择</option>');
+	$('#region').html('<option value="0">请选择</option>');
+}
+    function lookMobile(obj){
+        var url = '/Admin/Members/showMobile/';
+        var html = $(obj);
+        var mid = $("#m_id").val();
+        var m_mobile = $("input[name='m_mobile']");
+        var mobile = $("input[name='mobile']").val();
+        if(html.html() == '查看手机号' && html.html() != '' && mid != '' && !isNaN(mid)){
+            $.ajax({
+                url : url,
+                data : {'mid':mid},
+                type:"post",
+                dataType:"json",
+                success:function(info){
+                    if(info.m_mobile){
+                        m_mobile.val(info.m_mobile);
+                        html.html('关闭显示');
+                    }
+                }
+            })
+        }
+        if(html.html() == '关闭显示' && html.html() != ''){
+            m_mobile.val(mobile);
+            html.html('查看手机号');
+        }
+
+    }
+
+    $(".hoverPic").hover(function () {
+        $(this).next("img").addClass("onPic");
+        $(this).next("img").show();
+    }, function () {
+        $(this).next("img").removeClass("onPic");
+        $(this).next("img").hide();
+    });
+</script>
+{$js_city}

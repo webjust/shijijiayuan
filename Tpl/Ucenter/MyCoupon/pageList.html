@@ -1,0 +1,100 @@
+
+       
+        <!-- 右侧主题内容开始 -->
+        <div class="contentRightBox"><!--contentRightBox  start-->
+        	<h2 class="publicH2"><span>我的优惠券</span></h2>
+        	
+            <div class="myOrder"><!--myOrder  start-->
+               
+                <table class="tableTop">
+                     <form action='{:U("Ucenter/MyCoupon/pageList")}' method="post">
+                    <tr>
+                        <td width="81">优惠券编号：</td>
+                        <td width="215"><input type="text" name="c_sn" value="{$ary_post_data['c_sn']}" class="input01"></td>
+                        <td width="105">优惠券到期时间：</td>
+                        <td width="185"><input type="text" value="{$ary_post_data['c_end_time']}" name="c_end_time"class="input02 searchtime" readonly="readonly" ></td>
+                        <td><input type="submit" value="搜 索" class="blue"></td>
+                    </tr>
+                    </form>
+                </table>
+                <div class="chooseProCon"><!--chooseProCon  start-->
+                	<p class="choosePtop">
+                         <a href='{:U("Ucenter/MyCoupon/pageList?type=0")}'><span  id="choose1" <if condition="$type eq 0 or $type eq ''" >class="onHover"</if>>全部</span></a>
+                         <a href='{:U("Ucenter/MyCoupon/pageList?type=1")}'><span  id="choose2" {$type==1? 'class="onHover"':'' }>未使用</span></a>
+                         <a href='{:U("Ucenter/MyCoupon/pageList?type=2")}'><span  id="choose3"{$type==2? 'class="onHover"':'' }>已使用</span></a>
+                         <a href='{:U("Ucenter/MyCoupon/pageList?type=3")}'><span  id="choose4"{$type==3? 'class="onHover"':'' }>已过期</span></a>
+						 <a href='{:U("Ucenter/MyCoupon/pageList?type=4")}'><span  id="choose5"{$type==4? 'class="onHover"':'' }>已作废</span></a>
+					</p>
+                    
+                    <div id="con_choose_1" class="chooseDiv">
+                    	<table class="tableCon">
+                            <thead>
+                                <tr>
+                                    <td>优惠券名称及编码</td>
+									<td>优惠券类型</td>
+                                    <td>面值或折扣</td>
+                                    <td>使用条件</td>
+                                    <td>有效时间</td>
+                                    <if  condition="$type eq 0 or $type eq 1">
+                                        <td>状态</td>
+                                    </if>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="ary_coupon" id="coupon">  
+                                <tr>
+                                    <td>{$coupon.c_name}<br>{$coupon.c_sn}</td>
+									<td><if condition="$coupon.c_type eq 1">折扣券<else />现金券</if></td>
+                                    <td><b class="yellow">{$coupon.c_money}</b></td>
+                                    <td><eq name="coupon[c_condition_money]" value="0.00"> 无条件<else />订单满{$coupon.c_condition_money}元（不含运费）</eq></td>
+                                    <td>{$coupon.c_start_time}~{$coupon.c_end_time}</td>
+                                    <if  condition="$type eq 0 or $type eq 1">
+                                        <eq name="coupon[no]" value="1">
+                                            <td>活动结束</td>
+                                        <else />
+                                        <td><eq name="coupon[c_is_use]" value="0"> 未使用<br><a href='{:U("Home/Products/index")}?ggid={$coupon.ggid}' class="wordBlue">马上使用</a><else /> 
+											<eq name="coupon[c_is_use]" value="1">
+											已经使用
+											</eq>
+											<eq name="coupon[c_is_use]" value="4">
+											已作废
+											</eq>											
+											</eq></td>
+                                        </eq>  
+                                    </if>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                        
+                        <div class="myOderBot"><!--myOderBot  start-->
+                            
+                            <div class="myOderBotRight"><!--myOderBotRight  start-->
+                            	<div class="fenye"><!--fenye  start-->
+                                   {$page}
+                                </div><!--fenye  end-->
+                            </div><!--myOderBotRight  end-->
+                            
+                        </div><!--myOderBot  end-->
+                    </div>
+                </div><!--chooseProCon  end-->
+                
+            </div><!--myOrder  end-->
+            
+        </div><!--contentRightBox  end-->
+        
+<!-- 中间内容结束 -->
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".searchtime").datepicker({
+        showButtonPanel: true,
+        changeMonth: true,
+        autoSize: true,
+        minDate: new Date(1940, 1 - 1, 1),
+        yearRange: '1940:+5',
+        changeYear: true
+    });
+});
+</script>
+
+</html>

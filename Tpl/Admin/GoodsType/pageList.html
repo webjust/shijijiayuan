@@ -1,0 +1,48 @@
+<div class="rightInner tableColor">
+    <form method="POST" action="{:U('Admin/GoodsType/doDelType')}" id="">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    <div class="TtopLeft">
+                        <a  class="btnG ico_add" href='{:U("Admin/GoodsType/addGoodsType")}'>添加商品类型</a>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th width="20px;"><input type="checkbox" class="checkAll"/></th>
+                <th width="180px;">操作</th>
+                <th style="text-align:left;padding-left:100px;">商品类型名称</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_type" id="spec">
+            <tr>
+                <td width="20px;">
+					<input type="checkbox" class="checkSon" name="gt_id[]" value="{$spec.gt_id}" />
+				</td>
+                <td width="180px;">
+                    <a href='{:U("Admin/GoodsType/eidtGoodsType?gtid=$spec[gt_id]")}' class="edit" title="修改此类型"></a> 
+                    <a href='{:U("Admin/GoodsType/doDelTypeDetail?gtid=$spec[gt_id]")}' class="confirm delete" title="删除此类型"></a>
+					<a href='{:U("Admin/GoodsProperty/addSpecPage?gt_id=$spec[gt_id]&gt_type=$spec[gt_type]")}'>添加属性</a>
+                    <a href='{:U("Admin/GoodsProperty/specListPage?gt_id=$spec[gt_id]")}'>属性列表</a>
+                </td>
+                <td style="text-align:left;padding-left:50px;">{$spec.gt_name}</td>
+             </tr>
+            </volist>
+            <empty name="ary_type">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+					<input type="submit" value="删除选中" class="btnA confirm" id="delAll" />
+					<span class="right page">{$page}</span>
+				</td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,79 @@
+<style>
+    .seller_login{width: 100%;overflow: hidden;}
+    .seller_login_box{width: 1200px;overflow: hidden;margin: 0 auto;padding: 20px 0;}
+    .seller_login_left{width: 625px;height:596px;overflow: hidden;margin-right: 10px;float: left;}
+    .seller_login_left .seller_login_left_box1{width: 625px;height:142px;overflow: hidden;margin-bottom: 10px;}
+    .seller_login_left .seller_login_left_box2{width: 625px;height:261px;overflow: hidden;margin-bottom: 10px;}
+    .seller_login_left .seller_login_left_box2>div{float: left;overflow: hidden;margin-right: 10px;}
+    .seller_login_left .seller_login_left_box2>div:last-child{margin-right: 0;}
+    .seller_login_left .seller_login_left_box2>div div{margin-bottom: 7px;}
+    .seller_login_left .seller_login_left_box3{width: 625px;height:173px;overflow: hidden;}
+    .seller_login_left .seller_login_left_box3>div{float: left;overflow: hidden;margin-right: 10px}
+    .seller_login_left .seller_login_left_box3>div:last-child{width:227px;height:173px;overflow:hidden;margin-right: 0;}
+    .seller_login_right{width: 495px;height:536px;overflow: hidden;background:#efeff1;float: left;padding: 30px 35px;}
+    .seller_login_right_box{width: 495px;height:536px;overflow: hidden;}
+    .seller_login_right_box form p{width: 495px;height:61px;display:block;overflow: hidden;margin-bottom:20px;}
+    .seller_login_right_box form p input{width: 475px;height:59px;overflow: hidden;border:1px solid #c5c5c5;padding-left: 18px;font-size: 24px;}
+    .seller_login_right_box form p:nth-last-of-type(2) input{width: 277px;}
+    .seller_login_right_box form p a{width: 198px;height:61px;display:block;float: right;background:#c5c5c5;}
+    .seller_login_right_box form p.seller_login_right_btn a{width: 495px;height:61px;display:block;background:#ff2691;color:white;text-align: center;line-height: 61px;font-size: 24px;}
+    .seller_login_right_box>div:last-child{font-size: 20px;font-family:'微软雅黑', '黑体';}
+</style>
+<div class="seller_login">
+    <div class="seller_login_box">
+        <div class="seller_login_left">
+            <div class="seller_login_left_box1"><img src="__TPL__images/seller_login_btn.png" alt=""/></div>
+            <div class="seller_login_left_box2">
+                <div>
+                    <a href="http://www.caizhuangguoji.com/Home/Seller/intro.html"><img src="__TPL__images/seller_login_btn1.png" alt=""/></a>
+                </div>
+                <div>
+                    <div>
+                        <a href="#"><img src="__TPL__images/seller_login_btn2.png" alt=""/></a>
+                    </div>
+                    <div>
+                        <a href="#"><img src="__TPL__images/seller_login_btn3.png" alt=""/></a>
+                    </div>
+                </div>
+            </div>
+            <div class="seller_login_left_box3">
+                <div>
+                    <a href="#"><img src="__TPL__images/seller_login_btn4.png" alt=""/></a>
+                </div>
+                <div>
+                    <a href="#"><img src="__TPL__images/seller_login_btn5.png" alt=""/></a>
+                </div>
+            </div>
+        </div>
+        <div class="seller_login_right">
+            <div class="seller_login_right_box">
+                <div style="width: 495px;height:393px;">
+                    <form action="">
+                        <p>
+                            <input type="text" placeholder="登录账号"/>
+                        </p>
+                        <p>
+                            <input type="text" placeholder="登录密码"/>
+                        </p>
+                        <p>
+                            <input type="text" placeholder="验证码"/>
+                            <a></a>
+                        </p>
+                        <p class="seller_login_right_btn">
+                            <a href="#">登录</a>
+                        </p>
+                        <input type="hidden" name="csrf" value="{$csrf}"/>
+                    </form>
+                </div>
+                <div style="width: 495px;height:143px;">
+                    <dl>
+                        <dt>了解入驻标准</dt>
+                        <dd>客服咨询</dd>
+                        <dd>热线电话：020-71123724</dd>
+                        <dd>工作时间：周一至周六（09:00-18:00）</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,244 @@
+<!--#########################################################################-->
+<!--############################# 系统初始化 #################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<script>
+    jQuery.fn.cleanWhitespace = function() {
+        textNodes = this.contents().filter(
+        function() { return (this.nodeType == 3 && !/\S/.test(this.nodeValue)); })
+        .remove();
+        return this;
+    }
+
+    $(document).ready(function(){
+        //$('*').cleanWhitespace();
+        //$('.area').append('<div><a href="">添加空白区域</a></div>');
+        //$('.area').css('border-bottom','2px solid #F00');
+
+        $('.min_btn').button();
+        $('.min_btn_set').buttonset();
+        //鼠标挪入模块的时候，显示浮层，浮层背景白色
+        $('.block').die().live('mouseover',function(){
+            var w = $(this).outerWidth();
+            var h = $(this).outerHeight();
+            var l = $(this).offset().left;
+            var t = ($(this).offset().top);
+            //浮框设置+++++++++++++++++++++++++++
+            $('#hover_edit_area').hide();
+            $('#hover').stop().animate({
+                'opacity':1,
+                'width':w+'px',
+                'height':h+'px',
+                'left':l+'px',
+                'top':t+'px'
+            },300,'easeOutElastic',function(){
+                $('#hover_edit_area').fadeIn(200);
+            });
+            //是否可编辑++++++++++++++++++++++++
+            var editable = $(this).attr('editable');
+            if('false'==editable){
+                //隐藏编辑按钮
+                $('.min_btn_set').hide();
+            }else{
+                //显示编辑按钮
+                $('.min_btn_set').show();
+            }
+            //是否可移动 +++++++++++++++++++++++
+            moveable = ($(this).attr('moveable') == 'false') ? false : true;
+            if(moveable){
+                //浮层鼠标样式改成可移动
+                $('#hover').css('cursor','move');
+            }else{
+                //浮层鼠标样式改成不可移动
+                $('#hover').css('cursor','not-allowed');
+            }
+            //++++++++++++++++++++++++++++++++
+            $('.hold').removeClass('hold');
+            $(this).addClass('hold');
+
+            $('.block').removeClass('edit');
+            $(this).addClass('edit');
+
+            $('#hover').fadeIn('fast');
+            //+++++++++++++++++++++++++++++++++
+        });
+
+        $('#hover').die().live('mouseout',function(){
+            //清除焦点
+            $('.hold').removeClass('hold');
+            //清除克隆内容
+            //$('#hover_clone').empty();
+            //隐藏浮层
+            $('#hover').hide();
+        });
+
+        /*
+        $('#hover').live('mouseover',function(){
+            //为经过的DIV添加move标识
+            if(!$(this).hasClass('hold')){
+                $(this).addClass('move');
+            }
+        }).live('mouseout',function(){
+            $(this).removeClass('move');
+        });
+         */
+
+        //鼠标点击时的坐标
+        var mouseX,mouseY;
+        //鼠标相对于标签的x、y坐标
+        var offsetX, offsetY;
+        //标识符，判断是否按下鼠标
+        var flag = false;
+        //是否移动模块标识符
+        var moveable = false;
+
+        $('#hover').die().live("mousedown",function(e){
+            e = e || window.event;
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+            offsetX = e.pageX - this.offsetLeft;
+            offsetY = e.pageY - this.offsetTop;
+
+            //在浮层内再克隆一份模块DIV
+            //$('#hover_clone').append($('.hold').clone().removeClass('hold'));
+            //原本模块DIV，半透明化，外加边框定位
+            //$('.hold').css({'opacity':'0.5'});
+
+            /*
+            $('#hold').fadeIn();
+            $('#hold').append($('.hold').clone());
+            $('#hold').insertAfter($('.move'));
+             */
+            //鼠标按下标识 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+            flag = true;
+        }).live("mouseup",function(){
+            $(this).unbind("mousemove");
+
+            //释放选中的焦点
+            $('.hold').removeClass('hold');
+            //清除克隆模块
+            //$('#hover_clone').empty();
+            //浮层隐藏掉
+            $('#hover').fadeOut('fast');
+            //移动原模块的位置
+
+            //$('.hold').css({'position':''});
+            //$('.hold').insertAfter($('.move'));
+
+            flag = false;
+        });
+
+        //移动和释放模块位置 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+        $(document).mousemove(function(e){
+            if(flag && e.which==1 && moveable){
+                var x = e.clientX - offsetX;
+                var y = e.clientY - offsetY;
+
+                //移动浮层的位置
+                $('#hover').css({
+                    'position':'absolute',
+                    'left':x + $(document).scrollLeft(),
+                    'top':y + $(document).scrollTop()
+                });
+                //移动原始模块的位置到经过的DIV的下面
+                //$('.hold').next('.block').css('background-color','#FF0000');
+                //向下移动
+                if((e.pageY - mouseY) > ($('.hold').next('.block').height() * 0.7)){
+                    mouseY = e.pageY;
+                    $('.hold').insertAfter($('.hold').next('.block'));
+                }
+                //向上移动
+                if((mouseY - e.pageY ) > ($('.hold').prev('.block').height() * 0.7)){
+                    mouseY = e.pageY;
+                    $('.hold').insertBefore($('.hold').prev('.block'));
+                }
+
+                //向右移动
+                if((e.pageX - mouseX) > ($('.hold').parent().next().width() * 0.7)){
+                    //(e.pageX - mouseX) > $('.hold').width()
+                    mouseX = e.pageX;
+                    //$('.hold').parent().css('background-color','#FF0000');
+                    $('.hold').prependTo($('.hold').parent().next());
+                }
+                //向左移动
+                if((mouseX - e.pageX) > ($('.hold').parent().prev().width() * 0.7)){
+                    //(mouseX - e.pageX) > $('.hold').width()
+                    mouseX = e.pageX;
+                    $('.hold').appendTo($('.hold').parent().prev());
+                }
+
+            }
+        });
+
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        var add_col;
+        var add_mod;
+        //添加新模块选择位置
+        $('.add').die().live('click',function(){
+            //确定当前col
+            add_col = $(this).parents('.col');
+            $('#gy_add_mod_dialog').parent().css({position:"fixed"}).end().dialog('open');
+        });
+
+        //选择新模块
+        $('.gy_add_mod_option').die().live('click',function(){
+            var str = $(this).attr('desc');
+            add_mod = $(this).val();
+            $('#gy_add_mod_desc').val(str);
+        });
+
+        //添加新模块
+        $('#gy_add_mod_submit').die().live('click',function(){
+            //alert(add_mod);return false;
+            //获取要添加的文件
+            $.get('/Admin/AppEdit/getModHtml/',{'dir':dir,'mod':add_mod},function(info){
+                add_col.append(info);
+                $('.add').remove();
+            });
+        });
+
+        /********** 各种弹出框 ******************************************/
+
+        //添加新模块选择框
+        $('#gy_add_mod_dialog').dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            minWidth:350,
+            minHeight:200,
+            show:'puff'
+        });
+
+    });
+
+    function gy_mod_add(){
+        //alert('TODO：添加新模块的操作');
+        //STEP1. 选择添加模块的区域位置
+        $('.add').remove();
+        $('.col').append('<div class="add">在此添加新模块</div>');
+        alert('请点击页面中红色区域选择要添加模块的位置。注：模块位置可以在添加以后进行移动~');
+    }
+
+    function del(){
+        //alert('TODO：删除当前模块的操作');
+        $.blockUI({
+            overlayCSS:{
+                backgroundColor:'#000',
+                opacity:0.1
+            },
+            onBlock:function(){
+                if(confirm('您确认要删除当前模块，未保存的操作可能不能恢复！')){
+                    $('.edit').remove();
+                }
+            }
+        });
+        $.unblockUI();
+    }
+
+</script>

@@ -1,0 +1,81 @@
+<div class="warp">
+    <div class="head">
+        <p>我的积分</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/Ucenter/index')}" class="gwc1"></a>
+        <a href="{:U('Wap/Index/index')}" class="gwc2"></a>
+    </div>
+
+    <div class="myOrder"><!--myOrder  start-->
+        <div class="myCoupon">
+                	<span>您当前的有效积分：<b style="color: blue;">{$valid_point}</b>
+                      <!--
+					  &nbsp;&nbsp;<a href="{:U('Home/Point/index')}" style="cursor: pointer;" class="u9" target="_blank"><input  class="u9" type="button" value="去积分商城兑换商品" id="go_jf" style="cursor: pointer;"></a>
+
+                      &nbsp;&nbsp;<a href="{:U('Home/Point/index')}" style="cursor: pointer;" class="u9 blue" target="_blank">去积分商城兑换商品</a> -->
+                    </span>
+            <!--
+            <span><a href="{:U('Ucenter/PointLog/pagePointToJlb')}" class="brown">兑换金币</a></span>
+            -->
+        </div>
+        <div class="chooseProCon"><!--chooseProCon  start-->
+            <div id="con_choose_1" class="chooseDiv">
+                <table class="tableCon">
+                    <thead>
+                    <tr>
+                        <td width="70">日期</td>
+                        <td width="60">获取积分</td>
+                        <td width="60">消耗积分</td>
+                        <td>摘要</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="ary_pointlog" id="pointlog">
+                        <tr>
+                            <td>{$pointlog.u_create}</td>
+                            <td><b class="yellow"><notempty name="pointlog.reward_point">{$pointlog.reward_point}</notempty></b></td>
+                            <td><notempty name="pointlog.consume_point">{$pointlog.consume_point}</notempty></td>
+                            <td>
+                                <if condition="$pointlog.type eq 0">购物赠送</if>
+                                <if condition="$pointlog.type eq 1">购物消费积分</if>
+                                <if condition="$pointlog.type eq 2">注册奖励积分</if>
+                                <if condition="$pointlog.type eq 3">评论送积分</if>
+                                <if condition="$pointlog.type eq 4">订单退货成功还原冻结积分</if>
+                                <if condition="$pointlog.type eq 5">管理员积分调整</if>
+                                <if condition="$pointlog.type eq 6">积分冻结</if>
+                                <if condition="$pointlog.type eq 7">作废订单成功还原冻结积分</if>
+                                <if condition="$pointlog.type eq 8">订单退款成功还原冻结积分</if>
+                                <if condition="$pointlog.type eq 9">抽奖消费积分</if>
+                                <if condition="$pointlog.type eq 10">每日签到</if>
+                                <if condition="$pointlog.type eq 11">金币兑换积分</if>
+                                <if condition="$pointlog.type eq 12">积分兑换金币</if>
+                                <if condition="$pointlog.type eq 13">登陆获赠积分</if>
+                                <if condition="$pointlog.type eq 14">推荐注册送积分</if>
+                                <if condition="$pointlog.type eq 15">晒单送积分</if>
+                                <if condition="$pointlog.type eq 20">会员赠送金豆</if>
+                                <if condition="$pointlog.type eq 21">商户扣减金豆</if>
+                                <if condition="$pointlog.type eq 22">SNS获赠金豆</if>
+                                <if condition="$pointlog.type eq 23">SNS消耗金豆</if>
+                                <volist  name="members_fields" id="fields">
+                                    <php>$typeId = $fields['id']+100;</php>
+                                    <if condition="$pointlog.type eq $typeId">完善会员信息{$fields.field_name}送积分</if>
+                                </volist>
+                            </td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+               <!-- <div class="myOderBot">&lt;!&ndash;myOderBot  start&ndash;&gt;
+
+                    <div class="myOderBotRight">&lt;!&ndash;myOderBotRight  start&ndash;&gt;
+                        <div class="fenye">&lt;!&ndash;fenye  start&ndash;&gt;
+                            {$page}
+                        </div>&lt;!&ndash;fenye  end&ndash;&gt;
+                    </div>&lt;!&ndash;myOderBotRight  end&ndash;&gt;
+
+                </div>&lt;!&ndash;myOderBot  end&ndash;&gt;
+            </div>-->
+        </div><!--chooseProCon  end-->
+
+    </div><!--myOrder  end-->
+</div>

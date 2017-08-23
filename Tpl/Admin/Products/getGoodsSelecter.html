@@ -1,0 +1,113 @@
+{__NOLAYOUT__}
+<div id="isAjax" class="none">用此ID标识本页面是通过ajax载入进来的</div>
+<div class="rightInner load" id="goodsSelecterInner">
+    <table width="100%" class="tbForm">
+        <thead>
+            <tr class="title">
+                <th colspan="99">查找商品</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>商品编号</td>
+                <td>
+                    <input type="text" class="medium" value="{$chose.gsn}" name="gs_gsn" id="gs_gsn1" />
+					&nbsp;商品名称&nbsp;<input type="text" class="medium" value="{$chose.gname}" name="gs_gname" id="gs_gname1" />
+                </td>
+                <td></td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>商品分类</td>
+                <td>
+                    <select class="medium" name="gs_gcid" id="gs_gcid1">
+                        <option value="0"> - 全部分类 - </option>
+                        <volist name="search.cates" id="cate">
+                            <option value="{$cate.gc_id}" <eq name="chose.gcid" value="$cate[gc_id]">selected="selected"</eq> style="color:{$color[$cate[gc_level]]}">
+                                <for start="0" end="$cate[gc_level]">&nbsp;&nbsp;</for>
+                                {$cate.gc_name}
+                            </option>
+                        </volist>
+                    </select>
+					&nbsp;&nbsp;商品品牌&nbsp;
+                    <select class="medium" name="gs_gbid" id="gs_gbid">
+                        <option value="0"> - 全部品牌 - </option>
+                        <volist name="search.brands" id="brand">
+                            <option value="{$brand.gb_id}" <eq name="chose.gbid" value="$brand[gb_id]">selected="selected"</eq> >
+                                {$brand.gb_name}
+                            </option>
+                        </volist>
+                    </select>					
+                </td>
+                <td id="gifts" style="display:none">
+                    <input type="checkbox" name="g_gifts" id="g_gifts1" value="1" checked="checked" disabled="disabled"  >赠品
+                </td>
+                <td colspan="99" align="right">
+                    <input type="button" value="查 找" class="btnA" id="goodsSelecterSerch" >
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="rightInner load" id="goodsSelecterList">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr>
+                <th><input type="checkbox" class="ckeckAll" /></th>
+                <th>商品图片</th>
+                <th>商品名称</th>
+                <th>分类</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="goods">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="gs_gid[]" value="{$goods.g_id}" /></td>
+				<td><img src='{$Think.config.DOMAIN_HOST}{$goods.g_picture|default="/Public/Ucenter/images/grey.gif"}' class="img32" /></td>
+                <td>{$goods.g_name}<br><span class="blue">{$goods.g_sn}</span></td>
+                <td>{$goods.gc_name}</td>
+            </tr>
+        </volist>
+        <empty name="list">
+            <tr><td colspan="99" class="left">没有查找到结果! 没有相关的数据或者请先进行查找~ </td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>
+
+<script src="__PUBLIC__/Admin/js/loading.js"></script>
+<script type="text/javascript">
+    $("#g_gifts").click(function(){
+        if($(this).val()=='1'){
+            $("#g_gifts").val('0');
+        }else{
+            $("#g_gifts").val('1');
+        }
+    })
+    //查找商品 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    $('#goodsSelecterSerch').click(function(){
+        var g_gifts =  0;
+        var data = {
+            'gs_gname':$('#gs_gname1').val(),
+            'gs_gsn':$('#gs_gsn1').val(),
+            'gs_gcid':$('#gs_gcid1').val(),
+            'g_gifts':g_gifts,
+			'gs_gbid':$('#gs_gbid').val()
+        };
+		
+        var url = "{:U('Admin/Products/getGoodsSelecter')}";
+        $.get(url,data,function(info){
+            $('#isAjax').parent().html(info);
+			$("#goodsSelect").attr('g_gifts',g_gifts);
+        },'text');
+    });
+</script>

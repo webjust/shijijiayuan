@@ -1,0 +1,268 @@
+{__NOLAYOUT__}
+<style>
+    .msgClass{font-weight: bold;margin-left: 5px;color: #cc0000;position: relative;top: 4px;}
+</style>
+<include file="User:header" />
+<link href="__PUBLIC__/Lib/webox/image/jquery-webox.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/Lib/webox/js/jquery-webox.js"></script>
+
+<!--用户中心注册页   开始-->
+<div class="uLogin">
+    
+        <div class="content960" style="position:relative; left: 50%; margin-left: -480px;">
+            <div><img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Ucenter/images/uLogo.jpg" width="201" height="53" /></div>
+            <div class="managementCenter">分销平台管理中心</div>
+        </div>
+    
+    
+    <div class="uLoginCon"><!--uLoginCon  start-->
+        <div class="content960" style="position: relative; left: 50%; margin-left: -480px;"><!--uRegister content960  start-->
+        	<div class="uRegister"><!--uRegister  start-->
+                <div class="uRegisterLeft"></div>
+                
+                <div class="uRegisterRight"><!--uRegisterRight  start-->
+                    
+                    <div class="uRegiRepeaty"><!--uRegiRepeaty  start-->
+                    <form action="{:U('Ucenter/User/doRegister')}" method="POST" id="register_form">
+                        <table>
+                            <tr>
+                                <td widtd="88px" class="td01">用&nbsp; 户&nbsp; 名：</td>
+                                <td width="162px" class="td02"><input type="text" name="m_name" id="m_name" value="" /></td>
+                                <td width="236px"><label class="msgClass">*</label></td>
+                            </tr>
+                            <tr>
+                                <td class="td01">真实姓名：</td>
+                                <td class="td02"><input type="text" name="m_real_name" id="m_real_name" value="" /></td>
+                                <td><label class="msgClass">*</label></td>
+                            </tr>
+                            <tr>
+                                <td class="td01">支 &nbsp;付&nbsp; 宝：</td>
+                                <td class="td02"><input type="text" name="m_alipay_name" id="m_alipay_name" value="" /></td>
+                                <td><label class="msgClass">*</label></td>
+                            </tr>
+                            <tr>
+                                <td class="td01">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：</td>
+                                <td class="td02"><input type="text" name="m_email" id="m_email" value="" /></td>
+                                <td><label class="msgClass">*</label></td>
+                            </tr>
+                            <tr>
+                                <td class="td01">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+                                <td class="td02"><input type="password" name="m_password" id="m_password" value=""  /></td>
+                                <td><label class="msgClass">*</label></td>
+                            </tr>
+                            <tr>
+                                <td class="td01">确认密码：</td>
+                                <td class="td02"><input type="password" name="confirmPassword" id="confirmPassword" value="" /></td>
+                                <td><label class="msgClass">*</label></td>
+                            </tr>
+                            <tr class="advanced" style="display: none;">
+                                <td class="td01">手&nbsp; 机&nbsp; 号：</td>
+                                <td class="td02"><input type="text" name="m_mobile" id="m_mobile" value="" /></td>
+                                <td></td>
+                            </tr>
+                            <tr class="advanced" style="display: none;">
+                                <td class="td01">推 荐 人：</td>
+                                <td class="td02"><input type="text" name="m_recommended" value="" /></td>
+                                <td></td>
+                            </tr>
+                            <tr class="advanced" style="display: none;">
+                                <td class="td01">QQ 号 码：</td>
+                                <td class="td02"><input type="text" name="m_qq" id="m_qq" value="" /></td>
+                                <td></td>
+                            </tr>
+                            <tr class="advanced" style="display: none;">
+                                <td class="td01">旺旺号码：</td>
+                                <td class="td02"><input type="text" name="m_wangwang" value="" /></td>
+                                <td></td>
+                            </tr>
+                            <tr class="advanced" style="display: none;">
+                                <td class="td01">网店地址：</td>
+                                <td class="td02"><input type="text" name="m_website_url" id="m_website_url" value="" /></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="td01">验&nbsp;证 &nbsp;码：</td>
+                                <td class="td02">
+                                    <input type="text" class="text02" name="verify" id="verify" value="" />
+                                   <!-- <span class="check"><img src="__APP__/User/verify/" onClick="this.src='__APP__/User/verify/'+Math.random()" id="verificationcode" /></span>-->
+                                    <span class="check"><img src="/Ucenter/User/verify/" onClick="this.src='/Ucenter/User/verify/'+Math.random()" id="verificationcode" /></span>
+									<a href="javascript:void(0);" onclick="replaceVerificationCode()" class="change">换一张</a></td>
+                                <td>
+                                    <label class="msgClass">*</label>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        
+                        
+                        <span class="tablebjbottm"></span>
+                        <div style="margin-top: 5px;">
+                            <table>
+                                <tr>
+                                    <td class="td02" colspan="2" style="background: none;text-align: center;border-right: none;">
+                                        <input type="checkbox" name="advanced" id="advanced" style="width: 50px;" />高级选项
+                                        <input type="checkbox" id="xieyi" name="xieyi" checked="checked" style="width: 50px;" />
+                                        <label for="xieyi">我已阅读并接受《<a href="javascript:void(0);" title="注册协议" id="inside">注册协议</a>》</label>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--<p class="p01"><input type="checkbox" id="xieyi" name="xieyi" checked="checked" /><label for="xieyi">我已阅读并接受《<a href="javascript:void(0);" title="注册协议" id="inside">注册协议</a>》</label></p>-->
+                        <p class="p02"><input type="submit" class="buttonT" value="注册" id="register_submit" /><span style="margin-left: 5px;"><a href="{:U('Ucenter/User/pageLogin')}">返回登录</a></span></p>
+                    </form>
+
+                    </div><!--uRegiRepeaty  start-->
+                   
+                    <span class="spanbo"></span>
+                </div><!--uRegisterRight  end-->
+				   
+            </div><!--uRegister  end-->
+        <div id="box" style="display:none;">
+                <div class="mainlist" style="overflow-x:auto;height:430px;padding:10px;">
+                    {$content}
+                </div>
+        </div>
+        </div><!--content960  end-->
+
+        
+    </div><!--uLoginCon  end-->
+
+    <script>
+        //注册表单验证
+        $(document).ready(function(){
+            $("#advanced").live('click',function(){
+                var checked = $(this).attr("checked");
+                if(checked){
+                    $(".advanced").slideDown();
+                }else{
+                    $(".advanced").slideUp();
+                }
+            });
+            
+            $("#register_form").validate({
+                errorPlacement: function(error, element) {
+                    var error_td = element.parent('td').next();
+                    error_td.find('label').hide();
+                    error_td.append(error);
+                },
+                submitHandler:function(form){
+                    ajaxpost('register_form', '', '', 'onerror') 
+                },
+                rules : {
+                    m_name : {
+                        required:true,
+                        minlength:4,
+                        isCheck:true,
+                        remote:'/Ucenter/User/checkName'
+                    },
+                    m_real_name : {
+                        required : true,
+                        username : true
+                    },
+                    m_balance_name : {
+                        required:true,
+                        email:true
+                    },
+                    m_email : {
+                        required:true,
+                        email:true,
+                        remote : '/Ucenter/User/checkEmail'
+                    },
+                    m_password : {
+                        required : true,
+                        minlength: 6,
+                        maxlength: 20
+                    },
+                    confirmPassword : {
+                        required : true,
+                        equalTo  : '#m_password'
+                    },
+                    m_mobile : {
+                        isMobile:true
+                    },
+                    m_qq : {
+                        digits:true
+                    },
+                    m_website_url : {
+                        url:true
+                    },
+                    verify : {
+                        required:true,
+                        digits:true,
+                        remote:'/Ucenter/User/checkVerify',
+                        rangelength:[4,4]
+                    },
+                    xieyi : {
+                        required : true
+                    }
+                },
+                messages : {
+                    m_name : {
+                        required : '用户名不能为空',
+                        minlength : '用户名不能少于4位',
+                        isCheck: '用户名不能包含敏感字符',
+                        remote:'该用户名已经存在'
+                    },
+                    m_real_name : {
+                        required : '真实姓名不能为空',
+                        username : '只能由英文字母、数字、中文和下划线组成'
+                    },
+                    m_balance_name : {
+                        required:'支付宝账户不能为空',
+                        email:'支付宝账号不合法'
+                    },
+                    m_email : {
+                        required:'邮箱不能为空'
+                    },
+                    m_password  : {
+                        required : '密码不能为空',
+                        minlength: '密码长度应在6-20个字符之间',
+                        maxlength: '密码长度应在6-20个字符之间'
+                    },
+                    confirmPassword : {
+                        required : '请再次输入您的密码',
+                        equalTo  : '两次输入的密码不一致'
+                    },
+                    m_qq : {
+                        digits:'QQ号码只能填写数字'
+                    },
+                    verify : {
+                        required:'请输入验证码',
+                        rangelength:'验证码长度为4',
+                        digits:'对不起，请输入正确的验证码'
+                    },
+                    xieyi : {
+                        required:'请同意注册协议'
+                    }
+                }
+            });
+        });
+        //内嵌弹出层调用
+        $('#inside').click(function(){
+                $.webox({
+                        height:480,
+                        width:600,
+                        bgvisibel:true,
+                        title:'注册协议',
+                        html:$("#box").html()
+                });
+        });
+        
+//        $(document).ready(function(){
+//            $("#xieyi").click(function(){
+//                if($(this).is(":checked")){
+//                    $("#register_submit").removeClass();
+//                    $("#register_submit").addClass("buttonT");
+//                }else{
+//                    $("#register_submit").removeClass();
+//                    $("#register_submit").addClass("buttonNoT");
+//                }
+//            });
+//
+//        });
+        
+    </script>
+	
+    <include file="Common:incFooter" />
+    

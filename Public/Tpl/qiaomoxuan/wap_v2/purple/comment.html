@@ -1,0 +1,99 @@
+{__NOLAYOUT__}
+<div class="Comment">
+	<h1>用户评论</h1>
+	<!--商品评价顶部内容--评价等级 start-->
+	<p class="start">
+	<php>for($i=0;$i<$str_score;$i++){</php>
+		<i></i>
+	<php>}</php>
+	<php>
+		if($str_score < 5){
+			$bad_score = 5 - $str_score;
+		}
+	</php>
+	<php>for($i=0;$i<$bad_score;$i++){</php>
+		<i class="bad"></i>
+	<php>}</php>
+	<span class="cm">(<em>{$all_count}</em>条评论)</span></p>
+	<!--商品评价顶部内容--评价等级 end--> 
+	<!--商品评价顶部内容 start-->
+	<div class="up"> 
+	<!--商品评价顶部内容左边评价 start-->
+		<div class="c-left">
+			<ul class="nav">
+				<li>
+					<span>好评</span>
+					<div class="gray">
+						<div class="purple"></div>
+					</div>
+					<div class="countNum">(<em>{$good_count}</em>)</div>
+				</li>
+				<li>
+					<span>中评</span>
+					<div class="gray">
+						<div class="purple"></div>
+					</div>
+					<div class="countNum">(<em>{$normal_count}</em>)</div>
+				</li>
+				<li>
+					<span>差评</span>
+					<div class="gray">
+						<div class="purple"></div>
+					</div>
+					<div class="countNum">(<em>{$bad_count}</em>)</div>
+				</li>
+			</ul>
+		</div>
+		<!--商品评价顶部内容左边评价end--> 
+	</div>
+	<!--商品评价底部内容 start--> 
+	<!--商品评价列表内容 start-->
+	<div class="reply"> 
+	<!--商品评价列表内容1 start-->
+	<volist name="data" id="comm" >
+		<div class="reply1">
+			<div class="userMsg">
+				<div class="user">
+					<a href="#"><img src="__IMAGES__user.jpg" width="60"/></a>
+				</div>
+				<div class="name">
+					<p>{$comm.m_name|default="匿名用户"}</p>
+				</div>
+			</div>
+			<div class="content">
+				<p>{$comm.gcom_title}</p>
+				<p>
+				<switch name="comm.gcom_star_score">
+					<case value="20"><i></i></case>
+					<case value="40"><i></i><i></i></case>
+					<case value="60"><i></i><i></i><i></i></case>
+					<case value="80"><i></i><i></i><i></i><i></i></case>
+					<case value="100"><i></i><i></i><i></i><i></i><i></i></case>
+				</switch>
+					<span class="date">{$comm.gcom_create_time}</span>
+				</p>
+				<p class="assess">{$comm.gcom_content}</p>
+				<if condition="$comm[reply] neq ''">
+				<p class="assess">[客服回复]：{$comm.reply.gcom_content}</p>
+				</if>
+				<php>foreach($comm['recomment'] as $recomment){</php>
+				<if condition="$recomment neq ''">
+				<p class="assess">[追加评论]：{$recomment['gcom_content']}</p>
+				<span class="date">{$recomment['gcom_create_time']}</span></p>
+				</if>
+				<php>}</php>
+			</div>
+		</div>
+	</volist>
+	</div>
+  <!--商品评价列表内容 end--> 
+</div>
+<!--商品评价底部内容 start--> 
+<script type="text/javascript">
+	var total=$(".cm em").text();
+	var index=$(".gray").index();
+	for(var i=0;i<index;i++){
+		var aa=$(".countNum").eq(i).find("em").text();
+		$(".gray").eq(i).find(".purple").css("width",(aa/total)*175+"px");
+	}
+</script>

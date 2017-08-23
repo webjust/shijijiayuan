@@ -1,0 +1,203 @@
+
+    <link rel="stylesheet" href="__TPL__/css/base.css">
+    <link rel="stylesheet" href="__TPL__/css/swiper.css">
+    <link rel="stylesheet" href="__TPL__/css/style.css">
+    <script src="__TPL__/js/TouchSlide.1.1.js"></script>
+    <script src="__TPL__/js/swiper.jquery.js"></script>
+    <script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__productsdetail.js"></script>
+    <script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__goodsDetailSku.js"></script>
+    <div class="alltop"><img src="__TPL__/images/top.png" alt=""></div>
+    <script src="__TPL__/js/jquery.SuperSlide.2.1.1.js"></script>
+    <div class="alltop"><img src="__TPL__/images/top.png" alt=""></div>
+    <div class="mg ov">
+    	<form id="goodsForm" name="goodsForm" method="post" action="javascript:void(0);">
+	        <div class="return">
+	            <div class="title"><a href="javascript:void(0);" onclick="window.history.back();"><img src="__TPL__/images/return.jpg" alt=""></a>宝贝详情</div>
+	        </div>        
+	        <Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"  ></Gyfx:goodsinfo>
+	        <input type="hidden" value="{$ary_request.gid}" id="gid">
+	        <input type='hidden' id='m_id' value='{$Think.session.Members.m_id}' />
+	        <input type='hidden' name='goods_type' value='{$goods_type}' />
+
+	        <div id="focus" class="focus focus1">
+	            <div class="hd">
+	                <ul></ul>
+	            </div>
+	            <div class="bd">
+	                <ul>
+	                    <volist name="detail.gpics" id="pic">
+	                        <li><a href="javascript:void(0);"><img _src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,640}" src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,640}" /></a></li>
+	                    </volist>
+	                </ul>
+	            </div>
+	        </div>
+	        <script type="text/javascript">
+	            TouchSlide({ 
+	                slideCell:"#focus",
+	                titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+	                mainCell:".bd ul", 
+	                effect:"left", 
+	                autoPlay:true,//自动播放
+	                autoPage:true, //自动分页
+	                switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+	            });
+	        </script>
+	        <div class="xqy">
+	            <div id="price">
+	                <div class="det">{$detail.gname}<if condition="$detail['gremark'] neq '' ">，{$detail.gremark}</if></div>
+	                <div class="price">
+	                    <php>
+	                        $money = round(($g_market_price- $g_price),2);
+	                    </php>
+	                    <p class="money">￥<span id="showPrice">{$detail.gprice|sprintf='%.2f',###}</span> <i>￥<span id="showMarketPirice">{$g_market_price|sprintf='%.2f',###}</span></i></p>
+	                </div>
+	                <div class="ysxz">颜色分类:<span id="xdhysfl"></span></div>
+	            </div>
+	            <div class="tabBox">
+	                <div class="hd1">
+	                  <ul>
+	                    <li  class="on"><span><a href="###">详情</a></span></li>
+	                    <li><span><a href="###">属性</a></span></li>
+	                    <li><span><a href="###">评论（{$all_count}）</a></span></li>
+	                    <li><span><a href="###">推荐</a></span></li>
+	                  </ul>
+	                </div>
+	                <div class="bd">
+	                  <div class="slide">
+	                  	<style type="text/css">
+							.xqy .tabBox .slide img {max-width: 100%;text-align: center;}
+	                  	</style>
+	                    <empty name="detail.gphonedesc">
+	                    	{$detail.gdesc}
+	                    <else />
+	                    	{$detail.gphonedesc}
+	                    </empty>
+	                  </div>
+	                  <div class="slide">
+	                    <table>
+	                        <volist name='array_unsale_spec' id='spec'>
+	                    	<tr><td>{$spec.gs_name}</td><td>{$spec.gsd_aliases}</td></tr>
+	                        </volist>
+	                    </table>
+	                  </div>
+	                  <div class="slide">
+	                    <volist name="comm_data" id="comm" >
+		                    <dl class="plq">
+		                        <dd>
+		                            <p>{$comm.gcom_content}</p>
+		                            <div class="pl"><span class="date">{$comm.m_name} {$comm.gcom_create_time} </span><span class="ys"></span></div>
+		                        </dd>
+								<if condition="$comm['recomment'] neq ''">
+									<php>foreach($comm['recomment'] as $recomment){</php>
+				                        <dd>
+				                            <p>[追加评论]：{$recomment['gcom_content']}</p>
+		                            		<div class="pl"><span class="date">{$recomment['gcom_create_time']} </span><span class="ys"></span></div>
+				                        </dd>
+										<if condition="$recomment[reply] neq ''">
+											<dd><p>客服回复：{$recomment[reply][gcom_content]}</p></dd>
+										</if>
+									<php>}</php>
+								</if>
+		                    </dl>
+	                    </volist>
+	                  </div>
+	                  <div class="slide">
+	                    <div class="cz_gdrx">
+	                        <ul>
+	                            <volist name="ary_relate_goods" id="this_coll">
+	                                <switch name="key">
+	                                    <case value="0|1|2|3|4|5">
+					                            <li><a href="/Wap/Products/detail/gid/{$this_coll.g_id}">
+					                                <div class="lh_wrap">
+					                                    <div class="p-img"><img alt="" src="{$Think.config.DOMAIN_HOST}<php>echo '/'.ltrim($this_coll['g_picture'],'/');</php>"></div>
+					                                    <div class="p-name">{$this_coll.g_name}</div>
+					                                    <div class="p-price"><span class="price">￥<strong id="collPrice_{$this_coll.g_id}">{$this_coll.g_price|sprintf='%.2f',###}</strong></span><span class="extra">销量<strong>{$this_coll.g_salenum}</strong>件</span></div>
+					                                </div>
+					                            </a></li>
+	                                    </case>
+	                                </switch>
+	                            </volist>
+	                        </ul>  
+	                    </div>
+	                  </div>
+	                </div>
+	            </div>
+	        <script type="text/javascript">
+	        jQuery(".tabBox").slide({ delayTime:0, trigger:"click", titCell:".hd1 li" });
+	        </script>
+	        </div>
+	        <div class="shadowbox">
+	            <div class="gwc">
+	                <div id="showDetailSkus">商品规格加载中.....
+	                    <script>getDetailSkus('{$ary_request.gid}');</script>
+	                </div>
+	                <div class="jiesuan">
+	                    <a href="javascript:void(0);" id="addToOrderA" class="goBuy">去结算</a>
+	                </div>
+	                
+	            </div>
+	        </div>        
+	        <div class="news">
+	            <div class="footadd1" style="width:100%;display:block;height: 62px;"></div>
+	            <div id="car">
+	                <div class="kffw"><span class="cart"><img src="__TPL__/images/kffw.png" alt=""></span><p>客服</p></div>
+	                <div class="car">
+		                <a href="{:U('Wap/Cart/pageCartList')}">
+			                <span class="cart">
+				                <img src="__TPL__/images/car.png" alt="">
+				                <em id="shopping_all_nums">0</em>
+			                </span>
+			                <p>购物车</p>
+		                </a>
+	                </div>
+	                <div class="collect" onclick="addToInterests('{$ary_request.gid}');"><span class="cart"><img src="__TPL__/images/collect.png" alt=""></span><p>收藏</p></div>
+	                <div class="add-to-cart" onclick="addToCart();"><a href="javascript:void(0);" class="goBuy">加入购物车</a></div>
+	                <div class="buy-now" id="addToOrder"><a href="javascript:void(0);" class="goBuy">立即购买</a></div>
+	                <input type="hidden" name="way_type" value="" id="way_type"/>
+	            </div>              
+	        </div>
+		</form>
+    </div>
+    <input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+    <input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+    <input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+    <form id="orderAddFrom" name="orderAddFrom" method="post" action="/Wap/Orders/pageAdd">
+        <input type="hidden" name="pid[]" id="addOrderPid" value="" />
+        <input type="hidden" name="type[]" id="addOrdertype" value=""/>
+    </form>
+
+    <form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Wap/Orders/addOrderPage">
+        <input type="hidden" name="pid[]" id="submitSkipPid" value="" />
+        <input type="hidden" name="type[]" id="submitSkiptype" value=""/>
+    </form>
+    <script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__product.js"></script>
+    <script type="text/javascript" >
+    var nullNum = "{$Think.lang.STOCK_ERROR_1}";
+    var notEnough = "{$Think.lang.STOCK_ERROR_2}";
+    var reselection = "{$Think.lang.STOCK_ERROR_3}";
+    var nonExistent = "{$Think.lang.STOCK_ERROR_4}";
+    var notLogin = "{$Think.lang.NO_LOGIN}";
+    //获取自由组合商品
+    getCollGoodsPage('{$ary_request.gid}');
+    //获取相关商品
+    getRelateGoodsPage('{$ary_request.gid}');
+
+    </script>
+
+
+    <script>
+        $(document).ready(function(){ 
+			checkCartprice_diy();  //更改底部的购物车数量
+			$(".footadd1").height($("#car").height());
+			var headerTop_h = $(".headerTop").height()
+			$(".menu").css("top",headerTop_h);
+
+            var li_width = $(".cz_pp li").width()
+            $(".cz_pp li").height(li_width)
+            var window_width = $(window).height()
+            $(".shadowbox").height(window_width)
+        })
+    </script>
+    <script src="js/index.js"></script>  
+    <style type="text/css">.news_footer{display: none;}</style>

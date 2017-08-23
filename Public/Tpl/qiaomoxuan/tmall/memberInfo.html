@@ -1,0 +1,57 @@
+{__NOLAYOUT__}
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<!--shopcartCon 开始-->
+<div class="wO01">
+	<strong>Hi!
+	<if condition="$member.m_id eq ''">
+	<span title="{$commonInfo['GY_SHOP_TITLE']}">欢迎来{$commonInfo['GY_SHOP_TITLE']}</span>
+	<else />
+	<span>{$member.m_name}</span>
+	</if>
+	</strong>
+	<if condition="$member.m_id eq ''">
+	<p>您还未登录哟</p>
+	<else />
+	<p>您是<span style="color:#C40000;">{$member.member_level.ml_name}</span></p>
+	</if>
+	<if condition="$v_type eq 1" >
+	<a href="javascript:void(0)" >已签到</a>
+	<else />
+	<a href="javascript:void(0)" id="sign_on">签到赢积分</a>
+	</if>
+    <img src="{$member.avater_url|default='__IMAGES__tou.png'}" width="60" height="60">
+</div>
+<div class="wO02 clearfix">
+	<empty name="Think.session.Members.m_name">
+	<a href="{:U('Home/User/login')}" class="log">登录</a>
+	<a href="{:U('Home/User/pageRegister')}" class="reg">注册</a>
+	</empty>
+	<notempty name="Think.session.Members.m_name">
+	余额：<span style="color:#C40000;">{$member.m_balance}</span>&nbsp;
+	积分: <span style="color:#C40000;">{$member.total_point}</span>
+    <br/>
+	<a href="{:U('Ucenter/Cart/pageList')}" >购物车</a>&nbsp;&nbsp;
+	<a href="{:U('Ucenter/Financial/pageDepositList')}" >我的资产</a>&nbsp;&nbsp;
+    <a href="{:U('Ucenter/Orders/pageList')}" >我的订单</a>
+	</notempty>	
+</div>
+<script type="text/javascript">
+$("#sign_on").click(function(){
+    $.ajax({
+        url:"/Home/User/doSignOn",
+        cache:false,
+        dataType:"json",
+        data:{},
+        type:"post",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success(msgObj.info);
+				//异步获取首页会员登陆信息
+				ajaxLoadMemberInfo(1);
+            }else{
+                $.ThinkBox.error(msgObj.info);
+            }
+        }
+    })
+});
+</script>

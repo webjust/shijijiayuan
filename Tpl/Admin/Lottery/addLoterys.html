@@ -1,0 +1,183 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="coupon_add" name="coupon_add" method="post" action="{:U('Admin/Lottery/doAddLoterys')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">生成抽奖活动</th>
+                </tr>
+            </thead>
+
+            <tbody>
+			    <tr>
+                    <td class="first">抽奖图片：</td>
+                    <td>
+						<a href="javascript:upImage(22);" class="btnG ico_upload">上传图片</a><a href="{$info['l_detail']['lottery_pic']}" target="_blank" ><img src="{$info['l_detail']['lottery_pic']}" id="SHOW_TOP_AD_22" style="width:50px;height:50px;" /></a>
+						<input type="hidden" id="GY_SHOP_TOP_AD_22" name="GY_SHOP_TOP_AD_22" value="{$info['l_detail']['lottery_pic']}"/>
+                    </td>
+                    <td class="last">抽奖图片转盘类型，首图片需要平行方向设计,抽奖商品从逆时针开始计算序列号分别为1,2,3,...,0</td>
+                </tr>	
+                 <tr>
+                    <td class="first">红包阶梯</td>
+                    <td>        
+			          <table  id="J_ManagePrice"  class="clearfix dialog manage-cats">
+			               <tr><td>红包总金额：<input type="text" name="total_price" id="total_price" value="{$info['l_detail']['total_price']}" class="medium input-text"/>&nbsp;&nbsp;<img src="__PUBLIC__/Admin/images/u48_normal.png" id="addPrice" title="添加红包阶梯" /></td></tr>
+			               <volist name="info['l_detail']['bonus']" id="bonus">
+			                <tr id="point_0">
+			                        <td>
+						                红包面值：<input type="text"  name="single_price[]" value="{$bonus.type_money}" class="small input-text"/>,中奖比例：<input type="text" name="p_ratio[]" value="{$bonus.type_ratio}" class="small input-text"/>%,
+										抽奖序列号：<input type="text"  name="lottery_sort[]" value="{$bonus.type_sort}" class="small input-text"/>
+										<!--<a href="javascript:upImage({$key});" class="btnG ico_upload">上传图片</a><img src="{$bonus['type_pic']}" id="SHOW_TOP_AD_{$key}" style="width:50px;height:50px;" />
+										<input type="hidden" id="GY_SHOP_TOP_AD_{$key}" name="GY_SHOP_TOP_AD_{$key}" value="{$bonus['type_pic']}"/>-->
+			                            <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除红包设置" />
+			                        </td>
+			                </tr>
+							</volist>
+							<php>
+							$count = count($info['l_detail']['bonus'])-1;
+							if(intval($count)<0){
+								$count = 0;
+							}
+							</php>
+							<tr id="max_price" style="display:none;"><input type="hidden" id="show_size" value="{$count}" /></tr>
+			          </table>
+        			</td>
+        			 <td class="last">抽奖序列号必须准确设置，序列号和设计的抽奖图片对应</td>
+                </tr>
+                <tr>
+                    <td class="first">神秘大奖：</td>
+                    <td>
+						数量:<input type="text" class="small" name="ul_num" value="{$info['l_detail']['mystery']['type_num']}" />
+                        奖品名称:<input type="text" value="{$info['l_detail']['mystery']['ul_title']}" name="ul_title" class="medium" />,<br />中奖比例:<input type="text" value="{$info['l_detail']['mystery']['type_ratio']}" class="medium" name="ul_ratio" />%
+						,抽奖序列号：<input type="text"  name="ul_sort" value="{$info['l_detail']['mystery']['type_sort']}" class="small input-text"/>
+						<!--,<a href="javascript:upImage(20);" class="btnG ico_upload">上传图片</a><img src="{$info['l_detail']['mystery']['type_pic']}" id="SHOW_TOP_AD_20" style="width:50px;height:50px;" />
+						<input type="hidden" id="GY_SHOP_TOP_AD_20" name="GY_SHOP_TOP_AD_20" value="{$info['l_detail']['mystery']['type_pic']}"/>
+                        -->
+					</td>
+                    <td class="last">抽奖序列号必须准确设置，序列号和设计的抽奖图片对应</td>
+                </tr>	
+                <tr>
+                    <td class="first">再抽一次：</td>
+                    <td>
+					抽奖序列号：<input type="text"  name="again_sort" value="{$info['l_detail']['other']['again_sort']}" class="small input-text"/>
+					<!--
+						<a href="javascript:upImage(21);" class="btnG ico_upload">上传图片</a><img src="{$info['l_detail']['other']['type_pic']}" id="SHOW_TOP_AD_21" style="width:50px;height:50px;" />
+						<input type="hidden" id="GY_SHOP_TOP_AD_21" name="GY_SHOP_TOP_AD_21" value="{$info['l_detail']['other']['type_pic']}"/>
+					-->
+				   </td>
+                    <td class="last">再抽一次,未中奖且会员还可抽奖</td>
+                </tr>	
+                <tr>
+                    <td class="first">再接再厉：</td>
+                    <td>
+					抽奖序列号：<input type="text"  name="other_sort" value="{$info['l_detail']['other']['other_sort']}" class="small input-text"/>
+					<!--
+						<a href="javascript:upImage(21);" class="btnG ico_upload">上传图片</a><img src="{$info['l_detail']['other']['type_pic']}" id="SHOW_TOP_AD_21" style="width:50px;height:50px;" />
+						<input type="hidden" id="GY_SHOP_TOP_AD_21" name="GY_SHOP_TOP_AD_21" value="{$info['l_detail']['other']['type_pic']}"/>
+					-->
+				   </td>
+                    <td class="last">未中奖比例为除了100减去中奖比例,抽奖序列号必须准确设置，序列号和设计的抽奖图片对应</td>
+                </tr>				
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" value="{$info.l_id}" name="l_id" id="l_id" />
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#coupon_add').validate();
+		
+        var max_tr = $("#max_price");
+        //新增                              
+        $("#addPrice").click(function(){
+			var show_size = $('#show_size').val();
+			show_size = parseInt(show_size)+1;
+			var max_size = parseInt(show_size)+1;
+			var tr_html = '<tr><td>';
+			tr_html = tr_html + '红包面值：<input type="text"  name="single_price[]" value="" class="small input-text"/>,'+
+			'中奖比例：<input type="text" name="p_ratio[]" value="" class="small input-text"/>%,'+
+			'抽奖序列号：<input type="text"  name="lottery_sort[]" value="{$bonus.lottery_sort}" class="small input-text"/>'+
+			//'<a href="javascript:upImage('+show_size+');" class="btnG ico_upload">上传图片</a>'+
+			//'<img src="{$ary_ads['+max_size+']['ad_pic_url']}" id="SHOW_TOP_AD_'+show_size+'" style="width:50px;height:50px;" />'+
+			//'<input type="hidden" id="GY_SHOP_TOP_AD_'+show_size+'" name="GY_SHOP_TOP_AD_'+show_size+'" value="{$ary_ads['+max_size+']['ad_pic_url']}"/>'+
+			'<img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除红包设置" />';
+			tr_html = tr_html+'</td></tr>';
+			$(tr_html).insertBefore(max_tr);
+			$('#show_size').val(show_size)
+        });
+        //删除
+        $(".deletePrice").live("click",function(){
+        	var tr_html = this.parentNode.parentNode;
+        	tr_html.parentNode.removeChild(tr_html);  
+     	});
+        $("#gp_price").live("blur",function(){
+        	var item_price = parseFloat($("#item_price").val()).toFixed(2);
+        	var gp_price = parseFloat($("#gp_price").val()).toFixed(2);
+        	if(gp_price-item_price>0){
+        		showAlert(false,'团购初始价不能大于商品销售价');
+        	}
+     	});
+		//删除图片
+    	$(".images_tools_bar_del").click(function(){
+			var image_id = $(this).attr('image_id');
+			$('#GY_SHOP_TOP_AD_'+image_id).val('');
+			$('#GY_SHOP_TOP_AD_'+image_id+'_URL').val('');
+			$('#SHOW_TOP_AD_'+image_id).attr('src','');
+    	}); 
+		
+    });
+var dialog;
+var image_input_id;
+var image_input_id_s;
+var editor = new UE.ui.Editor({
+	imageRealPath:"editor"
+});
+editor.render("myEditor");
+editor.ready(function(){
+	editor.hide()
+	dialog = editor.getDialog("insertimage");
+	editor.addListener('beforeInsertImage',function(t, arg){
+		image_input_id = image_input_id-1;
+		for(index in arg){
+		    if(typeof arg[index]['src']=='undefined')  continue;
+			image_input_id = image_input_id + 1;
+			if($("#GY_SHOP_TOP_AD_" + image_input_id)){
+			   var image_path = arg[index]['src'];
+				$("#GY_SHOP_TOP_AD_" + image_input_id).val(image_path);
+				$("#SHOW_TOP_AD_" + image_input_id).attr({src:image_path});
+			}
+		}
+	});
+	
+});
+/**
+ * 图片上传方法集成
+ */
+function upImage(imageId) {
+	//editor.options.imageRealPath = 'desc';
+	image_input_id = imageId;
+	image_input_id_s = imageId;
+	dialog.open();
+}   
+    /**提交表单
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2014-07-14
+     */
+    function save(){
+		document.coupon_add.submit();
+    }
+</script>

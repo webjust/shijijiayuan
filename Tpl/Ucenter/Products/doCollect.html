@@ -1,0 +1,157 @@
+{__NOLAYOUT__}
+
+<h2 class="CPMTitle" style="margin-top:-10px;"><span>加入收藏</span></h2>
+<div class="jifen"><!--jifen  start-->
+        <table >
+        	<volist name="skus" id="sku" key="k">
+			            <tr id="sku{$g_id}_{$k}">
+                             <td valign="top" width="36">{$key}：</td>
+                             <td><php>$ary_skus = array();</php>
+								    <volist name="sku" id="sku_info" key="kk">
+									<php>
+									$type = 0;
+									$va = strpos($sku_info['info'],'|');
+									if($va){
+										$skuinfos = explode('|',$sku_info['info']);
+										$sku_name = $skuinfos[0];
+										$sku_info_name = $skuinfos[1];
+										$type = 1;
+									}else{
+										$sku_info_name = $sku_info['info'];
+									}
+									if(!in_array($sku_info_name,$ary_skus)){
+									$ary_skus[] = $sku_info_name;
+									</php>
+                                    <a <if condition="($k eq 1)">class="cho goods_spec{$sku_info.gs_id}"<else />class="he32 goods_spec{$sku_info.gs_id}"</if> name="goods_spec_values" int_gs_id="{$sku_info.gs_id}" int_gsd_id="{$sku_info.gsd_id}">
+									<if condition="$type eq 1">
+									<img src="{$Think.config.DOMAIN_HOST}{$sku_info_name}" width="30" height="30" />
+									<else/>
+									{$sku_info_name}
+									</if>
+								   <i></i></a>
+								   <php>}</php>
+								  </volist>
+                            </td>
+						</tr>
+			</volist>
+            <tr>
+            	<td></td>
+                <td><a  class="addgood" id="addToCollect" style="cursor: pointer;">加入收藏夹</a></td>
+            </tr>
+        </table>
+</div><!--jifen  end-->
+<script type="text/javascript">
+$(function(){
+     var arr = [],
+         stock = [];
+     var item_id ="{$g_id}";
+     <foreach name='guigei' key="k" item='vosku'>
+            arr["{$k}"] = "{$vosku}";
+   	</foreach>
+    <foreach name='ary_pdt' item='vostock'>
+            stock["{$vostock.pdt_id}"] = "{$vostock.pdt_stock}";
+   	</foreach>
+
+    //提交到购物车
+     $('#addToCollect').click(function(){
+             var _this= $(this);
+             var pdt_id=''
+             var rsize="";
+ 			var showvalue="";
+             var _parent_size = jQuery("#sku"+item_id+'_1').find('a.on');
+ 	        var _parent_color = jQuery("#sku"+item_id+'_2').find('a.on');
+ 	        var num = 1;//选择商品数量
+ 	        var color_len = _parent_color.length;
+         	var size_len = _parent_size.length;
+         	
+            if(size_len>0 && color_len>0){
+ 		    	
+ 		 	    var color_int_gs_id="",color_int_gsd_id="",size_int_gs_id="",size_int_gsd_id="";
+ 	                color_int_gs_id = _parent_color.attr('int_gs_id');
+                     color_int_gsd_id = _parent_color.attr('int_gsd_id');
+ 	                size_int_gs_id = _parent_size.attr('int_gs_id');
+                     size_int_gsd_id = _parent_size.attr('int_gsd_id');
+ 				if(color_int_gs_id !='' && color_int_gsd_id !='' && size_int_gs_id !='' && size_int_gsd_id !=''){
+ 				    var info = color_int_gs_id + ":"+color_int_gsd_id +";"+ size_int_gs_id + ":"+size_int_gsd_id ;
+                     
+                     if(arr[info] && typeof arr[info]!='undefined') {
+                         pdt_id = arr[info];
+                         if(stock[pdt_id]){
+                             var stockNum = stock[pdt_id] || 0;
+                             if(num>stockNum){
+                                 showAlert(false,"购买数量大于库存数量");
+                                 return false;
+                             }
+                         }
+                     }
+                     else{
+                         showAlert(false,"此规格组合不存在");
+                         return false;
+                         
+                     }
+ 				}     	
+ 	        }else{
+ 	            var _parent_li = _this.parent().parent().parent().find('a.on');
+ 	            rsize_gs_id =  _parent_li.attr('int_gs_id'); rsize_gsd_id =  _parent_li.attr('int_gsd_id');
+ 	            if(rsize_gs_id != "" || rsize_gsd_id != ""){
+ 					var info = rsize_gs_id + ":" + rsize_gsd_id;
+ 					showvalue=arr[info];
+ 					if(showvalue != undefined){
+ 					    pdt_id = showvalue;
+                         if(stock[pdt_id]){
+                             var stockNum = stock[pdt_id] || 0;
+                             if(num>stockNum){
+                                 showAlert(false,"购买数量大于库存数量");
+                                 return false;
+                             }
+                         }
+ 					}
+                     else{
+                        	pdt_id = "{$pdtInfo['pdt_id']}";
+                        	if(pdt_id.length>0){
+                        	}else{
+                             showAlert(false,"此规格组合不存在");
+                             return false;
+                        	}
+                     }
+ 				}      	
+            }
+            if(typeof pdt_id == 'undefined' || pdt_id == null || pdt_id ==''){
+                 showAlert(false,"请选择规格");
+                 return false;
+             }
+         
+ 			var data = {
+					 type:'item',
+		             pid:pdt_id
+		           };
+		
+       if(data !=''){
+             ajaxReturn('/Ucenter/Collect/doAddCollect',data,'post');
+	   	}  
+         
+     });
+ 	
+ 	
+     
+     //实现属性的选中与反选中
+ 	$("a[name='goods_spec_values']").click(function(){
+ 		if($(this).hasClass('on')){
+ 			$(this).removeClass('on');
+ 		}else{
+ 			//获取当前被点击的属性值所属的属性ID
+ 			var int_spec_id = $(this).attr('int_gs_id');
+ 		
+ 			$('.goods_spec'+int_spec_id).removeClass('on');
+ 			$(this).addClass('on');
+ 		}
+ 		
+ 	});
+     //去结算
+     $("#addToOrder").click(function(){
+         window.location.href = '{:U("Ucenter/Orders/pageAdd")}';
+     });
+});    
+    
+    
+</script>

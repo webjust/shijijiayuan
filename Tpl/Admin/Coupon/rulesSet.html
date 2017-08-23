@@ -1,0 +1,40 @@
+<div class="rightInner">
+    <form id="coupon_set" name="coupon_set" method="post" action="{:U('Admin/Coupon/doCouponSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">优惠券设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">是否启用优惠券</td>
+                    <td>
+                        <input type="radio" name="COUPON_AUTO_OPEN" value="1" <eq name="COUPON_AUTO_OPEN" value="1">checked="checked"</eq> />
+                        <label for="water_on_1">开启</label>
+
+                        <input type="radio" name="COUPON_AUTO_OPEN"  value="0" <eq name="COUPON_AUTO_OPEN" value="0">checked="checked"</eq> />
+                        <label for="water_on_2">关闭</label>
+                    </td>
+                    <td class="last">开启后，会员中心开放优惠券功能</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保存设置" class="btnA">
+                    </td>
+                </tr>
+            </tfoot>
+
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        $('#coupon_set').validate();
+    });
+</script>

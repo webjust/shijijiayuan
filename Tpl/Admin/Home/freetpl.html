@@ -1,0 +1,58 @@
+<include file="Home:tabsTem" />
+<div class="rightInner" id="con_tabListP_1" style=" overflow:hidden;">
+    <ul class="tempUl">
+        <volist name="data" id="tpl">
+            <li>
+                <div class="freeTem">
+                    <h2>{$tpl.ti_name|default="暂无"}</h2>
+                    <a href='javascript:;'><img src='__FXCENTER__/{$tpl.ti_thumbnail}' width="225" height="260" /></a>
+                </div>
+                <p class="textCenter"><a href='javascript:void(0);' tisn="{$tpl.tisn}" id="a_{$tpl.tisn}" <if condition="$tpl.local eq '1'">class="btnX"<else />class="btnA downloadtpl"</if> data-uri='{:U("Admin/Home/getDownloadTpl","ti_sn=$tpl[tisn]&client_sn=$tpl[cisn]&sign=$tpl[sign]")}'>下载此模板</a></p>
+            </li>
+        </volist>
+    </ul>
+
+    <span class="right page" style="clear:left"> 
+        {$page}
+    </span>
+</div><!--rightInner  end-->
+<script>
+    function setTabs(name,cursel,n){
+        for(i=1;i<=n;i++){
+            var tab=document.getElementById(name+i);
+            var con=document.getElementById("con_"+name+"_"+i);
+            tab.className=i==cursel?"onHover":"";
+            con.style.display=i==cursel?"block":"none";
+        }
+    }
+    $(document).ready(function(){
+        $(".downloadtpl").click(function(){
+            var url = $(this).attr("data-uri");
+            var tisn = $(this).attr("tisn");
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        $("#a_"+tisn).removeClass().addClass("btnX");;
+                        $("#J_ajax_loading").removeClass('ajax_error').addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+            
+        });
+        
+    });
+</script>

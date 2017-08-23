@@ -1,0 +1,29 @@
+{__NOLAYOUT__}
+<div class="botCon">
+    <h1>购买此商品的顾客也同时购买</h1>
+    <ul>
+        <if condition="count($ary_relate_goods) neq 0">
+            <volist name="ary_relate_goods" id="this_coll">
+                <php>if($i<=2 ){</php>
+                <li>
+                    <a  href="/Wap/Products/detail/gid/{$this_coll.g_id}">
+                        <img src="{$this_coll['g_picture']}" width="288px" height="144px">
+                    </a>
+                    <p><a href="/Wap/Products/detail/gid/{$this_coll.g_id}">{$this_coll.g_name|mb_substr=###,0,5,'utf-8'}</a></p>
+                    <p><i>{$this_coll.g_price|sprintf='%.2f',###}元</i></p>
+                    <!--<p class="price"><i></i> <i></i> <i></i> <i></i> <i></i><b>(122评论)</b></p>-->
+                </li>
+                <php>}</php>
+            </volist>
+
+
+
+        <!--<li>-->
+            <!--<a href=""><img src="images/proImg/pro2.jpg" width="288px" height="144px"></a>-->
+            <!--<p><a href="#">Mil4001粉色Mil4001Mil4001Mil4001Mil4001Mil4001跑鞋</a></p>-->
+            <!--<p><i>239元</i></p>-->
+            <!--<p class="price"><i></i> <i></i> <i></i> <i></i> <i></i><b>(122评论)</b></p>-->
+        <!--</li>-->
+            </if>
+    </ul>
+</div>

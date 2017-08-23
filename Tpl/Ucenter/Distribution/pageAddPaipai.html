@@ -1,0 +1,54 @@
+<include file="User:header" />
+<script src="__PUBLIC__/Ucenter/js/Trdorders.js" type="text/javascript"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<!-- 右侧主题内容开始 -->
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>拍拍店铺授权</span></h2>
+
+    <div class="changePass"><!--changePass  start-->
+        <form id='form_div_paipai_session_login' method="post" action="#" style="600px;">
+        <table class="addTable">
+            <tr>
+                <td width="145" align="right"><i class="red">*</i> uin：</td>
+                <td>
+                    <input type="text" validate="{ required:true}" id="uin" value="" name="uin" class="input01 blur">
+                    
+                    <span class="spanWrong"></span>
+                </td>
+            </tr>
+            <tr>
+                <td width="145" align="right"><i class="red">*</i> appOAuthID：</td>
+                <td>
+                    <input type="text" validate="{ required:true}" value="" id="appoid" name="appoid" class="input01">
+                    
+                    <span class="spanWrong"></span>
+                </td>
+            </tr>
+            <tr>
+                <td width="145" align="right"><i class="red">*</i> secretOAuthKey：</td>
+                <td>
+                    <input type="text" validate="{ required:true}" id="seckey" value="" name="seckey" class="input01">
+                    
+                    <span class="spanWrong"></span>
+                </td>
+            </tr>
+            <tr>
+                <td width="145" align="right"><i class="red">*</i> accessToken：</td>
+                <td>
+                    <input type="text" validate="{ required:true}" id="token" value="" name="token" class="input01">
+                    
+                    <span class="spanWrong"></span>
+                </td>
+            </tr>
+        </table>
+        <p style="width: 70%;">
+            <input type="hidden" value="paipai" name="pf" id="pf" />
+            <button id="ajax_doAddd" type="button" class="blue">保 存</button>
+            <button type="reset" class="blue">重 置</button>
+            <a href="__APP__/Ucenter/Distribution/pagePaipaiHelp" title="点击这里查看帮助" style="position: relative;top: 5px;left: 15px;color: blue;text-decoration: underline;">点击这里查看帮助</a>
+        </p>
+        </form>
+    </div><!--changePass  end-->
+
+</div><!--contentRightBox  end-->

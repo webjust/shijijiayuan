@@ -1,0 +1,52 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+<style>
+.helpListCon ul li span{float:left}
+.helpListCon .left{height:155px;line-height:160px}
+</style>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox">
+	<h2 class="publicH2">
+		<span>我要推广</span>
+	</h2>
+	<div class="helpList">
+		<div class="helpListCon">
+			<ul>
+				<li>链接地址：http://{$domain_name}/Home/User/pageRegister/?m_id={$m_id}</li>
+				
+				<li>
+					<span class="left">推广二维码：</span>
+					<span><img src="{$GY_SHOP_TG_LOGO}" height="155" id="showTgPic"/></span>
+					<span class="left">
+						<if condition="$GY_WAP_LOGO neq '' " >
+							&nbsp;<a id="delTgPic" url="{:U('Ucenter/Promoting/delTgPic')}" style="margin-left:20px;color:#479DF4;">删除</a>
+						</if>
+					</span>
+					<span class="left" style="margin-left:20px;color:#ff0000;">删除之后访问页面重新生成</span>
+				</li>
+				<li>说明：此链接地址可以复制相应的论坛，通过此链接注册的用户将自动成为你的下级分销商。</li>
+			</ul>
+		</div><!--helpListCon  end-->
+		<div class="fenye">
+			{$page}
+		</div>
+	</div><!--helpList  end-->
+</div><!--contentRightBox  end-->
+<!-- 右侧主题内容结束 -->
+<script type="text/javascript">
+$("#delTgPic").click(function(){
+    var url = $(this).attr("url");
+   $.ajax({
+       url:url,
+       cache:false,
+       dataType:'json',
+       type:'POST',
+       success:function(msgObj){
+		$("#showTgPic").css("display","none");	
+		$("#delTgPic").css("display","none");					
+       },
+       error:function(msgObj){
+   		alert('删除失败');		
+       }
+       });
+});
+</script>

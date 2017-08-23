@@ -1,0 +1,139 @@
+
+
+/**自由推荐 开始**/
+.navBar { position: fixed; top: 0; width: 100%; z-index: 888; background: #FE5400; height: 45px; max-width: 640px; min-width: 320px; }
+.header,.header1 { min-width: 320px; max-width: 640px; margin: 0px auto; }
+.header1 .navBar { background-color:#f9f9f9; border-bottom:1px solid #dedede;}
+.header1 .navBar .Htitle{ color:#656668; font-size:16px; font-weight:bold; padding-left:25px;  line-height: 45px; background:url(../images/left1.png) no-repeat 10px center;}
+
+.addcart, .addressEdit, .addressEdit1 { display: none; }
+.addCart { height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; z-index: 1000; opacity: 1; transition: none 0.2s ease; -webkit-transition: none 0.2s ease; background-color: #333; }
+.cartCnt { overflow: hidden; visibility: visible; left: 0px; right: 0px; bottom: 0px; opacity: 1; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px); position: absolute; z-index: 1000; -webkit-transition: all 300ms ease; position: fixed; transition: all 300ms ease; background: white; min-width: 320px; max-width: 640px; margin: 0px auto; overflow: hidden;  border-top: 1px solid #dedede; }
+.addcart1 .cartCnt { /*height:75px;*/ }
+
+.dpDetail{background-color: #eee; min-height:523px;}
+.dpT{ color:#666; border-bottom:2px solid #666; text-align:center; font-size:16px; line-height:55px; height:55px; background-color:#fefefe;}
+.dpL{  background-color: #efedee;  border-bottom: 1px solid #dedede;}
+.dpL .dpLL{overflow:hidden; display:flex; display:-moz-box; display: -moz-flex; display:-webkit-box; display: -webkit-flex; display: -ms-flexbox; -ms-flex-direction:row; -ms-flex-pack:justfy; display: flex; -webkit-flex-direction: row /* works with row or column */
+ flex-direction: row;
+-webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; padding:15px 10px; background-color:#fff;}
+.dpDefault{ border-bottom:2px dotted #d3d3d3;  margin-top: 15px;  border-top: 1px solid #dedede;}
+.dpLL .proPic {width:80px; height:80px;}
+.dpLL .proPic img{ width:80px; height:80px; }
+.dpLL  .orderDR{display:block; -webkit-flex:1; -moz-flex:1; -o-flex:1; -ms-flex:1; flex:1 0 0; -webkit-box-flex:1; text-align:left; width:0; box-align: stretch; overflow:hidden;  padding: 0 5px;}
+.dpLL  .orderDR p{ margin-top:3px;}
+.dpLL  .orderDR span.select{  border: 1px solid #d6d6d6;color:#FE5400;
+  border-radius: 4px;
+  width: 125px;
+  display: block;
+height:30px; line-height:30px;
+  padding: 2px 10px 2px 10px;
+   background:url(../images/down.png) 105px center no-repeat; background-size:15px; font-size:15px; }
+  .dpLL  .orderDR span.selected{border: 1px solid #d6d6d6;color:#FE5400;
+  border-radius: 4px;
+  width: 95px;
+  display: block;
+height:30px; line-height:30px;
+  padding: 2px 18px 2px 10px;
+   background:url(../images/down.png) 105px center no-repeat; background-size:15px; font-size:15px;color:#929292;  font-size: 13px;line-height: 15px;}
+.dpLL  .orderDR .proN{  color: #424242;
+  font-size: 14px;
+  font-weight: bold; line-height:20px; max-height:40px; overflow:hidden; text-overflow:ellipsis;}
+  .Dprice{  padding: 0 5px;}
+  .Dprice span{ display:block; text-align: right;
+  color: #424242;
+  font-size: 14px; line-height:20px;}
+  
+.dpList { margin:0 10px;}
+.dpList a.dpTitle{  color: #656668;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 36px;
+  height: 36px;margin: 5px 0;
+  display: block; background: #fefefe url(../images/you.png) right center no-repeat;}
+.dpLists{overflow:hidden; }
+.dpLists .dpLink{ width:90px; float:left;  margin-top: 10px;}
+.dpLists .dpLink a { position:relative;}
+.dpLists .dpLink a p{ position:absolute; width:100%; text-align:center; bottom:0px; left:0px; color:#fff; background-color:#444; opacity:0.7;}
+.dpLists .dpLink a img{ width:90px; height:90px;}
+.dpLists  .plusOne{ float:left; font-size:30px;  font-weight:bold; text-align:center;color:#aaa; height:90px; line-height:90px; width:30px;  margin-top: 10px;}
+.sku-layout .layout-content .content-foot .half-button.f_right{ float:right; width:70%;  text-align: right;}
+.f_right { font-size:13px; color:#FE5400;}
+.f_right b{ font-size:15px; margin-right:5px;}
+.dpConfirm .cartCnt{ z-index:99999;}
+.dpConfirm  .name-card.sku-name-card .thumb {
+  border: 1px solid #898989;
+}
+.dpConfirm .sku-layout .layout-title .goods-base-info .goods-price .current-price b{  color: #5f5f5f;
+  font-weight: normal;
+  font-size: 13px;}
+ .dpConfirm  .sku-layout .layout-title .goods-base-info .goods-price .current-price .price-name{color:#FE5400;}
+ .dpConfirm  .sku-layout .vertical-middle{color:#FE5400;}
+.dpConfirm  .sku-layout .select-type {font-size: 13px;}
+.dpConfirm  .sku-layout .select-type i{ font-style:normal;}
+ .dpConfirm  .sku-layout .select-type span{color: #5f5f5f;margin-left: 5px;}
+  .dpConfirm  .sku-layout .select-type span em{ font-style:normal; color:#FE5400;}
+ .dpConfirm  .selectType{ margin:5px 10px;  padding-bottom: 12px;}
+  .dpConfirm  .selectType h1{ font-size:15px; font-weight:bold; padding:12px 0;color: #545454; border-bottom: 1px solid #d8d8d8;} 
+  .typeOne{ clear:both; overflow:hidden; }
+  .dpConfirm  .selectType dl{clear:both; overflow:hidden; }
+   .dpConfirm  .selectType dl dd{  float: left;
+  padding: 8px;
+  border: 1px solid #dadada;
+  margin-right: 10px;
+  margin-top: 13px;
+  border-radius: 4px;
+  font-size: 14px;}
+  .dpConfirm  .selectType dl dd.on{color: #fefefe;
+  border-color: #FE5400;
+  background-color: #FE5400;}
+ .dpConfirm .sku-layout .content-foot{  padding: 10px;
+  border-top: 1px solid #d6d6d6;}
+  .dpConfirm .sku-layout .content-foot .f_right{ text-align:center;}
+.dpConfirm .sku-layout .content-foot .f_right .btn.btn-orange-dark {  padding: 8px 20px;}
+.sku-layout .layout-title .goods-base-info .title { padding-right:45px; line-height:22px }
+.sku-layout .layout-title .goods-base-info .goods-price { padding:0 55px 0 0 }
+.sku-layout .layout-title .goods-base-info .goods-price .current-price { line-height:20px; font-size:16px; }
+.sku-layout .layout-title .goods-base-info .goods-price .current-price .price-name { padding-top:1px }
+.sku-layout .layout-title .goods-base-info .goods-price .current-price .price-tag { line-height:20px; margin:0 2px 0 }
+.sku-layout .layout-title .goods-base-info .goods-price .old-price, .sku-layout .layout-title .goods-base-info .goods-price .original-price { color:#999 }
+.sku-layout .layout-title .goods-base-info .goods-price .original-price { display:none }
+.sku-layout .layout-content { border:1px solid white; line-height:20px; background-color:#fff }
+.sku-layout .layout-content .goods-models { padding:1px 10px 1px 10px }
+.sku-layout .layout-content .content-foot { padding:5px 3px; font-size:0px }
+.sku-layout .layout-content .content-foot .half-button { float:left; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; width:50% }
+.sku-layout .layout-content .content-foot .half-button:first-child { padding-right:5px }
+.sku-layout .layout-content .content-foot .half-button span { display:block; width:100%; font-size:13px; color:#333333; }
+.sku-layout .layout-content .content-foot .half-button span b { color: #FE5400; }
+.sku-layout .layout-content .content-foot .half-button:last-child { padding-left:5px }
+.sku-layout .sku-cancel { position:absolute; right:3px; top:2px; padding:10px }
+.sku-layout .sku-cancel .cancel-img { height:27px; width:27px; background-image:url(../images/showcase-1416814739063.png); background-position:0 -120px; background-repeat:no-repeat }
+.sku-layout .layout-content .content-foot .order-total { text-align: right; line-height: 40px; }
+.sku-layout .layout-content .content-foot .order-total span { font-size:15px; }
+.f_right { font-size:13px; color:#666;}
+.f_right b{ font-size:15px; margin-right:5px;}
+.btn.btn-orange-dark { color: #fefefe; border-color: #FE5400; background-color: #FE5400; }
+.btn { display: inline-block; padding: 6px 12px; margin-bottom: 0; font-size: 14px; font-weight: normal; line-height: 1.42857143; text-align: center; white-space: nowrap; vertical-align: middle; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background-image: none; border: 1px solid transparent; border-radius: 4px; }
+.sku-layout .layout-title .goods-base-info .goods-price .current-price { line-height:20px; font-size:16px; }
+.name-card { margin-left:0px; width:auto; padding:5px 0; overflow:hidden; position:relative }
+.name-card .thumb { width:60px; height:60px; float:left; position:relative; margin-left:auto; margin-right:auto; overflow:hidden; background-size:cover }
+.name-card .thumb img { position:absolute; margin:auto; top:0; left:0; right:0; bottom:0; width:auto; height:auto; max-width:100%; max-height:100% }
+.name-card a:hover, .name-card a:active { text-decoration:none }
+.name-card .detail { margin-left:68px; width:auto; position:relative }
+.name-card .detail h3 { margin-top:1px; color:#333; font-size:12px; line-height:16px; width:100% }
+.name-card .detail p { position:relative; font-size:12px; line-height:16px; white-space:nowrap; margin:0 0 2px; color:#666 }
+.name-card .detail a { display:block }
+.name-card .detail .l2-ellipsis { max-height:34px; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical }
+.name-card .btn-goods-link { bottom:8px; right:10px; position:absolute; line-height:14px; font-size:12px }
+.name-card.name-card-3col { padding:8px 0; padding-right:85px }
+.name-card.name-card-3col .right-col { position:absolute; right:0px; top:8px; width:78px; padding-right:10px; font-size:12px }
+.name-card.name-card-3col .right-col .price { font-size:14px; color:#515151; text-align:right; line-height:16px }
+.name-card.name-card-3col .right-col .num { font-weight:200; text-align:right; margin-top:3px; padding:0; color:#555 }
+.name-card.name-card-3col .right-col .num .num-txt { padding:0; line-height:22px; color:#515151 }
+.name-card.name-card-3col .right-col .order-state { font-size:13px; text-align:right }
+.sku-layout .block-item:first-child { border-top:0px none }
+.name-card.sku-name-card .thumb { width:40px; height:40px; margin:2px 0 0 10px }
+.name-card.sku-name-card .thumb img { height:40px }
+.name-card.sku-name-card .detail { margin-left:55px }
+
+/**自由推荐 结束**/

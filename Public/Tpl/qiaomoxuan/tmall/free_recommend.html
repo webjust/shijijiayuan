@@ -1,0 +1,212 @@
+<!--中间内容 开始-->
+<link href="__CSS__free.css" rel="stylesheet">
+<div class="HXwarp" id="main">
+	<div class="area">
+        <php>$ary_tmp_cate = array();</php>
+    	<div class="content960"><!--content960 col  start-->
+        	<div class="goodList_navtitle block">
+                <a href="{:U('Home/Index/index')}">首页</a>
+                <gyfx:catebreadcrumb name='catebreadcrumb'  cid="{$get.cid}" >
+                    <if condition="$catebreadcrumb.gcname neq ''">
+                    <span>></span><a href="{:U('Home/Products/freeCollocation')}?cid={$catebreadcrumb.gcid}&startPrice={$get.startPrice}&endPrice={$get.endPrice}">{$catebreadcrumb.gcname}</a>
+                    <php>$ary_tmp_cate[] = $catebreadcrumb['gcid'];</php>
+                    </if>
+                </gyfx:catebreadcrumb>
+                <span>></span><a href="javascript:void(0);">自由搭配</a>
+            </div>
+            
+            <div class="goodList_nav tuanNav"><!--goodList_nav  start-->
+            	<table>
+                	<tr>
+                    	<th width="100" valign="top" align="center"><h2><span class="classi">分类：</span></h2></th>
+                        <td>
+                        	<p>
+                                <php>$cname;$cid; $ary_cate = array();</php>
+                                <a href="{:U('Home/Products/freeCollocation')}?startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get.cid eq ''">class="on" </if>>全部</a>
+                                <Gyfx:goodscate name="cate" >
+                                <a href="{:U('Home/Products/freeCollocation')}?cid={$cate.cid}&startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$ary_tmp_cate[0] eq $cate[cid]">class="on"</if>>{$cate.cname}</a>
+                                <php>
+                                    if($cate['cid'] == $ary_tmp_cate[0]){
+                                        $cname = $cate['cname'];
+                                        $cid = $cate['cid'];
+                                        $ary_cate = $cate['sub'];
+                                    }
+                                </php>
+                                </Gyfx:goodscate>
+                            </p>
+                        </td>
+                    </tr>
+                    <if condition="$cname neq ''">
+                    <tr>
+                    	<th width="100" valign="top" align="center"><h2><span class="classi">{$cname}：</span></h2></th>
+                        <td>
+                        	<p>
+                                
+                                <a href="{:U('Home/Products/freeCollocation')}?cid={$cid}&startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get.cid eq $cid">class="on" </if>>全部</a>
+                                <php>foreach($ary_cate as $key=>$val){</php>
+                                <a href="{:U('Home/Products/freeCollocation')}?cid={$val.cid}&startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$val[cid] eq $ary_tmp_cate[1]">class="on"</if>>{$val.cname}</a>
+                                <php>}</php>
+                            </p>
+                        </td>
+                    </tr>
+                    </if>
+                    <tr>
+                    	<th valign="top" align="center"><h2><span class="price">价格：</span></h2></th>
+                        <td>
+                        	<p>
+                                <a href="{:U('Home/Products/freeCollocation')}?cid={$get.cid}" <if condition="($get.startPrice eq '') and  ($get.endPrice eq '')"> class="on"</if>>全部</a>
+                                <a href="{:U('Home/Products/freeCollocation')}?startPrice=0&endPrice=1000&cid={$get.cid}" <if condition="$get.endPrice eq 1000" >class="on"</if>">0-1000</a>
+                                <a href="{:U('Home/Products/freeCollocation')}?startPrice=1000&endPrice=2000&cid={$get.cid}" <if condition="$get.endPrice eq 2000" >class="on"</if>">1000-2000</a>
+                                <a href="{:U('Home/Products/freeCollocation')}?startPrice=2000&endPrice=3000&cid={$get.cid}" <if condition="$get.endPrice eq 3000" >class="on"</if>">2000-3000</a>
+                                <a href="{:U('Home/Products/freeCollocation')}?startPrice=3000&endPrice=4000&cid={$get.cid}" <if condition="$get.endPrice eq 4000" >class="on"</if>">3000-4000</a>
+                                <a href="{:U('Home/Products/freeCollocation')}?startPrice=4000&endPrice=5000&cid={$get.cid}" <if condition="$get.endPrice eq 5000" >class="on"</if>">4000-5000</a>
+                                <a href="{:U('Home/Products/freeCollocation')}?startPrice=5000&cid={$get.cid}" <if condition="$get.startPrice eq 5000" >class="on"</if>">5000以上</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div><!--goodList_nav  end-->
+            
+            <div class="goodList_con"><!--goodList_con  start-->
+                <div class="gcUl tuan"><!--gcUl  start-->
+                	<ul>
+                        <volist name="data" id="datas">
+                    	<li>
+                        	<a href="{:U('Home/Products/detail')}?gid={$datas.fr_goods_id}" class="proP">
+                                <img src="{$Think.config.DOMAIN_HOST}{$datas.fr_goods_picture}" width="300" height="300">
+                                <h3>
+                                	<span>{$datas.gsalenum}人购买</span>&nbsp;
+                                    <label>剩余时间：<em id="day{$datas.fr_id}">3</em>天<em id="hours{$datas.fr_id}">12</em>时<em id="minutes{$datas.fr_id}">20</em>分<em id="seconds{$datas.fr_id}">30</em>秒</label>
+                                    <script>setTuanGouTime('{$datas.fr_end_time}','day{$datas.fr_id}','hours{$datas.fr_id}','minutes{$datas.fr_id}','seconds{$datas.fr_id}',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                    <i></i>
+                                </h3>
+                            </a>
+                            <a href="#" class="proN">{$datas.fr_name}</a>
+                            <strong><i>&yen;</i>{$datas.fr_price|sprintf='%.2f',###}</strong>
+                            <p>原价：<del><i>&yen;</i> {$datas.fr_original_price|sprintf='%.2f',###}</del></p>
+                            <if condition="$datas['skuNames'] eq ''">
+                                <input type="hidden" name="type" value="item" id="item_type_{$datas.gid}" />
+                                <input type="hidden" value="{$datas.pdt_id}" name="pdt_id" id="pdt_id_{$datas.gid}" />
+                                <input type="hidden" value="{$datas.pdt_stock}" name="pdt_stock" id="pdt_stock_{$datas.gid}" />  
+                                <input type="hidden" value="1" id="item_num_{$datas.gid}" name="num" /> 
+                            </if>
+                            <span <if condition="$datas.is_invice eq '0'">class="addDP"<else/>class="addDP02"</if> <if condition="$datas['skuNames'] eq ''">onclick="clickInput(this,1)" stock="{$datas.pdt_stock}"<else/>onclick="clickInput(this,2)"</if>  authorize="{$datas.authorize}" gid="{$datas.gid}" fr_id="{$datas.fr_id}">加入搭配</span>
+                            
+                        </li>
+                        </volist>
+                    </ul>
+                </div><!--gcUl  end-->
+            </div><!--goodList_con  end-->
+            <div class="fenye block"><!--fenye  start-->
+                <php>if(!isset($pagearr['nowPage']) || $pagearr['nowPage'] == 1){</php>
+                <a href="javascript:void(0);" class="prev on">首页</a>
+                <a href="javascript:void(0);" class="prev on">上一页</a>
+                <php>}</php>
+                <php>if(isset($pagearr['nowPage']) && $pagearr['nowPage'] != 1){</php>
+                    <a href="<php>echo rtrim(substr($pagearr['upUrl'],0,-3),'/').'/';</php>" class="prev">首页</a>
+                    <a href="{$pagearr.upUrl}" class="prev">上一页</a>
+                <php>}</php>
+                {$pagearr.linkPage}
+                <php>if($pagearr['nowPage'] == $pagearr['totalPage']){</php>
+                    <a href="javascript:void(0);" class="prev on">下一页</a>
+                    <a href="javascript:void(0);" class="prev on">尾页</a>
+                <php>}</php>
+                <php>if($pagearr['nowPage'] < $pagearr['totalPage']){</php>
+                    <a href="{$pagearr.downUrl}" class="next">下一页</a>
+                    <a href="<php>echo rtrim(substr($pagearr['downUrl'],0,-3),'/').'/';</php>p/{$pagearr['totalPage']}" class="next">尾页</a>
+                <php>}</php> &nbsp;&nbsp;&nbsp;
+            </div><!--fenye  end-->
+            
+        </div><!--content960 col  start-->
+    </div>
+</div>
+<script type="text/javascript" src="__JS__goodsDetailSku.js"></script>
+<script>
+//点击加入搭配触发事件
+function clickInput(obj,type){
+    var fr_id = $(obj).attr('fr_id');
+    var authorize = $(obj).attr('authorize');
+    var g_id = $(obj).attr('gid');
+    if(authorize != '1'){
+        $.ThinkBox.error("您不能购买该商品");
+        return false;
+    }
+    if(parseInt(g_id) <= 0){
+        $.ThinkBox.error("商品不存在或者已经被下架");
+        return false;
+    }
+    if($(obj).hasClass('addDP')){
+        if(type == '1'){
+			addGoodsProductsCart(obj,g_id,fr_id);
+        }else{
+            addGoodsCart(obj,g_id,fr_id);
+        }
+    }else{
+        removeColl(fr_id);
+    }   
+}
+//单规格商品加入搭配
+function addGoodsProductsCart(obj,g_id,fr_id){
+    var pdt_id = $('#pdt_id_'+g_id).val();
+    var pdt_stock = parseInt($('#pdt_stock_'+g_id).val());
+	if(0 == pdt_stock){
+		$.ThinkBox.error("该商品库存不足！");
+		return false;
+	}
+    if (pdt_id == ""){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+        return false;
+    }
+    addColl(fr_id,pdt_id);
+}
+//多规格商品加入搭配
+function addGoodsCart(obj,g_id,fr_id){
+    $.ajax({
+        url:'/Home/Products/getAddToCartDetail',
+        cache:false,
+        dataType:'HTML',
+        data:{
+            g_id:g_id,
+            item_type: 6,
+            item_id:fr_id
+        },
+        type:"POST",
+        success:function(msgObj){
+            var box = $.ThinkBox(msgObj, {'title' : '请选择商品规格','width':'448px','drag' : true,'unload':true});
+        }
+    });
+}
+//加入搭配
+function addColl(fr_id,pdt_id){
+    $.post("{:U('/Products/addCollocation')}",{'fr_id':fr_id,'pdt_id':pdt_id},function(htmlMsg){
+        $.ThinkBox.success('加入搭配栏成功');
+        $("#collocationColumn").html('');
+        $("#collocationColumn").html(htmlMsg);
+        if($("span[fr_id='"+fr_id+"']").hasClass('addDP')){
+            $("span[fr_id='"+fr_id+"']").removeClass('addDP').addClass('addDP02');
+        }
+    },'html');
+}
+//移除搭配
+function removeColl(fr_id){
+    $.post("{:U('/Products/removeCollocation')}",{'fr_id':fr_id},function(htmlMsg){
+        $.ThinkBox.success('移除成功');
+        $("#collocationColumn").html('');
+        $("#collocationColumn").html(htmlMsg);
+        if($("span[fr_id='"+fr_id+"']").hasClass('addDP02')){
+            $("span[fr_id='"+fr_id+"']").removeClass('addDP02').addClass('addDP');
+        }
+    },'html');
+}
+$(document).ready(function($){
+    <if condition="$is_show eq '1'">
+        $.post("{:U('/Products/showCollColumn')}",{},function(htmlMsg){
+            $("#collocationColumn").html(htmlMsg);
+        },'html');
+    </if>
+});
+</script>
+<!--中间内容 结束-->
+<div class="contrast dp" id="collocationColumn"><!--contrast  start-->
+	
+</div><!--contrast  end-->

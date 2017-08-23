@@ -1,0 +1,99 @@
+<link href="{$Think.config.DOMAIN_HOST}__CSS__spike.css" rel="stylesheet" type="text/css"/>
+<div class="container"><!--container-->
+    <div class="titleTop">
+        <p class="detailT">
+            <a href="{:U('/Wap/Index/index')}">首页</a>/
+            <a href="javascript:void(0)">秒杀活动</a>
+        </p>
+        <h1><span>促销活动</span>/秒杀</h1>
+    </div>
+    <div class="proList">
+        <div class="listAll">
+            <ul>
+                <volist name="data" id="list">
+                    <li>
+                        <a  href="{:U('Wap/Spike/detail')}?sp_id={$list['sp_id']}">
+                            <img src="{$Think.config.DOMAIN_HOST}{$list.sp_picture|showImage=###,280,280}" width="280" height="280" >
+                        </a>
+                        <p>
+                            <a  href="{:U('Wap/Spike/detail')}?sp_id={$list['sp_id']}">{$list.sp_title|mb_substr=###,0,15,'utf-8'}</a>
+                        </p>
+                        <span>
+                            <i>{$list.sp_price|sprintf='%.2f',###}元</i>
+                            <i>({$list['sp_now_number']}人购买)</i>
+                        </span>
+                        <php>$time = date("Y-m-d H:i:s");</php>
+                        <php>if($time <= $list['sp_start_time']){</php>
+                        <div id="showGroupTime{$list['sp_id']}" class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;"><label id="showText{$list['sp_id']}">距开始还有：</label><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+                        <script>setGroupbuyTime('{$list.sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$list.sp_end_time}',"{$list['sp_id']}","{$list['g_id']}");</script>
+                        <php>}elseif($time >= $list['sp_end_time']){</php>
+                        <div class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+                        <php>}else{</php>
+
+                        <div id="showGroupTime{$list['sp_id']}" class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;">剩余时间：<label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+                        <script>setGroupbuyTime('{$list.sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$list['sp_id']}","{$list['g_id']}");</script>
+                        <php>}</php>
+
+                    </li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+    <!--商品评价列表内容分页 start-->
+    <div class="pagSplit">
+        <php>if($page['nowPage'] == 1){</php>
+        <a class="prev prev-disable" href="javascript:void(0)"><i class="icon"></i>up</a>
+        <php>}else{</php>
+        <a href="/Wap/Spike/Index" class="change">首页</a>
+        <a href="{$page.upUrl}" class="prev01">up</a>
+        <php>}</php>
+        <php>
+            $int_i = 1;
+            $totalPage = 0;
+            if($page['nowPage']<4 &&  $page['totalPage']>4){
+            $totalPage = 4;
+            }else if($page['nowPage']<4 &&  $page['totalPage']<=4){
+            $totalPage = $page['totalPage'];
+            }
+            if($page['nowPage'] >=2){
+            $minPage = $page['totalPage'] - $page['nowPage'];
+            if($minPage <3){
+            $totalPage = $page['totalPage'];
+            $int_i = $page['totalPage']-3;
+            }else{
+            $totalPage = $page['nowPage']+1;
+            $int_i = $page['nowPage']-1;
+            }
+            if($int_i <= 0){
+            $int_i = 1;
+            }
+            }
+            for($i=$int_i;$i<=$totalPage;$i++){
+            if($i>0){
+            if($i == $page['nowPage']){
+            echo "<a class='on'>".$i."</a>";
+            }else{
+            if($i > $page['nowPage']){
+            $url = '/Wap/Spike?p='.$i;
+            echo "<a href=".$url.">".$i."</a>";
+            }else{
+            $url = '/Wap/Spike?p='.$i;
+            echo "<a href=".$url.">".$i."</a>";
+            }
+            }
+            }
+            }
+        </php>
+        <php>if($page['nowPage'] == $page['totalPage']){</php>
+        <a class="next next-disable" href="javascript:void(0)">next<i class="icon"></i></a>
+        <php>}</php>
+        <php>if($page['nowPage'] < $page['totalPage']){</php>
+        <a href="{$page.downUrl}" class="next">next</a>
+        <php>
+            $lastpage = '/Wap/Spike/index?p='.$page['totalPage'];
+        </php>
+        <a href="{$lastpage}" class="change">尾页</a>
+        <php>}</php>
+    </div>
+    <!--商品评价列表内容分页 end-->
+</div>

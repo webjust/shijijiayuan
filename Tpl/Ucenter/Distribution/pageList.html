@@ -1,0 +1,9 @@
+<link href="../css/Distribution.css" rel="stylesheet" type="text/css">
+<div class="contentRightBox">
+    <h1>这里是铺货商品列表</h1>
+    你选择的是： <a href="{:U('Ucenter/Distribution/pageSelect?back=pageList')}">返回重新选择</a>
+    <volist name="list" id="goods">
+        <hr>
+        {$goods}
+    </volist>
+</div>

@@ -1,0 +1,181 @@
+<link href="__CSS__spike.css" rel="stylesheet">
+<script src="__JS__spikedetail.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<Gyfx:goodsinfo name="goods_detail" gid="$g_id" erpguid="$g_id"></Gyfx:goodsinfo>
+<input type="hidden" value="{$g_id}" id="gid">
+<div class="wrap wrapD" style="padding-top: 0px;">
+    <div class="pro_content w1180 bgfa">
+    <div class="path">
+        <a href="{:U('Home/Index/Index')}">首页</a>&gt;
+        <a href="{:U('Home/Spike/Index')}">秒杀商品</a>&gt;
+        <a href="javascript:void(0)">{$sp_title}</a>
+    </div>
+    <div class="proDetail bgfff clearfix"><!--proDetail 开始-->
+        <div class="proDO"><!--proDO 开始-->
+            <div class="proDOL"><!--proDOL 开始-->
+                <div class="proDOLL"><!--proDOLL 开始-->
+                    <div class="proDOLLT">
+                        <!-- 放大镜开始 -->
+                        <div class="promotionPic">
+                            <div id="examples">
+                                <ul id="example3">
+                                    <li>
+                                        <img class="etalage_thumb_image" src="{$sp_picture}" />
+                                        <img class="etalage_source_image" src="{$sp_picture}" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 放大镜结束 -->
+                    </div>
+                </div>
+                <!--proDOLL 结束-->
+                <div class="proDOLR" style="width: 535px"><!--proDOLR 开始-->
+                    <h2>{$sp_title}</h2>
+                    <notempty name="goods_detail.gremark">
+                        <p class="p01">{$goods_detail.gremark} </p>
+                    </notempty>
+					<php>$time = strtotime('now');</php>
+                    <div class="activityA activityA1">
+                        <p style="margin-left: 15px">
+						<a id="showGrouupbuy{$sp_id}" style="color:white;">
+						<php>if($time <= strtotime($sp_start_time)){</php>
+						距秒杀开始还剩：
+						<php>}else{</php>
+						此商品正在参加秒杀，
+						<php>}</php>
+						</a>
+							<php>if($time <= strtotime($sp_start_time)){</php>
+							<span id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒
+							</span>
+								<script>setGroupbuyTime('{$sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$sp_end_time}',"{$sp_id}","{$g_id}");</script>
+							<php>}elseif($time >= strtotime($sp_end_time)){</php>
+							<span class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒
+							</span>
+							<php>}else{</php>
+							<span id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒
+							</span>
+								<script>setGroupbuyTime('{$sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$sp_id}","{$g_id}");</script>
+							<php>}</php>
+                        </p>
+                    </div>
+                    <div class="proPrice">
+                        <div class="proPriceT">
+                            <span class="fleft">秒杀价:</span>
+                            <p class="p02">
+                                <strong><i>¥</i><b>{$sp_price|sprintf='%.2f',###}</b></strong>
+                            </p>
+							<input type="hidden" value="{$sp_price}" id="sp_price"/>
+                            <p class="p03">
+                                <span class="mleft">原价:</span>
+                                <span><i>¥</i><b id="showMarketPrice">{$pdt_set_sale_price|sprintf='%.2f',###}</b></span>
+                                <php>
+
+                                    $discount = round($sp_price/$pdt_set_sale_price *10 ,1);
+                                    $save_money = round($pdt_set_sale_price - $sp_price, 2);
+                                </php>
+                                <span>折扣 :<em id="discountPrice">{$discount}</em> 折</span>
+                            </p>
+							<p class="p03">
+								<span class="mleft">剩余数量:<b style="margin-left:10px">{$gstock}</b> 件</span>
+                                <span>（已秒杀数量：<b>{$sp_now_number|default=0}</b> 件）<span>
+							</p>
+                        </div>
+
+                        <ul>
+                            <li id="showDetailSkus">
+                                规格加载中......
+                                <script type="text/javascript">
+                                    getDetailSkus('{$sp_id}', 8);
+                                </script>
+                            </li>
+                            <notempty name="warm_prompt">
+                            <li class="service">
+                                <dl>
+                                    <dt>温馨提示：</dt>
+                                    <dd>{$warm_prompt}</dd>
+                                </dl>
+                            </li>
+                            </notempty>
+                            <li>
+                                <input type="hidden" id="sp_id" value="{$sp_id}"/>
+								<php>$time = strtotime('now');</php>
+								<span id="showSpike{$sp_id}">
+								<php>if($time <= strtotime($sp_start_time)){</php>
+								<a href="javascript:void(0);" class="goTobuy " disabled gid="{$g_id}" >敬请期待！</a>
+								<php>}elseif($time >= strtotime($sp_end_time)){</php>
+								<input type="button" id="addNotOrder" disabled class="notSpike" value="立即购买" />
+								<php>}else{</php>
+								<input type="button" id="addToOrder" class="maySpike" gid="{$detail.gid}"  value="立即购买" />
+								<php>}</php>
+								</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--proDOLR 结束-->
+                </div>
+            </div>
+            <!--proDOL 结束-->
+        </div>
+        <!--proDO 结束-->
+    </div>
+        <!--proDetail 结束-->
+        <div class="content clear">
+            <div class="fl procon" id="procon">
+                <div class="tagarea-wrap">
+                    <div class="tagarea clearfix">
+                        <ul id="left_menus">
+                            <li class="on"><a href="#procon">商品介绍</a></li>
+                            <li><a href="#procon2">商品评价<span id="show_comment_num">(0)</span></a></li>
+                            <li><a href="#procon3">成交记录<span id="show_sale_num">(0)</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tagCon">
+                    <div class="ever"><!--商品详情-->
+						{$sp_desc}							
+						<if condition="$sp_goods_desc_status eq 1">
+						{$goods_detail.gdesc}
+						</if>
+                    </div>
+                    <div class="ever recomm"><!--用户评论-->
+						<div id="recomment" class="rv-wrap clearfix mt10">
+						</div>
+                    </div>
+                    <div class="ever cpcs" id="buyrecord"><!--交易记录-->
+                    </div>
+                </div>
+            </div>
+            <div class="procon_r_wrap">
+                <div class="procon_r" style="position: relative; top: 0px;">
+                    <ul>
+                        <li class="cur"><a href="#procon">商品介绍</a></li>
+                        <li><a href="#procon2">商品评价</a></li>
+                        <li><a href="#procon3">成交记录</a></li>
+                        <li><a href="#top">回到顶部</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <include file="$commonIncOnline" />
+</div>
+<input hidden="hidden" value="{$goods_detail.delivery}" id="delivery"/>
+<input type="hidden" id="is_spike" value="{$is_spike}" />
+<input type="hidden" name="stock_error_1"  id='stock_error_1' value="{$Think.lang.STOCK_ERROR_1}">
+<input type="hidden" name="stock_error_2"  id='stock_error_2' value="{$Think.lang.STOCK_ERROR_2}">
+<input type="hidden" name="stock_error_3"  id='stock_error_3' value="{$Think.lang.STOCK_ERROR_3}">
+<input type="hidden" name="stock_error_4"  id='stock_error_4' value="{$Think.lang.STOCK_ERROR_4}">
+<input type="hidden" name="no_login"  id='no_login' value="{$Think.lang.NO_LOGIN}">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+
+<script>
+<if condition="$common['comments_switch'] eq 1">
+    CommentPage('{$g_id}',1,1);
+    </if>
+    getBuyRecordPage('{$g_id}',20,1);
+</script>
+

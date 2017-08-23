@@ -1,0 +1,65 @@
+<!--尾部 开始-->
+<div id="footer" class="footer" style="padding-top:0px;">
+    <!--footCon 开始-->
+    <div class="footCon">
+    	<!-- 可视化开始 Start -->
+	    <div class="area">
+			<div class="col" >
+			
+			   <div class="content1000">
+		        	<!--foot_tags 开始-->
+		        	<div class="foot_tags">
+		                <div class="footLeft">
+		                    <span><a href="{$Think.config.DOMAIN_HOST}{$ary_top_ads['bottom_pic_url']}"><img src="{$ary_top_ads['bottom_pic']}" width="200px" height="47px" ></a></span>
+		                    <p><span>订购热线/客服电话</span><br /><label>021-58390211</label></p>
+		                </div>
+		                <!--footRight 开始-->
+		                <div class="footRight">
+		                	<ul>
+								<Gyfx:articlecate name="artcat"  num="4" recommend="1" is_show="1">
+								<volist name="artcat" key="k" id="arts">
+									<li>
+										<strong>{$arts.cat_name}</strong>
+											<volist name="arts.list" key="k" id="artinfo">
+											<if condition="$k elt 4">
+											<div style="width:10px;height:10px;float:left" <if condition="$artinfo.hot eq '1'">class="hot2"</if>></div>
+											<a href="{$artinfo.aurl}" target="_blank">{$artinfo.a_title}</a>
+											</if>
+											</volist>
+									</li>
+								</volist>
+								</Gyfx:articlecate>
+		                    </ul>
+		                </div><!--footRight 结束-->
+		            </div><!--foot_tags 结束-->
+		        </div>
+			</div>
+		</div>
+		<!-- 可视化结束 End -->
+    </div><!--footCon 结束-->
+    <p class="footnav">
+        <gyfx:navigation name='nav'  position="bottom">
+            <if condition="$nav.nname neq ''">
+            <a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a>
+            <span>|</span>
+            </if>
+        </gyfx:navigation>
+    </p>
+</div>
+
+<!--尾部 结束-->
+<!--弹出框-->
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div align="center" style="background:#DDDDDD"> 
+	{$commonInfo['GY_SHOP_ICP']|default='Copyright © 2009-2016 沪ICP备：12035449号-2'}
+</div> 

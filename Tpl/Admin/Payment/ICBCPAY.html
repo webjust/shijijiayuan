@@ -1,0 +1,73 @@
+<div class="rightInner">
+    <form id="online_config" method="post" action="{:U('Admin/Financial/doConfigOnline')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        配置您的网上银行（工行支付）线上收款账户
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">* 商户账号</td>
+                    <td>
+                        <input type="text" name="merAcct" class="large" value="{$info.config.merAcct}" validate="{ required:true}" />
+                    </td>
+                    <td class="last">商户入账账号，只能交易时指定。（商户付给银行手续费的账户，可以在开户的时候指定，也可以用交易指定方式；用交易指定方式则使用此商户账号）</td>
+                </tr>
+                <tr>
+                    <td class="first">* 商户代码</td>
+                    <td>
+                        <input type="text" name="merID" class="large" value="{$info.config.merID}" validate="{ required:true}" />
+                    </td>
+                    <td class="last">唯一确定一个商户的代码，由商户在工行开户时，由工行告知商户。</td>
+                </tr>
+                <tr>
+                    <td class="first">* 分期付款</td>
+                    <td>
+                        <input type="text" name="installmentTimes" class="small" value="{$info.config.installmentTimes}" validate="{ required:true}" />
+                    </td>
+                    <td class="last">取值：1、3、6、9、12、18、24；1代表全额付款，必须为以上数值</td>
+                </tr>
+                <tr>
+                    <td class="first">* 支持订单的银行卡种类</td>
+                    <td>
+                        <input type="radio" style="vertical-align:-3px;padding: 0px;margin-right: 3px;" <if condition="$info['config']['creditType'] eq '0'">checked=""</if>  name="creditType" value="0" >使用借记卡支付
+                        <input type="radio" style="vertical-align:-3px;padding: 0px;margin-right: 3px;" <if condition="$info['config']['creditType'] eq '1'">checked=""</if>  name="creditType" value="1" >使用信用卡支付
+                        <input type="radio" style="vertical-align:-3px;padding: 0px;margin-right: 3px;" <if condition="$info['config']['creditType'] eq '2'">checked=""</if>  name="creditType" value="2" >使用借记卡和信用卡支付
+                    </td>
+                    <td class="last">其中0表示仅允许使用借记卡支付，1表示仅允许使用信用卡支付，2表示借记卡和信用卡都能对订单进行支付</td>
+                </tr>
+                <tr>
+                    <td class="first">商城提示</td>
+                    <td>
+                        <input type="text" name="merHint" class="large" value="{$info.config.merHint}" validate="{ maxlength:60}" />
+                    </td>
+                    <td class="last">最多120个字节</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="ICBCPAY" name="code" />
+                        <input type="submit" value="保 存" class="btnA" />&nbsp;
+                        <input type="button" value="返 回" class="btnA back" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#online_config').validate();
+    });
+</script>

@@ -1,0 +1,96 @@
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>我收藏的商品</span></h2>
+	<div class="myCart"><!--myCart   start-->
+		<!--Ucatop  end-->
+	  <table>
+			<thead>
+			</thead>
+			<tbody>
+				<if condition="$ary_goodinfo NEQ ''">
+					<volist name="ary_goodinfo"  id="list">
+						<tr id="list_{$list.g_id}">
+							<td width="82" valign="top">
+								<div class="cartProPic">
+									<a href="javascript:void(0);" onclick="javascript:openDetail({$list.g_id});">
+										<img src="{$Think.config.DOMAIN_HOST}{$list.g_picture|default="Ucenter/images/pdtDefault.jpg"}" width="68" height="68">
+									</a>
+								</div>
+							</td>
+							<td width="332" align="left">
+								<div class="cartProName">
+									<a href="javascript:void(0);" onclick="javascript:openDetail({$list.g_id});">{$list.g_name}</a>
+									<span>{$Think.lang.PRODUCT_SN}：{$list.g_sn}</span>
+									<span>收藏人气：{$list.nums}</span>
+								</div>
+							</td>
+							<td width="81">
+								<i class="price">￥</i>{$list.g_price}
+							</td>
+							<td>
+                                <a href='{:U("/Home/Products/detail","gid=$list[g_id]")}' class="favorite" target="_blank">
+                                    <span class="brown jie" style="cursor:pointer;">购买商品</span>
+                                </a>
+                                <a href="javascript:void(0);" class="delete" id="del_{$list.g_id}" gname="{$list.g_name}" onclick="delCollect('{$list.g_id}');">
+                                    {$Think.lang.DELETE}
+                                </a>
+							</td>
+						</tr>
+					</volist>
+				<else />
+                    <tr><td colspan="4">{$Think.lang.EMPTY_FAVORITES}</td></tr>
+                </if>
+			</tbody>
+		</table>
+	  	<div class="myOderBot"><!--myOderBot  start-->
+					
+			<div class="myOderBotRight"><!--myOderBotRight  start-->
+				<div class="fenye"><!--fenye  start-->
+					{$page}
+				</div><!--fenye  end-->
+			</div><!--myOderBotRight  end-->
+					
+		</div><!--myOderBot  end-->
+		
+	</div><!--myCart   end-->
+</div><!--contentRightBox  end-->
+<script>
+    function delCollect(gid){
+        var gname = $("#del_"+gid).attr("gname");
+        if(gid <= 0){
+			$.ThinkBox.error('商品不存在或者已下架');
+			return false;
+		}	
+		var box = $.ThinkBox.confirm(
+			'确定取消对商品 ：<font color="red">'+gname+'</font>&nbsp;收藏吗？',
+			{
+				'title' : '取消商品收藏',
+				'ok' : function(){
+					box.hide();
+					$.post(
+						'{:U("Ucenter/Collect/doDelCollect")}',
+						{gid:gid},
+						function(msgObj){
+							if(msgObj.status){
+                                $("#list_"+gid).remove();
+								$.ThinkBox.success("取消收藏成功");
+							}else{
+								$.ThinkBox.error(msgObj.info);
+							}
+						},
+						'json'
+					);
+				},
+				'drag' : false,
+                'unload'	: true,
+				'cancel' : function(){box.hide();}
+			}
+		);
+    }
+
+    //打开商品的详情页
+    function openDetail(gid) {
+    	window.open("{:U('/Home/Products/detail')}?gid="+gid);
+    	return false;
+    }
+</script>

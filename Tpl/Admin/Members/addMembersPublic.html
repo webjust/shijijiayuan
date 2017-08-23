@@ -1,0 +1,165 @@
+
+<tr>
+    <td class="first"><span class="red">*</span> 促销对象</td>
+    <td>
+        <input type="radio" class="ra_all" name="ra_all" value="1" <eq name="mAll" value="1">checked="checked"</eq> /> 全部会员
+        <input type="radio" class="ra_all" name="ra_all" value="0" <eq name="mAll" value="0">checked="checked"</eq> /> 部分会员
+    </td>
+</tr>
+<tr class="raMember <eq name="mAll" value="1">none</eq>">
+    <td class="first ">会员组</td>
+    <td>
+        <volist name="mGroups" id="mg">
+            <input type="checkbox" class="checkedMeInfo" name="ra_mg[]" value="{$mg.mg_id}" <eq name="mg.checked" value="1">checked="checked"</eq>  /> {$mg.mg_name}&nbsp;&nbsp;
+        </volist>
+    </td>
+</tr>
+<tr class="raMember  <eq name="mAll" value="1">none</eq>">
+    <td class="first ">会员等级</td>
+    <td>
+        <volist name="mLevels" id="ml">
+            <input type="checkbox" class="checkedMeInfo" name="ra_ml[]" value="{$ml.ml_id}" <eq name="ml.checked" value="1">checked="checked"</eq> /> {$ml.ml_name}&nbsp;&nbsp;
+        </volist>
+    </td>
+</tr>
+<tr class="raMember <eq name="mAll" value="1">none</eq>">
+    <td class="first" style="vertical-align:top">指定会员</td>
+    <td>
+        <div class="searching">
+            <input  type="text" name="memberName"  onblur="memberSearch()"  id="memberName"  class="medium" />
+            <a href="javascript:void(0);" onclick="addMember();" class="btnB">添加</a>
+            <a href="javascript:void(0);" id="add_batch_members" class="btnB">批量添加会员</a>
+            <!--    弹框-->
+            <div id="batch_members" title="请输入会员" style="display: none;">
+                  <table class="alertTable"  >
+                    <tr>
+                        <td align="right" width="75" valign="top">会员名称：</td>
+                        <td>
+                            <textarea id="batch_names_textarea" class="mediumBox"></textarea>
+                            <p class="gray6">添加多个会员时，可通过逗号，空格和换行形式输入；</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 弹框 -->
+            <ul id="m_name_li" style="display:none">
+
+            </ul>
+        </div>
+
+        <table class="addBorder tbList" style="margin:8px 0px;">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>会员名称</th>
+                    <th>会员等级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="raMemberId">
+                 <include file="Promotions:getMemberTr" />
+            </tbody>
+        </table>
+        <input type="button" class="btnA" onclick="batchDelMember()" value="批量删除" />
+    </td>
+</tr>
+<script type="text/javascript">
+  
+    /*全部会员还是部分会员*/
+    $(".ra_all").click(function(){
+        if($(this).val()=='0'){
+            $('.raMember').fadeIn('fast');
+        }else{
+            $('.raMember').hide();
+        }
+    });
+
+    //会员搜索
+    function memberSearch(){    
+        var url ="{:U('Admin/Members/ajaxMemberLike')}";
+        var memberName = $('#memberName').val();
+        $.post(url,{'member_name':memberName},function(data){
+            if(data.result){ 
+                var ary_data = data['data'];
+                var str = '';
+                for(var i = 0; i < ary_data.length;i++){
+                    str = str + "<li ondblclick='dbclickMemberName(this)' class='m_name'>"+ary_data[i]['m_name']+"</li>";
+                }
+                $('#m_name_li').html(str);
+            }
+        },'json');
+    }
+    //选择会员
+    function dbclickMemberName(obj){
+        $('#memberName').val($(obj).html());
+        $('#m_name_li').hide();
+    }
+    /*添加会员*/
+    function addMember(){
+       if($("#memberName").val() == ''){
+           showAlert(false,'出错了','请输入会员名称');
+           return false;
+       }
+        var url = "{:U('Admin/Promotions/getMemberTr')}";
+        var member_id = new Array();
+        var name = $("#memberName").val();
+        $("input[name='ra_mid[]']").each(function () {
+               member_id.push(this.value);
+        });
+        
+        var data = { name:name,member_id:member_id};
+        $.post(url,data,function(info){
+            if(info=="false"){
+                showAlert(false,'出错了','请输入用户名已存在或用户名不正确');
+            }else{ 
+               $("#raMemberId").append(info);
+               //$("#raMemberId").html(html);  
+            }
+        },'text');
+    }
+    /*删除会员*/
+    function delMember(obj){
+        obj.parent('td').parent('tr').remove();
+    }
+     /*批量删除*/
+    function batchDelMember(){
+        $("input[name='check_members']").each(function(){
+            if($(this).prop("checked")== true){
+               
+                $(this).parent('td').parent('tr').remove();
+            }
+        })
+    }
+    /*
+     * 批量添加会员
+     */
+        $('#batch_members').dialog({
+        resizable:false,
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        hight:500,
+        buttons: {
+                '添加': function() {
+                    var dio = $( this );
+                    var data = { name:$("#batch_names_textarea").val()};
+                    var url = "{:U('Admin/Promotions/getMemberTr')}";
+                    $.post(url,data,function(info){
+                        if(info=="false"){
+                            showAlert(false,'出错了','请输入用户名或用户名不正确');
+                        }else{
+                            $('#raMemberId').html(info);
+                        }
+                    },'text');
+                            dio.dialog( "close" );
+                        },
+                '取消': function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+      $('#add_batch_members').click(function(){
+        $('#batch_members').dialog('open');
+        
+    });
+</script>

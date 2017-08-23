@@ -1,0 +1,94 @@
+{__NOLAYOUT__}
+<style type="text/css">
+.loading-box{background-color:#FFF8ED;width:auto;min-width:100px;font-size:16px;padding:3px;border:1px solid #FF9900;display:none;}
+</style>
+{/*注意注意：此处三个select下拉选框必须的必须的不能随意修改！！！*/}
+<select id="province" name="province" class="medium city_region_select" child_id="city" val="{$region['province']}">
+   <option value="0" selected="selected">请选择省份</option>
+</select>
+<select id="city" name="city" child_id="region1" class="medium city_region_select" val="{$region['city']}" >
+   <option value="0" selected="selected">请选择城市</option>
+</select>
+<select id="region1" name="region1" child_id="" class="medium city_region_select" val="{$region['region']}" >
+   <option value="0" selected="selected">请选择地区</option>
+</select>
+<span class="loading-box">请稍等，载入中......</span>
+<script type="text/javascript">
+$(document).ready(function(){
+	//文档载入完成以后自动加载一级省市区
+    loadChildCityRegion(1,'province',$('#province'));
+	$(".city_region_select").change(function(){
+		$(".city_region_select").attr({'val':''});
+		var parent_id = $(this).val();
+		var selectDomId = $(this).attr("child_id");
+		loadChildCityRegion(parent_id,selectDomId,this);
+	});
+});
+function openLoadingBox(){
+	$(".loading-box").show();
+}
+function closeLoadingBox(){
+	$(".loading-box").hide();
+}
+function loadChildCityRegion(parent_id,selectDomId,clickObj){
+	//如果当前选中的行政区ID小于等于0，则表示选择的是“请选择”，将后面的行政区select清楚
+	$(clickObj).nextAll("select").hide().empty();
+	
+	//如果选中了“请选择”，则不理会。
+	if(parent_id <= 0 || "region" == $(clickObj).attr("id")){
+		return false;
+	}
+	
+	//定义异步加载行政区的url
+	var load_options_url = "{:U('Admin/Members/cityRegionOptions')}";
+	//ajax异步加载下一级行政区域数据
+	$.ajax({
+		url:load_options_url,
+		data:{parent_id:parent_id},
+		beforeSend:openLoadingBox(),
+		type:'POST',
+		success:function(jsonObj){
+			if(true === jsonObj.status && null !== jsonObj.data){
+				$(clickObj).next("select").show();
+				//select options 元素数据拼接
+				var html_options = '<option value="0" selected="selected">请选择</option>';
+				var next_child_parent = 0;
+				for(var index in jsonObj.data){
+					html_options += '<option value="' + index + '" ';
+					if(index == $(clickObj).attr('val')){
+						html_options += 'selected="selected" ';
+						next_child_parent = index;
+					}
+					html_options += '>' + jsonObj.data[index] + '</option>';
+				}
+
+				//将拼接的结果追加到DOM中
+				$("#" + selectDomId).html(html_options);
+				
+				//递归加载数据，用于初始化的时候
+				if(next_child_parent > 0){
+					var selectChildDomId = $("#" + selectDomId).attr("child_id");
+					loadChildCityRegion(next_child_parent,selectChildDomId,$("#" + selectChildDomId));
+				}
+				
+				//对空seletet元素进行隐藏操作
+				if($("#province").val() <= 0){
+					$("#province").nextAll("select").hide().empty();
+				}else if($("#city").val() <= 0){
+					$("#city").nextAll("select").hide().empty();
+				}
+                
+			}else{
+				if("region" == $(clickObj).attr("id")){
+					$(clickObj).empty().hide();
+				}else{
+					$(clickObj).next("select").empty().hide();
+				}
+				
+			}
+			closeLoadingBox();
+		},
+		dataType:'json'
+	});
+}
+</script>

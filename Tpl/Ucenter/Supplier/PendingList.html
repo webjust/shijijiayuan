@@ -1,0 +1,60 @@
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+    .contentRightBox{width: 1040px;}
+</style>
+<div class="contentRightBox">
+    <div class="title" style="width: 1028px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        待处理业务列表
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Supplier/orderBillList")}' >
+        <div style="width:1028px;padding-left:10px;height:0px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 650px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+                <thead>
+                <tr>
+                <th>时间</th>
+                <th>名称</th>
+                <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+            <volist name="List" id="item">
+            
+                <tr>
+                <th>{$item.create_time}</th>
+                <th>{$item.name}</th>
+                <th><a href="{$item.url}">去处理</a></th>           
+                </tr>
+            
+            </volist>
+                   <empty name="List">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> 
+                </tbody>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+</div>
+<script src="/Public/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+<script src="/Public/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#searchOrderSubmit").click(function(){
+        $('#orders_form').submit();       
+    });
+    $('.edit').editable('/Ucenter/Purchase/TableEdit/table/in_goods_supplier');
+});
+</script>

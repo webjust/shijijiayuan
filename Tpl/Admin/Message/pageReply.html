@@ -1,0 +1,69 @@
+<div class="rightInner">
+<form id="messageForm" method="post" action="{:U('Admin/Message/doReply')}">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">回复站内信</th>
+    </tr>
+</thead>
+<tbody>
+    <tr class="title">
+        <th colspan="99">收信人信息</th>
+    </tr>
+	<tr>
+	    <td class="first">发信人：</td>
+	    <td>{$messageInfo['from_name']}</td>
+	</tr>
+	<tr>
+	    <td class="first">收信人：</td>
+	    <td>{$messageInfo['to_name']}</td>
+	</tr>
+	<tr>
+		<td class="first">站内信标题：</td>
+		<td>{$messageInfo['sl_title']}</td>
+	</tr>
+	<tr>
+	    <td class="first">内容：</td>
+		<td>{$messageInfo['sl_content']}</td>
+	</tr>
+    <tr class="title">
+        <th colspan="99">回复</th>
+    </tr>
+	<tr>
+		<td class="first">* 站内信标题：</td>
+		<td>
+		    <input class="large" type="text" name="sl_title" value="{$messageInfo['reply_title']}" id="sl_title" validate="{required:true}">
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">编辑内容：</td>
+		<td><textarea class="mediumBox" name="sl_content" id="sl_content" validate="{required:true}">{$messageInfo['reply_content']}</textarea></td>
+	</tr>    
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+        	<input type="submit" value="保 存" class="btnA" >
+            <input type="button" onclick="window.history.go(-1);" value="返 回" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+<input name="sl_id" type="hidden" value="{$messageInfo.sl_id}"/>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#messageForm').validate();
+        /*全部会员还是部分会员*/
+        $(".rsl_to_m_id").click(function(){
+            if($(this).val()=='0'){
+                $('.raMember').fadeIn('fast');
+            }else{
+                $('.raMember').hide();
+            }
+        });
+    });
+</script>

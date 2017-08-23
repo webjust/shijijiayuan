@@ -1,0 +1,205 @@
+<div class="rightInner">
+    <form id="member_form" name="member_form" method="post" action="{:U('Admin/Orders/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">订单设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">送货时间：</td>
+                    <td>
+                        <input type="radio" value="1" name="ORDERS_TIME" <if condition="$ORDERS_TIME.sc_value eq 1">checked="checked"</if>> 开启
+                        <input type="radio" value="0" name="ORDERS_TIME" <if condition="$ORDERS_TIME.sc_value eq 0">checked="checked"</if>> 关闭
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>   
+               <tr>
+                    <td class="first">只记录第一次操作人：</td>
+                    <td>
+                        <input type="radio" value="1" name="ORDERS_OPERATOR" <if condition="$ORDERS_OPERATOR.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="0" name="ORDERS_OPERATOR" <if condition="$ORDERS_OPERATOR.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>       
+                <tr>
+                    <td class="first">是否开启订单拆分：</td>
+                    <td>
+                        <input type="radio" value="1" name="ORDERS_REMOVE" <if condition="$ORDERS_REMOVE.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="0" name="ORDERS_REMOVE" <if condition="$ORDERS_REMOVE.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>       
+                <tr>
+                    <td class="first">订单拆分方式：</td>
+                    <td>
+                        <input type="radio" value="1" name="ORDERS_REMOVETYPE" <if condition="$ORDERS_REMOVETYPE.sc_value eq 1">checked="checked"</if>> 自动拆分
+                        <input type="radio" value="0" name="ORDERS_REMOVETYPE" <if condition="$ORDERS_REMOVETYPE.sc_value eq 0">checked="checked"</if>> 手动拆分
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>
+				<tr>
+					<td class="first">是否显示发货选择：</td>
+					<td>
+						<input type="checkbox" name="IS_SHOW" value="1" <if condition="$IS_SHOW.sc_value eq 1">checked="checked"</if>>
+					</td>
+				</tr>
+				<tr>
+					<td class="first">是否显示粘贴收货地址：</td>
+					<td>
+						<input type="checkbox" name="IS_SHOW_ADDRESS" value="1" <if condition="$IS_SHOW_ADDRESS.sc_value eq 1">checked="checked"</if>>
+					</td>
+				</tr>
+                <tr>
+					<td class="first">是否开启自动审核订单：</td>
+					<td>
+						<input type="checkbox" name="IS_AUTO_AUDIT" value="1" <if condition="$IS_AUTO_AUDIT.sc_value eq 1">checked="checked"</if>>
+					</td>
+				</tr>
+                <tr>
+					<td class="first">开启订单自动确认收货：</td>
+					<td>
+						<input type="checkbox" name="IS_AUTO_CONFIRM_ORDER" value="1" <if condition="$IS_AUTO_CONFIRM_ORDER.sc_value eq 1">checked="checked"</if>>
+					发货后<input type="text" value="{$CONFIRM_ORDER_DAY.sc_value}" name="CONFIRM_ORDER_DAY" class="small" />天后自动确认收货,默认7天
+					</td>
+				</tr>
+				<tr>
+					<td class="first">开启订单自动完结：</td>
+					<td>
+						<input type="checkbox" name="IS_AUTO_FINISH_ORDER" value="1" <if condition="$IS_AUTO_FINISH_ORDER.sc_value eq 1">checked="checked"</if>>
+					确认收货<input type="text" value="{$FINISH_ORDER_DAY.sc_value}" name="FINISH_ORDER_DAY" class="small" />天后自动完结,默认7天
+					</td>
+				</tr>				
+				<tr>
+					<td class="first">是否开启重复下单提示：</td>
+					<td>
+						<input type="checkbox" name="IS_CONFIRM_ORDER" value="1" <if condition="$IS_CONFIRM_ORDER.sc_value eq 1">checked="checked"</if>>
+						（三天内，存在同一收货人名字，再次使用这个收货人名称下单会提示 :三天内有收货人重名订单，确认提交订单）
+					</td>
+				</tr>
+				<tr>
+					<td class="first">购物车默认选中：</td>
+					<td>
+						<input type="checkbox" name="IS_AUTO_CART" value="1" <if condition="$IS_AUTO_CART.sc_value eq 1">checked="checked"</if>>
+					</td>
+				</tr>
+				<tr>
+					<td class="first">是否启用合并支付</td>
+					<td>
+						<input type="checkbox" name="IS_MERGE_PAYMENT" value="1" <if condition="$IS_MERGE_PAYMENT.sc_value eq 1">checked="checked"</if>>
+					</td>
+				</tr>					
+                <tr>
+					<td class="first">支付发验证码：</td>
+					<td>
+						<input type="checkbox" name="PAY_SEND_CODE" value="1" <if condition="$PAY_SEND_CODE.sc_value eq 1">checked="checked"</if>>
+						(结余款支付时是否发送验证码)
+					</td>
+				</tr>	
+                <tr>
+					<td class="first">发货发送站内信：</td>
+					<td>
+						<input type="checkbox" name="SHIP_SEND_MESSAGE" value="1" <if condition="$SHIP_SEND_MESSAGE.sc_value eq 1">checked="checked"</if>>
+						(发货之后发送站内信给客户)
+					</td>
+				</tr>					
+                <tr style="display:none;">
+					<td class="first">提现发送验证码：</td>
+					<td>
+						<input type="checkbox" name="CONSUME_SEND_CODE" value="1" <if condition="$CONSUME_SEND_CODE.sc_value eq 1">checked="checked"</if>>
+						(预存款提现时是否发送验证码)
+					</td>
+				</tr>
+                <tr>
+                    <td class="first">审核后是否允许申请退款：</td>
+                    <td>
+                        <input type="checkbox" name="ALLOW_REFUND_APPLY" value="1" <if condition="$ALLOW_REFUND_APPLY.sc_value eq 1">checked="checked"</if>>
+                        (如果设置则订单审核后，会员依然可以申请退款操作)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">是否允许退运费：</td>
+                    <td>
+                        <input type="checkbox" name="ALLOW_REFUND_DELIVERY" value="1" <if condition="$ALLOW_REFUND_DELIVERY.sc_value eq 1">checked="checked"</if>>
+                        (如果设置则申请退货退款中包含运费)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">是否开启退运费：</td>
+                    <td>
+                        <input type="checkbox" name="ALLOW_REFUND_DELIVERY_ALL" value="1" <if condition="$ALLOW_REFUND_DELIVERY_ALL.sc_value eq 1">checked="checked"</if>>
+                        (如果设置则可以申请退运费,且无上限,请慎重开启)
+                    </td>
+                </tr>
+				<tr>
+					<td class="first">跨境贸易订单提交控制：</td>
+					<td>
+						<input type="checkbox" name="IS_AUTO_LIMIT_ORDER_AMOUNT" value="1" <if condition="$IS_AUTO_LIMIT_ORDER_AMOUNT eq 1">checked="checked"</if>>
+					   订单金额
+					   <input type="text" value="{$LIMIT_ORDER_AMOUNT}" name="LIMIT_ORDER_AMOUNT" class="small" />订单控制提示,默认1000元（单件超过1000元商品除外）
+					</td>
+				</tr>
+				<tr>
+					<td class="first">跨境贸易税额起征点：</td>
+					<td>
+						<input type="checkbox" name="IS_AUTO_TAX_THRESHOLD" value="1" <if condition="$IS_AUTO_TAX_THRESHOLD eq 1">checked="checked"</if>>
+					   订单中含税商品的税额之和是否小于等于
+					   <input type="text" value="{$TAX_THRESHOLD}" name="TAX_THRESHOLD" class="small" />不收取税额
+					</td>
+				</tr>
+				<tr>
+					<td class="first">是否统计商品访问量：</td>
+					<td>
+						<input type="checkbox" name="IS_GOODS_KEYSTORE" value="1" <if condition="$IS_GOODS_KEYSTORE.sc_value eq 1">checked="checked"</if>>
+						统计用户访问商品详情页的次数
+					</td>
+				</tr>			
+				<tr>
+					<td class="first">是否启用门店提货：</td>
+					<td>
+						<input type="checkbox" name="IS_ZT" value="1" <if condition="$IS_ZT.sc_value eq 1">checked="checked"</if>>
+					</td>
+				</tr>	
+				<tr>
+					<td class="first">第三方订单下载自动转化：</td>
+					<td>
+						<input type="checkbox" name="IS_ORDER_ON" value="1" <if condition="$IS_ORDER_ON.sc_value eq 1">checked="checked"</if>>
+					</td>
+				</tr>					
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){   
+        $("#orders_form").validate({
+                errorPlacement: function(error, element) {
+                    var error_td = element.parent('td').next();
+                    error_td.find('label').hide();
+                    error_td.append(error);
+                },
+                submitHandler:function(form){
+                    ajaxpost('orders_form', '', '', 'onerror') 
+                },
+                rules : {
+                    STATUS : {
+                        required:true
+                    }
+                },
+                messages : {
+                    STATUS : {
+                        required : '请选择'
+                    }
+                }
+            });
+    });
+</script>

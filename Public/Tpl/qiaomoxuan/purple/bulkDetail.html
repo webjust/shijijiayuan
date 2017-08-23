@@ -1,0 +1,182 @@
+<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+<script src="__JS__bulkdetail.js" type="text/javascript"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<!--wrap-->
+<div class="wrap">
+	<div class="content">
+    	<div class="navBox">
+			 <a href="{:U('Home/Index/index')}">首页</a><span>></span>
+			 <a href="javascript:void(0);">今日推荐</a>			
+        </div>
+        
+        <div class="proShow"><!--proShow-->
+        	<div class="details_picShow"><!--picShow-->
+                <!-- 放大镜开始 -->
+				<div class="promotionPic">
+				   <div id="examples">
+					   <ul id="example3">
+							   <li>
+							   <img class="etalage_thumb_image" src="{$gp_picture|showImage=###,500,500}" />
+							   <img class="etalage_source_image" src="{$gp_picture|showImage=###,500,500}" />
+							   </li>
+					   </ul>
+				   </div>
+				</div>
+                <!-- 放大镜结束 -->
+            </div><!-- picShow -->
+           
+            <div class="details"><!--details-->
+            	<h2>{$gp_title}</h2>
+                <ul class="ul01">
+                	<li>
+                    	<span class="tit">商 城 价：</span>
+                        <label>&yen; <b id="showMarketPrice">{$pdt_set_sale_price|sprintf='%.2f',###}</b> 元</label>
+                        <span class="tit03">折扣：<b  id="discountPrice"><php>echo sprintf('%.1f',$gp_price/$pdt_set_sale_price*10)</php></b></span>
+                    </li>
+                    <li>
+                    	<span class="tit">活 动 价：</span>
+                        <label class="lb02"><code>&yen;</code> <strong id="showPrice">{$gp_price|sprintf='%.2f',###}</strong> 元</label>
+                        <span class="tit03" style="margin-left: 37px;">节省：<b id="savePrice">{$pdt_set_sale_price-$gp_price} </b>元</span>
+                    </li>
+                    <li class="ti">
+                    	<p class="time" id="showGroupTime">
+                        	<i></i>
+							<php>if($stat_time == 1){</php>
+								<span><abbr>剩余开始时间：</abbr></span>
+								<span id="timebox{$gp_id}">
+									<!--<b id="day">0</b>天-->
+									<b id="hour">0</b>小时
+									<b id="minute">0</b>分钟
+									<b id="second">0</b>秒
+								</span>
+								<script>countDown("{$gp_start_time}","{$gp_id}","2","<php>echo date('Y-m-d H:i:s');</php>","{$gp_end_time}","tuangouOver");</script>
+							<php>}elseif($stat_time ==2){</php>
+								<span><abbr>此团购已结束：</abbr></span>
+								<span id="timebox{$gp_id}">
+									<!--<b id="day">0</b>天-->
+									<b id="hour">0</b>小时
+									<b id="minute">0</b>分钟
+									<b id="second">0</b>秒
+								</span>
+							<php>}else{</php>
+								<span><abbr>剩余时间：</abbr></span>
+								<span id="timebox{$gp_id}">
+									<!--<b id="day">0</b>天-->
+									<b id="hour">0</b>小时
+									<b id="minute">0</b>分钟
+									<b id="second">0</b>秒
+								</span>
+								<script>countDown("{$gp_end_time}","{$gp_id}","1","<php>echo date('Y-m-d H:i:s');</php>",'1',"tuangouOver");</script>
+							<php>}</php>							
+                        </p>
+					</li>					
+                    <li class="li03">
+                    	<span class="tit">销 售 量：</span>
+                        <span id="score">{$gp_now_number}件</span>
+                    </li>
+					<li class="li03" style="margin-left: -23px;">
+						<volist name="rel_bulk_price" id="rbp">
+							<span class="tit">满{$rbp.rgp_num}人</span>
+							<span id="score">{$rbp.rgp_price|sprintf='%.2f',###}</span>
+						</volist>
+                    </li>
+                </ul>   
+                
+                <div class="detChoose">
+                	<dl id="showDetailSkus">
+                        商品规格正在加载中......
+                        <script type="text/javascript">
+                            getDetailSkus('{$gp_id}', 5);
+                        </script>
+                    </dl>
+                    <p>
+                        <if condition="$buy_status eq 0">
+							<a class="buyOver" title="您的购买数已用完" href="javascript:void(0);" >购买数已用完</a>
+							<elseif condition="$buy_status eq 1" />
+							<if condition="$is_deposit eq 1">
+								<!--启用定金支付-->
+								<a class="pay" title="立即付定金" onclick="addToOrder(2);" href="javascript:void(0);">立即付定金</a>
+								<else/>
+								<!--未启用定金支付-->
+								<a class="buyNow" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);">立刻购买</a>
+							</if>
+							<elseif condition="$buy_status eq 2" />
+							<assign name="curUrl" value="__SELF__" />
+							<a class="buyOver" title="请先登录" href="{:U('Home/User/Login')}?rquestUrl={$curUrl|urlencode}">请先登录</a>
+							<elseif condition="$buy_status eq 3" />
+							<a class="buyOver" title="团购活动尚未开始" href="javascript:void(0);">活动尚未开始</a>
+							<elseif condition="$buy_status eq 4"/>
+							<a class="buyOver" title="团购活动已结束" href="javascript:void(0);">活动已结束</a>
+							<elseif condition="$buy_status eq 5"/>
+							<a class="buyOver" title="团购商品已售完" href="javascript:void(0);" >商品已售完</a>
+						</if>
+                    </p>
+                </div>
+                
+                <div class="share">
+                	<!-- JiaThis Button BEGIN -->
+                    <div id="ckepop">
+                        <span class="jiathis_txt" style="font-family:\5b8b\4f53;">分享给好友：</span>
+                        <a class="jiathis_button_qzone"></a>
+                        <a class="jiathis_button_tsina"></a>
+                        <a class="jiathis_button_tqq"></a>
+                        <a class="jiathis_button_renren"></a>
+                        <a class="jiathis_button_kaixin001"></a>
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                    </div>
+                    <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+                    <!-- JiaThis Button END -->
+                </div>
+            </div><!--/details-->
+        </div><!--/proShow-->
+		     
+        <div class="detTwo" ><!--detTwo-->
+        	<div class="detTleft" style="width:1200px;"><!--detTleft--> 			
+                
+                <div class="detCon"><!--detCon-->
+                	<h2>
+                    	<span class="on">团购说明</span>
+						<if condition="$gp_goodshow_status eq '1'">
+							<span>商品详情</span>
+						</if>
+                    </h2>
+                    
+                    <div class="tabCon"><!-- 商品详情开始 -->
+						{$gp_desc}
+                    </div><!-- 商品详情结束 -->
+                    <if condition="$gp_goodshow_status eq '1'">
+						<div class="tabCon"><!-- 售后服务开始 -->
+							{$good_info.gdesc}
+						</div><!-- 售后服务结束 -->
+                    </if>
+                </div><!--/detCon-->
+            </div><!--/detTleft-->
+        </div><!--/detTwo-->
+    </div>
+</div>
+<!--/wrap-->
+<input type="hidden" value="" name="cr_ids" id="cr_ids">
+<input type="hidden" value="{$gp_id}" name="gp_id" id="gp_id">
+<input type="hidden" value="{$good_info.gid}" name="item_id" id="item_id">
+<input type="hidden" value="{$gp_price}" name="yprice" id="yprice">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_1}" name="error_1" id="error_1">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_4}" name="error_4" id="error_4">
+
+<script type="text/javascript">
+var arr = new Object();
+//将商品库存信息存在js数组里
+<foreach name = 'good_info.skus' item = 'vosku'>
+arr["{$vosku.skuName}"] = "{$vosku.pdt_id}|{$gp_number}|{$vosku.pdt_sale_price}|{$vosku.pdt_market_price}";
+</foreach>
+
+$('.classiCon').css('display','none');
+$('.allSpan').mouseover(function(){
+	$('.classiCon').css('display','block');
+});
+$('.allClassi').mouseleave(function(){
+	$('.classiCon').css('display','none');
+});
+</script>	

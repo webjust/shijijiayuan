@@ -1,0 +1,63 @@
+{__NOLAYOUT__}
+<div class="comment">
+    <div class="evaluation">
+        <div class="Consultation">
+            <notempty name="data">
+            <h1>商品咨询</h1>
+            <volist name="data" id="vo" key="k">
+                <if condition="$vo['pc_is_reply'] eq 1">
+                <!--商品咨询问题 start-->
+                <div class="questions"><i class="question_flag"></i><span>&#9670;</span>
+                    <p>{$vo.pc_question_content}</p>
+                    <b>{$vo.new_mname|default="匿名用户"}<i>{$vo.pc_create_time|strtotime|date="Y/m/d",###}</i></b> </div>
+                <!--商品咨询问题 end-->
+                <!--商品咨询回答 start-->
+                <div class="Answer"><em>&#9670;</em><span>&#9670;</span>
+                    <p>{$vo.pc_answer}</p>
+                    <b>必迈客服<i>{$vo.pc_reply_time|strtotime|date="Y/m/d",###}</i></b> </div>
+                <!--商品咨询回答 end-->
+                <else/>
+                    <!--商品咨询问题 start-->
+                    <div class="questions"><i class="question_flag"></i><span>&#9670;</span>
+                        <p>{$vo.pc_question_content}</p>
+                        <b>{$vo.new_mname|default="匿名用户"}<i>{$vo.pc_create_time|strtotime|date="Y/m/d",###}</i></b> </div>
+                    <!--商品咨询问题 end-->
+                </if>
+            </volist>
+            </notempty>
+            <div class="Doubt">
+                <h3>咨询</h3>
+                <textarea id="question_content" class="txt" placeholder="对产品有任何疑问？"></textarea>
+            </div>
+            <div class="btn"><a href="javascript:void (0);" id="addAdvice">提交我的疑问</a></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#addAdvice").click(function(){
+        var question_content = $("#question_content").val();
+        if(question_content == ''){
+            $.ThinkBox.error('咨询内容不能为空');return false;
+        }
+        var gid = '{$filter.gid}';
+        var mid = '{$Think.session.Members.m_id}';
+        var m_name = '{$Think.session.Members.m_name}';
+        var url = '/Home/Products/doGoodsAdvice';
+        $.post(url,{'gid':gid,'mid':mid,'question_content':question_content,'type':1,'question_title':'提问'},function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success(msgObj.info);
+                var _mvq = window._mvq || [];window._mvq = _mvq;
+                _mvq.push(['$setAccount', 'm-24416-0']);
+
+                _mvq.push(['$setGeneral', 'consult', '', /*用户名*/ m_name, /*用户id*/ mid]);
+                _mvq.push(['$logConversion']);
+
+                getGoodsAdvice(gid, 1, 'purchase_consulting');
+                return false;;
+            }else{
+                $.ThinkBox.error(msgObj.info);
+                return;
+            }
+        },'json')
+    });
+</script>

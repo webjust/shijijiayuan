@@ -1,0 +1,179 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="2">付款申请单列表
+                </th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Orders/pageAdminOrdersPay')}">
+                        订单号：<input type="text" name="o_id" class="large" value="{$filter.o_id}" style="width: 145px;">
+                        审核状态：<select name="status">
+                                <option value="1" <eq name="filter.status" value="1">selected</eq> >待审核</option>
+                                <option value="2" <eq name="filter.status" value="2">selected</eq> >已审核</option>
+                                <option value="3" <eq name="filter.status" value="3">selected</eq> >已作废</option>
+                              </select>
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                </th>
+        </tr>
+        <tr>
+            <th>操作</th>
+            <th>订单号</th>
+            <th>制单人</th>
+            <th>审单人</th>
+            <th>网关流水号</th>
+            <th>审核状态</th>
+            <th>生成时间</th>
+            <th>更新时间</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="order">
+            <tr id="remove_{$order.ap_id}">
+                <if condition="$order.ap_status eq '2'">
+                    <td>
+                        <font  color="red">已作废</font>
+                    </td>
+                <else />
+                    <td id="list_{$order.ap_id}">
+                        <if condition="$order.ap_status eq 0">
+                            <font  color="blue" class="ServiceVerify" style="cursor: pointer;" id="or_service_verify_{$order.ap_id}_status" data-id="{$order.ap_id}" order_id = "{$order.order_id}">审核</font>
+							 <font  color="blue" class="Cancel" style="cursor: pointer;" id="or_service_verify_{$order.ap_id}_status" data-id="{$order.ap_id}" order_id = "{$order.order_id}">作废</font>							
+                        </if>
+                        <if condition="$order.ap_status eq '1'">
+                            <font color="green">已审核</font>
+                        </if>
+                    </td>
+                </if>
+                <td>
+					<a href="{:U('Admin/Orders/pageList')}?o_id={$order.order_id}" target="_blank" >{$order.order_id}</a>
+                </td>
+                <td>{$order.add_u_name}</td>
+                <td>{$order.verify_u_name}</td>
+				<td>{$order.ps_gateway_sn}</td>
+                <td>{$order.str_status}</td>
+				<td>{$order.ap_create_time}</td>
+				<td>{$order.ap_update_time}</td>
+                <td>{$order.ap_remark}</td>
+            </tr>
+        </volist>
+        <empty name="data">
+            
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>
+<div style="display:none" id="setRefundType"></div>
+<script>
+$(document).ready(function(){
+    $(".ServiceVerify").live("click",function(){
+        var id = $(this).attr("data-id");
+        var oid=$(this).attr("order_id");
+        $.post('{:U("Admin/Orders/orderPay")}',{id:id,oid:oid},function(htmlMsg){
+            $("#setRefundType").dialog({
+                title:'请输入订单支付流水单号',
+                width:580,
+                height:250,
+                resizable:true,
+                autoOpen: false,
+                modal: true,
+                position: [470,120],
+                buttons: {
+                    '确定':function(){
+						var status = $('#reply_status_'+id).val();
+						if(status == 1){
+							var pay_type = $("input[name='pay_type']:checked").val();
+							if(pay_type == 2){
+								var ps_gateway_sn = $('#ps_gateway_sn').val();
+								if(ps_gateway_sn == ''){
+									showAlert(false,'请填写支付流水单号');return;
+								}
+							}
+							doPayOrder(id,oid,ps_gateway_sn,pay_type);
+							$( this ).dialog( "close" );			
+						}else{
+							$( this ).dialog( "close" );
+						}
+                    },
+                    '关闭':function(){
+                        $( this ).dialog( "close" );
+		                $(this).hide();
+                    }
+                }
+                });
+                $("#setRefundType").dialog('open');
+                $('#setRefundType').html(htmlMsg);
+        },'html');
+        
+    });
+    
+	function doPayOrder(id,oid,ps_gateway_sn,pay_type){
+		if(!confirm("您确定要审核吗？审核后订单状态将变为“已支付”")) {
+			return false;
+		}
+		var url = '/Admin/Orders/doOrderPay';
+		$.ajax({
+			url:url,
+			cache:false,
+			dataType:"json",
+			data: {oid:oid,id:id,ps_gateway_sn:ps_gateway_sn,pay_type:pay_type},
+			type:"POST",
+			beforeSend:function(){
+				$("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+			},
+			error:function(){
+				showAlert(false,"AJAX请求发生错误！");
+			},
+			success:function(msgObj){
+				$("#J_ajax_loading").hide();
+				if(msgObj.status == '1'){
+					$("#remove_"+id).remove();
+					//$( this ).dialog( "close" );
+					showAlert(true,msgObj.info);
+				}else{
+					//$( this ).dialog( "close" );
+					showAlert(false,msgObj.info);
+				}
+			}
+		});
+	}
+	
+	 $(".Cancel").live("click",function(){
+			var r=confirm("单据作废后不可恢复,确认操作?");
+			if(r == false){
+				return false;
+			}
+			var id = $(this).attr("data-id");
+			var oid=$(this).attr("order_id");	
+			
+            $.ajax({
+                url:'{:U("Admin/Orders/doOrdersPayStatus")}',
+                cache:false,
+                dataType:'json',
+                type:'POST',
+                data:{id:id,oid:oid},
+                error:function(){
+                    $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+						$("#remove_"+id).remove();
+						//$( this ).dialog( "close" );
+						showAlert(true,msgObj.info);
+                    }else{
+						showAlert(false,msgObj.info);
+                    }
+                }
+            });
+        });
+		
+});
+</script>

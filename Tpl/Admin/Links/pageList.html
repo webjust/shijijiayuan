@@ -1,0 +1,40 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99"><a href="{:U('Admin/Links/pageAdd')}" class="btnG ico_add">新增友情链接</a></th>
+            </tr>
+            <tr>
+				<th width="120">操作</th>
+				<th>链接名称</th>
+				<th width="200">链接地址</th>
+				<th width="120">链接LOGO</th>
+				<th width="120">显示顺序</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="link">
+              <tr>
+                  <td width="120">
+                   <a href='{:U("Admin/Links/pageEdit","ulid=$link[ul_id]")}'>编辑</a>|
+				<a href='{:U("Admin/Links/doDel","ulid=$link[ul_id]")}'>删除</a>
+				</td>
+				<td>{$link.ul_name}</td>
+				<td width="200">{$link.ul_link_url}</td>
+				<td width="120">
+					<if condition="$link[ul_image_path]">
+					<img src="{$Think.config.DOMAIN_HOST}{$link.ul_image_path}" width="120" height="50"/>				
+					<else />
+					</if>
+				</td>
+				<td width="120">{$link.ul_order}</td>
+              </tr>
+              </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

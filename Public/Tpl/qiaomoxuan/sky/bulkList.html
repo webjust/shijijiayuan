@@ -1,0 +1,118 @@
+<style>
+    .fenye .current{
+        display: inline-block;
+        height: 38px;
+        line-height: 38px;
+        margin-left: -1px;
+        padding: 0px 14px;
+        border: 1px solid #E5E5E5;
+        color: #333;
+        font-size: 14px;
+    }
+    .tgAd .axuSlider {  height: 300px;}
+    .guide-bd li {
+        display: inline;
+        width: 380px;
+        margin: 10px 0 0 10px;
+        position: relative;
+        height: 480px;
+    }
+</style>
+<div class="wrapT">
+    <div class="content">
+        <div class="tgList"><!--tgList-->
+            <div class="prtad tgAd">
+                <div class="axuSlider">
+                    <!--banner图图片控制开始-->
+                    <div class="bd">
+                        <ul>
+                            <volist name="adslist" id="ads">
+                            <li>
+                                <a href="{$ads.ad_url}" target="_blank">
+                                    <img src="{$ads.ad_pic_url}" alt="" width="1180" height="300"/>
+                                </a>
+                            </li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <!--banner图图片控制结束-->
+                    <!--banner图图片按钮开始-->
+                    <div class="hd">
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <!--banner图图片按钮结束-->
+                </div>
+
+            </div>
+            <!--prtad end-->
+            <div class="tgOne"><!--tgTwo-->
+                <div class="tg_Nav">
+                    <p><a>区域</a></p>
+                    <ul>
+                        <li <if condition="$get.cr_id eq ''"> class="cur" </if>><a href="{:U('Home/Bulk/index')}">全部</a></li>
+                        <volist name="city" id="city_info">
+                        <li <if condition="$get['cr_id'] eq $city_info['cr_id']"> class="cur" </if>><a href="{:U('Home/Bulk/index')}?cr_id={$city_info.cr_id}">{$city_info['cr_name']}</a></li>
+                        </volist>
+                    </ul>
+                </div>
+                <div class="tgL">
+                    <div class="tgL_t">
+                        <h2>限时抢购</h2>
+                    </div>
+                    <div class="guide-bd">
+                        <ul class="clearfix">
+                            <volist name="data" id="list">
+                            <li class="fl rel w485">
+                                <p class="tgL_img">
+                                    <a href="{:U('Home/Bulk/detail')}?gp_id={$list['gp_id']}&gid={$list['g_id']}" target="_blank">
+                                        <img src="{$Think.config.DOMAIN_HOST}{$list.gp_picture|showImage=###,380,380}" width="380" height="380">
+                                    </a>
+                                </p>
+                                <div class="tgL_title">
+                                    <p class="tgL_name"><span>{$list.gp_title}</span><em>已抢购{$list['gp_now_number']}件</em></p>
+                                    <p class="tgL_price">
+                                        ¥<em>{$list.gp_price|sprintf='%.2f',###}</em>
+                                        <i>原价：￥{$list.cust_price|sprintf='%.2f',###}</i>
+                                    </p>
+                                    <div class="tgL_btn"> <a href="{:U('Home/Bulk/detail')}?gp_id={$list['gp_id']}&gid={$list['g_id']}" class="tgL_btn" starthref=" ">马上抢</a> </div>
+                                </div>
+                                <div class="tgL_tip abs">
+                                    <p class="tip"><i></i>剩余时间：<label id="day{$list.gp_id}">3</label>天<label id="hours{$list.gp_id}">12</label>时<label id="minutes{$list.gp_id}">20</label>分<label id="seconds{$list.gp_id}">30</label>秒 </p>
+                                    <script>setTuanGouTime('{$list.gp_end_time}','day{$list.gp_id}','hours{$list.gp_id}','minutes{$list.gp_id}','seconds{$list.gp_id}',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                </div>
+                            </li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <!--今日新团结束-->
+
+            </div>
+            <!--/tgThree-->
+            <div class="fenye">
+                <php>if(!isset($pagearr['nowPage']) || $pagearr['nowPage'] == 1){</php>
+                <a href="javascript:void(0);" class="prev">首页</a>
+                <a href="javascript:void(0);" class="prev">上一页</a>
+                <php>}</php>
+                <php>if(isset($pagearr['nowPage']) && $pagearr['nowPage'] != 1){</php>
+                <a href="<php>echo rtrim(substr($pagearr['upUrl'],0,-3),'/').'/';</php>" class="prev01">首页</a>
+                <a href="{$pagearr.upUrl}" class="prev01">上一页</a>
+                <php>}</php>
+                {$pagearr.linkPage}
+                <php>if($pagearr['nowPage'] == $pagearr['totalPage']){</php>
+                <a href="javascript:void(0);" class="prev">下一页</a>
+                <a href="javascript:void(0);" class="prev">尾页</a>
+                <php>}</php>
+                <php>if($pagearr['nowPage'] < $pagearr['totalPage']){</php>
+                <a href="{$pagearr.downUrl}" class="next">下一页</a>
+                <a href="<php>echo rtrim(substr($pagearr['downUrl'],0,-3),'/').'/';</php>p/{$pagearr['totalPage']}" class="next">尾页</a>
+                <php>}</php> &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <!--/tgList-->
+    </div>
+    <include file="$commonIncOnline" />
+</div>
+

@@ -1,0 +1,100 @@
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/salepromotion.css" type="text/css">
+<div class="p-m-r-div-02">
+    <ul>
+        <li> 您的位置： <a href="#">桌面</a>
+        <span>></span>
+        渠道管控
+        <span>></span>
+        推广销售
+        <span>></span>
+        <span class="title_cls">批量设置返利第二步：设置返利价格</span> </li>
+    </ul>
+</div>
+<div class="p-m-r-div-03">
+    <div class="p-m-r-div-0303">
+        <ul>
+            <table cellspacing="1" cellpadding="4" border="1" summary="summary" style="background-color:#000000;text-align:center;">
+                <tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;background-color: #EFF3FF;" title="输入查询条件以后按回车键即可搜索！">
+					<td colspan="8" style="text-align:left;">
+						商品名称：
+						<input type="text" name="g_name" value="{$filter.g_name}" class="search_goods_field" onkeydown="adminGoodsSerchEnterKey();" />
+						商家编码：
+						<input type="text" name="g_sn" value="{$filter.g_sn}" class="search_goods_field" onkeydown="adminGoodsSerchEnterKey();" />
+						货号：
+						<input type="text" name="pdt_sn" value="{$filter.pdt_sn}" class="search_goods_field" onkeydown="adminGoodsSerchEnterKey();" />
+						<button type="button" onclick="return doGoodsSearch();">搜索</button>
+					</td>
+				</tr>
+				<tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;background-color: #EFF3FF;">
+                    <td style="width:20px;" class="aligncenter">
+						<input type="checkbox" name="selectAll" id="selectAll" value="0" />
+					</td>
+					<td style="width: 300px; padding-left:5px;" colspan="5">产品信息</td>
+					<td style="width: 150px; padding-left:5px;">商家编码</td>
+                    <td style="width: 250px; padding-left:5px;">商品名称</td>
+                </tr>
+				<volist name="data_list" id="item" >
+                <tr style="background-color: #EFF3FF;">
+                    <td class="aligncenter" rowspan="{$item.rowspan}">
+						<input type="checkbox" name="goods_id[]" class="lists_checkbox lists_goods" value="{$item.g_id}" />
+					</td>
+                    <td style="text-align:left; padding-left:5px;width:150px">货号</td>
+                    <td style="width:50px">库存</td>
+                    <td style="width:50px">销售价</td>
+                    <td style="width:50px">市场价</td>
+                    <td style="width:50px">返利金额</td>
+                    <td rowspan="{$item.rowspan}">{$item.g_sn}</td>
+                    <td rowspan="{$item.rowspan}">{$item.g_name}</td>
+                </tr>
+					<volist name="item.products" id="pdt" >
+						<tr style="background-color: #EFF3FF;">
+							<td style="text-align:left;padding-left:10px;">
+								<input type="checkbox" value="{$pdt.pdt_id}" class="lists_products lists_checkbox list_goods_{$item.g_id}" name="pdt[{$pdt.g_id}]" id="pdt_{$pdt.pdt_id}" />
+								<label for="pdt_{$pdt.pdt_id}">{$pdt.pdt_sn}</label>
+							</td>
+							<td>{$pdt.pdt_stock}</td>
+							<td>{$pdt.pdt_sale_price}</td>
+							<td>{$pdt.pdt_market_price}</td>
+							<td>
+								<input type="text" name="xx[]" id="input_price_{$pdt.pdt_id}" pdt_id="{$pdt.pdt_id}" pdt_sn="{$pdt.pdt_sn}" value="" style="width:50px;background-color:#AFAFAF;" />
+							</td>
+						</tr>
+					</volist>
+				</volist>
+				<empty name="data_list">
+				<tr style="text-align:left; border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;background-color: #EFF3FF;">
+					<td colspan="8">抱歉，没有找到符合条件的数据！</td>
+				</tr>
+				</empty>
+				<tr style="background-color: #EFF3FF;">
+					<td colspan="8"><button type="button" id="saveProductPriceButton">保存返利价格设置</button></td>
+				</tr>
+            </table>
+        </ul>
+    </div>
+	{$pagelist}
+</div>
+<script type="text/javascript">
+function adminGoodsSerchEnterKey(event){
+	var e = event || window.event || arguments.callee.caller.arguments[0];
+	if(e && e.keyCode==13){
+		//当用户敲下回车键，则执行搜索操作
+		return doGoodsSearch();
+	}
+}
+function doGoodsSearch(){
+	//var location_url = "{$WEBENTRY}/admin/#/admin/promotings/payback/saveBathConfigGoodsRebates/',
+	var location_url = '{:U("Admin/Promotings/saveBathConfigGoodsRebates")}',
+		{config_info:config_info},
+			function(jsonObj){
+				if(true === jsonObj.status){
+					return showAlert(true,'返利数据保存成功！','{:U("Admin/Promotings/bathConfigGoodsRebatesCheckMember")}');
+				}
+				return showAlert(false,jsonObj.message);
+			},
+			function(){},
+			'json'
+		);
+	});
+});
+</script>

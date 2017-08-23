@@ -1,0 +1,241 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+</style>
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>注册VIP合伙人</span></h2>
+    <div class="deliverList myOrder">
+        <form  method="post" id="edit_deliverTable" action="/Ucenter/Promoting/dopartnerReg" enctype="Multipart/form-data">
+            <table class="deliverTable">
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 真实姓名：</td>
+					<td><input type="text" class="input01" value="" id="p_name" name="p_name" validate="{ required:true,isCheck:true,rangelength:[1,20],p_name:true,messages:{required:'姓名不能为空',isCheck:'包含非法字符，请重新输入',rangelength:'姓名在1到20字符之间'}}"><span class="spanWrong"></span></td>
+                </tr>
+                      <tr>
+                    <td width="99" align="right"><i class="red">*</i> 手机号码：</td>
+                    <td>
+                        <input type="text" class="input01" id="p_phone" value="" name="p_phone" validate="{ required:true,rangelength:[11,11],p_phone:true,messages:{required:'手机号码不能为空',rangelength:'手机号码至少11位'}}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 身份证号：</td>
+                    <td>
+                        <input type="text" class="input01" style="width: 280px;" id="p_id_card" value="" name="p_id_card" validate="{required:true,p_id_card:true,messages:{required:'身份证不能为空',p_id_card:'请正确填写您的身份证号'}}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                    <tr>
+                    <td align="right"><i class="red">*</i> 选择地区：</td>
+                    <td>
+                        <select id="province" name="province" onchange="initSelectCityRegion(1);selectCityRegion(this, 'city','');" validate="{ required:true}">
+                            <option value="0" selected="selected">请选择</option>
+                            <foreach name="citys" item="vo">
+                                <option value="{$vo.cr_id}">{$vo.cr_name}</option>
+                            </foreach>
+                        </select>
+                        <select id="city" name="city" onchange="selectCityRegion(this, 'region','');" validate="{ required:true}">
+                            <option value="0" selected="selected">请选择</option>
+                        </select>
+                        <select id="region" name="region" validate="{ required:true}">
+                            <option value="0" selected="selected">请选择</option>
+                        </select>
+                    </td>
+                </tr>               
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 详细地址：</td>
+                    <td>
+                        <input type="text" class="input01" style="width: 280px;" id="p_detail" value="" name="p_detail" validate="{ required:true,isCheck:true,messages:{required:'详细地址不能为空',isCheck:'包含非法字符，请重新输入'}}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                     <tr>
+                    <td width="99" align="right">邮政编码：</td>
+                    <td>
+                        <input type="text" class="input01" id="p_post_code" name="p_post_code" value="" validate="{ p_post_code:true,messages:{p_post_code:'请输入合法的邮编'}}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                    <tr>
+                    <td width="99" align="right">开户姓名：</td>
+                    <td><input type="text" class="input01" value="" id="p_open_name" name="p_open_name" validate="{ required:true,isCheck:true,rangelength:[1,20],p_open_name:true,messages:{required:'开户姓名不能为空',isCheck:'包含非法字符，请重新输入',rangelength:'姓名在1到20字符之间'}}"><span class="spanWrong"></span></td>
+                </tr>
+            <tr>
+            <tr>
+                <td width="99" align="right">开户银行：</td>
+                <td><input type="text" class="input01" value="{$edit_city.p_open_bank}" id="p_open_bank" name="p_open_bank" validate=></td>
+                </tr>
+            </tr>
+             <tr>
+                    <td align="right"><i class="red">*</i> 银行所在城市：</td>
+                    <td>
+                        <select id="bank_province" name="bank_province" onchange="initSelectCityRegion(2);selectCityRegion(this, 'bank_city','');" validate="{ required:true}">
+                            <option value="0" selected="selected">请选择</option>
+                            <foreach name="citys" item="vo">
+                                <option value="{$vo.cr_id}">{$vo.cr_name}</option>
+                            </foreach>
+                        </select>
+                        <select id="bank_city" name="bank_city" onchange="selectCityRegion(this, 'bank_region','');" validate="{ required:true}">
+                            <option value="0" selected="selected">请选择</option>
+                        </select>
+                        <select id="bank_region" name="bank_region" validate="{ required:true}">
+                            <option value="0" selected="selected">请选择</option>
+                        </select>
+                    </td>
+                </tr>                
+             <tr>
+             <tr>
+                <td width="99" align="right">银行卡号：</td>
+                <td><input type="text" class="input01" value="{$edit_city.p_bank_number}" id="p_bank_number" name="p_bank_number"></td>
+                </tr>
+            </tr>
+               <tr>
+               <tr>
+                <td width="99" align="right">手持照片：</td>
+                <td>
+                <div id="imagePreview"></div>
+                    <input id="p_id_card_photo" type="file" onchange="loadImageFile();" value="{$edit_city.p_id_card_photo}" name="p_id_card_photo" class="input01"/>
+                <!--<input type="file" class="input01" value="{$edit_city.p_id_card_photo}" id="p_id_card_photo" name="p_id_card_photo" onchange="loadImageFile()">-->
+                <input type="hidden" class="input01" value="{$edit_city.p_id_card_photo}" id="p_id_card_photo" name="p_id_card_photo">
+                </td>
+            </tr>
+            </tr>
+             <tr>
+             <tr>
+                <td colspan="2" align="center"> <input type="checkbox">同意《合伙人协议》</td>
+            </tr>
+            </tr>
+            <tr>
+                <tr>
+                <td colspan="2" align="center">
+                       <button class="blue" type="submit" >提交信息</button>
+                          <button class="blue" type="submit" >重置</button>
+                          </td>
+                </tr>
+            </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var loadImageFile = (function () {
+        if (window.FileReader) {
+            var oPreviewImg = null, oFReader = new window.FileReader(),
+                    rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+            oFReader.onload = function (oFREvent) {
+                if (!oPreviewImg) {
+                    var newPreview = document.getElementById("imagePreview");
+                    oPreviewImg = new Image();
+                    oPreviewImg.style.width = (newPreview.offsetWidth).toString() + "px";
+                    oPreviewImg.style.height = (newPreview.offsetHeight).toString() + "px";
+                    newPreview.appendChild(oPreviewImg);
+                }
+                oPreviewImg.src = oFREvent.target.result;
+            };
+
+            return function () {
+                var aFiles = document.getElementById("p_id_card_photo").files;
+                if (aFiles.length === 0) { return; }
+                if (!rFilter.test(aFiles[0].type)) { alert("You must select a valid image file!"); return; }
+                oFReader.readAsDataURL(aFiles[0]);
+            }
+
+        }
+        if (navigator.appName === "Microsoft Internet Explorer") {
+            return function () {
+                alert(document.getElementById("p_id_card_photo").value);
+                document.getElementById("imagePreview").filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = document.getElementById("p_id_card_photo").value;
+
+            }
+        }
+    })();
+</script>
+<script type="text/javascript">
+    function selectCityRegion(obj, item, default_value) {
+        var value = obj.value;
+        if (!value) {
+            value = obj;
+        }
+		/**
+        if (value == 0) {
+            $('#region').html('<option value="0">请选择</option>');
+            return false;
+        }
+        var url = '/Ucenter/My/getCityRegion/';
+        $('#' + item).load(url, {'parent': value, 'item': item ,'val':default_value}, function(msgObj) {
+            $("#"+item+"Class").html(msgObj);
+            if(msgObj == ''){
+                $("#"+item).css("display","none");
+            }else{
+                $("#"+item).css("display","");
+                if ('' != default_value) {
+                    this.value = default_value;
+                }
+            }
+        });
+		**/
+		
+		var url = '/Ucenter/Address/getCityRegion/';
+		$('#'+item).load(url, {
+			'parent': value,
+			'default_value':default_value
+		}, function(response){
+			if('' != default_value) {
+				this.value = default_value;
+			}
+			
+			if(response == '') {
+				$(this).css({
+					'validate': '',
+					'display':'none'
+				});
+			}else{
+				$(this).css({
+					'validate': '{required:true}',
+					'display':'inline'
+				});
+			}
+			
+		});
+		
+    }
+    function initSelectCityRegion(id) {
+        if(id==1){
+           $('#city').html('<option value="0">请选择</option>');
+           $('#region').html('<option value="0">请选择</option>'); 
+        }
+        if(id==2){
+            $('#bank_city').html('<option value="0">请选择</option>');
+            $('#bank_region').html('<option value="0">请选择</option>'); 
+        }
+    }
+
+    $(document).ready(function(){
+        $(".del_deliver").click(function(){
+            var ra_id = $(this).attr("ra_id");
+            $("#tip_div").dialog({
+                width:330,
+                height:170,
+                modal:true,
+                title:'提示信息',
+                buttons:{
+                    '确定':function(){
+                        $("#tip_div").dialog('destroy');
+                        $('#pro_diglog').append($('#tip_div'));
+                        mDialogCallback(ra_id);
+                    },
+                    "取消": function() {
+                        $("#tip_div").dialog('destroy');
+                        $('#pro_diglog').append($('#tip_div'));
+                    }
+                }
+            });
+        });
+    });
+</script>
+<if condition="$raid gt 0 ">
+    {$js_city}
+</if>

@@ -1,0 +1,299 @@
+<!--商品细节图-->
+<script src="__JS__js.js"></script>
+<script src="__JS__productsdetail.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script type="text/javascript" src="__JS__jquery.jqzoom.js"></script>
+<script type="text/javascript" src="__JS__jqzoombase.js"></script>
+<link href="__CSS__jqzoom.css" rel="stylesheet">
+
+<!--商品细节图-->
+<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+<gyfx:goodslist name="sale" gid="$ary_request[gid]"></gyfx:goodslist>
+<!--wrap-->
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>
+<div class="wrap">
+	<div class="content">
+    	<div class="navBox">
+			 <a href="{:U('Home/Index/index')}">首页</a><span>></span>
+			 <gyfx:breadcrumbs name='breadcrumb'  gid="$ary_request[gid]" >
+				 <a href="{$breadcrumb.gcurl}">{$breadcrumb.cname}</a><span>></span>
+			 </gyfx:breadcrumbs>    
+			{$detail.gname}				
+        </div>
+        <div class="proShow"><!--proShow-->
+        	<div class="picShow"><!--picShow-->
+                <!-- 放大镜开始 -->
+				<php>
+					$gpicture = $detail['gpics'][0]['gp_picture'] ;
+				</php>
+				<div class="promotionPic">
+					<div id="preview" class="spec-preview">
+						 <span class="jqzoom">
+							<img jqimg="{$gpicture|showImage=###,850,850}" bigWidth="850"  bigHeight='850' id="main_pic" src="{$gpicture|showImage=###,340,340}" width="340" height="340"/>
+						 </span>
+					</div>
+					<!--缩图开始-->
+					<div class="spec-scroll">
+						<a class="prev"><</a>
+						<a class="next">></a>
+						<div class="items">
+							<ul>
+								<volist name="detail.gpics" id="pic">
+									<li>
+										<img bimg="{$pic['gp_picture']}" src="{$pic['gp_picture']|showImage=###,340,340}"width="64px" height="64px" onmousemove="preview(this);">
+									</li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+				</div>
+                <!-- 放大镜结束 -->
+            </div><!-- picShow -->
+   
+            <div class="details"><!--details-->
+            	<h2>{$detail.gname}</h2>
+                <ul class="ul01">
+                	<li>
+                    	<span class="tit">商 城 价：</span>
+                        <label>&yen; <b id="showPrice">{$detail.gprice|sprintf='%.2f',###}</b> 元</label>
+                    </li>
+                    <li>
+						<span class="tit02">市 场 价：</span>
+                        <del id="showMarketPrice">&yen;{$g_market_price|sprintf='%.2f',###}元</del>
+                    	<label style="margin-left:125px">节省：</label>
+                        <span class="tit03" id="savePrice">{$g_market_price-$g_price} </span><label style="margin-left:0px">元</label>
+                    </li>
+					<if condition="$detail['field1'] neq '' or $warm_prompt neq ''">
+						<li>
+							<span class="tit02">温馨提示：</span>
+							<label>{$detail.field1|default="$warm_prompt"}</label>
+						</li>
+					</if>
+                    <li class="li03">
+                    	<span class="tit">顾客评分：</span>
+                        <span class="star">
+							<php> $score = ceil($comment_statics['average_score'] /20) ;</php>
+                            <php>for($i=0;$i<$score;$i++){</php>
+                            <i></i>
+                            <php>}</php>
+                            <php>for($j=0;$j< 5-$score;$j++){</php>
+                            <i class="gray"></i>
+                            <php>}</php>
+
+						</span>
+                    </li>
+                </ul>
+                <script>
+					var goods_url = new Array();
+					<volist name="detail.goods_url" id="da" key="k">
+						goods_url['{$key}'] = "{$da}";
+					</volist>
+				</script>
+                <div class="det">
+                	<ul>
+					<volist name="array_unsale_spec" id="spec">
+					<li>{$spec.gs_name}：{$spec.gsd_aliases}</li>
+					</volist>	
+                    </ul>									
+                </div>
+
+                <div class="detChoose">
+				<form id="goodsForm" name="goodsForm" method="post" action="#">
+                	<dl>
+					<if condition="$detail['gonsale'] eq '2'">
+						<div class="proPicker" style="margin-top:35px;"><!--proPicker  start-->
+							<ul  class="on"><!-- 选择信息资料后，ul加上class="on"；默认是没有的 -->
+								<li>
+									<dl>
+									<span style="float:left;padding-top:10px;text-align:LEFT;width:322px;font-weight:bold;font-size:24px;">该商品已下柜，非常抱歉！</span>
+									</dl>
+								</li>    
+							</ul>
+						</div><!--proPicker  end-->
+						<else/>
+						<div id="showDetailSkus">商品规格加载中......</div>
+                    </dl>
+					 <script>
+						var goods_url = new Array();
+						<volist name="detail.goods_url" id="da" key="k">
+							goods_url['{$key}'] = "{$da}";
+						</volist>
+					</script>
+                    <p>
+						<input type="hidden" name="way_type" value="" id="way_type"/>
+                    	<a href="javascript:void(0)" id="addToOrder" class="buyNow">立即购买</a>
+                        <a href="javascript:void(0)" id="addToCart" class="addCart"></a>
+						<a href="javascript:addToInterests('{$ary_request[gid]}');" class="collect"></a>
+                    </p>
+					</if>
+				</form>
+                </div>
+                
+                <div class="share">
+                	<!-- JiaThis Button BEGIN -->
+                    <div id="ckepop">
+                        <span class="jiathis_txt" style="font-family:5b8b4f53;">分享给好友：</span>
+                        <a class="jiathis_button_qzone"></a>
+                        <a class="jiathis_button_tsina"></a>
+                        <a class="jiathis_button_tqq"></a>
+                        <a class="jiathis_button_renren"></a>
+                        <a class="jiathis_button_kaixin001"></a>
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                    </div>
+                    <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+                    <!-- JiaThis Button END -->
+                </div>
+            </div><!--/details-->
+        </div><!--/proShow-->
+	     
+        <div class="detTwo" ><!--detTwo-->
+        	<div class="detTleft"><!--detTleft--> 			
+            	<div class="recommend" id="coll_goods"><!--自由组合开始--></div>	
+				<br />
+				<div id="relate_goods" style="margin-top:10px;"></div>
+            </div><!--/自由组合结束-->
+			<div class="clear:both;"></div>
+                <div class="detCon tabAbp"><!--detCon-->
+                	<h2>
+                    	<span onClick="setTab('tabAbp',1,5)" id="tabAbp1" class="on">商品介绍</span>
+						<span onClick="setTab('tabAbp',5,5)" id="tabAbp5">规格参数</span>
+						<if condition="$common['comments_switch'] eq 1">
+						<span onClick="setTab('tabAbp',2,5)" id="tabAbp2">商品评价</span>
+						</if>
+						<span onClick="setTab('tabAbp',3,5)" id="tabAbp3">购买咨询</span>
+						<div id="qc_wrap" style="float:right;margin-right: 0px;">
+							<div class="qc_trigger" style="position: relative;">客户端下单</div>
+							<div class="qc_inner" style="position: absolute;  display: none; ">
+								<img src="{$Think.config.DOMAIN_HOST}{$qc_img}">                    </div>
+							<script type="text/javascript">
+								$(function(){
+								   $('#qc_wrap').hover(function(){
+									  $('.qc_inner').toggle();
+								   })
+								});
+							</script>
+						</div>  
+                    </h2>
+					<!-- 商品介绍 开始 -->
+                    <div class="tabAbpCon" id="con_tabAbp_1" style="width:100%;margin:0 auto;"><!--tabAbpCon  start-->
+						{$detail.gdesc}
+					</div>
+					<!-- 商品介绍 结束 -->
+					<!-- 规格参数 开始 -->
+					<div class="tabAbpCon" id="con_tabAbp_5" style="display:none;">
+						<table width="970" class="tbList">
+							<tbody>
+								<Gyfx:unsalespecs name="spec" gid="$ary_request[gid]"   >
+								<tr>
+								<td width="150" style="text-align:right;">{$spec.gs_name}：</td>
+								<td style="text-align:left;">{$spec.gsd_aliases}</td>
+								</tr>
+								</Gyfx:unsalespecs>
+							</tbody>
+						</table>
+					</div>
+					<!-- 规格参数 结束 -->
+					<!-- 商品评价 开始 -->
+					<if condition="$common['comments_switch'] eq 1">
+					<div class="tabAbpCon" id="con_tabAbp_2" style="display:none"></div>
+					</if>
+					<!-- 商品评价 结束 -->
+					<!-- 购买咨询 开始 -->
+					<div class="tabAbpCon" id="con_tabAbp_3" style="display:none;"></div>
+					<!-- 购买咨询 结束 -->
+				</div><!--proTright  end--><!--/detCon-->
+            </div><!--/detTleft-->
+            
+            <div class="detTright"><!--detTright-->
+            	<div class="hotSell"><!--hotSell-->
+                	<h2 class="normalH2">热销排行</h2>
+                    <ul>
+						<gyfx:sales name='sale'  limit="5" titlelen='32'>
+                    	<li>
+                        	<a href="{$sale.gurl}" class="proPic"><img src="{$sale.gpicture|showImage=###,180,180}" width="180" height="180"></a>
+                            <a href="{$sale.gurl}" class="proN">{$sale.lgname}</a>
+                            <span>商城价：<label>&yen; {$sale.gprice|sprintf='%.2f',###}</label></span>
+                        </li>
+						</gyfx:sales>
+                    </ul>
+                </div><!--/hotSell-->
+                <div class="hotSell marTop20"><!--hotSell-->
+                	<h2 class="normalH2">相关商品推荐</h2>
+                    <ul>
+						<volist name="rggoods" id="good">
+                    	<li>
+                        	<a href="{$good.g_id}" class="proPic"><img src="{$good.g_picture|showImage=###,180,180}" width="180" height="180"></a>
+                            <a href="{$good.g_id}" class="proN">{$good.g_name}</a>
+                            <code>市场价：<label>&yen; {$good.g_market_price|sprintf='%.2f',###}</label></code>
+                            <span>和茶价：<label>&yen; {$good.g_price|sprintf='%.2f',###}</label></span>
+                        </li>
+						</volist>
+                    </ul>
+                </div><!--/hotSell-->
+                
+                <div class="history"><!--hotSell-->
+                	<h2 class="normalH2">我浏览过的商品</h2>
+                    <ul>
+						<php>foreach($ary_history_data as $browsehistory){</php>
+                    	<li>
+                        	<a href="{:U('Home/Products/detail')}?gid={$browsehistory['g_id']}" class="proPic"><img src="{$browsehistory.g_picture|showImage=###}" width="60" height="60"></a>
+                            <a href="{:U('Home/Products/detail')}?gid={$browsehistory['g_id']}" class="proN">{$browsehistory.g_name}</a>
+                            <span>商城价：<label>&yen; {$browsehistory.g_price}</label></span>
+                        </li>
+					   <php>}</php>
+					   <php>if(empty($ary_history_data)){</php>
+					   <li>暂无浏览历史</li>
+					   <php>}</php>							
+                    </ul>
+					<input type="hidden" name="error_1" value="{$Think.lang.STOCK_ERROR_1}" id="error_1" />
+					<input type="hidden" name="error_2" value="{$Think.lang.STOCK_ERROR_2}" id="error_2" />
+					<input type="hidden" name="error_3" value="{$Think.lang.STOCK_ERROR_3}" id="error_3" />
+					<input type="hidden" name="error_4" value="{$Think.lang.STOCK_ERROR_4}" id="error_4" />
+                </div><!--/hotSell-->
+            </div><!--/detTright-->
+        </div><!--/detTwo-->
+    </div>
+</div>
+<a href="#" onclick="gotoTop();return false;" class="totop"></a>
+<!--/wrap-->
+<input type="hidden" value="{$detail.gid}" id="gid">
+<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Ucenter/Orders/pageAdd">
+<input type="hidden" name="pid[]" id="submitSkipItemPid" value="" />
+<input type="hidden" name="type[]" id="submitSkipItemtype" value=""/>
+</form>
+<script type="text/javascript">
+//	var IS_ON_MULTIPLE = '{$is_on_mulitiple}';
+	getDetailSkus('{$ary_request.gid}');
+	getGoodsAdvice('{$ary_request.gid}',1);
+	getCollGoodsPage('{$ary_request.gid}');
+	getRelateGoodsPage('{$ary_request.gid}');
+	<if condition="$common['comments_switch'] eq 1">
+	getCommentPage('{$ary_request.gid}');
+	</if>
+	//getBuyRecordPage('{$ary_request.gid}',20);
+	function setTabs(name, cursel, n){
+		for (i = 1; i <= n; i++){
+			var tab = document.getElementById(name + i);
+			var con = document.getElementById("con_" + name + "_" + i);
+			tab.className = i == cursel?"onHover":"";
+			con.style.display = i == cursel?"block":"none";
+		}
+	};
+</script>

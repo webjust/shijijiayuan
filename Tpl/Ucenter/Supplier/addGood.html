@@ -1,0 +1,264 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+    .contentRightBox{width: 1040px;}
+    .tbForm tbody tr td.first{width: 15%;padding: 5px;}
+    .tbForm tbody tr{border-bottom-color:#ddd;}
+     p.tabListP{width:1028px;height: 34px;background-color: #f7f7f7;border-bottom: 1px solid #ddd;border-top: 2px solid #999; padding-left:10px;line-height: 34px;}
+    .tabListP span.onHover{float: none; border: none;background:none;}
+    .tabListP span.onHover a{font-weight: normal;}
+    .rightInner{width: 1040px;}
+    .btnG{float:left;padding:10px 20px;margin-top:30px;margin-right:20px;border-radius:5px;color:#999!important;background:linear-gradient(top,#fff,#999);list-style: none;}
+    .btnG:hover{border:1px solid #999;color: #999;text-decoration: none;}
+    .tbForm tbody tr td{line-height: 30px;}
+    .large{height: 22px;}
+    .btnA{background:#31383e !important}
+    #con_addGoods_1{margin-top: 2px;}
+</style>
+
+<div class="contentRightBox">
+    <p class="tabListP">
+        <span value_id="1" class="form_add_products_labels onHover">
+            <a href="javascript:void(0);" style="text-decoration: none;">商品基本信息</a>
+        </span>
+    </p>
+    <form action="{:U('Ucenter/Supplier/doAddGood')}" method="POST" id="goodForm" onsubmit="return 1" >
+    <div class="rightInner"><!--rightInner  start-->
+        <div id="con_addGoods_1" class="adCon"><!--商品基本信息  开始-->
+            <table class="tbForm" width="1040px;">
+                <tbody>
+                    <tr>
+                        <td class="first">商品名称(属国语)：</td>
+                        <td>
+                            <input type="text" name="goods_info[language_country]" id="language_country" value="" class="large" maxlength="30"/>
+                            <font style="color:#ff0000;">*</font>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">商品名称(中文)：</td>
+                        <td>
+                            <input type="text" name="goods_info[name_cn]" id="name_cn" value="" class="large" maxlength="30"/>
+                            <font style="color:#ff0000;">*</font>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">商品名称(英文)：</td>
+                        <td>
+                            <input type="text" name="goods_info[name_en]" id="name_en" value="" class="large" maxlength="30"/>
+                            <font style="color:#ff0000;">*</font>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">商品主图：</td>
+                        <td>
+                        <a href="javascript:upImage();" class="btnG ico_upload">上传图片</a>
+                        <img style="width: 100px;height: 100px;float:left;" src="" id="show_pic">
+                        &nbsp;
+                        <input type="hidden" id="photo" name="goods_info[photo]" value=""/>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">品牌属国：</td>
+                        <td>
+                            <input type="text" name="goods_info[brand_country]" id="brand_country" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">产地：</td>
+                        <td>
+                            <input type="text" name="goods_info[origin]" id="origin" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">品牌属国名：</td>
+                        <td>
+                            <input type="text" name="goods_info[brand_ori]" id="brand_ori" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">品牌英文名：</td>
+                        <td>
+                            <input type="text" name="goods_info[brand_en]" id="brand_en" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">品牌中文名：</td>
+                        <td>
+                            <input type="text" name="goods_info[brand_cn]" id="brand_cn" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">单位含量：</td>
+                        <td>
+                            <input type="text" name="goods_info[unit]" id="unit" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">单位包装数量：</td>
+                        <td>
+                            <input type="text" name="goods_info[package]" id="package" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">使用部位：</td>
+                        <td>
+                            <input type="text" name="goods_info[partused]" id="partused" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">商品代码：</td>
+                        <td>
+                            <input type="text" name="goods_info[goods_sn]" id="goods_sn" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">商品条形码：</td>
+                        <td>
+                            <input type="text" name="goods_info[bar_code]" id="bar_code" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">交货地点：</td>
+                        <td>
+                            <input type="text" name="goods_info[place]" id="place" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">报价币种：</td>
+                        <td>
+                            <input type="text" name="goods_info[currency]" id="currency" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">批发供应价：</td>
+                        <td>
+                            <input type="text" name="goods_info[supply_price]" id="supply_price" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">零售价：</td>
+                        <td>
+                            <input type="text" name="goods_info[retail_price]" id="retail_price" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">优惠折头：</td>
+                        <td>
+                            <input type="text" name="goods_info[discount]" id="discount" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">最低订购量：</td>
+                        <td>
+                            <input type="text" name="goods_info[MOQ]" id="MOQ" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">供应商当前库存：</td>
+                        <td>
+                            <input type="text" name="goods_info[all_stock]" id="all_stock" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">基本库存：</td>
+                        <td>
+                            <input type="text" name="goods_info[base_stock]" id="base_stock" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">品牌官网URL：</td>
+                        <td>
+                            <input type="text" name="goods_info[website]" id="website" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!--商品基本信息  结束-->        
+        
+        <!-- 表单提交 开始 -->
+        <p style="text-align:center; padding:10px 0px;">
+            <input type="hidden" name="page_jump" value="1" id="submit-page-jump-type" />
+            <button type="submit" page_jump="1" class="btnA submit-button">保存</button>
+            <button type="submit" page_jump="2" class="btnA submit-button">保存并继续</button>
+            <input type="reset" value="重置" class="btnA" />
+        </p>
+    </div><!--rightInner  end-->
+    </form>
+</div>
+<script type="text/javascript">
+    var dialog;
+    var editor = new UE.ui.Editor({
+        imageRealPath:"editor"
+    });
+    editor.render("myEditor");
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            for(index in arg){
+                var image_path = arg[index]['src'];
+                $("#photo").val(image_path);    
+                $("#show_pic").attr({src:image_path});            
+            }
+        });
+        
+    });
+    
+    function upImage() {
+        dialog.open();
+    }
+    $(".tbForm input").focus(function(){
+        $(this).css("border-color","red");
+    });
+    $(".tbForm input").blur(function(){
+        $(this).css("border-color","#999");
+    });
+</script>

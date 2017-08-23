@@ -1,0 +1,120 @@
+<div class="rightInner">
+    <form id="erp_set" name="erp_set" method="post" action="{:U('Admin/Erp/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">ERP连接设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99">ERP连接</th>
+                </tr>
+                <tr>
+                    <td class="first">是否开启</td>
+                    <td>
+                        <input type="radio" name="SWITCH" value="1" <eq name="SWITCH" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="SWITCH" value="0" <eq name="SWITCH" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last">警告：请勿任意开启或关闭ERP连接</td>
+                </tr>
+                <tr>
+                    <th colspan="99">配置信息</th>
+                </tr>
+                <tr>
+                    <td class="first">ERP地址</td>
+                    <td>
+                        <input type="text" class="large" name="BASE_URL" value="{$BASE_URL}" />
+                    </td>
+                    <td class="last">请填写外网可以访问的地址，http://开头，勿填内网地址</td>
+                </tr>
+                <tr>
+                    <td class="first">ERP图片地址</td>
+                    <td>
+                        <input type="text" class="large" name="IMG_URL" value="{$IMG_URL}" />
+                    </td>
+                    <td class="last">请填写外网可以访问的地址，http://开头，勿填内网地址</td>
+                </tr>
+                <tr>
+                    <td class="first">ERP的KEY</td>
+                    <td>
+                        <input type="text" class="medium" name="APP_KEY" value="{$APP_KEY}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">ERP店铺代码</td>
+                    <td>
+                        <input type="text" class="small" name="SHOP_CODE" value="{$SHOP_CODE}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                 <tr>
+                    <td class="first">api版本</td>
+            
+                    <td>
+                        <select  name="API_VERSION"  validate="{selected:true}">
+                            <option value="Top">请选择</option>
+                            <volist name="version" id="v" >
+                                <option   value="{$key}"> {$v}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">订单锁定</td>
+                   <td>
+                        <input type="radio" name="ORDER_LOCK" value="1" <eq name="ORDER_LOCK" value="1">checked="checked"</eq> /> 启用
+                        <input type="radio" name="ORDER_LOCK" value="0" <eq name="ORDER_LOCK" value="0">checked="checked"</eq> /> 关闭
+                    </td>
+                    <td class="last">订单进入ERP后延长发货时间 </td>
+                </tr>
+                <tr>
+                    <td class="first">是否自动审单</td>
+                    <td>
+                        <input type="radio" name="AUTO_ORDER" value="0" <eq name="AUTO_ORDER" value="0">checked="checked"</eq> /> 未客审未财审
+                        <input type="radio" name="AUTO_ORDER" value="1" <eq name="AUTO_ORDER" value="1">checked="checked"</eq> /> 已客审未财审
+                        <input type="radio" name="AUTO_ORDER" value="2" <eq name="AUTO_ORDER" value="2">checked="checked"</eq> /> 已客审已财审
+                    </td>
+                    <td class="last">订单进入ERP后的状态</td>
+                </tr>
+                <tr>
+                    <td class="first">隐藏ERP预存款作废</td>
+                    <td>
+                        <input type="radio" name="SYN_PREDEPOSIT" value="1" <eq name="SYN_PREDEPOSIT" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="SYN_PREDEPOSIT" value="0" <eq name="SYN_PREDEPOSIT" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last">ERP预存款作废信息是否同步到分销</td>
+                </tr>
+                <tr>
+                    <td class="first">启用代理售价</td>
+                    <td>
+                        <input type="radio" name="AGENT_PRICE" value="1" <eq name="AGENT_PRICE" value="1">checked="checked"</eq> /> 启用
+                        <input type="radio" name="AGENT_PRICE" value="0" <eq name="AGENT_PRICE" value="0">checked="checked"</eq> /> 关闭
+                    </td>
+                    <td class="last">启用时，将ERP的代理售价当作分销的销售价；<br />关闭时，将ERP的标准售价当作会员的销售价</td>
+                </tr>
+                <tr>
+                    <td class="first">预存款自动审单</td>
+                    <td>
+                        <input type="radio" name="AUTO_PREDEPOSIT" value="1" <eq name="AUTO_PREDEPOSIT" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="AUTO_PREDEPOSIT" value="0" <eq name="AUTO_PREDEPOSIT" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last">分销的结余款调整单进入ERP状态自动审核，仅限线上即时到账交易。线下支付和担保交易除外。</td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

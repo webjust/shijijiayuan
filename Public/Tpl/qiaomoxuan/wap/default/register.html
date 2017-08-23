@@ -1,0 +1,122 @@
+
+<div class="warp">
+    <div class="head">
+    	<p>注册新用户</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/User/login')}" class="regi">登陆</a>
+    </div>
+    <form method="post" action="{:U('Wap/User/doRegister')}" id="regform">
+    <div class="login">
+    	<div class="loginCon">
+            <dl class="clearfix">
+            	<dt>用户名：</dt>
+                <dd><input type="text" name='m_name' id='m_name'></dd>
+                <dt>密&nbsp;&nbsp; 码：</dt>
+                <dd><input type="password" name='m_password' id='m_password'></dd>
+                <dt>重新输入密码：</dt>
+                <dd><input type="password" name='m_password_confirm' id='m_password_confirm'></dd>
+                <dt>验证码：</dt>
+                <dd><input type="text" class="yaz" name='verify' id='verify'>
+                    <span class="yazm">
+                        <a href="javascript:void(0);" >
+                        <img id="loginverify" alt="换一张" title="换一张" src="__APP__/Wap/User/verify/" width="60" onClick="this.src='__APP__/Wap/User/verify/'+Math.random()">
+                        </a>
+                    </span>
+                </dd>
+            </dl>
+            <i style="width:auto;"></i>
+        </div>
+        <input name="jumpUrl" type="hidden" value="{$jumpUrl}"/>
+		<notempty name="resgister_field_extend">
+                <volist name="resgister_field_extend" id="field">
+                    <input type="hidden" name="{$field.fields_content}" value="{$field.content}" />
+                </volist>
+        </notempty>
+        <notempty name="m_recommended">
+            <input type="hidden" name="m_recommended" value="{$m_recommended}" >
+        </notempty>
+        <input type="submit" value="注册" class="loginbtn">
+        <p class="agree">
+            <input type="checkbox" name="agreement" checked> <label>我已阅读并同意《<a href="{:U('Wap/User/reg_term')}" class="bg0066FF">服务协议</a>》</label>
+        </p>
+    </div>
+    </form>
+
+</div>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+
+<script type='text/javascript'>
+    $(function(){
+        $("#regform").validate({
+            
+            submitHandler:function(form){
+                //form.submit();
+                var formdata = $("#regform").serialize();
+                $.ajax({
+                    url:"{:U('Wap/User/doRegister')}",
+                    data:formdata,
+                    dataType:"json",
+                    type:"post",
+                    success:function(msgObj){
+                        if(msgObj.status == 1){
+                            alert("注册成功,等待跳转……");
+                            window.location.href = "{:U('Wap/User/Login')}";
+                        }else{
+                           alert(msgObj.info);
+                           window.location.href = "{:U('Wap/User/Login')}";
+                           return false;
+                        }
+                    }
+                });
+            },
+            rules : {
+                m_name : {
+                    required:true,
+                    minlength:4,
+                    isCheck:true,
+                    remote:'/Wap/User/checkName'
+                },
+                m_password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                m_password_confirm : {
+                    required : true,
+                    equalTo  : '#m_password'
+                },
+                verify : {
+                    required:true,
+                    digits:true,
+                    remote:'/Wap/User/checkVerify',
+                    rangelength:[4,4]
+                }
+            },
+            messages : {
+                m_name : {
+                    required : '用户名不能为空',
+                    minlength : '用户名不能少于4位',
+                    isCheck: '用户名不能包含敏感字符',
+                    remote:'该用户名已经存在'
+                },
+                m_password  : {
+                    required : '密码不能为空',
+                    minlength: '密码长度应在6-20个字符之间',
+                    maxlength: '密码长度应在6-20个字符之间'
+                },
+                m_password_confirm : {
+                    required : '请再次输入您的密码',
+                    equalTo  : '两次输入的密码不一致'
+                },
+                verify : {
+                    required:'请输入验证码',
+                    digits:'对不起，请输入正确的验证码',
+                    rangelength:'验证码长度为4',
+                    remote: '对不起，请输入正确的验证码'
+                }
+            }
+        });
+    });
+</script>

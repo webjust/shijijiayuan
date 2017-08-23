@@ -1,0 +1,43 @@
+
+<!-- 
+     * 文章资讯详情
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-04-02
+     * @param 
+     * 返回数据变量名	name
+	 * 文章ID   aid
+     * @return array
+	 * 文章ID	aid
+	 * 文章标题	atitle
+	 * 文章地址	aurl
+	 * 文章分类名称	cname
+	 * 文章分类ID	cid
+	 * 文章简介	adesc
+	 * 配图	apic
+	 * 热门标记	hot
+	 * 点击量	hits
+	 * 发布时间	atime
+	 * 文章详情   acontent
+     示例：
+	array(2) {
+	      ["aid"] => string(1) "4"
+	      ["atitle"] => string(7) "test123"
+	      ["aurl"] => string(33) "/Home/Article/articleDetail/aid/4"
+	      ["cname"] => string(9) "分类二"
+	      ["cid"] => string(1) "2"
+	      ["adesc"] => string(12) "test12344556"
+	      ["apic"] => string(0) ""
+	      ["hot"] => string(1) "1"
+	      ["hits"] => string(1) "0"
+	      ["atime"] => string(19) "0000-00-00 00:00:00"
+	      ["acontent"] => "test123"
+	  }
+	}
+ -->
+<h3>{$title}</h3>
+<Gyfx:articleinfo name="art" aid="3" >
+    <li>{$art.aid} - {$art.atitle} - {$art.cname} <br />
+    <h4>文章内容：</h4>
+     {$art.acontent}</li>
+</Gyfx:articleinfo>
+<hr>

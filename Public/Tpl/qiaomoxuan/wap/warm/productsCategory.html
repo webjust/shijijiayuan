@@ -1,0 +1,105 @@
+<link href="__CSS__global.css" rel="stylesheet">
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__productsdetail.js"></script>
+<div class="header" id="header">
+    <div class="navBar">
+        <div class="navbar-icon">
+            <a  href="javascript:void(0);" onclick="window.history.back();">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+        </div>
+        <span class="nav-title">列表页</span>
+    </div>
+</div>
+<input type="hidden" name="mid" id="mid" value="{$Think.session.Members.m_id}"/>
+<div class="container " style="min-height: 826px;">
+    <div class="content ">
+        <div class="content-body js-page-content">
+            <!-- 图片广告 -->
+            <div class="custom-image-single clearfix">
+                <a href="javascript:void(0);" target="_blank">
+                    <img class="js-res-load js-view-image-item" src="__IMAGES__listBanner.jpg">
+                </a>
+            </div>
+            <!-- 商品分组 -->
+            <div class="proListT clearfix">
+                <div class="proListT-M" style="height: 958px;">
+                    <ul class="proListT-menuL" style="position: static; top: 40px; border-right-style: none;"><h1>产品筛选</h1>
+                        <Gyfx:goodscate name="cate"   clevel="1" >
+                            <li>
+                                <php>$anchor =  '#anchor-'.(string)$cate['cid'] ;</php>
+                                <a href="{$anchor}" name="{$anchor}">
+                                    <span>{$cate.cname}</span>
+                                </a>
+                            </li>
+                        </Gyfx:goodscate>
+                        <!--<li class=""> <a href="#anchor-2"> <span>分类2</span> </a> </li>-->
+                        <!--<li> <a href="#anchor-3"> <span>分类3</span> </a> </li>-->
+                        <!--<li> <a href="#anchor-4"> <span>分类4</span> </a> </li>-->
+                    </ul>
+                </div>
+                <div class="proListT-pro">
+                    <volist name="category" id='category'>
+                        <php>
+                            if(!empty($category['gc_id'])){
+                        </php>
+                        <h1 class="proListT-title" id="anchor-{$category.gc_id}"> {$category.gc_name} </h1>
+                        <ul class="proListT-pro-list">
+                        <Gyfx:goodslist name='showlist' wap="1" cid="{$category['gc_id']]">
+                            <li class="proListT-single-goods clearfix">
+                                <a href="{$showlist.gurl}" class="proListT-pro-img">
+                                    <img class="js-lazy" alt="" src="{$Think.config.DOMAIN_HOST}{$showlist.g_picture|showImage=###,250,250}">
+                                </a>
+                                <div class="proListT-pro-detail">
+                                    <a href="{$showlist.gurl}" class="proListT-pro-title">{$showlist.gname|mb_substr=###,0,7,'utf-8'}</a>
+                                    <span class="proListT-pro-price">￥{$showlist.gprice|sprintf='%.2f',###}</span>
+                                    <a class="proListT-pro-buy" href="javascript:void(0)"onClick='addGoodsCart("{$showlist.gid}","{$showlist.authorize}");'>
+                                        <span class="add-buy"></span>
+                                    </a>
+                                </div>
+                            </li>
+                        </Gyfx:goodslist>
+                        </ul>
+                        <php>}</php>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="right-icon">
+        <div class="right-icon-container clearfix">
+            <a id="global-cart" href="{:U('Wap/Cart/pageCartList')}" class="icon s0"></a>
+            <a class="icon show-more-btn hide s0"></a> </div>
+    </div>
+    <div class="addcart"  id="addcartshow" style="display: none;">
+        <div class="addCart"></div>
+        <div class="sku-layout sku-box-shadow cartCnt" id="addtocart">
+        </div>
+    </div>
+</div>
+<script>
+    ajaxLoadShoppingCart(1);
+    //商品列表中加入购物车
+    function addGoodsCart(gid,authid){
+        if(parseInt(gid) <= 0){
+            $.ThinkBox.error("商品不存在或者已经被下架");
+            return false;
+        }
+        if(authid != '1'){
+            $.ThinkBox.error("您不能购买该商品");
+            return false;
+        }
+        $.ajax({
+            url:'/Wap/Cart/getAddGoodsCart',
+            cache:false,
+            dataType:'HTML',
+            data:{gid:gid},
+            type:"POST",
+            success:function(msgObj){
+                $("#addtocart").html(msgObj);
+                $("#addcartshow").show();
+//                var box = $.ThinkBox(msgObj, {'title' : '加入购物车','width':'448px','drag' : true,'unload':true});
+            }
+        });
+    }
+</script>

@@ -1,0 +1,96 @@
+{__NOLAYOUT__}
+<div id="isAjax" style="display:none">用此ID标识本页面是通过ajax载入进来的</div>
+<div class="rightInner load" id="goodsSelecterInner">
+    <table width="100%" class="tbForm">
+        <thead>
+            <tr class="title">
+                <th colspan="99">查找商品</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>商品货号</td>
+                <td>
+                    <input type="text" class="medium" value="{$chose.pdt_sn}" name="pdt_sn" id="pdt_sn" />
+                </td>
+                <td>商品名称</td>
+                <td>
+                    <input type="text" class="medium" value="{$chose.g_name}" name="gs_name" id="gs_name" />
+                </td>
+                <td>商品分类</td>
+                <td>
+                    <select class="medium" name="gs_gcid" id="gs_gcid">
+                        <option value="0"> - 全部分类 - </option>
+                        <volist name="search.cates" id="cate">
+                            <option value="{$cate.gc_id}" <eq name="chose.gcid" value="$cate[gc_id]">selected="selected"</eq> ><for start="0" end="$cate[gc_level]">&nbsp;&nbsp;</for>{$cate.gc_name}</option>
+                        </volist>
+                    </select>
+                </td>
+                <td colspan="99" align="right">
+                    <input type="button" value="查 找" class="btnA" onclick="goodsSelecterSerch();" >
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="rightInner load" id="goodsSelecterList">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr>
+                <th><input type="checkbox" class="ckeckAll" /></th>
+                <th>商品图片</th>
+                <th>商品名称</th>
+                <th>商品货号</th>
+                <th>规格名称</th>
+                <th>分类</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="goods">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="gs_pdt_sn" value="{$goods.pdt_sn}" /></td>
+                <td><img src='{$goods.g_picture|default="Ucenter/images/pdtDefault.jpg"}' class="img32" /></td>
+                <td>{$goods.g_name}<br><span class="blue">{$goods.g_sn}</span></td>
+                <td>{$goods.pdt_sn}</td>
+                <td>{$goods.pdt_spec}</td>
+                <td>{$goods.gc_name}</td>
+            </tr>
+        </volist>
+        <empty name="list">
+            <tr><td colspan="99" class="left">没有查找到结果! 没有相关的数据或者请先进行查找~ </td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>
+<script src="__PUBLIC__/Admin/js/loading.js"></script>
+<script>
+$("#g_gifts").click(function(){
+    if($(this).val()=='1'){
+        $("#g_gifts").val('0');
+    }else{
+        $("#g_gifts").val('1');
+    }
+})
+
+//查找商品 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function goodsSelecterSerch(){
+    var g_gifts =  $("#g_gifts").val();
+    var data = {
+        'pdt_sn':$("input[name='pdt_sn']").val(),
+        'g_name':$("input[name='gs_name']").val(),
+        'gs_gcid':$('#gs_gcid').val(),
+        'g_gifts':g_gifts
+    };
+    var url = "{:U('Admin/Goods/getProductsInfo')}";
+    $.get(url,data,function(info){
+        $('#isAjax').parent().html(info);
+    },'text');
+}
+</script>

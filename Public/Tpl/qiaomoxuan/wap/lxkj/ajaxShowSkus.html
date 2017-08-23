@@ -1,0 +1,109 @@
+{__NOLAYOUT__}
+<empty name="page_detail.gid">
+    商品已下架或不存在<php>die;</php>
+</empty>
+<eq name="page_detail.authorize" value="0">
+    (＞﹏＜)您无权购买本商品！<php>die;</php>
+</eq>
+    <div class="pic_word">
+        <div class="pic_box"><img src="" alt="" id="diy_gimgxs"></div>
+        <div class="pic_word1">
+            <ul>
+                <li class="jiage">￥<span id="showPricea"></span></li>
+                <li class="kucun">库存<span id="pdt_stock_xs"></span>件</li>
+                <li class="yanse">请选择颜色分类</li>
+            </ul>
+            <div class="close"><img src="__TPL__/images/close.png" alt=""></div>
+        </div>
+    </div>
+    <dl class="spec_list">
+        <volist name="page_detail.ary_goods_spec_list" id="goods_spec" key="k">
+            <dt>{$goods_spec.gs_name}</dt>
+            <dd id="sku{$goods_spec.gs_id}_{$k}">
+            <volist name="goods_spec.gs_details" id="gs_detail" key="gskk">
+                <php>
+                    $gsd_type = 'text';
+                    $va = strpos($gs_detail['gsd_value'],'|');
+                    if($va){
+                        $gsdinfos = explode('|', $gs_detail['gsd_value']);
+                        $gsd_value = $gsdinfos[0];
+                        $gsd_info = $gsdinfos[1];
+                        $gsd_type = 'img';
+                    }else{
+                        $gsd_value = $gs_detail['gsd_value'];
+                    }
+                    if(@$gsdnametj){
+                        $gsdnametj .= '、'.$gsd_value;
+                    }else{
+                        $gsdnametj .= $gsd_value;
+                    }
+                    
+                </php>
+                <a href="javascript:void (0);" onclick="specSelect(this);" name="{$gsd_value}" title="{$gsd_value}" data-value="{$gs_detail.gsd_id}"
+                <if condition="$gsd_type eq 'img'"> style="height:30px;"</if>
+                <eq name="gskk" value="1"> class="on" </eq>  >
+                <if condition="$gsd_type eq 'img'">
+                    <img src="{$Think.config.DOMAIN_HOST}{$gsd_info}" style="width:30px;height: 27px" title="{$gsd_value}"/>
+                    <else/>
+                    {$gsd_value}
+                </if>
+                </a>
+            </volist>
+            </dd>
+        </volist>
+        <em class="gsdname_list" data-value="{$gsdnametj}"></em>
+    </dl>
+    <div class="number">
+        <span class="left">购买数量</span>
+        <div class="shuliang_th5">
+            <a href="javascript:void(0);" class="jian add" onclick="countNum(-1)">-</a>
+            <input type="text" class="quantity" id="item_num" readonly name="num" value="1" max="{$gp_per_number}" value="1" onfocus="if (value == '1') {value = ''}">
+            <a href="javascript:void(0);" class="jia add" onclick="countNum(1)">+</a>
+            <php>if(!$p_id){</php>
+            <php>if (!GLOBAL_STOCK) {</php>
+            <!--<td >库存:-->
+                <!--<if condition="$stock_data['OPEN_STOCK'] EQ 1 and $stock_data['level'] neq '' ">-->
+                    <!--<if condition="$page_detail['gstock'] elt 0" >-->
+                        <!--<label><strong style='color:red' id="showNum">缺货</strong></label>-->
+                        <!--<elseif condition="$page_detail['gstock'] gt 0 && $page_detail['gstock'] lt $stock_data['STOCK_NUM']" />-->
+                        <!--<label><strong style='color:red' id="showNum">供货紧张</strong></label>-->
+                        <!--<elseif condition="$page_detail['gstock'] gt $stock_data['STOCK_NUM']" />-->
+                        <!--<label><strong style='color:green' id="showNum">充足</strong></label>-->
+                    <!--</if>-->
+                    <!--<else/>-->
+                    <!--<label id="showNum">{$page_detail.gstock}</label>-->
+                <!--</if>-->
+            <!--</td>-->
+            <php>}</php>
+            <php>}else{</php>
+            <td>剩余数量：
+                <label id="surplus">{$p_number}件</label>
+                <if condition="$Think.session.Members.m_id neq ''">
+                    每人限购 <label>{$p_per_number}</label>件
+                    <else/>
+                    您可以购买<label>{$p_per_number}</label>件
+                </if>
+            </td>
+            <php>}</php>
+        </div>                    
+    </div>
+    <input type="hidden" name="way_type" value="" id="way_type"/>
+    <input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+    <input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+    <input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+    <input type="hidden" name="type" value="item" id="item_type" />
+    <input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_id}" name="pdt_id" id="pdt_id" />
+    <input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_stock}" name="pdt_stock" id="pdt_stock" />
+    <input type="hidden" value="{$max_buy_number|default=0}" name="max_buy_number" id="max_buy_number" />
+    <script type="text/javascript" src="__JS__goodsDetailSku.js"></script>
+    <script type="text/javascript">
+        var fuzzy_stock_open = parseInt('{$stock_data.OPEN_STOCK}');
+        var fuzzy_stock_level = parseInt('{$stock_data.level}');
+
+        var warning_stock_num = parseInt("{$stock_data['STOCK_NUM']}");
+        var json_goods_pdts = JSON.parse('{$page_detail.json_goods_pdts|json_encode}');
+        console.log(json_goods_pdts);
+        //页面初始化操作
+        getPdtBySpecSelect('on');
+
+    </script>

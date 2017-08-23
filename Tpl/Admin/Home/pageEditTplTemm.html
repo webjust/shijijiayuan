@@ -1,0 +1,97 @@
+<include file="Home:tabsTem" />
+<div class="rightInner" id="con_tabListP_5"><!--rightInner  start-->
+    <include file="Home:titleTpl" />
+    <div class="editbox editContent">
+        <form action='{:U("Admin/Home/pageEditTplTemm","tabs=$ary_get[tabs]&wapdir=$ary_get[wapdir]&appdir=$ary_get[appdir]")}' method="post" onsubmit="return confirm('建议您先备份要保存的文件再保存？')" style="float: none;">
+            <table width="100%" class="tbForm">
+                <tr>
+                    <td colspan="2"><font color="#ff0000">注：CSS、JS文件、图片地址，在html代码中，请写绝对路径。</font></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea id="content"  name="content"  validate="required:true, minlength:4" ></textarea>
+                    </td>
+					<!--
+                    <td width="250">
+                        <ul class="biaoqian">
+                            <h2>可使用的标签：</h2>
+                            <li>标签1</li>
+                            <li>标签2</li>
+                            <li>标签3</li>
+                            <li>标签4</li>
+                            <li>无序列表</li>
+                        </ul>
+                    </td>
+					-->
+                </tr>
+                <tr>
+                    <td colspan="2">
+					<if condition="$filter.options neq 'Backup'">
+                        <input type="hidden" class="btnHeader" id="file" value="{$filename}" name="file" />
+                        <input type="hidden" class="btnHeader" id="dir" value="{$filter.dir}" name="dir" />
+                        <input type="hidden" class="btnHeader" id="type" value="{$filter.type}" name="type" />
+                        <input type="submit" class="btnHeader" value="保 存" name="submit" />
+						<!--
+                        <input type="submit" class="btnHeader editCancel" value="取 消" />
+                        <input type="button" id="template" class="btnHeader"
+                               <switch name="filter.val">
+                                    <case value="productList">
+                                        uri='{:U("Home/Products/index","file=$filter[file]&dir=$filter[dir]&type=$filter[options]&&view=preview")}'
+                                    </case>
+                                    <case value="register">
+                                        uri='{:U("Ucenter/User/pageRegister/","file=$filter[file]&dir=$filter[dir]&type=$filter[options]&&view=preview")}'
+                                    </case>
+                                    <default />
+                                        uri='{:U("Home/Index/index","file=$filter[file]&dir=$filter[dir]&type=$filter[options]&&view=preview")}'
+                               </switch>
+                         value="预 览" />
+                        <input type="submit" class="btnHeader" name="temporary" value="放入草稿箱" />
+						-->
+                        <input type="submit" class="btnHeader" name="backup" value="备份" />
+						</if>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+		function confirmSave(){
+			alert(1111);return;
+		}
+	
+	
+        $("#template").click(function(){
+            var uri = $(this).attr("uri");
+            var css = $(".cssfile input[name='diypage']:checked").attr("css");
+            var file = $("#file").val();
+            var type = $("#type").val();
+            var dir = $("#dir").val();
+            var content = $("#content").val();
+            $.ajax({
+                url:'{:U("Admin/Home/pageEditTplTemm")}',
+                cache:false,
+                dataTpye:'json',
+                type:'POST',
+                data:{'content':content,'file':file,dir:dir,type:type,"temporary":'1'},
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        window.open(uri, "预览", "status=yes,toolbar=no,menubar=no,scrollbars=yes,location=no");
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+
+    });
+</script>

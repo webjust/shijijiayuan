@@ -1,0 +1,139 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+</style>
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>商品分类</span></h2>
+    <div class="deliverList myOrder">
+        <form  method="post" id="edit_deliverTable" action="/Ucenter/Promoting/partnerReg" enctype="Multipart/form-data">
+            <table class="deliverTable">
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 商品名称：</td>
+					<td><input type="text" class="input01" value="" id="p_name" name="p_name" validate="{ required:true,isCheck:true,rangelength:[1,20],p_name:true,messages:{required:'不能为空',isCheck:'包含非法字符，请重新输入',rangelength:'在1到20字符之间'}}"><span class="spanWrong"></span></td>
+                </tr>
+                      <tr>
+                    <td width="99" align="right"><i class="red">*</i> 品牌：</td>
+                    <td>
+                        <select name="goods[gb_id]" class="medium">
+                            <option value="0">--请选择商品品牌--</option>
+                            <volist name="array_brand" id="vo">
+                            <option value="{$vo.gb_id}">{$vo.gb_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 计量单位：</td>
+                    <td>
+                        <input type="text" class="input01"  id="p_id_card" value="" name="p_id_card" validate="{required:true,p_id_card:true,messages:{required:'不能为空',p_id_card:'请正确填写'}}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 商品类型：</td>
+                    <td>
+                        <input type="text" class="input01" id="p_detail" value="" name="p_detail" validate="{ required:true,isCheck:true,messages:{required:'不能为空',isCheck:'包含非法字符，请重新输入'}}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                     <tr>
+                    <td width="99" align="right">销售价：</td>
+                    <td>
+                        <input type="text" class="input01" id="p_post_code" name="p_post_code" value="" validate="{ p_post_code:true,messages:{p_post_code:'请输入'}}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                    <tr>
+                    <td width="99" align="right">商品重量：</td>
+                    <td><input type="text" class="input01" value="" id="p_open_name" name="p_open_name" validate="{ required:true,isCheck:true,rangelength:[1,20],p_open_name:true,messages:{required:'不能为空',isCheck:'包含非法字符，请重新输入',rangelength:'在1到20字符之间'}}"><span class="spanWrong"></span></td>
+                </tr>
+            <tr>
+            <tr>
+                <td width="99" align="right">商品库存：</td>
+                <td><input type="text" class="input01" value="{$edit_city.p_open_bank}" id="p_open_bank" name="p_open_bank" validate=></td>
+                </tr>
+<if condition="!empty($array_spec_info)">
+<volist name="array_spec_info" id="vo">
+    <tr>
+        <td style="width:100px;text-align:right;padding-right:3px;">{$vo.gs_name}：</td>
+        <td>
+        <if condition="$vo.gs_input_type eq 1">
+        <input type="text" class="large" name="goods_unsales_spec[{$vo.gs_id}]" value="{$vo.gsd_aliases}" />
+        <elseif condition="$vo.gs_input_type eq 2" />
+        <select class="medium" name="goods_unsales_spec[{$vo.gs_id}]" style="width:auto;">
+            <option value="0" >请选择{$vo.gs_name}的属性值</option>
+            <volist name="vo[spec_detail]" id="sp">
+                <if condition="$vo['gsd_id'] eq $sp['gsd_id']">
+                    <option value="{$sp.gsd_id}" selected="selected" >{$sp.gsd_value}</option>
+                <else />
+                    <option value="{$sp.gsd_id}" >{$sp.gsd_value}</option>
+                </if>
+            </volist>
+        </select>
+        <elseif condition="$vo.gs_input_type eq 3" />
+        <textarea name="goods_unsales_spec[{$vo.gs_id}]" class="mediumBox">{$vo.gsd_aliases}</textarea>
+        </if>
+        </td>
+    </tr>
+</volist>
+<else />
+    <tr>
+        <td colspan="2" style="text-align:left;padding-left:30px;color:#ff0000;">
+            该商品类型下暂无扩展属性需要录入。如需录入，请先转到
+            <a href="{:U('Admin/GoodsType/pageList')}" title="点击转到类型列表。" onclick="if(!confirm('确定要去录入属性吗？\\n您之前录入的数据比如商品名称可能丢失！')){return false;}">类型列表</a>
+            ，添加相应的属性。
+        </td>
+    </tr>
+</if>
+            <tr>
+                 <td width="99" align="right">销售属性：</td>
+                <td><img src="/Public/Admin/images/u48_normal.png"></td>
+             </tr>
+             <tr>
+                     <td id="goods_sku_list_form" class="ajax_show_area" colspan="2">
+                            <table class="tbList" width="100%">
+                            <thead>
+                            <tr>
+                            <th style="text-align:center;">颜色</th>
+                            <th style="text-align:center;">库存</th>
+                            <th style="text-align:center;">销售价</th>
+                            <th style="text-align:center;">重量</th>
+                            <th style="text-align:center;">操作</th>
+                            </tr>
+                            </thead>
+                            
+                            <tbody>
+                     <tr class="sku-list-info-rows">
+                         <td>
+                            <input class="small sku_info pdt_sn" name="goods_products[pdt_color][SN1]" value="" type="text">
+                         </td>
+                        <td>
+                            <input class="small sku_info pdt_sn" name="goods_products[pdt_stock][SN1]" value="" type="text">
+                        </td>
+                        <td>
+                            <input class="small sku_info pdt_sn" name="goods_products[pdt_sale_price][SN1]" value="" type="text">
+                        </td>
+                         <td>
+                            <input class="small sku_info pdt_sn" name="goods_products[pdt_weight][SN1]" value="" type="text">
+                        </td>
+                        <td>
+                            <a class="sku-list-delete-button" href="javascript:void(0);">删除</a>
+                        </td>
+                    </tr>
+                            </tbody>
+                            </table>
+                        </td>
+                   </tr>
+                <tr>
+                <td colspan="2" align="center">
+                       <button class="blue" type="submit" >提交信息</button>
+                          <button class="blue" type="submit" >重置</button>
+                          </td>
+                </tr>
+            </tr>
+            </table>
+        </form>
+    </div>
+</div>

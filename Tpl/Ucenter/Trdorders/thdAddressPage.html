@@ -1,0 +1,21 @@
+{__NOLAYOUT__}
+<!--收货地址弹框结束-->
+<table>
+<tr>
+	<td align="right"><i class="red">*</i> 选择地区：</td>
+	<td>
+		<select id="province_{$tt_id}" name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city_{$tt_id}','');" validate="{ required:true}">
+			<option value="0" selected="selected">请选择</option>
+		</select>
+		<select id="city_{$tt_id}" name="city" onchange="selectCityRegion(this, 'region_{$tt_id}','');" validate="{ required:true}">
+			<option value="0" selected="selected">请选择</option>
+		</select>
+		<select id="region_{$tt_id}" name="region" validate="{ required:true}">
+			<option value="0" selected="selected">请选择</option>
+		</select>
+	</td>
+</tr>
+</table>
+编辑收货地址：<textarea style="width: 291px; height:80px;">{$to_receiver_address}</textarea>
+<!--收货地址弹框结束-->
+<script type="text/javascript">{$set_edit_js}</script>

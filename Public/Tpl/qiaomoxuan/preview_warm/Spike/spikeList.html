@@ -1,0 +1,140 @@
+<link href="{$Think.config.DOMAIN_HOST}__CSS__spike.css" rel="stylesheet" type="text/css"/>
+<script src="__JS__js.js"></script>
+<div class="header" id="header">
+    <div class="navBar">
+        <div class="hbtn">
+            <div class="logo">
+                <a  onclick="window.history.back();">
+                    <img src="__IMAGES__logo.png">
+                </a>
+            </div>
+            <div class="search">
+                <form method="get" action="{:U('Wap/Products/index')}" >
+                    <input  style="padding: 0px" placeholder="搜索商品/店铺" name="q" value="" class="search-input" type="text">
+                    <button type="submit" class="custom-search-button">搜索</button>
+                </form>
+            </div>
+            <div class="info">
+                <notempty name="Think.session.Members.m_name">
+                    <a href="{:U('Wap/User/doLogout')}">[退出]</a>
+                    <else/>
+                    <a href="{:U('Wap/User/login')}">登录</a>
+                </notempty>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container"><!--container-->
+    <div class="tgTitle">秒杀活动进行中</div>
+    <!--<div class="filterbar-container"><div class="filter-bar J_sortTab"><ul class="sort-tab"><li class="droplist-trigger selected"><span class="text">综合排序<span class="bar"></span></span></li><li class="sort" data-value="_sale">销量优先<span class="bar"></span></li><li class="sort" data-value="_sale">价格优先<span class="bar"></span></li><li><div class="top-bar-e"><span id="J_Sift">筛选</span></div></li></ul></div>-->
+    <!--</div>-->
+    <div class="listAll">
+        <ul>
+            <volist name="data" id="list">
+                <li>
+                    <a href="{:U('Wap/Spike/detail')}?sp_id={$list['sp_id']}&gid={$list['g_id']}">
+                        <img src="{$Think.config.DOMAIN_HOST}{$list.sp_picture|showImage=###,280,280}" width="280" height="280">
+                        <php>$time = date("Y-m-d H:i:s");</php>
+                        <php>if($time <= $list['sp_start_time']){</php>
+                        <p id="showGroupTime{$list['sp_id']}" class="time_remain ">
+                            <label id="showText{$list['sp_id']}">距开始还有：</label>
+                            <label class="day">00</label>天
+                            <label class="hours">00</label>小时
+                            <label class="minutes">00</label>分
+                            <label class="seconds">00</label>秒
+                        </p>
+                        <script>setGroupbuyTime('{$list.sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$list.sp_end_time}',"{$list['sp_id']}","{$list['g_id']}");</script>
+                        <php>}elseif($time >= $list['sp_end_time']){</php>
+                        <p class=" time_remain">
+                            <label class="day">00</label>天
+                            <label class="hours">00</label>小时
+                            <label class="minutes">00</label>分
+                            <label class="seconds">00</label>秒
+                        </p>
+                        <php>}else{</php>
+                        <p id="showGroupTime{$list['sp_id']}" class="time_remain">
+                            剩余时间：<label class="day">00</label>天
+                            <label class="hours">00</label>小时
+                            <label class="minutes">00</label>分
+                            <label class="seconds">00</label>秒
+                        </p>
+                        <script>setGroupbuyTime('{$list.sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$list['sp_id']}","{$list['g_id']}");</script>
+                        <php>}</php>
+                        <p>{$list.sp_title|mb_substr=###,0,15,'utf-8'}</p>
+                        <p class="price">
+                            <!--<span>原价：<del>300元</del></span>-->
+                            <span>秒杀价：<i>{$list.sp_price|sprintf='%.2f',###}元</i></span>
+                        </p>
+                        <php>
+                            $remain = $list['sp_number'] - $list['sp_now_number'];
+                        </php>
+                        <p class="price"><i>{$list['sp_now_number']}</i>人已抢购 剩余：<i>{$remain}</i>件</p>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+</div>
+
+<div class="fenye">
+    <!--<a>&lt;&lt;上一页</a>-->
+    <!--<a href="javascript:void(0);" class="cur">1</a>-->
+    <!--<a href="javascript:void(0);">2</a>-->
+    <!--<a href="javascript:void(0);">3</a>-->
+    <!--<a>下一页&gt;&gt;</a>-->
+
+
+    <php>if($page['nowPage'] == 1){</php>
+    <a class="prev prev-disable" href="javascript:void(0)">上一页</a>
+    <php>}else{</php>
+    <a href="/Wap/Spike/Index" class="change">首页</a>
+    <a href="{$page.upUrl}" class="prev01">上一页</a>
+    <php>}</php>
+    <php>
+        $int_i = 1;
+        $totalPage = 0;
+        if($page['nowPage']<4 &&  $page['totalPage']>4){
+        $totalPage = 4;
+        }else if($page['nowPage']<4 &&  $page['totalPage']<=4){
+        $totalPage = $page['totalPage'];
+        }
+        if($page['nowPage'] >=2){
+        $minPage = $page['totalPage'] - $page['nowPage'];
+        if($minPage <3){
+        $totalPage = $page['totalPage'];
+        $int_i = $page['totalPage']-3;
+        }else{
+        $totalPage = $page['nowPage']+1;
+        $int_i = $page['nowPage']-1;
+        }
+        if($int_i <= 0){
+        $int_i = 1;
+        }
+        }
+        for($i=$int_i;$i<=$totalPage;$i++){
+        if($i>0){
+        if($i == $page['nowPage']){
+        echo "<a class='cur'>".$i."</a>";
+        }else{
+        if($i > $page['nowPage']){
+        $url = '/Wap/Spike?p='.$i;
+        echo "<a href=".$url.">".$i."</a>";
+        }else{
+        $url = '/Wap/Spike?p='.$i;
+        echo "<a href=".$url.">".$i."</a>";
+        }
+        }
+        }
+        }
+    </php>
+    <php>if($page['nowPage'] == $page['totalPage']){</php>
+    <a class="next next-disable" href="javascript:void(0)">下一页<i class="icon"></i></a>
+    <php>}</php>
+    <php>if($page['nowPage'] < $page['totalPage']){</php>
+    <a href="{$page.downUrl}" class="next">下一页</a>
+    <php>
+        $lastpage = '/Wap/Spike/index?p='.$page['totalPage'];
+    </php>
+    <a href="{$lastpage}" class="change">尾页</a>
+    <php>}</php>
+</div>

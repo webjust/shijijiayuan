@@ -1,0 +1,141 @@
+<link href="__PUBLIC__/Ucenter/css/Distribution.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.rightInner{ border: 1px solid #d7d7d7; border-bottom-width: 2px; clear: both; position: relative;  width: 100%; min-height: 40px; min-width: 1020px; height: auto; padding-bottom: 8px; margin-bottom: 3px;overflow:auto;}
+.rightInner a.green,.green{ color: green}
+.rightInner a.red,.red,.rightInner a.btnR{ color: #FF0000;}
+.rightInner .left, td.left,.tbList tbody tr td.left{ text-align: left;}
+.rightInner .right{ float: right; display: inline-block;}
+.rightInner .page{ margin-right: 10px;}
+.rightInner .larger{font-size: 1.1em;}
+.rightInner .bolder{ font-weight: bold;}
+.tbForm{ position: relative;}
+.tbInner{} /*表单或列表中嵌套的小表格*/
+
+.tbList thead tr th,.tbForm thead tr th{ height: 22px; font-size: 14px; color: #333; text-align: center; background: #ececec; white-space: nowrap; font-weight: normal; border: 1px solid #d7d7d7; padding: 3px 15px;}
+.tbList thead tr.title th,.tbForm thead tr.title th{background-image:url('../images/listTwoToptdbj.jpg'); height: 30px; text-align: left;}
+.tbList tbody tr td{ padding: 5px 5px; line-height: 140%; border:1px solid #d7d7d7;text-align: center; word-break:break-all;}
+.tbList tbody tr td span{ text-align: center; overflow: hidden; white-space:nowrap;  display:inline-block;}
+
+.tbList tbody tr:hover td,.tbInner tr:hover td{ background-color: #ececec;}
+.tbList tfoot tr td{ padding: 10px 5px 2px 15px;}
+.tbList tbody.nohover tr:hover td{ background-color: #fff;}
+/* 分页样式开始 */
+.page  a { background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #E3E3E3; color: #333333; display: inline-block; height: 22px; line-height: 22px; padding: 0 3px; text-align: center;}
+.page  a.a1 { background: url("../images/pages.png") no-repeat scroll 0 5px transparent; padding: 0;}
+.page  a:hover { background: none repeat scroll 0 0 #F1F1F1; color: #000000; text-decoration: none;}
+.page .current{ background: none repeat scroll 0 0 #5A85B2; border: 1px solid #5A85B2; color: #FFFFFF; display: inline-block; height: 22px; line-height: 22px; padding: 0 10px; text-align: center;}
+</style>
+<div id="alert_div" style="display:none;">
+    <!-- ajax发送前的等待页面 -->
+    <div id="ajaxsenddiv">
+		<div id="ajaxsenddiv_loading"><img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/images/loading_crcle.gif">提交中请稍候...</div>
+    </div>
+</div>
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>第三方店铺管理</span></h2>
+
+    <div class="myOrder shopManage" style="min-height: 400px;">
+        <p class="Ptop">
+            <a href="{:U('Ucenter/Distribution/AddThdShop')}" class="blue">添加淘宝店铺</a>
+			<a href="{:U('Ucenter/Distribution/AddThdShop')}?type=3" class="blue">添加京东店铺</a>
+			<a href="{:U('Ucenter/Distribution/synAddShop?pf=paipai')}" class="blue">添加拍拍店铺</a>
+        </p>
+        <table class="tableCon">
+            <thead>
+                <tr>
+                    <td width="40"><input type="checkbox"></td>
+                    <td width="226">店铺名称</td>
+                    <td width="160">店铺类型</td>
+                    <td width="250">添加时间</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="shops" id="shop">
+                <tr>
+                    <td width="40"><input type="checkbox"></td>
+                    <td width="226">{$shop.ts_title}</td>
+                    <td width="160"><switch name="shop.ts_source" ><case value="2">拍拍店</case><case value="3">京东店</case><default />淘宝店</switch></td>
+                    <td width="250">{$shop.ts_modified}</td>
+                    <td>
+                        <!--<a href='{:U("Ucenter/Distribution/doDelThdShop?id=$shop[ts_id]")}' class="wordBlue" onclick="javascript:if(!confirm('是否删除?')){return false;}">删除</a>|-->
+						<if condition="$shop.ts_source eq '1'">
+                        <a int_thd_shopid="{$shop.ts_id}" class="synStore_single_button wordBlue" title="提供全部可供同步的列表，有选择的同步商品">手动同步</a>
+						</if>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+            <tfoot>
+                <tr >
+                    <td colspan="99">
+                        <span style="float: right;width: 45%;">{$page}</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+	<div class="quickOrderFenCon" id="goodsSelect"><!--quickOrderFenCon   start--->
+		   
+        </div>
+</div>
+<!--弹出同步价格和库存子页面-->
+<!--
+<div id="synStore" style="display: none;">
+    <iframe id="synFrame" src="{!$WEBENTRY!}/ucenter/distirbution/synstore/showAlert/" style="width: 570px; height: 300px; border: 0; margin: 0px; padding: 0px;" ></iframe>
+</div>-->
+<!--同步价格和库存子页面结束-->
+<script type="text/javascript">
+$(function(){
+     $('#goodsSelect').dialog({
+		resizable:false,
+		autoOpen: false,
+		modal: true,
+		width: '1100px',
+		buttons: {
+			'关闭': function() {
+				$( this ).dialog( "close" );
+			}
+			}
+	});
+    //同步商品库存和价格弹出窗
+     $(".synStore_single_button").click(function(){
+                var shopID = $(this).attr('int_thd_shopid');
+                if(typeof shopID == 'undefined' || shopID == ''){
+                     alert('商品数据不完全，请去重新授权');
+                     return false;
+                }
+                $.ajax({
+			         url:"{:U('Ucenter/Distribution/doSynList')}",
+			         type:'POST',
+			         dataType:'html',
+			         cache:false,
+			         data:{shopID:shopID},
+			         beforeSend:function(){
+                    $('#ajaxsenddiv_loading').dialog({
+			             height:'auto',
+                        width:400,
+			             modal:true,
+			             title:'提示：',
+					   close:function (){
+						  $("#ajaxsenddiv_loading").dialog('destroy');
+						  $('#ajaxsenddiv').append($('#ajaxsenddiv_loading'));
+					   }
+			         });
+			     },
+			     success: function(htm) {
+				        $("#ajaxsenddiv_loading").dialog("close");
+			            $('#goodsSelect').html(htm);
+				        $("#goodsSelect").dialog("open");
+				
+			     },
+			     error: function(json) {
+			         $("#ajaxsenddiv_loading").dialog("close");
+				        alert('提交超时！');
+			     }
+		      });
+                
+                
+        });
+});
+</script>

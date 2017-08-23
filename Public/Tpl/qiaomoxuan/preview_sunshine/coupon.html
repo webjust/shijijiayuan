@@ -1,0 +1,86 @@
+<link href="__CSS__coupon.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<!--中间内容  开始-->
+<div class="warp">
+    <div class="content">
+    	<div class="coupon"><!--coupon  start-->
+        	<div class="cash">
+            	<h2>现金券：</h2>
+                <ul>
+                    <volist name="xjList" id="list">
+                    <li <notempty name="list.is_receive">class="hReceive"</notempty>>
+                        <p class="price"><span>&yen;</span><strong>{$list.c_money}</strong></p>
+                        <p class="con">适用范围：{$list.group}</p>
+                        <p class="con">使用条件：{$list.c_condition_money|default="无"}</p>
+                        <p class="con">有 效 期：<php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+                        <p class="bot"><span>{$list.c_name}</span>
+                            <if condition="$list.is_receive eq '1'">
+                            <label>已领用</label>
+                            <else/>
+                            <a href="javascript:void();" class="click_receive" cname="{$list.c_name}" >点击领取</a>
+                            </if>
+                        </p>
+                    </li>
+                    </volist>
+                </ul>
+            </div>
+            
+            <div class="cash">
+            	<h2>折扣券：</h2>
+                <ul>
+                    <volist name="zkList" id="list">
+                    <li <notempty name="list.is_receive">class="hReceive"</notempty>>
+                        <p class="price yellowColor"><strong><php>echo $list['c_money']*10;</php></strong><code>折</code></p>
+                        <p class="con">适用范围：{$list.group}</p>
+                        <p class="con">使用条件：{$list.c_condition_money|default="无"}</p>
+                        <p class="con">有 效 期：<php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+                        <p class="bot discount"><span>{$list.c_name}</span>
+                            <if condition="$list.is_receive eq '1'">
+                            <label>已领用</label>
+                            <else/>
+                            <a href="javascript:void();" class="click_receive" cname="{$list.c_name}" >点击领取</a>
+                            </if>
+                        </p>
+                    </li>
+                    </volist>
+                </ul>
+            </div>
+        </div><!--coupon  end-->
+    </div>
+</div>
+<!--中间内容  结束-->
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script type="text/javascript">
+$(".click_receive").click(function(){
+    var obj = $(this),
+    cname = obj.attr("cname");
+	$.ajax({
+		url:'/Home/Coupon/getReceive',
+        cache:false,
+        dataType:"json",
+		type:'POST',
+		data:{
+			cname:cname
+		},
+		success:function(msgObj){
+            if(msgObj.status == 1){
+                //$.ThinkBox.success(msgObj.message);
+                obj.parent().parent('li').addClass('hReceive');
+                obj.parent().append('<i></i>');
+                obj.html('<label>已领用</label>');
+            }else{
+                $.ThinkBox.error(msgObj.message);
+            }
+		}
+	}); 
+});
+</script>
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>

@@ -1,0 +1,126 @@
+<div class="rightInner">
+    <form id="spec_form" name="spec_form" method="post" action="{:U('Admin/GoodsProperty/doAddSpec')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">商品属性添加</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">属性名称：</td>
+                    <td>
+                        <input type="text" name="spec[gs_name]" id="gs_name" class="medium" value="" /> <br> 
+                    </td>                    
+                     <td class="last">请输入属性名称，同一商品类型下，不能出现相同名称的商品属性。</td>
+                </tr>
+				<tr>
+                    <td class="first">所属商品类型：</td>
+                    <td>
+						<volist name="array_type_info" id="type">
+						<span style="margin-right:15px;">
+							<input type="checkbox" name="gt_id[]" id="goods_type_id{$type.gt_id}" value="{$type.gt_id}" <if condition="$type.gt_id eq $int_gt_id">checked="checked"</if> style="vertical-align:middle;" />
+							<label for="goods_type_id{$type.gt_id}" style="vertical-align:middle;">{$type.gt_name}</label>
+						</span>
+						</volist>
+					</td>                    
+                     <td class="last"></td>
+                </tr>
+				<tr>
+                    <td class="first">排序：</td>
+                    <td>
+						<input type="text" name="spec[gs_order]" class="medium" value="0" />
+					</td>                    
+                    <td class="last">请填入一个数字，数字越小越靠前。</td>
+                </tr>
+				<if condition="$int_gt_type neq 1">
+                <tr>
+                    <td class="first">是否是销售属性：</td>
+                    <td>
+                        <input type="checkbox" id="gs_is_sale_spec" name="spec[gs_is_sale_spec]" value="1" />
+                    </td>
+					<td class="last">勾选表示此属性是销售属性！</td>
+                </tr>
+				</if>
+                <tr>
+                    <td class="first">属性值录入方式：</td>
+                    <td>
+                        <input type="radio" name="spec[gs_input_type]" value="1" checked="checked" id="gs_input_type_1" />
+						<label for="gs_input_type_1" title="单行文本框">手工录入</label>
+						<input type="radio" name="spec[gs_input_type]" value="2" id="gs_input_type_2" />
+						<label for="gs_input_type_2" title="设置商品属性时显示为下拉选框">从下面的列表中选择</label>
+						<input type="radio" name="spec[gs_input_type]" value="3" id="gs_input_type_3" />
+						<label for="gs_input_type_3" title="适合以一段文字的形式描述商品的某个属性">多行文本框</label>
+						<if condition="$int_gt_type eq 1">
+						<input type="radio" name="spec[gs_input_type]" value="4" id="gs_input_type_4" />
+						<label for="gs_input_type_4" title="以评分的形式提现">评分</label>
+						</if>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				<tr id="good_spec_value_select_2" style="display:none;">
+					<td class="first">可选值列表：</td>
+                    <td>
+                        <textarea name="spec_values" style="width:400px;height:140px;"></textarea>
+                    </td>
+					<td class="last" style="color:#ff0000;">*多个属性值以换行分隔，属性值在此属性中必须唯一！</td>
+				</tr>
+				<tr style="border:1px solid #ff0000;" title="此项只是演示，添加属性时不需要处理此字段。">
+                    <td class="first">属性值的录入展示形式：</td>
+                    <td id="good_spec_style">
+                        <input type="text" name="" class="medium" id="input_style_1" value="请填入属性值......" readonly="readonly" />
+                        <select name="" id="input_style_2" readonly="readonly" style="display:none;">
+							<option value="xxx" disabled="disabled">以服装尺码为例：SL码</option>
+							<option value="xxx" disabled="disabled">以服装尺码为例：L码</option>
+							<option value="xxx" disabled="disabled">以服装尺码为例：XL码</option>
+							<option value="xxx" disabled="disabled">以服装尺码为例：XXL码</option>
+						</select>
+                        <textarea name="" id="input_style_3" style="display:none;width:300px;height:60px;" readonly="readonly">请填入属性值......</textarea>
+                    </td>
+					<td class="last" style="color:#ff0000;">*添加或者修改商品时，此属性值的录入方式将以左侧显示的方式呈现，演示而已不用做处理。</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="dosubmit" value="1" /> 
+						<input type="hidden" name="jump" id="pageJumpType" value="1" /> 
+                        <input type="submit" value="保 存" jump="0" class="btnA" />
+                        <input type="submit" value="添加同类属性" jump="1" class="btnA" />
+                        <input type="button" value="取 消" onClick="onUrl('/Admin/GoodsType/pageList');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("input[type='submit']").click(function(){
+		$("#pageJumpType").val($(this).attr("jump"));
+	});
+	//表单验证
+	$("#spec_form").validate();
+	//是否是销售属性
+	$("#gs_is_sale_spec").click(function(){
+		if(this.checked){
+			$("#gs_input_type_1,#gs_input_type_3").attr({'disabled':'disabled'});
+			$("#gs_input_type_2").attr({"checked":"checked"});
+			$("#input_style_1,#input_style_3").hide();
+			$("#input_style_2,#good_spec_value_select_2").show();
+		}else{
+			$("#gs_input_type_1,#gs_input_type_2,#gs_input_type_3").removeAttr('disabled');
+		}
+	});
+	//显示方式切换
+	$("#gs_input_type_1,#gs_input_type_2,#gs_input_type_3,#gs_input_type_4").click(function(){
+		if(this.checked){
+			var value= $(this).val();
+			$("#input_style_1,#input_style_2,#input_style_3,#good_spec_value_select_2").hide();
+			$("#input_style_" + value + ',#good_spec_value_select_' + value).show();
+			
+		}
+	});
+});
+</script>

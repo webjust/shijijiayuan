@@ -1,0 +1,123 @@
+{__NOLAYOUT__}
+<table class="tbForm" width="100%;">
+	<tbody>
+		<tr>
+			<td class="first">订单号：</td>
+			<td align="left">{$ary_data.o_id}</td>
+		</tr>
+		<tr>
+			<td class="first">退货单号：</td>
+			<td align="left">{$ary_data.or_return_sn}</td>
+		</tr>
+		<tr>
+			<td class="first">退货物流单号：</td>
+			<td align="left">{$ary_data.or_return_logic_sn}</td>
+		</tr>
+        <tr>
+			<td class="first">退货理由：</td>
+			<td align="left">{$ary_data.or_reason}</td>
+		</tr>
+		<tr>
+			<td class="first">买家备注：</td>
+			<td align="left">{$ary_data.or_buyer_memo}</td>
+		</tr>
+        <noempty name="ary_data.or_refunds_type">
+            <tr>
+                <td class="first">退款至：</td>
+                <td align="left">
+                    <if condition="$ary_data['or_refunds_type'] eq 1" >
+                        预存款
+                        <elseif condition="$ary_data['or_refunds_type'] eq 2"/>
+                        指定账户
+                        <elseif condition="$ary_data['or_refunds_type'] eq 3"/>
+                        原路返回
+                </td>
+                </if>
+            </tr>
+        </noempty>
+		<tr>
+			<td class="first">凭证：</td>
+			<td><noempty name="ary_data.or_picture"> <a
+				href="{$ary_data.or_picture}"><font color="green">下载凭证</font></a></noempty></td>
+		</tr>
+		<tr>
+			<td class="first">是否已发货：</td>
+			<td align="left">
+            <if condition="$ary_data.is_delivery eq '0'"><font color="green">未发货</font><else/><font color="green">已发货</font></if> 
+            </td>
+		</tr>
+		<tr>
+			<td class="first">是否已收到货：</td>
+			<td align="left"><if condition="$ary_data.is_received eq '0'"><font color="green">未收到货</font><else/><font color="green">已收到货</font></if>
+			</if></td>
+		</tr>
+		<tr>
+			<td class="first">会员名：</td>
+			<td align="left">{$ary_data.m_name}</td>
+		</tr>
+		<tr>
+			<td class="first">申请退货金额：</td>
+			<td align="left">{$ary_data.or_money}</td>
+		</tr>
+        <if condition="$ary_data.or_seller_memo neq ''">
+        <tr>
+			<td class="first">管理员备注：</td>
+			<td align="left">
+				{$ary_data.or_seller_memo}
+			</td>
+		</tr>
+        </if>
+		<tr>
+			<td class="first">状态：</td>
+			<td align="left"><if
+				condition="$ary_data.or_processing_status eq '2'"> <font
+				color="red">已作废</font> <else /> <if
+				condition="$ary_data.or_service_verify eq '1'"> <font
+				color="green">已客审</font> <else /> 未客审 </if> &nbsp;&nbsp; <if
+				condition="$ary_data.or_finance_verify eq '1'"> <font
+				color="green">已财审</font> <else /> 未财审 </if> </if></td>
+		</tr>
+        <noempty name="ary_data.or_refuse_reason">
+            <tr>
+                <td class="first">作废理由：</td>
+                <td align="left">
+                    {$ary_data.or_refuse_reason}
+                </td>
+            </tr>
+        </noempty>
+		<tr>
+			<td class="first">申请退货日期：</td>
+			<td align="left">{$ary_data.or_create_time}</td>
+		</tr>
+		<tr>
+			<td class="first">退货单更改日期：</td>
+			<td align="left">{$ary_data.or_update_time}</td>
+		</tr>
+        <present name="ary_gs_data">
+          <volist name="ary_gs_data" id="ary_data">
+                <if condition="$ary_data.gs_input_type eq '1'">
+                <tr>
+			         <td class="first">{$ary_data.gs_name}：</td>
+                     <td align="left">
+			             	{$ary_data.content}
+			         </td>
+	           	</tr>
+                <elseif condition="$ary_data.gs_input_type eq '2'"/>
+                <tr>
+			         <td class="first">{$ary_data.gs_name}：</td>
+                     <td align="left">
+                            <a href='{:U("Admin/Orders/packageDownload","gs_id=$key&or_id=$ary_data[or_id]")}' style="cursor: pointer;color:blue;">下载数据包</a>
+		             </td>
+	           	</tr>
+                <elseif condition="$ary_data.gs_input_type eq '3'"/>
+                <tr>
+			         <td class="first">{$ary_data.gs_name}：</td>
+                     <td align="left">
+			             	{$ary_data.content}
+			         </td>
+	           	</tr>
+                </if>
+          </volist> 
+       </present>
+	</tbody>
+</table>

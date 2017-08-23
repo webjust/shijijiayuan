@@ -1,0 +1,46 @@
+<div class="rightInner tableColor">
+    <table width="100%" class="tbList" >
+        <thead>
+            <tr class="title">
+                <th style="text-align:right;font-size: 12px;" colspan="99">
+                    <form id="searchForm" method="post" href='{:U("Admin/Recources/pageList")}'>
+                        回收单位名称：
+                        <input type="text" value="" name="rc_name" class="large">
+                        <input class="btnHeader inpButton" type="submit" value="搜 索">
+                    </form>
+                </th>
+            </tr>
+            <tr>
+                <th>回收单位编号</th>
+                <th>回收单位名称</th>
+                <th>简称</th>
+                <th>负责人</th>
+                <th>联系电话</th>     
+                <th>E-Mail</th>     
+                <th>备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_data" id="rc">
+            <tr> 
+                <td>{$rc.cru_sn}</td>
+                <td>{$rc.cru_name}</td>
+                <td>{$rc.cru_abbreviation}</td>
+                <td>{$rc.cru_person}</td>
+                <td>{$rc.cru_phone}</td>
+                <td>{$rc.cru_email}</td>
+                <td>{$rc.cru_remark}</td>
+            </tr>
+            </volist>
+            <empty name="ary_brand">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

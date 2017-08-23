@@ -1,0 +1,192 @@
+{__NOLAYOUT__}
+<empty name="page_detail.gid">
+商品已下架或不存在<php>die;</php>
+</empty>
+<eq name="page_detail.authorize" value="0">
+    (＞﹏＜)您无权购买本商品！<php>die;</php>
+</eq>
+					
+<volist name="page_detail.ary_goods_spec_list" id="goods_spec" key="k">
+<li class="spec_list" style="list-style:none">
+	<dl class="sku_good">
+		<dt>{$goods_spec.gs_name}：</dt>
+		<dd id="sku{$goods_spec.gs_id}_{$k}">				
+			<volist name="goods_spec.gs_details" id="gs_detail" key="gskk">
+				<php>
+					$gsd_type = 'text';
+					$va = strpos($gs_detail['gsd_value'],'|');
+					if($va){
+						$gsdinfos = explode('|', $gs_detail['gsd_value']);
+						$gsd_value = $gsdinfos[0];
+						$gsd_info = $gsdinfos[1];
+						$gsd_type = 'img';
+					}else{
+						$gsd_value = $gs_detail['gsd_value'];
+					}
+				</php>
+				<a href="javascript:void (0);" onclick="specSelect(this);" name="{$gsd_value}" data-value="{$gs_detail.gsd_id}"
+					<if condition="$gsd_type eq 'img'"> style="height:30px;"</if>
+					 >
+					<if condition="$gsd_type eq 'img'">
+						<img src="{$Think.config.DOMAIN_HOST}{$gsd_info}" width="30" height="30" title="{$gsd_name}"/>
+						<else/>
+						{$gsd_value}
+					</if>
+				</a>
+			</volist>										
+		</dd>
+	</dl>
+</li>
+</volist>
+	<ul>
+		<li class="num">
+			<dl>
+				<dt>数 量：</dt>
+				<dd>
+					<span  class="addReduce">
+						<a href="javascript:void('');" onclick="countNum(1)" class="a01 num-icon add" style="border:none"></a>
+						<input type="text" id="item_num" name="num" max="{$max_buy_number|default=0}" value="1">
+						<a href="javascript:void('');" onclick="countNum( - 1)" class="a02 num-icon reduce" style="border:none"></a>
+					</span>件&nbsp;&nbsp;&nbsp;
+					<php>if (!GLOBAL_STOCK) {</php>
+					库存:
+					<if condition="$stock_data['OPEN_STOCK'] EQ 1 and $stock_data['level'] neq '' ">
+						<if condition="$page_detail['gstock'] elt 0" >
+						<label><strong id="showNum">缺货</strong></label>
+						<elseif condition="$page_detail['gstock'] gt 0 && $page_detail['gstock'] elt $stock_data['STOCK_NUM']" />
+						<label><strong id="showNum">供货紧张</strong></label>
+						<elseif condition="$page_detail['gstock'] gt $stock_data['STOCK_NUM']" />
+						<label><strong id="showNum">充足</strong></label>
+						</if>
+					<else/>
+						<label id="showNum">{$page_detail.gstock}</label>
+					</if>
+					<input type="hidden" value="0" id="is_global_stock" />
+					<php>}</php>
+					<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+					<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+					<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+					<input type="hidden" name="type" value="item" id="item_type" />
+					<input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_id}" name="pdt_id" id="pdt_id" />
+					<input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_stock}" name="pdt_stock" id="pdt_stock" />
+					<input type="hidden" value="{$max_buy_number|default=0}" name="max_buy_number" id="max_buy_number" />
+				</dd><div style="clear:both"></div>
+			</dl>
+		</li>
+	</ul>
+<script type="text/javascript">
+    var fuzzy_stock_open = parseInt('{$stock_data.OPEN_STOCK}');
+    var fuzzy_stock_level = parseInt('{$stock_data.level}');
+
+    var warning_stock_num = parseInt("{$stock_data['STOCK_NUM']}");
+    var json_goods_pdts = JSON.parse('{$page_detail.json_goods_pdts|json_encode}');
+    console.log(json_goods_pdts);
+	//页面初始化操作
+	getPdtBySpecSelect();
+
+	//点击规格属性时触发，变更规格选中项，
+	//并调用getPdtBySpecSelect方法重新获取货品信息
+	function specSelect(dom) {
+        var _class_name = $(dom).attr('class');
+        if(_class_name == 'on') {
+            _class_name = '';
+        }else{
+            _class_name = 'on';
+            $(dom).siblings('a.on').attr('class','');
+        }
+        $(dom).attr('class', _class_name);
+		var _this = jQuery(dom);
+		$("#main_pic").attr("src",_this.find("img:first").attr("src"));
+		$("#main_pic").attr("jqimg",_this.find("img:first").attr("src"));
+		getPdtBySpecSelect();
+    }
+
+	//根据当前规格的选中状态获取对应的货品信息
+    function getPdtBySpecSelect() {
+
+		//检测是否所有的销售属性都有选中
+        var _select_result = allSpecSelectedCheck();
+		var _select_all = _select_result[0];
+		var _gsd_arr = _select_result[1];
+
+		if(_select_all) {
+            if(_gsd_arr.length > 0) {
+                var _gsd_joint_with_underline = _gsd_arr.join('_');
+                var _pdt = json_goods_pdts[_gsd_joint_with_underline];
+                if (_pdt.g_id) {
+                    var _pdt_stock = _pdt.pdt_stock;
+                    if (fuzzy_stock_open > 0 && fuzzy_stock_level > 0) {
+                        if (_pdt_stock == 0) {
+                            _pdt_stock = '缺货';
+                        } else if (_pdt_stock < warning_stock_num) {
+                            _pdt_stock = '供货紧张';
+                        } else {
+                            _pdt_stock = '充足';
+                        }
+                    }
+				if (_pdt_stock == 0) {
+					$("#item_num").val(0);
+				} else if (_pdt_stock < warning_stock_num) {
+					if(_pdt.pdt_min_num>1){
+						$("#item_num").val(_pdt.pdt_min_num);
+						$("#item_num").data("min",_pdt.pdt_min_num);
+						$("#item_num").data("current",_pdt.pdt_min_num);
+					}else{
+						$("#item_num").val(1);
+					}
+				} else {
+					if(_pdt.pdt_min_num>1){
+						$("#item_num").val(_pdt.pdt_min_num);
+						$("#item_num").data("min",_pdt.pdt_min_num);
+						$("#item_num").data("current",_pdt.pdt_min_num);	
+					}else{
+						$("#item_num").val(1);
+					}
+				}					
+                    var _pdt_id = _pdt.pdt_id;
+                    var _pdt_sale_price = _pdt.pdt_sale_price;
+                    var _pdt_market_price = _pdt.pdt_market_price;
+                    var _discount_amount = (_pdt_market_price - _pdt_sale_price).toFixed(2);
+                    var _discount = (_pdt_sale_price / _pdt_market_price * 10).toFixed(1);
+                    console.log(_pdt_sale_price);
+                    $('#pdt_id').val(_pdt_id);
+                    $('#pdt_stock').val(_pdt_stock);
+                    $('#showNum').html(_pdt_stock);
+                    $('#showPrice').length && $('#showPrice').html(_pdt_sale_price);
+                    $('#showMarketPrice').length && $('#showMarketPrice').html(_pdt_market_price);
+                    $('#savePrice').length && $('#savePrice').html(_discount_amount);
+                    $('#discountPrice').length && $('#discountPrice').html(_discount);
+                }
+            }
+            return false;
+		}
+		//如果有销售属性没有被选中，或选中的规格商品不存在，
+		//则将隐藏域中的货品id和库存设为0，禁止购买
+		$('#pdt_id').val(0);
+		$('#pdt_stock').val(0);
+		//$('#showNum').html(0);
+		//$('#showPrice').length && $('#showPrice').html(0.00);
+		//$('#showMarketPrice').length && $('#showMarketPrice').html(0.00);
+		//$('#savePrice').length && $('#savePrice').html(0.00);
+		//$('#discountPrice').length && $('#discountPrice').html(0.00);
+    }
+
+	//检测是否所有的销售属性都有选中，返回选中状态，和选中的值
+	function allSpecSelectedCheck() {
+		var _gsd_arr = [];
+		var _select_all = true;
+		$('li.spec_list').each(function(){
+            var _selected_spec = $(this).find('a.on');
+            if(_selected_spec.length) {
+                var gsd_id = _selected_spec.attr('data-value');
+				_gsd_arr.push(gsd_id);
+            }else{
+				_select_all = false;
+				return false
+			}
+        });
+
+		//$result = _select_all ? _gsd_arr : _select_all;
+		return [_select_all, _gsd_arr];
+	}
+</script>

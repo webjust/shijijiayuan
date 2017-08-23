@@ -1,0 +1,139 @@
+<div id="main"><div class="warp"><div><div><div class="content1000"><div class="banner area"><div class="indexcss blocss"><div class="col"><div class="index_show_html block hold edit" block-dat='{"imagecontent":{"2":"/Public/Tpl/qiaomoxuan/blue/demo/img01.png","4":"/Public/Tpl/qiaomoxuan/blue/demo/img02.png","6":"/Public/Tpl/qiaomoxuan/blue/demo/img01.png","8":"/Public/Tpl/qiaomoxuan/blue/demo/img02.png","10":"/Public/Tpl/qiaomoxuan/blue/demo/img01.png"}}'><div class="container" id="main1"><ul class="slider" id="Lb_show"><li><a href="#" target="_blank" edit-name="图片1链接" linkcontent-editable="true" content-num="1"><img src="/Public/Tpl/qiaomoxuan/blue/demo/img01.png" edit-name="展示图片1" imagecontent-editable="true" content-num="2" imagestyle-editable="true" style-num="1"></a></li><li><a href="#" target="_blank" edit-name="图片2链接" linkcontent-editable="true" content-num="3"><img src="/Public/Tpl/qiaomoxuan/blue/demo/img02.png" edit-name="展示图片2" imagecontent-editable="true" content-num="4" imagestyle-editable="true" style-num="1"></a></li><li><a href="#" target="_blank" edit-name="图片3链接" linkcontent-editable="true" content-num="5"><img src="/Public/Tpl/qiaomoxuan/blue/demo/img01.png" edit-name="展示图片3" imagecontent-editable="true" content-num="6" imagestyle-editable="true" style-num="1"></a></li><li><a href="#" target="_blank" edit-name="图片4链接" linkcontent-editable="true" content-num="7"><img src="/Public/Tpl/qiaomoxuan/blue/demo/img02.png" edit-name="展示图片4" imagecontent-editable="true" content-num="8" imagestyle-editable="true" style-num="1"></a></li><li><a href="#" target="_blank" edit-name="图片5链接" linkcontent-editable="true" content-num="9"><img src="/Public/Tpl/qiaomoxuan/blue/demo/img01.png" edit-name="展示图片5" imagecontent-editable="true" content-num="10" imagestyle-editable="true" style-num="1"></a></li></ul></div></div></div><ul class="num" id="Lb_button"><li class=""><a href="#" target="_blank"></a></li><li class=""><a href="#" target="_blank"></a></li><li class=""><a href="#" target="_blank"></a></li><li class="on"><a href="#" target="_blank"></a></li><li class=""><a href="#" target="_blank"></a></li></ul></div></div><div class="area"><div class="col"><div class="mainCon"><div class="mainConL"><div class="show_common_html"><div class="news"><p><span onmouseover="setTab('navS',1,2)" id="navS1" class="">品牌资讯</span><span onmouseover="setTab('navS',2,2)" id="navS2" class="onHover">最新快报</span></p><div style="display: none;" block-dat='{"cid":"2","num":"4","textcontent":{},"imagecontent":{},"linkcontent":{}}' class="index_article_list block" id="con_navS_1">
+    <Gyfx:article name="art" cid="2" num="4">
+        <volist name="art" id="artinfo">
+        <a href="{$artinfo.aurl}">{$artinfo.atitle}</a>
+        </volist>
+    </Gyfx:article>
+</div><div style="display: block;" block-dat='{"num":"4","textcontent":{},"imagecontent":{},"linkcontent":{}}' class="index_notice_list block" id="con_navS_2">
+    <gyfx:notice name="note" num="4">
+    <a href="{$note.pnurl}">{$note.pntitle}</a>
+    </gyfx:notice>
+</div></div></div><p class="block"><a href="#" edit-name="广告图链接" linkcontent-editable="true" content-num="1"><img src="/Public/Tpl/qiaomoxuan/blue/demo/pic01.png" width="220" height="165" edit-name="广告图" imagecontent-editable="true" content-num="2" imagestyle-editable="true" style-num="1"></a></p></div><div class="mainConR"><div class="mainConRA"><p><span onmouseover="setTab('navSt',1,5)" id="navSt1" class="">新品专区 </span><span onmouseover="setTab('navSt',2,5)" id="navSt2" class="">热销排行</span><span onmouseover="setTab('navSt',3,5)" id="navSt3" class="onHover">推荐专区</span><span onmouseover="setTab('navSt',4,5)" id="navSt4" class="">特价专区</span><span onmouseover="setTab('navSt',5,5)" id="navSt5" class="">猜你喜欢</span></p><div class="products" id="con_navSt_1" style="display:none;"><div block-dat='{"num":"4","show_name":"1","show_pic":"1","price":{"market_price":{"show":"市场价:￥"},"sale_price":{"show":"￥："},"save_price":{},"discount_price":{}},"a":100,"g_nums":"15","g_instead":"...","textcontent":{"1":"新品专区"},"imagecontent":{"10":"/Public/Tpl/sntugbw1/haixin/demo/prod.png"}}' class="index_product_list_H block" id="">
+<div class="products" id="con_navSt_1" >
+    <ul>
+        <Gyfx:goodslist name="showlist" num="4" cid="" startprice="" gname="" gsn="" endprice="" tid="" bid="" hot="" new="" order="" column="" market_price="市场价:￥" sale_price="￥：" save_price="" discount_price="" a="100" show_name="1" show_pic="1" g_nums="15" g_instead="...">
+            <php>if($key<8){</php>
+            <li>
+                <if condition="$showlist['show_pic'] eq 1">
+                <a href="{$showlist.gurl}"><img src="{$showlist.gpic}" width="185px" height="185px"/></a>
+                </if>
+                <if condition="$showlist['sale_price'] neq ''">
+                <strong>RMB<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                 </if>
+                <if condition="$showlist['show_name'] eq 1">
+                <a href="{$showlist.gurl}" class="proN">{$showlist.gname}</a>
+                </if>
+            </li>
+            <php>}</php>
+        </Gyfx:goodslist>
+    </ul>
+</div>
+</div></div><div class="products" id="con_navSt_2" style="display: none;"><div block-dat='{"num":"4","show_name":"1","show_pic":"1","price":{"market_price":{"show":"市场价:￥"},"sale_price":{"show":"￥："},"save_price":{},"discount_price":{}},"a":100,"g_nums":"15","g_instead":"...","textcontent":{"1":"热销排行"},"imagecontent":{"10":"/Public/Tpl/sntugbw1/haixin/demo/prod.png"}}' class="index_product_list_I block" id="">
+<div class="products" id="con_navSt_2" >
+    <ul>
+        <Gyfx:goodslist name="showlist" num="4" cid="" startprice="" gname="" gsn="" endprice="" tid="" bid="" hot="" new="" order="" column="" market_price="市场价:￥" sale_price="￥：" save_price="" discount_price="" a="100" show_name="1" show_pic="1" g_nums="15" g_instead="...">
+            <php>if($key<8){</php>
+            <li>
+                <if condition="$showlist['show_pic'] eq 1">
+                <a href="{$showlist.gurl}"><img src="{$showlist.gpic}" width="185px" height="185px"/></a>
+                </if>
+                <if condition="$showlist['sale_price'] neq ''">
+                <strong>RMB<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                </if>
+                <if condition="$showlist['show_name'] eq 1">
+                <a href="{$showlist.gurl}" class="proN">{$showlist.gname}</a>
+                </if>
+            </li>
+            <php>}</php>
+        </Gyfx:goodslist>
+    </ul>
+</div>
+</div></div><div class="products" id="con_navSt_3" style="display: block;"><div block-dat='{"num":"4","show_name":"1","show_pic":"1","price":{"market_price":{"show":"市场价:￥"},"sale_price":{"show":"￥："},"save_price":{},"discount_price":{}},"a":100,"g_nums":"15","g_instead":"...","textcontent":{"1":"推荐专区"},"imagecontent":{"10":"/Public/Tpl/sntugbw1/haixin/demo/prod.png"}}' class="index_product_list_J block" id="">
+<div class="products" id="con_navSt_3" >
+    <ul>
+        <Gyfx:goodslist name="showlist" num="4" cid="" startprice="" gname="" gsn="" endprice="" tid="" bid="" hot="" new="" order="" column="" market_price="市场价:￥" sale_price="￥：" save_price="" discount_price="" a="100" show_name="1" show_pic="1" g_nums="15" g_instead="...">
+            <php>if($key<8){</php>
+            <li>
+                <if condition="$showlist['show_pic'] eq 1">
+                <a href="{$showlist.gurl}"><img src="{$showlist.gpic}" width="185px" height="185px"/></a>
+                 </if>
+                <if condition="$showlist['sale_price'] neq ''">
+                <strong>RMB<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                 </if>
+                <if condition="$showlist['show_name'] eq 1">
+                <a href="{$showlist.gurl}" class="proN">{$showlist.gname}</a>
+                </if>
+            </li>
+            <php>}</php>
+        </Gyfx:goodslist>
+    </ul>
+</div>
+</div></div><div class="products" id="con_navSt_4" style="display: none;"><div block-dat='{"num":"4","show_name":"1","show_pic":"1","price":{"market_price":{"show":"市场价:￥"},"sale_price":{"show":"￥："},"save_price":{},"discount_price":{}},"a":100,"g_nums":"15","g_instead":"...","textcontent":{"1":"特价专区"},"imagecontent":{"10":"/Public/Tpl/sntugbw1/haixin/demo/prod.png"}}' class="index_product_list_K block" id="">
+<div class="products" id="con_navSt_4" >
+    <ul>
+        <Gyfx:goodslist name="showlist" num="4" cid="" startprice="" gname="" gsn="" endprice="" tid="" bid="" hot="" new="" order="" column="" market_price="市场价:￥" sale_price="￥：" save_price="" discount_price="" a="100" show_name="1" show_pic="1" g_nums="15" g_instead="...">
+            <php>if($key<8){</php>
+            <li>
+                <if condition="$showlist['show_pic'] eq 1">
+                <a href="{$showlist.gurl}"><img src="{$showlist.gpic}" width="185px" height="185px"/></a>
+                 </if>
+                <if condition="$showlist['sale_price'] neq ''">
+                <strong>RMB<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                </if>
+                <if condition="$showlist['show_name'] eq 1">
+                <a href="{$showlist.gurl}" class="proN">{$showlist.gname}</a>
+                </if>
+            </li>
+            <php>}</php>
+        </Gyfx:goodslist>
+    </ul>
+</div>
+</div></div><div class="products" id="con_navSt_5" style="display: none;"><div block-dat='{"num":"4","show_name":"1","show_pic":"1","price":{"market_price":{"show":"市场价:￥"},"sale_price":{"show":"￥："},"save_price":{},"discount_price":{}},"a":100,"g_nums":"15","g_instead":"...","textcontent":{"1":"猜你喜欢"},"imagecontent":{"10":"/Public/Tpl/sntugbw1/haixin/demo/prod.png"}}' class="index_product_list_L block" id="">
+<div class="products" id="con_navSt_5" >
+    <ul>
+        <Gyfx:goodslist name="showlist" num="4" cid="" startprice="" gname="" gsn="" endprice="" tid="" bid="" hot="" new="" order="" column="" market_price="市场价:￥" sale_price="￥：" save_price="" discount_price="" a="100" show_name="1" show_pic="1" g_nums="15" g_instead="...">
+            <php>if($key<8){</php>
+            <li>
+                <if condition="$showlist['show_pic'] eq 1">
+                <a href="{$showlist.gurl}"><img src="{$showlist.gpic}" width="185px" height="185px"/></a>
+                 </if>
+                <if condition="$showlist['sale_price'] neq ''">
+                <strong>RMB<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                 </if>
+                <if condition="$showlist['show_name'] eq 1">
+                <a href="{$showlist.gurl}" class="proN">{$showlist.gname}</a>
+                 </if>
+            </li>
+            <php>}</php>
+        </Gyfx:goodslist>
+    </ul>
+</div>
+</div></div></div></div></div><div block-dat='{"num":"8","column":"4","show_name":"1","show_pic":"1","price":{"market_price":{"show":"市场价:￥"},"sale_price":{"show":"￥："},"save_price":{},"discount_price":{}},"a":100,"g_nums":"6","g_instead":"...","textcontent":{"1":"ONLY  连衣裙"},"imagecontent":{"11":"/Public/Tpl/qiaomoxuan/blue/demo/img03.png"}}' class="index_product_list_F block" id=""><div class="index_product_list_A_css blocss">
+    <a href="" class="fleft" edit-name="首张大图" linkcontent-editable="true" content-num="10" textstyle-editable="true" style-num="3" ><img src="/Public/Tpl/qiaomoxuan/blue/demo/img03.png" width="220" height="540" edit-name="首张图片" imagestyle-editable="true" style-num="4"  imagecontent-editable="true" content-num="11"></a>
+    <div class="mainConRB"> 
+        <h2><span edit-name="模块标题" textstyle-editable="true" style-num="1"  textcontent-editable="true" content-num="1">ONLY  连衣裙</span></h2>
+        <div class="products proCon">
+            <ul>
+            	<Gyfx:goodslist name="showlist" num="8" cid="" startprice="" gname="" gsn="" endprice="" tid="" bid="" hot="" new="" order="" column="4" market_price="市场价:￥" sale_price="￥：" save_price="" discount_price="" a="100" show_name="1" show_pic="1" g_nums="6" g_instead="...">
+                <php>if($key<8){</php>
+	                <li>
+	                	<if condition="$showlist['show_pic'] eq 1">
+	                		<a href="{$showlist.gurl}" class="pro"><img src="{$showlist.gpic|showImage=###,185,185}" class="lazy" data-original="{$showlist.gpic|showImage=###,185,185}" width="185" height="185" edit-name="列表图上" imagestyle-editable="true" style-num="5"        ></a> 
+	                    </if>
+	                    <if condition="$showlist['show_name'] eq 1">
+                        	<a href="{$showlist.gurl}" class="proN" edit-name="商品标题" textstyle-editable="true" style-num="7"        >{$showlist.gname}</a>
+                        </if>
+	                    <p>
+                        <if condition="$showlist['sale_price'] neq ''">
+                        <strong edit-name="销售价" textstyle-editable="true" style-num="8"        >{$showlist.sale_price}<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                        </if>
+                        <if condition="$showlist['market_price'] neq ''">
+                        <del edit-name="市场价" textstyle-editable="true" style-num="9"        >{$showlist.market_price}<label>{$showlist.maprice|sprintf='%.2f',###}</label></del></p>
+                        </if>
+	                </li>                
+                <php>}</php>
+                </Gyfx:goodslist>
+            </ul>
+        </div>
+    </div>
+</div></div></div></div></div></div></div></div><script src="/Public/Tpl/qiaomoxuan/blue/js/lunbo.js"></script></div><!--end of main-->

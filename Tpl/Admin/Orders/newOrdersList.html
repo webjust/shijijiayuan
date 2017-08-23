@@ -1,0 +1,235 @@
+   {__NOLAYOUT__}
+                    <thead>
+                        <tr>
+                            <th>商品图片1</th>
+                            <th>商品货号</th>
+                            <th>商品名称</th>
+                            <th>商品编码</th>
+                            <th>商品规格</th>
+                            <th>销售价</th>
+                            <th>成交价</th>
+                            <th>折扣或价格</th>
+                            <th>数量</th>
+                            <th>小计</th>
+                            <th>促销</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product_info">
+                    <volist name="ary_orders_info" id="orders_info">
+                    	<if condition="$orders_info[0]['fc_id'] neq 0">
+ 							<volist name="orders_info" id="free_items">
+ 								<volist name="free_items.items" id="free_item">
+			                        <tr class="free_{$free_item.fc_id}">
+			                            <td><img src='{$free_item.g_picture|showImage=###,68,68}' width="58" height="58" /></td>
+			                            <td>{$free_item.pdt_sn}
+			                            </td>
+			                            <td><p class="proN">{$free_item.oi_g_name}</p></td>
+			                            <td>{$free_item.g_sn}</td>
+			                            <td>
+			                            <if condition="$free_item.pdt_spec neq ''">
+			                            {$free_item['pdt_spec']}
+			                            <!-- 
+			                                <select class="small">
+			                                	<noempty name="free_item['pdt_specs']">
+			                                	<php>foreach($free_item['pdt_specs'] as $spec){</php>
+			                                	<option value="{$spec.gs_id}" <if condition="$free_item['pdt_spec'] eq $spec['gsd_value']">selected</if>>{$spec.gsd_value}</option>
+			                                	<php>}</php>
+			                                	</noempty>
+			                                </select>   
+			                             -->                       
+			                            </if>
+			                        	</td>
+			                            <td><span id="">{$free_item.pdt_sale_price}</span></td>
+			                            <td><span id="">{$free_item.oi_price}</span></td>
+			                            <td>
+			                            	
+			                            </td>
+			                            <td>
+			                            	<p class="width75">			
+												{$free_item.oi_nums}
+			                                </p>
+			                            </td>
+			                            
+			                            <td style="border-right:1px solid #D7D7D7"> {$free_item.subtotal}</td>
+			                             <td><span class="orange">自由推荐</span></td>
+			                            <if condition="$key eq 0">
+			                            <td style="border-bottom:0px"><a item_type="4" o_id="{$free_item.o_id}" design_id="{$free_item.fc_id}"  class="delItem" >删除</a></td>
+			                            </if>
+			                           
+			                        </tr>  
+			                      </volist>             
+                            </volist>
+                    	<else />
+                    	<!-- 赠品无需编辑 -->
+                    		<if condition="$orders_info.oi_type neq 2">
+                    			<!-- 积分商城商品只允许删除，团购商品暂时不允许编辑-->
+                    			<if condition="($orders_info.oi_type eq 1) or ($orders_info.oi_type eq 5)">
+                    				<tr class="point_{$orders_info.pdt_id}">
+			                            <td><img src='{$orders_info.g_picture|showImage=###,68,68}' width="58" height="58" /></td>
+			                            <td>{$orders_info.pdt_sn}
+			                            </td>
+			                            <td><p class="proN">{$orders_info.oi_g_name}</p></td>
+			                            <td>{$orders_info.g_sn}</td>
+			                            <td>
+											{$orders_info.pdt_spec}
+			                        	</td>
+			                        	<if condition="$orders_info.oi_type eq 5">
+			                        	 <td> {$orders_info.pdt_sale_price}</td>
+			                        	<else />
+			                        	 <td> {$orders_info.pdt_sale_price}积分</td>
+			                        	</if>
+			                            <td> {$orders_info.oi_price}</td>
+			                            <td>
+			                            </td>
+			                            <td>
+			                            <!-- 暂时不支持
+				                          <a href="javascript:void(0);" class="down reduce cartRed add" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}" pdt_sale_price="{$orders_info['pdt_infos']['pdt_sale_price']}" type="1"></a>
+		                                  <input type="text" class="inputNum" readonly value="{$orders_info.oi_nums}" types="3" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}"  good_type="1" id="nums_{$orders_info['pdt_infos']['pdt_id']}_1"/>
+		                                  <input type="hidden" value="{$orders_info.oi_nums}" id="old_nums_{$orders_info['pdt_infos']['pdt_id']}_1"/>
+		                                  <a href="javascript:void(0);" class="up add" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}" pdt_sale_price="{$orders_info['pdt_infos']['pdt_sale_price']}" type="2"></a>
+		                                  <span class="brownblock marTop5" style="display: none;" id="jf_msg">积分不足</span>
+		                                -->
+		                                  {$orders_info.oi_nums}
+			                            </td>
+			                            <td> {$orders_info.subtotal}</td>
+			                            <td><span class="orange">团购</span></td>
+			                            <td>
+			                            <if condition="$orders_info.oi_type neq 5">
+			                            <a data-url="/Admin/Orders/delItems?type=1&g_id={$orders_info.g_id}"  item_type="1" o_id="{$orders_info.o_id}" design_id="{$orders_info.pdt_id}" onclick="delItem(1,{$orders_info.pdt_id},{$orders_info.o_id})" >删除</a>
+			                            </if>
+			                            </td>
+			                        </tr>    
+                    			<else />
+                    			<!-- 3组合商品只允许删除-->
+                    			<if condition="$orders_info.oi_type eq 3">
+		  							<volist name="orders_info" id="free_items">
+		 								<volist name="free_items.items" id="free_item">
+					                        <tr class="combo_{$free_item.fc_id}">
+					                            <td><img src='{$free_item.g_picture|showImage=###,68,68}' width="58" height="58" /></td>
+					                            <td>{$free_item.pdt_sn}</td>
+					                            <td><p class="proN">{$free_item.oi_g_name}</p></td>
+					                            <td>{$free_item.g_sn}</td>
+					                            <td>
+												{$free_item['pdt_spec']}
+					                        	</td>
+					                            <td> {$free_item.pdt_sale_price}</td>
+					                            <td> {$free_item.oi_price}</td>
+					                            <td>
+					                            	
+					                            </td>
+					                            <td>
+													{$free_item.oi_nums}
+					                            </td>
+					                            <td style="border-right:1px solid #D7D7D7"> {$free_item.subtotal}</td>
+					                            <td><span class="orange">组合商品</span></td>
+					                            <if condition="$key eq 0">
+					                            <td style="border-bottom:0px">
+					                            <if condition="$free_item.oi_type neq 5">
+					                            <a o_id="{$free_item.o_id}"  item_type="3"  design_id="{$free_item.fc_id}" class="delItem" >删除</a>
+					                            </if>
+					                            </td>
+					                            </if>
+					                        </tr>  
+					                      </volist>             
+		                            </volist>                   			
+                    			<else />
+                    			
+                    				 <tr class="normal_{$orders_info.pdt_id}">
+			                            <td><img src='{$orders_info.g_picture|showImage=###,68,68}' width="58" height="58" /></td>
+			                            <td>{$orders_info.pdt_sn}
+			                                <input type='hidden' class='pro_pdt_sn' name='pro_pdt_sn[]' value='{$orders_info.pdt_sn}'>
+									        <input type='hidden' name='pro_pdt_id[]' value='{$orders_info.pdt_id}'>
+									        <input type='hidden' name='pro_g_id[]' value='{$orders_info.g_id}'>
+									        <input type='hidden' name='pro_type[]' value='0'>
+			                            </td>
+			                            <td><p class="proN">{$orders_info.oi_g_name}</p></td>
+			                            <td>{$orders_info.g_sn}</td>
+			                            <td>
+			                            <if condition="$orders_info.pdt_spec neq ''">
+			                            {$orders_info['pdt_spec']}
+			                            <!-- 
+			                                <select class="small" id="modifyNormalSku">
+			                                    <noempty name="orders_info['pdt_specs']">
+			                                	<php>foreach($orders_info['pdt_specs'] as $spec){</php>
+			                                	<option value="{$spec.pdt_id}" pdt_id="$spec['pdt_id']" <php>if($orders_info['pdt_spec'] == $spec['gsd_value']){</php>selected<php>}</php>>{$spec.gsd_value}</option>
+			                                	<php>}</php>
+			                                	</noempty>
+			                                </select>   
+			                             -->                       
+			                            </if>
+			                        	</td>
+			                            <td> <span id="sp_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.pdt_sale_price}</span></td>
+			                            <td> <span id="op_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.oi_price}</span></td>
+			                            <td>
+			                            	<input type="text"  class="tiny textbox1" pdt_sale_price="{$orders_info.pdt_sale_price}" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" > 折= <input type="text" value="{$orders_info['oi_price']}" name="pro_price[]" class="tiny textbox2" pdt_sale_price="{$orders_info.pdt_sale_price}" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" id="rp_{$orders_info['pdt_infos']['pdt_id']}_0" >元
+			                            </td>
+			                            <td>
+			                           	<p class="width75">
+			                           	<a href="javascript:void(0);" class="down reduce cartRed add" m_price="{$orders_info.oi_price}" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}" pdt_sale_price="{$orders_info['pdt_infos']['pdt_sale_price']}" type="1"></a>
+		                                <input type="text" class="inputNum" id="itemnum_{$orders_info['pdt_infos']['pdt_id']}_0" name="pro_num[]"  value="{$orders_info.oi_nums}" types="3" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}" good_type="0" />
+			                              <a href="javascript:void(0);" class="up add" m_price="{$orders_info.oi_price}" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}" pdt_sale_price="{$orders_info['pdt_infos']['pdt_sale_price']}" type="2"></a>
+			                            </p>
+			                            </td>
+			                            <td> <span id="total_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.subtotal}</span></td>
+			                            <td><span class="orange">{$orders_info.promotion}</span></td>
+										<td>
+										<php>
+										$is_new = 0;
+										foreach($ary_pdts as $pdt_info){
+										if($pdt_info['pdt_id'] == $orders_info['pdt_id'] && $pdt_info['is_new'] == 1){
+											$is_new = 1;
+										}
+										}</php>
+										<if condition="$is_new eq 1">
+										<a href="#" onclick='deleteProduct(this);'>删除</a>
+										</if>
+										<if condition="$is_new neq 1">
+											<a o_id="{$orders_info.o_id}"    item_type="0"  design_id="{$orders_info.pdt_id}"  class="delItem" >删除</a>
+										</if>										
+										</td>
+			                        </tr>   
+                    			                     			
+                    			</if>
+                    			<!-- 3组合商品只允许删除-->
+                    			</if>
+                    			<!-- 积分商城商品只允许编辑 -->
+                    		</if>          	
+                    	</if>
+                    	<if condition="$orders_info.oi_type eq 2">
+                    	    <tr class="normal_{$orders_info.pdt_id}">
+			                            <td><img src='{$orders_info.g_picture|showImage=###,68,68}' width="58" height="58" /></td>
+			                            <td>{$orders_info.pdt_sn}
+			                            </td>
+			                            <td><p class="proN">{$orders_info.oi_g_name}</p></td>
+			                            <td>{$orders_info.g_sn}</td>
+			                            <td>
+			                            <if condition="$orders_info.pdt_spec neq ''">
+			                            {$orders_info['pdt_spec']}                    
+			                            </if>
+			                        	</td>
+			                            <td> <span id="sp_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.pdt_sale_price}</span></td>
+			                            <td> <span id="op_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.oi_price}</span></td>
+			                            <td>
+			                            	
+			                            </td>
+			                            <td>
+			                            {$orders_info.oi_nums}
+			                            </td>
+			                            <td> <span id="total_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.subtotal}</span></td>
+			                            <td><span class="orange">赠品</span></td>
+			                            <td></td>
+			                        </tr>   
+                    	</if>
+                    </volist> 
+                    </tbody>
+                <script>
+                <php>if(isset($logistic_price)){ </php>
+                  $('#old_cost_freight').val("{$logistic_price}");
+				  $('#last_freight').val("{$logistic_price}");
+                 <php>}</php>
+                  var freight = $('#old_cost_freight').val();
+     			  $("#o_goods_all_price").val("{$ary_data['o_goods_all_price']}");
+   			  	  $("#pre_price").val("{$ary_data['o_discount']}");
+   			  	  $("#showAllPricce").html((parseFloat("{$ary_data['o_goods_all_price']}")+parseFloat(freight)).toFixed(2));
+                </script>

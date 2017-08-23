@@ -1,0 +1,137 @@
+<div class="rightInner tableColor">
+<form method="get" action="{:U('Admin/GoodsCategory/doDel')}" id="">
+<table width="100%" class="tbList">
+	<thead>
+		<tr class="title">
+			<th colspan="99">分类列表</th>
+		</tr>
+		<tr>
+			<th><input type="checkbox" class="checkbox checkAll" /></th>
+			<th>分类名称</th>
+			<th>浏览商品</th>
+			<th>是否显示</th>
+			<th>操作</th>
+			<th>添加子分类</th>
+		</tr>
+	</thead>
+	<tbody>
+		{$cate_html}
+		<empty name="categorys">
+		<tr>
+			<td colspan="99" class="left">暂时没有数据!</td>
+		</tr>
+		</empty>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="99"><input type="submit" value="删除选中"
+				class="btnA confirm" id="delAll" />&nbsp;&nbsp;&nbsp;&nbsp; <input
+				type="button" value="添加类目" id="addCategory" class="btnA" /> <span
+				class="right page" style="float: left;">{$page}</span></td>
+		</tr>
+	</tfoot>
+</table>
+</form>
+</div>
+
+<script>
+$(document).ready(function(){
+	 <volist name="pids" id="pid">
+	var cid = "{$pid}";
+	if(cid != ''){
+		$(".cate"+cid).css("display","");
+		$("#showSubCate"+cid).css("display","none");
+		$("#hideSubCate"+cid).css("display","");
+	}
+	</volist>
+
+//显示子分类
+	 $(".showSubCate").click(function(){
+
+	     var class_name = $(this).attr("name");
+	     var cid = $(this).attr("val");
+		$("."+class_name).css("display","");
+		$("#showSubCate"+cid).css("display","none");
+		$("#hideSubCate"+cid).css("display","");
+	 });
+	// 隐藏子分类
+	 $(".hideSubCate").click(hideSubCate);
+    function hideSubCate(){
+
+        var class_name = $(this).attr("name");
+        var cid = $(this).attr("val");
+        if($('.'+class_name).length){
+            if($('.'+class_name).find('.hideSubCate:visible').length) {
+                $('.'+class_name).find('.hideSubCate:visible').click();
+            }
+        }
+        $("."+class_name).css("display","none");
+        $("#hideSubCate"+cid).css("display","none");
+        $("#showSubCate"+cid).css("display","");
+    }
+	//选中
+	 $(".checkSon").click(function(){
+	     var cate_id = $(this).val();
+	     if(($(".checkSon_"+cate_id).attr("checked")=='checked') || ($(".checkSon_"+cate_id).attr("checked")==true)){
+	    	 $(".checkSon_"+cate_id).attr("checked",false);
+	     }else{
+	    	 $(".checkSon_"+cate_id).attr("checked","checked");
+	     }
+	 });
+	 $(".hideImg").click(function(){
+	     var url = $(this).attr("url");
+	     var cid = $(this).attr("cid");
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:'json',
+            type:'POST',
+            success:function(msgObj){
+    		$("#hideImg"+cid).css("display","none");
+    		$("#showImg"+cid).css("display","");
+            }
+            });
+
+	 });
+	 $(".showImg").click(function(){
+	     var url = $(this).attr("url");
+	     var cid = $(this).attr("cid");
+	        $.ajax({
+	            url:url,
+	            cache:false,
+	            dataType:'json',
+	            type:'POST',
+	            success:function(msgObj){
+	    		$("#showImg"+cid).css("display","none");
+	    		$("#hideImg"+cid).css("display","");
+	            }
+	            });
+	 });
+	 $("#addCategory").click(function(){
+		location.href = "{:U("Admin/GoodsCategory/addCategory")}";
+	 });
+
+	 //删除类目
+     $(".doDelCate").live("click",function(){
+         var url = $(this).attr("data-uri");
+         var cid = $(this).attr("cid");
+         $.ajax({
+             url:url,
+             cache:false,
+             dateType:'json',
+             type:'POST',
+             error:function(){
+        	 	showAlert('',msgObj.info);
+             },
+             success:function(msgObj){
+                 if(msgObj.status == '1'){
+                	 //alert(msgObj.info);
+                	 $("#remove_"+cid).remove();
+                 }else{
+                	 showAlert('',msgObj.info);
+                 }
+             }
+         });
+     });
+});
+</script>

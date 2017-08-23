@@ -1,0 +1,41 @@
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>账户登录设置</span></h2>
+    <div class="member_editpass" style="display: none;">
+        <b>原密码不正确！</b>
+    </div>
+    <div class="changePass">
+        <form method="post" action="#" id="set_names">
+            <table>
+                <tr>
+                    <td width="445" align="right"><i class="red">*</i> 登录用户名：</td>
+                    <td>
+                    <input type="text" name="m_name" id="m_name" validate="{ required:true,remote:'/Ucenter/User/checkName',messages:{required:'用户名不能为空',remote:'用户名已存在'}}"></td>
+                    <td><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td width="445" align="right"><i class="red">*</i> 账户邮箱：</td>
+                    <td><input type="text" name="m_email" id="m_email" validate="{ required:true,email:true,remote:'/Ucenter/User/checkEmail',messages:{required:'邮箱不能为空',email:'邮箱格式不正确',remote:'邮箱已存在'}}"></td>
+                    <td><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td width="445" align="right"><i class="red">*</i> 登录密码：</td>
+                    <td><input type="password" id="new_m_password" name="new_m_password" validate="{ required:true,rangelength:[4,16],messages:{required:'新密码不能为空',rangelength:'密码至少4位'}}"></td>
+                    <td><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td width="445" align="right"><i class="red">*</i> 确认新登录密码：</td>
+                    <td><input type="password" id="confirmPassword" name="confirmPassword" validate="{ required:true,rangelength:[4,16],equalTo:new_m_password,messages:{required:'确认密码不能为空',rangelength:'密码至少4位',equalTo:'两次密码不一致'}}"></td>
+                    <td><span class="spanWrong"></span></td>
+                </tr>
+            </table>
+            <p>
+				<input type="hidden" value="0" id="is_wap" />
+                <input type="hidden" name="m_id" value="{$mid}" id="m_id">
+                <button class="blue" type="submit" onclick="setThidUserName();" >确 定</button>
+            </p>
+        </form>
+    </div>
+</div>t>

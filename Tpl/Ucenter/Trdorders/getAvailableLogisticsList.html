@@ -1,0 +1,52 @@
+{__NOLAYOUT__}
+    <div><!--CPM   start-->
+        <div class="content752"><!--content752  start-->
+
+            <div class="myOrder"><!--myOrder  start-->
+                <if condition="$res.success eq 0">
+                    <p class="quickOaddress">收货地址：{$ary_result.address} <if condition="$ary_result.to_receiver_zip neq ''">({$ary_result.to_receiver_zip})</if></p>
+                    <table class="tableCon" id="selectLogistics">
+                        <thead>
+                            <tr>
+                                <td width="108">选择</td>
+                                <td>邮费</td>
+                                <td width="197">物流公司名称</td>
+                                <td width="314">邮费描述</td>
+                                <td>备注</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="res['data']" id="data">
+                            <tr>
+                                <td width="108"><input type="radio" total_freight_cost="{$data['lt_expressions']['total_freight_cost']}" weight="{$ary_logistics.lt_expressions.total_freight_cost}" tt_id="{$tt_id}" lc_name="{$data.lc_name}" title="{$data.lc_name}" lt_id="{$data.lt_id}"  conf="{$data.dca_configure_json}" class="selectLog" name="lc_name">&nbsp;<label>{$data.lt_name}</label></td>
+                                <td>{$data['lt_expressions']['total_freight_cost']} 元</td>
+                                <td width="197">{$data.lc_name}</td>
+                                <td width="314">{$data.lt_expressions_text}</td>
+                                <td>{$data.lc_description}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <p class="cartP02"><a href="javascript:void(0);" class="cover" id="submitLog">覆盖当前结果订单</a></p>
+                    <elseif condition="($res.success eq 2) OR ($res.success eq 3)" />    
+                    <p class="quickOaddress">订单默认地址匹配失败，请手工选择</p>
+                    <div>省/市/区：
+                        <select id="province" name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city', '');" validate="{ selected:true}">
+                            <option value="0" selected="selected">请选择</option>
+                            <foreach name="city" item="cy">
+                                <option value="{$cy.cr_id}">{$cy.cr_name}</option>
+                            </foreach>
+                        </select>
+                        <select id="city" name="city" onchange="selectCityRegion(this, 'region','');" validate="{ selected:true}">
+                            <option value="0" selected="selected">请选择</option>
+                        </select>
+                        <select id="region" name="region" validate="{ selected:true}">
+                            <option value="0" selected="selected">请选择</option>
+                        </select>
+                        <samp>* </samp>如没有区/县可以不用选择
+                        <button onclick="matchLogisticsCompanys('{$ary_result.to_receiver_province}','{$ary_result.to_receiver_city}','{$ary_result.to_receiver_district}','{$ary_result.to_oid}','{$ary_result.to_receiver_address}');">手工匹配</button>;
+                    </div>
+                </if>
+            </div><!--myOrder  end-->
+        </div><!--content752  end-->
+    </div>

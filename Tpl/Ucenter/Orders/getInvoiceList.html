@@ -1,0 +1,37 @@
+{__NOLAYOUT__}
+<H3>
+	<p class="tongyongP"><span>常用发票</span></p>
+	<dl id="first_invoice_list">
+		<volist name="invoice_list" id="list">
+			<dd id="ros{$list['id']}">
+			<php>if($invoice_info['invoice_comom'] == '1' && $invoice_info['invoice_special'] == '2'){</php>
+					<input type="radio" id="is_default_{$list.id}" name="is_default" <if condition="$list.is_default eq 1 ">checked</if> value="{$list.id}">
+				<php>}else{</php>
+					<php>if(($list['invoice_type'] == '0') && ($invoice_info['invoice_comom'] == '1')){</php>
+						<input type="radio" id="is_default_{$list.id}" name="is_default" <if condition="$list.is_default eq 1 ">checked</if> value="{$list.id}">
+					<php>}else if(($list['invoice_type'] == '1') && ($invoice_info['invoice_special'] == '2')){</php>
+						<input type="radio" id="is_default_{$list.id}" name="is_default" <if condition="$list.is_default eq 1 ">checked</if> value="{$list.id}">
+					<php>}</php>
+				<php>}</php>
+				<label for="raa">
+					发票抬头： 
+					<if condition="$list.invoice_head eq 1 ">个人&nbsp;({$list.invoice_people})&nbsp;{$list[invoice_content]}
+						<input type="hidden" value="{$list.invoice_people}" name="invoice"/>
+					</if>
+					<if condition="$list.invoice_head eq 2 ">单位&nbsp;({$list.invoice_name})&nbsp;{$list[invoice_content]}<input type="hidden" value="{$list.invoice_name}" name="invoice"/>
+					</if>
+					<input type="hidden" value="<if condition='$list.invoice_head eq 1 '>个人<else/>单位</if>" name="invoice"/>
+					（
+						<if condition="$list.invoice_type eq 2 ">增值税发票 </if>
+						<if condition="$list.invoice_type eq 1 ">普通发票 </if>
+
+					<input type="hidden" value="<if condition='$list.invoice_type eq 1 '>普通发票<else/ >增值税发票</if>" name="invoice"/>
+					）
+					<input type="hidden" value="{$list.invoice_content}" name="invoice_content_checked"/>
+					<input type="hidden" value="{$list.id}" name="invoice_id"/>
+					<a href="javascript:void(0);" class="del" onclick="delInvoice('{$list['id']}');" id="{$list['id']}">删除</a>
+				</label>
+			</dd>
+		</volist>
+	</dl>
+</H3>

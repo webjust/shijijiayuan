@@ -1,0 +1,163 @@
+<div class="rightInner">
+    <form id="member_form" name="member_form" method="post" action="{:U('Admin/Distirbution/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">淘宝铺货相关设置</th>
+                </tr>
+            </thead>
+            <tbody>    			
+                <tr>
+                    <td class="first">是否使用淘宝分类：</td>
+                    <td>
+                        <input type="radio" value="是否使用淘宝分类-1" name="TAOBAO_SET_CATEGORY" <if condition="$TAOBAO_SET_CATEGORY.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否使用淘宝分类-0" name="TAOBAO_SET_CATEGORY" <if condition="$TAOBAO_SET_CATEGORY.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">不使用淘宝分类，淘宝商品转换为系统商品时默认把商品归到"淘宝未分类商品"中。</label></td>
+                </tr>   
+                <tr>
+                    <td class="first">是否使用淘宝品牌：</td>
+                    <td>
+                        <input type="radio" value="是否使用淘宝品牌-1" name="TAOBAO_SET_BRAND" <if condition="$TAOBAO_SET_BRAND.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否使用淘宝品牌-0" name="TAOBAO_SET_BRAND" <if condition="$TAOBAO_SET_BRAND.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">不使用淘宝品牌，淘宝商品转换为系统商品默认把商品归到"淘宝未分品牌商品"中。</label></td>
+                </tr>     
+                <tr>
+                    <td class="first">是否新品：</td>
+                    <td>
+                        <input type="radio" value="是否新品-1" name="TAOBAO_SET_NEW" <if condition="$TAOBAO_SET_NEW.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否新品-0" name="TAOBAO_SET_NEW" <if condition="$TAOBAO_SET_NEW.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">设置新品后，淘宝商品转换为系统商品时系统商品为新品商品</label></td>
+                </tr>  
+                <tr>
+                    <td class="first">是否热销：</td>
+                    <td>
+                        <input type="radio" value="是否热销-1" name="TAOBAO_SET_HOT" <if condition="$TAOBAO_SET_HOT.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否热销-0" name="TAOBAO_SET_HOT" <if condition="$TAOBAO_SET_HOT.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">设置热销后，淘宝商品转换为系统商品时系统商品热销商品</label></td>
+                </tr>        
+                <tr>
+                    <td class="first">是否上架销售：</td>
+                    <td>
+                        <input type="radio" value="是否上架销售-1" name="TAOBAO_SET_SALE" <if condition="$TAOBAO_SET_SALE.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否上架销售-0" name="TAOBAO_SET_SALE" <if condition="$TAOBAO_SET_SALE.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">设置上架后,淘宝商品转换为系统商品时系统商品为上架状态，</label></td>
+                </tr> 
+                <tr>
+                    <td class="first">商品是否预售：</td>
+                    <td>
+                        <input type="radio" value="商品是否预售-1" name="TAOBAO_SET_PRESALE" <if condition="$TAOBAO_SET_PRESALE.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="商品是否预售-0" name="TAOBAO_SET_PRESALE" <if condition="$TAOBAO_SET_PRESALE.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">设置预售后，商品没有库存也可下单购买</label></td>
+                </tr> 				
+				<tr>
+                    <td class="first">是否下载非销售属性：</td>
+                    <td>
+                        <input type="radio" value="是否下载非销售属性-1" name="TAOBAO_SET_DOWN_UNSALE" <if condition="$TAOBAO_SET_DOWN_UNSALE.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否下载非销售属性-0" name="TAOBAO_SET_DOWN_UNSALE" <if condition="$TAOBAO_SET_DOWN_UNSALE.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">设置否后，现在淘宝商品时不下载非销售属性</label></td>
+                </tr> 
+                <tr>
+                    <td class="first">是否更新商品数据：</td>
+                    <td>
+                        <input type="radio" value="是否更新商品数据-1" name="TAOBAO_SET_FRESH" <if condition="$TAOBAO_SET_FRESH.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否更新商品数据-0" name="TAOBAO_SET_FRESH" <if condition="$TAOBAO_SET_FRESH.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">设置更新后,淘宝商品转换为系统商品时会更新系统商品数据（目前只支持更新商品主图和描述），</label></td>
+                </tr>        
+                 <tr>
+                    <td class="first">是否允许上传物流模版：</td>
+                    <td>
+                        <input type="radio" value="是否允许上传物流模版-1" name="TAOBAO_SET_DELIVER" <if condition="$TAOBAO_SET_DELIVER.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否允许上传物流模版-0" name="TAOBAO_SET_DELIVER" <if condition="$TAOBAO_SET_DELIVER.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">开启的情况下，分销商可以选择采用供货商的物流模版。</label></td>
+                </tr>   
+                <tr>
+                    <td class="first" style="width:230px;">分销商铺货默认物流模板设置：</td>
+                    <td>
+                        <input type="radio" value="分销商铺货默认物流模板设置-0" name="TAOBAO_SET_DELIVERDEFAULT" <if condition="$TAOBAO_SET_DELIVERDEFAULT.sc_value eq 0">checked="checked"</if>> 卖家包邮 <br />
+                        <input type="radio" value="分销商铺货默认物流模板设置-1" name="TAOBAO_SET_DELIVERDEFAULT" <if condition="$TAOBAO_SET_DELIVERDEFAULT.sc_value eq 1">checked="checked"</if>> 采用供货商配置 <br />
+                   		<input type="radio" value="分销商铺货默认物流模板设置-2" name="TAOBAO_SET_DELIVERDEFAULT" <if condition="$TAOBAO_SET_DELIVERDEFAULT.sc_value eq 2">checked="checked"</if>> 采用淘宝默认平邮/快递/EMS 
+                    </td>                    
+                    <td><label class="last">配置前台铺货时默认的物流模板选项。</label></td>
+                </tr>            
+                <tr>
+                    <td class="first" style="width:230px;">是否允许分销商同步库存时额外同步价格：</td>
+                    <td>
+                         <input type="radio" value="是否允许分销商同步库存时额外同步价格-1" name="TAOBAO_SET_PRICE" <if condition="$TAOBAO_SET_PRICE.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否允许分销商同步库存时额外同步价格-0" name="TAOBAO_SET_PRICE" <if condition="$TAOBAO_SET_PRICE.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last">配置前台铺货时是否允许同步库存和价格。</label></td>
+                </tr> 
+				<tr>
+                    <td class="first" style="width:230px;">淘宝KEY授权：</td>
+                    <td>
+                         <input type="radio" value="是否允许淘宝key授权-1" name="TAOBAO_SET_KEY" <if condition="$TAOBAO_SET_KEY.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="是否允许淘宝key授权-0" name="TAOBAO_SET_KEY" <if condition="$TAOBAO_SET_KEY.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="last"></label></td>
+                </tr> 
+				<tr>
+                    <td class="first" style="width:230px;">FX_TAOBAO_KEY：</td>
+                    <td>
+                        <input type="text" value="{$FX_TAOBAO_KEY}" name="FX_TAOBAO_KEY" > 
+                    </td>                    
+                    <td><label class="last">淘宝授权key</label></td>
+                </tr> 
+				<tr>
+                    <td class="first" style="width:230px;">FX_TAOBAO_SECRET：</td>
+                    <td>
+                        <input type="password" value="{$FX_TAOBAO_SECRET}" name="FX_TAOBAO_SECRET" > 
+                    </td>                    
+                    <td><label class="last">授权密码</label></td>
+                </tr> 
+				<tr>
+                    <td class="first" style="width:230px;">TAOBAO_REQUEST_URL：</td>
+                    <td>
+                        <input type="text" value="{$TAOBAO_REQUEST_URL}" name="TAOBAO_REQUEST_URL" > 
+                    </td>                    
+                    <td><label class="last">淘宝无签名方式调用</label></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){   
+        $("#orders_form").validate({
+                errorPlacement: function(error, element) {
+                    var error_td = element.parent('td').next();
+                    error_td.find('label').hide();
+                    error_td.append(error);
+                },
+                submitHandler:function(form){
+                    ajaxpost('orders_form', '', '', 'onerror') 
+                },
+                rules : {
+                    STATUS : {
+                        required:true
+                    }
+                },
+                messages : {
+                    STATUS : {
+                        required : '请选择'
+                    }
+                }
+            });
+    });
+</script>

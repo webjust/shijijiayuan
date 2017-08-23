@@ -1,0 +1,12 @@
+
+/*个人中心*/
+.contentLeft h2,.contentLeft h2 span,.contentLeft ul li a{background:none!important;}
+.contentLeft h2{background: #ff3e79!important;font-weight:normal;text-shadow:none;}
+.contentLeft h2 span{width: 100%;text-align: center;padding:0;line-height: 34px;font-size: 14px;}
+.contentLeft ul li{ color: #818181; font-size: 12px;border-bottom: 1px solid #cecece; border-top: 1px solid #fff;}
+.contentLeft ul li a.on{color: #ff3366;}
+.contentLeft ul li a:hover{color: #ff3366;}
+.blue {background-color: #ff3e79;font-weight:normal;text-shadow:none;}
+input:hover.blue {background-color: #ff3e79;}
+.pageQuick table tbody td a.on,.pageQuickDOne p.p01 input.inputBtn,.blueBlock{background-color: #ff3e79;}
+.myOrder table.tableCon thead td,.myDate{background: #f4f4f4;border-left: 1px solid #dadada;}

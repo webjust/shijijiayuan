@@ -1,0 +1,181 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>添加我的分销商</span></h2>
+    <div class="deliverList myDa">
+        <form id="my_doedit" method="post" action="{:U('Ucenter/My/doAddMyPromoting')}" enctype="multipart/form-data">
+            <table class="deliverTable">
+                <tr><td colspan="2"></td></tr>
+                <volist name="ary_extend_data" id="data">
+                    <tr>
+                        <td class="right"><if condition="($data.is_need eq 1)"><span class="red">*</span></if>{$data.field_name}：</td>
+                        <td>
+                            <if condition="$data.fields_type eq 'radio'">
+                                <volist name="data.fields_content" id="field_content">
+                                    <input name="extend_field_{$data.id}" type="{$data.fields_type}"  <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'checkbox'">
+                                <volist name="data.fields_content" id="field_content" >
+                                    <input name="extend_field_{$data.id}[]" type="{$data.fields_type}"  <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'select'">
+                                <if condition="$data.id eq 14 ">
+                                    <include file="Address:addressPage" />
+                                <else />
+                                <select class="medium" name="extend_field_{$data.id}" >
+                                    <volist name="data.fields_content" id="field_content" >
+                                        <option value="{$field_content}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>> {$field_content}</option>
+                                    </volist>
+                                </select>
+                                </if>
+                            </if>
+                            <if condition="$data.fields_type eq 'text'">
+                                <input <if condition="($data.fields_content eq 'm_mobile' and $is_mobile_validate eq 1)">readonly="readonly" </if><if condition="($data.type eq 1 )">name="{$data.fields_content}" id="{$data.fields_content}" <else /> name="extend_field_{$data.id}"</if> <if condition="($data.fields_content eq 'm_password' or $data.fields_content eq 'm_password_1')">type="password"  <else /> type="text" </if> class="input01" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> />
+                            </if>
+                            <if condition="$data.fields_type eq 'file'">
+                                <if condition="$data.content neq ''"><img src="{$data.content}" width="100px";height="100px"/></if>
+                                <input name="extend_field_{$data.id}" type="file"  value="{$data.content}" class="medium" />
+                                <input name="extend_field_{$data.id}" type="hidden"  value="{$data.content}" class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> />
+                            </if>
+                        </td>
+                        <td width="236px"><span class="spanWrong"></span></td>
+                    </tr> 
+					<!--更换手机-->
+                </volist>
+                <tr>
+                    <td align="right">出生日期：</td>
+                    <td><input type="text" class="input01" name="m_birthday" readonly="readonly" value="{$member.m_birthday}" id="m_birthday" validate="{ isCheck:true,messages:{isCheck:'您输入的参数非法，请重新输入'}}"></td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td align="right">性别：</td>
+                    <td>
+                        <input type="radio" name="sex" value="1" id="sex01" class="radio" <if condition="$member['m_sex'] eq '1'">checked="checked"</if>><label for="sex01" class="boy">男</label>
+                        <input type="radio" name="sex" value="0" id="sex0" class="radio" <if condition="$member['m_sex'] eq '0'">checked="checked"</if>><label for="sex0" class="boy">女</label>
+                        <input type="radio" name="sex" value="2" id="sex02" class="radio" <if condition="$member['m_sex'] eq '2'">checked="checked"</if>><label for="sex02">保密</label>
+                    </td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <button class="blue" type="submit" >保 存</button>
+                    </td>
+                </tr>
+                <tr><td colspan="2"></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $("#m_birthday").datepicker({
+            showButtonPanel: true,
+            changeMonth: true,
+            autoSize: true,
+            minDate: new Date(1940, 1 - 1, 1),
+            yearRange: '1940:+5',
+            changeYear: true
+        });
+        $('#members_form').validate();
+        $(".dater").datepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        $(".timer").datetimepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        //$('#my_doedit').validate();
+		
+		$("#my_doedit").validate({
+            errorPlacement: function(error, element) {
+            },
+            showErrors: function(errors) {
+                for (var name in errors) {
+                    $('#' + name).parent('td').next('td').children('span.spanWrong').show();
+                    $('#' + name).parent('td').next('td').children('span.spanWrong').html(errors[name]);
+                }
+                return false;
+            },
+            submitHandler:function(form){
+                //form.submit();
+                var formdata = $("#my_doedit").serialize();
+                $.ajax({
+                    url:"{:U('Ucenter/Promoting/doAddMyPromoting')}",
+                    data:formdata,
+                    dataType:"json",
+                    type:"post",
+                    success:function(msgObj){
+                        if(msgObj.status == 1){
+                            alert(msgObj.info);
+                            window.location.href = "{:U('Ucenter/Promoting/myPromoting')}";
+                        }else{
+                           alert(msgObj.info);
+                           window.location.href = "{:U('Ucenter/Promoting/myPromoting')}";
+                           return false;
+                        }
+                    }
+                });
+            },
+            rules : {
+                m_name : {
+                    required:true,
+                    minlength:4,
+                    isCheck:true,
+                    remote:'/Home/User/checkName'
+                },
+                m_email : {
+                    required:true,
+                    email:true,
+                    remote : '/Home/User/checkEmail'
+                },
+                m_password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                m_password_1 : {
+                    required : true,
+                    equalTo  : '#m_password'
+                },
+                verify : {
+                    required:true,
+                    digits:true,
+                    remote:'/Home/User/checkVerify',
+                    rangelength:[4,4]
+                }
+            },
+            messages : {
+                m_name : {
+                    required : '用户名不能为空',
+                    minlength : '用户名不能少于4位',
+                    isCheck: '用户名不能包含敏感字符',
+                    remote:'该用户名已经存在'
+                },
+                
+                m_email : {
+                    required:'邮箱不能为空'
+                },
+                m_password  : {
+                    required : '密码不能为空',
+                    minlength: '密码长度应在6-20个字符之间',
+                    maxlength: '密码长度应在6-20个字符之间'
+                },
+                required : {
+                    required : '请再次输入您的密码',
+                    equalTo  : '两次输入的密码不一致'
+                },
+                verify : {
+                    required:'请输入验证码',
+                    rangelength:'验证码长度为4',
+                    digits:'对不起，请输入正确的验证码'
+                }
+            }
+		/**
+        errorPlacement: function(error, element) {
+			showAlert(false,error);
+			
+        }, 
+		**/
+		
+	});
+});
+</script>

@@ -1,0 +1,22 @@
+<div class="wrapD">
+    <div class="articleBox">
+        <div class="content">
+            <Gyfx:articleinfo name="artinfo" aid="$aid" >
+            <div class="Path">
+                <a href="{:U('Home/Index/index')}">首页</a>>
+                <php>if(!empty($artinfo['cname'])){</php>
+                    <a href="{:U('Home/Article/articlelist',array('cid'=>$artinfo['cid']))}">{$artinfo.cname}</a> >
+                <php>}</php>
+                <a href="javascript:void(0);">{$artinfo.atitle}</a>
+            </div>
+            <div class="articleCnt">
+                <h1>{$artinfo.atitle}</h1>
+                <p>
+                    {$artinfo.acontent}
+                </p>
+            </div>
+            </Gyfx:articleinfo>
+        </div>
+    </div>
+
+</div>

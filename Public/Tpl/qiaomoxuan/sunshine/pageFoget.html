@@ -1,0 +1,114 @@
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>
+<style>
+.error{color:red;}
+</style>
+<div class="wrap">
+	<div class="login"><!--login-->
+        <div class="forgetCon"><!--loginCon-->
+        	<i></i>
+        	<div class="lCon"><!--lCon-->				
+            	<h2><strong>找回密码</strong></h2>
+                <div class="dtCon" style="margin-top:20px;border-bottom:none;">	
+					<form action="/Home/User/synReset" method="post" id="forgetForm">
+						<dl style="border:none;">
+							<dt>用户邮箱：</dt>
+							<dd>
+								<span class="inS">
+									<input id="username" class="text" type="text" validate="{ required:true}" name="username">
+								</span>
+								<i style="width:auto;">
+									<label class="error" for="username" generated="true"></label>
+								</i>
+							</dd>											
+							<dt>验证码：</dt>
+							<dd>
+								<span class="inS">
+									<input type="text" class="yzm" name="verify" id="verify" value="" validate="{ required:true}" style="width:50px;float:left;padding: 6px 5px 6px 5px;border: 1px solid #ccc;"/>
+									<a href="javascript:void(0)" onclick="changeverify()">
+										<img id="loginverify" src="__APP__/Home/User/verify/" width="68" height="27" onClick="this.src='__APP__/Home/User/verify/'+Math.random()">看不清换一张
+									</a>
+								</span>
+								<i style="width:auto;">
+									<label class="error" for="verify" generated="true"></label>
+								</i>
+							</dd>
+							<dt></dt>
+							<dd>
+								<input type="submit" value="找回密码" readonly="readonly" id="submitForm" style="background: #e44715 none repeat scroll 0 0;border: medium none;color: white;cursor: pointer;display: block;font-weight:bold;height:40px;line-height: 40px;margin-bottom: 30px;margin-left: 60px;margin-top: 10px;text-align: center;width: 180px;">
+							</dd>                          
+						</dl>
+					</form>
+                </div>
+               
+            </div><!--/lCon-->
+        </div><!--/loginCon-->
+    </div><!--/login-->
+</div>
+<!--/wrap-->
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script type="text/javascript">
+function changeverify(){      
+    $('#loginverify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());        	
+}
+$(document).ready(function(){
+	$('#forgetForm').validate({
+		errorPlacement: function(error,element) {
+			var error_td = element.parent("dd").siblings("i");
+			error_td.append(error);
+		},
+		rules : {
+            username : {
+				required:true,
+				email:true,
+			},
+			//user_email: {
+			//	required:true,
+			//	email:true,
+			//},
+			verify : {
+				rangelength:[4,4],
+				required:true,
+				digits:true,
+				remote:'/Home/User/checkVerify',
+				
+			}
+		},
+		messages : {
+            username : {
+				required : '邮箱不能为空',
+				minlength : '邮箱不能少于4位',
+			},
+			//user_email : {
+				//required : '邮箱不能为空',
+				//minlength : '邮箱不能少于4位',
+			//},
+			verify : {
+				rangelength:'验证码长度为4',
+				required:'请输入验证码',
+				digits:'对不起，请输入正确的验证码'
+			}
+		}
+	});
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+

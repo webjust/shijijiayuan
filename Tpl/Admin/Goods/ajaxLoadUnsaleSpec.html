@@ -1,0 +1,77 @@
+<table>
+<tbody>
+<if condition="!empty($array_spec_info)">
+<volist name="array_spec_info" id="vo">
+	<tr>
+		<td style="width:100px;text-align:right;padding-right:3px;">{$vo.gs_name}：</td>
+		<td>
+		<if condition="$vo.gs_input_type eq 1">
+		<input type="text" class="large" name="goods_unsales_spec[{$vo.gs_id}]" value="{$vo.gsd_aliases}" />
+		<elseif condition="$vo.gs_input_type eq 2" />
+		<if condition="$vo.gs_id eq 911"><select class="medium" name="goods_unsales_spec[{$vo.gs_id}][]" style="width:auto;" multiple="multiple" size="25">
+		<else /><select class="medium" name="goods_unsales_spec[{$vo.gs_id}]" style="width:auto;">
+		</if>
+
+			<option value="0" >请选择{$vo.gs_name}的属性值</option>
+			<volist name="vo[spec_detail]" id="sp">
+				<if condition="$vo['gsd_id'] eq $sp['gsd_id']">
+					<option value="{$sp.gsd_id}" selected="selected" >{$sp.gsd_value}</option>
+				<elseif condition="($vo['gs_id'] eq '892') && ($sp['gsd_id'] eq '242')">
+					<option value="{$sp.gsd_id}" selected="selected" >{$sp.gsd_value}</option>	
+				<else />
+					<option value="{$sp.gsd_id}" >{$sp.gsd_value}</option>
+				</if>
+			</volist>
+		</select>
+			<if condition="$vo.gs_id eq 911">
+				已选攻效：
+				<volist name="vo[gsd_aliases]" id="v">
+				{$v}　
+				</volist>
+				（不作修改的话就别另选择）
+			</if>
+		<elseif condition="$vo.gs_input_type eq 3" />
+		<textarea name="goods_unsales_spec[{$vo.gs_id}]" class="mediumBox">{$vo.gsd_aliases}</textarea>
+		</if>
+		</td>
+	</tr>
+</volist>
+<else />
+	<tr>
+		<td colspan="2" style="text-align:left;padding-left:30px;color:#ff0000;">
+			该商品类型下暂无扩展属性需要录入。如需录入，请先转到
+			<a href="{:U('Admin/GoodsType/pageList')}" title="点击转到类型列表。" onclick="if(!confirm('确定要去录入属性吗？\\n您之前录入的数据比如商品名称可能丢失！')){return false;}">类型列表</a>
+			，添加相应的属性。
+		</td>
+	</tr>
+</if>
+	<!-- 启用规格 按钮 开始 -->
+	<tr>
+		<td colspan="2" style="text-align:left;padding-left:30px;">
+            <if condition="$enable neq 0"><else/>
+			<button type="button" id="enable_goods_skus" enable="{$enable}" class="btnA">
+                启用规格
+			</button>
+            </if>
+		</td>
+	</tr>
+	<!-- 启用规格 按钮 结束 -->
+</tbody>
+</table>
+<script type="text/javascript">
+$(document).ready(function(){
+	//启用规格按钮被点击以后，异步加载商品销售属性的表单
+	$("#enable_goods_skus").click(function(){
+		var enable = parseInt($(this).attr("enable"));
+		if(1 == enable && confirm("确定要取消规格吗？")){
+			$(this).attr({"enable":0}).html("开启规格");
+			$("#select_goods_sales_spec_box,#goods_sku_list_form").hide();
+			$(".disabled_goods_sale_spec_info").show();
+			return false;
+		}
+		$(this).attr({"enable":1}).html("取消规格");
+		$("#select_goods_sales_spec_box,#goods_sku_list_form").show();
+		$(".disabled_goods_sale_spec_info").hide();
+	});
+});
+</script>

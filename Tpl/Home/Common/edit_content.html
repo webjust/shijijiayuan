@@ -1,0 +1,851 @@
+<!--弹出内容编辑框-->
+<div style="display: none;" id="gy_edit_content" title="编辑模块内容">
+    <table style="width: 100%;" class="dialog_table ckytable">
+
+        <!--新闻模块内容：选择分类和条数-->
+        <tbody id="gy_edit_content_index_news_list">
+            <tr>
+                <th>文章分类</th>
+                <td>
+                    <select name="gy_edit_content_index_news_list_cid" id="gy_edit_content_index_news_list_cid" class="textMedium" >
+                        <volist name="modSet.newsList" id="vo">
+                            <option value="{$vo.cat_id}">{$vo.cat_name}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>文章条数</th>
+                <td>
+                    <input name="gy_edit_content_index_news_list_num" id="gy_edit_content_index_news_list_num" class="textShort" type="text" value="10" />
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+            </tr>
+        </tbody>
+        <!--新闻模块内容：结束-->
+
+        <!--公告模块内容：选择条数-->
+        <tbody id="gy_edit_content_index_notice_list">
+            <tr>
+                <th>公告条数</th>
+                <td>
+                    <input name="gy_edit_content_index_notice_list_num" id="gy_edit_content_index_notice_list_num" class="textShort" type="text" value="10" />
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+            </tr>
+        </tbody>
+        <!--公告模块内容：结束-->
+
+        <!--商品列表模块内容：选择分类和条数-->
+        <tbody id="gy_edit_content_index_product_list">
+            <tr>
+                <th>按类型筛选：</th>
+                <td>
+                    <select name="gy_edit_content_index_product_list_tid" id="gy_edit_content_index_product_list_tid">
+                        <option value="" selected="selected">全部类型</option>
+                        <volist name="types" id="vo">
+                            <option value="{$vo.gt_id}">{$vo.gt_name}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>按价格区间筛选：</th>
+                <td>
+                   <input type="text"  class="textShort" name="gy_edit_content_index_product_list_price1" id="gy_edit_content_index_product_list_price1"/>
+                   - <input type="text"  class="textShort" name="gy_edit_content_index_product_list_price2" id="gy_edit_content_index_product_list_price2"/>元
+                </td>
+            </tr>
+            <tr>
+                <th>按商品：</th>
+                <td>
+                    <div>
+                        <span>
+                            <input type="radio"  name="search_goods" value="1" checked="checked" />名称筛选<input type="radio" name="search_goods" value="0"/>编号筛选
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input type="text" name="gy_edit_content_index_product_list_keyword" id="gy_edit_content_index_product_list_keyword"  class="textMedium" />不支持多商品
+                        </span>
+                    </div>
+                    <div style="display:none">
+                        <span>
+                            <input type="text" name="gy_edit_content_index_product_g_sn" id="gy_edit_content_index_product_g_sn" style="width:300px;" />多件商品请用英文,分隔
+                        </span>
+                    </div>
+                <td>
+                
+            </tr>
+           
+            <tr>
+                <th>商品筛选：</th>
+                <td colspan="2">
+                    <label>商品分类</label>
+                    <select name="gy_edit_content_index_product_list_cid" id="gy_edit_content_index_product_list_cid" class="textLong" multiple="multiple" style="height:90px;width:120px;" >
+                        <option value="" selected="selected">所有分类</option>
+                        <volist name="modSet.goodsList" id="vo">
+                            <option value="{$vo.gc_id}"><for start="0" end="$vo[gc_level]">-</for>{$vo.gc_name}</option>
+                        </volist>
+                    </select>
+                    <label>商品品牌</label>
+                    <select name="gy_edit_content_index_product_list_bid" id="gy_edit_content_index_product_list_bid" class="textLong" multiple="multiple" style="height:90px;width:120px;" >
+                            <option value="" selected="selected">全部品牌</option>
+                            <volist name="brands" id="vo">
+                                <option value="{$vo.gb_id}"><for start="0" end="$vo[gc_level]">-</for>{$vo.gb_name}</option>
+                            </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>标签：</th>
+                <td>
+                    <input name="gy_edit_content_index_product_list_hot" id="gy_edit_content_index_product_list_hot" type="checkbox" value="1" />
+                    热卖商品
+                    <input name="gy_edit_content_index_product_list_new" id="gy_edit_content_index_product_list_new" type="checkbox" value="1" />
+                    最新商品
+                    
+                </td>
+            </tr>
+            <tr>
+                <th>热销商品分类：</th>
+                <td>
+                    <select name="gy_edit_content_index_product_list_hot_cid" id="gy_edit_content_index_product_list_hot_cid" class="textLong" multiple="multiple" style="height:90px;width:120px;" >
+                        <option value="" selected="selected">所有分类</option>
+                        <volist name="modSet.goodsList" id="vo">
+                            <option value="{$vo.gc_id}"><for start="0" end="$vo[gc_level]">-</for>{$vo.gc_name}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>热销商品条数：</th>
+                <td><input type="text"  class="textShort" value="5" name="gy_edit_content_index_product_list_hot_nums" id="gy_edit_content_index_product_list_hot_nums"/></td>
+            </tr>
+            <tr>
+                <th>商品条数：</th>
+                <td>
+                    列数：<input name="gy_edit_content_index_product_list_column" id="gy_edit_content_index_product_list_column" class="textShort" type="text" value="4" />
+                    商品数：<input name="gy_edit_content_index_product_list_num" id="gy_edit_content_index_product_list_num" class="textShort" type="text" value="3" />
+                </td>
+            </tr>
+            <tr>
+                <th>显示商品图片：</th>
+                <td>
+                    <input name="gy_edit_content_index_product_show_picture" type="radio" value="1" checked="checked" />是<input name="gy_edit_content_index_product_show_picture" type="radio" value="0" />否
+                </td>
+            </tr>
+            <tr>
+                <th>显示商品名称：</th>
+                <td>
+                    <input name="gy_edit_content_index_product_list_show_name" type="radio" value="1" checked="checked" />是<input name="gy_edit_content_index_product_list_show_name" type="radio" value="0" />否
+                </td>
+            </tr>
+            <tr id="show_goods_name">
+                <th>名称长度截取：</th>
+                <td>
+                    最多显示<input type="text" class="textShort" value="15" id="gy_edit_content_index_product_goods_name_nums" name="gy_edit_content_index_product_goods_name_nums" />字节
+                    超过以<input type="text" class="textShort" value="..."  id="gy_edit_content_index_product_goods_name_instead" name="gy_edit_content_index_product_goods_name_instead" /> 截断
+                </td>
+            </tr>
+            <tr>
+                <th>排序设定：</th>
+                <td>
+                    <select   name="gy_edit_content_index_product_list_order" id="gy_edit_content_index_product_list_order">
+                        <option>默认</option>
+                        <option value="new">按发布时间 新->旧</option>
+                        <option value="_new">按发布时间 旧->新</option>
+                        <option value="_price">按价格 从高到低</option>
+                        <option value="price">按价格 从低到高</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>商品描述设置：</th>
+                <td>
+                    <div>销售价：
+                    <span>
+                        是否显示<input type="radio" class="gy_edit_content_index_raido" name="sale_price" value="1" checked="checked" />是<input type="radio" class="gy_edit_content_index_raido" name="sale_price" value="0"/>否
+                    </span>
+                    <span><input type="text" onblur='blurPrice(this)'  class="textMedium" value="销售价:￥" /></span>
+                    </div>
+                    <div>市场价：
+                    <span>
+                        是否显示<input type="radio" class="gy_edit_content_index_raido" name="market_price" value="1" checked="checked" />是<input type="radio" class="gy_edit_content_index_raido" name="market_price" value="0" />否
+                    </span>
+                    <span><input type="text" onblur='blurPrice(this)' class="textMedium" value="市场价:￥" /></span>
+                    </div>
+                    <div>节&nbsp;&nbsp;&nbsp;省：
+                    <span>
+                        是否显示<input type="radio" class="gy_edit_content_index_raido" name="save_price" value="1" />是<input type="radio" class="gy_edit_content_index_raido" name="save_price" value="0" checked="checked"/>否
+                    </span>
+                    <span style="display:none" ><input type="text" onblur='blurPrice(this)' class="textMedium" value="节省:￥" /></span>
+                    </div>
+                    <div>折&nbsp;&nbsp;&nbsp;扣：
+                    <span>
+                        是否显示<input type="radio" class="gy_edit_content_index_raido" name="discount_price" value="1" />是<input type="radio" class="gy_edit_content_index_raido" name="discount_price" value="0" checked="checked"/>否
+                    </span>
+                    <span style="display:none" ><input type="text" onblur='blurPrice(this)' class="textMedium" value="折扣:%" /></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+            </tr>
+        </tbody>
+        <!--商品列表模块内容：结束-->
+        
+        <!--商品分类模块内容：开始-->
+        <tbody id="gy_edit_content_index_category">
+            <tr>
+                <th>循环深度：</th>
+                <td>
+                    <select name="gy_edit_content_index_category_foreach" id="gy_edit_content_index_category_foreach">
+                        <option value="1" selected="selected">仅显示一级分类</option>
+                        <option value="2">显示二级分类</option>
+                        <option value="3">显示三级分类</option>
+                        
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>分隔商品列表符号</th>
+                <td>
+                    <input name="gy_edit_content_index_category_symbol" id="gy_edit_content_index_category_symbol" class="textMedium" type="text" value="" />
+                </td>
+            </tr>
+        </tbody>
+        <!--商品分类模块内容：结束-->
+
+    </table>
+
+    <table style="width: 100%;" class="dialog_table" id="gy_edit_content_custom_tabs">
+        <!--自定义内容修改部分-->
+        <tbody>
+            <tr>
+                <th class=""></th>
+                <td><input type="text" class="" value="" /></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <!--保存按钮-->
+    <div style="margin-top:10px;">
+        <input type="button" id="content_save" value="保 存" />
+        <input type="button" id="content_close" value="不保存关闭" />
+    </div>
+</div>
+
+<div style="display:none;" alt="用于动态生成的文字/图片/超链接内容编辑器">
+    <div>
+        <table style="width: 100%;" class="dialog_table">
+            <tbody id="gy_edit_content_custom_text">
+                <tr>
+                    <th class="content_custom_text_title">文字标题：</th>
+                    <td><!--<input type="text" class="textMedium content_custom_text" value="" />--><textarea class="textLong content_custom_text" rows="6"></textarea></td>
+                </tr>
+            </tbody>
+            <tbody id="gy_edit_content_custom_image">
+                <tr>
+                    <th class="content_custom_image_title">图片地址：</th>
+                    <td>
+                        <input type="text" class="textLong content_custom_image" value="" />
+                        <input type="button" value="选择图片" class="content_custom_image_button" />
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="gy_edit_content_custom_link">
+                <tr>
+                    <th class="content_custom_link_title">链接地址：</th>
+                    <td><input type="text" class="textLong content_custom_link" value="" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!--#########################################################################-->
+<!--############################# 内容编辑器 #################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<script>
+    //模块内容编辑框
+    var get_mod_url = '/Admin/Edit/getModDataHtml/';
+    var get_mod_dat = {};
+    var price = new Object();
+    price['market_price'] = {};
+    price['market_price']['show'] = '市场价:￥';
+    price['sale_price'] = {};
+    price['sale_price']['show'] = '销售价:￥';
+    price['save_price'] = {};
+    price['discount_price'] = {};
+
+    $(document).ready(function(){
+        //对话框初始化
+        $('#gy_edit_content').dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: true,
+            width:800,
+            height:600,
+            show:'puff',
+            open:function() {
+                //$('.ui-widget-overlay').css('background-color','rgb(0,0,0,0.7)');
+                //$(this).find('.ui-dialog-titlebar-close').blur();
+            }
+        })
+        //.parent()
+        //.find('.ui-dialog-titlebar-close')
+        //.prependTo('#gy_edit_style_tabs')
+        //.closest('.ui-dialog')
+        //.children('.ui-dialog-titlebar')
+        //.remove();
+
+        //按钮初始化
+        $('#content_save,#content_close').button();
+        $('#content_close').die().click(function(){
+            $('#gy_edit_content').dialog('close');
+        });
+
+    });
+
+    function edit_content(){
+       // alert('TODO:内容编辑');
+
+        //根据当前模块的class调用(显示、隐藏)不同的
+        var className = $('.edit').attr('class').replace('block','').replace('edit','').trim();
+        $('#gy_edit_content tbody').hide();
+        get_mod_dat = {}
+        switch(className){
+            case 'index_news_list' :
+            case 'index_article_list' :
+                $('.edit').each(function(){
+                    var blocl_dat = $(this).attr('block-dat');
+                    var jsonObj = JSON.parse( blocl_dat );
+                    if(typeof(jsonObj) == 'object'){
+                        $("#gy_edit_content_index_news_list_num").val(jsonObj.num);
+                        $("#gy_edit_content_index_news_list_cid").val(jsonObj.cid);
+                    }
+                });
+                $("#gy_edit_content_index_news_list").show();
+                break;
+            case 'index_notice_list' :
+                $("#gy_edit_content_index_notice_list").show();
+                break;
+            case 'index_category':
+                $('#gy_edit_content_'+className).show();
+                break;
+			case 'index_ad_list_A':
+                $('#gy_edit_content_'+className).show();//楼层展示
+                break;			
+            case 'index_product_list_A':
+            case 'index_product_list_B':
+            case 'index_product_list_C':
+            case 'index_product_list_D':
+            case 'index_product_list_E':
+            case 'index_product_list_F':
+            case 'index_product_list_G':
+            case 'index_product_list_H':
+            case 'index_product_list_I':  
+            case 'index_product_list_J':
+            case 'index_product_list_K':   
+            case 'index_product_list_L':                                    
+                //商品模块编辑默认内容
+                $('.edit').each(function(){
+                    var blocl_dat = $(this).attr('block-dat');
+                    var jsonObj = JSON.parse( blocl_dat );
+                    if(typeof(jsonObj) == 'object'){
+                        //商品类型筛选
+                        $('#gy_edit_content_index_product_list_tid').val(jsonObj.tid);
+                        //商品价格区间
+                        $("#gy_edit_content_index_product_list_price1").val(jsonObj.startprice);
+                        $("#gy_edit_content_index_product_list_price2").val(jsonObj.endprice);
+                        //商品关键字筛选
+                        if(jsonObj.gname != ''){
+                            $("#gy_edit_content_index_product_list_keyword").val(jsonObj.gname);
+                            $("input[name='search_goods'][value='1']").attr('checked',true);
+                            $("input[name='search_goods']").parent().parent().next().show();
+                            $("input[name='search_goods']").parent().parent().next().next().hide();
+                        }
+                        //商品编号筛选
+                        if(jsonObj.gsn != ''){
+                            $("#gy_edit_content_index_product_g_sn").val(jsonObj.gsn);
+                            $("input[name='search_goods'][value='0']").attr('checked',true);
+                            $("input[name='search_goods']").parent().parent().next().hide();
+                            $("input[name='search_goods']").parent().parent().next().next().show();
+                        }
+                        
+                        //商品编号筛选
+                        
+                        //商品分类筛选
+                        $('#gy_edit_content_index_product_list_cid').val(jsonObj.cid);
+                        //商品品牌筛选
+                        $('#gy_edit_content_index_product_list_bid').val(jsonObj.bid);
+                        $("#gy_edit_content_index_product_list_hot").attr('checked',false);
+                        $("#gy_edit_content_index_product_list_new").attr('checked',false);
+                        //是否为热卖商品
+                        if(jsonObj.hot == 1){
+                            $("#gy_edit_content_index_product_list_hot").attr('checked',true);
+                        }
+                        //是否为最新商品
+                        if(jsonObj.new == 1){
+                            $("#gy_edit_content_index_product_list_new").attr('checked',true);
+                        }
+                        //热销商品排行榜分类筛选
+                        $("#gy_edit_content_index_product_list_hot_cid").val(jsonObj.hcid);
+                        //热销商品排行榜显示数量
+                        $("#gy_edit_content_index_product_list_hot_nums").val(jsonObj.hc_nums);
+                        //商品列数
+                        $("#gy_edit_content_index_product_list_column").val(jsonObj.column);
+                        //商品数量
+                        $("#gy_edit_content_index_product_list_num").val(jsonObj.num);
+                        //商品图片显示
+                        $("input[name='gy_edit_content_index_product_show_picture'][value='"+jsonObj.show_pic+"']").attr('checked',true);
+                        //商品名称显示
+                        $("input[name='gy_edit_content_index_product_list_show_name'][value='"+jsonObj.show_name+"']").attr('checked',true);
+                        if(jsonObj.show_name == 1){
+                            //商品名称长度截取 最多显示字符
+                            $("#gy_edit_content_index_product_goods_name_nums").val(jsonObj.g_nums);
+                            //商品名称长度截取 超出字符以XX代替
+                            $("#gy_edit_content_index_product_goods_name_instead").val(jsonObj.g_instead);
+                        }else{
+                            //将控制商品名称长度截取隐藏
+                            $("#show_goods_name").hide();
+                        }
+                        //商品排序设定
+                        $("#gy_edit_content_index_product_list_order").val(jsonObj.order);
+                        //商品描述设定
+                        // 1 销售价
+                        if(typeof(jsonObj.price) == 'object' && jsonObj.price.sale_price.show != null){
+                            $("input[name='sale_price'][value='1']").attr('checked',true);
+                            $("input[name='sale_price']").parent().next().children().val(jsonObj.price.sale_price.show);
+                            price['sale_price']['show'] = jsonObj.price.sale_price.show;
+                        }else{
+                            $("input[name='sale_price'][value='0']").attr('checked',true);
+                            $("input[name='sale_price']").parent().next().hide();
+                        }
+                        //2 市场价
+                        if(typeof(jsonObj.price) == 'object' && jsonObj.price.market_price.show != null){
+                            $("input[name='market_price'][value='1']").attr('checked',true);
+                            $("input[name='market_price']").parent().next().children().val(jsonObj.price.market_price.show);
+                            price['market_price']['show'] = jsonObj.price.market_price.show;
+                        }else{
+                            $("input[name='market_price'][value='0']").attr('checked',true);
+                            $("input[name='market_price']").parent().next().hide();
+                        }
+                        //3 节省
+                        if(typeof(jsonObj.price) == 'object' && jsonObj.price.save_price.show != null){
+                            $("input[name='save_price'][value='1']").attr('checked',true);
+                            $("input[name='save_price']").parent().next().show();
+                            $("input[name='save_price']").parent().next().children().val(jsonObj.price.save_price.show);
+                            price['save_price']['show'] = jsonObj.price.save_price.show;
+                        }else{
+                            $("input[name='save_price'][value='0']").attr('checked',true);
+                            $("input[name='save_price']").parent().next().hide();
+                        }
+                        //4 折扣
+                        if(typeof(jsonObj.price) == 'object' && jsonObj.price.discount_price.show != null){
+                            $("input[name='discount_price'][value='1']").attr('checked',true);
+                            $("input[name='discount_price']").parent().next().show();
+                            $("input[name='discount_price']").parent().next().children().val(jsonObj.price.discount_price.show);
+                            price['discount_price']['show'] = jsonObj.price.discount_price.show;
+                        }else{
+                            $("input[name='discount_price'][value='0']").attr('checked',true);
+                            $("input[name='discount_price']").parent().next().hide();
+                        }
+                    }
+                    //alert(jsonObj.cid);
+                });
+                $('#gy_edit_content_index_product_list').show();
+                break;
+        }
+        //console.log(get_mod_dat);
+
+        //初始化自定义内容的修改
+        // 1) 清空之前的自定义内容
+        $('#gy_edit_content_custom_tabs').empty();
+        // 2) 根据当前模块里面的editable元标签创建编辑器 ---------------------------
+        //文本类内容自定义 ------------------------------------------------------
+        //可供编辑的数量
+        var editableContentNums = [];
+        $(".edit *[textcontent-editable='true']").each(function(i){
+            var obj = $(this);
+            var k = $(this).attr('content-num');
+            //该编辑器不是重复的
+            if(-1 == $.inArray(k,editableContentNums)){
+                //克隆内容编辑器到容器中
+                //编辑器内容
+                var clone = $('#gy_edit_content_custom_text').clone();
+                var clone_id = 'gy_edit_content_custom_text_' + k;
+                var tabTitle = obj.attr('edit-name');
+                //克隆内容编辑器的各项属性，赋值和保存用
+                clone.attr('id',clone_id);
+                clone.attr('content-type','textContent-editable');
+                clone.attr('content-num',k);
+
+                clone.appendTo($('#gy_edit_content_custom_tabs'));
+
+                //初始化当前自定义内容编辑器
+                clone.find('.content_custom_text_title').html(tabTitle);
+                clone.find('.content_custom_text').val(obj.html());
+
+                editableContentNums.push(k);
+            }else{
+                //这个位置的内容编辑器已经有了
+            }
+        });
+        //图片类内容自定义 ------------------------------------------------------
+        editableContentNums = [];
+        $(".edit *[imagecontent-editable='true']").each(function(i){
+            var obj = $(this);
+            var k = $(this).attr('content-num');
+            
+            //该编辑器不是重复的
+            if(-1 == $.inArray(k,editableContentNums)){
+                //克隆内容编辑器到容器中
+                //编辑器内容
+                var clone = $('#gy_edit_content_custom_image').clone();
+                var clone_id = 'gy_edit_content_custom_image_' + k;
+                var tabTitle = obj.attr('edit-name');
+                //克隆内容编辑器的各项属性，赋值和保存用
+                clone.attr('id',clone_id);
+                clone.attr('content-type','imageContent-editable');
+                clone.attr('content-num',k);
+
+                clone.appendTo($('#gy_edit_content_custom_tabs'));
+                //绑定按钮动作
+                clone.find('.content_custom_image_button').button();
+                clone.find('.content_custom_image_button').die().live('click',function(){
+                    //var imgObj = $(this).parents('tbody').find('.content_custom_image');
+                    var imgObj = $(this).prev();
+                    upImage(imgObj);
+                });
+
+
+                //初始化当前自定义内容编辑器
+                clone.find('.content_custom_image_title').html(tabTitle);
+                clone.find('.content_custom_image').val(obj.attr('src'));
+
+                editableContentNums.push(k);
+            }else{
+                //这个位置的内容编辑器已经有了
+            }
+        });
+        //超链接地址自定义 ------------------------------------------------------
+        $(".edit *[linkcontent-editable='true']").each(function(i){
+            var obj = $(this);
+            var k = $(this).attr('content-num');
+            //该编辑器不是重复的
+            if(-1 == $.inArray(k,editableContentNums)){
+                //克隆内容编辑器到容器中
+                //编辑器内容
+                var clone = $('#gy_edit_content_custom_link').clone();
+                var clone_id = 'gy_edit_content_custom_link_' + k;
+                var tabTitle = obj.attr('edit-name');
+                //克隆内容编辑器的各项属性，赋值和保存用
+                clone.attr('id',clone_id);
+                clone.attr('content-type','linkContent-editable');
+                clone.attr('content-num',k);
+
+                clone.appendTo($('#gy_edit_content_custom_tabs'));
+                //初始化当前自定义内容编辑器
+                clone.find('.content_custom_link_title').html(tabTitle);
+                clone.find('.content_custom_link').val(obj.attr('href'));
+
+                editableContentNums.push(k);
+            }else{
+                //这个位置的内容编辑器已经有了
+            }
+        });
+        
+        
+        //---------------------------------------------------------------------
+        $('#gy_edit_content').parent().css({position:"fixed"}).end().dialog('open');
+    }
+
+    //保存按钮的事件
+    $('#content_save').die().click(function(){
+        var className = $('.edit').attr('class').replace('block','').replace('edit','').trim();
+        get_mod_dat = {};
+        switch(className){
+            //含有gyfx自定义标签的，都需要异步请求
+            case 'index_news_list' :
+            case 'index_article_list' :
+                //$('#gy_edit_content_'+className).show();
+                //收集设置信息
+                get_mod_dat = {
+                    'dir':dir,
+                    'mod':className,
+                    'dat':{
+                        'cid':$('#gy_edit_content_index_news_list_cid').val(),
+                        'num':$('#gy_edit_content_index_news_list_num').val()
+                    }
+                };
+                break;
+            case 'index_notice_list' :
+                //$('#gy_edit_content_'+className).show();
+                //收集设置信息
+                get_mod_dat = {
+                    'dir':dir,
+                    'mod':'index_notice_list',
+                    'dat':{
+                        'num':$('#gy_edit_content_index_notice_list_num').val()
+                    }
+                };
+                break;
+            case 'index_product_list_A':
+            case 'index_product_list_B':
+            case 'index_product_list_C':
+            case 'index_product_list_D':
+            case 'index_product_list_E':
+            case 'index_product_list_F':
+            case 'index_product_list_G':
+            case 'index_product_list_H':
+            case 'index_product_list_I':  
+            case 'index_product_list_J':
+            case 'index_product_list_K': 
+            case 'index_product_list_L':            
+                //$('#gy_edit_content_index_product_list').show();
+                get_mod_dat = {
+                    'dir':dir,
+                    'mod':className,
+                    'dat':{
+                        //分类id
+                        'cid':$('#gy_edit_content_index_product_list_cid').val(),
+                        //显示数量
+                        'num':$('#gy_edit_content_index_product_list_num').val(),
+                        //类型id
+                        'tid':$('#gy_edit_content_index_product_list_tid').val(),
+                        //价格区间
+                        'startprice':$("#gy_edit_content_index_product_list_price1").val(),
+                        'endprice':$("#gy_edit_content_index_product_list_price2").val(),
+                        //商品名称
+                        'gname':$("#gy_edit_content_index_product_list_keyword").val(),
+                        //商品编号
+                        'gsn':$('#gy_edit_content_index_product_g_sn').val(),
+                        //品牌id
+                        'bid':$('#gy_edit_content_index_product_list_bid').val(),
+                        //排序设定
+                        'order':$('#gy_edit_content_index_product_list_order').val(),
+                        //最新商品
+                        'new':$('input[name="gy_edit_content_index_product_list_new"]:checked').val(),
+                        //热卖商品
+                        'hot':$('input[name="gy_edit_content_index_product_list_hot"]:checked').val(),
+                        //销量排行榜分类id
+                        'hcid':$("#gy_edit_content_index_product_list_hot_cid").val(),
+                        //热销商品条数
+                        'hc_nums':$("#gy_edit_content_index_product_list_hot_nums").val(),
+                        //每列显示多少条
+                        'column':$('#gy_edit_content_index_product_list_column').val(),
+                        //显示商品名称
+                        'show_name':$("input[name='gy_edit_content_index_product_list_show_name']:checked").val(),
+                        //显示商品图片     
+                        'show_pic':$("input[name='gy_edit_content_index_product_show_picture']:checked").val(),
+                        //商品描述设定
+                        'price':price,
+                        'a':100,
+                        //商品名称最大长度
+                        'g_nums':$('#gy_edit_content_index_product_goods_name_nums').val(),
+                        //超出部分以...截取
+                        'g_instead':$('#gy_edit_content_index_product_goods_name_instead').val()
+                        
+                    }
+                };
+                break;
+            case 'index_category':
+                get_mod_dat = {
+                    'dir':dir,
+                    'mod':'index_category',
+                    'dat':{
+                        'foreach':$('#gy_edit_content_index_category_foreach').val(),
+                        'symbol':rtrim($('#gy_edit_content_index_category_symbol').val())
+                    }
+                };
+                break;
+            default:
+                //不需要异步请求数据的模块
+                get_mod_dat = {
+                    'mod':false,
+                    'dat':{}
+                }
+        }
+        //console.log(get_mod_dat);
+        //alert($('#gy_edit_content_index_product_list_cid').val());
+        if(false!=get_mod_dat.mod){
+            //异步请求模块数据
+            $.get(get_mod_url,get_mod_dat,function(result){
+            
+                //找到之前修改过的样式 ++++++++++++++++++++++++++++++++++++++++++
+                var css = {};
+                $('.edit').find('*[textstyle-editable="true"],*[imagestyle-editable="true"]').each(function(){
+                    var style = $(this).attr('style');
+                    var num = $(this).attr('style-num');
+                    css[num] = style;
+                    //console.log(style);
+                });
+                //console.log(css);
+                //载入获取的嵌套数据的HTML片段
+                $('.edit').html(result);
+                //保存自定义样式 +++++++++++++++++++++++++++++++++++++++++++++++
+                $('.edit').find('*[textstyle-editable="true"],*[imagestyle-editable="true"]').each(function(){
+                    var num = $(this).attr('style-num');
+                    var style = $(this).attr('style',css[num]);
+                    //console.log(style);
+                });
+                if(get_mod_dat.mod == 'index_category'){
+                    $('.edit').find('.index_category_menu2').css({color:'#FFF'});
+                }
+                //保存自定义内容 +++++++++++++++++++++++++++++++++++++++++++++++
+                //文本类 ------------------------------------------------------
+                get_mod_dat.dat.textcontent = {};
+                $('#gy_edit_content_custom_tabs tbody[content-type="textContent-editable"]').each(function(){
+                    var obj = $(this);
+                    var editType = $(this).attr('edit-type');
+                    var editNum = $(this).attr('content-num');
+                    //编辑器内修改的内容
+                    var text = obj.find('.content_custom_text').val();
+                    get_mod_dat.dat.textcontent[editNum] = text;
+                    //console.log(text);
+                    //找到要修改的页面元素,并更新
+                    $('.edit *[textcontent-editable="true"][content-num="'+editNum+'"]').html(text);
+                });
+                //图片类 ------------------------------------------------------
+                get_mod_dat.dat.imagecontent = {};
+                $('#gy_edit_content_custom_tabs tbody[content-type="imageContent-editable"]').each(function(){
+                
+                    var obj = $(this);
+                    var editType = $(this).attr('edit-type');
+                    var editNum = $(this).attr('content-num');
+                    //编辑器内修改的内容
+                    var imgUrl = obj.find('.content_custom_image').val();
+                    //console.log(text);
+                    get_mod_dat.dat.imagecontent[editNum] = imgUrl;
+                    //找到要修改的页面元素,并更新
+                    $('.edit *[imagecontent-editable="true"][content-num="'+editNum+'"]').attr('src',imgUrl);
+                });
+                //图片超链接 -------------------------------------------------------
+                get_mod_dat.dat.linkcontent = {};
+                $('#gy_edit_content_custom_tabs tbody[content-type="linkContent-editable"]').each(function(){
+                    var obj = $(this);
+                    var editType = $(this).attr('edit-type');
+                    var editNum = $(this).attr('content-num');
+                    //编辑器内修改的内容
+                    var linkUrl = obj.find('.content_custom_link').val();
+                    //console.log(text);
+                    get_mod_dat.dat.linkcontent[editNum] = linkUrl;
+                    //找到要修改的页面元素,并更新
+                    $('.edit *[linkcontent-editable="true"][content-num="'+editNum+'"]').attr('href',linkUrl);
+                });
+                //保存修订的内容 -----------------------------------------------
+                $('.edit').attr('block-dat',JSON.stringify(get_mod_dat.dat));
+                //关闭对话框 ---------------------------------------------------
+                $('#gy_edit_content').dialog('close');
+            },'text');
+        }else{
+            //保存自定义数据----------------------------------------------------
+            //图片类 ----------------------------------------------------------
+            get_mod_dat.dat.imagecontent = {};
+            $('#gy_edit_content_custom_tabs tbody[content-type="imageContent-editable"]').each(function(){
+            
+                var obj = $(this);
+                var editType = $(this).attr('edit-type');
+                var editNum = $(this).attr('content-num');
+                //编辑器内修改的内容
+                var imgUrl = obj.find('.content_custom_image').val();
+                //console.log(text);
+                get_mod_dat.dat.imagecontent[editNum] = imgUrl;
+                //找到要修改的页面元素,并更新
+                $('.edit *[imagecontent-editable="true"][content-num="'+editNum+'"]').attr('src',imgUrl);
+            });
+            //图片超链接 -------------------------------------------------------
+            get_mod_dat.dat.linkcontent = {};
+            $('#gy_edit_content_custom_tabs tbody[content-type="linkContent-editable"]').each(function(){
+                var obj = $(this);
+                var editType = $(this).attr('edit-type');
+                var editNum = $(this).attr('content-num');
+                //编辑器内修改的内容
+                var linkUrl = obj.find('.content_custom_link').val();
+                //console.log(text);
+                get_mod_dat.dat.linkcontent[editNum] = linkUrl;
+                //找到要修改的页面元素,并更新
+                $('.edit *[linkcontent-editable="true"][content-num="'+editNum+'"]').attr('href',linkUrl);
+            });
+            //文本类 -----------------------------------------------------------
+            get_mod_dat.dat.textcontent = {};
+            $('#gy_edit_content_custom_tabs tbody[content-type="textContent-editable"]').each(function(){
+                var obj = $(this);
+                var editType = $(this).attr('edit-type');
+                var editNum = $(this).attr('content-num');
+                //编辑器内修改的内容
+                var text = obj.find('.content_custom_text').val();
+                //console.log(text);
+                get_mod_dat.dat.textcontent[editNum] = text;
+                //找到要修改的页面元素,并更新
+                $('.edit *[textcontent-editable="true"][content-num="'+editNum+'"]').html(text);
+            });
+            //保存修订的内容 -----------------------------------------------
+            $('.edit').attr('block-dat',JSON.stringify(get_mod_dat.dat));
+            //关闭对话框 -------------------------------------------------------
+            $('#gy_edit_content').dialog('close');
+        }
+
+    });
+    
+
+    //去右空格;
+    function rtrim(s){
+        return s.replace( /\s*$/, "");
+    }
+    
+    $(".gy_edit_content_index_raido").click(function(){
+        setPrice($(this));
+    });
+    function setPrice(obj){
+        var val = obj.val();
+        var name = obj.attr('name');
+        if(val == 1){
+            obj.parent().next().show();
+            price[name]['show'] = obj.parent().next().children().val();
+        }else{
+            obj.parent().next().hide();
+            price[name]['show'] = '';
+        }
+    }
+    function blurPrice(obj){
+        var thisObj = $(obj).parent().prev().children();
+        setPrice(thisObj);
+    }
+    $("input[name='gy_edit_content_index_product_list_show_name']").click(function(){
+        if(this.value == 0){
+            $("#show_goods_name").hide();
+        }else{
+            $("#show_goods_name").show();
+        }
+    });
+    $("input[name='search_goods']").click(function(){
+        if(this.value == 1){
+            $(this).parent().parent().next().show();
+            $(this).parent().parent().next().next().hide();
+            $("#gy_edit_content_index_product_g_sn").val('');
+        }else{
+            $(this).parent().parent().next().hide();
+            $(this).parent().parent().next().next().show();
+            $("#gy_edit_content_index_product_list_keyword").val('');
+        }
+        
+    });
+</script>

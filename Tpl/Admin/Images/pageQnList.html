@@ -1,0 +1,137 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var editor = new UE.ui.Editor({
+        imageRealPath:"other"
+    });
+    editor.render("myEditor");
+    var dialog;
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            location.reload();
+        });
+    });
+
+    function upImage() {
+		var imgDir = $('#imgDir').val();
+		if(imgDir != ''){
+			editor.options.imageRealPath = imgDir;
+		}
+        dialog.open();
+    }
+
+    $(document).ready(function(){
+	    //设置上传的子目录 +++++++++++++++++++++++++++++++++++++++++++++++
+        $('#imgDir').change(function(){
+            location.href = "{:U('Admin/Images/pageQnList')}?dir="+$(this).val();
+        });
+        //图片预览框 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+        $('#showBigImage').dialog({
+            title:'显示图片',
+            width:'auto',
+            height:550,
+            autoOpen: false,
+            modal: true
+        });
+        //显示预览图片 ++++++++++++++++++++++++++++++++++++++++++++++++++
+        $('.imageItems').click(function(){
+            var http = "{:U('/', '', true, false, true)}";
+            http = http.substring(0,http.length-1);
+            var url = $(this).attr('src');
+            $('#bigImage').attr('src',url);
+            $('#bigImageUrl').val(url);
+			var key = $(this).attr('key');	
+            $('#bigImageWUrl').val(key);			
+            $('#showBigImage').dialog('open');
+        });
+        //快速选中图片地址 ++++++++++++++++++++++++++++++++++++++++++++++
+        $('#bigImageUrl,#bigImageWUrl').click(function(){
+            if($.browser.msie) this.createTextRange().select();
+            else {
+                this.selectionStart = 0;
+                this.selectionEnd = this.value.length;
+            }
+        });
+    });
+</script>
+<div class="rightInner">
+    <form action="{:U('Admin/Images/doDelQn')}" id="imgDel" name="imgDel" method="post">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th>
+                    <a class="btnG ico_del confirm" href="javascript:$('#imgDel').submit();">删除图片</a>
+                </th>
+                <th style="text-align: right;">
+				<!--
+					文件前缀：<input type="text" class="large" ><a class="btnG" style="color:#333;">搜索</a>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                    <input type="checkbox" class="checkAll" id="imageCheckAll" />
+                    <label for="imageCheckAll" title="删除时仅能删除图片，文件夹不会被删除">全选</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="nohover">
+            <tr>
+                <td colspan="2">
+                <volist name="list" id="dir">
+                    <div class="picList" style="padding: 0px 10px 10px 10px;height: auto;"> 
+                        <div> 
+                            <notempty name="dir.del">
+                                <div style="position: absolute;"><input type="checkbox" class="checkSon" value="{$dir[key]}" name="imagesDel[]" /></div>
+                            </notempty>
+                            <img src="{$dir[pic_url]}"  key="{$dir[key]}" style="width:120px; height: 120px; cursor: pointer;" class="imageItems" />
+                        </div>
+                        <div> 
+                            <span title="{$dir.key}" style="width:120px;overflow:hidden;">{$dir.key}</span>
+                        </div>
+                    </div>
+                </volist>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+                    <select class="medium" id="imgDir" name="imgDir" >
+						<option value="">全部图片</option>							
+						<option value="other" <if condition="$ary_data['dir'] eq 'goods' ">selected</if> >其他图片[other]</option>					
+                        <option value="goods" <if condition="$ary_data['dir'] eq 'goods'">selected</if>  >商品图片[goods]</option>
+                        <option value="desc" <if condition="$ary_data['dir'] eq 'desc'">selected</if>>介绍图片[desc]</option>
+						<option value="editor" <if condition="$ary_data['dir'] eq 'editor'">selected</if> >编辑器图片[editor]</option>
+						<option value="feedback" <if condition="$ary_data['dir'] eq 'feedback'">selected</if> >买家留言[feedback]</option>
+						<option value="links" <if condition="$ary_data['dir'] eq 'links'">selected</if> >友情链接图片[links]</option>				
+                    </select>				
+                    <a class="btnG ico_upload" href="javascript:upImage();">上传图片</a>
+					<span style="margin-left:600px;">
+					<notempty name="ary_data['next_marker']"><a href="{:U('Admin/Images/pageQnList')}?marker={$ary_data['next_marker']}">下一页</a></notempty></span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+
+    <div id="showBigImage" style="display:none;">
+        <table width="100%" class="tbForm">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <img src="" style="max-width: 800px;" id="bigImage" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>图片访问地址</td><td><input type="text" value="" id="bigImageUrl" class="large" /></td>
+                </tr>
+                <tr>
+                    <td>图片KEY</td><td><input type="text" value="" id="bigImageWUrl" class="large" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

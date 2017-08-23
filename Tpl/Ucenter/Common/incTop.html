@@ -1,0 +1,18 @@
+<div class="content1200">
+    <span>
+		<b>{$Think.session.Members.m_name} </b>{$Think.lang.TOP_WELCOME}<i><b>{$site_name}</b></i>{$Think.lang.TOP_FXNAME}！</span>
+    <ul>
+        <!--<li><a href="?l=zh-cn">简</a>|<a href="?l=zh-tw">繁</a>|<a href="?l=en-us">EN</a></li>-->
+        <li>
+			<a href="{:U('Home/Index/index')}">{$Think.lang.TOP_HOME}</a>
+			<i>|</i>
+			<a href="{:U('Home/Article/articleList')}">{$Think.lang.TOP_HELP}</a>
+		</li>
+        <li class="last">
+			<a href="{:U('Home/Index/index')}" title="{$Think.lang.TOP_INDEX}" class="home">{$Think.lang.TOP_INDEX}</a>
+			<a href="{:U('Ucenter/My/pageProfile')}" title="{$Think.lang.TOP_ACCOUNT}" class="user">{$Think.lang.TOP_ACCOUNT}</a>
+			<a href="{:U('Ucenter/User/doLogout')}" title="{$Think.lang.TOP_LOGOUT}" class="out">{$Think.lang.TOP_LOGOUT}</a>
+		</li>
+    </ul>
+	
+</div>

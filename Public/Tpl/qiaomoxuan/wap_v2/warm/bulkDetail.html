@@ -1,0 +1,212 @@
+﻿<link rel="stylesheet" href="__CSS__swiper.min.css">
+<script type="text/javascript" src="__JS__jquery.touchslider.min.js"></script>
+<script src="__JS__swiper.min.js"></script>
+<link href="{$Think.config.DOMAIN_HOST}__CSS__spike.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__js.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__bulk.js"></script>
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+
+<div class="header" id="header" style="height: 33px"><!--header start-->
+<div class="navbar">
+	<div class="navbar-icon">
+		<a onclick="window.history.back();">
+			<span class="goback"></span>
+		</a>
+	</div>
+	<span class="nav-title">团购详情</span>
+	<div class="navbar-home">
+		<a href="javascript:void(0);"></a>
+	</div>
+</div>
+</div>
+<Gyfx:goodsinfo name="goods_detail" gid="$g_id" erpguid="$g_id"></Gyfx:goodsinfo>
+<form id="bulkForm" name="bulkForm" method="post" action="javascript:void(0);">
+<input type="hidden" value="{$ary_request.gid}" id="gid">
+<input type="hidden" value="{$gp_id}" name="gp_id" id="gp_id">
+<input type='hidden' id='m_id' value='{$Think.session.Members.m_id}' />
+<input type='hidden' name='goods_type' value='{$goods_type}'/>
+<input type="hidden" name="way_type" value="bulk" id="way_type"/>
+<div class="container containerD"><!--container-->
+	<div class="detailTop"> <!--detailTop-->
+		<div class="lunbo banner"><!--lunbo-->
+			<div class="swiper-container" id="swiper-container2">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<img  src="{$Think.config.DOMAIN_HOST}{$gp_picture|showImage=###,640,315}" width="640px" height="315px">
+					</div>
+					<volist name="detail.gpics" id="pic">
+						<div class="swiper-slide">
+							<img  src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,315}" width="640px" height="315px">
+						</div>
+					</volist>
+				</div>
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+				<div class="swiper-pagination swiper-pagination-clickable"></div>
+			</div>
+		</div>
+		<!-- 标题价格内容 start-->
+		<div class="proDetail">
+			<h1 class="title">{$gp_title}</h1>
+			<p class="type">{$gp_remark}</p>
+			<div class="tgTitle1">
+				<span><abbr>此商品正在参加团购：</abbr></span>
+				<span id="timebox{$gp_id}">
+					<!--<b id="day">0</b>天-->
+					<b id="hour">0</b>小时
+					<b id="minute">0</b>分钟
+					<b id="second">0</b>秒
+				</span>
+				<span><abbr>后结束，请尽快购买!</abbr></span>
+				<script>countDown("{$gp_start_time}","{$gp_id}","2","<php>echo date('Y-m-d H:i:s');</php>","{$gp_end_time}","tuangouOver");</script>
+			</div>
+
+			<!-- <span class="comment"><i></i><i></i><i></i><i></i><i class="bad"></i>(122好评)<b><a href="">收藏</a></b> </span>-->
+			<p class="proPrice tgPrice">
+
+				<span>团购价格:<em>{$gp_price|sprintf='%.2f',###}</em>元</span>
+				<!--<span>原价：<del>300元</del></span>-->
+			</p>
+			<p class="tgPrice">已售出<em>{$gp_now_number}</em>件</p>
+			<!-- 分类选择 start-->
+			<div class="Choice">
+				<div class="proDT" id="showDetailSkus">
+					<script>getDetailSkus('{$gp_id}', 5);</script>
+				</div>
+				<!--<i></i>-->
+			</div>
+			<!-- 分类选择 end-->
+		</div>
+	<!--!detailTop-->
+	<!--detailCenter-->
+	<div class="tabs">
+		<a href="javascript:;" hidefocus="true" class="active">团购详情</a>
+		<a href="javascript:;" hidefocus="true">商品评价</a>
+		<a href="javascript:;" hidefocus="true">商品咨询</a>
+	</div>
+	<div id="tabs-container" class=" swiper-container-horizontal">
+		<div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);">
+			<div class="swiper-slide swiper-slide-active" style="width: 640px;">
+				<div class="content-slide">
+					<div class="detailCenterNav"><!--商品详情start-->
+						<div class="detailList" style="display:block;">
+							<notempty name="gp_desc">
+								{$gp_desc}
+							</notempty>
+							<if condition="is_show_desc eq 1">
+								{$detail.g_phone_desc}
+							</if>
+						</div>
+					</div>
+					<!--商品详情end-->
+				</div>
+			</div>
+			<div class="swiper-slide swiper-slide-visible swiper-slide-next" style="width: 640px;">
+				<div class="content-slide">
+					<div class="detailCenterNav"> <!--商品评价 start-->
+						<div class="detailList" id="goods_comments">
+						</div>
+					</div>
+					<!--用户评论 end-->
+				</div>
+			</div>
+
+			<div class="swiper-slide" style="width: 640px;">
+				<div class="content-slide"><div class="detailCenterNav"> <!--商品咨询 start-->
+					<div class="detailList"  id="goods_advice">
+					</div>
+				</div>
+				</div>
+			</div>
+			<!--商品咨询 end-->
+		</div>
+	</div>
+		<div class="recommPro" id="relate_goods">
+		</div>
+	</div>
+</div>
+<div class="addcart addcart1" style="display:block;">
+	<div class="sku-layout sku-box-shadow cartCnt">
+		<div class="layout-title sku-box-shadow name-card sku-name-card">
+			<div class="adv-opts layout-content" style="max-height: 468px;">
+				<div class="confirm-action content-foot clearfix">
+					<div class="half-button tg-button">
+						<if condition="$buy_status eq 0">
+							<a class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark" title="您的购买数已用完" href="javascript:void(0);" >您的购买数已用完</a>
+							<elseif condition="$buy_status eq 1" />
+							<!--手机端目前不支持支付定金-->
+							<a class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);">立刻购买</a>
+
+							<elseif condition="$buy_status eq 2" />
+							<assign name="curUrl" value="__SELF__" />
+							<a class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark" title="请先登录" href="{:U('Wap/User/Login')}?rquestUrl={$curUrl|urlencode}">请先登录</a>
+							<elseif condition="$buy_status eq 3" />
+							<a class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark" title="团购活动尚未开始" href="javascript:void(0);">团购活动尚未开始</a>
+							<elseif condition="$buy_status eq 4"/>
+							<a class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark" title="团购活动已结束" href="javascript:void(0);">团购活动已结束</a>
+							<elseif condition="$buy_status eq 5"/>
+							<a class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark" title="团购商品已售完" href="javascript:void(0);" >团购商品已售完</a>
+						</if>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+
+<form id="orderAddFrom" name="orderAddFrom" method="post" action="/Wap/Orders/pageAdd">
+	<input type="hidden" name="pid[]" id="addOrderPid" value="" />
+	<input type="hidden" name="type[]" id="addOrdertype" value=""/>
+</form>
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Wap/Orders/addOrderPage">
+	<input type="hidden" name="pid[]" id="submitSkipPid" value="" />
+	<input type="hidden" name="type[]" id="submitSkiptype" value=""/>
+</form>
+<script>
+	//	alert('{$ary_request.gid}');
+	getCommentPage('{$ary_request.gid}',1);
+	getAdvicePage('{$ary_request.gid}');
+	//获取相关商品
+	getRelateGoodsPage('{$ary_request.gid}');
+
+	var nullNum = "{$Think.lang.STOCK_ERROR_1}";
+	var notEnough = "{$Think.lang.STOCK_ERROR_2}";
+	var reselection = "{$Think.lang.STOCK_ERROR_3}";
+	var nonExistent = "{$Think.lang.STOCK_ERROR_4}";
+	var notLogin = "{$Think.lang.NO_LOGIN}";
+
+	var swiper = new Swiper('#swiper-container2', {
+		autoplay:3000,
+		slidesPerView: 1,
+		pagination:".swiper-pagination",
+		paginationClickable: true,
+		spaceBetween: 0,
+		freeMode: true,
+		prevButton:'.swiper-button-prev',
+		nextButton:'.swiper-button-next',
+	});
+</script>
+<script>
+	window.onload = function() {
+		var tabsSwiper = new Swiper('#tabs-container',{
+			speed:500,
+			onSlideChangeStart: function(){
+				$(".tabs .active").removeClass('active')
+				$(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+			}
+		})
+		$(".tabs a").on('touchstart mousedown',function(e){
+			e.preventDefault()
+			$(".tabs .active").removeClass('active')
+			$(this).addClass('active')
+			tabsSwiper.slideTo( $(this).index() )
+		})
+		$(".tabs a").click(function(e){
+			e.preventDefault()
+		})
+
+	}
+</script>

@@ -1,0 +1,101 @@
+<link href="__PUBLIC__/Ucenter/css/Cart.css" rel="stylesheet">
+
+<script src="__PUBLIC__/Ucenter/js/orders.js"></script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>我的购物车</span></h2>
+	<div class="checkInformation orderSuccess"><!--myCart   start-->
+    	<p class="topPic"></p>
+        <form id="successorderForm" name="successorderForm" method="POST" action="__APP__/Ucenter/Orders/paymentPage/" <php>if($ary_orders['pc_id'] != 1){</php>target='_blank'<php>}</php> >
+        <div class="paymentSucCon"><!--paymentSucCon  start-->
+        	<ul>
+            	<li><ins></ins></li>
+                <li>
+                	<strong><if condition="$ary_orders['payment_name'] eq $pay_name">订单提交成功！<elseif condition="$ary_orders['str_pay_status'] eq '已支付'" />订单支付成功！<else />订单提交成功，请您尽快付款！</if></strong>
+                    <br>
+                    <if condition="$ary_orders['pc_abbreviation'] neq 'DELIVERY'">
+                        订单支付 &nbsp;&nbsp;&nbsp;
+                        <a href="javascript:void(0);" onClick="suc_payments($(this));" class="wordBlue orderDet" id="upA" status="open">
+                            选择其他支付方式
+                        </a>
+                    </if>
+
+                    <p id="payment_name">您已选择的支付方式： &nbsp;&nbsp;&nbsp;<a href="#"><b>{$ary_orders.payment_name}</b></a></p>
+                    <dl  id="payment_list" style="display:none">
+                    	<dt>请选择支付方式：</dt>
+                        <volist name="payment_list" id="list" key="key"> 
+                            <dd>
+                                <span>
+                                    <input id="o_payment" name="o_payment" type="radio" value="{$list.pc_id}" <if condition="$list.pc_id EQ $ary_orders.pc_id "> checked </if>>
+                                    <input type="hidden" name="o_payment{$list.pc_id}" id="o_payment{$list.pc_id}" value="{$list.pc_custom_name}"> 
+                                    {$list.pc_custom_name}
+                                </span> {$list.pc_memo}
+                            </dd>
+                        </volist>
+                    </dl>
+                </li>
+            </ul>
+            <div class="clear"></div>
+            <div class="car_box"><!--car_box start-->
+            	订单号：{$ary_orders.o_id}  &nbsp;&nbsp;&nbsp;
+                    <a href="{:U("Ucenter/Orders/pageShow/","oid=$ary_orders[o_id]")}" class="wordBlue orderDet">
+                        查看订单详情
+                    </a>&nbsp; 
+                    <a href="{:U("Ucenter/Products/pageList")}" class="wordBlue orderDet">
+                        继续购物
+                    </a>
+                    <br>
+                    应付金额： &nbsp;&nbsp;&nbsp;<a href="#"><b>￥{$ary_orders.o_all_price|number_format=2}</b></a>
+                    <php>if(isset($pay_status) && $pay_status=='1'){</php>
+                    <br/>
+                    已付金额： &nbsp;&nbsp;&nbsp;<a href="#"><b>￥{$ary_orders.o_pay|number_format=2}</b></a>
+                    <php>}</php>
+                    <php>if(isset($ary_orders['gp_deposit_price'])){</php>
+                    <br/>
+                    可预付定金： &nbsp;&nbsp;&nbsp;<a href="#"><b>￥{$ary_orders.gp_deposit_price|number_format=2}</b></a>
+                    <php>}</php>
+                    <p>下单日期：{$ary_orders.o_create_time}
+                    <br>
+                    订单状态：{$ary_orders.str_status} <if condition="$ary_orders['o_status'] eq '1'">{$ary_orders.str_pay_status}  {$ary_orders.refund_status}  {$ary_orders.refund_goods_status} {$ary_orders.deliver_status}</if> </p>
+                <p class="refund">
+                    <input type="hidden" name="new_payment_id" id="new_payment_id" value="{$ary_orders.pc_id}"> 
+                    <input type="hidden" name="oid" id="oid" value="{$ary_orders.o_id}"> 
+                    <input type="hidden" name="typeStat" id="typeStat" value="" />
+                    <if condition="$ary_orders['pc_abbreviation'] neq 'DELIVERY'">
+                        <php>if(isset($pay_status) && $pay_status=='0'){</php>
+                        <input type="button" class="blue" value="全额付款" id="hideButton" onclick="javascrpt:paymentOrders(0);" />
+                        <input type="button" class="blue" value="定金支付" id="dingjinPay" onclick="javascrpt:paymentOrders(1);" />
+                        <php>}elseif(isset($pay_status) && $pay_status=='1'){</php>
+                        <input type="button" class="blue" value="支付尾款" id="hideButton" onclick="javascrpt:paymentOrders(2);" />
+                        <php>}elseif($ary_orders['o_pay_status'] != 1){</php>
+                        <input type="button" class="blue"  id="hideButton" <if condition="$ary_orders['o_pay_status'] eq '0'">value="立即支付" onclick="javascrpt:paymentOrders(0);"<elseif condition="$ary_orders['o_pay_status'] eq '3'"/>value="支付尾款" onclick="javascrpt:paymentOrders(2);"<else/></if> >
+                        <php>}</php>
+                    </if>
+					<input type="hidden" name="is_pay_send" id="is_pay_send" value="{$is_pay_send}" />
+                    <div id="children"  style="display:none" title="填写付款单"></div>
+					<div id="children1"  style="display:none" title="输入验证码"></div>
+                </p>
+            </div><!--car_box end-->
+            <div class="car_bj"></div>
+        </div><!--paymentSucCon  end-->
+        </form>
+	</div><!--myCart   end-->
+</div><!--contentRightBox  end-->
+<div class="pay_nobg" style="display: none;">
+    <div class="pay_no">
+        <a class="pay_no01" href="javascript:void(0);" onclick="payError();">支付未完成</a>
+        <a class="pay_no02" href="{:U('Ucenter/Orders/pageShow', 'oid='.$ary_orders['o_id'])}">完成支付</a>
+    </div>
+</div>
+<script type="text/javascript">
+var _mvq = _mvq || [];
+_mvq.push(['$setAccount', '']);
+
+_mvq.push(['$setGeneral', 'ordercreate', '', /*用户名*/ '{$Think.session.Members.m_name}', /*用户id*/ '{$Think.session.Members.m_id}']);
+_mvq.push(['$logConversion']);
+_mvq.push(['$addOrder',/*订单号*/ '{$ary_orders.o_id}', /*订单金额*/ '{$ary_orders.o_all_price|default="0"}']);
+<volist name="ary_orders_item" id="item">
+_mvq.push(['$addItem', /*订单号*/ '{$item.o_id}', /*商品id*/ '{$item.g_id}', /*商品名称*/ '{$item.oi_g_name}', /*商品价格*/ '{$item.oi_price}', /*商品数量*/ '{$item.oi_nums}', /*商品页url*/ 'http://{$Think.server.HTTP_HOST}/Home/Products/detail/gid/{$item.g_id}', /*商品页图片url*/ 'http://{$Think.server.HTTP_HOST}{$item.g_picture}']);
+</volist>
+_mvq.push(['$logData']);
+</script>

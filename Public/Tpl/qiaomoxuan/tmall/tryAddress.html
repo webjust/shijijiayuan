@@ -1,0 +1,275 @@
+{__NOLAYOUT__}
+<div class="try-box-mask"></div>
+<div class="try-contentbox ">
+    <div class="try-stdmod-header">免费申请</div>
+    <if condition="$checkStatus.status eq 1">
+        <div class="try-stdmod-body">
+            <h4 class="addr-title">
+                <em>{$Think.session.Members.m_name}</em>请确认你的收货地址：
+                <php>if(!empty($addr)){</php>
+                    <span class="addr-btn J_CreateAdd"><i></i>使用新地址</span>
+                <php>}</php>
+            </h4>
+            <!-- 原地址 start -->
+            <div class="addr-default" <php>if(empty($addr)) echo 'hidden';</php>>
+                <ul class="addr-list">
+                    <volist name="addr" id="detail">
+                        <li class="addr-item <if condition='$key eq 0'>current</if>" data-id="addr{$detail.ra_id}">
+                            <input type="radio" name="address" value="{$detail.ra_id}" <if condition='$key eq 0'>checked="checked"</if>>
+                            <label>
+                                {$detail.address} {$detail.ra_detail}
+                                <span>
+                                    ({$detail.ra_name} 收)
+                                    <if condition="$detail['ra_mobile_phone']">
+                                        {$detail.ra_mobile_phone}
+                                    <else />
+                                        {$detail.ra_phone}
+                                    </if>
+                                </span>
+                            </label>
+                            <b class="addr-to">寄到</b>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+            <!-- 原地址 end -->
+            <!-- 新地址 start -->
+            <ul class="addr-new <php>if(!empty($addr)) echo 'hidden';</php>" id="addr-new">
+                <li class="addr">
+                    <label><span class="require">*</span>地区：</label>
+                    <select id="province" name="J_province" onchange="initSelectCityRegion();selectCityRegion(this, 'city','');" validate="{ required:true}">
+                        <option value="0" selected="selected">请选择</option>
+                    </select>
+                    <select id="city" name="J_city" onchange="selectCityRegion(this, 'region','');" validate="{ required:true}">
+                        <option value="0" selected="selected">请选择</option>
+                    </select>
+                    <select id="region" name="J_region" validate="{ required:true}">
+                        <option value="0" selected="selected">请选择</option>
+                    </select>
+                </li>
+                <li>
+                    <label><span class="require">*</span>收货地址：</label><input type="text" id="J_DeliveryAdd" size="60">
+                    <div class="addr-msg error"><b></b>收货地址不能为空!</div>
+                </li>
+                <li>
+                    <label><!-- <span class="require">*</span> -->邮编：</label><input type="text" id="J_ZipCode">
+                    <div class="addr-msg error"><b></b>邮政编码格式不正确!</div>
+                </li>
+                <li>
+                    <label><span class="require">*</span>收货人姓名：</label><input type="text" id="J_Name">
+                    <div class="addr-msg error"><b></b>收货人姓名不能为空!</div>
+                </li>
+                <li class="tel">
+                    <label><span class="require">*</span>手机：</label>
+                    <input type="text" id="J_Phone"> 电话 <input type="text" id="J_AreaCode"> - <input id="J_TelePhone" type="text"> - <input id="J_TelePhoneExtension" type="text">
+                </li>
+                <li class="tip"><b></b>手机和电话至少填写一项,手机(11位数字)<!-- ,电话(区号-电话号码-分机) --></li>
+            </ul>
+            <!-- 新地址 end -->
+            <!-- 答题 start -->
+            <ul class="addr-new <php>if(empty($array_spec_info)) echo 'hidden';</php> try-addr-new" id="question">
+                <volist name="array_spec_info" id="vo">
+                    <li>
+                        <label>
+                            <if condition="$vo.gs_input_type neq 4">
+                            {$vo.gs_name}：
+                            </if>
+                        </label>
+                        <if condition="$vo.gs_input_type eq 1">
+                            <input type="text" class="large question" name="{$vo.gs_id}" value="{$vo.gsd_aliases}" />
+                        <elseif condition="$vo.gs_input_type eq 2" />
+                            <select class="medium question" name="{$vo.gs_id}" style="width:auto;">
+                                <option value="0" >请选择{$vo.gs_name}的属性值</option>
+                                <volist name="vo[spec_detail]" id="sp">
+                                    <if condition="$vo['gsd_id'] eq $sp['gsd_id']">
+                                        <option value="{$sp.gsd_id}" selected="selected" >{$sp.gsd_value}</option>
+                                    <else />
+                                        <option value="{$sp.gsd_id}" >{$sp.gsd_value}</option>
+                                    </if>
+                                </volist>
+                            </select>
+                        <elseif condition="$vo.gs_input_type eq 3" />
+                            <textarea name="{$vo.gs_id}" class="mediumBox question">{$vo.gsd_aliases}</textarea>
+                        <elseif condition="$vo.gs_input_type eq 4" />
+                            <!-- <div class="star-ico level2"></div> -->
+                        </if>
+                        <div class="addr-msg error"><b></b></div>
+                    </li>
+                </volist>
+            </ul>
+            <!-- 答题 end -->
+            <div class="addr-msg error" id="J_AddrError"><b></b></div>
+        </div>
+        <div class="try-stdmod-footer">
+            <input type="hidden" name="raid" value="{$addr[0]['ra_id']}" />
+            <a href="javascript:void(0);" class="try-btn try-btn-submit" id="try-btn"><strong>提交申请</strong></a>
+            <span class="addr-field-cell">
+                <!-- <input type="checkbox" name="agree" id="agree" checked="checked"><label for="agree">同意</label> -->
+                <!-- <a href="http://bbs.taobao.com/catalog/thread/14098510-262690779.htm" target="_blank">试用条款</a> -->
+            </span>
+        </div>
+    <else />
+        <div class="try-stdmod-body"><div class="addr-msg error" id="J_AddrError" style="display:block;"><b></b>{$checkStatus.msg}</div></div>
+        <div class="try-stdmod-footer"><a href="javascript:void(0);" class="try-btn try-btn-submit" id="try-btn-no"><strong>关闭</strong></a></div>
+    </if>
+</div>
+<a tabindex="0" href='javascript:void("关闭")' role="button" class="try-ext-close" id="try-ext-close">
+    <span class="try-ext-close-x">关闭</span>
+</a>
+<script type="text/javascript">
+// 区域验证
+function try_validate(){
+    var mobileReg = /^(\d{11})$/;
+    var telphone = /^(\(\d{3,4}\)|\d{3,4}-)?\d{7,8}$/;
+    var province = $('#province').val();
+    var city = $('#city').val();
+    var region = $('#region').val();
+    var detail = $('#J_DeliveryAdd');
+    var name = $('#J_Name');
+
+    var areacode = $('#J_AreaCode');
+    var telphone = $('#J_TelePhone');
+    var telphone_ext = $('#J_TelePhoneExtension');
+    var mobile = $('#J_Phone');
+    if(typeof province == 'undefined' || province == '' || typeof city == 'undefined' || city == '' || typeof region == 'undefined' || region == ''){
+        $('#J_AddrError').html('<b></b>请选择地区').show();
+        return false;
+    }
+    if(typeof detail.val() == 'undefined' || detail.val() == ''){
+        $('#J_AddrError').html(detail.next().html()).show();
+        return false;
+    }
+    if(typeof name.val() == 'undefined' || name.val() == ''){
+        $('#J_AddrError').html(name.next().html()).show();
+        return false;
+    }
+    if(typeof mobile.val() == 'undefined' || mobile.val() == ''){   // 手机
+        if(typeof areacode.val() == 'undefined' || areacode.val() == '' || typeof telphone.val() == 'undefined' || telphone.val() == ''){
+            $('#J_AddrError').html(mobile.parent().next().html()).show();
+            return false;
+        }
+    }else{
+        if(!mobileReg.test(mobile.val())){
+            $('#J_AddrError').html(mobile.parent().next().html()).show();
+            return false;
+        }
+    }
+    return true;
+}
+
+$(function(){
+    // 自动加载省份
+    var url = '/Ucenter/Address/getCityRegion/';
+    $('#province').load(url, {
+        'parent': 1,
+    });
+});
+// 提交
+$('#try-btn').bind({'click':function(){
+    var data = {};
+    if($('#addr-new').css('display') == 'block'){   // 新地址
+        if(!try_validate()) return false;
+        else $('#J_AddrError').html('').hide();
+        data = {
+            region : $('#region').val(),
+            detail : $('#J_DeliveryAdd').val(),
+            zipcode : $('#J_ZipCode').val(),
+            name : $('#J_Name').val(),
+            phone : $('#J_AreaCode').val() + '-' + $('#J_TelePhone').val() + '-' + $('#J_TelePhoneExtension').val(),
+            mobile : $('#J_Phone').val()
+        };
+    }else{  // 原来地址
+        var old_id = $('input[name=raid]').val();
+        if(typeof old_id == 'undefined' || old_id == ''){
+            $('#J_AddrError').html('<b></b>请选择地区').show();
+            return false;
+        }
+        data.old_id = old_id;
+    }
+    // 回答问题
+    if($('#question').css('display') == 'block'){
+        data.question_spec = {};
+        $('#question').find('.question').each(function(i){
+            data.question_spec[$(this).attr("name")] = $(this).val();
+        });
+    }
+    data.g_id = g_id;
+    data.try_id = try_id;
+    $('#try-btn').unbind(); // 提交按钮取消绑定事件
+    $.ajax({
+        url:'/Home/Try/doAddOrder',
+        cache:false,
+        dataType:"json",
+        type:"post",
+        data:data,
+        success:function(msgObj){
+            if(msgObj.status == 2){         // 申请成功
+                $('#try-ext-close').unbind();
+                setInterval(function(){
+                    $('.ks-ext-mask').hide();
+                    $('#dialog').hide();
+                    window.location.reload();
+                },2000);
+                $('#try-ext-close').bind({'click':function(){
+                    $('.ks-ext-mask').hide();
+                    $('#dialog').hide();
+                    window.location.reload();
+                }});
+            }
+            $('.try-stdmod-footer').hide(); // 隐藏提交按钮
+            $('.try-stdmod-body').html('<div class="fy-msg-wrap fy-fail"><b class="fy-icon"></b><p class="fy-bigtext">'+msgObj.info+'</p></div>');
+            setInterval(function(){
+                $('.ks-ext-mask').hide();
+                $('#dialog').hide();
+            },2000);
+        }
+    });
+}});
+// 选择地址
+$('li[data-id^="addr"]').bind({'click':function(){
+    $('input[name=address]').each(function(){
+        $(this).parent().removeClass('current');
+        $(this).removeAttr('checked');
+    });
+    $(this).addClass('current');
+    $(this).find('input').attr('checked','checked');
+    $('input[name=raid]').val($(this).find('input').val());
+    $('#J_AddrError').html('').hide();  // 隐藏错误提示
+}});
+// 关闭dialog
+$('#try-ext-close,#try-btn-no').bind({'click':function(){
+    $('.ks-ext-mask').hide();
+    $('#dialog').hide();
+}});
+// 使用地址
+$('.J_CreateAdd').toggle(function(){
+    $(this).html('使用原来地址');
+    $('.addr-default').hide();
+    $('#addr-new').show();
+},function(){
+    $(this).html('<i></i>使用新地址');
+    $('.addr-default').show();
+    $('#addr-new').hide();
+});
+// 初始化地址
+function initSelectCityRegion() {
+    $('#city').html('<option value="0">请选择</option>');
+    $('#region').html('<option value="0">请选择</option>');
+}
+//省市联动
+function selectCityRegion(obj, item, default_value) {
+    var value = obj.value;
+    if(!value){
+        value = obj;
+    }
+    var url = '/Ucenter/Address/getCityRegion/';
+    $('#'+item).load(url, {
+        'parent': value,
+        'default_value':default_value
+    }, function(){
+        if('' != default_value) {
+            this.value = default_value;
+        }
+    });
+}
+</script>

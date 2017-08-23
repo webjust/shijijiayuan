@@ -1,0 +1,39 @@
+
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<link rel="stylesheet" href="__UCSS__ucenter.css">
+<div class="header" id="header"><!--header start-->
+	<div class="navbar">
+		<div class="navbar-icon">
+			<a  href="javascript:void(0);" onclick="window.history.back();">
+				<span class="goback"></span>
+			</a>
+		</div>
+		<span class="nav-title">订单成功</span>
+		<!--<div class="navbar-home">-->
+			<!--<a href="javaScript:void(0)">-->
+				<!--<span class="headmore"></span>-->
+			<!--</a>-->
+		<!--</div>-->
+	</div>
+</div>
+<div class="container"><!--container-->
+	<!--Paysuccess-->
+	<div class="Paysuccess Submitsuccess">
+		<div class="payImg">
+			<img src="__UIMAGES__success.png">
+		</div>
+		<div class="top1">
+			<p class="p1">您已成功付款</p>
+			<p>订单编号：{$o_id}</p>
+			<p>本次消费金额：￥{$payment_price|sprintf="%.2f",###}</p>
+			<p>用户余额：{$balance}</p>
+		</div>
+		<div class="Btn">
+			<a href="{:U('Wap/Orders/orderDetail')}/oid/{$o_id}" class="myorder">订单详情</a>
+			<a href="{:U('Wap/Index/index')}" class="back">继续购物</a>
+		</div>
+	</div>
+	<!--Paysuccess-->
+</div>
+

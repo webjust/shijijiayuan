@@ -1,0 +1,46 @@
+<div class="rightInner">
+    <form id="type_form" name="type_form" method="post" action="{:U('Admin/GoodsType/doEidtType')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">商品类型编辑</th>
+                </tr>
+            </thead>
+            <tbody>
+				<tr>
+                    <td class="first">商品属性类型：</td>
+                    <td>
+						<select name="gt_type">
+							<option <if condition="$ary_type.gt_type eq 0">selected</if> value="0">商品属性</option>
+							<option <if condition="$ary_type.gt_type eq 1">selected</if> value="1">商品试用属性<option>
+						</select>
+                    </td>                    
+                     <td class="last">选择所属商品属性类型</td>
+                </tr>
+                <tr>
+                    <td class="first">类型名称：</td>
+                    <td>
+                        <input type="text" name="gt_name" id="gt_name" class="medium" value="{$ary_type.gt_name}" validate="{ required:true,remote:'{:U("Admin/GoodsType/checkTypeName")}?gt_id={$ary_type.gt_id}'}" /> <br>
+                    </td>                    
+                     <td class="last">请输入类型名称</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+					    <input type="hidden" name="gtid" value="{$ary_type.gt_id}">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/GoodsType/pageList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#type_form").validate();   
+    });
+</script>

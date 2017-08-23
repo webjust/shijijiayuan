@@ -1,0 +1,20 @@
+
+<div class="products" id="con_navSt_5" >
+    <ul>
+        <Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+            <php>if($key<8){</php>
+            <li>
+                <if condition="$showlist['show_pic'] eq 1">
+                <a href="{$showlist.gurl}"><img src="{$showlist.gpic}" width="185px" height="185px"/></a>
+                 </if>
+                <if condition="$showlist['sale_price'] neq ''">
+                <strong>RMB<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                 </if>
+                <if condition="$showlist['show_name'] eq 1">
+                <a href="{$showlist.gurl}" class="proN">{$showlist.gname}</a>
+                 </if>
+            </li>
+            <php>}</php>
+        </Gyfx:goodslist>
+    </ul>
+</div>

@@ -1,0 +1,131 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="category_form" name="category_form" method="post" enctype="multipart/form-data" action="{:U('Admin/Integral/doCateEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">积分兑换分类编辑</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">分类名称：</td>
+                    <td>
+                        <input type="text" name="gc_name" id="gc_name" size="25" maxlength="20" class="medium" value="{$category.gc_name}" validate="{required:true}" /> <span style="color:red;">*</span></span><br>
+                        <input type="hidden" value="{$category.gc_id}"  name="gc_id" id="gc_id" /> 
+                        <input type="hidden" value="{$category.gc_name}"  name="gcname" id="gcname" /> 
+                    </td>      
+                    <td class="last">限制20个文字</td>              
+                </tr>
+                <tr>
+                    <td class="first">分类图片：</td>
+                    <td>
+                        <a href="javascript:upImage();" class="btnG ico_upload">上传图片</a>
+                        <img width="50px" height="50px" src="{$category.gc_pic}" id="show_pic">
+                        &nbsp;
+                        <input type="hidden" id="gc_pic" name="gc_pic" value="{$category.gc_pic}"/>
+                    </td>     
+                   <td class="last">
+                   <if condition="$category.gc_pic neq '' " >
+                   <span id="logo_pic">
+                   <a href="{$category.gc_pic}" target="_blank"><img src="{$category.gc_pic}" width="40px" height="40px" title="{$category.gc_pic}"/></a>
+                   <a id="delPic" url="{:U('Admin/Integral/delCatePic')}?gc_id={$category.gc_id}" >删除</a>
+                   </span>
+                   </if>
+                   </td>
+                </tr>
+                <tr>
+                    <td class="first">排序：</td>
+                    <td>
+                        <input name="gc_order" class="medium" type="text" id="gc_order" size="25" maxlength="10" value="{$category.gc_order}"> 
+						<span style="color:red;">*</span><br> 
+                    </td>
+                    <td class="last">数字越小越靠前</td>
+                </tr>
+                <tr>
+                    <td class="first">前台是否显示：</td>
+                    <td>
+	                    <input type="radio" name="gc_is_display" value="1" <if condition="$category.gc_is_display eq 1">checked</if> id="gc_is_display_true" />
+	                    <label for="gc_is_display_true">是</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gc_is_display" value="0" <if condition="($category.gc_is_display eq 0) or ($category.gc_is_display eq '')">checked</if> value="0" id="gc_is_display_false" />
+	                    <label for="gc_is_display_false">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">关键字：</td>
+                    <td>
+                        <input name="gc_keyword" class="medium" type="text" value="{$category.gc_keyword}" id="gc_keyword" size="25" > <br> 
+                    </td>
+                    <td class="last">数字越小越靠前</td>
+                </tr>
+				<tr>
+                   <td class="first">分类描述：</td>
+                    <td>
+                        <textarea class="mediumBox"  name="gc_description" id="gc_description" >{$category.gc_description}</textarea>
+                    </td>
+                    <td class="last"></td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Integral/pageList')}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+	</form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script type="text/javascript">
+    var dialog;
+    var editor = new UE.ui.Editor({
+        imageRealPath:"editor"
+    });
+    editor.render("myEditor");
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            for(index in arg){
+                var image_path = arg[index]['src'];
+                $("#gc_pic").val(image_path);
+                $("#show_pic").attr({src:image_path});
+                
+            }
+        });
+        
+    });
+    
+    function upImage() {
+        dialog.open();
+    }
+</script>
+<script>
+    $(document).ready(function(){   
+        $("#category_form").validate();   
+    });
+    $("#delPic").click(function(){
+	    var url = $(this).attr("url");
+	   $.ajax({
+	       url:url,
+	       cache:false,
+	       dataType:'json',
+	       type:'POST',
+	       success:function(msgObj){
+			$("#logo_pic").css("display","none");			
+	       },
+	       error:function(msgObj){
+	   		alert('删除失败');		
+	       }
+	       });
+	});
+</script>

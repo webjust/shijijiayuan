@@ -1,0 +1,67 @@
+<link href="__PUBLIC__/Ucenter/css/Distribution.css" rel="stylesheet">
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>我的返利</span></h2>
+    <div class="myOrder">
+        <div class="myDepositOne" style="height:auto;">
+            <table class="tableTop">
+                <tr>
+                    <td width="100%">
+                        累计可获得返利:
+                        <b class="wordBlue">
+                            <i class="price">￥</i>{$pbs_list.total_return_amount|default="0"}
+                        </b>
+                    </td>
+                </tr>
+                <form action='{:U("Ucenter/Promoting/payBacks")}' method="POST">
+                <tr>
+                    <td>
+					<!--
+                        分销商名称：
+                        <input type="text" id="user_name"  name="user_name" class="input02" value="{$filter.user_name}">
+						
+						-->年 :<input type="text" value="{$filter.year}" name="year" id="year" />
+						月 :<input type="text" value="{$filter.month}" name="month" id="month" />
+                        <input type="submit" value="搜 索" class="blue"></input>
+                    </td>
+                </tr>
+               </form>
+            </table>
+        </div>
+        <div class="chooseProCon">
+            <div id="con_choose_1" class="chooseDiv">
+                <table class="tableCon">
+                    <thead>
+                        <tr>
+                            <td>分销商名</td>
+                            <td>订单总数量（单）</td>                  
+                            <td>订单总金额（元）</td>
+                            <td>成交总金额（元）</td>  
+							<td>返利总金额（元）</td>  
+                        </tr>                                              
+                    </thead>
+                    <tbody>
+					<volist name="pbs_list.report" id="item">
+					<tr>
+						<td class="aligncenter">{$item.m_name}</td>
+						<td>{$item.order_num}</td>
+						<td><!--订单总金额-->{$item.total_amount}</td>
+						<td><!--成交总金额--><php>echo ($item[total_amount]-$item[return_order_amount]);</php>（元）</td>
+						<td><!--返利总金额-->{$item.m_p_amount}（元）</td>
+					</tr>
+					</volist>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+        <div class="myOderBot">
+            <div class="myOderBotRight">
+                <div class="fenye">
+                   {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

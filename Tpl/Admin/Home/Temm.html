@@ -1,0 +1,41 @@
+<include file="Home:tabsTem" />
+<div class="rightInner" id="con_tabListP_5"><!--rightInner  start-->
+    <include file="Home:titleTpl" />
+    <table width="100%" class="tbList" style="margin-top:10px;">
+        <thead>
+            <tr>
+                <th>文件名称</th>
+                <th>大小</th>
+                <th>描述</th>
+                <th>修改日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="data" id="tpl">
+                <tr>
+                    <td>{$tpl.filename}</td>
+                    <td>{$tpl.filesize}</td>
+                    <td>{$tpl.desc|default="暂无"}</td>
+                    <td>{$tpl.filemtime}</td>
+                    <td>
+                        <a href='{:U("Admin/Home/pageEditTplTemm","tabs=$filter[tabs]&options=$filter[options]&dir=$filter[dir]&tid=$filter[tid]&file=$tpl[filename]&val=$tpl[value]&type=html&wapdir=$filter[wapdir]&appdir=$filter[appdir]")}' class="blue editA">代码编辑</a>
+                        <if condition="$tpl[filename] eq 'index.html'">
+                            <if condition="$filter[wapdir] eq '1'">
+                                <a href='{:U("Admin/WapEdit/edit/","dir=$filter[dir]&tid=$filter[tid]&file=$tpl[filename]&val=$tpl[value]&type=html&wapdir=1")}' target="_blank">可视编辑</a>
+                            <elseif condition="$filter[appdir] eq '1'"/>
+                                <a href='{:U("Admin/AppEdit/edit/","dir=$filter[dir]&tid=$filter[tid]&file=$tpl[filename]&val=$tpl[value]&type=html&appdir=1")}' target="_blank">可视编辑</a>
+                                <else />
+                                <a href='{:U("Admin/Edit/edit/","dir=$filter[dir]&tid=$filter[tid]&file=$tpl[filename]&val=$tpl[value]&type=html")}' target="_blank">可视编辑</a>
+
+                            </if>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            <empty name="data">
+                <tr><td colspan="5">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+    </table>
+</div><!--rightInner  end-->

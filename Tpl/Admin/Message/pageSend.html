@@ -1,0 +1,102 @@
+<div class="rightInner">
+<form id="messageForm" method="post" action="{:U('Admin/Message/doAdd')}">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">添加站内信</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+	    <td class="first">收信人：</td>
+		<td>
+			<input class="rsl_to_m_id" type="radio" name="rsl_to_m_id" value="1" checked="checked"}>全部会员
+	        <input class="rsl_to_m_id" type="radio" name="rsl_to_m_id" value="0">部分会员
+		</td>
+	</tr>
+    <tr class="raMember none">
+       <td class="first">会员组</td>
+       <td>
+	<volist name="mGroups" id="mg"><input type="checkbox" name="pn_mg[]" value="{$mg.mg_id}" /> {$mg.mg_name}&nbsp;&nbsp;</volist>
+	</td>
+	</tr>
+	<tr class="raMember none">
+	    <td class="first">会员等级</td>
+	    <td>
+	<volist name="mLevels" id="ml"><input type="checkbox" name="pn_ml[]" value="{$ml.ml_id}" /> {$ml.ml_name}&nbsp;&nbsp;</volist>
+	</td>
+	</tr>
+	<tr class="raMember none">
+	    <td class="first">指定会员</td>
+	    <td>
+	        <input type="text" name="" class="medium" id="memberName" /> <a href="javascript:void(0);" onclick="addMember();">添加会员</a><br>
+	        <table id="raMemberId" class="tbInner" width="400px;">
+	            <tr>
+	                <th>会员名称</th><th>会员等级</th><th>操作</th>
+	            </tr>
+	        </table>
+	    </td>
+	</tr>
+	<tr>
+		<td class="first">* 站内信标题：</td>
+		<td>
+		    <input class="large" type="text" name="sl_title" value="" id="sl_title" validate="{required:true}">
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">编辑内容：</td>
+		<td><textarea class="mediumBox" name="sl_content" id="sl_content" validate="{required:true}"></textarea></td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" >
+            <input type="button" onclick="window.history.go(-1);" value="取 消" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#messageForm').validate();
+        /*全部会员还是部分会员*/
+        $(".rsl_to_m_id").click(function(){
+            if($(this).val()=='0'){
+                $('.raMember').fadeIn('fast');
+            }else{
+                $('.raMember').hide();
+            }
+        });
+    });
+    /*添加会员*/
+    function addMember(){
+    	var isexist = false;
+    	$('.m_name').each(function(){
+    		if($("#memberName").val()==$(this).text()){
+    			isexist = true;
+    			return false;
+    		}
+    	});
+    	if(isexist){
+    		return false;
+    	}
+        var url = "{:U('Admin/Message/getMemberTr')}";
+        var data = { name:$("#memberName").val()};
+        $.post(url,data,function(info){
+            if(info=="false"){
+                showAlert(false,'出错了','请输入用户名或用户名不正确');
+            }else{
+                $('#raMemberId').append(info);
+            }
+        },'text');
+    }
+    /*删除会员*/
+    function delMember(obj){
+        obj.parent('td').parent('tr').remove();
+    }
+</script>

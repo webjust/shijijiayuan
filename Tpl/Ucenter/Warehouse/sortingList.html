@@ -1,0 +1,45 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+        <table class="tbList">
+            <thead>
+            <tr class="title">
+                <th colspan="99">分拣单明细</th>
+            </tr>
+            <tr>
+                <th>商品名称</th>
+                <th>商品数量</th>
+                <th>仓位</th>
+                <th>条形码</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="goodsList" id="good">
+                <tr id="list_{$goodsList.os_id}">
+                    <td>{$good.g_name}</td>
+                    <td>{$good.os_nums}</td>
+                    <td>{$good.p_code}</td>
+                    <td>{$good.pdt_bar_code}</td>
+                </tr>
+            </volist>
+            <empty name="goodsList">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

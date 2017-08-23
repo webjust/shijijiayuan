@@ -1,0 +1,35 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">前台日志</th>
+            </tr>
+            <tr>
+                <th>编号</th>
+                <th>用户名</th>
+                <th>邮箱</th>
+                <th>访问时间</th>
+                <th>IP</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="User_log" id="item">
+            <tr>
+                <td>{$item.id}</td>
+                <td>{$item.u_name}</td>
+                <td>{$item.email}</td>
+                <td>{$item.log_create}</td>
+                <td>{$item.log_ip}</td>
+                <td>{$item.detail}</td>
+            </tr>
+        </volist>
+        </tbody>
+                      <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

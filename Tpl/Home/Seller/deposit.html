@@ -1,0 +1,140 @@
+<style>
+    .intro_content{width: 100%;overflow: hidden;}
+    .intro_content_box{width: 1200px;overflow: hidden;margin: 0 auto;background:#efeff1;padding:20px 0;}
+    .intro_content_top{width: 1200px;height:51px;overflow: hidden;}
+    .intro_content_top ul li{float: left;width:230px;height:49px;font-size:20px;border:1px solid #b6b6b6;background:white;text-align: center;line-height: 49px;margin-right: 10px;}
+    .intro_content_top ul li:last-child{margin-right: 0;}
+    .intro_content_top ul li.on{background: #ff2691;color: white;}
+    .intro_content_body{width: 1140px;margin: 20px auto;height:500px;overflow: hidden;background: white;}
+    .intro_content_title{width: 1140px;height:40px;overflow: hidden;background: #676767;font-size: 20px;color: white;line-height: 40px;}
+    .intro_content_title .lt{width: 150px;height:40px;overflow: hidden;float:left;background: #959595;line-height: 40px;text-align: center;}
+    .intro_content_title .rt{width: 960px;height:40px;overflow: hidden;float:left;line-height: 40px;padding-left: 30px;}
+    .intro_content_content{width: 1140px;height:460px;overflow: hidden;}
+    .intro_content_content>div{width:570px;height:230px;overflow: hidden;float: left;}
+    .intro_content_lt{width:117px;height:209px;border-bottom: 1px solid #959595;background:#f7f7f7;float:left;text-align: center;padding-top: 20px;font-size: 16px;}
+    .intro_content_no{border-bottom: 1px solid white;}
+    .intro_content_rt{width:453px;height:230px;overflow:hidden;background:#ffffff;float: left;}
+    .intro_content_content>form>div div.intro_content_rt>div:first-child{width:453px;height:49px;overflow:hidden;border-bottom: 1px solid #959595;}
+
+    input{ vertical-align:middle; margin:0; padding:0}
+    .file-box{ position:relative;width:330px;margin-top: 14px;margin-left: 112px;}
+    .txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
+    .btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:70px;}
+    .file{ position:absolute; top:0; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
+
+    .intro_content_btn{width:1200px;height:50px;text-align: center;overflow: hidden;}
+    .intro_content_btn a{width:233px;height:50px;display:inline-block;text-align: center;overflow: hidden;font-size:20px;line-height: 50px;background:white;margin-right:50px;}
+    .intro_content_btn a:first-child{background:#ff2691;color: white;}
+    .intro_content_btn a:last-child{margin-right: 0;}
+</style>
+<div class="intro_content">
+    <div class="intro_content_box">
+        <div class="intro_content_top">
+            <ul>
+                <li>签署协议</li>
+                <li>填写申请</li>
+                <li class="on">资质上传</li>
+                <li>店铺信息</li>
+                <li>等待审核</li>
+            </ul>
+        </div>
+        <div class="intro_content_body">
+            <div class="intro_content_title">
+                <div class="lt">
+                    企业基本资料
+                </div>
+                <div class="rt">
+                    提示：所以资质必须清晰可辨，加盖彩色公章，图片支持JPG/JPEG/PNG/GIG/BMP格式，最大不超过1M。
+                </div>
+            </div>
+            <div class="intro_content_content">
+                <form action="">
+                    <div>
+                        <div class="intro_content_lt">
+                            组织机构<br/>
+                            代码证<br/>
+                            复印件
+                        </div>
+                        <div class="intro_content_rt">
+                            <div>
+                                <div class="file-box">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <input type='text' name='textfield' id='textfield' class='txt' />
+                                        <input type='button' class='btn' value='浏览...' />
+                                        <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                                        <input type="submit" name="submit" class="btn" value="上传" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="intro_content_lt">
+                            组织机构<br/>
+                            代码证<br/>
+                            复印件
+                        </div>
+                        <div class="intro_content_rt">
+                            <div>
+                                <div class="file-box">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <input type='text' name='textfield' id='textfield' class='txt' />
+                                        <input type='button' class='btn' value='浏览...' />
+                                        <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                                        <input type="submit" name="submit" class="btn" value="上传" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="intro_content_lt intro_content_no">
+                            企业营业<br/>
+                            执照副本<br/>
+                            复印件
+                        </div>
+                        <div class="intro_content_rt">
+                            <div>
+                                <div class="file-box">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <input type='text' name='textfield' id='textfield' class='txt' />
+                                        <input type='button' class='btn' value='浏览...' />
+                                        <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                                        <input type="submit" name="submit" class="btn" value="上传" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="intro_content_lt intro_content_no">
+                            负责人<br/>
+                            身份证
+                        </div>
+                        <div class="intro_content_rt">
+                            <div>
+                                <div class="file-box">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <input type='text' name='textfield' id='textfield' class='txt' />
+                                        <input type='button' class='btn' value='浏览...' />
+                                        <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                                        <input type="submit" name="submit" class="btn" value="上传" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="csrf" value="{$csrf}"/>
+                </form>
+            </div>
+        </div>
+        <div class="intro_content_btn">
+            <a href="http://www.caizhuangguoji.com/Home/Seller/shopInformation.html">确定</a>
+            <a href="#">取消</a>
+        </div>
+    </div>
+</div>

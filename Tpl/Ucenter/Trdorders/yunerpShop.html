@@ -1,0 +1,137 @@
+<script src="__PUBLIC__/Ucenter/js/orders.js"></script>
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+    <div class="contentRightBox"><!--contentRightBox  start-->
+        <h2 class="publicH2"><span> 店铺信息</span></h2>
+
+        <div class="myOrder"><!--myOrder  start-->
+            <form id="orders_form" method="post" action='{:U("Ucenter/Trdorders/DoAddYunerpShop")}' >
+                <table class="tableTop">
+                    <tr>
+                        <td width="80">店铺昵称：</td>
+                        <td width="200">
+                            <input type="text" id="nick" name="nick" class="input01" value="{$shop_info['ts_nick']}">
+                        </td>
+                        <td width="110">店铺类型：</td>
+                        <td>
+                            <select name="types">
+                                <option value="1" >淘宝</option>
+                                <!--<option value="2" >其他</option>-->
+                                <option value="3" >淘宝分销</option>
+                                <option value="4" >拍拍</option>
+                                <option value="5" >京东</option>
+                                <option value="6" >当当</option>
+                                <option value="8" >商派网站</option>
+                                <option value="10" >商派分销王</option>
+                                <option value="11" >一号店</option>
+                                <option value="12" >凡客</option>
+                                <option value="14" >亚马逊</option>
+                                <option value="16" >邮乐</option>
+                                <option value="17" >好乐买</option>
+                                <option value="18" >QQ网购</option>
+                                <option value="19" >QQ彩贝</option>
+                                <option value="20" >阿里巴巴</option>
+                                <option value="21" >优购</option>
+                                <option value="22" >新蛋网</option>
+                                <option value="23" >聚美优品</option>
+                                <option value="24" >天品网</option>
+                                <option value="25" >走秀网</option>
+                                <option value="26" >乐蜂网</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="float: left;">
+                            <button type="submit" class="blue">保存</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <table class="tableCon">
+                <thead>
+                    <tr>
+                        <td width="180">店铺昵称</td>
+                        <td width="125">类型</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <if condition="$shop_info NEQ ''">
+                       <volist name="shop_info" id="shop">
+                            <tr>
+                                <td width="180">{$shop.ts_nick}</td>
+                                <if condition="$shop.ts_source eq 1">
+                                    <td width="180">淘宝</td>
+                                <elseif condition="$shop.ts_source eq 2"/>
+                                    <td width="180">拍拍</td>
+                                <elseif condition="$shop.ts_source eq 3"/>
+                                    <td width="180">淘宝分销</td>
+                                <elseif condition="$shop.ts_source eq 4"/>
+                                    <td width="180">拍拍</td>
+                                <elseif condition="$shop.ts_source eq 5"/>
+                                    <td width="180">京东</td>
+                                <elseif condition="$shop.ts_source eq 6"/>
+                                    <td width="180">当当</td> 
+                                <elseif condition="$shop.ts_source eq 8"/>
+                                    <td width="180">商派网站</td> 
+                                <elseif condition="$shop.ts_source eq 10"/>
+                                    <td width="180">商派分销王</td> 
+                                <elseif condition="$shop.ts_source eq 11"/>
+                                    <td width="180">一号店</td> 
+                                <elseif condition="$shop.ts_source eq 12"/>
+                                    <td width="180">凡客</td> 
+                                <elseif condition="$shop.ts_source eq 14"/>
+                                    <td width="180">亚马逊</td> 
+                                <elseif condition="$shop.ts_source eq 16"/>
+                                    <td width="180">邮乐</td> 
+                                <elseif condition="$shop.ts_source eq 17"/>
+                                    <td width="180">好乐买</td> 
+                                <elseif condition="$shop.ts_source eq 18"/>
+                                    <td width="180">QQ网购</td> 
+                                <elseif condition="$shop.ts_source eq 19"/>
+                                    <td width="180">QQ彩贝</td> 
+                                <elseif condition="$shop.ts_source eq 20"/>
+                                    <td width="180">阿里巴巴</td> 
+                                <elseif condition="$shop.ts_source eq 21"/>
+                                    <td width="180">优购</td> 
+                                <elseif condition="$shop.ts_source eq 22"/>
+                                    <td width="180">新蛋网</td> 
+                                <elseif condition="$shop.ts_source eq 23"/>
+                                    <td width="180">聚美优品</td>
+                                <elseif condition="$shop.ts_source eq 24"/>
+                                    <td width="180">天品网</td>
+                                <elseif condition="$shop.ts_source eq 25"/>
+                                    <td width="180">走秀网</td> 
+                                <elseif condition="$shop.ts_source eq 26"/>
+                                    <td width="180">乐蜂网</td> 
+                                </if>
+                                <td>
+                                    <a href='{:U("Ucenter/Trdorders/yunerpshopEdit" ,"id=$shop[ts_id]")}' >修改</a>
+                                    <a href='{:U("Ucenter/Trdorders/YunerpshopDel" ,"id=$shop[ts_id]")}' class="confirm">删除</a>
+                                </td>
+                            </tr>
+                       </volist> 
+                    <else />
+                        <tr><td colspan="6">没有符合条件的记录！</td></tr>
+                    </if>
+                </tbody>
+            </table>
+            <div class="myOderBot"><!--myOderBot  start-->
+                <div class="myOderBotRight"><!--myOderBotRight  start-->
+                    {$page}
+                </div><!--myOderBotRight  end-->
+            </div><!--myOderBot  end-->
+        </div><!--myOrder  end-->
+    </div><!--contentRightBox  end-->
+  <!-- 右侧主题内容结束 -->
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.confirm').click(function(){
+        if(!confirm('确定删除，操作无法恢复')){
+            return false;
+        }
+    });
+});
+</script>

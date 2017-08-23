@@ -1,0 +1,71 @@
+<div class="rightInner">
+    <form method="get" action="{:U('Admin/SalesStatistics/MembersRanking')}" >
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                   
+                    <ul class="conOneUl" style="width:80%">
+                   
+                        <li>时间：<input type="text" name="start_time" class="large medium timer" value="{$filter.start_time}"  style="width: 145px;float: none;"></li>
+                        <li>至<input type="text" name="end_time" class="large medium timer" value="{$filter.end_time}"  style="width: 145px;float: none;"></li>
+                        <li>会员等级：
+                            <select name="field" class="small" style="width: auto">
+								<option value="">请选择</option>
+								<volist name="level_list" id="lists">
+									<option value="{$lists.ml_id}" <eq name="filter.field" value="$lists.ml_id">selected="selected"</eq>>{$lists.ml_name}</option>
+                                </volist>
+                            </select>
+                        </li>
+                        <li>用户名：<input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+                        <li><input type="submit" value="搜索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                    </ul>
+                </th>
+            </tr>
+            <tr>
+                <th>用户名</th>
+                <th>姓名</th>
+                <th>订单数</th>
+                <th>商品金额</th>
+                <th>运费</th>
+                <th>订单金额</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val">
+                <tr>
+                    <td>{$val.m_name}</td>
+                    <td>
+						<if condition="($val['m_real_name'] eq '' )">
+							{$val.m_name}
+						<else />
+							{$val.m_real_name}
+						</if> 
+					</td>
+					<td>{$val.count_orders|default=0}</td>
+					<td>{$val.goods_all_price|sprintf='%.2f',###}</td>
+					<td>{$val.o_cost_freight|sprintf='%.2f',###}</td>
+					<td>{$val.total_amount|sprintf='%.2f',###}</td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="99">
+				    注:不含作废订单
+					<span class="right page">{$page}</span>
+				</td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<div id="pro_dialog" style="display: none;">
+    <div id="tip_div"></div>
+</div>

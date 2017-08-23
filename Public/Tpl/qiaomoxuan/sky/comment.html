@@ -1,0 +1,156 @@
+{__NOLAYOUT__}
+<div class="rv-rate">
+    <div class="rv-rate-wrap clearfix">
+        <div class="rv-rate-item rv-rate-score">
+            <php>
+                $good_rate=floor(($ary_gcs['five_star_count']/$ary_gcs['total_count'])*100);
+                $severe_rate = floor(($ary_gcs['four_star_count'] + $ary_gcs['three_star_count'])/$ary_gcs['total_count'] *100);
+                $bad_rate = floor(($ary_gcs['two_star_count'] + $ary_gcs['one_star_count'])/$ary_gcs['total_count'] *100);
+            </php>
+            <div class="item">
+                <p class="score"><span>{$good_rate}</span>%</p>
+                <p>好评度</p>
+            </div>
+        </div>
+        <div class="rv-rate-percent">
+            <dl>
+                <dt>好评（<span>{$good_rate}%</span>）</dt>
+                <dd>
+                    <div  class="process" style="width:<php>echo $good_rate;</php>px;"></div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>中评（<span>{$severe_rate}%</span>）</dt>
+                <dd>
+                    <div   class="process" style="width:<php>echo $severe_rate;</php>px;"></div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>差评（<span>{$bad_rate}%</span>）</dt>
+                <dd>
+                    <div  class="process" style="width:<php>echo $bad_rate;</php>px;"></div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="rv-list clearfix">
+    <ul>
+        <li  style="cursor: pointer" <php>if($type==0){</php> class="on" <php>}</php> onclick="CommentPage('{$g_id}',1,0)">全部</li>
+        <li style="cursor: pointer"  <php>if($type==1){</php> class="on" <php>}</php> onclick="CommentPage('{$g_id}',1,1)">好评({$ary_gcs.five_star_count|default=0})</li>
+        <li style="cursor: pointer"  <php>if($type==2){</php> class="on" <php>}</php> onclick="CommentPage('{$g_id}',1,2)" >中评({$ary_gcs['four_star_count'] + $ary_gcs['three_star_count']|default=0})</li>
+        <li style="cursor: pointer"  <php>if($type==3){</php> class="on" <php>}</php> onclick="CommentPage('{$g_id}',1,3)">差评({$ary_gcs['two_star_count'] + $ary_gcs['one_star_count']|default=0})</li>
+    </ul>
+</div>
+<div class="rv-target-con clearfix">
+<div class="rv-ever">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="recomm_table">
+        <tbody>
+        <volist name="data" id="cinfo" >
+            <tr>
+                <td width="20%">{$cinfo.gcom_mbname|default="匿名用户"}</td>
+                <td width="50%" class="recomm_cnt">
+                    {$cinfo[gcom_content]}
+                    <if condition="$cinfo['gcom_pics'] neq ''">
+                    <div class="shaidan">
+                        <span>
+                             <php>
+                                 $gcom_pics = explode(',',$cinfo['gcom_pics']);
+                                 foreach($gcom_pics as &$pic){
+                                 $pic = D('QnPic')->picToQn($pic);
+                                 }
+                                 foreach($gcom_pics as $gcom_pic){
+                                 if($gcom_pic!=''){
+                             </php>
+                                <a href="{$gcom_pic}" target="_blank" >
+                                    <img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" />
+                                </a>
+                             <php>}}</php>
+                        </span>
+
+                    </div>
+                    <if condition="$cinfo[reply] neq ''">
+                        <p class="reply"><span>客服回复：</span>{$cinfo[reply][gcom_content]}</p>
+                    </if>
+                    </if>
+
+                    <if condition="$cinfo['recomment'] neq ''">
+                        <php>foreach($cinfo['recomment'] as $recomment){</php>
+                        <p><span>[追加评论]</span>{$recomment['gcom_content']}</p>
+                            <if condition="$recomment[gcom_pics] neq ''">
+                                <span>
+                                    <php>$gcom_pics = explode(',',$recomment['gcom_pics']);
+                                        foreach($gcom_pics as &$pic){
+                                        $pic = D('QnPic')->picToQn($pic);
+                                        }
+                                        foreach($gcom_pics as $gcom_pic){
+                                    </php>
+                                    <a href="{$gcom_pic}" target="_blank" >
+                                        <img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" />
+                                    </a>
+                                    <php>}</php>
+                                </span>
+                            </if>
+                            <if condition="$recomment[reply] neq ''">
+                                <p class="reply"><span>客服回复：</span>{$recomment[reply][gcom_content]}</p>
+                            </if>
+                        <php>}</php>
+                    </if>
+
+                </td>
+                <td width="15%">
+                    <switch name="cinfo.gcom_star_score">
+                        <case value="20">
+                            <span class="star one"></span>
+                        </case>
+                        <case value="40">
+                            <span class="star two"></span>
+                        </case>
+                        <case value="60">
+                            <span class="star three"></span>
+                        </case>
+                        <case value="80">
+                            <span class="star four"></span>
+                        </case>
+                        <case value="100">
+                            <span class="star five"></span>
+                        </case>
+                    </switch>
+
+                </td>
+                <td width="15%">{$cinfo[gcom_create_time]}</td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+</div>
+<!--分页-->
+<div class="fenye" style="float: right">
+    <php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+    <if condition="$a eq $page['nowPage']">
+        <a class="on" href="javascript:void(0);">{$a}</a>
+        <else/>
+        <switch name="type" >
+        <case value="0">
+            <a onclick="CommentPage('{$g_id}','{$a}',0)">{$a}</a>
+        </case>
+        <case value="1">
+            <a onclick="CommentPage('{$g_id}','{$a}',1)">{$a}</a>
+        </case>
+        <case value="2">
+            <a onclick="CommentPage('{$g_id}','{$a}',2)">{$a}</a>
+        </case>
+        </switch>
+    </if>
+    <php>}</php>
+</div>
+<script>
+    $(document).ready(function(){
+        if("{$count}"){
+            $('#show_comment_num').html("("+"{$ary_gcs.total_count|default=0}" +")");
+            $("#comment_count").html("全部评价("+'{$ary_gcs.total_count}'+')');
+        }
+
+    });
+</script>

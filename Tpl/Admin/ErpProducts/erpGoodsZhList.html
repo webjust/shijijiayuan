@@ -1,0 +1,347 @@
+<div id="tip_dialog">
+    <div id="good_dialog" style="display:none">
+    </div>
+</div>
+<div class="rightInner">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="4">
+                        <!--href='{:U("Admin/ErpProducts/doAddERPGoods?type=all")}' -->
+                        <div class="TtopLeft">
+                            <a class="btnB add" href="javascript:;" onclick="return ajaxDoAddErpGoods();">全部同步</a>
+                            <a class="btnB add" href="javascript:;" id="synBatGoods">批量同步</a>
+                            <a class="btnB add advancedSyn" href="javascript:;" val="syn">高级同步</a>
+                        </div>
+                     </th>
+                     <th colspan="2" style="text-align:right;font-size: 12px;padding:3px 5px;">
+                        
+                            货号：<input type="text" name="spdm" class="large" value="{$filter.spdm}" id="spdm" style="width: 145px;">
+                                    <input type="button" value="同 步" class="btnHeader inpButton synOneGoods" data-uri='{:U("Admin/ErpProducts/synOneGoods")}' data-acttype="ajax">
+                     </th>
+                     <th colspan="3" style="text-align:right;font-size: 12px;padding:3px 5px;">
+                        <form id="searchForm" method="post" action="{:U('Admin/ErpProducts/erpGoodsZhList')}">
+                            <select name="field" class="small" style="width: 80px;">
+                                <option value="SPDM" <if condition="$filter.field eq 'SPDM'">selected="selected"</if>>商品编码</option>
+                                <option value="SPMC" <if condition="$filter.field eq 'SPMC'">selected="selected"</if>>商品名称</option>
+                            </select>
+                                <input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;">
+                                <input type="hidden" value="easy" name="search" />
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+                        </form>
+                     </th>
+                     <th colspan="1" style="text-align:center;font-size: 12px;padding:3px 5px;">
+                         <a class="advancedSyn" href="javascript:void(0);" val="search">高级搜索</a>
+                     </th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>同步状态</th>
+                    <th>商品编码</th>
+                    <th>商品名称</th>
+                    <th>ERP/分销上下架状态</th>
+                    <th>销售价</th>
+                    <th>可下单库存</th>
+                    <th>在途数</th>
+                    <th>商品分类</th>
+                    <th>商品品牌</th>
+                </tr>
+            </thead>
+            <form method="get" action="{:U('Admin/ErpProducts/sysOneErpGoods')}" id="products_add">
+            
+            <tbody>
+            <volist name="ary_goods" id="goods">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="guid[]" value="{$goods.spdm}" /></td>
+                    <td class="list_{$goods.spdm}" id="guid_{$goods.spdm}">
+                        <if condition="$goods[is_tp] eq 0" >
+                            <span style="color:red"><a href="javascript:void(0);" class="synOneGoods" val="{$goods.spdm}" type="1" data-uri='{:U("Admin/ErpProducts/synOneGoods")}' data-acttype="ajax">同步</a></span>
+                            <else/><span style="color:green;">已同步</span>
+                        </if>
+                        
+                    </td>  
+                    <td>
+                        {$goods.spdm}
+                    </td>
+                    <td >{$goods.spmc}</td>
+                    <td class="">
+                        <if condition="$goods.sj eq '1'">
+                            <font color="green">在架</font>
+                        <else />
+                            <font color="red">已下架</font>
+                        </if>/
+                        <if condition="$goods[is_tp] eq 1" >
+                            <if condition="$goods.is_fx eq '2'">
+                                <a href="javascript:void(0);">
+                                    <font color="red" spdm="{$goods.spdm}" val="{$goods.is_fx}" id="spdm_{$goods.spdm}" data-uri='{:U("Admin/ErpProducts/doGoodsOnSale")}' data-acttype="ajax" class="doGoodsOnSale">已下架</font>
+                                </a>
+                            <else />
+                                <a href="javascript:void(0);">
+                                    <font color="green" class="doGoodsOnSale" val="{$goods.is_fx}" spdm="{$goods.spdm}" id="spdm_{$goods.spdm}" data-uri='{:U("Admin/ErpProducts/doGoodsOnSale")}' data-acttype="ajax">在架</font>
+                                </a>
+                            </if>
+                        <else />
+                            <font color="red">已下架</font>
+                        </if>
+                    </td>
+                    <td class="left">{$goods.bzsj}</td>   
+                    <td>{$goods.sl2}</td>
+                    <td>{$goods.sl1}</td>
+                    <td>{$goods.lb_name|default="暂无"}</td>
+                    <td>{$goods.pp1mc|default="暂无"}</td>
+                </tr>    
+            </volist>
+            <empty name="ary_goods">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            
+            <tfoot>
+                <tr>
+                    <input type="hidden" id="type" name="type" value="other">
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+</form>
+    <div class="clear"></div>
+</div>
+<div id="allerp" name="" style="display:none" title="erp商品同步中">
+    
+</div>
+<script>
+$(document).ready(function(){
+    //根据货号单个同步
+    $(".synOneGoods").click(function(){
+        var url = $(this).attr("data-uri");
+        var type = $(this).attr("type");
+        if(type !== '' && type == '1'){
+            var spdm = $(this).attr("val");
+        }else{
+            var spdm = $("#spdm").val();
+        }
+        if(spdm == ''){
+            $("#J_ajax_loading").addClass('ajax_error').html("货号不能为空！").show().fadeOut(5000);
+            return false;
+        }
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:"json",
+            data: {spdm:spdm,"QY_SPZH":'1'},
+            type:"POST",
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                if(msgObj.status == '1'){
+                    $(".list_"+spdm).html("<span style='color:green;'>已同步</span>");
+                    $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                }else{
+                    $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                }
+            }
+        });
+    });
+    
+    //批量同步
+    $("#synBatGoods").click(function(){
+        var guids = new Array();
+        $(".tbList input:checked[class='checkSon']").each(function(){
+            guids.push(this.value);
+        });
+        guid = guids;
+        guids = guids.join(",");
+        if(guids == ''){
+            $("#J_ajax_loading").addClass('ajax_error').html("请选择需要同步的商品！").show().fadeOut(5000);
+            return false;
+        }
+        $.ajax({
+            url:'{:U("Admin/ErpProducts/synBatGoods")}',
+            cache:false,
+            dateType:'json',
+            type:'POST',
+            data:{guid:guids,"QY_SPZH":'1'},
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                if(msgObj.status == '1'){
+                    $.each(guid,function(index,value){
+                        $("#guid_"+value).html("<span style='color:green;'>已同步</span>");
+                    });
+                    $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                }else{
+                    $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                }
+            }
+        });
+    });
+    //高级同步
+    $(".advancedSyn").click(function(){
+        var field = $(this).attr("val");
+        var str = '';
+        switch(field){
+            case 'syn':
+                str = '同步';
+                break;
+            case 'search':
+                str = '搜索';
+                break;
+            default:
+                str = '搜索';
+        }
+        $.ajax({
+            url:'{:U("Admin/ErpProducts/getErpGoodCategory")}',
+            cache:false,
+            dateType:'TEXT',
+            type:'POST',
+            data:{field:field,'zh':'1'},
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                $("#good_dialog").html(msgObj);
+                $("#good_dialog").dialog({
+                    height:400,
+                    width:500,
+                    resizable:false,
+                    modal:true,
+                    title:'商品高级'+str,
+                    close:function(){
+                        $("#good_dialog").dialog('destroy');
+                        $('#tip_dialog').append($('#good_dialog'));
+                    }
+                });
+            }
+        });
+        return false;
+    });  
+    
+    //根据货号上下架
+    $(".doGoodsOnSale").click(function(){
+        var url = $(this).attr("data-uri");
+        var val = $(this).attr("val");
+        var spdm = $(this).attr("spdm");
+        if(spdm == ''){
+            $("#J_ajax_loading").addClass('ajax_error').html("货号不能为空！").show().fadeOut(5000);
+            return false;
+        }
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:"json",
+            data: {spdm:spdm,val:val},
+            type:"POST",
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                if(msgObj.status == '1'){
+                    if(val == '1'){
+                        $("#spdm_"+spdm).html("已下架");
+                        $("#spdm_"+spdm).attr("color","red");
+                        $("#spdm_"+spdm).attr("val","2");
+                    }else if(val == '2'){
+                        $("#spdm_"+spdm).html("在架");
+                        $("#spdm_"+spdm).attr("color","green");
+                        $("#spdm_"+spdm).attr("val","1");
+                    }
+                    $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                }else{
+                    $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                }
+            }
+        });
+    });
+});
+    
+var page_size = 1;
+var page_no = 0;
+var page_num = 0
+var total_products = 0;
+var succRows	= 0;
+var errRows		= 0;
+ function ajaxDoAddErpGoods(){
+     //alert(1);return false;
+   
+        $('#allerp').html('');
+        var url = "/Admin/ErpProducts/getCombinationGoodsCount";
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:'TEXT',
+            data:{},
+            success:function(msgObj){
+                var total = parseInt(msgObj);
+		total_products = total;
+		page_num = Math.ceil(total/page_size);
+                $("#allerp").dialog({
+                    width:450,
+                    height:240,
+                    modal:true,
+                    title:'商品同步 [ 共有 <span style="font-weight:bold; color:#F00;">' + total + '</span> 条组合商品]',
+                    buttons:{
+                        '确定':function(){
+                            $(this).dialog("close");
+                            return false;
+                        }
+                    }
+                });
+                page_no = 0;
+                saveAll();
+            }
+        });
+}
+   
+    function saveAll(){
+        page_no++;
+        if(page_no <= page_num){
+        var w = Math.ceil((page_no / page_num) * 400);
+        var p = Math.ceil((page_no / page_num) * 100);
+        var innerHtmls = '<p align="center"><img src="__PUBLIC__/Admin/images/ajaxloading.gif"/>';
+        innerHtmls += '<span>正在同步第' + page_no + '条数据，共' + page_num + '条，请稍后......'+p+'%</span></p>';
+        innerHtmls += '<p><div style="min-width:400px; width:auto; min-height:8px; height:auto; border:1px solid silver; padding:2px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"><div id="loading" style="height:8px; background-color:green; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;"></div></div></p>';
+        $('#allerp').html(innerHtmls);
+        $("#loading").css("width",w+'px');
+        $.ajax({
+        url:'{:U("Admin/ErpProducts/doCombinationGoods")}',
+        cache:false,
+        dataType:'json',
+        type:'POST',
+        data:{'page_size':page_size, 'page_no':page_no},
+        success:function(msgObj){
+            succRows = succRows+msgObj.succRows;
+            errRows	= errRows+msgObj.errRows;
+            if(page_no == page_num){
+                var after_message = '<b>全部商品同步完成，共同步成功<span style="color:#f00;">' + succRows + '</span>条数据！</b>'+
+                    '<b>同步失败<span style="color:red;">' + errRows + '</span>条数据！</b>';
+                $('#allerp').html(after_message);
+            }
+            saveAll();
+        }
+        });
+        }else{
+        page_no = 0;
+        succRows	= 0;
+        errRows		= 0;
+        }
+}
+  
+</script>

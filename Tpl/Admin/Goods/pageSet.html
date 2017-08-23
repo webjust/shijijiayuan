@@ -1,0 +1,65 @@
+<script src="__PUBLIC__/Admin/js/stock.js"></script>
+<div class="rightInner">
+    <form id="set_form" name="set_form" method="post" action="{:U('Admin/Goods/doSet')}" onsubmit="return javascriptCheckBeforeSubmit();">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">商品设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">商品规格显示维度：</td>
+                    <td>
+                        <input type="text" name="VARIABLE_DEPTH" id="variable_depth" class="medium" value="{$VARIABLE_DEPTH.sc_value|default=2}" />
+                        <span style="border:0px solid #ff0000;background-color:#FFF8ED;display:none;font-size:15px;margin:3px;"></span>
+                    </td>
+                    <td class="last">默认为2，指前台模板最多显示2维销售属性（兼容老模板），2以上不兼容老模板</td>
+                </tr>
+				<tr>
+                    <td class="first">商品编辑后是否默认下架：</td>
+                    <td>
+                        <input type="radio" name="IS_ON_SALE" <if condition="$IS_ON_SALE.sc_value eq 1">checked="checked"</if> value="1" id="is_on_sale_1" />
+						<label for="is_on_sale_1" style="cursor:pointer;">是</label>
+						<input type="radio" name="IS_ON_SALE" <if condition="$IS_ON_SALE.sc_value eq 2">checked="checked"</if> value="2" id="is_on_sale_2" style="margin-left:30px;" />
+						<label for="is_on_sale_2" style="cursor:pointer;">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用最小起拍数倍数：</td>
+                    <td>
+                        <php>if(empty($IS_ON_MULTIPLE['sc_value']) || $IS_ON_MULTIPLE['sc_value'] == null ){</php>
+                        <input type="radio" name="IS_ON_MULTIPLE"  value="1" id="is_on_mulitiple_1" />
+                        <label for="is_on_mulitiple_1" style="cursor:pointer;">是</label>
+                        <input type="radio" name="IS_ON_MULTIPLE" value="2" id="is_on_mulitiple_2" checked="checked" style="margin-left:30px;" />
+                        <label for="is_on_mulitiple_2" style="cursor:pointer;">否</label>
+                       <php>}else{</php>
+                        <input type="radio" name="IS_ON_MULTIPLE" <if condition="$IS_ON_MULTIPLE.sc_value eq 1">checked="checked"</if> value="1" id="is_on_mulitiple_1" />
+                        <label for="is_on_mulitiple_1" style="cursor:pointer;">是</label>
+                        <input type="radio" name="IS_ON_MULTIPLE" <if condition="$IS_ON_MULTIPLE.sc_value eq 2">checked="checked"</if> value="2" id="is_on_mulitiple_2" style="margin-left:30px;" />
+                        <label for="is_on_mulitiple_2" style="cursor:pointer;">否</label>
+                       <php>}</php>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="window.location.href='{:U('Admin/Products/pageList')}'" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#set_form").validate();
+
+    });
+</script>

@@ -1,0 +1,38 @@
+{__NOLAYOUT__}
+<notempty name="data">
+ <volist name="data" id="list">
+	<li class="clearfix">
+		<a href="{:U('Wap/Bulk/detail')}?gp_id={$list['gp_id']}&gid={$list['g_id']}" class="img"><img src="{$Think.config.DOMAIN_HOST}{$list.gp_picture|showImage=###,100,100}" width="100" height="100" /></a>
+		<div class="bulkM">
+			<a href="{:U('Wap/Bulk/detail')}?gp_id={$list['gp_id']}&gid={$list['g_id']}" title="{$list.gp_title}" class="proN">{$list.gp_title}</a>
+			<p><i>&yen;</i><strong>{$list.gp_price|sprintf='%.2f',###}</strong>&nbsp&nbsp&nbsp<del>原价 &yen;{$list.cust_price|sprintf='%.2f',###} </del></p>
+			<p class="time" id="showGroupTime">
+				<i></i>
+				<php>if($list['stat_time'] == 1){</php>
+					<span><abbr>待开始：</abbr></span>
+					<span id="timebox{$list.gp_id}">
+						<!--<b id="day">0</b>天-->
+						<b id="hour">0</b>小时
+						<b id="minute">0</b>分钟
+						<b id="second">0</b>秒
+					</span>
+					<script>countDown("{$list.gp_start_time}","{$list.gp_id}","2","<php>echo date('Y-m-d H:i:s');</php>","{$list.gp_end_time}","tuangouOver");</script>
+				<php>}elseif($list['stat_time'] ==2){</php>
+					<span><abbr style="color:red">已结束!</abbr></span>
+				<php>}else{</php>
+					<span><abbr>剩余：</abbr></span>
+					<span id="timebox{$list.gp_id}">
+						<!--<b id="day">0</b>天-->
+						<b id="hour">0</b>小时
+						<b id="minute">0</b>分钟
+						<b id="second">0</b>秒
+					</span>
+					<script>countDown("{$list.gp_end_time}","{$list.gp_id}","1","<php>echo date('Y-m-d H:i:s');</php>",'1',"tuangouOver");</script>
+				<php>}</php>							
+			</p>
+			<p>销售量：{$list['gp_now_number']}件</p>
+		</div>
+	</li>		 
+</volist>   
+</notempty>   
+

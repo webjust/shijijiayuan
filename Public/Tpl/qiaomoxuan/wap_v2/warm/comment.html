@@ -1,0 +1,129 @@
+{__NOLAYOUT__}
+<div class="Comment">
+	<h1>用户评论</h1>
+	<!--商品评价底部内容 start-->
+	<!--商品评价列表内容 start-->
+	<div class="reply">
+		<!--商品评价列表内容1 start-->
+		<!--<div class="reply1">-->
+			<!--<div class="userMsg">-->
+				<!--<div class="user">-->
+					<!--<a href="#"><img src="__IMAGES__user.jpg" width="60"/></a>-->
+				<!--</div>-->
+				<!--<div class="name">-->
+					<!--<p>王强</p>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="content">-->
+				<!--<p>-->
+					<!--完美的一款跑鞋-->
+					<!--<span class="date">2015/05/06</span>-->
+				<!--</p>-->
+				<!--<p class="assess">-->
+					<!--首先非常喜欢这款鞋的设计，穿着也轻便透气，到货后迫不及待的穿上去外面跑了一圈，整体感觉鞋非常非常的-->
+					<!--轻巧，透气性也很良好，最主要的抗震性，跑山地道路对脚的印象非常小。-->
+				<!--</p>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--商品评价列表内容1 end-->
+		<!--商品评价列表内容2 start-->
+		<volist name="data" id="comm" >
+			<div class="reply1">
+				<div class="userMsg">
+					<div class="user">
+						<a href="javascript:void(0)">
+							<img src="__IMAGES__user.jpg" width="30"/>
+						</a>
+					</div>
+					<div class="name">
+						<p>{$comm.m_name|default="匿名用户"}</p>
+					</div>
+				</div>
+				<div class="content">
+					<p>
+						{$comm.gcom_title}
+						<span class="date">{$comm.gcom_create_time}</span>
+					</p>
+					<p> </p>
+					<p class="assess">
+						{$comm.gcom_content}
+					</p>
+					<if condition="$comm['gcom_pics'] neq ''">
+						<p class="img">
+							<php>$gcom_pics = explode(',',$comm['gcom_pics']);
+								foreach($gcom_pics as &$pic){
+								$pic = D('QnPic')->picToQn($pic);
+								}
+								foreach($gcom_pics as $gcom_pic){</php>
+								<img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}"/>
+							<php>}</php>
+						</p>
+					</if>
+					<if condition="$comm[reply] neq ''">
+						<p class="p02"><strong>客服回复：</strong>{$comm[reply][gcom_content]}</p>
+					</if>
+					<if condition="$comm['recomment'] neq ''">
+						<php>foreach($comm['recomment'] as $recomment){</php>
+						<p class="body-content">[追加评论]{$recomment['gcom_content']}<label>{$recomment['gcom_create_time']}</label></p>
+						<if condition="$recomment[gcom_pics] neq ''">
+							<p>
+								<php>$gcom_pics = explode(',',$recomment['gcom_pics']);
+									foreach($gcom_pics as &$pic){
+									$pic = D('QnPic')->picToQn($pic);
+									}
+									foreach($gcom_pics as $gcom_pic){</php>
+								<a href="{$gcom_pic}" target="_blank" ><img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}"/></a>
+								<php>}</php>
+							</p>
+						</if>
+						<php>}</php>
+					</if>
+				</div>
+			</div>
+		</volist>
+
+		<!--商品评价列表内容2 end-->
+		<!--商品评价列表内容3 start-->
+		<!--<div class="reply1">-->
+			<!--<div class="userMsg">-->
+				<!--<div class="user">-->
+					<!--<a href="#">-->
+						<!--<img src="__IMAGES__user.jpg" width="60"/>-->
+					<!--</a>-->
+				<!--</div>-->
+				<!--<div class="name">-->
+					<!--<p>王强</p>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="content">-->
+				<!--<p>完美的一款跑鞋<span class="date">2015/05/06</span></p>-->
+				<!--<p class="assess">-->
+					<!--首先非常喜欢这款鞋的设计，穿着也轻便透气，到货后迫不及待的穿上去外面跑了一圈，整体感觉鞋非常非常的-->
+					<!--轻巧，透气性也很良好，最主要的抗震性，跑山地道路对脚的印象非常小。-->
+				<!--</p>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--商品评价列表内容3 end-->
+	</div>
+	<!--商品评价列表内容 end-->
+</div>
+<!--商品评价底部内容 end-->
+<div class="fenye1">
+	<php>if($page['nowPage'] > 1){</php>
+	<a onclick="getCommentPage('{$g_id}',parseInt('{$page.nowPage}')-1)">&lt;&lt;上一页</a>
+	<php>}else{</php>
+	<a href="javascript:void(0)">&lt;&lt;上一页</a>
+	<php>}</php>
+	<php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+	<if condition="$a eq $page['nowPage']">
+		<a class="cur" href="javascript:void(0);">{$a}</a>
+	<else/>
+		<a onclick="getCommentPage('{$g_id}','{$a}')">{$a}</a>
+	</if>
+	<php>}</php>
+	<empty name="page.downUrl">
+		<a href="javascript:void(0)">下一页&gt;&gt;</a>
+		<else/>
+		<a onclick="getCommentPage('{$g_id}', parseInt('{$page.nowPage}')+1)">下一页&gt;&gt;</a>
+	</empty>
+</div>

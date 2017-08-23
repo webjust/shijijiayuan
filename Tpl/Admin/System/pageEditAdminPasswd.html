@@ -1,0 +1,55 @@
+<div class="rightInner">
+    <form id="system_edipasswd" name="system_form" method="post" action="{:U('Admin/System/doEditPasswd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改管理员登录密码</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">管理员：</td>
+                    <td>
+                        {$data.name}<br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><span style="color:red;">*</span>&nbsp;&nbsp;旧密码：</td>
+                    <td>
+                        <input type="password" name="old_passwd" id="old_passwd" class="medium" value="" validate="{ required:true,maxlength:30,messages:{required:'旧密码不能为空'}}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first"><span style="color:red;">*</span>&nbsp;&nbsp;新密码：</td>
+                    <td>
+                        <input type="password" name="u_passwd" id="u_passwd" class="medium" value="" validate="{ required:true,rangelength:[6,20],messages:{required:'密码不能为空'}}"/> <br> 
+                    </td>
+                    <td class="last">6 - 20个字符组成，只能使用数字、字母和下划线</td>
+                </tr>
+                <tr>
+                    <td class="first"><span style="color:red;">*</span>&nbsp;&nbsp;确认新密码：</td>
+                    <td>
+                        <input type="password"  id="u_passwd_1" class="medium" value="" validate="{ required:true,rangelength:[6,20],equalTo:u_passwd,messages:{required:'确认密码不能为空'}}"/> <br> 
+                    </td>
+                    <td class="last">6 - 20个字符组成，只能使用数字、字母和下划线</td>
+                </tr>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="{$data.id}" id="u_id" name="u_id" />
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#system_edipasswd').validate();
+    });
+</script>

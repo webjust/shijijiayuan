@@ -1,0 +1,62 @@
+{__NOLAYOUT__}
+<if condition="$ary_logistic!=''">
+    <php>$i=0;</php>
+    <volist name="ary_logistic" id="logistic" key="key" >
+        <dd>
+            <input type="radio" onclick="checkIntegralLogistic({$logistic.lt_id})" class="aaa{$key}" id="lt_id" value="{$logistic.lt_id}" name="lt_id" <if condition="$i eq 0" > checked <php>$this_lt_id =$logistic['lt_id'];</php></if>>
+            <label  for="kuaidi">{$logistic.lc_name}</label>
+            <span >运费 + <i id="logistic_price_{$logistic.lt_id}">{$logistic.logistic_price}</i>元</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span >配送公司描述： {$logistic.lc_description}</span>
+            <if condition="$i eq 0" ><php>$logistic_price =$logistic['logistic_price']; </php></if>
+        </dd>
+        <php>$i++;</php>
+    </volist>
+    <else />
+    <dd>无配送方式</dd>
+</if>
+<input type="hidden" id="o_cost_freight" name="o_cost_freight" value="{$logistic_price}">
+<script>
+    var pay_name = "{$pay_name|default='货到付款'}";
+    checkIntegralLogistic({$this_lt_id});
+    //选择物流公司
+    function checkIntegralLogistic(obj){
+        var url = '/Ucenter/Orders/checkIntegralLogistic/';
+        $.post(url,{'lt_id':obj},function(jsonData){
+            console.log(jsonData);
+            if(jsonData.status){
+                var logistic_money = (parseFloat(jsonData.logistic_price)).toFixed(2);
+                var promotion_price = (parseFloat(jsonData.promotion_price)).toFixed(2);
+                var integral_price = (parseFloat(jsonData.integral_price)).toFixed(2);
+                var coupon_price = 0;
+                var logistic_delivery=jsonData.logistic_delivery;
+                $("#o_cost_freight").val(logistic_money);
+                $("#bulk_price").html('<i class="price" >￥</i>'+integral_price);
+                $("#logistic_price").html('<i class="price" >￥</i>'+logistic_money);
+                $("#promotion_price").html('<i class="price" >￥</i>'+promotion_price);
+                $("#o_point_money").val(promotion_price);
+                $("#all_orders_promotion_price").attr('value',parseFloat(jsonData.promotion_price));//促销金额
+//                var all_orders_prices = (parseFloat(jsonData.all_price)+parseFloat(logistic_money)-parseFloat(promotion_price)).toFixed(2);
+                var all_orders_prices = (parseFloat(jsonData.all_price)+parseFloat(logistic_money)).toFixed(2);
+                console.log(all_orders_prices);
+                //合计金额
+                if(all_orders_prices < 0 ){
+                    all_orders_prices = '0.00';
+                }
+                $("#all_orders_price").html('<strong><i class="price">￥</i>'+ all_orders_prices +'</strong>');
+                $("#coupon_label").html('<i class="price">￥</i>'+coupon_price);
+                if(logistic_delivery == true ){
+                    $("#o_payment6").parent().remove();
+                    var showHtml='<dd><input type="radio" value="6" name="o_payment" id="o_payment" onclick="payradio($(this))" validate="{ required:true}"> ';
+                    showHtml +='<input type="hidden" value="'+pay_name+'" id="o_payment6" name="o_payment6"> ';
+                    showHtml +='<label for="zhifu">'+pay_name+'</label> <span>'+pay_name+'</span></dd>';
+                    $("#payment_list").append(showHtml);
+                }else{
+                    var showHtml=$("#o_payment6").parent().html();
+                    if(showHtml!=''){
+                        $("#o_payment6").parent().remove();
+                    }
+                }
+            }
+        },'json');
+    };
+</script>

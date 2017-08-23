@@ -1,0 +1,17 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>中国工商银行支付接口PHP版</title>
+    </head>
+    <body onLoad="javascript:document.E_FORM.submit();">
+	<form method="POST" name="E_FORM" action="https://b2c.icbc.com.cn/servlet/ICBCINBSEBusinessServlet">
+			<input type="hidden" name="interfaceName" value="{$aFinalReq['interfaceName']}" />
+			<input type="hidden" name="interfaceVersion" value="{$aFinalReq['interfaceVersion']}" />
+            <input type="hidden" name="tranData" value="{$aFinalReq['tranData']}" />	
+            <input type="hidden" name="merSignMsg" value="{$aFinalReq['merSignMsg']}" />
+			<input type="hidden" name="merCert" value="{$aFinalReq['merCert']}" />	
+        </form>
+    </body>
+</html>

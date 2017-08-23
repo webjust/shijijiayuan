@@ -1,0 +1,78 @@
+
+    <div class="alltop"><img src="__IMAGES__top.png" alt=""></div>
+    <div class="mg ov">
+        <div class="toux">
+            <div class="header_in">
+                <div class="toux">
+                    <a href="{:U('Wap/My/pageProfile')}" title="">
+                        <volist name="ary_extend_data" id="data">
+                            <if condition="$data.fields_type eq 'file'">
+                                <img src="{$data.content|default='__PUBLIC__/Wap/images/bj01.png'}" class="touxiang" id="headerImg" style="border-radius:5px;"/>
+                            </if>
+                        </volist>
+                        <p>{$info.m_name}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="d">
+            <ul>
+                <li><a href="{:U('Wap/Collect/pageList')}">
+                    <div class="pic"><img src="__IMAGES__d1.png" alt=""></div>
+                    <div class="title">我的收藏夹</div>
+                </a></li>            
+                <li><a href="{:U('Wap/Coupon/couponList')}">
+                    <div class="pic"><img src="__IMAGES__d2.png" alt=""></div>
+                    <div class="title">我的优惠券</div>
+                </a></li>            
+                <li><a href="{:U('Wap/Message/pageMailBox')}">
+                    <div class="pic"><img src="__IMAGES__c6.png" alt=""></div>
+                    <div class="title">站点消息</div>
+                </a></li>            
+            </ul>
+        </div>
+        <a href="{:U('Wap/Orders/orderList')}">
+            <div class="wddd"><span class="look_left">我的订单</span><span class="look_dd">查看全部订单 > </span></div>
+        </a>
+        <div id="icon">
+            <div class="icon">
+                <ul>
+                    <li><a href="{:U('Wap/My/pageProfile')}">
+                        <div class="pic"><img src="__IMAGES__c1.png" alt=""></div>
+                        <div class="title">我的资料</div>
+                    </a></li>
+                    <li><a href="{:U('Wap/Orders/orderList')}">
+                        <div class="pic"><img src="__IMAGES__c2.png" alt=""></div>
+                        <div class="title">我的订单</div>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    //wimb = $(".footer li").eq(3).find('a').find('img').attr("src");
+    wimw = $(".footer li").eq(3).find('a').find('img').attr("_src");
+    $(".footer li").eq(3).find('a').addClass("on");
+    //$(".footer li").eq(3).find('a').find('img').attr('_src',wimb);
+    $(".footer li").eq(3).find('a').find('img').attr('src',wimw);
+});
+</script>
+
+            <div class="warp">
+                <div class="indexThree" style="box-shadow: 0 0 0 #B7B7B7;">
+                    <notempty name="Think.session.Members.m_name">
+                    <span>{$Think.session.Members.m_name}</span>
+                    <a href="{:U('Wap/User/doLogout')}" class="goout">[退出]</a>
+                    </notempty>
+                    <empty name="Think.session.Members.m_name">
+                        <php>
+                            $jumpUrl = urlencode($_SERVER['REQUEST_URI']);
+                            if(__URL__ == '/Wap/User') 
+                            $jumpUrl = urlencode(U("Wap/Index/index"));
+                        </php>
+                    <a href="{:U('Wap/User/login')}?jumpUrl={$jumpUrl}" class="goout">[登录]</a>
+                    <a href="{:U('Wap/User/pageRegister')}?jumpUrl={$jumpUrl}" class="goout">[注册]</a>
+                    </empty>
+                </div>
+            </div>
+

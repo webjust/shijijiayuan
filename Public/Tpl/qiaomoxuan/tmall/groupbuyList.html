@@ -1,0 +1,139 @@
+<!--中间内容  开始--->
+<div class="warp">
+    <div class="content">
+    	<div class="tgList"><!--tgList  start-->
+        	<div class="fright">
+            	<div class="tgLOne">
+                    <a href="{:U('Home/Index')}">首页</a><span>></span><a href="{:U('Home/Groupbuy/Index')}">团购</a><span>></span><a href="{:U('Home/Groupbuy/lists')}/gcid/{$get.gcid}/gbid/{$get.gbid}">{$get.gc_name}</a><php>echo $get['type']==1?"开团预告":"";</php>
+                </div>
+                
+                <div class="tgLTwo">
+                	<strong></strong>
+                    <span>
+                        <a href="{:U('Home/Groupbuy/lists')}/gcid/{$get.gcid}/gbid/{$get.gbid}" class="a01 on">默认排序</a>
+                        <if condition="$get.order eq '_hot'">
+                            <a href="javascript:void(0);" class="clickThisTab downon" k="c" c="hot" t="_hot">
+                                销量
+                            </a>
+                        <elseif condition="$get.order eq 'hot'" />
+                            <a href="javascript:void(0);" class="clickThisTab upon" k="c" c="hot" t="hot">
+                                销量
+                            </a>
+                        <else/>
+                            <a href="javascript:void(0);" class="clickThisTab up" k="c" c="hot" t="_hot">
+                                销量
+                            </a>
+                        </if>
+                        <if condition="$get.order eq '_new'">
+                            <a href="javascript:void(0);" class="clickThisTab downon" k="c" c="new" t="_new">
+                                最新
+                            </a>
+                        <elseif condition="$get.order eq 'new'" />
+                            <a href="javascript:void(0);" class="clickThisTab upon" k="c" c="new" t="new">
+                                最新
+                            </a>
+                        <else/>
+                            <a href="javascript:void(0);" class="clickThisTab up" k="c" c="new" t="_new">
+                                最新
+                            </a>
+                        </if>
+                    </span>
+                    <a href="{:U('Home/Groupbuy/lists')}" class="checkOther">查看所有团购>></a>
+                </div>
+                
+                <div class="tgLThree"><!--tgLThree  start-->
+                	<ul> 
+                        <volist name="data" id="val">
+                    	<li>
+                            <a href="{:U('Home/Groupbuy/detail')}/gpid/{$val.gp_id}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$val.gp_picture|showImage=###,300,300}" width="300" height="300" />
+                                <php>if($val[stat_time] == 1){</php>
+                                <span class="gpendtime" timer="<php>echo strtotime($val['gp_start_time'])-time();</php>">剩余开始时间：</span>
+                                <php>}elseif($val[stat_time] == 2){</php>
+                                <span>此团购已结束</span>
+                                <php>}else{</php>
+                                <span class="gpendtime" timer="<php>echo strtotime($val['gp_end_time'])-time();</php>">剩余时间：</span>
+                                <php>}</php>
+                            </a>
+                            <a href="{:U('Home/Groupbuy/detail')}/gpid/{$val.gp_id}" class="proN">{$val.gp_title}</a>
+                            <p>
+                                <span><b>&yen;</b> <strong>{$val.gp_price|sprintf='%.2f',###}</strong><i><php>echo sprintf('%.1f',$val['gp_price']/$val['cust_price']*10)</php>折</i></span>
+                                <del>&yen;{$val.cust_price|sprintf='%.2f',###}</del>
+                                <label><ins>{$val['gp_now_number']}</ins>人已购买</label>
+                            </p>
+                        </li>
+                        </volist>
+                    </ul>
+                </div><!--tgLThree  end-->
+                <p class="fenye">
+                    <php>if(!isset($pagearr['nowPage']) || $pagearr['nowPage'] == 1){</php>
+                    <a href="javascript:void(0);" class="on">首页</a>
+                    <a href="javascript:void(0);" class="on">上一页</a>
+                    <php>}</php>
+                    <php>if(isset($pagearr['nowPage']) && $pagearr['nowPage'] != 1){</php>
+                        <a href="<php>echo rtrim(substr($pagearr['upUrl'],0,-3),'/').'/';</php>">首页</a>
+                        <a href="{$pagearr.upUrl}">上一页</a>
+                    <php>}</php>
+                    {$pagearr.linkPage}
+                    <php>if($pagearr['nowPage'] == $pagearr['totalPage']){</php>
+                        <a href="javascript:void(0);" class="on">下一页</a>
+                        <a href="javascript:void(0);" class="on">尾页</a>
+                    <php>}</php>
+                    <php>if($pagearr['nowPage'] < $pagearr['totalPage']){</php>
+                        <a href="{$pagearr.downUrl}">下一页</a>
+                        <a href="<php>echo rtrim(substr($pagearr['downUrl'],0,-3),'/').'/';</php>p/{$pagearr['totalPage']}">尾页</a>
+                    <php>}</php> 
+                    <label>共{$pagearr['totalPage']}页</label>
+                </p>
+            </div>
+        </div><!--tgList  end-->
+    </div>
+</div>
+<!--中间内容  结束--->
+
+<div class="tgNav">
+	<dl>
+    	<dt><a href="javascript:void(0)">商品团</a></dt>
+        <dd style="display:block;">
+        	<div>
+                <volist name="gclist" id="gc" >
+                <a href="{:U('Home/Groupbuy/lists')}/gcid/{$gc.gc_id}">{$gc.gc_name}</a>
+                </volist>
+            </div>
+        </dd>
+        <dt><a href="javascript:void(0)" class="a03">品牌团</a></dt>
+        <dd>
+            <div>
+                <volist name="gblist" id="gbb" >
+                <a href="{:U('Home/Groupbuy/lists')}/gbid/{$gbb.gbb_id}">{$gbb.gbb_name}</a>
+                </volist>
+            </div>
+        </dd>
+        <dt><a href="{:U('Home/Groupbuy/lists')}/type/1" class="a02">开团预告</a></dt>
+    </dl>
+</div>
+
+<script type="text/javascript">
+    $(".gpendtime").each(function(){
+        var obj = $(this);
+        var intDiff = obj.attr("timer");
+        var strTime = obj.text();
+        timer(intDiff,obj,strTime);
+    });
+    
+var cid = "{$get['gcid']}";
+var bid = "{$get['gbid']}";    
+$('.clickThisTab').click(function(){
+    var t = $(this).attr('t');
+    if(t == 'new'){
+        t='_new';
+    }else if(t == '_new'){
+        t='new';
+    }else if(t == '_hot'){
+        t='hot';
+    }else if(t == 'hot'){
+        t='_hot';
+    }
+    var url = "/Home/Groupbuy/lists/?gcid="+cid+"&gbid="+bid+"&order="+t;
+    location.href = url;
+});    
+</script>

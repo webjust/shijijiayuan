@@ -1,0 +1,54 @@
+<!--尾部  开始--->
+<div class="ef-footer">
+    <div class="ef-footer-wrapper w1192 clearfix">
+        <div class="ef-desc" style="margin-top:0px;">
+            <div class="ef-desc-detail clearfix">
+
+                <Gyfx:articlecate name="artcat"  num="6" recommend="1" is_show="1">
+                    <!-- <php>
+                    echo "<pre>";
+                    print_r($artcat);
+                    echo "</pre>";
+                    </php> -->
+                    <volist name="artcat" key="keys" id="arts">
+                        <dl class="ef-newer">
+                            <dt>{$arts.cat_name}</dt>
+                            <volist name="arts.list" key="k" id="artinfo">
+                                <if condition="$k elt 4">
+                                    <dd>
+                                        <div style="width:10px;height:10px;float:left" <if condition="$artinfo.hot eq '1'">class="hot2"</if>></div>
+            <a name="hwg_none_yw_fw01" target="_blank" href="{$artinfo.aurl}">
+                {$artinfo.a_title}
+            </a>
+            </dd>
+
+            </if>
+            </volist>
+            </dl>
+            </volist>
+            </Gyfx:articlecate>
+        </div>
+        <div class="ef-promise clearfix" style="text-align:center;position:relative;" >
+            <a href="{$Think.config.DOMAIN_HOST}{$ary_top_ads['bottom_pic_url']}" class="fl" target="_blank" edit-name="底部logo" linkcontent-editable="true" content-num="1">
+                <img style="position:relative;" src="{$ary_top_ads['bottom_pic']}" width="348" height="82">
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+<!--尾部  结束--->
+<!--弹出框-->
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div align="center" style="background:#EBEBEB">
+    {$commonInfo['GY_SHOP_ICP']|default='Copyright © 2009-2016 沪ICP备：12035449号-2'}
+</div> 

@@ -1,0 +1,71 @@
+<script src="__PUBLIC__/Admin/js/invoice.js"></script>
+<div class="rightInner">
+    <form id="brand_form" name="brand_form" method="post" action="{:U('Admin/Invoice/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">发票设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">是否开启：</td>
+                    <td>
+                        <input id="is_invoice" type="radio" value="1" name="is_invoice"  <if condition="$is_invoice eq 1 ">  checked </if>> 是
+                        <input id="is_invoice" type="radio" value="0" name="is_invoice"  <if condition="$is_invoice eq 0 ">  checked </if>> 否
+                    </td>                    
+                </tr>
+                <tr>
+                    <td class="first">增值税发票自动审核：</td>
+                    <td>
+                        <input id="is_auto_verify" type="radio" value="1" name="is_auto_verify"  <if condition="$is_auto_verify eq 1 ">  checked </if>> 是
+                        <input id="is_auto_verify" type="radio" value="0" name="is_auto_verify"  <if condition="$is_auto_verify eq 0 ">  checked </if>> 否
+                    </td>                    
+                </tr>
+                <tr>
+                    <td class="first">发票类型显示：</td>
+                    <td>
+                        <input id="invoice_comom" type="checkbox" value="1" name="invoice_comom" onclick="oncheck(this)" <if condition="$invoice_comom eq 1 ">  checked </if> > 普通发票
+                        <input id="invoice_special" type="checkbox" value="2" name="invoice_special" onclick="oncheck(this)" <if condition="$invoice_special eq 2 ">  checked </if> > 增值税发票
+                    </td>                    
+                </tr>
+                <tr>
+                    <td class="first">发票抬头显示：</td>
+                    <td>
+                        <input id="invoice_personal" type="checkbox" value="1" name="invoice_personal" onclick="oncheck(this)" <if condition="$invoice_personal eq 1 ">  checked </if> > 个人
+                        <input id="invoice_unit" type="checkbox" value="2" name="invoice_unit" onclick="oncheck(this)" <if condition="$invoice_unit eq 2 ">  checked </if>  > 单位
+                    </td>                    
+                </tr>
+                <tr >
+                    <td class="first">发票内容：</td>
+                    <td>
+                        <input type="text" name="invoice_content" id="invoice_content" class="medium" value="{$data.STOCK_NUM}"  <if condition="$invoice_head eq 1 ">  checked </if>/>
+                        <a class="btnB" onclick="add_content();" href="javascript:void(0);">添加</a>
+                    </td>
+                </tr>
+                
+                <tr id="insert_list">
+                    <td class="first"></td>
+                    <td id="list">
+                        <volist name="invoice_content"  id="vo" key="key">
+                            <div>
+                                <input id="u10" type="checkbox" value="{$vo}" name="content[]" checked > {$vo}
+                                <a class="blue" onclick="del_content(this);" href="javascript:void(0);">删除</a>
+                            </div>
+                        </volist>
+                    </td>                    
+                </tr>
+                <tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+

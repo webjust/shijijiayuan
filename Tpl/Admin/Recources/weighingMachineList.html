@@ -1,0 +1,46 @@
+<div class="rightInner tableColor">
+    <table width="100%" class="tbList" >
+        <thead>
+            <tr class="title">
+                <th style="text-align:right;font-size: 12px;" colspan="99">
+                    <form id="searchForm" method="post" href='{:U("Admin/Recources/pageList")}'>
+                        地磅编号：
+                        <input type="text" value="" name="rc_name" class="large">
+                        <input class="btnHeader inpButton" type="submit" value="搜 索">
+                    </form>
+                </th>
+            </tr>
+            <tr>
+                <th>地磅编号</th>
+                <th>地磅型号</th>
+                <th>负责人</th>
+                <th>联系电话</th>
+                <th>经度</th>     
+                <th>纬度</th>     
+                <th>备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_data" id="rc">
+            <tr> 
+                <td>{$rc.cwm_sn}</td>
+                <td>{$rc.cwm_model}</td>
+                <td>{$rc.cwm_person}</td>
+                <td>{$rc.cwm_phone}</td>
+                <td>{$rc.cwm_longitude}</td>
+                <td>{$rc.cwm_latitude}</td>
+                <td>{$rc.cwm_remark}</td>
+            </tr>
+            </volist>
+            <empty name="ary_brand">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,49 @@
+<div class="container"><!--container-->
+    <div class="shopCart"> <!--shopCart-->
+		<p class="detailT">
+			<a href="{:U('Wap/Index/index')}">首页</a>/<a href="#">购物车</a>/<a href="#">填写订单信息</a>/<a href="#">支付成功</a>
+		</p>
+		<!--shopNav start-->
+		<div class="shopNav">
+			<div class="nav_list on">
+				<a href="#">
+					<img src="__IMAGES__icon/shop.png">
+					<p>我的购物车</p>
+				</a>
+			</div>
+			<div class="nav_list on">
+				<a href="#">
+					<img src="__IMAGES__icon/orderEdit1.png">
+					<p>填写订单信息</p>
+				</a>
+			</div>
+			<div class="nav_list on">
+				<a href="#">
+					<img src="__IMAGES__icon/orderSuccess1.png">
+					<p>支付并完成订单</p>
+				</a>
+			</div>
+        </div>
+		<!--shopNav end-->
+		<!--Paysuccess-->
+		<div class="Paysuccess">
+			<div class="Top">
+				<p>付款成功,</p>
+				<p>祝您购物愉快！</p>
+			</div>
+			<div class="payImg"><img src="__IMAGES__pay.jpg"/ ></div>
+			<div class="pay_top">
+				<p class="p1">订单编号 <b>{$o_id}</b></p>
+				<p>本次消费金额：{$payment_price|sprintf="%.2f",###}</p>
+				<p>用户余额：{$balance}</p>
+			</div>
+			<div class="Btn">
+				<a href="{:U('Wap/Orders/orderDetail')}/oid/{$o_id}" class="myorder">订单详情</a>
+				<a href="{:U('Wap/Index/index')}" class="back">回到首页</a>
+			</div>
+			
+		</div>
+  <!--Paysuccess-->
+	</div>
+  <!--shopCart-->
+</div>

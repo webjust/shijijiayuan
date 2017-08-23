@@ -1,0 +1,99 @@
+<div class="rightInner">
+    <form id="authorize_edit" name="authorize_edit" method="post" action="{:U('Admin/Authorize/doEdit')}" >
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改授权线</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99">授权线基本信息</th>
+                </tr>
+                <tr>
+                    <td class="first">* 授权线名称</td>
+                    <td>
+                        <input type="text" class="medium" name="al_name" value="{$info.al_name}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 是否启用</td>
+                    <td>
+                        <input type="radio" name="al_valid" value="1" <eq name="info.al_valid" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="al_valid" value="0" <eq name="info.al_valid" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 默认授权线</td>
+                    <td>
+                        <input type="radio" name="al_default" value="1" <eq name="info.al_default" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="al_default" value="0" <eq name="info.al_default" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last">如果为默认授权线，即会员基本的授权线</td>
+                </tr>
+                <tr>
+                    <td class="first">授权线备注</td>
+                    <td>
+                        <textarea class="mediumBox" name="al_desc" validate="{ maxlength:200}" >{$info.al_desc}</textarea>
+                    </td>
+                    <td class="last">200字以内</td>
+                </tr>
+                <tr>
+                    <th colspan="99">授权内容</th>
+                </tr>
+                <tr>
+                    <td class="first">授权商品分类</td>
+                    <td>
+                        <select multiple="true" class="medium" size="10" name="gc_ids[]">
+                            <volist name="cates" id="cate">
+                                <option value="{$cate.gc_id}" <eq name="cate.selected" value="1">selected="selected"</eq> ><for start="0" end="$cate[gc_level]">&nbsp;&nbsp;</for>{$cate.gc_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="last">可以使用ctrl键多选</td>
+                </tr>
+                <tr>
+                    <td class="first">授权商品品牌</td>
+                    <td>
+                        <select multiple="true" class="medium" size="10" name="gb_ids[]">
+                            <volist name="brands" id="brand">
+                                <option value="{$brand.gb_id}" <eq name="brand.selected" value="1">selected="selected"</eq> >{$brand.gb_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="last">可以使用ctrl键多选</td>
+                </tr>
+                <tr>
+                    <td class="first">授权商品分组</td>
+                    <td>
+                        <select multiple="true" class="medium" size="10" name="gp_ids[]">
+                            <volist name="groups" id="group">
+                                <option value="{$group.gg_id}" <eq name="group.selected" value="1">selected="selected"</eq> >{$group.gg_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="last">可以使用ctrl键多选</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="{$info.al_id}" name="al_id" />
+                        <input type="submit" value="提 交" class="btnA" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#authorize_edit').validate();
+    });
+</script>

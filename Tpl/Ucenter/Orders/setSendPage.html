@@ -1,0 +1,72 @@
+{__NOLAYOUT__}
+    <script src="__PUBLIC__/Ucenter/js/common.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+<table class="tbForm" width="100%;">
+	<tbody>
+		<tr>
+			<td class="first">订单号：</td>
+			<td align="left">{$o_id}</td>
+		</tr>
+         <tr class="type0" class="first">
+             <td class="first">验证码：</td>
+             <td align="left">
+				<input type="text" style="width:85px" class="input01" id="m_mobile_code" name="m_mobile_code">
+				<input type="button" id="btnGetCode" class="blue" style="color:#fff;" title="获取验证码" value="获取验证码" />
+			</td>
+         </tr>   
+	</tbody>
+</table>
+<style>
+tr td{
+    line-height: 150%;
+    padding: 5px;
+    vertical-align: middle;
+    word-break: break-all;
+}
+</style>
+<script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+<script type="text/javascript">
+	var wait=90;
+	var btnGetCode = document.getElementById("btnGetCode");
+	if(btnGetCode != null){
+		document.getElementById("btnGetCode").disabled = false;  	
+	}
+	function time(o) {
+			if (wait == 0) {
+				o.removeAttribute("disabled");          
+				o.value="获取验证码";
+				wait = 90;
+			} else {
+				o.setAttribute("disabled", true);
+				o.value="重新发送(" + wait + ")";
+				wait--;
+				setTimeout(function() {
+					time(o)
+				},
+				1000)
+			}
+	}
+	document.getElementById("btnGetCode").onclick=function(){
+		document.getElementById("btnGetCode").disabled = true;  
+		//调用发送验证码接口
+		var formdata = $("#my_doedit").serialize();
+		$.ajax({
+			url:"{:U('Ucenter/Orders/sendMobileCode')}",
+			data:formdata,
+			dataType:"json",
+			type:"post",
+			success:function(msgObj){
+				if(msgObj.status == 1){
+					time(document.getElementById("btnGetCode"));
+				}else{
+					document.getElementById("btnGetCode").removeAttribute("disabled"); 
+					showAlert(false,msgObj.msg);
+				}
+			},
+			error:function(){
+				document.getElementById("btnGetCode").removeAttribute("disabled"); 
+			}
+		});		
+	}
+</script> 

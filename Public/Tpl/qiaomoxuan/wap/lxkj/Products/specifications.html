@@ -1,0 +1,48 @@
+
+<div class="warp">
+	<div class="head">
+    	<p>商品参数</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <!-- <a href="javascript:void(0);" onclick="addToInterests('{$ary_request.gid}');" class="jia"></a> -->
+    </div>
+    
+    <div class="proDetail"><!--proDetail 开始-->
+<!--    	<div class="proImg"><a href="javascript:void(0);"><img src="__IMAGES__proimg01.png" /></a></div>-->
+        <p class="repeat_x"></p>
+        <div class="proDCon"><!--proDCon 开始-->
+        	<div class="proDO">
+            	<h2>商品参数</h2>
+                <div class="proC">
+                	<!--<h3>主体</h3>-->
+                    <table>
+                        <volist name='array_unsale_spec' id='spec'>
+                    	<tr><td>{$spec.gs_name}</td><td>{$spec.gsd_aliases}</td></tr>
+                        </volist>
+                        
+                    </table>
+                	
+            </div>
+            
+            <!--<div class="proDF"><!--proDF 开始-->
+            	<!--<h2>也许您还感兴趣</h2>
+                <div class="proDFC">
+                	<div class="proDFCT">
+                    	<ul>
+                        	<li class="box">
+                            	<a href="javascript:void(0);" class="on"><img src="__IMAGES__img01.png" /><p>苹果（Apple）iPhone 5c 8G版 </p><span>&yen;2378.00</span></a>
+                                <a href="javascript:void(0);"><img src="__IMAGES__img01.png" /><p>苹果（Apple）iPhone 5c 8G版 </p><span>&yen;2378.00</span></a>
+                                <a href="javascript:void(0);"><img src="__IMAGES__img01.png" /><p>苹果（Apple）iPhone 5c 8G版 </p><span>&yen;2378.00</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="proDFCB clearfix">
+                    	<span class="fleft">总计:<label>&yen;2378.00</label></span>
+                        <a href="javascript:void(0);" class="fright">加入购物车</a>
+                    </div>
+                </div>
+            </div><!--proDF 结束-->
+        </div><!--proDCon 结束-->
+    </div><!--proDetail 结束-->
+	
+</div>
+

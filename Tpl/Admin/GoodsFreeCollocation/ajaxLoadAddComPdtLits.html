@@ -1,0 +1,50 @@
+{__NOLAYOUT__}
+<tr style='border:1px solid gray;text-align:center;' class='searchGoods'>
+    <td style='border:1px solid gray;'>{$data.g_name}</td>
+    <td style='border:1px solid gray;' class='pdt_sn_search'>{$data.g_sn}
+        <input type='hidden' name='pro_g_id' value='{$data.g_id}'>
+        <input type='hidden' name='pro_pdt_sn' value='{$data.pdt_sn}'>
+        <input type='hidden' name='pro_pdt_id' value='{$data.pdt_id}'>
+        <input type='hidden' name='pro_have_sku' value='<if condition="$data['products'] eq ''">1</if>'>
+		<input type='hidden' name='com_id' value="{$data.g_id}">	        	
+    </td>
+    <td style='border:1px solid gray;'>
+       {$data.g_stock}
+    </td>
+    <td style='border:1px solid gray;'>{$data.g_price}</td>
+    <td style='border:1px solid gray;'>
+        <input type='text' class='small not_null input_number' value="{$data.g_price}"  />
+    </td>
+    <td style='border:1px solid gray;'><a href='javascript:void(0);' onclick='deleteProduct(this);'>删除</a></td>
+</tr>
+<noempty name="data.products">
+<if condition="$data['products'] neq ''">
+<tr style="border:1px solid gray;text-align:center;background:#DDDDDD;" class="hideTr{$data.g_id}">
+    <td style="border:1px solid gray;" width="150px;">规格</td>
+    <td style="border:1px solid gray;" width="300px;">商品规格</td>
+    <td style="border:1px solid gray;" width="150px;">库存数</td>
+    <td style="border:1px solid gray;" width="150px;">销售价</td>
+    <td style="border:1px solid gray;" width="150px;">推荐价</td>
+    <td style="border:1px solid gray;" ></td>
+</tr>
+</if>
+<volist name="data.products" id="data_info">
+<tr style='border:1px solid gray;text-align:center;background:#DDDDDD;' class='searchGoods hideTr{$data.g_id}'>
+    <td style='border:1px solid gray;'>{$data_info.specName}</td>
+    <td style='border:1px solid gray;'>{$data_info.pdt_sn}
+     <input type='hidden' name='pro_g_id' value='{$data_info.g_id}'>
+     <input type='hidden' name='pro_pdt_sn' value='{$data_info.pdt_sn}'>
+     <input type='hidden' name='pro_pdt_id' value='{$data_info.pdt_id}'>
+    </td>
+    </td>
+    <td style='border:1px solid gray;'>
+       {$data_info.pdt_stock}
+    </td>
+    <td style='border:1px solid gray;'>{$data_info.pdt_sale_price}</td>
+    <td style='border:1px solid gray;'>
+        <input type='text' class='small not_null input_number' value="{$data_info.pdt_sale_price}" name="pdt_sale_price"  />
+    </td>
+    <td style="border:1px solid gray;" ></td>
+</tr>
+</volist>
+</noempty>

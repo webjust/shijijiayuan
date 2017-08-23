@@ -1,0 +1,182 @@
+{__NOLAYOUT__}
+<form action='{:U("Admin/Orders/pageList")}' method="get" name="order_form">
+<div class="sSearch"><!--sSearch  start-->
+    
+    <ul>
+        <li>
+            <strong>订单状态</strong>
+            <select class="mediumBox" style="width:110px" size="10" name="o_status" multiple="multiple">
+                <option  value="1">全部</option>
+                <option  value="1">正常订单</option>
+                <option  value="3">暂停</option>
+                <option  value="2">作废</option>
+                <option  value="4">完成</option>
+				<option  value="5">已确认收货</option>
+            </select>
+        </li>
+        <li>
+            <strong>支付状态</strong>
+            <select class="mediumBox" style="width:110px" size="10" name="o_pay_status" multiple="multiple">
+                <option  value="-1">全部</option>
+                <option  value="1">已支付</option>
+                <option  value="0">未支付</option>
+            </select>
+        </li>
+        <li>
+            <strong>发货状态</strong>
+            <select class="mediumBox" style="width:110px" size="10" name="oi_ship_status" multiple="multiple">
+                <option value="-1">全部</option>
+                <option value="2">已发货</option>
+                <option value="0">未发货</option>
+            </select>
+        </li>
+        <li>
+            <strong>支付方式</strong>
+            <select class="mediumBox" style="width:110px" size="10" name="o_payment[]" multiple="multiple">
+                <option value="-1">全部</option>
+                <volist name="data.payment" id="pay">
+                    <option name="pc_id" value="{$pay.pc_id}">{$pay.pc_custom_name}</option>
+                </volist>
+            </select>
+        </li>
+        <li>
+            <strong>配送方式</strong>
+            <select class="mediumBox" style="width:110px" size="10" name="lt_id" multiple="multiple">
+                <option value="-1">全部</option>
+                <volist name="data.corp" id="cp">
+                    <option value="{$cp.lc_id}">{$cp.lc_name}</option>
+                </volist>
+            </select>
+        </li>
+    </ul>
+    <P class="required">以上选项，可以按住CTRL来进行多选</P>
+    <table class="alertTable">
+        <tr>
+            <td width="130" align="right">订单号：</td>
+            <td width="200"><input type="text" class="medium" name="o_id" value=""></td>
+            <td width="110" align="right">会员名：</td>
+            <td><input type="text" class="medium" name="m_name" value="" validate="{ isCheck:true,messages:{isCheck:'您输入的参数非法，请重新输入'}}"></td>
+        </tr>
+        <tr>
+            <td align="right">收货人：</td>
+            <td><input type="text" class="medium" name="o_receiver_name" value=""></td>
+			<td align="right">第三方订单号：</td>
+            <td><input type="text" class="medium" name="o_source_id" value=""></td>
+            <!--<td align="right">收货人手机：</td>
+            <td><input type="text" class="medium" name="o_receiver_mobile" value=""></td>-->
+        </tr>
+        <tr>
+            <td align="right">收货人地址：</td>
+            <td colspan="3">
+                <include file="Orders:addressPage" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">物流费用：</td>
+            <td colspan="3">
+                <input type="text" class="small" name="o_cost_freight_1" value="">
+                -
+                <input type="text" class="small" name="o_cost_freight_2" value="">
+            </td>
+        </tr>
+        <tr>
+            <td align="right">订单金额：</td>
+            <td colspan="3">
+                <input type="text" class="small" name="o_all_price_1" value="">
+                -
+                <input type="text" class="small" name="o_all_price_2" value="">
+            </td>
+        </tr>
+        <tr>
+            <td align="right">是否使用优惠券：</td>
+            <td colspan="3">
+                <input type="checkbox" class="inputRadio" name="o_coupon_1" value="1"> <label>是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="inputRadio" name="o_coupon_2" value="0"> <label>否</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">是否开发票：</td>
+            <td colspan="3">
+                <input type="checkbox" class="inputRadio yesR" name="is_invoice_1" id="is_invoice_1" value="1"> <label>是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="inputRadio noR" name="is_invoice_2" id="is_invoice_2" value="0"> <label>否</label>
+            </td>
+        </tr>
+        <tr class="trhidden" style="display: none;" id="invoice_type">
+            <td align="right">发票类型：</td>
+            <td colspan="3">
+                <input type="radio" class="inputCheckb" name="invoice_type" value="1"> <label>普通发票</label>&nbsp;&nbsp;
+                <input type="radio" class="inputCheckb" name="invoice_type" value="2"> <label>增值税发票</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">下单时间：</td>
+            <td colspan="3">
+                <input type="text" class="medium timer" name="o_create_time_1" value="">
+                -
+                <input type="text" class="medium timer" name="o_create_time_2" value="">
+            </td>
+        </tr>
+        <tr>
+            <td align="right">客服：</td>
+            <td colspan="3">
+                <input type="text" class="medium" name="admin_name" value="">
+            </td>
+        </tr>
+        <tr>
+            <td align="right">cps来源：</td>
+            <td colspan="3">
+            <select name="channelid" >
+                <option value="0">全部</option>
+                <volist name="data.cps_info" id="cps">
+                    <eq name="cps" value="1">
+                    <option value="{$key}">{$key}</option>
+                    </eq>
+                </volist>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center"><input type="submit" name="search" class="btnA" value="搜索">&nbsp;<input type="submit" class="btnA" value="关闭"></td>
+        </tr>
+    </table>
+ 
+</div><!--sSearch  end-->
+</form>
+<script>
+    $(document).ready(function(){
+        $("#is_invoice_1").click(function(){
+            $("#is_invoice_2").attr("checked",false);
+            $("#invoice_type").show();
+        });
+        $("#is_invoice_2").click(function(){
+            $("#is_invoice_1").attr("checked",false);
+            $("#invoice_type").hide();
+        });
+    });
+
+    $(document).ready(function(){
+        $(".dater").datepicker({
+            showMonthAfterYear: true,
+            changeMonth: true,
+            changeYear: true,
+            buttonImageOnly: true
+        });
+        $(".timer").datetimepicker({
+            showMonthAfterYear: true,
+            changeMonth: true,
+            changeYear: true,
+            buttonImageOnly: true
+        });
+    });
+
+    $(document).ready(function(){
+        $(":button").click(function(){
+            $("#orders_dialog").dialog("close");
+        });
+    });
+</script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery-ui-sliderAccess.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+
+

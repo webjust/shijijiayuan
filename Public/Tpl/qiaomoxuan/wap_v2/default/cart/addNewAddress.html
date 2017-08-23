@@ -1,0 +1,154 @@
+<div class="warp">
+    <form action="" id="regforms">
+    <div class="head">
+    	<p>收货地址</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="javascript:void(0);" onclick="doAddAddress();" class="regi">确定</a>
+    </div>
+    
+    <div class="eAddress">
+    	<ul>
+            <li><span>收货人：</span><input type="text" id="ra_name" name="ra_name" /><p class="red"></p></li>
+            <li><span>手机号码：</span><input type="text"  id="ra_mobile_phone" name="ra_mobile_phone" /><p class="red"></p></li>
+            <li class="lis"><span>固定电话：</span><input type="text"  id="ra_phone_area" name="ra_phone_area" class="area"/>-<input type="text"  id="ra_phone_num" name="ra_phone_num" /><p class="red"></p></li>
+            <li><span>省：</span><select id="province" name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city','');">
+                    <option>请选择</option>
+                    <volist name="citys" id="val">
+                    <option id="option_add_{$val.cr_id}" value="{$val.cr_id}">{$val.cr_name}</option>
+                    </volist>
+                </select><p class="red"></p></li>
+            <li><span>市：</span><select  id="city" name="city" onchange="selectCityRegion(this, 'region','');" validate="{ required:true}">
+                    <option>请选择</option>
+                </select><p class="red"></p></li>
+            <li><span>区：</span><select id="region" onchange="selectCityRegion(this, '','');" name="region" validate="{ required:true}" >
+					<option>请选择</option>
+				</select><p class="red"></p></li>
+            <li><span>详细地址：</span><input type="text" id="ra_detail" name="ra_detail" /><p class="red"></p></li>
+            <li><span>邮政编码：</span><input type="text" id="ra_post_code" name="ra_post_code"/><p class="red"></p></li>
+            <li><input type="checkbox" id="ra_is_default" value="1" name="ra_is_default" />设为默认地址</li>
+        </ul>
+        <a href="javascript:void(0);"  onclick="doAddAddress();">确定</a>
+    </div>
+
+    </form>
+    <script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+
+    <script>
+	$(document).ready(function(){
+		//表单验证
+		$("#regforms").validate({
+			errorPlacement: function(error, element) {
+				element.next().append(error);
+			},
+			submitHandler:function(form){
+				var province = $("#province").val();
+				var city = $("#city").val();
+				var region = $("#region").val();
+				if("请选择" == province || 0 == city || 0 == region){
+					alert("请选择收货地址！");
+					return false;
+				}
+				var m_id = "{$m_id}";
+				var ra_name = $("#ra_name").val();
+				var ra_mobile_phone = $("#ra_mobile_phone").val();
+				var cr_id = $("#region").val();
+				var ra_is_default = $("#ra_is_default:checked").val();
+				var ra_detail = $("#ra_detail").val();
+				var ra_post_code = $("#ra_post_code").val();
+				$.ajax({
+					url:"{:U('/Wap/ReceiveAddress/doAdd')}",
+					data:{"ra_name":ra_name,"ra_post_code":ra_post_code,"ra_detail":ra_detail,"ra_mobile_phone":ra_mobile_phone,"cr_id":cr_id,"m_id":m_id,"ra_is_default":ra_is_default},
+					type:"POST",
+					dataType:"JSON",
+					success:function(msgObj){
+						if(msgObj){
+							window.location.href="{:U('/Wap/ReceiveAddress/AddressListPage')}";
+						}else{
+							$.ThinkBox.error("保存收货地址失败！");
+						}
+					}
+				});
+			},
+			rules : {
+				ra_name : {
+					required:true,
+					isCheck:true,
+				},
+				ra_mobile_phone : {
+					required : true,
+					rangelength:[11,11],
+					isPhone:true
+				},
+				ra_detail : {
+					required : true,
+					isCheck : true,
+					rangelength:[0,250]
+				},
+				ra_post_code : {
+					isZipCode : true,
+				}
+			},
+			messages : {
+				ra_name : {
+					required : '必填字段',
+					isCheck: '包含非法字符！请重新输入'
+				},		
+				ra_mobile_phone  : {
+					required : '必填字段',
+					rangelength:'手机号码格式有误',
+					isPhone:'请正确输入手机号！'
+				},
+				ra_detail : {
+					required : '必填字段',
+					isCheck : '包含非法字符！请重新输入',
+					rangelength : '不能超过250个字！'
+				},
+				ra_post_code : {
+					isZipCode : '请输入合法邮编！',
+				}
+			}
+		});
+	});
+	
+	//选择城市区域
+	function selectCityRegion(obj, item, default_value) {
+        var value = obj.value;
+		var name= $("#option_add_"+value).html();
+		if("city" == item){
+			$("#province_text").html(name);
+		}else if("region" == item){
+			$("#city_text").html(name);
+		}else{
+			$("#region_text").html(name);
+		}
+        if (!value) {
+            value = obj;
+        }
+        if (value == 0) {
+            $('#region').html('<option value="0">请选择</option>');
+            return false;
+        }
+        var url = "{:U('Wap/ReceiveAddress/getCityRegion')}";
+        $('#' + item).load(url, {'parent': value, 'item': item ,'val':default_value}, function(msgObj) {
+            if(msgObj == ''){
+                $("#"+item).css("display","none");
+            }else{
+                $("#"+item).css("display","");
+                if ('' != default_value) {
+                	this.value = default_value;
+                }
+            }
+        });
+    }
+    function initSelectCityRegion() {
+        $('#city').html('<option value="0">请选择</option>');
+        $('#region').html('<option value="0">请选择</option>');
+    }
+    
+    function doAddAddress(){
+        $("form").submit();
+    }
+</script>
+</div>

@@ -1,0 +1,69 @@
+{__NOLAYOUT__}
+<form id="settingForm" method="post" action="{:U('Admin/Guestbook/doGoodsComment')}">
+<table class="tbForm">
+	<tbody>
+	<notempty name="good_data">
+	<tr>		
+		<td>评论商品名称：</td>
+		
+		<td class="adminname"><a href="{:U('Admin/Goods/goodsEdit')}?id={$good_data.g_id}" target="_blank">{$good_data.g_name}</a></td>
+	</tr>
+	<tr>		
+		<td>评论商品图片：</td>
+		
+		<td class="adminname"><a href="{:U('Admin/Goods/goodsEdit')}?id={$good_data.g_id}" target="_blank"><img src="{$good_data.g_picture}" width="50px" height="50px"/></a></td>
+	</tr>	
+	</notempty>
+	<notempty name="ary_data.gcom_pics">
+	<tr>		
+		<td>晒图片：</td>
+		<td class="adminname">
+			<volist name="ary_data.gcom_pics" id="gcom_pic">
+			<img src="{$gcom_pic}" width="50px" height="50px"/>
+			</volist>
+		</td>
+	</tr>
+	<tr>		
+		<td>评论商品图片：</td>
+		
+		<td class="adminname"><a href="{:U('Admin/Goods/goodsEdit')}?id={$good_data.g_id}" target="_blank"><img src="{$good_data.g_picture}" width="50px" height="50px"/></a></td>
+	</tr>	
+	</notempty>
+	<tr>		
+		<td>评论内容：</td>
+		
+		<td class="adminname">
+		<textarea  style="width:400px;" disabled>{$ary_data.gcom_content}</textarea>
+		</td>
+	</tr>		
+	<tr>
+		<td>评分：</td>
+		<td class="adminname">{$ary_data.star|default=1}星</td>
+	</tr>	
+	<tr>
+		<td>回复人：</td>
+		
+		<td class="adminname">{$Think.session.admin_name}</td>
+	</tr>
+	<tr>
+		<td>回复内容：</td>
+		<td><textarea name="gcom_content" id="gcom_content" style="width:400px;" >{$reply_data['gcom_content']}</textarea></td>
+	</tr>
+	</tbody>
+	<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+        	<input type="hidden" value="{$ary_data.gcom_id}" name="gcom_id"  id="gcom_id"/>
+        	<input type="hidden" value="{$ary_data.g_id}" _id="g_id" id="g_id">
+        	 <div id="disres"></div>
+        </td>
+
+    </tr>
+</tfoot>
+</table>
+</form>
+<div class="clear"></div>
+
+
+

@@ -1,0 +1,501 @@
+<Gyfx:onlineservice name="service">
+    <volist name="service" id="online">
+        <div class="cs"><div class="cs-d">{$online[0][o_code]}</div></div>
+    </volist>
+</Gyfx:onlineservice>
+<div class="centent pdt30">
+    <div class="pdt-one fn-clear png">
+        <Gyfx:goodsinfo name="detail" gid="$ary_request['gid']" erpguid="$ary_request[gid]">
+        <div class="pdt-one-bottom png"></div>
+        <form id="goodsForm" name="goodsForm" method="post" action="#">
+            <div class="fn-clear">
+                <div class="tu-wraper" id="js_imgs">
+                    <div class="shabox">
+                        <div class="images">
+                            <volist name="detail.gpics" id="pic">
+                            <a href="<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');</php>{$pic.gp_picture|showImage=###,220,220}"><img class="etalage_thumb_image" src="<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');</php>{$pic.gp_picture|showImage=###,220,220}" alt="" /></a>
+                            </volist>
+                        </div>
+                    </div>
+                    <div class="s"></div>
+                    <div class="thumbs">
+                       <volist name="detail.gpics" id="pic">
+                            <img class="etalage_thumb_image" src="<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');</php>{$pic.gp_picture|showImage=###,220,220}" alt="" />
+                       </volist>
+                    </div>
+                    <a href="javascript:;" class="prev"></a>
+                    <a href="javascript:;" class="next"></a>
+                </div>
+                
+                <div class="pdt-in">
+                    <ul>
+                        <li><h1>{$detail.gname}</h1></li>
+                        <li class="rol2"><span>价格：</span><del>{$detail.mprice|sprintf='%.2f',###}</del><span class="pl">会员价：</span><span class="ib"></span><strong class="red">{$detail.gprice|sprintf='%.2f',###}</strong><span class="red">元</span></li>
+                        <li class="fn-clear nbd rol3">
+                                <php>if(!empty($detail['skuNames'])){</php>
+                                    <h2 class="p10">包装规格：</h2>
+                                <php>}</php>
+                            <div class="lx">
+                                <volist name="detail.skuNames" id="spec" key="k">
+                                    <span id="spec{$detail.gid}_{$k}">
+                                    <volist name="spec" id="specname" key="spec_k">
+                                        <a name="{$specname}"  onclick="return showSelect(this)" title="{$specname}" spec_k="{$spec_k}">
+                                            <if condition="$pic['gp_picture'] neq '' ">
+                                            <img src="<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');echo $pic['gp_picture'];</php>" alt="" />
+                                            <else/>
+                                            {$specname}
+                                            </if>
+                                        </a>
+                                    </volist>
+                                    </span>
+                                </volist>
+                            </div>
+                           <volist name="detail.skus" id="specs" key="k">
+                            <div id="specsname" style="margin-left: 211px;"></div>
+                           </volist>  
+                        </li>
+                        <li class="nbd rol4">
+                            <table>
+                                <tr>
+                                    <td colspan="2" height="105">
+                                        <div class="p10">购买数量：</div>
+                                        <div class="fn-clear">
+                                            <div class="num" id="num-sl"><a href="javascript:void(0);" onclick="countNum(1)" title="+"></a><input type="text" value="1" onblur="if(value ==''){value='1'}"id="item_num" class="u" max="{$detail.gstock}" value="1" onfocus="if(value=='1'){value=''}" name="num"/><a href="javascript:void(0);" onclick="countNum(-1)" title="-"></a></div>
+                                            (当前库存:<label class="red" id="showNum">{$detail.gstock}</label>件)
+                                            <input type="hidden" name="type" value="item" id="item_type" />
+                                            <input type="hidden" value="<eq name="detail['skus'][1]['pdt_id']" value="">{$detail['skus'][0]['pdt_id']}</eq>" name="pdt_id" id="pdt_id" />
+                                            <input type="hidden" value="<eq name="detail['skus'][1]['pdt_id']" value="">{$detail['skus'][0]['pdt_stock']}</eq>" name="pdt_stock" id="pdt_stock" /> 
+                                            <if condition="$detail.authorize eq 1 ">
+                                            <div class="fn-left"><a href="javascript:void(0);"><span id="addToCart" class="sbm"></span></a></div>
+                                            </if>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="36">
+                                        <div class="jiathis_style sharemore">
+                                            <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"><span class="share"></span></a>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <!--自由搭配开始-->
+        <div class="dapz" id="coll_goods"></div>
+        <!--自由搭配结束-->
+        
+    </div>
+
+    <div class="m-tabs-a1 icon2" id="m_zixun">
+        <div class="crumbs">
+            <a href="{:U('Home/Index/index')}">首页</a>&gt;&gt;
+            <Gyfx:breadcrumbs name="breadcrums" gid="$ary_request['gid']">
+            <a href="{$breadcrums.gcurl}">{$breadcrums.cname}</a>&gt;&gt;
+            </Gyfx:breadcrumbs>
+            {$detail.gname}
+        </div>
+        <div class="dd-top">
+            <ul>
+                <li><a href="javascript:;" class="current"><i class="a1"></i><span>产品介绍</span></a></li>
+                <!--<li><a href="javascript:;"><i class="a2"></i><span>专利包装</span></a></li>-->
+                <li><a href="javascript:;"><i class="a3"></i><span>美图大赏</span></a></li>
+                <li><a href="javascript:;"><i class="a4"></i><span>食家热评</span></a></li>
+                <li><a href="javascript:;" name="advice" class="tags_index" index="3"><i class="a4"></i><span>购买咨询</span></a></li>
+                <li class="ed"></li>
+            </ul>
+        </div>
+        <div class="dd-cmt dd-cmt-a">{$detail.gdesc}</div>
+        <!--<div class="dd-cmt dd-cmt-a"><img src="__IMAGES__test/test08.jpg" /></div>-->
+        <div class="dd-cmt dd-cmt-a">
+            <div class="datu" id="js_imgs2">
+                <div class="images">
+                    <div class="wrap-img">
+                    <volist name="detail.gpics" id="pic">
+                    <img src="<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');echo $pic['gp_picture'];</php>" alt="" />
+                    </volist>
+                    </div>
+                </div>
+                <div class="thumbs">
+                    <volist name="detail.gpics" id="pic">
+                    <img src="<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');echo $pic['gp_picture'];</php>" alt=""/>
+                    </volist>
+                </div>
+                <div class="b"></div>
+            </div>
+        </div>
+        <div class="dd-cmt dd-cmt-a review" id="con_tabAbp_2"></div>
+        <div class="dd-cmt dd-cmt-a review" id="con_tabAbp_3"></div>
+    </div>
+    </Gyfx:goodsinfo>
+    <div class="p-ad">
+        <a href="#advice" ><img id="zixun" src="__IMAGES__test/test10.jpg" alt="" /></a>
+        <a href="#"><img src="__IMAGES__test/test11.jpg" alt="" /></a>
+    </div>
+    <!--底部开始-->
+    <div class="m-tabs-a1 pdt30 hg icon1">
+        <div class="dd-top">
+            <ul>
+                <li><a href="javascript:;" class="current"><i class="a1"></i><span>最新</span></a></li>
+                <li><a href="javascript:;"><i class="a2"></i><span>最热</span></a></li>
+                <li><a href="javascript:;"><i class="a3"></i><span>品类</span></a></li>
+                <li><a href="javascript:;"><i class="a4"></i><span>售价</span></a></li>
+                <li class="ed"><a href="javascript:;"><i class="a5"></i><span>包装</span></a></li>
+            </ul>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name='newgoods' new="1">   
+                <li><a href="{$newgoods.gurl}"><img src="<php>$newgoods['g_picture'] = '/'.ltrim($newgoods['g_picture'],'/');</php>{$newgoods.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test01.jpg);" alt="" class="pdts"/><div title="{$newgoods.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$newgoods.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="hotgoods" hot="1">
+                <li><a href="{$hotgoods.gurl}" target="_blank"><img src="<php>$hotgoods['g_picture'] = '/'.ltrim($hotgoods['g_picture'],'/');</php>{$hotgoods.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test02.jpg);" alt="" class="pdts"/><div title="{$hotgoods.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$hotgoods.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="cate" cid="22">
+                <li><a href="{$cate.gurl}" target="_blank"><img src="<php>$cate['bpic'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.bpic|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test01.jpg);" alt="" class="pdts"/><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="cate" cid="4">
+                <li><a href="{$cate.gurl}" target="_blank"><img src="<php>$cate['g_picture'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test02.jpg);" alt="" class="pdts"/><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="cate" cid="29">
+                <li><a href="{$cate.gurl}" target="_blank"><img src="<php>$cate['g_picture'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test01.jpg);" alt="" class="pdts"/><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+    </div>
+    <!--底部结束-->
+</div>
+<!-- body end -->
+    <script type="text/javascript" src="__JS__jquery.carouFredSel.min.js"></script>
+	<script type="text/javascript" src="__JS__jquery.tabs.js"></script>
+	<script type="text/javascript" src="__JS__jquery.lightbox2.js"></script>
+    <script type="text/javascript">
+        $("#zixun").click(function(){
+            var tag_index = $(".tags_index").attr("index");
+            var $this = $('#m_zixun')
+            $this.tabs($this.find(".dd-cmt"),{tabs:'.dd-top a',initialIndex:tag_index});
+        });
+        
+		(function($){
+			var jsImgs = $("#js_imgs");
+			var $thumbs = jsImgs.find(".thumbs");
+			var $images = jsImgs.find(".images");
+			$images.find("a").lightBox({
+                imageBtnClose:"__IMAGES__lightbox-btn-close.gif",
+                imageBtnPrev:"__IMAGES__lightbox-btn-prev.gif",
+                imageBtnNext:"__IMAGES__lightbox-btn-next.gif"
+            });
+			$thumbs.find("img").each(function(i){
+				$(this).click(function(){
+					$(this).addClass("selected").siblings().removeClass();
+					$images.trigger( 'slideTo', [i, 0, true] );
+				});
+			});
+			$images.carouFredSel({
+				auto:false,
+				width:320,
+				height:320,
+				items:1,
+				align: false,
+				scroll:{
+					fx : "crossfade",
+			        duration:600
+				}
+			});
+			$thumbs.carouFredSel({
+				direction: 'up',
+				width:112,
+				circular: false,
+				infinite: false,
+				items: 3,
+				scroll:{
+					items:1	
+				},
+				align: false,
+				auto:false,
+				prev: '#js_imgs .prev',
+				next: '#js_imgs .next'
+			});
+		})(jQuery);
+		
+		(function($){
+				//	wrap all thumbs in a <div> for the 2x3 grid
+				var jsImgs = $("#js_imgs2");
+				var $thumbs = jsImgs.find(".thumbs");
+				var $images = jsImgs.find(".wrap-img");
+				var $div = null;
+				$thumbs.find("img").each(function(i) {
+					if ( i % 6 == 0) {
+						$div = $( '<div style="width:386px;height:552px"></div>' );
+						$div.appendTo( $thumbs );
+					}
+					$(this).appendTo( $div );
+					$(this).addClass( 'itm'+i );
+					$(this).click(function() {
+						$images.trigger( 'slideTo', [i, 0, true] );
+					});
+				});
+				$thumbs.find('img.itm0').addClass( 'selected' );
+
+				//	the big-image carousel
+				$images.carouFredSel({
+					direction: 'up',
+					circular: false,
+					infinite: false,
+					width: 578,
+					height: 578,
+					items: 1,
+					auto: false,
+					scroll: {
+						fx: 'directscroll',
+						onBefore: function() {
+							var pos = $(this).triggerHandler( 'currentPosition' );
+							$thumbs.find("img").removeClass( 'selected' );
+							$thumbs.find('img.itm'+pos).addClass( 'selected' );							
+							var page = Math.floor( pos / 9 );
+						}
+					}
+				});
+				//	the thumbnail-carousel
+				$thumbs.carouFredSel({
+					direction: 'up',
+					circular: false,
+					infinite: false,
+					width: 386,
+					height: 552,
+					items: 1,
+					align: false,
+					auto: false,
+					pagination:{
+						container:jsImgs.find(".b")
+					}
+				});
+			
+		})(jQuery);
+        
+        (function($){
+            var banner = $(".cus-banner");
+            banner.find(".imgs").carouFredSel({
+                items:1,
+                responsive:true,
+                scroll : {	
+                    fx : "crossfade",
+                    duration:1000,
+                    timeoutDuration : 2000
+               },
+                auto:{
+                    pauseOnHover:"resume"
+                },
+                pagination:{
+                    container:banner.find(".b"),
+                    deviation: 1  
+                },
+                height:354
+            });
+            $('ul.pds-roll').each(function(){
+                var $this = $(this);
+                $this.carouFredSel({
+                    circular: false,
+                    infinite: false,
+                    items:5,
+                    auto:false,
+                    scroll:{
+                        duration:800,
+                        items:5
+                    },
+                    pagination:{
+                        container:$this.siblings(".b")
+                    }
+                });
+            });
+            $('.m-tabs-a1').each(function(){
+                var $this = $(this);
+                $this.tabs($this.find(".dd-cmt"),{tabs:'.dd-top a'});
+            });			
+        })(jQuery);
+</script>
+    <!---中间内容部分  结束-->
+<input type="hidden" value="{$detail.gid}" id="gid">
+</body>
+<script type="text/javascript">
+getGoodsAdvice('{$detail.gid}',1);
+getCollGoodsPage('{$detail.gid}');
+<if condition="$common['comments_switch'] eq 1">
+    getCommentPage('{$detail.gid}');
+</if>
+var arr = new Object();
+//将商品库存信息存在js数组里
+<foreach name = 'detail.skus' item = 'vosku'>
+    arr["{$vosku.skuName}"] = "{$vosku.pdt_id}|{$vosku.pdt_stock}|{$vosku.pdt_sale_price}|{$vosku.pdt_market_price}";
+</foreach>
+
+//商品数量更改
+function countNum(i){
+    var _this = $("input[name='num']");
+    var num=parseInt(_this.val()),max=parseInt(_this.attr('max'));
+    num=num+i;
+    if(num == 0){
+        $.ThinkBox.error('购买数量不能小于1件');return false;
+    }else if(num > max){
+        $.ThinkBox.error("库存最多"+max+"件");return false;
+    }
+    _this.val(num);
+}
+
+//把主商品添加到购物车
+$('#addToCart').click(function(){
+    var pdt_id = $('#pdt_id').val();
+    var pdt_stock = parseInt($('#pdt_stock').val());
+    var num = parseInt($('#item_num').val());
+    if (isNaN(num)){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+        return false;
+    }
+    if (num < 1){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+        return false;
+    }
+    if (pdt_id == ""){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+        return false;
+    }
+    if(pdt_stock < 1){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_2}");
+        return false;
+    }
+   
+    //发送ajax请求
+    var data = $('#goodsForm').serialize();
+        if (data != ''){
+            $.post('/Home/Cart/doAdd', data, function(dataMsg){
+                if(dataMsg.status){
+                    $.ThinkBox.success(dataMsg.info);
+                }else{
+                    $.ThinkBox.error(dataMsg);
+                }
+                
+                ajaxLoadShoppingCart(1);
+            }, 'json');
+    }
+});
+
+//选择商品规格
+function showSelect(obj){
+    var arrspec = new Object();
+    //将商品库存信息存在js数组里
+    <foreach name = 'detail.skus' item = 'vosku' key="k">
+        arrspec["{$vosku.skuName}"] = "{$detail.gname}|{$vosku.skuName}|重量:{$vosku.pdt_weight}G";
+    </foreach>
+    var _this = jQuery(obj);
+    var item_id = "{$ary_request.gid}";
+    var name = '';
+    var spec_name = _this.attr("name");
+    var array_tmp_spec = arrspec[spec_name] ? arrspec[spec_name] :'';
+    var array_spec = array_tmp_spec.split('|');
+    var spec_info = array_spec[0]+":"+array_spec[1]+"<br/>"+array_spec[2];
+    $("#specsname").html(spec_info);
+    
+    _this.toggleClass("selected");
+    if (_this && typeof _this == 'object'){
+        name = _this.attr('name');
+        $("#pdt_stock").val("");
+        $("#pdt_id").val("");
+        $("#showNum").html = "";
+        $("#showError").html = "请勾选您要的商品信息";
+    }
+    var _item_id = jQuery('#' + item_id);
+        _this.siblings().removeClass("selected");
+        _this.addClass("selected");
+        var rsize = "";
+        var showvalue = "";
+        var _parent_color = jQuery("#spec" + item_id + '_1').find('a.selected');
+        var _parent_size = jQuery("#spec" + item_id + '_2').find('a.selected');
+        var color_len = _parent_color.length;
+        var size_len = _parent_size.length;
+        if (size_len > 0 && color_len > 0){
+            $("#propError").html("");
+            var color = "", size = "";
+            color = _parent_color.attr('name');
+            size = _parent_size.attr('name');
+            if (color != '' && size != ''){
+                var info = size + ";" + color;
+                showvalue = arr[info]?arr[info]:"";
+                var vale = showvalue.split("|");
+                if (vale.length > 0){
+                    if (vale[0]){
+                        $("#pdt_id").val(vale[0]);
+                    }
+                    if (vale[1]){
+                        
+                        $("#pdt_stock").val(vale[1]);
+                        $("#showNum").html("件（库存" + vale[1] + "件）");
+                    } else{
+                        $("#showNum").html("库存已不足0件");
+                    }
+                    if (vale[2]){
+                        $("#showPrice").html(parseFloat(vale[2]).toFixed(2));
+                        $("#showMarketPirice").html(parseFloat(vale[3]).toFixed(2));
+                        $("#savePrice").html(parseFloat(vale[3] - vale[2]).toFixed(2));
+                        $("#discountPrice").html(parseFloat(((vale[3]/vale[2])*10).toFixed(2)));
+                    }
+                }
+            }
+        } else{
+            var _parent_li = _this.parent().parent().find('a.selected');
+            rsize = _parent_li.attr('name');
+            if (rsize != ""){
+                var info = rsize;
+                
+                showvalue = arr[info];
+               
+                if (showvalue != undefined){
+                    var vale = showvalue.split("|");
+                    if (vale.length > 0){
+                        if (vale[0]){
+                           $("#pdt_id").val(vale[0]);
+                           
+                        }
+                        if (vale[1]){
+                            $("#pdt_stock").val(vale[1]);
+                            $("#showNum").html("库存还剩" + vale[1] + "件");
+                        } else{
+                            $("#showNum").html("库存已不足0件");
+                        }
+                        if (vale[2]){
+                            $("#showPrice").html(vale[2]);
+                            $("#showMarketPirice").html(vale[3]);
+                            $("#savePrice").html(parseFloat(vale[3] - vale[2]).toFixed(2));
+                            $("#discountPrice").html(parseFloat(((vale[3]/vale[2])*10).toFixed(2)));
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1354599447780628" charset="utf-8"></script>

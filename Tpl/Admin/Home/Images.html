@@ -1,0 +1,134 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var editor = new UE.ui.Editor({
+        imageRealPath:"other"
+    });
+    editor.render("myEditor");
+    var dialog;
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            location.reload();
+        });
+    });
+
+    function upImage() {
+        editor.options.imageRealPath = 'templateimages';
+        dialog.open();
+    }
+
+    $(document).ready(function(){
+        //设置上传的子目录 +++++++++++++++++++++++++++++++++++++++++++++++
+        $('#imgDir').change(function(){
+            //editor.options.imageRealPath = $(this).val();
+            editor.options.imageRealPath = 'templateimages';
+        });
+        //图片预览框 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+        $('#showBigImage').dialog({
+            title:'显示图片',
+            width:'auto',
+            height:550,
+            autoOpen: false,
+            modal: true
+        });
+        //显示预览图片 ++++++++++++++++++++++++++++++++++++++++++++++++++
+        $('.imageItems').click(function(){
+            var http = "{:U('/', '', true, false, true)}";
+            http = http.substring(0,http.length-1);
+            var url = $(this).attr('src');
+            var water = $(this).attr('water');
+            $('#bigImage').attr('src',url);
+            $('#bigImageUrl').val(http+url);
+            $('#bigImageWUrl').val(http+water);
+            $('#showBigImage').dialog('open');
+        });
+        //快速选中图片地址 ++++++++++++++++++++++++++++++++++++++++++++++
+        $('#bigImageUrl,#bigImageWUrl').click(function(){
+            if($.browser.msie) this.createTextRange().select();
+            else {
+                this.selectionStart = 0;
+                this.selectionEnd = this.value.length;
+            }
+        });
+    });
+</script>
+<include file="Home:tabsTem" />
+<div class="rightInner" id="con_tabListP_5"><!--rightInner  start-->
+    <include file="Home:titleTpl" />
+    <div class="templates" id="con_template_4"><!--templates  start -->
+        <div class="fileNewPic" style="border:none; height:auto">
+            <table class="tbForm" width="100%">
+                <tr>
+                    <td width="50">上传到：</td>
+                    <td width="180">
+                        
+                        <select class="medium" onChange="window.location.href=this.value">
+                            <option>请选择</option>
+                            <option value='{:U("Admin/Home/doEditTpl","tabs=$filter[tabs]&options=$filter[options]&dir=$filter[dir]&file=$img[filename]&folder=$filter[folder]&type=image&folder=$fd[filename]")}'>根目录</option>
+                            <volist name="folders" id="fd">
+                                <option value='{:U("Admin/Home/doEditTpl","tabs=$filter[tabs]&options=$filter[options]&dir=$filter[dir]&file=$img[filename]&folder=$filter[folder]&type=image&folder=$fd[filename]")}'>{$fd.filename}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td>
+                    <a class="btnG ico_upload" href="javascript:upImage();">上传图片</a>
+                    <!-- <input type="checkbox" class="inputCheckb" /> <label>添加水印</label>（<a href="#" class="blue">设置</a>） -->
+                    <a class="btnG ico_del" href="javascript:$('#imgDel').submit();">删除图片</a>
+                    <span style="text-align: right;float:right;">
+                    <input type="checkbox" class="checkAll" id="imageCheckAll" />
+                    <label for="imageCheckAll" title="删除时仅能删除图片，文件夹不会被删除">全选</label>
+                    </span>
+                    </td>
+                    
+                </tr>
+            </table>
+
+   <div class="rightInner">
+    <form action='{:U("Admin/Home/doDelImages","dir=$filter[dir]")}' id="imgDel" name="imgDel" method="post">
+    <table width="100%" class="tbList">
+            <tr>
+                <td colspan="2">
+                <volist name="data" id="dir">
+                    <div class="picList" style="padding: 0px 10px 10px 10px;height: auto;">
+                        <div>
+                            <div style="position: relative;float: left;top: 17px;"><input type="checkbox" name="imagesDel[]" value="{$dir[webpath]}" class="checkSon" /></div>
+                            <img src="/{$dir[webpath]|str_replace="@@","/",###|showImage}" water='/{$dir[webpath]|str_replace="@@","/",###|showImage}' style="width:120px; height: 120px; cursor: pointer;" class="imageItems" />
+                        </div>
+                        <div>
+                            {$dir.filename}
+                        </div>
+                    </div>
+                </volist>
+                </td>
+            </tr>
+    </table>
+    </form>
+
+        </div>
+    </div><!--templates  end -->
+        <div class="clear"></div>
+
+    <div id="showBigImage" style="display:none;">
+        <table width="100%" class="tbForm">
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <img src="" style="max-width: 800px;" id="bigImage" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>图片原始地址</td><td><input type="text" value="" id="bigImageUrl" class="large" /></td>
+                </tr>
+                <tr>
+                    <td>带水印的图片地址</td><td><input type="text" value="" id="bigImageWUrl" class="large" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

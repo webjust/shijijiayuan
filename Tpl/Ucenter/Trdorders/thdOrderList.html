@@ -1,0 +1,310 @@
+<script src="__PUBLIC__/Ucenter/js/Trdorders.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Ucenter/js/orders.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.lazyload.min.js"></script>
+<link href="__PUBLIC__/Ucenter/css/Aftersale.css" rel="stylesheet" type="text/css">
+<style>
+    #preview{position:absolute;border:1px solid #ccc;background:#333;padding:5px;color:#fff;}    
+</style>
+<script>
+    window.onload = function(){
+        DateTime("order_minDate","order_maxDate");
+    };
+</script>
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>订单列表</span></h2>
+    <div class="myOrder orderDownLoad"><!--myOrder orderDownLoad  start-->
+        <form method="get" act='{:U("Ucenter/Trdorders/thdOrderList")}'>
+            <table class="tableTop">
+                <tr>
+                    <td width="105" align="right">选择店铺：</td>
+                    <td width="191">
+                        <select name="orders_login" id="orders_login" onChange="window.location.href=this.value">
+                            <option value='{:U("Ucenter/Trdorders/thdOrderList","tsid=0&tt_id=$filter[tt_id]&buyer=$filter[buyer]&order_minDate=$filter[order_minDate]&order_maxDate=$filter[order_maxDate]")}'<if condition="$filter['tsid'] eq '0'">selected="selected"</if>>--选择店铺--</option>
+                            <volist name="thdShop" id="Shop">
+                                <option value='{:U("Ucenter/Trdorders/thdOrderList","tsid=$Shop[ts_id]&tt_id=$filter[tt_id]&buyer=$filter[buyer]&order_minDate=$filter[order_minDate]&order_maxDate=$filter[order_maxDate]")}' <if condition="$filter['tsid'] eq $Shop['ts_id']">selected="selected"</if>>{$Shop.ts_nick}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td width="106" align="right"></td>
+                </tr>
+                <tr>
+                    <td width="105" align="right">外部平台订单号：</td>
+                    <td width="191"><input type="text" class="input01" name="tt_id" id="tt_id" value="{$filter.tt_id}"></td>
+                    <td width="106" align="right">买家昵称：</td>
+                    <td><input type="text" class="input01" name="buyer" id="buyer" value="{$filter.buyer}"></td>
+                </tr>
+                <tr>
+                    <td align="right">成交时间：</td>
+                    <td colspan="3">
+                        <input type="text" class="input02" name="order_minDate" value="{$filter.order_minDate}" readonly="readonly" value="" id="order_minDate" validate="{ isCheck:true,messages:{isCheck:'您输入的参数非法，请重新输入'}}">
+                        至
+                        <input type="text" class="input02" name="order_maxDate" value="{$filter.order_maxDate}" readonly="readonly" value="" id="order_maxDate" validate="{ isCheck:true,messages:{isCheck:'您输入的参数非法，请重新输入'}}">
+                        <button class="blue" type="submit">搜 索</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <p class="orderDownLP">
+            <input type="checkbox" id="allCho"> <label for="allCho">全选</label>&nbsp;&nbsp;
+            <select name="matchSelect" onChange="window.location.href=this.value" style="border:1px solid #D7D7D7">
+                <option <if condition="$filter[match] eq '0'">selected="selected"</if> value='{:U("Ucenter/Trdorders/thdOrderList","tsid=$filter[tsid]&tt_id=$filter[tt_id]&buyer=$filter[buyer]&order_minDate=$filter[order_minDate]&order_maxDate=$filter[order_maxDate]&match=0")}'>显示全部</option>
+                <option <if condition="$filter[match] eq '2'">selected="selected"</if> value='{:U("Ucenter/Trdorders/thdOrderList","tsid=$filter[tsid]&tt_id=$filter[tt_id]&buyer=$filter[buyer]&order_minDate=$filter[order_minDate]&order_maxDate=$filter[order_maxDate]&match=2")}'>显示已匹配</option>
+                <option <if condition="$filter[match] eq '1'">selected="selected"</if> value='{:U("Ucenter/Trdorders/thdOrderList","tsid=$filter[tsid]&tt_id=$filter[tt_id]&buyer=$filter[buyer]&order_minDate=$filter[order_minDate]&order_maxDate=$filter[order_maxDate]&match=1")}'>显示未匹配</option>
+            </select>
+
+            <span style="margin-left: 50px;" class="yellow">
+                <b class="yellow">商品总价：</b><label id="countPrice">{$countPrice|sprintf='%.3f',###}</label> &nbsp;&nbsp;<b class="yellow">总物流费：</b><label>0.00</label>
+            </span>
+
+            <span style="float:right">
+				<a href='{:U("Ucenter/Trdorders/doYunerpOrdersDownload")}'  class="blue" >
+					<button class="blue" title="订单下载" type="button">订单下载</button>
+				</a>
+                <a href="javascript:void(0);" class="wordBlue" id="batchTrdorders" ts_id="{$filter.tsid}">
+					<button class="blue" title="批量下单" type="button">批量下单</button>
+				</a>&nbsp;&nbsp;
+                <a href="javascript:void(0);" class="wordBlue" id="batchMarkHandle" ts_id="{$filter.tsid}">
+					<button class="blue" title="批量标记已处理" type="button">批量标记已处理</button>
+				</a>
+			</span>
+        </p>
+        <div class="orderTit"><!--orderTit  start-->
+            <table>
+                <tr>
+                    <td width="290">商品资料</td>
+                    <td width="154">数量</td>
+                    <td width="90">单价（元）</td>
+                    <td width="94">小计（元）</td>
+                    <td width="136">操作</td>
+                    <td>配送方式</td>
+                </tr>
+                <if condition="($order|count) eq '0'">
+                    <tr><td colspan="6">暂无订单</td></tr>
+                </if>
+            </table>
+        </div><!--orderTit  end-->
+        <div class="orderBody"><!--orderBody  start-->
+            <ul>
+                <volist name="order" id="orders" empty="$empty">
+                    <li class="list_li">
+                        <p class="orderPnei" style="float:left; overflow: hidden" tt_id='{$orders.to_oid}'>
+                            <input type="checkbox" class="all_check" name="all_check"  tt_id='{$orders.to_oid}'>
+                            <strong>订单编号：{$orders.to_oid}</strong>
+                            <a href="#" class="wordBlue">订单详情</a>
+                            <span class="time">{$orders.to_created}</span>
+                            <a href="javascript:void(0);" class="gra" id="thd_order" ts_id="{$filter.tsid}" pf="taobao">单张下单</a>
+                            <a href="javascript:void(0);" class="gra" id="mark_handle" ts_id="{$filter.tsid}">标记已处理</a>
+                            <span style="float:right;overflow: hidden;"><b><span>￥</span>：</b><label id="price_{$orders.to_oid}"  class="price_label" for="{$orders.to_oid}" gprice ="{$orders.totalPrice|sprintf='%.3f',###}">{$orders.totalPrice|sprintf='%.3f',###}</label> &nbsp;&nbsp;<b class="yellow">物流费：</b><label id="free_{$orders.to_oid}">0.00</label></span>
+                        </p>
+
+                        <table class="tableOut">
+                            <tr>
+                                <td width="764">
+                                    <table class="tableNei" id="tableNei_{$orders.to_oid}">
+                                        <tbody>
+                                        <volist name="orders['orders']" id="orgoods" key="k">
+                                            <tr id="toid_{$orgoods.toi_id}">
+                                                <td width="80">
+                                                    <div class="cartProPic">
+                                                        <a href="#">
+                                                            <if condition="$orgoods['pic'] eq ''">
+                                                                <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/images/nomatch.png" width="68" height="68" data-original='__PUBLIC__/{$goods.g_picture|showImage=###,200,200|default="Ucenter/images/pdtDefault.jpg"}' class="lazy">
+                                                            <else />
+                                                                <img src='__PUBLIC__/Ucenter/images/grey.gif' data-original='{$orgoods.pic|showImage=###,200,200|default="Ucenter/images/pdtDefault.jpg"}' class="thumb lazy" width="68" height="68" >
+                                                            </if>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td width="150">
+                                                    <div class="cartProName match" style="width:140px" toi_id="{$orgoods.toi_id}">
+                                                        <a href="javascript:void();" num="{$orgoods.toi_num}"  class="yMatched" toi_id="{$orgoods.toi_id}">{$orgoods.toi_title}</a>
+                                                        <span>编号：{$orgoods.toi_outer_sku_id}</span>
+                                                        <span>数量：{$orgoods.toi_num}</span>
+                                                    </div>
+                                                </td>
+                                                
+                                                <if condition="$orgoods['toi_status'] eq '1'">
+                                                    <td colspan="3">已删除</td>
+                                                <else />    
+                                                    <empty name="orgoods['goods']">{$empty}</empty>
+                                                    <notempty name="orgoods['goods']">
+                                                        <td width="150"></td>
+                                                        <td width="154"></td>
+                                                        <td width="90"></td>
+                                                    </notempty>
+                                                </if>
+                                            <td width="136">
+                                                <a href="javascript:void(0);" class="wordBlue order_config t_{$orgoods.to_id}_{$k}" order_id='{$orgoods.to_id}' to_id="{$orgoods.toi_id}" tt_id="{$orgoods.to_id}" for="t_{$orgoods.to_id}_{$k}" num_iid="{$orgoods.toi_num_id}">匹配</a>&nbsp;
+                                            <if condition="$orgoods['toi_status'] eq '1'">
+                                                <a href="javascript:void(0);" class="wordBlue p_del delmatch" is_del="{$orgoods.toi_status}" thtml="取消删除" val="0">取消删除</a>
+                                                <else />
+                                                <a href="javascript:void(0);" class="wordBlue p_del" is_del="{$orgoods.toi_status}"  thtml="删除" val="1">删除</a>
+                                            </if>
+
+                                            </td>
+                                            <notempty name="orgoods['goods']">
+                                                <tr class="list_orders" id="toids_{$orgoods.toi_id}">
+                                                <td colspan="6" style="border-top:1px solid #cecece;border-right:1px solid #cecece;">
+                                                    <table class="tableNei">
+                                                        <tbody>
+                                                            <volist name="orgoods['goods']" id="goods" key="pdtKey">
+                                                                <tr style="border-bottom:1px dashed #D1D1D1;<gt name="pdtKey" value="2">display:none;</gt>">
+                                                                    <td width="80">
+                                                                        <div class="cartProPic">
+                                                                            <a href="#">
+                                                                                <img class="thumb lazy" src='__PUBLIC__/Ucenter/images/grey.gif'  data-original='{$orgoods.pic|default="Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+                                                                             </a>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td width="100" class="ismatch" toi_id="{$orgoods.toi_id}" for="ismathed">
+                                                                        <div class="cartProName" style="width: 270px;">
+                                                                            <a href="javascript:void(0);" class="checked">{$goods.g_name}</a>
+                                                                            <span id="pdt_sn_{$goods.pdt_sn}">编号：{$goods.pdt_sn}</span>
+                                                                            <span class="pdt_weight" pdt_weight="{$goods.pdt_weight}">重量：{$goods.pdt_weight}</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="inmatched" width="100" id="list_{$orders.to_oid}_{$orgoods.toi_outer_sku_id}">
+                                                                        <a href="javascript:void(0);" class="reduce" pdt_id="{$goods.pdt_id}" style="margin:4px 4px 0 0px;"></a>
+                                                                        <input type="text" class="inputNum" value="{$goods.num}" pdt_weight="{$goods.pdt_weight}" stock="{$goods.pdt_stock}" g_picture="{$goods.g_picture}" g_id="{$goods.g_id}" g_name="{$goods.g_name}" pdt_id="{$goods.pdt_id}" pdt_sn="{$goods.pdt_sn}" num_iid="{$orgoods.toi_outer_sku_id}" name="nums" gprice="{$goods.pdt_sale_price}" toi_id="{$orgoods.toi_id}" tt_id="{$orders.to_oid}" totalNum="0">
+                                                                        <a href="javascript:void(0);" class="add"></a>
+                                                                    </td>
+                                                                    <td width="90" id="gPrice_{$goods.pdt_sn}" class="gPrice" gprice="{$goods.pdt_sale_price}">￥{$goods.pdt_sale_price}</td>
+                                                                    <td width="94" class="cgPrice">￥{$goods.cgPrice}</td>
+                                                                </tr>
+                                                            </volist>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                
+                                                <tr class="pdtSwitchs" style="border-bottom:1px solid #cecece;border-right: 1px solid #cecece;height: 23px;">
+                                                    <td colspan="6" style="padding:0px;">
+                                                        <gt name="pdtKey" value="2">
+                                                        <span class="open" title="{$Think.lang.MORE}"></span>
+                                                        </gt>
+                                                    </td>
+                                                </tr>
+                                                
+                                                </notempty>
+                                            </tr>
+                                            </tr>
+                                        </volist>
+
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="7">
+
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </td>
+                                <td width="194" valign="middle" align="center">
+                                    <span id="logistics_{$orders.to_oid}" logistics="0" conf="" lt_id="0">为选择请先进行配置</span><br><a href="javascript:void(0);" class="wordBlue logistics" tt_id="{$orders.to_oid}" address="{$orders.to_receiver_address}" data-tt_id="{$orders.to_oid}" province="{$orders.to_receiver_province}" city="{$orders.to_receiver_city}" district="{$orders.to_receiver_district}">点击配置</a></dd>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="message">
+                                    <p><span>客户留言：</span><label id="message_{$orders.to_oid}">{$orders.to_buyer_message}</lable></p>
+                                    <p><span>商家留言：</span>{$orders.to_seller_memo}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                </volist>
+            </ul>
+
+        </div><!--orderBody  end-->
+    </div><!--myOrder orderDownLoad  end-->
+
+    <div class="fenye" style="padding:10px 0px;"><!--fenye  start-->
+        {$page}
+    </div><!--fenye  end-->
+    <div id="pro_diglog" style="display: none;">
+        <div class="CPM" id="tip_products" style="font-size:12px;"><!--CPM   start-->
+            <div class="content752"><!--content752   start -->
+                <div class="chooseProTOne myOrder"><!--chooseProTOne  start-->
+                    <form method="post" act='#' id="products" name="products">
+                        <table class="tableTop">
+                            <tr>
+                                <td width="69" align="right">商品名称：</td>
+                                <td>
+                                    <input type="text" class="input01" name="g_name" id="g_name">
+                                    <span class="marginLeft">商品分类：</span>
+                                    <select name="gcid" id="gcid">
+                                        <option value="0">--{$Think.lang.ALL_CATES}--</option>
+                                        <volist name="category" id="cate">
+                                            <option value="{$cate.gc_id}" <eq name="chose.gcid" value="$cate[gc_id]">selected="selected"</eq> ><for start="0" end="$cate[gc_level]">&nbsp;&nbsp;</for>{$cate.gc_name}</option>
+                                        </volist>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="69" align="right">货号：</td>
+                                <td><textarea type="text" class="input01"  name="g_sn" id="g_sn" style="border: 1px solid #ccc; width: 400px; height: 60px;"></textarea>&nbsp;&nbsp;&nbsp;<span class="yellow">多个商品编码时以空格或者回车分割</span></td>
+                            </tr>
+                            <tr>
+                                <td width="69" align="right">商品编码：</td>
+                                <td><textarea type="text" class="input01" name="pdt_sn" id="pdt_sn" style="border: 1px solid #ccc; width: 400px; height: 60px;"></textarea> &nbsp;&nbsp;&nbsp;<span class="yellow">多个货号时以空格或者回车分割</span></td>
+                            </tr>
+                            <tr>
+                                <td id="trdorder_tt_id"><input type="hidden" value="" name="order_tt_id" class="class_order_tt_id" /></td>
+                                <td colspan="2" style="text-align:center;">
+                                    <button class="blue" type="button" id="search_list">查 询</button>
+                                    <button class="blue" type="reset">重 置</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div><!--chooseProTOne  end-->
+
+                <div id="products_data">
+
+                </div>
+
+            </div><!--content752   end-->
+        </div><!--CPM   end-->
+        <div id="ajax_loading">
+            <div id="ajaxsenddiv_loading"><img src="__PUBLIC__/images/loading.gif" title="正在加载中..." style="margin-top:30px;"/></div>
+        </div>
+        <div id="payment_selected">
+            <div><!--CPM   start-->
+                <div class="content752"><!--content752  start-->
+
+                    <div class="myOrder"><!--myOrder  start-->
+                            <table class="tableCon" id="selectLogistics">
+                                <thead>
+                                    <tr>
+                                        <td width="108">选择</td>
+                                        <td width="197">名称</td>
+                                        <td width="314">单价订购描述</td>
+                                        <td>手续费(元)</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <volist name="filter['payment_cfg']" id="p">
+                                    <tr>
+                                        <td width="108"><input type="radio" class="payment_cfg" value="{$p.pc_id}" name="o_payment"></td>
+                                        <td width="197">{$p.pc_custom_name}</td>
+                                        <td width="314">{$p.pc_des}</td>
+                                        <td>{$p.pc_fee}</td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                    </div><!--myOrder  end-->
+                </div><!--content752  end-->
+            </div>
+        </div>
+        <div class="dis_hide" id="configdilivery" style="display:none;"></div>
+        <div id="downloag_orders" style="display: none;"></div>
+    </div><!--contentRightBox  end-->
+<script type="text/javascript">
+$(document).ready(function(){
+    $("img.lazy").lazyload({ 
+        effect:"fadeIn",
+        failure_limit : 100
+    });
+});
+</script>

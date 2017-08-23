@@ -1,0 +1,112 @@
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <div class="userCenter"><!--userCenter  start-->
+        <h2 class="publicH2"><span>{$Think.lang.UCENTER}</span></h2>
+        <ul>
+            <li><a href="/Ucenter/My/pageProfile" class="uName">{$info.m_name}</a> {$Think.lang.TOP_WELCOME}{$site_name}！<span class="userSilver">{$info.member_level.ml_name}</span></li>
+            <!--  <li>{$Think.lang.LAST_LOGIN_TIME}：2012-12-03</li>-->
+            <!--<li>{$Think.lang.MEMBER_BALANCE}：<b>{$info.m_balance}</b>{$Think.lang.YUAN}--><!--<a href="/Ucenter/Financial/pageDepositOnline" class="blue recharge">{$Think.lang.TAKE_RECHARGE}</a>--><a href="/Ucenter/Financial/pageDepositList?lxmc=帐户充值" class="income">{$Think.lang.INCOME_DETAILS}</a><i>|</i><a href="/Ucenter/Financial/pageDepositList?lxmc=购物消费" class="pay">{$Think.lang.EXPEND_DETAILS}</a></li>
+            <if condition="$stock.WAT_STOCK eq '1' and $stock.OPEN_STOCK eq '1' ">
+            <li>{$Think.lang.STOCK_ALERT} <a href="/Ucenter/Products/pageList?stock_num={$info.stock_count}" class="uNum">{$info.stock_count}</a> 条</li>
+            </if>
+            <li>{$Think.lang.ALL_ORDERS} <a href="/Ucenter/Orders/pageList" class="allOrder">[{$info.order_count}]</a>{$Think.lang.COLLECTS}: <a href="/Ucenter/Collect/pageList" class="collectPro">[{$info.collect_count}]</a></li>
+			<!--<li><a id="do_lottery" l_id="1">我要抽奖</a></li>-->
+		</ul>
+		<if condition="$sign_points neq 0" >
+		<div id = "show_sign_list">
+			<if condition="$v_type eq 1" >
+				<a href="javascript:void(0)" >已签到</a>
+			<else />
+				<a href="javascript:void(0)" id="sign_on">签到赢积分</a>
+			</if>
+			{$Think.lang.MY_POINTS}: <a href="/Ucenter/PointLog/pageList" class="myIntegral">[{$info.total_point}]</a>
+		</div>
+		</if>
+    </div><!--userCenter  end-->
+
+</div><!--contentRightBox  end-->
+
+<div class="contentRightBox shortcutMenu"><!--contentRightBox  start-->
+    <div class="scMenu"><!--scMenu  start-->
+        <h2 class="publicH2"><span>{$Think.lang.SHOTCUT}</span></h2>
+        <ul>
+            <!-- <li><a href="/Ucenter/Products/pageList" class="a01">快速订货</a></li> -->
+<!--            <li><a href="/Ucenter/Trdorders/pageTaobao" class="a02">淘宝订单快速下载</a></li>
+            <li><a href="/Ucenter/Trddeliver/pageList" class="a03">淘宝订单一键发货</a></li>-->
+            <li><a href="/Ucenter/Cart/pageList" class="a04">查看购物车</a></li>
+            <li><a href="/Ucenter/Collect/pageList" class="a05">我的收藏夹</a></li>
+            <li><a href="/Ucenter/My/pageProfile" class="a06">我的资料</a></li>
+        </ul>
+    </div><!--scMenu  end-->
+
+</div><!--contentRightBox  end-->
+
+<div class="contentRightBox shortcutMenu"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>{$Think.lang.INFOMATION}</span></h2>
+    <div class="activity"><!--activity  start-->
+        <a href="/Ucenter/Notice/pageList" class="more">{$Think.lang.MORE}</a>
+        <div class="activityCon"><!--activityCon  start-->
+            <ul class="ul01">
+                <volist name="articlelist" id="notice">
+				<li><p><a href='{:U("Ucenter/Notice/pageRead","pnid=$notice[pn_id]")}'>{$notice.pn_title}</a><span class="time">{$notice.pn_create_time}</span></p></li>
+				</volist>
+            </ul>
+        </div><!--activityCon  end-->
+
+        <div class="lunboPic"><!--lunboPic  start-->
+            <div class="indexTopRightAds">
+                <!--小轮播-->
+                <ul class="tab_btn" id="myTab_btns2">
+ 					  <volist name="art" id="artinfo">
+                         <li <if condition="$key eq  0"> class="on" </if>>{$key+1}</li>
+                      </volist>                   
+                </ul>
+                <div class="main_1" id="main1">
+                    <ul id="content2">
+	 					   <volist name="art" id="artinfo">
+	                        <li><a href="{$artinfo.aurl}" target="_blank" title="{$artinfo.a_title}"><img width="524" height="218" src="{$artinfo.ul_image_path}"></a> </li>
+	                       </volist>
+                    </ul>
+                </div>
+                
+            </div>
+        </div><!--lunboPic  end-->
+    </div><!--activity  end-->
+
+</div><!--contentRightBox  end-->
+<!-- 右侧主题内容结束 -->
+</div>
+</div>
+<!-- 中间内容结束 -->
+<script type="text/javascript">
+ajaxLoadMemberInfo();
+function ajaxLoadMemberInfo(){
+    $.post('/Ucenter/Index/getMemberInfo',{'type':1},function(htmlObj){
+        $("#show_sign_list").html(htmlObj);
+    },'html');
+}
+$("#sign_on").click(function(){
+    $.ajax({
+        url:"/Ucenter/Index/doSignOn",
+        cache:false,
+        dataType:"json",
+        data:{},
+        type:"post",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success(msgObj.info);
+				//异步获取首页会员登陆信息
+				//ajaxLoadMemberInfo(1);
+            }else{
+                $.ThinkBox.error(msgObj.info);
+            }
+        }
+    })
+});
+$(document).ready(function(){
+    $('#do_lottery').click(function(){
+	    var data = 'l_id=' + $(this).attr('l_id');
+	    ajaxReturn('{:U("Ucenter/Lottery/doLottery")}',data,'post');
+    });
+});
+</script>

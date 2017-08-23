@@ -1,0 +1,235 @@
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>买家留言管理</span></h2>
+    <div class="member_editpass" style="display: none;">
+        <b></b>
+    </div>
+    <div class="deliverList myOrder"><!--deliverList  start-->
+    <!--内容区开始-->
+<div class="memberbox clearfix">
+
+    <div class="main_content">
+        <div class="tabWrapper">
+
+            <div class="tabWrapper_content ortab_content p10" style="width:98%">
+            <!-- 留言列表区 start -->
+            <div id="TableListBox">
+
+            <TABLE class="msg_list_table" cellSpacing="1" cellPadding="5" class="deliverTable" width="100%" bgColor="#dddddd" border="0">
+               <volist name="data" id="v">
+                    <tr class="remove_{$v['msg_id']}">
+                        <td width="90%">
+                            <span>
+                                <font style="color: #404040;font-family: '宋体',Verdana,Arial;font-weight: bold;"><?php echo $v['user_name'];?>:</font>
+                                <font style="color: red;">&nbsp;&nbsp;<?php echo $v['msg_title'];?></font>
+                                <font>&nbsp;({$v['msg_time']})</font>
+                                <font>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    	类型：{$v['msg_type_title']}
+                                </font>
+                                <font id="showhtml_{$v['msg_id']}">&nbsp;&nbsp;&nbsp;
+								{$v['reply_info']}
+                                </font>
+                                <notempty name="v['file_url']">
+                                <font>&nbsp;&nbsp;&nbsp;
+                                <a href="{$Think.config.DOMAIN_HOST}{$v['file_url']}" >有附件</a>
+                                </font>
+                                </notempty>
+                            </span>
+                        </td>
+                        <td><a style="cursor: pointer;" onclick="deleteOrderMsg({$v['msg_id']});">删除</a></td>
+                    </tr>
+                    <tr class="list_tr remove_{$v['msg_id']}">
+                        <td colspan="2">{$v['msg_content']}</td>
+                    </tr>
+                    <tr style="display: none;" class="reply_admin_{$v['msg_id']} remove_{$v['msg_id']}">
+                        <td colspan="2"><textarea class="reply_content_{$v['msg_id']}" cols="50" rows="5"></textarea><br />
+                            <input type="button" value="确定" id="{$v['msg_id']}" class="reply_admin_btn" />
+                        </td>
+                    </tr>
+                    <!-- <tr style="display: none;" class="sgan_reply_<?php echo $v['msg_id'];?>"> -->
+ 					<tr class="sgan_reply_{$v['msg_id']} remove_{$v['msg_id']}" style="display:none;">
+                        <td colspan="2">
+                            <volist name="v['mdata']" id="mv">
+                                <div style="margin: 5px 0 5px 0;background-color: #EDF7FF;">
+                                    <div style="padding: 10px;text-align: center;border-bottom: 1px dashed #fff;">{$mv['msg_content']}</div>
+                                    <div style="padding-bottom: 5px;text-align: right;">@{$mv['msg_time']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                </div>
+							</volist>
+                            <div style="margin: 5px 0 5px 0;background-color: #EDF7FF;text-align: right;">
+                                <a href="javascript:void(0);" class="close_sgan_reply" rel="{$v['msg_id']}" style="margin-right: 100px;">取消</a>
+                            </div>
+                        </td>
+                    </tr>
+                </volist>
+            </TABLE>
+            </div>
+            <div class="myOderBot"><!--myOderBot  start-->
+                <div class="myOderBotRight"><!--myOderBotRight  start-->
+                    {$page}
+                </div><!--myOderBotRight  end-->
+            </div><!--myOderBot  end-->
+            <!-- 留言列表区 end -->
+            <!-- 发表留言区 start -->
+            <div id="TableListBox" style="margin-top:-30px;margin-top:10px;">
+                <div class="order_box">
+                    <form name="orderMessageForm" id="orderMessageForm" class="orderMessage" action="{:U("Ucenter/My/msgSave")}" enctype="multipart/form-data" method="post" >
+                        <ul cellpadding='3' class="msgTable">
+                            <li class="clearfix mt10">
+                                <label align="right">类&nbsp;&nbsp;&nbsp;&nbsp;型&nbsp;&nbsp;&nbsp;&nbsp;：</label>
+                                	<input type="radio" name="msg_type" class="msg_type" id="msg_0" value="0" checked="checked">留言&nbsp;
+                                    <input type="radio" name="msg_type" class="msg_type" id="msg_1" value="2" />询问&nbsp;
+                                    <input type="radio" name="msg_type" class="msg_type" id="msg_2" value="1">投诉&nbsp;
+                                    <input type="radio" name="msg_type" class="msg_type" id="msg_3" value="3">售后&nbsp;
+                                    <input type="radio" name="msg_type" class="msg_type" id="msg_4" value="4">求购&nbsp;                
+                            </li>
+                            <li class="clearfix mt10">
+                                <label align="right">主&nbsp;&nbsp;&nbsp;&nbsp;题&nbsp;&nbsp;&nbsp;&nbsp;：</label>
+                                <input type="text" id="msgTitle" name="msgTitle"/>
+                            </li>
+                            <li class="clearfix mt10">
+                                <label align="right">上传附件&nbsp;：</label>
+                                <input type="file" size="20" name="filename" id="filename">
+                            </li>
+                            <li class="clearfix mt10">
+                                <label>留言内容&nbsp;：</label>
+                                <textarea class="B_blue" wrap="virtual" rows="4" cols="50" id="msg_content" name="msg_content" style="width: 446px; height: 109px;"></textarea>
+                            <li class="clearfix mt10">
+                                <label></label>
+                                <span id="showwait" class="wait" style="display:none;float:left;"> </span>
+                                <button id="msg_btn" type="button" class="blue" style="color: rgb(255, 255, 255); background-color: rgb(23, 144, 203); text-decoration: none;">提交</button>
+                            </li>
+                            <li></li>
+                        </ul>
+                        	<input type="hidden" name="tom_redirect_type" value="">
+                    </form>
+            　　</div>
+           </div>
+                <!-- 发表留言区 end -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+	 <!--}mainContent end-->
+<style>
+    .orderMessage .msgTable td{padding:8px;}
+    .orderMessage_top h5{
+        background-color: #EDF7FF;
+        color: #56A5EE;
+        font-size: 12px;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 10px 0 0;
+        text-align: right;
+    }
+    .orderMessage_top h5 span{
+        float: left;
+        font-weight: bold;
+        padding-left: 25px;
+    }
+    .clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+	}
+	.mt10{
+	margin-top:10px;
+	}
+    .msg_list_table td{padding: 10px;}
+    .msg_list_table .list_tr td{border-bottom: 1px dashed #E4E4E4;}
+</style>
+
+<script type="text/javascript">
+    function deleteOrderMsg(Mid) {
+        $.post("{:U('Ucenter/My/delFeedBack')}",{'Mid':Mid},function(response) {
+            if(response=='succ') {
+                //location.reload();
+            	$('.remove_'+Mid).remove();
+            }else{
+				showAlert('','删除失败');
+            }
+        });
+    }
+
+    $('.reply_admin').click(function() {
+        var msg_id = $(this).next('input').val();
+        if($('.reply_admin_'+msg_id).is(':hidden')) {
+            $('.reply_admin_'+msg_id).css('display','block');
+        }else {
+            $('.reply_admin_'+msg_id).css('display','none');
+        };
+    });
+
+    $('.sgan_reply_a').click(function() {
+       var mid = $(this).attr('rel');
+       if($('.sgan_reply_'+mid).is(':hidden')) {
+           $('.sgan_reply_'+mid).css('display','');
+       }
+       var postUrl = "{:U('Ucenter/My/MsgReadSave')}";
+		$.ajax({
+			url:postUrl,
+			data:{msg_id:mid},
+			beforeSend:function(){
+				//alert("正在请求远端数据，请稍候...");
+			},
+			success:function(msgObj){
+				var msgObj = eval("(" + msgObj + ")");
+                if(msgObj.status==200) {
+                	$('#showhtml_'+mid).html('已回复&nbsp;<a href="javascript:void(0);" rel="'+mid+'" class="sgan_reply_a" >查看(已阅读)');
+                      //location.reload();
+                   }else {
+                       if(msgObj.status!=202){
+                    	   showAlert('',msgObj.message);
+                       }
+                }
+			},
+			error:function(msgObj){
+				var msgObj = eval("(" + msgObj + ")");
+				 alert(msgObj.message);
+			},
+			type:'POST',
+			timeout:30000,
+			dataType:'html'
+		});
+    });
+
+    $('.close_sgan_reply').click(function() {
+        var mid = $(this).attr('rel');
+        $('.sgan_reply_'+mid).css('display','none');
+    });
+
+    $('.reply_admin_btn').click(function() {
+        var content = $(this).parent().children('textarea').val();
+        var msg_id = $(this).attr('id');
+        var tid = "{$id}";
+        var u_id = "{$u_id}";
+        var postUrl = "{:U('Ucenter/My/msgsave')}";
+        $.post(postUrl,{'msg_id':msg_id,'content':content,'u_id':u_id},function(responseText) {
+            location.reload();
+        });
+    });
+    
+    $(document).ready(function() {
+        $('#msg_btn').click(function() {
+        	var oForm = $('#orderMessageForm');
+       		var title = $('#msgTitle').val();
+            var content = $('#msg_content').val();
+            var tid = "{$id}";
+            var u_id = "{$u_id}";
+            var type = $('.msg_type:checked').val();
+            if(title=='') {showAlert('','请输入标题！');return false;}
+            if(content.length<5 || content.length>200) {showAlert('','留言内容不少于5字，不多于200字！');return false;}
+            oForm.submit();
+     
+       });
+    });
+
+</script>
+    </div>
+</div>

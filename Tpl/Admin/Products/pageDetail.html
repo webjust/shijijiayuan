@@ -1,0 +1,247 @@
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<h2 class="commonH2">商品详情</h2>
+<div class="rightInner"><!--rightInner  start-->
+
+    <div class="proDetails"><!--proDetails  start-->
+        <div class="probig"><!--probig   start-->
+            <div id="examples">
+
+                <ul id="example3">
+                    <volist name="pics" id="pic">
+                    <li>
+                        <img class="etalage_thumb_image" src="{$Think.config.DOMAIN_HOST}{$pic.gp_picture}" />
+                        <img class="etalage_source_image" src="{$Think.config.DOMAIN_HOST}{$pic.gp_picture}" />
+                    </li>
+                    </volist>
+                </ul>
+
+            </div>
+
+            <table class="tableBig">
+                <tr>
+                    <td width="75" align="right">商品名称：</td>
+                    <td><strong>{$good.g_name}</strong></td>
+                </tr>
+                <tr>
+                    <td align="right">商品编号：</td>
+                    <td>{$good.g_sn}</td>
+                </tr>
+                <notempty name="good.g_art_no">
+                <tr>
+                    <td align="right">长益货号：</td>
+                    <td>{$good.g_art_no}</td>
+                </tr>
+                </notempty>
+                <notempty name="good.taobao_id">
+                <tr>
+                    <td align="right">淘宝商品编号：</td>
+                    <td>{$good.taobao_id}</td>
+                </tr>
+                </notempty>
+                <tr>
+                    <td align="right">品牌：</td>
+                    <td>{$good.gb_name|default="暂无"}</td>
+                </tr>
+                <tr>
+                    <td align="right">分类：</td>
+                    <td>{$good.gc_name|default="暂无"}</td>
+                </tr>
+				<tr>
+					<td align="right">类型：</td>
+					<td>{$good.gt_name|default="暂无"}</td>
+				</tr>
+                <tr>
+                    <td align="right">上架状态：</td>
+					<if condition="$good.g_on_sale eq '1'">
+						<td>在架</td>
+						<else />
+						<td>下架</td>
+					</if>
+                </tr>
+            </table>
+        </div><!--probig   end-->
+
+
+        <p class="tabListP">
+            <span onclick="setTab(this)" div_id="1" class="onHover tabListP_Span" style="cursor:pointer;">规格</span>
+			<span onclick="setTab(this)" div_id="4" class="tabListP_Span" style="cursor:pointer;">属性</span>
+            <span onclick="setTab(this)" div_id="2" class="tabListP_Span" style="cursor:pointer;">商品详细</span>
+            <!--
+			<span onclick="setTab(this)" div_id="3" class="tabListP_Span" style="cursor:pointer;">第三方平台</span>
+			-->
+        </p>
+        <div class="borderDiv" id="con_tabListP_1">
+            <table width="100%" class="tbList">
+                <thead>
+                    <tr>
+                        <th>商品编码</th>
+                        <th>规格</th>
+                        <th>重量（g）</th>
+                        <th>总库存</th>
+                        <th>可下单库存</th>
+                        <th>冻结库存</th>
+                        <th>价格（元）</th>
+                        <th>在途数</th>
+						<!--
+                        <th>淘宝商品SKU</th>
+						-->
+                    </tr>
+                </thead>
+                <tbody>
+                <volist name="products" id="product">
+                    <tr>
+                        <td>{$product.pdt_sn}</td>
+                        <td>{$product.specName|default="暂无"}</td>
+                        <td>{$product.pdt_weight}</td>
+                        <td>{$product.pdt_total_stock}</td>
+                        <td>{$product.pdt_stock}</td>
+                        <td>{$product.pdt_freeze_stock}</td>
+                        <td>{$product.pdt_sale_price}</td>
+                        <td>{$product.pdt_on_way_stock}</td>
+						<!--
+                        <td>{$product.taobao_sku_id}</td>
+						-->
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+		<div class="borderDiv" id="con_tabListP_4" style="display:none;">
+			<table width="100%" class="tbList">
+				<volist name="array_unsale_spec" id="spec">
+                <tr>
+                    <td width="150" style="text-align:right;">{$spec.gs_name}：</td>
+                    <td style="text-align:left;">{$spec.gsd_aliases}</td>
+                </tr>
+				</volist>
+			</table>
+		</div>
+        <div class="borderDiv" id="con_tabListP_2" style="display:none">
+            <div class="paddingDiv">
+                <!--
+				<ul class="proDUL">
+                    <li>商品编号：{$good.g_sn}</li>
+                    <li>商品品牌：{$good.gb_name}</li>
+                    <li>重量：{$good.gb_name}</li>
+                    <li>上架时间：{$good.g_on_sale_time}</li>
+                    <li>市场价：{$good.g_price|sprintf='%0.3f',###}</li>
+                </ul>
+				-->
+                {$good.g_desc}
+            </div>
+        </div>
+        <!--
+		<div class="borderDiv" id="con_tabListP_3" style="display:none">
+            <table width="100%" class="tbList">
+                <thead>
+                    <tr>
+                        <th>第三方平台</th>
+                        <th>是否已发布</th>
+                        <th>铺货次数</th>
+                        <th>累计采购量</th>
+                        <th>采购基准价</th>
+                        <th>经销采购价</th>
+                        <th>零售价格区间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>淘宝供销平台</td>
+                        <td><empty name="good.top_info"><span class="red">未发布</span><else /><span class="green">已发布</span></empty></td>
+                        <empty name="good.top_info"><td></td><td></td><td></td><td></td><td></td>
+                        <else />
+                        <td>{$good.top_info.items_count}</td>
+                        <td>{$good.top_info.orders_count}</td>
+                        <td>{$good.top_info.standard_price}</td>
+                        <td>{$good.top_info.dealer_cost_price}</td>
+                        <td>{$good.top_info.retail_price_low} - {$good.top_info.retail_price_high} [<a href="javascript:void(0);" class="buttonTrdPrice" pid="{$good.top_info.pid}" >设置</a>]</td>
+                        </empty>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+		-->
+
+    </div><!--proDetails  end-->
+
+</div><!--rightInner  end-->
+
+<!--第三方平台零售价格区间设置弹框-->
+<div id="trdPriceWindow" style="display: none;" title="设置第三方平台销售价格区间">
+    <form id="trdPriceForm" method="post" action="###">
+    <table class="tbForm" width="100%">
+        <thead>
+            <tr>
+                <td></td><td><input type="hidden" name="pid" value="" id="pid" /></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>最低零售价</td>
+                <td><input type="text" class="small" name="retail_price_low" /></td>
+            </tr>
+            <tr>
+                <td>最高零售价</td>
+                <td><input type="text" class="small" name="retail_price_high" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" id="trdPriceSubmit" class="btnA" value="设置" /></td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function($){
+        $('#example3').etalage({
+            thumb_image_width: 328,
+            thumb_image_height: 328,
+            source_image_width: 900,
+            source_image_height: 900,
+            zoom_area_width: 500,
+            zoom_area_height: 500,
+            zoom_area_distance: 5,
+            small_thumbs: 5,
+            smallthumb_inactive_opacity: 0.5,
+            smallthumbs_position: 'top',
+            show_icon: true,
+            icon_offset: 20,
+            autoplay: false,
+            keyboard: false,
+            zoom_easing: false
+        });
+
+        $('#trdPriceWindow').dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true
+        });
+
+        $('.buttonTrdPrice').click(function(){
+            $('#trdPriceWindow').dialog('open');
+        });
+
+        $('#trdPriceSubmit').click(function(){
+            var pid = $(this).attr('pid');
+            if($("#trdPriceForm").valid()){
+                $('#pid').val(pid);
+                var dat = $("#trdPriceForm").serialize();
+                var url = '/Admin/Products/doTrdPriceSet/';
+                $('#trdPriceWindow').dialog('close');
+                ajaxReturn(url,dat);
+            }
+        });
+    });
+    // TAB 切换
+    function setTab(clickObj){
+		var id = $(clickObj).attr("div_id");
+        var html_id_attr = 'con_tabListP_' + id;
+		$(".tabListP_Span").removeClass("onHover");
+		$(clickObj).addClass("onHover");
+		$(".borderDiv").css({display:"none"});
+		$("#con_tabListP_" + id).css({display:"block"});
+    }
+</script>

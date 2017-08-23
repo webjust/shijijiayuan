@@ -1,0 +1,87 @@
+<div class="rightInner">
+    <form id="online_config" method="post" action="{:U('Admin/Financial/doConfigOnline')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        配置您的微信线上收款账户
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">* 微信支付商户号</td>
+                    <td>
+                        <input type="text" name="weixin_account" class="large" value="{$info.config.weixin_account}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"><a href="http://kf.qq.com/faq/140225MveaUz150107UVFNjy.html" target="_blank">微信支付申请指引</a></td>
+                </tr>
+				<tr>
+                    <td class="first">* APPID</td>
+                    <td>
+                        <input type="text" name="weixin_appid" class="large" value="{$info.config.weixin_appid}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* AppSecret</td>
+                    <td>
+                        <input type="text" name="weixin_appsecret" class="large" value="{$info.config.weixin_appsecret}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 商户支付密钥Key</td>
+                    <td>
+                        <input type="text" name="weixin_key" class="large" value="{$info.config.weixin_key}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">JS API网页支付授权目录</td>
+                    <td>
+						{$hostUrl}
+                    </td>
+                    <td class="last">申请时以此目录地址申请即可</td>
+                </tr>	
+<!--				
+                <tr>
+                    <td class="first">Native原生支付回调URL</td>
+                    <td>
+						{$hostUrl}
+                    </td>
+                    <td class="last">申请时以此目录地址申请即可</td>
+                </tr>				
+	-->		
+                <tr>
+                    <td class="first">支付手续费</td>
+                    <td>
+                        <input type="text" name="pc_fee" class="small" value="{$info.pc_fee}"  validate="{ number:true, min:0}" />%
+                    </td>
+                    <td class="last">通常第三方平台会向您收取支付手续费。您可以为每笔订单设置固定的支付手续费。默认为0%</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="WEIXIN" name="code" />
+                        <input type="submit" value="保 存" class="btnA" />&nbsp;
+                        <input type="button" value="返 回" class="btnA back" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#online_config').validate();
+    });
+</script>

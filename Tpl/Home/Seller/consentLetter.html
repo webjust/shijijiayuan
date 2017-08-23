@@ -1,0 +1,138 @@
+<style>
+    .intro_content{width: 100%;overflow: hidden;}
+    .intro_content_box{width: 1200px;overflow: hidden;margin: 0 auto;background:#efeff1;padding:20px 0;}
+    .intro_content_top{width: 1200px;height:51px;overflow: hidden;}
+    .intro_content_top ul li{float: left;width:230px;height:49px;font-size:20px;border:1px solid #b6b6b6;background:white;text-align: center;line-height: 49px;margin-right: 10px;}
+    .intro_content_top ul li:last-child{margin-right: 0;}
+    .intro_content_top ul li.on{background: #ff2691;color: white;}
+    .intro_content_body{width: 1200px;height:578px;overflow: hidden;padding-top: 12px;}
+    .intro_content_title{width: 1175px;height:48px;padding-left:25px;overflow: hidden;color:#ff2692;line-height: 48px;font-size: 20px;
+        background: -moz-linear-gradient(left, #ffffff 20%, #FC67B1 100%);
+        background: -webkit-gradient(linear, left top, right top, color-stop(20%,#ffffff), color-stop(100%,#FC67B1));
+        background: -webkit-linear-gradient(left, #ffffff 20%,#FC67B1 100%);
+        background: -o-linear-gradient(left, #ffffff 20%,#FC67B1 100%);
+        background: -ms-linear-gradient(left, #ffffff 20%,#FC67B1 100%);
+        background: linear-gradient(to right, #ffffff 20%,#FC67B1 100%);
+    }
+    .intro_content_choose{width: 1175px;height:87px;padding-left:25px;overflow: hidden;color:black;line-height: 87px;font-size: 20px;}
+    .intro_content_choose>p{width:289px;height:87px;line-height: 87px;display: inline-block;}
+    .intro_content_choose>p label{float: left;}
+    .intro_content_choose>p input{width: 120px;height:42px;border:1px solid #c5c3c4;padding-left:10px;margin-left: 10px;margin-top:21px;float:left; }
+    .intro_content_choose>p strong{margin-left: 10px;font-size: 20px;color: red;float:left;margin-top: 3px;}
+
+    .information_list>div{width: 1200px;height: 68px;border-bottom:1px solid #bebec0;overflow: hidden;}
+    .information_list>div p{width: 400px;height: 68px;line-height: 68px;overflow: hidden;float: left;}
+    .information_list>div p label{width:136px;padding-left:25px;background:#f7f7f9;height:68px;line-height: 68px;float: left;font-size: 20px;}
+    .information_list>div p input{width:150px;padding-left:10px;height:38px;border:1px solid #c6c4c5;margin:15px 10px;float: left;font-size: 20px;}
+    .information_list>div p strong{font-size: 20px;color: red;float:left;margin-top: 3px;}
+    .information_list>div p select{width:162px;padding-left:10px;height:38px;border:1px solid #c6c4c5;margin:15px 10px;float: left;font-size: 20px;}
+    .information_list>div p a{font-size: 20px;margin-left: 25px;}
+
+    .intro_content_btn{width:1200px;height:50px;text-align: center;overflow: hidden;margin-top: 60px;}
+    .intro_content_btn a{width:233px;height:50px;display:inline-block;text-align: center;overflow: hidden;font-size:20px;line-height: 50px;background:white;margin-right:50px;}
+    .intro_content_btn a:first-child{background:#ff2691;color: white;}
+    .intro_content_btn a:last-child{margin-right: 0;}
+</style>
+<div class="intro_content">
+    <div class="intro_content_box">
+        <div class="intro_content_top">
+            <ul>
+                <li>签署协议</li>
+                <li class="on">填写申请</li>
+                <li>资质上传</li>
+                <li>店铺信息</li>
+                <li>等待审核</li>
+            </ul>
+        </div>
+        <div class="intro_content_body">
+            <form action="">
+                <div class="intro_content_title">
+                    账号信息
+                </div>
+                <div class="intro_content_choose">
+                    <p>
+                        <label>商城账号</label><input type="text" class="required"/>
+                    </p>
+                    <p>
+                        <label>商户名称</label><input type="text" class="required"/>
+                    </p>
+                    <p>
+                        <label>登录密码</label><input type="text" class="required"/>
+                    </p>
+                    <p>
+                        <label>确认密码</label><input type="text" class="required"/>
+                    </p>
+                </div>
+                <div class="intro_content_title">
+                    信息列表
+                </div>
+                <div class="information_list">
+                    <div>
+                        <p>
+                            <label>营业执照</label>
+                            <input type="text" class="required"/>
+                        </p>
+                        <p>
+                            <label>商品类型</label>
+                            <select>
+                                <option value="">普通</option>
+                                <option value="">一般</option>
+                                <option value="">高级</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label>商户资质</label>
+                            <input type="text" class="required"/>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <label>公司名称</label>
+                            <input type="text" class="required"/>
+                        </p>
+                        <p>
+                            <label>负责人姓名</label>
+                            <input type="text" class="required"/>
+                        </p>
+                        <p>
+                            <label>负责人身份证号</label>
+                            <input type="text" class="required"/>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <label>负责人手机号</label>
+                            <input type="text" class="required"/>
+                        </p>
+                        <p>
+                            <label>负责人邮箱</label>
+                            <input type="text" class="required"/>
+                        </p>
+                        <p>
+                            <label>客服电话</label>
+                            <input type="text" class="required"/>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <label>经营类目</label>
+                            <a>选择类目</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="intro_content_btn">
+                    <a href="http://www.caizhuangguoji.com/Home/Seller/deposit.html" id="sub">确定</a>
+                    <a href="#">取消</a>
+                </div>
+                <input type="hidden" name="csrf" value="{$csrf}"/>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("form :input.required").each(function(){
+        var $required = $("<strong> *</strong>");
+        $(this).parent().append($required);
+    });
+
+</script>

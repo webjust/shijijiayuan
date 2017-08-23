@@ -1,0 +1,96 @@
+<div class="rightInner">
+    <form id="system_form" name="system_form" method="post" action="{:U('Admin/System/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑管理员</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first"><font class="red">*</font>&nbsp;&nbsp;用户名：</td>
+                    <td>
+                        <input type="text" name="u_name" id="u_name" class="medium" value="{$data['admin']['u_name']}" validate='{ required:true,maxlength:30,remote:"{:U("Admin/System/checkEditName","u_id=$admin[u_id]")}"}' /> <br> 
+                    </td>
+                    <td class="last">这里输入管理员登陆时需要的账号</td>
+                </tr>
+                <tr>
+                    <td class="first">密码：</td>
+                    <td>
+                        <input type="password" name="u_passwd" id="u_passwd" class="medium" value="" validate="{ rangelength:[8,30],messages:{required:'密码不能为空'},isAdminPwd:true }"/> <br> 
+                    </td>
+                    <td class="last">8 - 30个字符组成，密码必须为字母大小写+数字或者和特殊字符的组合（特殊字符包括： !@#$%^*_- ）,留空则不修改</td>
+                </tr>
+                <tr>
+                    <td class="first">确认密码：</td>
+                    <td>
+                        <input type="password"  id="u_passwd_1" class="medium" value="" validate="{ rangelength:[8,30],equalTo:u_passwd,messages:{required:'确认密码不能为空'}}"/> <br> 
+                    </td>
+                    <td class="last">留空则不修改</td>
+                </tr>
+                <tr>
+                    <td class="first"><font class="red">*</font>&nbsp;&nbsp;所属权限组：</td>
+                    <td>
+                        <select name="role_id" id="role_id" validate="{ selected:true}">
+                            <option value="0">--请选择--</option>
+                            <volist name="data.role" id="role">
+                                <option value="{$role.id}" <if condition="$data['admin']['role_id'] eq $role['id']">selected="selected"</if>>{$role.name}</option>
+                            </volist>
+                        </select> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">姓名：</td>
+                    <td>
+                        <input type="text" name="u_real_name" id="u_real_name" class="medium" value="{$data['admin']['u_real_name']}" validate="{ maxlength:30}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">编号：</td>
+                    <td>
+                        <input type="text" name="u_no" id="u_no" class="medium" value="{$data['admin']['u_no']}" validate="{ maxlength:50}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">部门：</td>
+                    <td>
+                        <input type="text" name="u_department" id="u_department" class="medium" value="{$data['admin']['u_department']}" validate="{ maxlength:50}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">备注：</td>
+                    <td>
+                        <textarea id="u_mome" name="u_mome" cols ="80" rows = "8" validate="{ maxlength:100}">{$data['admin']['u_mome']}</textarea> <br> 
+                    </td>
+                    <td class="last">100字以内</td>
+                </tr>
+                <if condition="$data['admin']['u_id'] neq '1'">
+                    <tr>
+                        <td class="first">状态：</td>
+                        <td>
+                            <input type="radio" value="1" checked=""  name="u_status" <eq name="data.admin.u_status" value="1">checked="checked"</eq> /> 启用 
+                            <input type="radio" value="0"  name="u_status" <eq name="data.admin.u_status" value="0">checked="checked"</eq>/> 禁用 
+                        </td>
+                    </tr> 
+                </if>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="{$data.admin.u_id}" name="u_id" />
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#system_form').validate();
+    });
+    
+    
+</script>

@@ -1,0 +1,64 @@
+<!--footer-->
+<div class="footer">
+    <div class="ftOne"><!--ftOne-->
+        <div class="content">
+            <!--/ftOneTop-->
+            <div class="ftOneTop"><!--ftOneTop-->
+                <div class="content"> <span> <i><img src="__IMAGES__foot01.png"></i>
+          <p> <strong>正品保证</strong> 品质护航 购物无忧</p>
+          </span> <span> <i><img src="__IMAGES__foot02.png"></i>
+          <p><strong>正品保证</strong> 品质护航 购物无忧</p>
+          </span> <span> <i><img src="__IMAGES__foot03.png"></i>
+          <p> <strong>正品保证</strong> 品质护航 购物无忧</p>
+          </span> </div>
+            </div>
+            <div class="ftOneBot"><!--ftOneBot-->
+                <ul>
+                    <Gyfx:articlecate name="artcat"  num="6" recommend="1" is_show="1">
+                        <volist name="artcat" key="keys" id="arts">
+                        <li>
+                            <strong>{$arts.cat_name}</strong>
+                                <volist name="arts.list" key="k" id="artinfo">
+                                    <if condition="$k elt 4">
+                                        <a href="{:U('Home/Article/articleDetail',array('cid'=>$arts['cat_id'],'aid'=>$artinfo['a_id']))}">
+                                            {$artinfo.a_title}
+                                        </a>
+                                    </if>
+                                </volist>
+                        </li>
+                        </volist>
+                    </Gyfx:articlecate>
+                </ul>
+            </div>
+            <!--/ftOneBot-->
+        </div>
+    </div>
+    <!--/ftOne-->
+    <div class="ftTwo w1180"><!--ftTwo-->
+        <p>{$commonInfo['GY_SHOP_ICP']|default='Copyright © 2009-2016 沪ICP备：12035449号-2'}</p>
+    </div>
+    <!--/ftTwo-->
+</div>
+<!--/footer-->
+<!--弹出框-->
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    //商品详细标签切换
+    tagChange({
+        tagObj:$('.tabNav ul li'),
+        tagCon:$('.proItem .tabList'),
+        et:'hover',
+        currentClass:'on'
+
+    });
+</script>

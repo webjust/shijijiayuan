@@ -1,0 +1,216 @@
+<div class="fxIndex"><!--fxIndex  start-->
+	<div class="fxIlist">
+		<p class="p1"></p>
+		<div>
+			<h2>快速开始工作</h2>
+			<ul>
+				<li>
+					<a href="{:U('Admin/Products/pageList')}">在架商品</a>
+					<a href="{:U('Admin/Products/pageList','tabs=shelves')}">下架商品</a>
+					<a href="{:U('Admin/Goods/goodsAdd')}">商品发布</a>
+				</li>
+				<li>
+					<a href="{:U('Admin/Orders/pageList')}">订单管理</a>
+					<a href="{:U('Admin/Orders/pageWaitPayOrdersList')}">未付款订单</a>
+					<a href="{:U('Admin/Orders/pageWaitDeliverOrdersList')}">待发货订单</a>
+				</li>
+				<li>
+					<a href="{:U('Admin/Members/pageList')}">会员管理</a>
+					<a href="{:U('Admin/Members/memberAdd')}">新增会员</a>
+					<a href="{:U('Admin/Members/feedBackList')}">会员留言</a>
+				</li>
+				<li>
+					<a href="{:U('Admin/Financial/pageListVerify')}">线下充值审核</a>
+					<a href="{:U('Admin/BalanceInfo/pageList','st=pending&status=2')}">待客审结余款调整单</a>
+				</li>
+				<li></li>
+			</ul>
+		</div>
+		<p class="p2"></p>
+	</div>
+	<div class="fxIlist">
+		<p class="p1"></p>
+		<div>
+			<h2>商品信息</h2>
+			<ul>
+				<li>
+					<a href="{:U('Admin/Products/pageList')}">在架商品</a>
+					<span>
+						<a href="{:U('Admin/Products/pageList')}">
+							<b class="red">{$goods_info.onsale_num|default='0'}</b>
+						</a>件
+					</span>
+				</li>
+				<li>
+					<a href="{:U('Admin/Products/pageList','tabs=shelves')}">下架商品</a>
+					<span>
+						<a href="{:U('Admin/Products/pageList','tabs=shelves')}">
+							<b class="red">{$goods_info.unsale_num|default='0'}</b>
+						</a>件
+					</span>
+				</li>
+				<li>
+					<a href="{:U('Admin/Products/pageList','tabs=new')}">新品上架</a>
+					<span>
+						<a href="{:U('Admin/Products/pageList','tabs=new')}">
+							<b class="red">{$goods_info.news_num|default='0'}</b>
+						</a>件
+					</span>
+				</li>
+				<li>
+					<a href="{:U('Admin/Products/pageList','tabs=hot')}">热卖商品</a>
+					<span>
+						<a href="{:U('Admin/Products/pageList','tabs=hot')}">
+							<b class="red">{$goods_info.hot_num|default='0'}</b>
+						</a>件
+					</span>
+				</li>
+				<li></li>
+			</ul>
+		</div>
+		<p class="p2"></p>
+	</div>
+	<div class="fxIlist">
+		<p class="p1"></p>
+		<div>
+			<h2>今日业务量</h2>
+			<ul>
+				<li>
+					<a href="{:U('Admin/Orders/pageList')}">今日有效订单量</a>
+					<span>
+						<a href="{:U('Admin/Orders/pageList')}">
+							<b class="red">{$order_info.today_nums|default='0'}</b>
+						</a>单
+					</span>
+				</li>
+				<li>
+					<a href="{:U('Admin/Orders/pageList')}" >已付款单量</a>
+					<span>
+						<a href="{:U('Admin/Orders/pageList')}">
+							<b class="red">{$order_info.pay_nums|default='0'}</b>
+						</a>单
+					</span>
+				</li>
+				<li>
+					<a href="{:U('Admin/Orders/pageWaitPayOrdersList')}" title="含部分付款和第三方担保交易">未付款订单[<font color="red">含部分付款</font>]</a>
+					<span>
+						<a href="{:U('Admin/Orders/pageWaitPayOrdersList')}">
+							<b class="red">{$order_info.un_pay_nums|default='0'}</b>
+						</a>单
+					</span>
+				</li>
+				<li>
+					<a href="{:U('Admin/Orders/pageWaitDeliverOrdersList')}" title="不含货到付款和线下支付的订单">待发货订单[<font color="red">不含货到付款和线下支付</font>]</a>
+					<span>
+						<a href="{:U('Admin/Orders/pageWaitDeliverOrdersList')}">
+							<b class="red">{$order_info.un_delivery_nums|default='0'}</b>
+						</a>单
+					</span>
+				</li>
+				<li></li>
+			</ul>
+		</div>
+		<p class="p2"></p>
+	</div>
+	<div class="fxIlist">
+		<p class="p1"></p>
+		<div>
+			<h2>安全提示</h2>
+			<ul>
+				<li style="color:#ff0000;">
+					1. 离开座位时，请您将计算机屏幕锁定；
+				</li>
+				<li style="color:#ff0000;">
+					2. 请定期修改您的密码，不要将密码外泄；
+				</li>
+				<li style="color:#ff0000;">
+					3. 涉及库存或者财务的操作，请务必谨慎；
+				</li>
+				<li></li>
+			</ul>
+		</div>
+		<p class="p2"></p>
+	</div>
+	<div class="fxIlist">
+		<p class="p1"></p>
+		<div>
+			<h2>公告</h2>
+			<ul>
+				<if condition="!empty($array_notices)">
+				<volist name="array_notices" id="notice">
+				<input type="hidden" name="notice_id" value="{$notice.ai_id}" id="notice_id" />
+				<li>
+					<a href="javascript:void(0);" location_href="{:U('Admin/RemoteService/readNotice')}?notice_id={$notice.ai_id}" notice_id="{$notice.ai_id}" class="remote_service_notice_link" title="{$notice.ai_title}">
+						[<font color="red"><php> echo date('Y-m-d',strtotime($notice['ai_update_time']));</php></font>] 
+						{$notice.ai_title}
+					</a>
+				</li>
+				</volist>
+				<li></li>
+				<else />
+					暂无公告消息。
+				</if>
+			</ul>
+		</div>
+		<p class="p2"></p>
+	</div>
+</div><!--fxIndex  end-->
+<div id="showRemoteServiceBox" style="display:none;"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	//自动弹出提示
+	var is_show = "{$_SESSION['show_display']}";
+	var notice_id = $("#notice_id").val();
+	if(is_show != '1' && notice_id!=undefined){
+		showdisplay(notice_id);
+	}
+	//点击弹出公告详情
+	$(".remote_service_notice_link").click(function(){
+		showdisplay(notice_id);
+	});
+});
+
+function showdisplay(id){
+	var url ='/Admin/RemoteService/readNotice';
+	$.ajax({
+		url:url,
+		data:{asd:12,bt_id:'dgfdg34',xx:'001100',notice_id:id},
+		beforeSend:function(){
+			//alert("正在请求远端数据，请稍候...");
+		},
+		success:function(htmlObj){
+			try {
+				var t = htmlObj;
+				var jsonobj = eval('(' + t + ')');
+				var firstName = jsonobj.firstName;
+				htmlObj="您没有权限，请联系管理员！";
+			} catch(err) {
+				
+			}
+			if(htmlObj!=''){
+			$("#showRemoteServiceBox").html(htmlObj).dialog({
+				title:'升级公告',
+				width:800,
+				height:420,
+				buttons:{
+					'确定':function(){
+						//TODO:此处需要增加一步操作
+						var is_display = 0;
+						ajaxReturn('/Admin/RemoteService/showdisplay',is_display);
+						$(this).dialog("close");
+					},
+					'关闭':function(){
+						$(this).dialog("close");
+					}
+				}
+			});
+			$("#show_display").attr("value", 1);
+			}
+		},
+		type:'GET',
+		timeout:30000,
+		dataType:'html'
+	});
+	//return false;
+}
+</script>

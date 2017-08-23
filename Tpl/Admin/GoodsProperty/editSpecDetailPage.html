@@ -1,0 +1,57 @@
+<script src="__PUBLIC__/Addmin/js/member.js"></script>
+<div class="rightInner">
+    <form id="spec_detail_form" name="spec_detail_form" method="post" action="{:U('Admin/GoodsProperty/editSpecDetailPage')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">商品属性值编辑</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">属性值名称：</td>
+                    <td>
+                        <input type="text" name="gsd_value" id="gsd_value" class="medium" value="{$spec_detail.gsd_value}" validate='{ required:true,username:true}' /> <br> 
+                    </td>                    
+                     <td class="last">请输入属性值名称</td>
+                </tr>
+                <tr>
+                    <td class="first">属性：</td>
+                  
+                    <td>
+                        <select name="spec" id="apec">
+                            <option>请选择</option>
+                            <volist name="ary_spec" id="spec">
+                                <option value="{$spec.gs_id}" <eq name="spec.gs_id" value="$spec_detail.gs_id"> selected="selected"</eq>>{$spec.gs_name}</option>
+                            </volist>
+                        </select>
+                        <!--
+                        <input type="radio" name="gs_show_type" id="gs_show_type" class="" value="2" validate='' /> 
+                        图片-->
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td class="first">排序 ：</td>
+                    <td> <input type="text" name="gsd_order" value="{$spec_detail.gsd_order}" id="gsd_order" class="medium"/> <br> </td>
+                    <td class="last">数字越大越靠前</td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/GoodsProperty/PropertyDetailPage")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#spec_detail_form").validate();   
+    });
+</script>

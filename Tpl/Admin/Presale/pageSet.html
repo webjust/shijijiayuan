@@ -1,0 +1,63 @@
+<div class="rightInner">
+    <form id="coupon_add" method="post" action="{:U('Admin/Presale/doAddSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">预售价格区间设置</th>
+                </tr>
+            </thead>
+            <tbody>              
+                <tr>
+                    <td class="first">价格区间</td>
+                    <td>        
+			          <table  id="J_ManagePrice"  class="clearfix dialog manage-cats">
+			               <tr><td><input type="text" name="min_price"  value="{$ary_data['ps_price_range']['min_price']}" class="medium input-text"/>元以下&nbsp;&nbsp;<img src="__PUBLIC__/Admin/images/u48_normal.png" id="addPrice" title="添加价格区间" /></td></tr>
+			               	<volist name="ary_data['ps_price_range']['prices']" id="price">
+			                <tr id="point_{$i}">
+				                        <td>
+                                            <input type="text" name="prices_from[]" value="{$price['from']}" class="medium input-text"/>元 - 
+                                            <input type="text" name="prices_to[]" value="{$price['to']}" class="medium input-text"/>元
+                                            <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格区间" />
+				                        </td>	
+								
+			                </tr>
+			                </volist>
+			                <tr id="max_price"><td><input type="text" name="max_price" value="{$ary_data['ps_price_range']['max_price']}"  class="medium input-text"/>元以上</td></tr>
+			          </table>
+        			</td>
+        			 <td class="last"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="reset" value="重置" class="btnA">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        var max_tr = $("#max_price");
+        //新增
+        $("#addPrice").click(function(){
+			var tr_html = '<tr><td>';
+			tr_html = tr_html + '<input type="text" name="prices_from[]" value="" class="medium input-text"/>元  - '+ 
+            '<input type="text" name="prices_to[]" value="" class="medium input-text"/>元'+
+            ' <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格区间" />';
+			tr_html = tr_html+'</td></tr>';
+			$(tr_html).insertBefore(max_tr);
+        });
+        //删除
+        $(".deletePrice").live("click",function(){
+        	var tr_html = this.parentNode.parentNode;
+        	tr_html.parentNode.removeChild(tr_html);  
+     	});
+     	
+    });
+</script>

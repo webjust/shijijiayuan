@@ -1,0 +1,74 @@
+
+<div class=bannerBox>
+    <div class=slideBoxNav>
+        <gyfx:advertising name='nav'  position="banner">
+          <a href="javascript:void(0)"></a>
+        </gyfx:advertising>
+    </div>
+    <div class=slideBox>
+        <ul>
+          <gyfx:advertising name='nav'  position="banner">
+            <li style="background: url({$nav.nimgurl}) no-repeat center top">
+              <a href="{$nav.naurl}" target="{$nav.ntarget}" ><p></p></a>
+            </li>
+          </gyfx:advertising>
+          <div style="clear:both;"></div>
+        </ul>
+    </div>
+    <div class="aside">
+        <gyfx:user_img name='nav'>
+            <empty name="nav">
+                <div class="asidelogo"><img src="__TPL__images/touxiang.png" alt=""></div>
+                <p class="wenzi">Hi·你好！</p>
+                <div class="asideform">
+                    <a href="{:U( URL_PREFIX . '/Home/User/login')}" class="a_1">登录</a>
+                    <a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}" class="a_2">免费注册&gt;</a>
+                </div>
+            <else />
+                <div class="asidelogo"><img src="{$nav.user_img|default='__TPL__images/touxiang.png'}" alt=""></div>
+                <p class="wenzi"><br>亲爱的，</p>
+                <p class="wenzi">{$nav.m_real_name}</p>
+                <p class="wenzi">欢迎回来！</p>
+                <div class="asideform">
+                </div>
+            </empty>
+        </gyfx:user_img>
+        <div class="objList">
+            <ul>
+                <gyfx:navigation name='nav' position="middle" row="4">
+                    <li><a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a></li>
+                </gyfx:navigation>
+            </ul>           
+        </div>
+
+        <div class="recommends_con">
+            <gyfx:advertising name='nav'  position="dtyc" row='1'>
+                <a href="{$nav.naurl}" target="{$nav.ntarget}">
+                    <img class="icon_pic" src="{$nav.nimgurl}">
+                    <div class="title">{$nav.nname}></div>
+                </a>
+            </gyfx:advertising>
+        </div>  
+    </div>    
+</div>
+<div id="jrfq"> 
+    <div class="tabBox">
+        <div class="bd">
+            <div class="slide">
+                <div id="Plist">
+                    <ul>
+                        <gyfx:goodsbrand name="nav" limit="0,1000" mod="4" >
+                            <li <eq name="mod" value="3"> class="last"</eq>>
+                                <div class="pic"><a href="{$nav.gburl}" target="_blank"><img src="{$nav.bpic}" alt="{$nav.bname}"></a></div>
+                                <div class="title">{$nav.gbdetail}</div>
+                                <div class="enter"><a href="{$nav.burl}">进入品牌</a></div>
+                                <div class="diqu">地区：{$nav.gbregion}</div>
+                                <div class="jianjie">简介：{$nav.gbdetail}</div>
+                            </li>
+                        </gyfx:goodsbrand>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>

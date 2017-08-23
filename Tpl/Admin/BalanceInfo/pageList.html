@@ -1,0 +1,317 @@
+<div id="content">
+    <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+            <p class="conOneP" style="float: left;">
+                <a href='{:U("Admin/BalanceInfo/addBalanceInfo")}' class="btnG ico_add">新增</a>
+                <a href="javascript:void(0);" class="btnG ico_explort">导出Excel</a>
+            </p>
+            <ul class="conOneUl" style="width:849px;">
+                <form method="get" 
+                      <if condition="$filter.st eq 'pending'">
+                        action="{:U('Admin/BalanceInfo/pageList','st=pending&status=2')}"
+                      <elseif condition="$filter.st eq 'finance'" />
+                        action="{:U('Admin/BalanceInfo/pageList','st=finance&status=2')}"
+                      <else />
+                        action="{:U('Admin/BalanceInfo/pageList')}"
+                      </if> style="float: none;">
+                    <li>
+                        <select name="bt_id" class="small" style="width: auto">
+                            <option value="0">选择调整单类型</option>
+                            <volist name="type" id="ty">
+                                <option value="{$ty.bt_id}" <if condition="$ty['bt_id'] eq $filter['bt_id']">selected="selected"</if>>{$ty.bt_name}</option>
+                            </volist>
+                        </select>
+                    </li>
+                    <li>制单时间：<input type="text" name="starttime" class="large medium timer" value="{$filter.starttime}"  style="width: 145px;float: none;"></li>
+                    <li>至<input type="text" name="endtime" class="large medium timer" value="{$filter.endtime}"  style="width: 145px;float: none;"></li>
+                    <li>
+                        <select name="field" class="small" style="width: auto">
+                            <option value="m_name" <if condition="$filter['field'] eq 'm_name'">selected="selected"</if>>会员名</option>
+                            <option value="bi_sn" <if condition="$filter['field'] eq 'bi_sn'">selected="selected"</if>>单据编号</option>
+                            <option value="bi_accounts_receivable" <if condition="$filter['field'] eq 'bi_accounts_receivable'">selected="selected"</if>>收款帐号</option>
+                            <option value="o_id" <if condition="$filter['field'] eq 'o_id'">selected="selected"</if>>订单号</option>
+                            <option value="or_id" <if condition="$filter['field'] eq 'or_id'">selected="selected"</if>>退款单号</option>
+                            <option value="pc_serial_number" <if condition="$filter['field'] eq 'pc_serial_number'">selected="selected"</if>>充值卡流水号</option>
+                        </select>
+                    </li>
+                    <li><input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                </form>
+            </ul>
+            </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>
+                <if condition="$filter.st neq ''">
+                    <th width="80px">操作</th>
+                </if>
+                <th>单据编号</th>
+                <th width="100px">审核状态</th>
+                <th>类型名称</th>
+                <th>会员名</th>
+                <th>调整金额</th>
+                <th>制单人</th>
+                <th>制单日期</th>
+                <th>收款账号</th>
+                <th>订单号</th>
+                <th>退款单号</th>
+                <th>充值卡流水号</th>
+                <if condition="$filter.st eq ''">
+                    <th>是否已作废</th>
+                </if>
+                
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="datas">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" data-xid="checkSon_x" name="bi_id[]" value="{$datas.bi_id}" bi_sn="{$datas.bi_sn}" /></td>
+                    <if condition="$filter.st neq ''">
+                    
+                        <if condition="$datas.bi_verify_status eq '2'">
+                            <td width="80px"><span id="bi_verify_status_{$datas.bi_id}" style="cursor: default;color: gray;">作废</span></td>
+                        <else />
+                            <td width="80px" id="list_status_{$datas.bi_id}">
+                                <span 
+                                      <php>if($filter['st'] == 'pending'){</php>
+                                          <if condition="$datas.bi_service_verify eq '1'">
+                                            style="cursor: default;color: gray;"
+                                          <else />
+                                            style="cursor: pointer;color: blue;"
+                                          </if> 
+                                          data-field="bi_service_verify" id="bi_service_verify_{$datas.bi_id}" 
+                                      <php>}else{if($filter['st'] == 'finance'){ </php>
+										  <if condition="$datas.bi_finance_verify eq '1'">
+                                            style="cursor: default;color: gray;"
+                                          <else />
+                                            style="cursor: pointer;color: blue;"
+                                          </if> 
+                                      <php>}</php>
+                                     
+
+                                        data-field="bi_finance_verify" id="bi_finance_verify_{$datas.bi_id}" 
+                                       <php>}</php>
+                                    data-id="{$datas.bi_id}" data-value='1' class="ServiceVerify">审核</span>&nbsp;&nbsp;
+                                <span id="bi_verify_status_{$datas.bi_id}" <if condition="$datas.bi_verify_status eq '2'">style="cursor: default;color: gray;"<else />style="cursor: pointer;color: blue;" class="ServiceVerify"</if>data-id="{$datas.bi_id}" data-field="bi_verify_status" data-value='2'>作废</span>
+                            </td>
+                        </if>
+                        
+                    </if>
+                    <td>
+                        <if condition="$filter.st neq ''">
+                            <a href='{:U("Admin/BalanceInfo/detailBalanceInfo","st=$filter[st]&status=2&id=$datas[bi_id]")}' title="{$datas.bi_sn}">{$datas.bi_sn}</a>
+                        <else />    
+                            <a href='{:U("Admin/BalanceInfo/detailBalanceInfo","id=$datas[bi_id]")}' title="{$datas.bi_sn}">{$datas.bi_sn}</a>
+                        </if>
+                        
+                    </td>
+                    <td width="100px">
+                        <if condition="$datas.bi_verify_status eq '2'">
+                           <font  color="red" >已作废</font>
+                        <else />
+                           	<if condition="$datas.bi_service_verify eq '1'">
+                                <font  color="green" id="bi_service_verify_{$datas.bi_id}_status">已客审</font>
+	                        <else />
+	                                <font  color="red" id="bi_service_verify_{$datas.bi_id}_status">未客审</font>
+	                        </if>
+	                        &nbsp;&nbsp;
+	                        <if condition="$datas.bi_finance_verify eq '1'">
+	                                <font id="bi_finance_verify_{$datas.bi_id}_status" color="green">已财审</font>
+	                        <else />
+	                                <font id="bi_finance_verify_{$datas.bi_id}_status" color="red">未财审</font>
+	                        </if>        
+                        </if>
+                </td>
+                <td>{$datas.bt_name}</td>
+                <td>{$datas.m_name}</td>
+                <td><if condition="$datas.bi_type eq '1'">{$datas.bi_money|sprintf='%.2f',###}<else />{$datas.bi_money|sprintf='%.2f',###}</if></td>
+                <if condition="$datas.single_type eq '2'">
+                    <td>{$datas.m_name}</td>
+                <else />
+                    <td>{$datas.u_name}</td>
+                </if>
+                <td>{$datas.bi_create_time|default='0000-00-00 00:00:00'}</td>
+                <td>{$datas.bi_accounts_receivable|default='暂无'}</td>
+                <td>{$datas.o_id|default='暂无'}</td>
+                <td>{$datas.or_id|default='暂无'}</td>
+                <td>{$datas.pc_serial_number|default='暂无'}</td>
+                <if condition="$filter.st eq ''">
+                    <td><if condition="$datas.bi_verify_status eq '2'"><fon color="red">是</font><else />否</if></td>
+                </if>
+                
+                <td id="Note">{$datas.bi_desc|default="暂无"}</td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div><!--rightInner  end-->
+</div>
+<div id="excel_dialog" style="display:none;">
+    <table class="tbForm" width="100%">
+        <tbody>
+            <tr>
+                <td><input name="member" type="radio" value="1" checked="checked">导出当前选中的充值卡</td>
+            </tr>
+            <tr>
+                <td><input name="member" type="radio" value="2"/>导出所有充值卡</td>
+            </tr>
+            <tr>
+                <td><input name="member" type="radio" value="3"/>导出当前搜索结果</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<input type="hidden" value="{$filterExcel}" name="filterExcel"/>
+<script>
+    $(document).ready(function(){
+        // $(".ico_explort").click(function(){
+        //     var bi_sns = new Array();;
+        //     $(".tbList input:checked[class='checkSon']").each(function(){
+        //         bi_sns.push($(this).attr("bi_sn"));
+        //     });
+        //     var bi_id = bi_sns;
+        //     bi_sns = bi_sns.join(",");
+        //     if(bi_sns == ''){
+        //         alert("请选择需要导出的单据编号");
+        //         return false;
+        //     }
+        //     $.ajax({
+        //         url:'{:U("Admin/BalanceInfo/explortBalanceInfo")}',
+        //         cache:false,
+        //         dataType:'json',
+        //         data:{bi_sns:bi_sns},
+        //         type:'POST',
+        //         success:function(msgObj){
+        //             if(msgObj.status == '1'){
+        //                 var url = "{:U('Admin/BalanceInfo/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+        //                 window.location.href = url;
+        //                 return false;
+        //             }else{
+        //                 alert(msgObj.info);return false;
+        //             }
+        //         }
+        //     });
+        // });
+        $(".ico_explort").bind({'click':function(){
+            //弹出对话框，确认导出成员对象
+            $('#excel_dialog').dialog({
+                height : '205',
+                width  : '300',
+                resizable:false,
+                title:'导出',
+                buttons:{
+                    '确认' : function(){
+                        $('#excel_dialog').dialog('destroy');               //先关闭对话框
+                        var bi_sns = setPcids();                            //通过单选获取m_ids的值
+                        if(bi_sns == ''){
+                            $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html('请选择需要导出的单据编号').show().fadeOut(2000);
+                            return false;
+                        }else{
+                            explortExcel(bi_sns,$('.tbForm input[type="radio"]:checked').val());  //将成员值以Excel格式导出
+                        }
+                    },
+                    '取消' : function(){
+                        $('#excel_dialog').dialog('destroy');
+                    }
+                },
+                close:function(){
+                    $('#excel_dialog').dialog('destroy');
+                }
+            });
+        }});
+        <if condition="$filter.st neq ''"></if>
+        $(".ServiceVerify").live("click",function(){
+            var field = $(this).attr("data-field");
+            var id = $(this).attr("data-id");
+            var val = $(this).attr("data-value");
+            if(field == 'bi_verify_status'){
+                var r=confirm("单据作废后不可恢复,确认操作?");
+                if(r == false){
+                    return false;
+                }
+            }
+            $.ajax({
+                url:'{:U("Admin/BalanceInfo/doStatus")}',
+                cache:false,
+                dataType:'json',
+                type:'POST',
+                data:{field:field,id:id,val:val},
+                error:function(){
+                    $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        $("#"+field+"_"+id).css({"color":"gray","cursor":"default"});
+                        $("#"+field+"_"+id).removeClass("ServiceVerify");
+                        var strstatus = '<span style="color:gray;cursor:default;">作废</span>';
+                        $("#list_status_"+id).html(strstatus);
+                        if(field == 'bi_service_verify'){
+                            $("#bi_service_verify_"+id+"_status").css({"color":"green"});
+                            $("#bi_service_verify_"+id+"_status").html("已客审");
+                        }else if(field == 'bi_finance_verify'){
+                            $("#bi_finance_verify_"+id+"_status").css({"color":"green"});
+                            $("#bi_finance_verify_"+id+"_status").html("已财审");
+                        }
+                    }else{
+                        $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                    }
+                }
+            });
+        });
+    });
+function setPcids(){
+    //获取Radio的值
+    var select_type = $('.tbForm input[type="radio"]:checked').val();
+    //初始化m_ids的值为选中成员
+    var bi_sns = new Array();;
+    $(".tbList input:checked[class='checkSon']").each(function(){
+        bi_sns.push($(this).attr("bi_sn"));
+    });
+    var bi_id = bi_sns;
+    bi_sns = bi_sns.join(",");
+    switch(parseInt(select_type)){
+        case 1 : return bi_sns;break;
+        case 2 : return 'ALL';break;
+        case 3 : return $('input[name="filterExcel"]').val();break;
+        default: return bi_sns;
+    }
+}
+function explortExcel(bi_sns,type){
+    $.ajax({
+        url      : '{:U("Admin/BalanceInfo/explortBalanceInfo")}',
+        cache    : false,
+        dataType : 'json',
+        data     : {bi_sns:bi_sns,type:type},
+        type     : 'POST',
+        beforeSend:function(){
+            $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+        },
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                var url = "{:U('Admin/BalanceInfo/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+                $("#J_ajax_loading").removeClass('ajax_error').addClass('ajax_success').html(msgObj.info).show().fadeOut(2000);
+                window.location.href = url;
+                return false;
+            }else{
+                $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html(msgObj.info).show().fadeOut(2000);
+            }
+        },
+        error:function(){
+            $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(2000);
+        },
+    });
+}
+</script>

@@ -1,0 +1,108 @@
+<div class="rightInner tableColor" data-uri='{:U("Admin/System/doEditStatus")}'>
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    <p class="conOneP" style="float: left;">
+                        <a href='{:U("Admin/System/pageAdd")}' class="btnG ico_add">新增管理员</a>
+                    </p>
+                    <ul class="conOneUl" style="width:350px;">
+                        <form method="get" action="{:U('Admin/System/pageList')}" style="float: none;">
+                            <li>
+                                <select name="rl_id" class="small" style="width: auto">
+                                    <option value="-1" selected="selected">权限组</option>
+                                    <volist name="role" id="rl">
+                                        <option value="{$rl.id}" <if condition="$filter.rl_id eq $rl[id]">selected="selected"</if>>{$rl.name}</option>
+                                    </volist>
+                                </select>
+                            </li>
+                            <li>帐号：<input type="text" name="u_name" class="large" value="{$filter.u_name}" style="width: 145px;"></li>
+                            <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                        </form>
+                    </ul>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>操作</th>
+                <th>管理员帐号</th>
+                <th>所属权限组</th>
+                <th>最后登录时间</th>
+                <th>最后登录IP</th>
+                <th>登录次数</th>
+                <th>创建时间</th>
+                <th>更新时间</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="list">
+            <tr>
+                <td><input u_id="{$list.u_id}" type="checkbox" name="u_id" value="" <if condition="$list['u_id'] eq '1'">disabled="disabled"<else />class="checkSon"</if> /></td>
+                <td>
+                    <a href='{:U("Admin/System/pageEdit?uid=$list[u_id]")}'>修改</a>&nbsp;
+                    <if condition="$list[u_id] neq '1'">
+                        <a href='javascript:;' class="confirmurl" data-uri='{:U("Admin/System/doDelete","u_id=$list[u_id]")}' data-msg="确定要删除“{$list.u_name}”吗？" data-acttype="ajax">删除</a>
+                    </if>
+                </td>
+                <td>{$list.u_name}</td>
+                <td>{$list.name}</td>
+                <td>{$list.u_lastlogin_time}</td>
+                <td>{$list.u_lastlogin_ip}</td>
+                <td>{$list.u_login_count}</td>
+                <td>{$list.u_create}</td>
+                <td>{$list.u_update}</td>
+                <td>
+                    <img data-tdtype="toggle" data-id="{$list[u_id]}" data-field="u_status" data-value="{$list.u_status}" src="__PUBLIC__/Admin/images/status-{$list.u_status}.gif"<if condition="$list.u_status eq '1'"> title="启用"<else /> title="停用"</if> class="pointer" />
+                </td>
+                
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left" style="text-align: center;">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><input type="submit" value="删除选中" class="btnA" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display: none;">
+        <div id="tip_div"></div>
+    </div>
+</div>
+<script>
+	$("#delAll").click(function(){
+		if(confirm("确定要删除吗？")){
+			var check = 0;
+			var arr = [];
+			$(".checkSon:checked").each(function(i){
+				check = 1;
+				var u_id = $(this).attr("u_id");
+				arr[i] = u_id;
+			});
+			if(0 == check){
+				showAlert(false, "请选择删除内容！");
+				return false;
+			}
+			$.ajax({
+				url:"{:U('/Admin/System/doDelete')}",
+				data:{"u_id":arr},
+				dataType:"JSON",
+				type:"POST",
+				success: function(msgObj) {
+					if(msgObj.status){
+						showAlert(true, "删除管理员成功！");
+						window.location.href = "{:U('/Admin/System/pageList')}";
+						return false;
+					}else{
+						showAlert(false, "删除管理员失败！");
+						return false;
+					}
+				}
+			});
+		}
+	});
+</script>

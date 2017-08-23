@@ -1,0 +1,100 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div class="rightBox_content_title">
+        <div>
+            <form id="searchForm" method="get" action="/Ucenter/Supplier/purchaseList">
+                选择采购单：
+                <select name="opb_id" class="medium">
+                    <option value="0">--请选择采购单--</option>
+                    <volist name="billList" id="vo">
+                        <if condition="$vo.opb_id eq $opb_id">
+                            <option value="{$vo.opb_id}" selected="selected">{$vo.opb_id}</option>
+                            <else />
+                            <option value="{$vo.opb_id}">{$vo.opb_id}</option>
+                        </if>
+                    </volist>
+                </select>
+                <input type="submit" name="search" value="搜 索" class="btnHeader inpButton">
+            </form>
+        </div>
+        <a href="/Ucenter/Supplier/purchaseList/print/1/opb_id/{$opb_id}" target="_blank">打印预览</a>
+    </div>
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+            <table width="100%" class="tbList">
+                <thead>
+                <tr class="title">
+                    <th colspan="99">商品采购单</th>
+                </tr>
+                <tr>
+                <th>下单时间</th>
+                <th>订单编码</th>
+                <th>商品详细名字</th>
+                <th>系统商品编码（乙方编制）</th>
+                <th>商品识别码（生产商编制）</th>
+                <th>产地</th>
+                <th>颜色</th>
+                <th>规格</th>
+                <th>单位含量（g）</th>
+                <th>单位包装数量</th>
+                <th>官网零售价（韩币）</th>
+                <th>采购折价率（%）</th>
+                <th>商品采购价（韩币）</th>
+                <th>采购数量</th>
+                <th>官网URL地址</th>
+                </tr>
+                </thead>
+                <tbody>
+            <volist name="goodsList" id="good">
+            <!-- 会员id -->
+                <tr id="list_{$good.op_id|intval}">
+                    <td class="bold_size">{$good.op_create_time}</td>
+                    <td class="bold_size">{$good.o_id}</td>
+                    <td>{$good.g_name}</td>
+                    <td>{$good.pdt_sn}</td>
+                    <td>{$good.pdt_bar_code}</td>
+                    <td>{$good.place.gsd_aliases}</td>
+                    <td>{$good.Spec.gsd_aliases}</td>
+                    <td>{$good.guige.gsd_aliases}</td>
+                    <td>{$good.content.gsd_aliases}</td>
+                    <td>{$good.g_unit}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{$good.op_nums}</td>
+                    <td>{$good.website_url}</td>
+                </tr>
+            </volist>
+                   <empty name="goodsList">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> 
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+                </tfoot>
+            </table>
+    </div>
+</div>
+<include file="advance-search" />
+<script type="text/javascript">
+function check(m_id,s_status){
+        var url ="{:U('Admin/Members/doSupplierCheck')}";
+        $.post(url,{'m_id':m_id,'s_status':s_status},function(data){
+            if(data){ 
+                // alert(data);
+                window.location.reload();
+            }
+        });
+}
+</script>

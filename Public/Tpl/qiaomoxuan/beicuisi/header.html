@@ -1,0 +1,86 @@
+<script type="text/javascript" src="__JS__function.js"></script>
+<script type="text/javascript" src="__JS__jquery.tabs.js"></script>
+<link href="__CSS__common.css" rel="stylesheet">
+<link href="__CSS__m-tabs.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__pdt-detail.css" />
+<link rel="stylesheet" href="__CSS__jquery.lightbox2.css" />
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/jquery/css/jquery.slideshow.css" rel="stylesheet">
+<script type="text/javascript" src="__JS__jquery.carouFredSel.min.js"></script>
+<body class="bgc_body">
+<div class="header">
+        <div class="wrap980 align-center pr">
+            <div class="top-t">
+                <div class="notice fn-left">
+                    <i class="s"></i>
+                    <div class="fn-left">
+                        <a href="#">“贝脆思最新的产品出炉了 ”2010-05-16</a>
+                    </div>
+                </div>
+                <div class="fn-right">
+                    <notempty name="Think.session.Members.m_name">
+                    {$Think.session.Members.m_name}&nbsp;&nbsp;&nbsp;
+                    <a href="{:U('Home/User/doLogout')}">{$Think.lang.TOP_LOGOUT}</a>
+                    <a href="{:U('Ucenter/Index/index')}">[账户中心]</a>
+                    </notempty>
+                    <empty name="Think.session.Members.m_name">
+                    <a href="{:U('Home/User/Login')}">登陆</a>
+                    <span class="s-line"></span>
+                    <a href="{:U('Home/User/pageRegister')}">注册</a>
+                    </empty>
+                </div>  
+                <div class="fn-right m-banner">
+                    <img src="__IMAGES__sl.gif" alt="" />
+                </div>
+            </div>
+            <div class="logo"><a href="{:U('Home/Index/index')}"><img src="__IMAGES__transparent.gif" alt="" /></a></div>
+            <div class="menu fn-left">
+                <ul>
+                    <Gyfx:navigation name="nav" position="top">
+                    <li><a href="{$nav.nurl}?name={$nav.nname}" target="{$nav.ntarget}">{$nav.nname}<span></span></a><i></i></li>
+                    </Gyfx:navigation>
+                </ul>
+            </div>
+            <div class="fn-right" style=" margin-right: -13px;">
+                <div class="search fn-left">
+                    <input type="text" name="name" id="head_serach_keyword" placeholder="快速搜索" class="txt" value="{$ary_request.name}"/>
+                    <input type="submit" value="&nbsp;" id="search_submit_button" class="s"/>	
+                </div>
+                <div class="fn-left">
+                    <a href="javascript:void(0);" style="float:left"><img src="__IMAGES__transparent.gif" alt="" class="faq"/></a>
+                    <!--<a href="{:U('Ucenter/Cart/pagelist')}"><img src="__IMAGES__transparent.gif" alt="" class="cart"/></a>-->
+                    
+                    <div class="goj" onMouseOver="this.className='gojOver'" onMouseOut="this.className='goj'" id="shopping_cart_list"></div>
+                        <!---<span class="gosp">去购物车结算</span>-->       
+                </div>
+                <div class="goj" onMouseOver="this.className='gojOver'" onMouseOut="this.className='goj'" id="shopping_cart_list"></div>
+            </div>
+        </div>
+    </div>
+<!-- 		header end -->
+<script type="text/javascript">
+    //实现搜索功能
+    $("#search_submit_button").click(function(){
+        var tags = "{$ary_request['tags']}" == 0 ? 0 : 0;
+        var search_key = $("#head_serach_keyword").val();
+        if(search_key == ''){
+            return false;
+        }
+        var __search_base_url = "{:U('Home/Products/index/')}?name="+ search_key + "&tags="+tags;
+        window.location.href = __search_base_url;
+    });
+    //回车按键搜索
+    $("#head_serach_keyword").keydown(function(e){
+        var curKey = e.which;
+        if(curKey == 13){
+            var tags = "{$ary_request['tags']}" == 0 ? 0 : 0;
+            var search_key = $("#head_serach_keyword").val();
+            if(search_key == ''){
+                return false;
+            }
+            var __search_base_url = "{:U('Home/Products/index/')}?name="+ search_key + "&tags=" +tags;
+            window.location.href = __search_base_url;
+        }
+        
+    });
+</script>

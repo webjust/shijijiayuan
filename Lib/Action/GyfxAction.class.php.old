@@ -1,0 +1,147 @@
+<?php
+
+/**
+ * 管易分销软件Action基类
+ *
+ * @package Action
+ * @stage 7.0
+ * @author zuojianghua <zuojianghua@guanyisoft.com>
+ * @date 2013-03-27
+ * @copyright Copyright (C) 2012, Shanghai GuanYiSoft Co., Ltd.
+ */
+abstract class GyfxAction extends Action {
+
+    /**
+     * 客户编号，全局唯一。客户编号 = 数据库名 = 缓存目录 = 客户模版目录 = 客户上传文件目录
+     * @var string
+     */
+    protected $ci_sn;
+
+    /**
+     * 管易分销前后台控制器基类初始化
+     * @author zuo <zuojianghua@guanyisoft.com>
+     * @date 2013-03-27
+     */
+    public function __construct() {
+	    //动态生成数据连接配置项
+        $this->getCustomDB();
+        Load('extend');
+        $array_center_config = explode('/', ltrim(C("DB_CUSTOM"), 'mysql://'));
+        $array_hostinfo = explode("@", $array_center_config[0]);
+        $array_host_info = explode(":", $array_hostinfo[1]);
+        $array_userinfo = explode(":", $array_hostinfo[0]);
+        C("DB_HOST", $array_host_info['0']);
+        C("DB_NAME", CI_SN);
+        C("DB_USER", $array_userinfo['0']);
+        C("DB_PWD", $array_userinfo['1']);
+        C("DB_PORT", $array_host_info['1']);
+       // $this->__filter();
+		parent::__construct();
+    }
+    
+    /**
+     * 防止XSS攻击，过滤参数
+     * @author Joe <qianyijun@guanyisof.com>
+     * @date 2013-10-30
+     */
+    private function __filter(){
+        switch($_SERVER['REQUEST_METHOD']) {
+            case 'POST':
+                $input  =  $_POST;
+                break;
+            case 'PUT':
+                parse_str(file_get_contents('php://input'), $input);
+                break;
+            default:
+                $input  =  $_GET;
+        }
+        if(C('SITE_ATTACK_FILTER_ON')){
+            foreach ($input as $ik=>$it){
+                $data = $it;
+                $filters = C('SITE_ATTACK_FILTER');
+                if($filters){
+                    $filters    =   explode(',',$filters);
+                    foreach($filters as $filter){
+                        if(function_exists($filter)) {
+                            $data = $this->ick($data,$filter);
+                        }
+                    }
+                }
+                $input[$ik] = $data;
+            }
+        }
+        
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $_POST = $input;
+        }else if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            $_GET = $input;
+        }
+        return true;
+
+    }
+    
+    /**
+     * 递归验证请求参数
+     *
+     * @author Joe <qianyijun@guanyisoft.com>
+     * @date 2013-11-14
+     */
+    private function ick($data,$filter){
+    
+        if(!is_array($data)){
+            return $filter($data);
+        }else{
+            foreach ($data as $dk=>$dv){
+                if(is_array($dv)){
+                    $data[$dk] = $this->ick($dv,$filter);
+                }else{
+                    $data[$dk] = $filter($dv);
+                }
+            }
+        }
+        return $data;
+    }
+
+    #### 以下为私有方法 ######################################################
+
+    /**
+     * 根据来访域名获取客户真正的数据库信息
+     * @author zuo <zuojianghua@guanyisoft.com>
+     * @date 2013-03-27
+     */
+    private function getCustomDB() {
+        //连接中控数据库
+        $CenterDomain = M('client_domain_name', C('GY_PREFIX'), 'DB_CENTER');
+        //根据来访域名找到客户数据库
+        $domain = $_SERVER['SERVER_NAME'];
+        $info = $CenterDomain->where(array('cbi_domain_name' => $domain))->find();
+        if (false == $info) {
+            $this->error('来访域名不存在...');
+            exit;
+        }
+
+        $CenterInfo = M('client_info',C('GY_PREFIX'), 'DB_CENTER');
+        $customInfo = $CenterInfo->where(array('ci_sn'=>$info['ci_sn']))->find();
+        if (false == $customInfo) {
+            $this->error('来访客户不存在...');
+            exit;
+        }elseif ($customInfo['ci_system_endtime'] <= mktime()) {
+            $this->error('软件授权时间已过，或尚未授权...');
+            exit;
+        }
+	if($customInfo['ci_type']){
+                C('CUSTOMER_TYPE', $customInfo['ci_type']);
+            }
+            $admin_logo = M('system_config',C('GY_PREFIX'), 'DB_CENTER')->where(array('sc_module'=>'BACKSTAGE','sc_key'=>'LOGO'))->getField('sc_value');
+	        if(!empty($admin_logo) && isset($admin_logo)){
+                C('TMPL_LOGO',$admin_logo);
+            }
+
+        $this->ci_sn = $info['ci_sn'];
+        $str_db_info = C("DB_CUSTOM") . $info['ci_sn'];
+        C('DB_CUSTOM', $str_db_info);
+        C('DOMAIN_NAME', $domain);
+    }
+
+
+}

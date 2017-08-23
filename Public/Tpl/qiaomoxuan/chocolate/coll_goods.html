@@ -1,0 +1,268 @@
+{__NOLAYOUT__}
+<if condition="$this_coll.gname neq ''">
+<h2><span>套餐搭配</span><a href="javascript:void(0);"  onclick="checkTeb(this,'next')" nowPage="1" class="xnext pageCollGood"></a><a href="javascript:void(0);" onclick="checkTeb(this,'prev')" nowPage="1" class="spre pageCollGood"></a></h2>
+
+<div class="freeCombination"><!--自由组合   开始-->
+    <div class="freeComCon"><!--freeComCon  start-->
+        <ul>
+            <li id="onHoverCollGoods{$this_coll.gid}" class="onHoverCollGoods">
+                <a href="/Home/Products/detail/gid/{$this_coll.gid}" class="proPic"><img src="{$this_coll['gpic']}" width="112" height="112"></a>
+                <a href="/Home/Products/detail/gid/{$this_coll.gid}" class="proN">{$this_coll.gname}</a>
+                <p><strong id="collPrice_{$this_coll.gid}">&yen;{$this_coll.gcoll_price|sprintf='%.2f',###}</strong></p>
+                <input type="hidden" gid="{$this_coll.gid}" name="arrayPdt" id="coll_products_{$this_coll.gid}" <if condition="$this_coll.skuNames neq ''">value=""<else/>value="{$this_coll.pdt_id}" save="{$this_coll.save_price|sprintf='%.2f',###}" price="{$this_coll.gcoll_price|sprintf='%.2f',###}"</if> />
+                <a href="javascript:void(0);" <if condition="$this_coll.skuNames neq ''"> style="display:none" </if> id="saveColl_{$this_coll.gid}" class="gra onHoverSavePrice">搭配省{$this_coll.save_price|sprintf='%.2f',###}元</a>
+                <if condition="$this_coll.skuNames neq ''">
+                <a href="javascript:void(0);" id="selectColl_{$this_coll.gid}" class="blu onHoverSelectGoods" onclick="selectGoodProducts('{$this_coll.gid}','{$this_coll.authorize}');">选择商品信息</a>
+                <p style="display:none" class="onHoverPdtName" id="collPdt_{$this_coll.gid}">规格规格规格规格</p>
+                </if>
+            </li>
+        </ul>
+        <span class="jia"></span>
+        <ul style="width:568px">
+            <volist name="coll_goods" id="goods">
+            <switch name="key">
+            <case value="0|1|2">
+            <li id="onHoverCollGoods{$goods.gid}" class="onHoverCollGoods foreachCollGoods" fuck="1">
+                <a href="/Home/Products/detail/gid/{$goods.gid}" class="proPic"><img src="{$goods['gpic']}" width="110" height="110"></a>
+                <a href="/Home/Products/detail/gid/{$goods.gid}" class="proN">{$goods.gname}</a>
+                
+                <p><input type="checkbox" value=""  <if condition="$goods.skuNames neq ''">onclick="collGoodsClick(this,'{$goods.gid}','{$goods.authorize}');"<else/>onclick="collProductClick(this,'{$goods.gid}','{$goods.pdt_id}','{$goods.authorize}','{$goods.gcoll_price}','{$goods.save_price}');"</if> id="coll_goods_{$goods.gid}" /> <strong id="collPrice_{$goods.gid}">&yen;{$goods.gcoll_price|sprintf='%.2f',###}</strong></p>
+                <input type="hidden" gid="{$goods.gid}" name="arrayPdt" id="coll_products_{$goods.gid}" value="" <if condition="$goods.skuNames eq ''">save="{$goods.save_price|sprintf='%.2f',###}" price="{$goods.gcoll_price|sprintf='%.2f',###}"</if> />
+                <a href="javascript:void(0);" id="saveColl_{$goods.gid}" class="gra onHoverSavePrice">搭配省{$goods.save_price|sprintf='%.2f',###}元</a>
+                <if condition="$goods.skuNames neq ''">
+                <a href="javascript:void(0);"  id="selectColl_{$goods.gid}"  class="blu onHoverSelectGoods" onclick="selectGoodProducts('{$goods.gid}','{$goods.authorize}');">选择商品信息</a>
+                <p style="display:none" class="onHoverPdtName" id="collPdt_{$goods.gid}">规格规格规格规格</p>
+                </if>
+            </li>
+            </case>
+            <case value="3|4|5">
+            <li id="onHoverCollGoods{$goods.gid}" class="onHoverCollGoods foreachCollGoods" fuck="2" style="display:none">
+                <a href="/Home/Products/detail/gid/{$goods.gid}" class="proPic"><img src="{$goods['gpic']}" width="110" height="110"></a>
+                <a href="/Home/Products/detail/gid/{$goods.gid}" class="proN">{$goods.gname}</a>
+                
+                <p><input type="checkbox" value=""  <if condition="$goods.skuNames neq ''">onclick="collGoodsClick(this,'{$goods.gid}','{$goods.authorize}');"<else/>onclick="collProductClick(this,'{$goods.gid}','{$goods.pdt_id}','{$goods.authorize}','{$goods.gcoll_price}','{$goods.save_price}');"</if> id="coll_goods_{$goods.gid}" /> <strong id="collPrice_{$goods.gid}">&yen;{$goods.gcoll_price|sprintf='%.2f',###}</strong></p>
+                <input type="hidden" gid="{$goods.gid}" name="arrayPdt" id="coll_products_{$goods.gid}" value="" <if condition="$goods.skuNames eq ''">save="{$goods.save_price|sprintf='%.2f',###}" price="{$goods.gcoll_price|sprintf='%.2f',###}"</if> />
+                <a href="javascript:void(0);" id="saveColl_{$goods.gid}" class="gra onHoverSavePrice">搭配省{$goods.save_price|sprintf='%.2f',###}元</a>
+                <if condition="$goods.skuNames neq ''">
+                <a href="javascript:void(0);"  id="selectColl_{$goods.gid}"  class="blu onHoverSelectGoods" onclick="selectGoodProducts('{$goods.gid}','{$goods.authorize}');">选择商品信息</a>
+                <p style="display:none" class="onHoverPdtName" id="collPdt_{$goods.gid}">规格规格规格规格</p>
+                </if>
+            </li>
+            </case>
+            <case value="6|7|8">
+            <li id="onHoverCollGoods{$goods.gid}" class="onHoverCollGoods foreachCollGoods" fuck="3" style="display:none">
+                <a href="/Home/Products/detail/gid/{$goods.gid}" class="proPic"><img src="{$goods['gpic']}" width="110" height="110"></a>
+                <a href="/Home/Products/detail/gid/{$goods.gid}" class="proN">{$goods.gname}</a>
+                
+                <p><input type="checkbox" value=""  <if condition="$goods.skuNames neq ''">onclick="collGoodsClick(this,'{$goods.gid}','{$goods.authorize}');"<else/>onclick="collProductClick(this,'{$goods.gid}','{$goods.pdt_id}','{$goods.authorize}','{$goods.gcoll_price}','{$goods.save_price}');"</if> id="coll_goods_{$goods.gid}" /> <strong id="collPrice_{$goods.gid}">&yen;{$goods.gcoll_price|sprintf='%.2f',###}</strong></p>
+                <input type="hidden" gid="{$goods.gid}" name="arrayPdt" id="coll_products_{$goods.gid}" value="" <if condition="$goods.skuNames eq ''">save="{$goods.save_price|sprintf='%.2f',###}" price="{$goods.gcoll_price|sprintf='%.2f',###}"</if> />
+                <a href="javascript:void(0);" id="saveColl_{$goods.gid}" class="gra onHoverSavePrice">搭配省{$goods.save_price|sprintf='%.2f',###}元</a>
+                <if condition="$goods.skuNames neq ''">
+                <a href="javascript:void(0);"  id="selectColl_{$goods.gid}"  class="blu onHoverSelectGoods" onclick="selectGoodProducts('{$goods.gid}','{$goods.authorize}');">选择商品信息</a>
+                <p style="display:none" class="onHoverPdtName" id="collPdt_{$goods.gid}">规格规格规格规格</p>
+                </if>
+            </li>
+            </case>
+            </switch>
+            </volist>
+        </ul>
+        <div class="btnd">
+            <label>购买人气组合</label>
+            <P>组&nbsp;合&nbsp;价:<strong id="all_coll_price"><if condition="$this_coll.skuNames neq ''">￥0.00<else/>￥{$this_coll.gcoll_price|sprintf='%.2f',###}</if></strong><input type="hidden" id="cartNums" value="1" onblur="checkNums(this);"></P>
+            <label id="all_save_price"><if condition="$this_coll.skuNames neq ''">立即节省0.00元<else/>立即节省{$this_coll.save_price|sprintf='%.2f',###}元</if></label>
+			<a href="javascript:void(0);" onclick="addCart();" class="addCart"></a>
+		</div>	
+    </div><!--freeComCon  end-->
+</div><!--自由组合   结束-->
+<form id="submitCollFrom" name="submitCollFrom" method="post" action="/Ucenter/Orders/pageAdd">
+<input type="hidden" name="pid[]" id="submitSkipPid" value="free1" />
+<input type="hidden" name="type[]" id="submitSkiptype" value="4"/>
+</form>
+<input type="hidden" id="fc_id" value="{$fc_id}" />
+<script>
+var count_teb = "<php>echo count($coll_goods);</php>";
+var min_orders = parseInt(Math.ceil(count_teb/4));
+function checkTeb(obj,tab){
+    $(".foreachCollGoods").hide();
+    var nowPage = parseInt($(obj).attr('nowPage'));
+
+    if(tab == 'next' && nowPage != min_orders){
+        nowPage = parseInt(nowPage+1);
+    }else if(tab == 'next' && nowPage == min_orders){
+        nowPage=1;
+    }
+    if(tab == 'prev' && nowPage == min_orders && nowPage!=1){
+        nowPage = parseInt(nowPage-1);
+    }else if(tab == 'prev' && nowPage<min_orders && nowPage!=1){
+         nowPage = parseInt(nowPage-1);
+    }else if(tab == 'prev' && nowPage==1){
+        nowPage = min_orders;
+    }
+    $(".foreachCollGoods[fuck='"+nowPage+"']").slideDown();
+    $(".pageCollGood").each(function(){
+        $(this).attr('nowPage',nowPage);
+    
+    });
+        
+    
+    
+}
+
+$(document).ready(function(){
+    $('.onHoverCollGoods').mouseover(function(){
+        if($(this).attr('ohgg') == 1){
+            $(this).find('.onHoverSelectGoods').show();
+            $(this).find('.onHoverPdtName').hide();
+        }
+        
+    });
+    $('.onHoverCollGoods').mouseout(function(){
+        if($(this).attr('ohgg') == 1){
+            $(this).find('.onHoverSelectGoods').hide();
+            $(this).find('.onHoverPdtName').show();
+        }
+    });
+});
+//点击复选框选择多规格商品
+function collGoodsClick(obj,gid,authorize){
+    if($(obj).attr('checked') == 'checked'){
+        $(obj).attr('checked',false);
+        selectGoodProducts(gid,authorize);
+    }else{
+        var nums = $('#cartNums').val();
+        $("#coll_products_"+gid).val('');
+        $("#coll_products_"+gid).attr('price','');
+        $("#coll_products_"+gid).attr('save','');
+        $(obj).parent().parent().removeAttr('ohgg');
+        setRemmendPrice();
+        $("#coll_products_"+gid).val('');
+       
+    }
+}
+//点击复选框选择无规格商品
+function collProductClick(obj,gid,pdt_id,authorize,gcoll_price,save){
+    var nums = parseInt($('#cartNums').val());
+    if(parseInt(pdt_id) <= 0){
+        $.ThinkBox.error("商品不存在或者已经被下架");
+        return false;
+    }
+    if(authorize != '1'){
+        $.ThinkBox.error("您不能购买该商品");
+        return false;
+    }
+    if($(obj).attr('checked') == 'checked'){
+        $("#onHoverCollGoods"+gid).attr('ohgg',1);
+        $("#coll_products_"+gid).val(pdt_id);
+    }else{
+        $("#onHoverCollGoods"+gid).removeAttr('ohgg');
+        $("#coll_products_"+gid).val('');
+    }
+    setRemmendPrice();
+}
+//选择商品属性
+function selectGoodProducts(gid,authorize){
+    if(parseInt(gid) <= 0){
+        $.ThinkBox.error("商品不存在或者已经被下架");
+        return false;
+    }
+    if(authorize != '1'){
+        $.ThinkBox.error("您不能购买该商品");
+        return false;
+    }
+    $.ajax({
+        url:'/Home/Products/getAddGoodsCart',
+        cache:false,
+        dataType:'HTML',
+        data:{gid:gid},
+        type:"POST",
+        success:function(msgObj){
+            var box = $.ThinkBox(msgObj, {'title' : '请选择您要的商品信息','width':'448px','drag' : true,'unload':true});
+        }
+    });
+
+}
+//重新计算套餐价和搭配优惠金额，返回单组套餐价与优惠金额 格式：套餐价,优惠金额
+function setRemmendPrice(){
+    var all_price = 0.00;
+    var save_price = 0.00;
+    $("input[name='arrayPdt']").each(function(){
+        if($(this).val() != ''){
+            all_price = (parseFloat($(this).attr('price'))+parseFloat(all_price)).toFixed(2);
+            save_price = (parseFloat($(this).attr('save'))+parseFloat(save_price)).toFixed(2);;
+        }
+    });
+    $("#all_coll_price").html("￥"+(all_price*$("#cartNums").val()).toFixed(2));
+    
+    $("#all_save_price").html("搭配买共省"+(save_price*$("#cartNums").val()).toFixed(2)+"元");
+    return all_price+','+save_price;
+}
+//加入购物车
+function addCart(skip){
+    var data = new Object();
+    var pdt_id = '';
+    var nums = '';
+    var gid = '';
+    data['fc_id'] = $("#fc_id").val();
+    var i = 0;
+    var j =0;
+    $("input[name='arrayPdt']").each(function(){
+        if($(this).val() != ''){
+            pdt_id += this.value+',';
+            nums += $("#cartNums").val()+',';
+            gid += $(this).attr('gid')+',';
+            if(parseInt($(this).attr('gid')) == parseInt($("#gid").val())){
+                j=1;
+            }
+            i++;
+        }
+    });
+    if(j!=1){
+    
+        $.ThinkBox.error("请选择第一件商品信息");return false;
+    }
+    if(j == 1 && i==1){
+        $.ThinkBox.error("请选择自由推荐商品");return false;
+    }
+    if(skip == '1'){
+        data['skip'] = 1;
+    }
+    data['pdt_id'] = pdt_id.substring(0,pdt_id.length-1);
+    data['num'] = nums.substring(0,nums.length-1);
+    data['g_id'] = gid.substring(0,gid.length-1);
+    $.post('/Home/Cart/doAddFreeCollocation',data,function(dataMsg){
+        if(dataMsg.status){
+            if(skip == '1' && '{$Think.session.Members.m_name}'!='' && dataMsg.url!=''){
+                $.ThinkBox.success(dataMsg.info);
+                $("#submitCollFrom").submit();
+            }else{
+                ajaxLoadShoppingCart(1);
+                $.ThinkBox.success(dataMsg.info);
+            } 
+        }else{
+            $.ThinkBox.error(dataMsg.info);
+        }
+         
+    },'json');
+    
+}
+//选择购买数量
+function checkNums(obj){
+    var ereg_rule= /[^0-9]+/;
+    var nums = obj.value;
+    var all_coll_price = $("#all_coll_price").html();
+    var all_coll_price = $("#all_coll_price").html();
+    if(nums == ''){return false;}
+    if(nums < 1){
+        $.ThinkBox.error('购买数量不能小于1');
+        $(obj).val('1');
+        nums = 1;
+    }
+    var str_tmp_price = setRemmendPrice();
+    var price = str_tmp_price.split(',');
+    $("#all_coll_price").html("￥"+(parseFloat(price[0])*nums).toFixed(2));
+    
+    $("#all_save_price").html("搭配买共省"+(parseFloat(price[1])*nums).toFixed(2)+"元");
+}
+
+</script>
+</if>

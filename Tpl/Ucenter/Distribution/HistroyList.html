@@ -1,0 +1,131 @@
+<div class="contentRightBox">
+	<h2 class="publicH2"><span>淘宝商品铺货</span></h2>
+    <div class="myOrder">
+        <table class="tableTop">
+            <form action='{:U("Ucenter/Distribution/HistroyList")}' method="get">
+                <tr>
+                    <td width="81">商品名称：</td>
+                    <td width="180">
+                        <input type="text" name="g_name" id="g_name" value="{$params['g_name']}" class="input01">
+                    </td>
+                    <td width="81">商品货号：</td>
+                    <td width="180">
+                        <input type="text" name="search_g_sn"  id="search_g_sn" value="{$params['search_g_sn']}" class="input01" >
+                    </td>
+                    <td><input type="submit" value="搜 索" class="blue"></td>
+            </form>
+        </table>
+        <div class="chooseProCon" style="background:#FFF ;">
+        	<p class="choosePtop">
+                 <a href='{:U("Ucenter/Distribution/showGoodsList?type=0")}'>
+					<span  id="choose1">可铺货商品</span>
+				 </a>
+                <a href='{:U("Ucenter/Distribution/HistroyList?type=1")}'>
+					<span  id="choose2" class="onHover">铺货记录</span>
+				</a>
+                 <!--<a href='{:U("Ucenter/Distribution/showHelp?type=2")}'>
+					<span  id="choose3"{$params['type']==2? 'class="onHover"':'' }>铺货帮助</span>
+				</a>-->
+            </p>
+            
+            <div id="con_choose_1" class="chooseDiv">
+            	<table class="tableCon">
+                    <thead>
+                        <tr>
+                            <td>
+                                <input class="checkAll" type="checkbox" name="select_all" id="select_all">
+                            </td>
+                            <td>货号</td>
+                            <td>商品名称</td>
+                            <td>店铺名称</td>
+                            <td>铺货时间</td>
+                            <td>更新时间</td>
+                        </tr>
+                    </thead>
+                    <tbody> 
+						<if condition="$datas NEQ ''">
+							<volist name="datas" id="data">  
+								<tr>
+									<td>
+										<input class="checkAll" type="checkbox" value="{$data.thd_item_id}" name="thd_item_id[]">	
+									</td>
+									<td>{$data.g_sn}</td>
+									<td>{$data.g_name}</td>
+									<td>{$data.ts_title}</td>
+									<td>{$data.tut_create_time}</td>
+									<td>{$data.tut_update_time}</td>
+								</tr>
+							</volist>
+						<else />
+							<tr><td colspan="6">暂无铺货记录！</td></tr>
+						</if>
+						<tr>
+							<td colspan="2">
+								<if condition="$datas NEQ ''">
+									<input type="button" id="submit_btn" class="button-auto" value="删除记录" />
+								</if>
+							</td>
+						</tr>
+                    </tbody>
+                </table>
+                <div class="myOderBot">
+                    <div class="myOderBotRight">
+                    	<div class="fenye">
+                           {$page}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+        
+<!-- 中间内容结束 -->
+<script type="text/javascript">
+  $(document).ready(function() {
+        //全选
+        $('#select_all').click(function() {
+            if ($(this).attr('checked') == 'checked') {
+                $("input:checkbox[name='thd_item_id[]']").attr('checked', 'checked');
+                $('#select_all').attr('checked', 'checked');
+            } else {
+                $("input:checkbox[name='thd_item_id[]']").removeAttr('checked');
+                $('#select_all').removeAttr('checked');
+            }
+        });
+		
+		//ajax删除记录
+        $("#submit_btn").click(function(){
+            if(confirm('您确定删除?')){
+                sw = false;
+                $("input:checkbox[name='thd_item_id[]']").each(function(){
+                    if($(this).attr('checked')=='checked'){
+                        sw = true;
+                    }
+                });
+                if(sw){
+                    var str = '';
+                    $("input:checkbox[name='thd_item_id[]']:checked").each(function(){
+                        str = str+$(this).val()+','
+                    });
+					var url = '/Ucenter/Distribution/ajaxDelHistroy';
+                    $.post(url,{ids:str},function(data){
+                        if(data.result){
+                            showAlert(true,'删除成功!');
+                            location.reload();
+                        }else{
+                            showAlert(false,'删除失败!');
+							return false;
+                        }
+                    },'json');
+                }else{
+                    showAlert(false,'请选择记录');
+                    return false;
+                }
+            }
+        });
+		
+    });
+</script>
+
+</html>

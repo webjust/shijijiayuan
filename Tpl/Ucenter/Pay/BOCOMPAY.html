@@ -1,0 +1,36 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv = "Content-Type" content = "text/html;charset=utf-8">
+        <title>交行订单支付跳转</title>
+    </head>
+
+	<body bgcolor = "#FFFFFF" text = "#000000" onload="form1.submit()">
+        <form name = "form1" method = "post" action = "<?php echo($orderUrl_value); ?>">
+            <input type = "hidden" name = "interfaceVersion" value = "<?php echo($interfaceVersion); ?>">
+            <input type = "hidden" name = "merID" value = "<?php echo($merID); ?>">
+            <input type = "hidden" name = "orderid" value = "<?php echo($orderid); ?>">
+            <input type = "hidden" name = "orderDate" value = "<?php echo($orderDate); ?>">
+            <input type = "hidden" name = "orderTime" value = "<?php echo($orderTime); ?>">
+            <input type = "hidden" name = "tranType" value = "<?php echo($tranType); ?>">
+            <input type = "hidden" name = "amount" value = "<?php echo($amount); ?>">
+            <input type = "hidden" name = "curType" value = "<?php echo($curType); ?>">
+            <input type = "hidden" name = "orderContent" value = "<?php echo($orderContent); ?>">
+            <input type = "hidden" name = "orderMono" value = "<?php echo($orderMono); ?>">
+            <input type = "hidden" name = "phdFlag" value = "<?php echo($phdFlag); ?>">
+            <input type = "hidden" name = "notifyType" value = "<?php echo($notifyType); ?>">
+            <input type = "hidden" name = "merURL" value = "<?php echo($merURL); ?>">
+            <input type = "hidden" name = "goodsURL" value = "<?php echo($goodsURL); ?>">
+            <input type = "hidden" name = "jumpSeconds" value = "<?php echo($jumpSeconds); ?>">
+            <input type = "hidden" name = "payBatchNo" value = "<?php echo($payBatchNo); ?>">
+            <input type = "hidden" name = "proxyMerName" value = "<?php echo($proxyMerName); ?>">
+            <input type = "hidden" name = "proxyMerType" value = "<?php echo($proxyMerType); ?>">
+            <input type = "hidden" name = "proxyMerCredentials" value = "<?php echo($proxyMerCredentials); ?>">
+            <input type = "hidden" name = "netType" value = "<?php echo($netType); ?>">
+            <input type = "hidden" name = "merSignMsg" value = "<?php echo($signMsg_value); ?>">
+            <input type = "hidden" name = "issBankNo" value = "<?php echo($issBankNo); ?>">
+        </form>
+    </body>
+ 
+</html>

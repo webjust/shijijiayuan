@@ -1,0 +1,41 @@
+<link href="__PUBLIC__/Ucenter/css/Distribution.css" rel="stylesheet">
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>站内信</span></h2>
+	<div class="myOrder mailBox"><!--myOrder mailBox  start-->
+		<form id="sendForm" method="post" action='{:U("Ucenter/Message/doReply")}' >
+		<div class="chooseProCon"><!--chooseProCon  start-->
+        	<p class="choosePtop">
+            	<a href="{:U('Ucenter/Message/pageMailBox')}" <if condition="$type neq 'from'">class="onHover"</if>><span>收件箱</span></a>
+                <a href="{:U('Ucenter/Message/pageSendBox')}" <if condition="$type eq 'from'">class="onHover"</if>><span>发件箱</span></a>
+                <a href="{:U('Ucenter/Message/pageSend')}" ><span>写站内信</span></a>
+            </p>
+           <div id="con_choose_1" class="chooseDiv"><!--chooseDiv  start-->
+            	<div class="mialConBot"><!--mialConBot   start-->
+                	<table class="tableTop">
+                    	<tr>
+                        	<td width="70" align="right">发信时间：</td>
+                            <td>{$messageInfo.sl_create_time}</td>
+                        </tr>      	
+                    	<tr>
+                        	<td width="70" align="right">发信人：</td>
+                            <td>{$messageInfo.from_name}</td>
+                        </tr>                	
+                    	<tr>
+                        	<td width="70" align="right">收信人：</td>
+                            <td>{$messageInfo.to_name}</td>
+                        </tr>
+                        <tr>
+                        	<td align="right">标题：</td>
+                            <td>{$messageInfo.sl_title}</td>
+                        </tr>
+                        <tr>
+                        	<td align="right" valign="top">内容：</td>
+                            <td>{$messageInfo.sl_content}</td>
+                        </tr>
+                    </table>
+                </div><!--mialConBot   end-->
+            </div><!--chooseDiv  end-->
+        </div><!--chooseProCon  end-->
+        </form>
+    </div><!--myOrder mailBox   end-->
+</div><!--contentRightBox  end-->

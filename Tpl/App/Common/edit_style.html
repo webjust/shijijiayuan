@@ -1,0 +1,773 @@
+<!--弹出样式编辑框-->
+<div style="display: none;" id="gy_edit_style" title="编辑模块样式">
+    <!--模块本身样式修改-->
+    <div id="gy_edit_style_tabs">
+        <ul>
+            <li><a href="#gy_edit_style_tabs_1">模块宽高</a></li>
+            <li><a href="#gy_edit_style_tabs_2">模块边距</a></li>
+            <li><a href="#gy_edit_style_tabs_3">模块边框</a></li>
+            <li><a href="#gy_edit_style_tabs_4">模块背景</a></li>
+        </ul>
+        <div id="gy_edit_style_tabs_1">
+            <table style="width: 100%;" class="dialog_table">
+                <tbody>
+                    <tr>
+                        <th>模块浮动</th>
+                        <td>
+                            <input class="textMedium" name="style_float" id="style_float" type="text" />
+                            <span class="style_float_buttonset"><input type="button" value="left" name="style_float_buttonset" /><input type="button" value="none" name="style_float_buttonset" /><input type="button" value="right" name="style_float_buttonset" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>模块宽度</th>
+                        <td><input class="textMedium" name="style_width" id="style_width" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><div id="style_width_slider"></div></td>
+                    </tr>
+                    <tr>
+                        <th>模块高度</th>
+                        <td><input class="textMedium" name="style_height" id="style_height" type="text" readonly="readonly"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><div id="style_height_slider"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="gy_edit_style_tabs_2">
+            <table style="width: 100%;" class="dialog_table">
+                <tbody>
+                    <tr>
+                        <th>上下边距</th>
+                        <td>
+                            <input class="textShort" name="style_margin_top" id="style_margin_top" type="text" />
+                            <input class="textShort" name="style_margin_bottom" id="style_margin_bottom" type="text" />
+                        </td>
+                        <td rowspan="2">
+                            <div id="style_margin_top_slider" class="vSlider"></div>
+                            <div id="style_margin_bottom_slider" class="vSlider"></div>
+                            <div id="style_margin_left_slider" class="vSlider"></div>
+                            <div id="style_margin_right_slider" class="vSlider"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>左右边距</th>
+                        <td>
+                            <input class="textShort" name="style_margin_left" id="style_margin_left" type="text" />
+                            <input class="textShort" name="style_margin_right" id="style_margin_right" type="text" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="gy_edit_style_tabs_3">
+            <table style="width: 100%;" class="dialog_table">
+                <tbody>
+                    <tr>
+                        <th>边框宽度</th>
+                        <td colspan="2"><input class="textShort" name="style_border_width" id="style_border_width" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><div id="style_border_width_slider" style="margin-bottom:15px;"></div></td>
+                    </tr>
+                    <tr>
+                        <th>边框颜色</th>
+                        <td>
+                            <input class="textMedium" name="style_border_color" id="style_border_color" type="text" />
+                        </td>
+                        <td rowspan="2">
+                            <div id="style_border_color_preview" style="width:100px; height: 100px; margin-left: 10px; border: 1px solid #eee;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="style_border_color_slider_r" class="hSlider slider_red"></div>
+                            <div id="style_border_color_slider_g" class="hSlider slider_green"></div>
+                            <div id="style_border_color_slider_b" class="hSlider slider_blue"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="gy_edit_style_tabs_4">
+            <table style="width: 100%;" class="dialog_table">
+                <tbody>
+                    <tr>
+                        <th>背景颜色</th>
+                        <td>
+                            <input class="textMedium" name="style_background_color" id="style_background_color" type="text" tmpColor='' />
+                        </td>
+                        <td rowspan="2">
+                            <div id="style_background_color_preview" style="width:100px; height: 100px; margin-left: 10px; border: 1px solid #eee;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="style_background_color_slider_r" class="hSlider slider_red"></div>
+                            <div id="style_background_color_slider_g" class="hSlider slider_green"></div>
+                            <div id="style_background_color_slider_b" class="hSlider slider_blue"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>设置透明</th>
+                        <td>
+                            <input name="style_background_transparent" id="style_background_transparent" type="checkbox" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--内容样式修改-->
+    <div id="gy_edit_content_style_tabs" style="margin-top:10px;">
+        <ul>
+            <li><a href="#gy_edit_content_style_tabs_1">文字编辑1</a></li>
+            <li><a href="#gy_edit_content_style_tabs_2">文字编辑2</a></li>
+            <li><a href="#gy_edit_content_style_tabs_3">图片编辑1</a></li>
+            <li><a href="#gy_edit_content_style_tabs_3">超链接编辑</a></li>
+        </ul>
+    </div>
+
+    <div style="display:none;" alt="用于动态生成的文字/图片/超链接样式编辑器">
+        <div id="gy_edit_content_style_text">
+            <table style="width: 100%;" class="dialog_table">
+                <tbody>
+                    <tr>
+                        <th>文字对齐</th>
+                        <td colspan="2">
+                            <input class="textMedium content_style_text_align" type="text" />
+                            <span class="content_style_text_align_buttonset"><input type="button" value="left" name="content_style_text_align_buttonset" /><input type="button" value="center" name="content_style_text_align_buttonset" /><input type="button" value="right" name="content_style_text_align_buttonset" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>文字大小</th>
+                        <td colspan="2"><input class="textMedium content_style_text_size" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><div class="content_style_text_size_slider" style="margin-bottom:15px;"></div></td>
+                    </tr>
+                    <tr>
+                        <th>文字颜色</th>
+                        <td><input class="textMedium content_style_text_color" type="text" /></td>
+                        <td rowspan="2">
+                            <div class="content_style_text_color_preview" style="width:100px; height: 100px; margin-left: 10px; border: 1px solid #eee;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="hSlider slider_red content_style_text_color_slider_r"></div>
+                            <div class="hSlider slider_green content_style_text_color_slider_g"></div>
+                            <div class="hSlider slider_blue content_style_text_color_slider_b"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="gy_edit_content_style_iamge">
+            <table style="width: 100%;" class="dialog_table">
+                <tbody>
+                    <tr>
+                        <th>图片宽度</th>
+                        <td><input class="textMedium content_style_iamge_width" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><div class="content_style_iamge_width_slider" style="margin-bottom:15px;"></div></td>
+                    </tr>
+                    <tr>
+                        <th>图片高度</th>
+                        <td><input class="textMedium content_style_image_height" type="text" readonly="readonly"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><div class="content_style_image_height_slider" style="margin-bottom:15px;"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!--保存按钮-->
+    <div style="margin-top:10px;">
+        <input name="style_save" id="style_save" type="button" value="保 存" />
+        <input name="style_close" id="style_close" type="button" value="不保存关闭" />
+    </div>
+
+</div>
+
+<!--#########################################################################-->
+<!--############################# 样式编辑器 #################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+<!--#########################################################################-->
+
+<script>
+    //模块样式编辑框
+    $(document).ready(function(){
+        //对话框初始化
+        $('#gy_edit_style').dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width:550,
+            height:'auto',
+            show:'puff',
+            open:function() {
+                //$('.ui-widget-overlay').css('background-color','rgb(0,0,0,1)');
+                //$(this).find('.ui-dialog-titlebar-close').blur();
+            }
+        })
+        //.parent()
+        //.find('.ui-dialog-titlebar-close')
+        //.prependTo('#gy_edit_style_tabs')
+        //.closest('.ui-dialog')
+        //.children('.ui-dialog-titlebar')
+        //.remove();
+
+        //按钮初始化
+        $('#style_save,#style_close').button();
+        $('#style_close').die().click(function(){
+            $('#gy_edit_style').dialog('close');
+        });
+    });
+
+    //########################################################################
+
+    $(function() {
+        //编辑器分页 ------------------------------------------------------
+        $(function() {
+            $( "#gy_edit_style_tabs" ).tabs({
+                show: { effect: "blind", duration: 300 },
+                collapsible: true
+            }).addClass( "ui-tabs-vertical ui-helper-clearfix" );
+            //$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+        });
+
+        //模块宽度 --------------------------------------------------------
+        $(".style_float_buttonset").buttonset();
+        $(".style_float_buttonset").find('input:button').die().live('click',function(){
+            $(this).parents('td').find('#style_float').val($(this).val());
+        });
+
+        $("#style_width_slider").slider({
+            range: "min",
+            //value: ($("#style_width").val()=='auto')?0:$("#style_width").val().slice(0, -2),
+            min: 0,
+            max: 1920,
+            slide: function(event,ui) {
+                if(0==ui.value){
+                    $("#style_width").val('auto');
+                }else{
+                    $("#style_width").val(ui.value + 'px');
+                }
+            }
+        });
+        //模块高度
+        $("#style_height_slider").slider({
+            range: "min",
+            //value: ($("#style_height").val()=='auto')?0:$("#style_height").val().slice(0, -2),
+            min: 0,
+            max: 1920,
+            slide: function(event,ui) {
+                if(0==ui.value){
+                    $("#style_height").val('auto');
+                }else{
+                    $("#style_height").val(ui.value + 'px');
+                }
+            }
+        });
+        //模块边距 --------------------------------------------------------
+        $("#style_margin_top_slider").slider({
+            range: "min",
+            //value: $("#style_margin_top").val().slice(0, -2),
+            min: 0,
+            max: 200,
+            orientation: "vertical",
+            slide: function(event,ui) {
+                $("#style_margin_top").val(ui.value + 'px');
+            }
+        });
+        $("#style_margin_bottom_slider").slider({
+            range: "min",
+            //value: $("#style_margin_bottom").val().slice(0, -2),
+            min: 0,
+            max: 200,
+            orientation: "vertical",
+            slide: function(event,ui) {
+                $("#style_margin_bottom").val(ui.value + 'px');
+            }
+        });
+        $("#style_margin_left_slider").slider({
+            range: "min",
+            //value: $("#style_margin_left").val().slice(0, -2),
+            min: 0,
+            max: 200,
+            orientation: "vertical",
+            slide: function(event,ui) {
+                $("#style_margin_left").val(ui.value + 'px');
+            }
+        });
+        $("#style_margin_right_slider").slider({
+            range: "min",
+            //value: $("#style_margin_right").val().slice(0, -2),
+            min: 0,
+            max: 200,
+            orientation: "vertical",
+            slide: function(event,ui) {
+                $("#style_margin_right").val(ui.value + 'px');
+            }
+        });
+
+        //模块边框---------------------------------------------------------
+        $("#style_border_width_slider").slider({
+            range: "min",
+            //value: $("#style_border_width").val().slice(0, -2),
+            min: 0,
+            max: 50,
+            slide: function(event,ui) {
+                $("#style_border_width").val(ui.value + 'px');
+            }
+        });
+
+        $("#style_border_color_slider_r,#style_border_color_slider_g,#style_border_color_slider_b").slider({
+            orientation: "horizontal",
+            range: "min",
+            min: 0,
+            max: 255,
+            slide: function(){
+                refreshColor('style_border_color');
+            },
+            change: function(){
+                refreshColor('style_border_color');
+            }
+        });
+
+        $("#style_border_color").die().focusout(function(){
+            refreshSlider('style_border_color');
+        });
+
+        //模块背景---------------------------------------------------------
+        //$('#style_background_transparent').button();
+
+        $('#style_background_transparent').die().click(function(){
+            if('checked' == $(this).attr('checked')){
+                var tmpColor = $('#style_background_color').val();
+                $('#style_background_color').attr('tmpColor',tmpColor);
+                $('#style_background_color').val('transparent');
+                $('#style_background_color_preview').css('background-color','transparent');
+            }else{
+                $('#style_background_color').val($('#style_background_color').attr('tmpColor'));
+                $('#style_background_color_preview').css('background-color',$('#style_background_color').attr('tmpColor'));
+                refreshSlider('style_background_color');
+            }
+        });
+
+        $("#style_background_color_slider_r,#style_background_color_slider_g,#style_background_color_slider_b").slider({
+            orientation: "horizontal",
+            range: "min",
+            min: 0,
+            max: 255,
+            slide: function(){
+                refreshColor('style_background_color');
+                $('#style_background_transparent').removeAttr('checked');
+            },
+            change: function(){
+                refreshColor('style_background_color');
+                $('#style_background_transparent').removeAttr('checked');
+            }
+        });
+
+        $("#style_background_color").die().focusout(function(){
+            refreshSlider('style_background_color');
+        });
+
+        //########动态生成的内容样式slider######################################
+
+        //文字大小 --------------------------------------------------------
+        /*
+        $(".content_style_text_size_slider").slider({
+            range: "min",
+            //value: ($("#style_width").val()=='auto')?0:$("#style_width").val().slice(0, -2),
+            value: 10,
+            min: 10,
+            max: 48,
+            slide: function(event,ui) {
+                //ui.prev(".content_style_text_size").val(ui.value + 'px');
+            }
+        });
+         */
+        //内容样式分页 --------------------------------------------------------
+        $(function() {
+            $( "#gy_edit_content_style_tabs" ).tabs({
+                show: { effect: "blind", duration: 300 },
+                collapsible: true
+            }).addClass( "ui-tabs-vertical ui-helper-clearfix" );
+        });
+
+    });
+
+
+    //########################################################################
+
+    $('#btn_edit_style').die().live('click',function(){
+        //alert('TODO：编辑当前模块的风格');
+        //初始化模块风格输入框 ---------------------------------------------------------
+        $('#style_float').val($('.edit').css('float'));
+        //$('#style_width').val($('.edit').css('width'));
+		$('#style_width').val('100%');
+        //$('#style_height').val($('.edit').css('height'));
+		$('#style_height').val('auto');
+
+        $('#style_margin_top').val($('.edit').css('margin-top'));
+        $('#style_margin_bottom').val($('.edit').css('margin-bottom'));
+        $('#style_margin_left').val($('.edit').css('margin-left'));
+        $('#style_margin_right').val($('.edit').css('margin-right'));
+
+        $('#style_border_width').val($('.edit').css('border-top-width'));
+        $('#style_border_color').val($('.edit').css('border-top-color'));
+        $('#style_border_color_preview').css('background-color',$('.edit').css('border-color'));
+
+        $('#style_background_color').val($('.edit').css('background-color'));
+        $('#style_background_color_preview').css('background-color',$('.edit').css('background-color'));
+
+        //初始化模块风格滑动条 --------------------------------------------------------
+        $("#style_width_slider").slider('value',($("#style_width").val()=='auto')?0:$("#style_width").val().slice(0, -2));
+        $("#style_height_slider").slider('value',($("#style_height").val()=='auto')?0:$("#style_height").val().slice(0, -2));
+
+        $("#style_margin_top_slider").slider('value',$("#style_margin_top").val().slice(0, -2));
+        $("#style_margin_bottom_slider").slider('value',$("#style_margin_bottom").val().slice(0, -2));
+        $("#style_margin_left_slider").slider('value',$("#style_margin_left").val().slice(0, -2));
+        $("#style_margin_right_slider").slider('value',$("#style_margin_right").val().slice(0, -2));
+
+        $("#style_border_width_slider").slider('value',$("#style_border_width").val().slice(0, -2));
+
+        var style_border_color = str2Rgb($("#style_border_color").val());
+        $("#style_border_color_slider_r").slider('value',style_border_color.r);
+        $("#style_border_color_slider_g").slider('value',style_border_color.g);
+        $("#style_border_color_slider_b").slider('value',style_border_color.b);
+
+        var style_background_color = str2Rgb($("#style_background_color").val());
+        $("#style_background_color_slider_r").slider('value',style_background_color.r);
+        $("#style_background_color_slider_g").slider('value',style_background_color.g);
+        $("#style_background_color_slider_b").slider('value',style_background_color.b);
+
+        //特殊设置 -----------------------------------------------------------
+        if('transparent' == $('.edit').css('background-color')||'rgba(0, 0, 0, 0)'==$('.edit').css('background-color')){
+            $('#style_background_color').attr('tmpColor','rgb(255,255,255)');
+            $('#style_background_transparent').attr('checked','checked');
+            $('#style_background_color_preview').css('background-color','transparent');
+        }
+
+        //初始化内容风格TAB-----------------------------------------------------
+        /*注：此处内容风格的TAB是动态生成的，根据模块里面的
+         *元标签 textstyle-editable/imagestyle-editable/astyle-editable动态生成
+         *如果一个模块里面有多个文本或图片设置为风格可以修改，则生成多个用-1 -2 -3表示
+         **/
+        // 1) 先清空TABS的标签和内容 -------------------------------------------
+        $('#gy_edit_content_style_tabs').empty();
+        $('#gy_edit_content_style_tabs').html('<ul></ul>');
+        // 2) 根据当前模块里面的editable元标签创建编辑器 -------------------------
+        //可供编辑的数量
+        //文本类样式编辑器
+        var editableStyleNums = [];
+        $(".edit *[textstyle-editable='true']").each(function(i){
+            var obj = $(this);
+            var k = $(this).attr('style-num');
+            //该编辑器不是重复的
+            if(-1 == $.inArray(k,editableStyleNums)){
+                //克隆文本编辑器到TAB中
+                //编辑器内容
+                var clone = $('#gy_edit_content_style_text').clone();
+                var clone_id = 'gy_edit_content_style_text_' + k;
+                var tabTitle = obj.attr('edit-name');
+
+                clone.attr('id',clone_id);
+                clone.attr('edit-type','textstyle-editable');
+                clone.attr('style-num',k);
+
+                clone.appendTo($('#gy_edit_content_style_tabs'));
+                //初始化当前模版数值到克隆编辑器 ++++++++++++++++++++++++++++++++++
+                //文字对齐 -----------------------------------------------------
+                var textAlign = obj.css('text-align');
+                clone.find('.content_style_text_align').val(textAlign);
+                clone.find('.content_style_text_align_buttonset').buttonset();
+                //clone.find('.content_style_text_align_buttonset').find('input[value="left"]').button('option','label','靠左');
+                //clone.find('.content_style_text_align_buttonset').find('input[value="center"]').button('option','label','居中');
+                //clone.find('.content_style_text_align_buttonset').find('input[value="right"]').button('option','label','靠右');
+                clone.find('.content_style_text_align_buttonset').find('input:button').die().live('click',function(){
+                    //alert($(this).val());
+                    $(this).parents('td').find('.content_style_text_align').val($(this).val());
+                });
+                //字体大小 -----------------------------------------------------
+                var fontSize = obj.css('font-size');
+                clone.find('.content_style_text_size').val(fontSize);
+
+                clone.find(".content_style_text_size_slider").slider({
+                    range: "min",
+                    //value: ($("#style_width").val()=='auto')?0:$("#style_width").val().slice(0, -2),
+                    value: fontSize.slice(0, -2),
+                    min: 10,
+                    max: 48,
+                    slide: function(event,ui) {
+                        //console.log($(this));
+                        //$('.content_style_text_size').val(ui.value + 'px');
+                        $(this).parents('tr').prev().find('input.content_style_text_size').val(ui.value + 'px');
+                    }
+                });
+                //字体颜色 -----------------------------------------------------
+                var fontColor = obj.css('color');
+                var fontColorObj = str2Rgb(fontColor);
+
+                clone.find('.content_style_text_color').val(fontColor);
+                clone.find('.content_style_text_color_preview').css('background-color',fontColor);
+                clone.find(".content_style_text_color_slider_r,.content_style_text_color_slider_g,.content_style_text_color_slider_b").slider({
+                    orientation: "horizontal",
+                    range: "min",
+                    min: 0,
+                    max: 255,
+                    slide: function(){
+                        //refreshColor('style_background_color');
+                        var color = rgb2Str(
+                        $(this).parents('td').find('.content_style_text_color_slider_r').slider('value'),
+                        $(this).parents('td').find('.content_style_text_color_slider_g').slider('value'),
+                        $(this).parents('td').find('.content_style_text_color_slider_b').slider('value')
+                    );
+
+                        $(this).parents('tr').prev().find('input.content_style_text_color').val(color);
+                        $(this).parents('tr').prev().find('.content_style_text_color_preview').css('background-color',color);
+                    }
+                });
+
+                clone.find('.content_style_text_color_slider_r').slider('value',fontColorObj.r);
+                clone.find('.content_style_text_color_slider_g').slider('value',fontColorObj.g);
+                clone.find('.content_style_text_color_slider_b').slider('value',fontColorObj.b);
+
+                //编辑器添加列表标签 ++++++++++++++++++++++++++++++++++++++++++++
+                $('#gy_edit_content_style_tabs ul').append('<li><a href="#' + clone_id + '">' + tabTitle + '</a></li>');
+                editableStyleNums.push(k);
+            }else{
+                //这个位置的样式编辑器已经有了
+            }
+
+        });
+
+
+        editableStyleNums = [];
+        $(".edit *[imagestyle-editable='true']").each(function(i){
+            var obj = $(this);
+            var k = $(this).attr('style-num');
+            //该编辑器不是重复的
+            if(-1 == $.inArray(k,editableStyleNums)){
+                //克隆文本编辑器到TAB中
+                //编辑器内容
+                var clone = $('#gy_edit_content_style_iamge').clone();
+                var clone_id = 'gy_edit_content_style_image_' + k;
+                var tabTitle = obj.attr('edit-name');
+
+                clone.attr('id',clone_id);
+                clone.attr('edit-type','imagestyle-editable');
+                clone.attr('style-num',k);
+
+                clone.appendTo($('#gy_edit_content_style_tabs'));
+                //初始化当前模版数值到克隆编辑器 ++++++++++++++++++++++++++++++++++
+                //图片宽度 -----------------------------------------------------
+                //var imgWidth = obj.css('width');
+				var imgWidth = '100%';
+                clone.find('.content_style_iamge_width').val(imgWidth);
+                clone.find(".content_style_iamge_width_slider").slider({
+                    range: "min",
+                    //value: ($("#style_width").val()=='auto')?0:$("#style_width").val().slice(0, -2),
+                    value: imgWidth.slice(0, -2),
+                    min: 0,
+                    max: 1000,
+                    slide: function(event,ui) {
+                        //console.log($(this));
+                        //$('.content_style_text_size').val(ui.value + 'px');
+                        $(this).parents('tr').prev().find('input.content_style_iamge_width').val((ui.value==0)?'auto':ui.value + 'px');
+                    }
+                });
+                //图片高度 -----------------------------------------------------
+                //var imgHeight = obj.css('height');
+				var imgHeight = 'auto';
+                clone.find('.content_style_image_height').val(imgHeight);
+                clone.find(".content_style_image_height_slider").slider({
+                    range: "min",
+                    //value: ($("#style_width").val()=='auto')?0:$("#style_width").val().slice(0, -2),
+                    value: imgHeight.slice(0, -2),
+                    min: 0,
+                    max: 1000,
+                    slide: function(event,ui) {
+                        //console.log($(this));
+                        //$('.content_style_text_size').val(ui.value + 'px');
+                        $(this).parents('tr').prev().find('input.content_style_image_height').val((ui.value==0)?'auto':ui.value + 'px');
+                    }
+                });
+
+                //编辑器添加列表标签 ++++++++++++++++++++++++++++++++++++++++++++
+                $('#gy_edit_content_style_tabs ul').append('<li><a href="#' + clone_id + '">' + tabTitle + '</a></li>');
+                editableStyleNums.push(k);
+            }else{
+                //这个位置的编辑器已经有了
+            }
+
+        });
+
+
+        // 3）刷新分页信息 -----------------------------------------------------
+        //$('#gy_edit_content_style_tabs').tabs({show: { effect: "blind", duration: 300 }}).addClass( "ui-tabs-vertical ui-helper-clearfix" );
+        $('#gy_edit_content_style_tabs').tabs('refresh');
+        //$('#gy_edit_content_style_tabs').tabs('load',1);
+        //$('#gy_edit_content_style_tabs').tabs();
+        // 4) 动态滑动条初始化
+        /*
+        $(".content_style_text_size_slider").slider({
+            range: "min",
+            //value: ($("#style_width").val()=='auto')?0:$("#style_width").val().slice(0, -2),
+            //value: $(this).parents('tr').prev().find('input.content_style_text_size').val().toString().slice(0, -2),
+            min: 10,
+            max: 48,
+            slide: function(event,ui) {
+                console.log($(this));
+                //$('.content_style_text_size').val(ui.value + 'px');
+                $(this).parents('tr').prev().find('input.content_style_text_size').val(ui.value + 'px');
+            }
+        });
+         */
+        /**保存样式编辑操作**/
+        //先修改本页面样式，再存储到模版html页面
+        $('#style_save').die().live('click',function(){
+            css = {
+                'float':$('#style_float').val(),
+
+                //'width':$('#style_width').val(),
+                //'height':$('#style_height').val(),
+
+                'margin-top':$('#style_margin_top').val(),
+                'margin-bottom':$('#style_margin_bottom').val(),
+                'margin-left':$('#style_margin_left').val(),
+                'margin-right':$('#style_margin_right').val(),
+
+                'border-style':($('#style_border_width').val() == '0px') ? 'none' : 'solid',
+                'border-width':$('#style_border_width').val(),
+                'border-color':$('#style_border_color').val(),
+
+                'background-color':$('#style_background_color').val()
+            };
+
+            /*宽高的auto值需要单独处理*/
+            if($('#style_width').val()!=$('.edit').css('width')){
+                css.width = $('#style_width').val();
+            }
+            if($('#style_height').val()!=$('.edit').css('height')){
+                css.height = $('#style_height').val();
+            }
+
+            $('.edit').css(css);
+
+            /*模块内容样式的修改*/
+            //文本类 ----------------------------------------------------------
+            $('#gy_edit_content_style_tabs div[edit-type="textstyle-editable"]').each(function(){
+                var obj = $(this);
+                var editType = $(this).attr('edit-type');
+                var editNum = $(this).attr('style-num');
+                //模块内部可修改的元素CSS
+                var innerCss = {
+                    'text-align':obj.find('.content_style_text_align').val(),
+                    'font-size':obj.find('.content_style_text_size').val(),
+                    'color':obj.find('.content_style_text_color').val()
+                };
+                //console.log(innerCss);
+                //找到要修改的页面元素
+                $('.edit *[textstyle-editable="true"][style-num="'+editNum+'"]').css(innerCss);
+            });
+            //图片类 ----------------------------------------------------------
+            $('#gy_edit_content_style_tabs div[edit-type="imagestyle-editable"]').each(function(){
+                var obj = $(this);
+                var editType = $(this).attr('edit-type');
+                var editNum = $(this).attr('style-num');
+                //模块内部可修改的元素CSS
+                var innerCss = {
+                };
+                /*宽高的auto值需要单独处理*/
+                if(obj.find('.content_style_iamge_width').val()!=$('.edit *[imagestyle-editable="true"][style-num="'+editNum+'"]').css('width')){
+                    innerCss.width = obj.find('.content_style_iamge_width').val();
+                }
+                if(obj.find('.content_style_image_height').val()!=$('.edit *[imagestyle-editable="true"][style-num="'+editNum+'"]').css('height')){
+                    innerCss.height = obj.find('.content_style_image_height').val();
+                }
+                //console.log(innerCss);
+                //找到要修改的页面元素
+                $('.edit *[imagestyle-editable="true"][style-num="'+editNum+'"]').css(innerCss);
+            });
+            /*关闭弹出窗口*/
+            $('#gy_edit_style').dialog('close');
+        });
+
+        //####################################################################
+        $('#gy_edit_style').parent().css({position:"fixed"}).end().dialog('open');
+
+    });
+
+    /*
+    function edit_style(obj){
+
+    }
+     */
+
+    //公共函数---------------------------------------------------------
+    function refreshColor(objID){
+        var color = rgb2Str(
+        $('#'+objID+'_slider_r').slider('value'),
+        $('#'+objID+'_slider_g').slider('value'),
+        $('#'+objID+'_slider_b').slider('value')
+    );
+
+        $('#'+objID).val(color);
+
+        $('#'+objID+'_preview').css('background-color',color);
+
+    }
+
+    function refreshSlider(objID){
+        var color = str2Rgb($('#'+objID).val());
+        $('#'+objID+'_slider_r').slider('value',color.r);
+        $('#'+objID+'_slider_g').slider('value',color.g);
+        $('#'+objID+'_slider_b').slider('value',color.b);
+    }
+
+    function rgb2Str(r,g,b){
+        return 'rgb('+ r + ',' + g + ',' + b + ')';
+    }
+
+    function str2Rgb(str){
+        if(str=='transparent' || str=='rgba(0, 0, 0, 0)'){
+            return {
+                r:255,
+                g:255,
+                b:255
+            };
+        }
+
+        if(-1==str.search('rgba')){
+            var sub = str.slice(4,-1).split(',');
+        }else{
+            var sub = str.slice(5,-1).split(',');
+        }
+        return {
+            r:sub[0],
+            g:sub[1],
+            b:sub[2]
+        };
+    }
+    //alert(str2Rgb('rgb(0,100,20)'));
+</script>

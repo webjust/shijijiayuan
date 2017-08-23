@@ -1,0 +1,233 @@
+<!--中间内容 开始-->
+<div class="HXwarp" id="main">
+	<div class="area">
+    	<div class="content960"><!--content960 col  start-->
+        	<div class="goodList_navtitle block">
+            	<a href="#">首页</a><span>></span><a href="javascript:void(0);">今日推荐</a>
+            </div>
+            <!--tuanDatils start-->
+           	<div class="tuanDatils">
+            	<div class="tuanDatils_con">
+                    <h2>{$gp_title}</h2>
+                    <div class="tuanDatils_conmain">
+                        <div class="tuanDatils_conL">
+                        	<h3><strong>{$gp_price|sprintf='%.2f',###}</strong><span class="dingjin">{$gp_deposit_price|sprintf='%.2f',###}</span></h3>
+                        	<ul>
+                            	<li>
+                                	<table>
+                                    	<tr>
+                                        	<th class="first">原价</th>
+                                            <th>折扣</th>
+                                            <th class="last">节省</th>
+                                        </tr>
+                                        <tr>
+                                        	<td class="first"><del><i>&yen;</i><label id="showMarketPirice">{$pdt_set_sale_price|sprintf='%.2f',###}</label></del></td>
+                                            <td class="zhekou"><label id="discountPrice"><php>echo sprintf('%.1f',$gp_price/$pdt_set_sale_price*10)</php></label>折</td>
+                                            <td class="last"><i>&yen;</i><label id="savePrice">{$pdt_set_sale_price-$gp_price}</label></td>
+                                        </tr> 
+                                    </table>
+                                </li>
+                            	<li>
+                                     <p class="on">
+                                          <span>销量：<label class="l1">{$gp_now_number}</label>件</span>
+                                          <span><i>&yen;</i><label>{$gp_price}</label></span>
+                                     </p>
+                                     <volist name="rel_bulk_price" id="rbp">
+                                     <p>
+                                          <span>满<label>{$rbp.rgp_num}</label>人</span>
+                                          <span><i>&yen;</i><label>{$rbp.rgp_price|sprintf='%.2f',###}</label></span>
+                                     </p>
+                                     
+                                     </volist>
+                                </li>
+                            	<li id="showDetailSkus">
+                                	商品规格正在加载......
+                                    <script type="text/javascript">
+                                         getDetailSkus('{$gp_id}', 5);
+                                    </script>
+                                </li>
+                                <li class="four">
+                                	<h4>
+                                        <php>if($stat_time == 1){</php>
+                                        <span><abbr>剩余开始时间：</abbr></span>
+                                        <span><label id="day">0</label>天<label id="hours">0</label>小时<label id="minutes">0</label>分钟<label id="seconds">0</label>秒</span>
+                                        <script>setTuanGouTime('{$gp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                        <php>}elseif($stat_time ==2){</php>
+                                        <span><abbr>此团购已结束：</abbr></span>
+                                        <span><label id="day">0</label>天<label id="hours">0</label>小时<label id="minutes">0</label>分钟<label id="seconds">0</label>秒</span>
+                                        <php>}else{</php>
+                                        <span><abbr>剩余时间：</abbr></span>
+                                        <span><label id="day">0</label>天<label id="hours">0</label>小时<label id="minutes">0</label>分钟<label id="seconds">0</label>秒</span>
+                                        <script>setTuanGouTime('{$gp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                        <php>}</php>
+                                    </h4>
+                                    <if condition="$buy_status eq 0">
+										<a class="pastbuy" title="您的购买数已用完" href="javascript:void(0);" >购买数已用完</a>
+										<elseif condition="$buy_status eq 1" />
+										<if condition="$is_deposit eq 1">
+											<!--启用定金支付-->
+											<a class="pay" title="立即付定金" onclick="addToOrder(2);" href="javascript:void(0);">立即付定金</a>
+											<else/>
+											<!--未启用定金支付-->
+											<a class="buy" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);">立刻购买</a>
+										</if>
+										<elseif condition="$buy_status eq 2" />
+										<assign name="curUrl" value="__SELF__" />
+										<a class="pastbuy" title="请先登录" href="{:U('Home/User/Login')}?rquestUrl={$curUrl|urlencode}">请先登录</a>
+										<elseif condition="$buy_status eq 3" />
+										<a class="pastbuy" title="团购活动尚未开始" href="javascript:void(0);">活动尚未开始</a>
+										<elseif condition="$buy_status eq 4"/>
+										<a class="pastbuy" title="团购活动已结束" href="javascript:void(0);">活动已结束</a>
+										<elseif condition="$buy_status eq 5"/>
+										<a class="pastbuy" title="团购商品已售完" href="javascript:void(0);" >商品已售完</a>
+									</if>
+                                </li> 
+                            </ul>
+                            <div class="tuanDailsTime">
+                                尾款支付时间
+                                <span>{$gp_overdue_start_time}&nbsp;至&nbsp{$gp_overdue_end_time}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tuanDatils_conR">
+                        	<div class="tuanDatils_img">
+                            	<img src="{$Think.config.DOMAIN_HOST}{$gp_picture|showImage=###,512,422}" width="512" height="422">
+                            </div>
+                            <div class="tuanDatils_fenxiang">
+                            	<!-- Baidu Button BEGIN -->
+                                <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                                <span class="bds_more">分享到：</span>
+                                <a class="bds_qzone"></a>
+                                <a class="bds_tsina"></a>
+                                <a class="bds_tqq"></a>
+                                <a class="bds_renren"></a>
+                                <a class="bds_t163"></a>
+                                <a class="shareCount"></a>
+                                </div>
+                                <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=0" ></script>
+                                <script type="text/javascript" id="bdshell_js"></script>
+                                <script type="text/javascript">
+                                document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+                                </script>
+                                <!-- Baidu Button END -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+            <!--tuanDatils end-->
+            
+            <!--tuanExplain start-->
+            <div class="tuanExplain">
+                <div class="tuanExplainTag">
+                    <p>
+                        <strong>团购说明</strong>
+                    </p>
+                </div>
+                <div class="tuanExplain_con">
+                    {$gp_desc}
+                </div>
+            </div>
+            <!--tuanExplain end-->
+            <if condition="$gp_goodshow_status eq 1">
+            <!--tuanIntro start-->
+            <div class="tuanIntro">
+                <div class="tuanIntroTag">
+                    <p>
+                        <strong>商品介绍</strong>
+                    </p>
+                </div>
+                <div class="tuanIntro_con">
+                    {$good_info.gdesc}
+                 </div>
+            </div>
+            </if>
+            <!--tuanIntro end-->
+        </div><!--content960 col  start-->
+    </div>
+</div>
+<input type="hidden" value="" name="cr_ids" id="cr_ids">
+<input type="hidden" value="{$gp_id}" name="gp_id" id="gp_id">
+<input type="hidden" value="{$good_info.gid}" name="item_id" id="item_id">
+<input type="hidden" value="{$gp_price}" name="yprice" id="yprice">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_1}" name="error_1" id="error_1">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_4}" name="error_4" id="error_4">
+<!--中间内容 结束-->
+<script>
+var arr = new Object();
+//将商品库存信息存在js数组里
+<foreach name = 'good_info.skus' item = 'vosku'>
+arr["{$vosku.skuName}"] = "{$vosku.pdt_id}|{$gp_number}|{$vosku.pdt_sale_price}|{$vosku.pdt_market_price}";
+</foreach>
+
+// 加减调整商品数量
+function countNum(i){
+    var _this = $("#item_num");
+    var num=parseInt(_this.val()),max=parseInt(_this.attr('max'));
+    num=num+i;
+    if((num<=0)||(num>max)||(num>999)){
+		return false;
+	}
+    _this.val(num);
+}
+function blurSelectNum(){
+    var _this = $("#item_num");
+    var max = parseInt(_this.attr('max'));
+    var ereg_rule=/^\+?[1-9][0-9]*$/;
+    if(!ereg_rule.test(_this.val())){
+        _this.val(1);
+    }else{
+        if(_this.val()>max){
+             _this.val(max);
+        }
+    }
+}
+function addToOrder(i){
+    var res = allSpecSelectedCheck('on');
+    if(res[0] == false) {
+        $.ThinkBox.error('请选择要购买的商品规格！');return false;
+    }
+    var pdt_id = $('#pdt_id').val();
+	var gp_id  = $('#gp_id').val();
+	var error_1  = $('#error_1').val();
+	var error_4  = $('#error_4').val();
+	var no_login = $("#no_login").val();
+    var num = parseInt($('#item_num').val());
+    var max = parseInt($('#item_num').attr('max'));
+    if(pdt_id == ''){
+        $.ThinkBox.error(error_4);return false;
+    }
+    if (isNaN(num)){
+        $.ThinkBox.error(error_1);return false;
+    }
+    if (num < 1){
+        $.ThinkBox.error("购买数量不能小于1");return false;
+    }
+    if(num > max){
+        $.ThinkBox.error("您最多还能团购"+max+"件");return false;
+    }   
+    var data = new Object();
+    data['cart'] = {};
+    data['cart']['pdt_id'] = pdt_id;
+    data['cart']['gp_id'] = gp_id;
+    data['cart']['num'] = num;
+    data['type'] = 'bulk';
+    if(i==2){
+        data['cart']['is_deposit'] = 1;
+    }
+    if( no_login == ''){
+        $.post('/Home/User/doBulkLogin/',{},function(htmlMsg){
+            $.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+        },'html');
+        return false;
+    }
+    $.post('/Home/Cart/doAdd',data,function(dataMsg){
+        if(dataMsg.status == 1){
+            location.href = dataMsg.url;
+        }else{
+            $.ThinkBox.error(dataMsg.msg);
+        }
+    },'json');
+} 
+</script>

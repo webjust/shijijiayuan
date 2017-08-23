@@ -1,0 +1,156 @@
+<div class="" id="sideTools">
+    <p class="iToTop">
+        <a id="iToTop" href="javascript:void(0);" name="dac_index_ycdhsh06" title="回到顶部">
+            <s></s>
+        </a>
+    </p>
+</div>
+<script>
+$(document).ready(function(e) {
+	$('#iToTop').click(function(){
+		$(document).scrollTop(0);	
+	})
+});
+</script>
+<script src="__JS__js.js"></script>
+<link href="__CSS__style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery-webox.js"></script>
+<link href="__PUBLIC__/Lib/webox/image/jquery-webox.css" rel="stylesheet">
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<input type="hidden" value="{$commonInfo['GY_SHOP_OPEN']}" name ="gy_shop_open" id="gy_shop_open"/>
+<!--头部 开始-->
+<div id="header" class="header">
+	<!--headerOne 开始-->
+	<div class="headerOne">
+		<div class="content1200">
+        	<span id="shopping_member_list">您好，
+				<a href="{:U('Home/User/login')}">[<strong>请登录</strong>]</a><a href="{:U('Home/User/pageRegister')}">[免费注册]</a>
+        	</span>
+            <p>
+                <a href="{:U('Ucenter/Index/index')}" target="_blank" class="myAccount">我的账户</a>|
+                <a onclick="SetHome(window.location)" href="javascript:void(0)"> 设为首页 </a>|
+                <a onclick="AddFavorite(window.location,document.title)" href="javascript:void(0)">加入收藏</a >|
+                <a href="{:U('Home/Article/articleDetail',array('aid'=>'127'))}">联系我们</a>|
+                <a href="{:U('Home/Article/articleDetail',array('aid'=>'128'))}">关于我们</a>
+                <a target="_blank" class="weibo" href="http://e.weibo.com/guanyisoft" target="_blank">新浪微博</a>                
+				<a target="_blank" class="txweibo" href="http://t.qq.com/guanyisoft" target="_blank">腾讯微博</a> 
+            </p>
+        </div>
+    </div><!--headerOne 结束-->
+    <!--headerTwo 开始-->
+    <div class="headerTwo">
+    	<div class="content1200">
+    		<h1><a href="/"><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']}" width="250" height="60" style="border:0"></a></h1>
+            <!--sch 开始-->
+            <div class="sch">
+            	<!--schTop 开始-->
+            	<div class="schTop">
+            		<!-- 购物车 Start -->
+            		<div class="shopcartCon">
+						<span class="goj" onMouseOver="this.className='gojOver'" onMouseOut="this.className='goj'" id="shopping_cart_list"></span>
+					</div><!--shopcartCon 结束-->
+					<!-- 购物车 End -->
+					<!-- 商品搜索 Start -->
+                    <p class="schTop">
+		             	 <span>
+	                        <if condition="$itemInfo.keyword neq ''">
+	                        <input type="text" class="txt"vid="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value='输入商品名称'}" value="输入商品名称" onfocus="if(value=='输入商品名称') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+	                        <else/>
+	                        <input type="text" class="txt" id="head_serach_keyword" onblur="if (value=='') {value='输入商品名称'}" value="输入商品名称" onfocus="if(value=='输入商品名称') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+	                        </if>
+	                     </span>
+	                     <input type="submit" id="search_submit_button" value="搜索" class="sub">
+                    </p>
+                    <!-- 商品搜索 End -->
+                </div><!--schTop 结束-->
+                <!-- 热门搜索 Start -->
+                <p class="hotSch">
+                	<strong>热门搜索：</strong>
+	                <gyfx:navigation name='nav'  position="hot">
+		                 <a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a>          
+		            </gyfx:navigation>
+                </p>
+                <!-- 热门搜索 End -->
+            </div><!--sch 结束-->
+       	</div>
+    </div><!--headerTwo 结束-->
+    <!--headerThree 开始-->
+    <div class="headerThree">
+    	<div class="content1200">
+        	<!--allGoods 开始-->
+    		<div class="allGoods" >
+            	<a href="{:U('Home/Products/Index')}"><h2>所有商品分类</h2></a>
+                <!--allGoodsCon 开始-->
+                <div class="allGoodsCon allGoodshide" id="category_show">
+                	<ul>
+                		<Gyfx:goodscate name="cate">
+                    	<li>
+                        	<dl>
+                                <dt><a href="{$cate.curl}">{$cate.cname}</a></dt>
+                                <dd>
+                                <!-- 显示2级子类目 -->
+                                <volist name="cate['sub']" id="cat" >
+                                	<if condition="$key lt 5">
+                                		<a href="{$cat.curl}">{$cat.cname}</a>
+                                	</if>
+                                </volist>
+                                </dd>
+                            </dl>
+                            <i></i>
+                            <if condition="count($cate['sub']) gt 5">
+                            <!-- 显示3级子类目 -->
+                            <div class="allSorts">
+                            	<volist name="cate['sub']" id="cat" >
+                                	<a href="{$cat.curl}">{$cat.cname}</a>
+                                </volist>
+                            </div>
+                            </if>
+                        </li>
+                        </Gyfx:goodscate>
+                    </ul>
+                </div><!--allGoodsCon 结束-->
+        	</div><!--allGoods 结束-->
+            <ul class="mainNav">
+                <gyfx:navigation name='nav'  position="top">
+                 <li><a <eq name="Think.request.name" value="$nav['nname']"> class="on" </eq> href="{$nav.nurl}?name={$nav.nname}" target="{$nav.ntarget}">{$nav.nname}</a></li>
+                </gyfx:navigation>
+            </ul>
+        </div>
+    </div><!--headerThree 结束-->
+</div>
+<!--头部 结束-->
+<script type="text/javascript">
+$(function(){
+	//实现搜索功能
+    $("#search_submit_button").click(function(){
+        var search_key = $("#head_serach_keyword").val();
+        if(search_key == ''){
+            return false;
+        }
+        search_key = search_key.replace(/%0D%0A/,'');
+        search_key = search_key.replace(/%0d%0a/,'');
+        var __search_base_url = "{:U('Home/Hisense/index')}?keyword="+ search_key;
+        window.location.href = __search_base_url;
+    });
+});
+function EnterPress(e){ //传入 event 
+    var e = e || window.event; 
+    if(e.keyCode == 13){ 
+        var search_key = $("#head_serach_keyword").val();
+        if(search_key == ''){
+            return false;
+        }
+        search_key = search_key.replace(/%0D%0A/,'');
+        search_key = search_key.replace(/%0d%0a/,'');
+        var __search_base_url = "{:U('Home/Hisense/index')}?keyword="+ search_key;
+        window.location.href = __search_base_url;
+    } 
+}
+</script>
+<!-- 判断页面是首页还是其他页面,首页隐藏类目  Start-->
+<input type="hidden" value="1" id="is_show_category"/>
+<!-- 判断页面是首页还是其他页面,首页隐藏类目 End-->
+<!-- 页面加载获取购物车信息 Start-->
+<script src="__JS__function.js"></script>
+<!-- 页面加载获取购物车信息 End-->

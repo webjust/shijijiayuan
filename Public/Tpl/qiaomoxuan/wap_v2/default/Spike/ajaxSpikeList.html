@@ -1,0 +1,26 @@
+{__NOLAYOUT__}
+<notempty name="data">
+ <volist name="data" id="list">
+<li class="clearfix">
+	<a href="{:U('Wap/Spike/detail')}?sp_id={$list['sp_id']}" class="img"><img src="{$Think.config.DOMAIN_HOST}{$list.sp_picture|showImage=###,100,100}" width="100" height="100" /></a>
+		<div class="proM" style="font-size:14px;">
+			<a href="{:U('Wap/Spike/detail')}?sp_id={$list['sp_id']}"  title="{$list.sp_title}" class="proN">{$list.sp_title}</a>
+			<p><i>&yen;</i><strong>{$list.sp_price|sprintf='%.2f',###}</strong></p>
+			<span><label>{$list['sp_now_number']}</label>人购买</span>
+			<php>$time = date("Y-m-d H:i:s");</php>
+			<php>if($time <= $list['sp_start_time']){</php>
+				<div id="showGroupTime{$list['sp_id']}" class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;"><label id="showText{$list['sp_id']}">距开始还有：</label><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+				<script>setGroupbuyTime('{$list.sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$list.sp_end_time}',"{$list['sp_id']}","{$list['g_id']}");</script>
+			<php>}elseif($time >= $list['sp_end_time']){</php>
+				<div class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+			<php>}else{</php>
+				
+				<div id="showGroupTime{$list['sp_id']}" class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;">剩余时间：<label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+				<script>setGroupbuyTime('{$list.sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$list['sp_id']}","{$list['g_id']}");</script>
+			<php>}</php>					
+			
+		</div>
+</li>			 
+</volist>   
+</notempty>   
+

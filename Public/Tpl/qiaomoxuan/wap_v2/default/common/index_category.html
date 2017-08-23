@@ -1,0 +1,16 @@
+<!--商品分类导航-->
+<div class="index_category_title" edit-name="模块标题" textstyle-editable="true" style-num="1" textcontent-editable="true" content-num="1">所有商品分类</div>
+<Gyfx:goodscate name="cate" cid="0">
+    <div class="index_category_menu1" >
+        <a href="" textstyle-editable="true" style-num="4" edit-name="字体设置">{$cate.cname}</a>
+    </div>
+    
+    <div class="index_category_menu2">
+        <if condition="$foreach neq 1">
+        <volist name="cate.sub" id="sub">
+        <a href="" textstyle-editable="true" style-num="4" edit-name="字体设置">{$sub.cname}<if condition="$symbol eq ''">&nbsp;<else />{$symbol}</if></a>
+        </volist>
+        </if>
+    </div>
+    
+</Gyfx:goodscate>

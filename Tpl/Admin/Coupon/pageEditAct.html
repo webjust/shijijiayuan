@@ -1,0 +1,194 @@
+<div class="rightInner">
+    <form id="coupon_add" method="post" action="{:U('Admin/Coupon/doPostActivities')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改优惠券活动</th>
+                </tr>
+            </thead>
+
+            <tbody>
+				<tr>
+                    <td class="first">* 优惠券活动类型</td>
+                    <td>
+                        <input type="radio" value="0" name="ca_type" <eq name="ca_type" value="0">checked</eq> />同号券
+                       <input type="radio" value="1" name="ca_type" <eq name="ca_type" value="1">checked</eq>/>异号券
+                       <input type="radio" value="2" name="ca_type" <eq name="ca_type" value="2">checked</eq>/>注册券
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 优惠券活动名称</td>
+                    <td><input type="text" value="{$ca_name}" name="ca_name" class="medium" validate="{ required:true}" /></td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 活动开始时间</td>
+                    <td>
+                        <input type="text" value="{$ca_start_time}" name="ca_start_time" id="ca_start_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 活动结束时间</td>
+                    <td>
+                        <input type="text" value="{$ca_end_time}" name="ca_end_time" id="ca_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr class="ca_sn_all ca_sn_0" <neq name='ca_type' value='0'>style="display: none;"</neq> >
+                    <td class="first">* 同号优惠券编码</td>
+                    <td>
+                        <input type="text" value="{$ca_sn}" name="ca_sn" class="medium" validate="{ required:true,path:true,minlength:6 }" />
+                    </td>
+                    <td class="last">数字与字母组合，至少6位</td>
+                </tr>
+                <tr class="ca_sn_all ca_sn_1" <eq name='ca_type' value='0'>style="display: none;"</eq> >
+                    <td class="first">优惠券编码前缀</td>
+                    <td><input type="text" value="{$c_sn_prefix}" name="c_sn_prefix" class="medium" validate="{ path:true}" /></td>
+                    <td class="last">可以不填</td>
+                </tr>
+                <tr class="ca_sn_all ca_sn_1" <eq name='ca_type' value='0'>style="display:none;"</eq> >
+                    <td class="first">优惠券编码后缀</td>
+                    <td><input type="text" value="{$c_sn_suffix}" name="c_sn_suffix" class="medium" validate="{ path:true}" /></td>
+                    <td class="last">可以不填</td>
+                </tr>
+                <tr class="ca_sn_all ca_sn_1" <eq name='ca_type' value='0'>style="display:none;"</eq> >
+                    <td class="first">* 编码长度(除前后缀)</td>
+                    <td><input type="text" value="{$c_long}" name="c_long" class="small" validate="{ required:true,number:true,digits:true,range:[6,18] }" /></td>
+                    <td class="last">最少6位，最多18位</td>
+                </tr>
+				<tr>
+                    <td class="first">* 优惠券类型</td>
+                    <td>
+                        <input type="radio" value="0" name="c_type" <eq name="c_type" value="0">checked</eq> />现金券
+                        <input type="radio" value="1" name="c_type" <eq name="c_type" value="1">checked</eq> />折扣券
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 优惠券面额或折扣比率</td>
+                    <td><input type="text" name="c_money" class="medium" validate="{ required:true,number:true}" value="{$c_money}" /></td>
+                    <td class="last">当优惠券类型为折扣券时请输入折扣比率<br />范围大于0小于1,例如8折,请输入0.8</td>
+                </tr>
+                <tr class="ca_sn_all ca_sn_1" <eq name='ca_type' value='0'>style="display:none;"</eq> >
+                    <td class="first">* 生效时间</td>
+                    <td>
+                        <input type="text" name="c_start_time" id="c_start_time" class="medium timer" validate="{ required:true}" value="{$c_start_time}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr class="ca_sn_all ca_sn_1" <eq name='ca_type' value='0'>style="display:none;"</eq> >
+                    <td class="first">* 失效时间</td>
+                    <td>
+                        <input type="text" name="c_end_time" id="c_end_time" class="medium timer" validate="{ required:true}" value="{$c_end_time}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 总数</td>
+                    <td>
+                        <input type="text" name="ca_total" class="small" validate="{ required:true,digits:true,range:[1,100000]}" value="{$ca_total}" />
+                    </td>
+                    <td class="last">活动可以生成的优惠券总数量,考虑性能问题，最多一个活动可以生成优惠券总数不超过100K</td>
+                </tr>
+                <tr>
+                    <td class="first">活动限制</td>
+                    <td>
+                        <input type="text" name="ca_limit_nums" class="small" validate="{required:true,digits:true}" value="{$ca_limit_nums|default='0'}" />
+                    </td>
+                    <td class="last">同一个会员最多可以参与活动的次数，不填默认为0,表示不限次数</td>
+                </tr>
+                <tr>
+                    <td class="first">是否不限使用条件</td>
+                    <td>
+                        <input type="checkbox" name="c_condition" id="c_condition" value="all" <eq name="c_condition_money" value="0">checked="checked"</eq> />
+                        <span id="c_condition_money" <eq name="c_condition_money" value="0"> style="display: none;"</eq> >订单满 <input type="text" class="small" name="c_condition_money" validate="{ number:true}" value="{$c_condition_money}" /> 元才可以使用</span>
+                    </td>
+                    <td class="last">勾选上表示不限定使用条件</td>
+                </tr>
+                  <tr>
+                        <td class="first">商品分组</td>
+                        <td>
+                        <table class="tblist">
+                            <tbody>
+                                <volist name="goodsgroup" id="data" mod="10">
+                                <eq name="mod" value="0">
+                                <tr>
+                                </eq>
+                                    <td><input type="checkbox" name="gg_name[]" id="gg_name" value="{$data.gg_id}" <php>if(in_array($data['gg_id'],$ary_ggid))echo 'checked'</php> /> {$data.gg_name}</td>
+                                <eq name="mod" value="4">
+                                </tr>
+                                </eq>
+                               </volist>
+                            </tbody>
+                        </table>
+                     </td>
+                </tr>
+                <tr>
+                    <td class="first">优惠券备注</td>
+                    <td><textarea name="ca_memo" class="mediumBox" validate="{ maxlength:200}">{$ca_memo}</textarea></td>
+                    <td class="last">不超过200字</td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td><input type="checkbox" name="ca_status" value="1" <eq name="ca_status" value="0">checked</eq> /></td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                       <input type="hidden" name="ca_id" value="{$ca_id}" />
+					   <input type="button" value="提 交" onclick="javascrpt:save(this.form);" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $("#c_condition").click(function(){
+            if($(this).attr('checked')=='checked'){
+                $("#c_condition_money").fadeOut('fast');
+            }else{
+                $("#c_condition_money").fadeIn('fast');
+            }
+        });
+
+        $("input[name='ca_type']").click(function(){
+            var ca_type_val = $(this).val();
+            if(ca_type_val == 2) ca_type_val = 1;
+            $(".ca_sn_all").hide();
+            $(".ca_sn_"+ca_type_val).show();
+        })
+
+        $('#coupon_add').validate();
+    });
+	function save(formObj){
+        var startTime=$("#c_start_time").val();
+        var endTime=$("#c_end_time").val();
+        var start=new Date(startTime.replace("-", "/").replace("-", "/"));
+        var end=new Date(endTime.replace("-", "/").replace("-", "/"));
+        if(start > end){
+            showAlert(false,'出错了','生效时间大于失效时间！');
+            return false;
+        }
+		var c_type =  $("input[name='c_type']:checked").val();
+		if(c_type == '1'){
+			var c_money = parseFloat($("input[name='c_money']").val());
+			if(c_money<=0 || c_money>=1){
+				showAlert(false,'出错了','折扣券折扣比例大于0,小于1！');
+				return false;
+			}
+		}
+        var res = $('#coupon_add').valid();
+        if(res){
+            formObj.submit();
+        }
+    }
+</script>

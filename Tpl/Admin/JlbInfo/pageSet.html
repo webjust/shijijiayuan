@@ -1,0 +1,110 @@
+<div class="rightInner">
+    <form id="jiulongbi_money_set" name="jiulongbi_money_set" method="post" action="{:U('Admin/JlbInfo/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">金币配置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">是否启用金币</td>
+                    <td>
+                        <input type="radio" name="JIULONGBI_AUTO_OPEN" value="1" <eq name="JIULONGBI_AUTO_OPEN" value="1">checked="checked"</eq> />
+                        <label for="water_on_1">开启</label>
+
+                        <input type="radio" name="JIULONGBI_AUTO_OPEN"  value="0" <eq name="JIULONGBI_AUTO_OPEN" value="0">checked="checked"</eq> />
+                        <label for="water_on_2">关闭</label>
+                    </td>
+                    <td class="last">开启后，会员中心开放金币功能</td>
+                </tr>
+                <tr>
+                    <td class="first">获得金币节点：</td>
+                    <td>
+                        <input type="radio" name="cinsumed_channel" value="0" <eq name="cinsumed_channel" value="0">checked="checked"</eq> /> 发货后
+                        <input type="radio" name="cinsumed_channel" value="1" <eq name="cinsumed_channel" value="1">checked="checked"</eq> /> 确认收货后
+                        <input type="radio" name="cinsumed_channel" value="2" <eq name="cinsumed_channel" value="2">checked="checked"</eq> /> 订单完成后
+                    </td>
+                    <td class="last">开启金币功能获赠节点</td>
+                </tr>
+                <tr>
+                    <td class="first">结余款金额：</td>
+                    <td>
+                        <input type="text" class="large" name="min_balance" value="{$min_balance}" validate="{number:true}"/>
+                    </td>
+					<td class="last">
+                        产生利息需要的最小结余款
+                    </td>
+				</tr>
+                <tr>
+                    <td class="first">每天利息率：</td>
+                    <td>
+                        <input type="text" class="large" name="interest_rates" value="{$interest_rates}" validate="{range:[0,1],number:true}"/>
+                    </td>
+					<td class="last">
+                        示例：如果利率0.01%，请输入0.01 
+                        <br>每天生成的金币 = 预存款 X 利息
+                    </td>
+				</tr>
+                <tr> 
+                    <td class="first">结余款可兑换金币：</td>
+                    <td>
+                        <input type="text" class="large" name="jlb_proportion" value="{$jlb_proportion}" validate="{range:[0,100],number:true}"/>
+                    </td>
+					<td class="last">
+                        每1元结余款可兑换的金币必须是大于0的数(不能大于100)
+                    </td>
+				</tr>
+                <tr> 
+                    <td class="first">金币可兑换积分：</td>
+                    <td>
+                        <input type="text" class="large" name="point_proportion" value="{$point_proportion}" validate="{range:[0,99999],number:true}"/>
+                    </td>
+					<td class="last">
+                        每1个金币可兑换的积分数必须是大于0的数(不能大于99999)
+                    </td>
+				</tr>
+                <!--
+                <tr>
+                    <td class="first">是否系统客审</td>
+                    <td>
+                        <input type="radio" name="IS_SERVER" <eq name="IS_SERVER" value="1">checked="checked"</eq>   value="1"  />
+                        <label for="water_type_2">是</label>
+                        <input type="radio" name="IS_SERVER" <eq name="IS_SERVER" value="0">checked="checked"</eq>   value="0"   />
+                        <label for="water_type_2">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否系统财审</td>
+                    <td>
+                        <input type="radio" name="IS_FINANCE" <eq name="IS_FINANCE" value="1">checked="checked"</eq>  value="1"  />
+                        <label for="water_type_2">是</label>
+                        <input type="radio" name="IS_FINANCE" <eq name="IS_FINANCE" value="0">checked="checked"</eq>   value="0"   />
+                        <label for="water_type_2">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                -->
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保存设置" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        $('#jiulongbi_money_set').validate();
+    });
+</script>

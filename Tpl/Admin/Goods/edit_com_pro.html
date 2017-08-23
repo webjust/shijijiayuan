@@ -1,0 +1,112 @@
+<div class="rightInner"><!--rightInner  start-->
+    <div id="con_addGoods_1" class="adCon"><!--商品基本信息  开始-->
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑规格组合商品 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">规格组合商品标题：</td>
+                    <td>
+                        <input type="text"  value="{$com_propetry['scg_name']}" id="g_name" name="g_name" onblur='checkGname(this)' class="large" maxlength="60"/>
+                        <input type="hidden" id="scg_id" value="{$com_propetry['scg_id']}" />
+                        <font style="color:#ff0000;">*</font>
+                        <span class="gname_error" style="color:#ff0000;"></span>
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="first">属性添加：</td>
+                    <td>
+                        <table style="border:1px solid gray;">
+                            <thead>
+                                <tr style="border:1px solid gray;text-align:center;">
+                                    <td style="border:1px solid gray;" width="250px;">属性名称</td>
+                                    <td style="border:1px solid gray;" width="200px;">属性值</td>
+                                    <td style="border:1px solid gray;" width="150px;">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody class="product_info">
+                                <volist name="sk" id="datas">
+                                <tr style="border:1px solid gray;text-align:center;" class="product">
+                                    <td style="border:1px solid gray;" width="250px;">
+                                        <input type="text" class="medium" value="{$key}" />
+                                    </td>
+                                    <td style="border:1px solid gray;" width="200px;">
+                                        <textarea style="border: 1px solid #999999;height: 50px; margin: 3px 3px 3px 0; padding: 3px; width: 200px;">{$datas}</textarea>
+                                        
+                                    </td>
+                                    <td style="border:1px solid gray;" width="150px;"><a onclick="add(this);">新增一条</a> <a onclick="deleteTr(this);">删除</a></td>
+                                </tr>
+                                </volist>
+                            </tbody>
+                        </table>
+                        <button type="submit" onclick="createSpecifications();" style="position:relative; top: -28px; left: 655px;"  class="btnA submit-button">添加</button>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr id="search_spec_value">
+                    <td class="first">选择规格属性：</td>
+                    <td>
+                        <table style="border:1px solid gray;">
+                            <thead id="spec_goods">
+                                <tr style="border:1px solid gray;text-align:center;">
+                                    <volist name="sk" id="a" k="k">
+                                    <td width="150px;" class="st_n" style="border:1px solid gray;">{$key}</td>
+                                    </volist>
+                                    <td width="300px;" style="border:1px solid gray;">商品编号</td>
+                                </tr>
+                            </thead>
+                            <tbody id="search_products">
+                           <volist name="specName" id="list">
+                                <tr class="combinationList" style="border:1px solid gray;text-align:center;">
+                                   <volist name="list.skus" id="skuss">
+                                    <td width="100px;" class="st_k" style="border:1px solid gray;">
+                                        <select class="small" style="width: auto">
+                                            <php>$a = $key;</php>
+                                            <option >请选择{$a}属性</option>
+                                            <volist name="skuss" id="b">
+                                            <option value="{$a}:{$b}" <if condition="$b eq $list[$a]">selected="selected"</if>>{$b}</option>
+                                            </volist>
+                                        </select>
+                                    </td>
+                                    </volist>
+                                    <td width="300px;" style="border:1px solid gray"> 
+                                        <input type="text" class="medium" value="{$list.g_sn}"> 
+                                        <button type="submit" class="btnA addSpec">新增</button>  
+                                        <button type="submit" class="btnA removeSpec">删除</button>
+                                    </td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用：</td>
+                    <td>
+                        <input type="radio" name="scg_status"  value="1" <if condition="$com_propetry.scg_status eq 1"> checked="checked" </if> />
+                        启用
+                        <input type="radio" name="scg_status" value="0" <if condition="$com_propetry.scg_status eq 0"> checked="checked" </if> />
+                        不启用
+                    </td>
+                    
+                    <td></td>
+                </tr>
+            </tbody>
+			<tfoot>
+				<tr>
+					<td colspan="99">
+						<button type="submit" class="btnA submit-button" onclick="javascript:submitEditFrom();">保存</button>
+						<input type="button" value="重置" onclick="javascript:window.location.reload();"  class="btnA" />
+					</td>
+				</tr>
+			</tfoot>
+        </table>
+    </div><!--商品基本信息  结束-->
+</div><!--rightInner  end-->
+<script src="__PUBLIC__/Admin/js/admin-combination-add.js"></script>

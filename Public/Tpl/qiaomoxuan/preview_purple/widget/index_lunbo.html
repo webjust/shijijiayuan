@@ -1,0 +1,27 @@
+<!--@title 轮播组件-->
+<!--@desc 默认4张图片，图片宽高可以自定义-->
+<div class="lunbo">
+	<div class="index_lunbo block">
+		<ul id="focus">
+			<li><a href="" target="_blank" edit-name="图片1链接" linkcontent-editable="true" content-num="1"><img src="__IMAGES__lunb1.png" edit-name="展示图片1" imagecontent-editable="true" content-num="2" imagestyle-editable="true" style-num="1" /></a></li>
+			<li><a href="" target="_blank" edit-name="图片2链接" linkcontent-editable="true" content-num="3"><img src="__IMAGES__2.jpg" edit-name="展示图片2" imagecontent-editable="true" content-num="4" imagestyle-editable="true" style-num="1" /></a></li>
+			<li><a href="" target="_blank" edit-name="图片3链接" linkcontent-editable="true" content-num="5"><img src="__IMAGES__3.jpg" edit-name="展示图片3" imagecontent-editable="true" content-num="6" imagestyle-editable="true" style-num="1" /></a></li>
+			<li><a href="" target="_blank" edit-name="图片4链接" linkcontent-editable="true" content-num="7"><img src="__IMAGES__3.jpg" edit-name="展示图片4" imagecontent-editable="true" content-num="8" imagestyle-editable="true" style-num="1" /></a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+$(function() {
+    $('#focus').slidesjs({
+        width: 642,
+        height: 200,
+        navigation: false,
+        play: {
+            active: false,
+            auto: true,
+            interval: 3000,
+            swap: true
+        }
+    });
+});
+</script>

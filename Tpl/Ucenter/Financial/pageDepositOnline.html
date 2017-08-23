@@ -1,0 +1,60 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>预存款充值 - 线上预存款充值</span></h2>
+    <div class="deposit"><!--deposit  start-->
+        <p class="p01">
+            <span class="span01">充值账户：</span><strong>{$members.m_name}</strong>
+            <span class="span02">账户余额：</span><b>{$members['m_balance'] |number_format=2}</b> 元
+        </p>
+        <div class="depositCon"><!--depositCon  start-->
+            <p class="depositConP">
+                <span id="depositConP1" class="onHover">线上预存款充值</span>
+                <span id="depositConP2" ><a href="{:U('Ucenter/Financial/pageDepositOffline')}">线下预存款充值</a></span>
+                 <if condition="$PREPAID_OPEN['sc_value'] eq '1'">
+                <span id="depositConP3"><a href="{:U('Ucenter/Financial/pagePrepaidCard')}">充值卡充值</a></span>
+                </if>
+				<span id="depositConP4" ><a href="{:U('Ucenter/Financial/pageDepositWithdraw')}">预存款提现</a></span>
+            </p>
+            <div id="con_depositConP_1" class="depositLine"><!--depositLine   start-->
+                <form action="{:U('Ucenter/Financial/doAddDepositOnline')}" method="post" id="online_add" name="online_add">
+                    <table class="online">
+                        <tr>
+                            <td width="102" align="right">输入充值金额：</td>
+                            <td>
+                                <input type="text" class="input01" value="" name="money" validate="{ required:true,number:true,min:0}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">选择支付方式：</td>
+                            <td>
+                                <volist name="list" id="payment" >
+                                    <input type="radio" name="code" class="input02" id="code{$payment.pc_id}" value="{$payment.pc_abbreviation}" <eq name="i" value="1"> checked="checked"</eq> >
+                                    <label for="code{$payment.pc_id}" class="wordBlue">
+                                        {$payment.pc_custom_name}
+                                    </label>&nbsp;
+                                </volist>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><a href="###" class="brown" id="submit">充 值</a></button></td>
+                        </tr>
+                    </table>
+                </form>
+                <div class="clear"></div>
+            </div><!--depositLine   end-->
+        </div><!--depositCon  end-->
+    </div><!--deposit   end-->
+</div><!--contentRightBox  end-->
+<!-- 右侧主题内容结束 -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.metadata.setType("attr","validate");
+        $("#online_add").validate();
+        $("#submit").click(function(){
+            if(false != $("#online_add").valid()){
+                $("#online_add").submit();
+            }
+        });
+    });
+</script>

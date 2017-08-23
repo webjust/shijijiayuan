@@ -1,0 +1,486 @@
+<!--中间内容 开始-->
+<div class="wrap">
+	<div class="content">
+    	<div class="proList"><!--proList 开始-->
+        	<div class="proLTop clearfix">
+                <p class="fleft"><a href="{:U("Home/Index/index")}">首页</a>
+                <gyfx:catebreadcrumb name='catebreadcrumb'  cid="{$ary_request.cid}" >
+                    <if condition="$catebreadcrumb.gcname neq ''">
+                    <i>></i><a href="{$catebreadcrumb.gcurl}">{$catebreadcrumb.gcname}</a>
+                    <php>$ary_tmp_cate[] = $catebreadcrumb['gcid'];</php>
+                    </if>
+                </gyfx:catebreadcrumb>
+                </p>
+                <span class="fright">共<label id="pageTotal">0</label>件相关商品</span>
+            </div>
+            <div class="proLTwo"><!--proLTwo 开始-->
+            	<div class="proLTwoO"><!--proLTwoO 开始-->
+                	<div class="proLTwoOL">品牌</div>
+                    <div class="proLTwoOR"><!--proLTwoOR 开始-->
+                    	<ul>
+                            <php>$countbrand = 0;</php>
+                            <Gyfx:goodsbrand name="bdlist" cid="$ary_request.cid" >
+                            <li>
+							<notempty name="bdlist.bpic">
+							<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$bdlist.bid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="($bdlist.bid eq $ary_request[bid]) && ($ary_request.bid neq '')">class="on"</if> ><img src="{$Think.config.DOMAIN_HOST}{$bdlist.bpic}" width="102" height="50">{$bdlist.bname}</a>
+							</notempty>
+							<empty name="bdlist.bpic">
+							<a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$bdlist.bid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="($bdlist.bid eq $ary_request[bid]) && ($ary_request.bid neq '')">class="on"</if> style=" text-indent:inherit; text-align:center;line-height:52px; position:relative;" >{$bdlist.bname}</a>
+							</empty>
+							</li>
+                            <php>$countbrand++;</php>
+                            </Gyfx:goodsbrand>
+                        </ul>
+                        <div class="p-btns" style="display:none;"><a href="#" class="pqueren">确定</a><a href="#" class="pcancel">取消</a></div>
+                        <div class="morePro">
+                            <php>if($countbrand > 16){</php>
+                            <span class="span02">更多</span>
+                            <php>}</php>
+                        </div>
+                    </div><!--proLTwoOR 结束-->
+                </div><!--proLTwoO 结束-->
+
+                <php>$cname;$cid; $ary_cate = array();</php>
+                <div class="proLTwoT"><!--proLTwoT 开始-->
+                    <div class="proLTwoTL">分类</div>
+                    <div class="proLTwoTR"><!--proLTwoTR 开始-->
+                        <ul>
+							<li><a href="/Home/Products/Index?lid={$ary_request.lid}&did={$ary_request.did}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" />所有</li>
+                            <Gyfx:goodscate name="cate" key="k">
+                            <li><a href="{$cate.curl}?lid={$ary_request.lid}&did={$ary_request.did}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="$ary_tmp_cate[0] eq $cate[cid]">class="on"</if> >{$cate.cname}</a></li>
+                            <php>
+                                if($cate['cid'] == $ary_tmp_cate[0]){
+                                    $cname = $cate['cname'];
+                                    $cid = $cate['cid'];
+                                    $ary_cate = $cate['sub'];
+                                }
+                            </php>
+                            </Gyfx:goodscate>
+                        </ul>
+                        <php>if($key>20){</php>
+                        <div class="morePro">
+                            <span class="span03">更多</span>
+                        </div>
+                        <php>}</php>
+                    </div><!--proLTwoTR 结束-->
+                </div><!--proLTwoT 结束-->
+                <if condition="$cname neq ''">
+                <div class="proLTwoT"><!--proLTwoT 开始-->
+                    <div class="proLTwoTL">{$cname}</div>
+                    <div class="proLTwoTR"><!--proLTwoTR 开始-->
+                        <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":0");</php>
+                        <ul>
+							<li><a href="/Home/Products/Index??lid={$ary_request.lid}&did={$ary_request.did}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" />所有</li>
+                            <php>foreach($ary_cate as $key=>$val){</php>
+                                <li><a href="{$val.curl}?lid={$ary_request.lid}&did={$ary_request.did}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="$val[cid] eq $ary_tmp_cate[1]">class="on"</if> >{$val.cname}</a></li>
+                            <php>}</php>
+                        </ul>
+                        <php>if($key>20){</php>
+                        <div class="morePro">
+                            <span class="span03">更多</span>
+                        </div>
+                        <php>}</php>
+                    </div><!--proLTwoTR 结束-->
+                </div><!--proLTwoT 结束-->
+                </if>
+
+                <!--楼层-->
+                <Gyfx:goodscate name="cate1" gctype="1" key="k">
+                <php>
+                    $cname = $cate1['cname'];
+                    $ary_lc_cate = $cate1['sub'];
+                </php>
+                </Gyfx:goodscate>
+                <if condition="$ary_lc_cate neq ''">
+                <div class="proLTwoT"><!--proLTwoT 开始-->
+                    <div class="proLTwoTL">{$cname}</div>
+                    <div class="proLTwoTR"><!--proLTwoTR 开始-->
+                        <ul>
+							<li><a href="/Home/Products/Index?did={$ary_request.did}&cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" />所有</li>
+                            <php>foreach($ary_lc_cate as $key=>$val){</php>
+                                <li><a href="{$val.curl}?did={$ary_request.did}&cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="$val[cid] eq $ary_request[lid]">class="on"</if> >{$val.cname}</a></li>
+                            <php>}</php>
+                        </ul>
+                        <php>if($key>20){</php>
+                        <div class="morePro">
+                            <span class="span04">更多</span>
+                        </div>
+                        <php>}</php>
+                    </div><!--proLTwoTR 结束-->
+                </div><!--proLTwoT 结束-->
+                </if>
+
+                <!-- 店铺 -->
+                <Gyfx:goodscate name="cate2" gctype="2" key="k">
+                <php>
+                    $cname = $cate2['cname'];
+                    $ary_dp_cate = $cate2['sub'];
+                </php>
+                </Gyfx:goodscate>
+                <if condition="$ary_dp_cate neq ''">
+                <div class="proLTwoT"><!--proLTwoT 开始-->
+                    <div class="proLTwoTL">{$cname}</div>
+                    <div class="proLTwoTR"><!--proLTwoTR 开始-->
+                        <ul>
+							<li><a href="/Home/Products/Index?lid={$ary_request.lid}&cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" />所有</li>
+                            <php>foreach($ary_dp_cate as $key=>$val){</php>
+                                <li><a href="{$val.curl}?lid={$ary_request.lid}&cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}" <if condition="$val[cid] eq $ary_request[did]">class="on"</if> >{$val.cname}</a></li>
+                            <php>}</php>
+                        </ul>
+                        <php>if($key>20){</php>
+                        <div class="morePro">
+                            <span class="span05">更多</span>
+                        </div>
+                        <php>}</php>
+                    </div><!--proLTwoTR 结束-->
+                </div><!--proLTwoT 结束-->
+                </if>
+				<php>
+				if(!isset($ary_request['cid'])) $ary_request['cid'] = '';
+				if(!isset($ary_request['bid'])) $ary_request['bid'] = '';
+				if(!isset($ary_request['tid'])) $ary_request['tid'] = '';
+				if(!isset($ary_request['path'])) $ary_request['path'] = '';
+				if(!isset($ary_request['new'])) $ary_request['new'] = '';
+				if(!isset($ary_request['hot'])) $ary_request['hot'] = '';
+				if(!isset($ary_request['startPrice'])) $ary_request['startPrice'] = '';
+				if(!isset($ary_request['endPrice'])) $ary_request['endPrice'] = '';
+				</php>
+               <Gyfx:goodslist name='type' lid="$ary_request['lid']" did="$ary_request['did']"  bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" pagesize="15" start="$ary_request[start]" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" order="$ary_request[order]" path='$ary_request[path]' ggid="$ary_request['ggid']">
+               </Gyfx:goodslist>
+               <notempty name="type['type']">
+                <div class="proLTwoT"><!--proLTwoT 开始-->
+                	<div class="proLTwoTL">您是不是想找</div>
+                    <div class="proLTwoTROther"><!--proLTwoTR 开始-->
+                    	<ul>
+                            <volist name="type['type']" id='type'>
+                        	<li><a href="{:U('Home/Products/index')}?lid={$ary_request.cid}&did={$ary_request.cid}&cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$type.gt_id}" <if condition="($brand.bid eq $ary_request[bid]) && ($ary_request.bid neq '')">class="on"</if> >{$type.gt_name}</a></li>
+                            </volist>
+                        </ul>
+                        
+                        <!--<div class="morePro">
+                            <span class="span03">更多</span>
+                        </div>-->
+                    </div><!--proLTwoTR 结束-->
+                </div><!--proLTwoT 结束-->
+                </notempty>
+               <Gyfx:goodslist name='spec'  lid="$ary_request['lid']" did="$ary_request['did']" bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" pagesize="15" start="$ary_request[start]" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" order="$ary_request[order]" path='$ary_request[path]' ggid="$ary_request['ggid']">
+               </Gyfx:goodslist>
+               <notempty name="spec['spec']">
+                    <volist name="spec['spec']" id='sc' key='k'>
+                    <php>if($k==1){</php>
+                    <div class="proLTwoT"><!--proLTwoT 开始-->
+                        <div class="proLTwoTL">{$sc.gs_name}</div>
+                        <div class="proLTwoTR"><!--proLTwoTR 开始-->
+                            <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":0");</php>
+                            <ul>
+                                <volist name="sc['specs']" id='sps' key='i'>
+                                <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":".$sps['gsd_id']);</php>
+                                <li><a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$bpath}" <if condition="$ary_request['paths'][$sc['gs_id']] eq $sps[gsd_id] "> class="on" </if>>{$sps.gsd_aliases}</a></li>
+                                </volist>
+                            </ul>
+                            <php>if($i>20){</php>
+                            <div class="morePro">
+                                <span class="span03">更多</span>
+                            </div>
+                            <php>}</php>
+                        </div><!--proLTwoTR 结束-->
+                    </div><!--proLTwoT 结束-->
+                    <php>}</php>
+                    </volist>
+                   <php>$countNum = count($spec['spec']);if($countNum>1){</php>
+                       <div class="proLTwoTh">
+                            <volist name="spec['spec']" id='sc' key='k'>
+                            <php>if($k!=1 && ($k==2 || $k==3 || $k==4)){</php>
+                            <div class="proLTh"><!--proLTh 开始-->
+                                <div class="proLThL">{$sc.gs_name}</div>
+                                <div class="proLThR">
+                                <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":0");</php>
+                                    <ul>
+                                    <volist name="sc['specs']" id='sps' key='i'>
+                                    <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":".$sps['gsd_id']);</php>
+                                        <li><a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$bpath}" <if condition="$ary_request['paths'][$sc['gs_id']] eq $sps[gsd_id] "> class="on" </if>>{$sps.gsd_aliases}</a></li>
+                                    </volist>
+                                    </ul>
+                                    <php>if($i>10){</php>
+                                    <div class="morePro">
+                                        <span class="span05">更多</span>
+                                    </div>
+                                    <php>}</php>
+                                </div>
+                            </div><!--proLTh 结束-->
+                            <php>}</php>
+                            </volist>
+                            <php>if($countNum>4){</php>
+                                <div class="j_proLTh" style="display: none;">
+                                    <volist name="spec['spec']" id='sc' key='k'>
+                                    <php>if($k>4){</php>
+                                    <div class="proLTh"><!--proLTh 开始-->
+                                        <div class="proLThL">{$sc.gs_name}</div>
+                                        <div class="proLThR">
+                                        <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":0");</php>
+                                            <ul>
+                                            <volist name="sc['specs']" id='sps' key='i'>
+                                            <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":".$sps['gsd_id']);</php>
+                                                <li><a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$bpath}" <if condition="$ary_request['paths'][$sc['gs_id']] eq $sps[gsd_id] "> class="on" </if>>{$sps.gsd_aliases}</a></li>
+                                            </volist>
+                                            </ul>
+                                            <php>if($i>10){</php>
+                                            <div class="morePro">
+                                                <span class="span05">更多</span>
+                                            </div>
+                                            <php>}</php>
+                                        </div>
+                                    </div><!--proLTh 结束-->
+                                    <php>}</php>
+                                    </volist>
+                                </div>
+                            <php>}</php>
+                        </div>
+                    <php>}</php>
+                </notempty>
+                </div><!--proLTwoTh 结束-->
+                <div class="proLTwoF">
+                	<div class="proLTwoFT"></div>
+                    <span>更多选项</span>
+                </div>
+            </div><!--proLTwo 结束-->
+            <Gyfx:goodslist name='page1'  lid="$ary_request['lid']" did="$ary_request['did']" bid="$ary_request['bid']" tid="$ary_request['tid']" cid="$ary_request['cid']" pagesize="15" start="$ary_request[start]" paged="1" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" order="$ary_request[order]" path='$ary_request[path]' ggid="$ary_request['ggid']">
+			</Gyfx:goodslist>
+            <div class="proTh clearfix"><!--proTh 开始-->
+            <p class="fleft">
+                <php>if(isset($itemInfo['order'])){</php>
+                        <if condition="$ret['hot'] neq ''">
+                        <a href="javascript:void(0);" class="clickThisTab {$ret['hot'][1]}" k="t" c="hot" t="{$ret['hot'][0]}">
+                            销量
+                        </a>
+                        <else/>
+                            <if condition="$itemInfo.order eq '_hot'">
+                                <a href="javascript:void(0);" class="clickThisTab on" k="c" c="hot" t="hot">
+                                    销量
+                                </a>
+                            <else/>
+                                <a href="javascript:void(0);" class="clickThisTab upon" k="c" c="hot" t="_hot">
+                                    销量
+                                </a>
+                            </if>
+                        </if>
+                        <if condition="$ret['price'] neq ''">
+                        <a href="javascript:void(0);" class="clickThisTab {$ret['price'][1]}" k="t" c="price" t="{$ret['price'][0]}" >
+                            价格
+                        </a>
+                        <else/>
+                            <if condition="$itemInfo.order eq '_price'">
+                                <a href="javascript:void(0);" class="clickThisTab on" k="c" c="price" t="price">
+                                    价格
+                                </a>
+                            <else/>
+                                <a href="javascript:void(0);" class="clickThisTab upon" k="c" c="price" t="_price">
+                                    价格
+                                </a>
+                            </if>
+                        </if>
+                        <if condition="$ret['new'] neq ''">
+                        <a href="javascript:void(0);" class="clickThisTab upnewtime {$ret['new'][1]}" k="t" c="new" t="{$ret['new'][0]}" >
+                            上架时间
+                        </a>
+                        <else/>
+                            <if condition="$itemInfo.order eq '_new'">
+                                <a href="javascript:void(0);" class="clickThisTab upnewtime on" k="c" c="new" t="new">
+                                    上架时间
+                                </a>
+                            <else/>
+                                <a href="javascript:void(0);" class="clickThisTab upnewtime upon" k="c" c="new" t="_new">
+                                    上架时间
+                                </a>
+                            </if>
+                        </if>
+                    <php>}else{</php>
+                        <a href="javascript:void(0);" class="clickThisTab brownBot " k="c" c="hot" t="_hot">销量</a>
+                        <a href="javascript:void(0);" class="clickThisTab brownBot" k="c" c="price" t="price">价格</a>
+                        <a href="javascript:void(0);" class="clickThisTab brownBot upnewtime" k="c" c="new" t="new">上架时间</a>
+                    <php>}</php>
+                    <!--class为箭头up 向上-->
+                    <!--<input type="text" /><i>-</i><input type="text" class="text2"/>-->
+                </p>
+                <span class="fright">
+					<php>if($pagearr['page1']['nowPage'] == 1){</php>
+                        <a href="javascript:void(0);" class="zuo"></a>
+                    <php>}else{</php>
+                        <a href="{$pagearr.page1.upUrl}" class="zuo"></a>
+                    <php>}</php>
+                    <if condition="$pagearr[page1][totalRow] neq ''">
+                    <label>{$pagearr.page1.nowPage}/{$pagearr.page1.totalPage}</label>
+                    </if>
+                    <php>if($pagearr['page1']['nowPage'] == $pagearr['page1']['totalPage']){</php>
+                        <a href="javascript:void(0);" class="you"></a>
+                    <php>}else{</php>
+                        <a href="{$pagearr.page1.downUrl}" class="you"></a>
+                    <php>}</php>
+                    
+                </span>
+            </div><!--proTh 结束-->
+            <div class="proF"><!--proF 开始-->
+            	<ul>
+                    <Gyfx:goodslist name='showlist'  lid="$ary_request['lid']" did="$ary_request['did']" tid="$ary_request['tid']" bid="$ary_request['bid']" cid="$ary_request['cid']" pagesize="15" start="$ary_request[start]" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" order="$ary_request[order]" path='$ary_request[path]' ggid="$ary_request['ggid']">
+                	<li>
+                    <a href="{$showlist.gurl}" class="proImg"><img src="{$Think.config.DOMAIN_HOST}{$showlist.g_picture|showImage=###,220,220}" width="210" height="210"></a>
+                        <p class="p01">
+						<strong><i>&yen;</i>{$showlist['gs_price']}</strong>
+						<del><i>&yen;</i>{$showlist.maprice|sprintf='%.2f',###}</del></p>
+                        <a href="{$showlist.gurl}" class="proN">{$showlist.gname}</a>
+                        <p class="p02 clearfix"><span>成交量<label>{$showlist.gsales|default=0}</label>笔</span><strong>评论<label>{$showlist.comment_nums}</label></strong></p>
+                    </li>
+                    </Gyfx:goodslist>
+					<empty name="showlist" >
+					<span style="font-size: 20px;font-weight: bold;margin-left: 100px;">非常抱歉，没有找到您想要的商品</span>
+					</empty>
+                </ul>
+            </div><!--proF 结束-->
+            <php>if(!empty($pagearr['page1']['totalRow'])){</php>
+            <div class="fenye">
+                <notempty name="pagearr.page1.upPage">{$pagearr.page1.upPage}</notempty>&nbsp;&nbsp; 
+                {$pagearr.page1.linkPage}
+                <notempty name="pagearr.page1.downPage">{$pagearr.page1.downPage}</notempty>
+                <php>if($pagearr['page1']['totalPage'] != 1){</php>
+                    <label>共{$pagearr.page1.totalPage}页 ，到第</label><span><input type="text" id="p" value="{$ary_request.p|default=1}" class="txt" /></span><label>页</label><span class="span02"><input type="submit" id="skip" class="sub" value="确认"/></span>
+                <php>}else{</php>
+                    <label>共{$pagearr.page1.totalPage}页</label>
+                <php>}</php>
+            </div>
+            <php>}</php>
+            <div class="hotSall"><!--hotSall 开始-->
+            	<h3>掌柜热卖</h3>
+                <ul>
+                    <gyfx:sales name='sale' limit="5" titlelen='25'>
+                	<li>
+                    <a href="{$sale.gurl}" class="proImg"><img src="{$Think.config.DOMAIN_HOST}{$sale.gpicture|showImage=###,225,225}" width="225" height="225" /></a>
+                    <a href="{$sale.gurl}" class="proN">{$sale.lgname}</a>
+                    <p class="p01"><i>&yen;</i><span>{$sale.gprice|sprintf='%.2f',###}</span><del><i>&yen;</i>{$sale.gprice|sprintf='%.2f',###}</del></p>
+                    <p class="p02">月销:<span>{$sale.gsales}笔</span></p>
+                    </li>
+                    </gyfx:sales>
+                </ul>
+            </div><!--hotSall 结束-->
+        </div><!--proList 结束-->
+    </div>
+</div><!--中间内容 结束-->
+<script>
+var images_url = "__IMAGES__" ;
+<php>
+if(!empty($_SESSION['Compare']) && is_array($_SESSION['Compare'])){
+</php>
+toCompare();
+<php>
+}
+</php>
+var type;
+var cid = "{$ary_request['cid']}";
+var bid = "{$ary_request['bid']}";
+$('.clickThisTab').click(function(){
+    var objDat = new Object();
+    var c = $(this).attr('c');
+    var t = $(this).attr('t');
+    var k = $(this).attr('k');
+    var startPrice = "{$ary_request['startPrice']}";
+    var endPrice = "{$ary_request['endPrice']}";
+    var path = "{$ary_request['path']}";
+    var tid = "{$ary_request['tid']}";
+    if(c == 'hot'){
+        objDat['price'] = $(this).next().attr('t');
+        if(objDat['price'] == 'price'){
+            objDat['price_col'] = "brownBot";
+        }else{
+            objDat['price_col'] = "";
+        }
+        objDat['new'] = $(this).next().next().attr('t');
+        if(objDat['new'] == 'new'){
+            objDat['new_col'] = "brownBot";
+        }else{
+            objDat['new_col'] = "";
+        }
+        
+    }else if(c == 'price'){
+        objDat['hot'] = $(this).prev().attr('t');
+        if(objDat['hot'] == 'hot'){
+            objDat['hot_col'] = "brownBot";
+        }else{
+            objDat['hot_col'] = "";
+        }
+        objDat['new'] = $(this).next().attr('t');
+        if(objDat['new'] == 'new'){
+            objDat['new_col'] = "brownBot";
+        }else{
+            objDat['new_col'] = "";
+        }
+    }else{
+        objDat['price'] = $(this).prev().attr('t');
+        if(objDat['price'] == 'price'){
+            objDat['price_col'] = "brownBot";
+        }else{
+            objDat['price_col'] = "";
+        }
+        objDat['hot'] = $(this).prev().prev().attr('t');
+        if(objDat['hot'] == 'hot'){
+            objDat['hot_col'] = "brownBot";
+        }else{
+            objDat['hot_col'] = "";
+        }
+    }
+    if(k == 't'){
+        if(t == 'price'){
+            t='_price';
+        }else if(t == '_price'){
+            t='price';
+        }
+        if(t == 'new'){
+            t='_new';
+        }else if(t == '_new'){
+            t='new';
+        }
+        if(t == '_hot'){
+            t='hot';
+        }else if(t == 'hot'){
+            t='_hot';
+        }
+    }
+    var url = "/Home/Products/Index/?"+serializeObject({'cid':cid,'bid':bid,'path':path,'tid':tid,'startPrice':startPrice,'endPrice':endPrice,'order':t})+"&"+serializeObject(objDat);
+    location.href = url;
+});
+$("#submitPrice").click(function(){
+    var startPrice = $("#startPrice").val();                               
+    var endPrice = $("#endPrice").val();  
+    var path = "{$ary_request['path']}";
+    var tid = "{$ary_request['tid']}";
+    var url = "/Home/Products/Index/?"+serializeObject({'cid':cid,'bid':bid,'path':path,'tid':tid,'startPrice':startPrice,'endPrice':endPrice});
+    location.href = url;
+});
+serializeObject = function(obj) {
+      var str = [];
+      for(var p in obj)
+         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      return str.join("&");
+}
+//JS获取商品总数
+$("#pageTotal").html("{$pagearr.page1.totalRow|default="0"}");
+//分页跳转
+$("#skip").click(function(){
+    var totalPage = "{$pagearr.page1.totalPage}";
+    var cid = "{$ary_request.cid}";
+    var bid = "{$ary_request.bid}";
+    var tid = "{$ary_request.tid}";
+    var path = "{$ary_request.path}";
+    var startPrice = "{$ary_request.startPrice}";
+    var endPrice = "{$ary_request.endPrice}";
+    var order = "{$ary_request.order}";
+    var hot = "{$ary_request.hot}";
+    var hot_col = "{$ary_request.hot_col}";
+    var new_up = "{$ary_request.new}";
+    var new_col = "{$ary_request.new_col}";
+    var p = parseInt($("#p").val());
+    if(p > totalPage){
+        p = totalPage;
+    }
+    var url = "{:U('/Products/Index')}?"+serializeObject({'cid':cid,'bid':bid,'path':path,'tid':tid,'startPrice':startPrice,'endPrice':endPrice,'order':order,'hot':hot,'hot_col':hot_col,'new':new_up,'new_col':new_col,'start':p});
+    location.href = url;
+});
+</script>

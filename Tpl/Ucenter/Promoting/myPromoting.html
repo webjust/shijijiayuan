@@ -1,0 +1,83 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>我的分销商管理</span></h2>
+    <div class="member_editpass" style="display: none;">
+        <b></b>
+    </div>
+    <div class="deliverList myOrder"><!--deliverList  start-->
+        <table class="tableTop">
+            <tr>
+                <td colspan="99">
+                    <a href="{:U('Ucenter/Promoting/addMyPromoting')}" class="blue">添加分销商</a>
+                </td>
+            </tr>
+        </table>
+        <table class="tableCon">
+            <thead>
+                <tr>
+                    <td>会员帐号</td>
+                    <td>邮箱</td>
+                    <td>性别</td>
+                    <td>状态</td>
+                    <!-- <td>会员等级</td> -->
+                    <td>注册日期</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="memberList" id="member" empty="$empty">
+                <tr id="list_{$member.m_id}">
+                    <td>{$member.m_name}</td>
+                    <td>{$member.m_email}</td>
+                    <td>
+                        <if condition="$member['m_sex'] eq 1">
+                            男
+                        <elseif condition="$member['m_sex'] eq 0"/>
+                            女
+                        <else />
+                            保密
+                        </if>
+                    </td>
+                    <td>
+                        {$status[$member['m_verify']]}
+                    </td>
+                    <!-- <td>{$member.ml_id}</td> -->
+					<td>{$member.m_create_time}</td>
+                    <td data-url="{:U('Ucenter/Promoting/ResetCode')}" >
+                        <a href='{:U("Ucenter/Promoting/editMyPromoting","mid=$member[m_id]")}' class="wordBlue">修改</a>&nbsp;
+                        <a href='javascript:void(0);' data-id="{$member.m_id}" class="wordBlue resetCode">
+                            重置密码
+                        </a>&nbsp;
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $('.resetCode').bind({'click':function(){
+        var url = $(this).parent().attr('data-url');
+        var mid = $(this).attr('data-id');
+        if(confirm('确定要重置该用户密码吗?重置后密码将变为:123456')){
+            $.ajax({
+                url:url,
+                data:{'mid':mid},
+                dataType:"json",
+                type:"post",
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+                        showAlert(true,'重置成功!');
+                    }else{
+                       showAlert(false,msgObj.info);
+                       return false;
+                    }
+                }
+            });
+        }
+    }});
+});
+</script>

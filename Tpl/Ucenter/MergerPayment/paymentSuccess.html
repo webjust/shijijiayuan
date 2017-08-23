@@ -1,0 +1,33 @@
+<link href="__PUBLIC__/Ucenter/css/Cart.css" rel="stylesheet">
+<script src="__PUBLIC__/Ucenter/js/orders.js"></script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>我的购物车</span></h2>
+    <div class="paymentSuc"><!--paymentSuc   start-->
+    	<p class="topPic"></p>
+        
+        <div class="paymentSucCon"><!--paymentSucCon  start-->
+        	<ul>
+            	<li><ins></ins></li>
+                <li>
+                	<strong>支付成功！</strong>
+                    <p>本次消费金额：
+                        <b>{$mp_all_price|default="0"}</b>元
+                        <span>您目前可用的金额：
+                        <b>{$balance}</b>元</span>
+                    </p>
+                    您可以：
+                    <a href='{:U("Ucenter/Orders/pageList/","mp_id=$mp_id")}' class="wordBlue orderDet">
+                        查看订单详情
+                    </a>
+                    <a href='{:U("/Home/Index/index/")}' class="wordBlue">继续购物</a>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div><!--paymentSucCon  end-->
+        
+    </div><!--paymentSuc   end-->
+
+</div><!--contentRightBox  end-->
+
+<!-- 右侧主题内容结束 -->

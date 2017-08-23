@@ -1,0 +1,64 @@
+ <div class="wrapD">
+  <div class="news">
+    <div class="content">
+      <div class="news_content">
+        <div class="fl prtPath">
+            <a href="{:U('Home/Index/index')}">首页</a> >
+            <a href="{:U('Home/Article/articlelist')}">帮助中心</a> >
+            <a href="javascript:void(0)" id="showname"></a>
+        </div>
+        <div class="pcontent">
+          <h1 class="title" id="newNmae">{$cate_name|default="帮助中心"}</h1>
+          <div class="pcontentR" id="h_box">
+            <ul>
+                <php>$cate_name = '';</php>
+                <volist name="article_category" id="art">
+                    <li <if condition="$ary_request['cid'] eq $art[cat_id]"> <php>$cate_name = $art['cat_name'];</php> class="cur" </if> ><a href="{$art.curl}">{$art.cat_name}</a></li>
+                    <ul class="subcategory" <if condition="$ary_request['cid'] eq $art[cat_id] or($ary_request['pid'] eq $art[cat_id])"> <php>$cate_name = $art['cat_name'];</php> style="display:block;" </if>>
+                        <volist name="art['sub']" id="artinfo">
+                            <li <if condition="$artinfo.cat_id eq $ary_request['cid']"><php>$cate_name = $artinfo['cat_name'];</php>class="cur"</if>><a href="{$artinfo.curl}">{$artinfo.cat_name}</a></li>
+                        </volist>
+                    </ul>
+              </volist>
+
+            </ul>
+          </div>
+          <div class="pcontentL pcontentH">
+            <h1 class="title_h2"> {$cate_name|default="配送服务"}</h1>
+            <div class="concent">
+              <ul>
+                  <Gyfx:article name="page3" cid="$ary_request['cid']" num="2">
+                      <volist name="page3" id="article">
+                      <li <if condition="$article.hot eq '1'">class="new"</if>>
+                          <h2 class="title1">
+                              <a href="{$article.aurl}" target="_blank">{$article.atitle}</a>
+                              <p class="date1">{$article.atime}</p>
+                          </h2>
+                      </li>
+                      </volist>
+                  </Gyfx:article>
+
+              </ul>
+
+              <div class="page">
+                <div class="pagecount">
+                    <notempty name="pagearr.page3.upPage">{$pagearr.page3.upPage}</notempty>
+                    {$pagearr.page3.linkPage}
+                    <notempty name="pagearr.page3.downPage">{$pagearr.page3.downPage}</notempty>
+         
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ <script>
+$(function(){
+    $("#showNmae").html($("#newNmae").html());
+});
+ </script>
+

@@ -1,0 +1,134 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="8">会员属性项列表</th>
+                <th style="text-align:right">
+                    <a class="btnG ico_add" href="/Admin/Members/fieldsAdd">添加会员属性项</a>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>会员属性项名称</th>
+                <th>是否显示</th>
+                <th>会员列表是否显示</th>
+                <th>是否必填</th>
+                <th>是否注册项</th>
+                <th>前台是否编辑</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <form method="get" action="{:U('Admin/Members/doDel')}" id="fields_del">
+            <tbody>
+                <volist name="ary_data" id="data">
+                    <tr id="list_{$data.id}">
+                        <td>
+                            <if condition="($data.type neq 1)">
+                                <input type="checkbox" class="checkSon" name="id[]" value="{$data.id}" />
+                            </if>
+                        </td>
+                        <td>{$data.field_name}</td>
+                        <td>
+                            <if condition="($data.is_display eq 1)">
+                                <span class="green">显示</span>
+                            <else />
+                                <span class="green">不显示</span>
+                            </if>
+                        </td>
+                        <td>
+                            <if condition="($data.list_display eq 1)">
+                                <span class="green">显示</span>
+                            <else />
+                                <span class="green">不显示</span>
+                            </if>
+                        </td>
+                        <td>
+                            <if condition="($data.is_need eq 1)">
+                                <span class="green">必填</span>
+                            <else />
+                                <span class="green">可选</span>
+                            </if>
+                        </td>
+                        <td>
+                            <if condition="($data.is_register eq 1)">
+                                <span class="green">注册项</span>
+                            <else />
+                                <span class="green">非注册项</span>
+                            </if>
+                        </td>
+                        <td>
+                            <if condition="($data.is_edit eq 1)">
+                                <span class="green">可编辑</span>
+                            <else />
+                                <span class="green">不可编辑</span>
+                            </if>
+                        </td>
+                        <td>{$data.dis_order}</td>
+                        <if condition="($data.type eq 1)">
+                            <td>
+                                <a href='{:U("Admin/Members/fieldsAdd?id=$data[id]")}'>编辑</a> 
+                            </td>
+                        <else />
+                            <td>
+                                <a href='{:U("Admin/Members/fieldsAdd?id=$data[id]")}'>编辑</a> 
+                                <a href='{:U("Admin/Members/doFieldDel?id=$data[id]")}' class="confirm">删除</a> 
+                            </td>
+                        </if>
+                    </tr>
+                </volist>
+                <empty name="ary_data">
+                    <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="button" data-uri='{:U("Admin/Members/doFieldDel")}' data-field="id" value="删除选中" class="btnA confirm" id="delAll" />
+                        <span class="right page">{$page}</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </form>
+    </table>
+</div>
+<script type="text/javascript">
+    $("#delAll").live("click",function(){
+        var field_ids = new Array();
+        $(".tbList input:checked[class='checkSon']").each(function(){
+            field_ids.push(this.value);
+        });
+        ids = field_ids;
+        field_ids = field_ids.join(",");
+        if(field_ids == ''){
+            showAlert(false,'请选择需要删除的会员属性项！');
+            return false;
+        }
+        var url = $(this).attr("data-uri");
+        var field = $(this).attr('data-field');
+        $.ajax({
+                url:url,
+                cache:false,
+                dateType:'json',
+                type:'POST',
+                data:{field:field,id:field_ids},
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        $.each(ids,function(index,value){
+                            $("#list_"+value).remove();
+                        });
+                        $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+        });
+    });
+</script>

@@ -1,0 +1,114 @@
+<div class="" id="sideTools">
+    <p class="iToTop">
+        <a id="iToTop" href="javascript:void(0);" name="dac_index_ycdhsh06" title="回到顶部">
+            <s></s>
+        </a>
+    </p>
+</div>
+<script>
+$(document).ready(function(e) {
+	$('#iToTop').click(function(){
+		$(document).scrollTop(0);	
+	})
+});
+</script>
+<script src="__JS__js.js"></script>
+<link href="__CSS__style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery-webox.js"></script>
+<link href="__PUBLIC__/Lib/webox/image/jquery-webox.css" rel="stylesheet">
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<input type="hidden" value="{$commonInfo['GY_SHOP_OPEN']}" name ="gy_shop_open" id="gy_shop_open"/>
+<!--头部  开始-->
+<div class="header">
+	<div class="hOne"><!--hOne  start-->
+    	<div class="content">
+        	<div class="hOcon">
+                <p id="">
+                    欢迎来{$commonInfo['GY_SHOP_TITLE']}
+					<span id="shopping_member">
+					<a href="{:U('Home/User/login')}" class="login">请登录</a>
+					<a href="{:U('Home/User/pageRegister')}" class="regi">免费注册</a>
+					</span>
+                </p>
+                <ul>
+                    <li><a href="{:U('Ucenter/Orders/pageList')}">我的订单</a></li>
+                    <li id="shopping_cart_list"><a href="{:U('Ucenter/Cart/pageList')}" class="a02">购物车 <strong>0</strong> 件</a></li>
+                    <li><a href="{:U('Ucenter/Collect/pageList')}" class="a03">收藏夹</a></li>
+                    <li><a href="{:U('Home/Products/Index')}" class="a04">所有商品分类</a></li>
+                </ul>
+            </div>
+        </div>
+    </div><!--hOne  end-->
+    
+    <div class="content">
+        <div class="hThree"><!--hThree  start-->
+            <div class="logo"><a href="/"><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']|default='__IMAGES__logo.png'}" width="164" height="43"></a></div>
+            <div class="search"><!--search  start-->
+            	<p class="p01">
+					<if condition="$itemInfo.keyword neq ''">
+					<input type="text" class="text" id="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value='搜一搜，更精彩！！！'}" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+					<else/>
+					<input type="text" class="text" id="head_serach_keyword" onblur="if (value=='') {value='搜一搜，更精彩！！！'}" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+					</if>
+					<input type="submit" id="search_submit_button" value="搜索" class="sub">
+                </p>	
+                <p class="p02">
+					<gyfx:navigation name='nav'  position="hot">
+		                 <a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a><span>|</span>          
+		            </gyfx:navigation>
+                </p>
+            </div><!--search  end-->
+            <div class="adver">
+			<if condition="$ary_top_ads['right_pic'] neq ''">
+			<a href="{$ary_top_ads['right_pic_url']}"><img src="{$Think.config.DOMAIN_HOST}{$ary_top_ads['right_pic']}" width="190" height="80"></a>
+			</if>
+			</div>
+        
+		</div><!--hThree  end-->
+        
+        <div class="hFour clearfix"><!--hFour  start-->
+        	<div class="classi">
+            	<a href="/Home/Products/Index"><span class="top">商品服务分类</span></a>
+                
+            </div>
+            <ul class="navUL">
+				<gyfx:navigation name='nav'  position="top">
+                 <li><a <eq name="Think.request.name" value="$nav['nname']"> class="on" </eq> href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a></li>
+                </gyfx:navigation>
+            </ul>
+        </div><!--hFour  end-->
+    </div>
+</div>
+<!--头部  结束-->
+<!-- 页面加载获取购物车信息 Start-->
+<script type="text/javascript">
+$(function(){
+	//实现搜索功能
+    $("#search_submit_button").click(function(){
+        var search_key = $("#head_serach_keyword").val();
+        if(search_key == ''){
+            return false;
+        }
+        search_key = search_key.replace(/%0D%0A/,'');
+        search_key = search_key.replace(/%0d%0a/,'');
+        var __search_base_url = "{:U('Home/Hisense/index')}?keyword="+ search_key;
+        window.location.href = __search_base_url;
+    });
+});
+function EnterPress(e){ //传入 event 
+    var e = e || window.event; 
+    if(e.keyCode == 13){ 
+        var search_key = $("#head_serach_keyword").val();
+        if(search_key == ''){
+            return false;
+        }
+        search_key = search_key.replace(/%0D%0A/,'');
+        search_key = search_key.replace(/%0d%0a/,'');
+        var __search_base_url = "{:U('Home/Hisense/index')}?keyword="+ search_key;
+        window.location.href = __search_base_url;
+    } 
+}
+</script>
+<script src="__JS__function.js"></script>
+<!-- 页面加载获取购物车信息 End-->

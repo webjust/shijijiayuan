@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a  href="javascript:void(0);" onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">我的收藏</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javascript:void(0);" ><span class="headmore"></span></a>-->
+        <!--</div>-->
+    </div>
+</div>
+
+<div class="container">
+    <volist name="ary_goodinfo" id="goods_info">
+        <div class="orderO"><!--orderO 开始-->
+            <div class="orderState">
+                <h1>{$goods_info.g_name|mb_substr=###,0,20,'utf-8'}</h1>
+            </div>
+            <div class="orderOT">
+                <ul>
+                    <li>
+                    <a href="{:U('Wap/Products/detail','gid='.$goods_info['g_id'])}"class="proPic">
+                        <img src="<php>$goods_info['g_picture'] = '/'.ltrim($goods_info['g_picture'],'/');</php>{$goods_info.g_picture|showImage=###,60,60}" width="60" height="60"/>
+                    </a>
+                    <div class="orderDR">
+                        <a href="{:U('Wap/Products/detail','gid='.$goods_info['g_id'])}" class="proN">{$goods_info.g_name|mb_substr=###,0,20,'utf-8'}</a>
+                        <p>价格:<span>￥{$goods_info.g_price|sprintf='%.2f',###}</span></p>
+                    </div>
+                        <a class="collectbuy" href="{:U('Wap/Products/detail','gid='.$goods_info['g_id'])}">购买</a>
+                        <a class="collectbuy delete favorite"  id="del_{$goods_info.g_id}" gname="{$goods_info.g_name}" onclick="delCollect('{$goods_info.g_id}');">删除</a>
+                </li>
+                </ul>
+            </div>
+
+        </div><!--orderO 结束-->
+    </volist>
+</div>
+
+<!--/container-->
+<script type="text/javascript">
+	function delCollect(gid){
+        var gname = $("#del_"+gid).attr("gname");
+        if(gid <= 0){
+            $.ThinkBox.error('商品不存在或者已下架');
+            return false;
+        }
+        var box = $.ThinkBox.confirm(
+                '确定取消对商品 ：<font color="red">'+gname+'</font>&nbsp;收藏吗？',
+                {
+                    'title' : '取消商品收藏',
+                    'ok' : function(){
+                        box.hide();
+                        $.post(
+                                '{:U("Wap/Collect/doDelCollect")}',
+                                {gid:gid},
+                                function(msgObj){
+                                    if(msgObj.status){
+                                        $("#list_"+gid).remove();
+                                        $.ThinkBox.success("取消收藏成功");
+                                        window.location = "{:U('Wap/Collect/pageList')}";
+                                    }else{
+                                        $.ThinkBox.error(msgObj.info);
+                                    }
+                                },
+                                'json'
+                        );
+                    },
+                    'drag' : false,
+                    'unload'	: true,
+                    'cancel' : function(){box.hide();}
+                }
+        );
+    }
+</script>

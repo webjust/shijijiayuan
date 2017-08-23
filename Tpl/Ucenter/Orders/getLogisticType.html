@@ -1,0 +1,96 @@
+{__NOLAYOUT__}
+<if condition="$ary_logistic!=''">
+    <volist name="ary_logistic" id="logistic">
+        <dd id="logistic{$logistic.lt_id}" <if condition="$logistic.lc_abbreviation_name =='ZT'"> style="display:none;" </if> >
+            <input type="radio" onclick="checkLogistic({$logistic.lt_id})" class="aaa" id="lt_id{$logistic.lt_id}" value="{$logistic.lt_id}" name="lt_id" <if condition="$i eq 1" > checked <php>$this_lt_id =$logistic['lt_id'];</php></if>>
+            <label  for="kuaidi">{$logistic.lc_name}</label>
+            <span >运费 + <i id="logistic_price_{$logistic.lt_id}">{$logistic.logistic_price}</i>元</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span >配送公司描述： {$logistic.lc_description}</span>
+            <input type="hidden" id="o_cost_freight" name="o_cost_freight" value="{$logistic.logistic_price}">
+        </dd>
+    </volist>
+<else />
+    <dd>无配送方式</dd>
+</if>    
+<script>
+var pay_name = "{$pay_name|default='货到付款'}";
+if ( $("#is_zt").length > 0 ) {
+	var logistic_type_val = $(' input[name="logistic_type"]:checked ').val();
+	if(logistic_type_val ==2){
+		var zt_logistic_val = $('#zt_logistic').val();
+		checkLogistic(zt_logistic_val);
+	}else{
+		checkLogistic({$this_lt_id});
+	}
+}else{
+	checkLogistic({$this_lt_id});
+}
+
+//选择物流公司
+function checkLogistic(obj){
+    var url = '/Ucenter/Orders/ChangeLogistic/';
+    var paymentId = $(":radio[name=o_payment][checked]").val();
+    $.post(url,{'lt_id':obj,'pids':$("#goods_pids").val(), 'paymentId':paymentId},function(jsonData){
+                if(jsonData.status){
+                    var logistic_money = (parseFloat(jsonData.logistic_price)).toFixed(2);
+                    var promotion_price = (parseFloat(jsonData.promotion_price)).toFixed(2);
+                    var cost_price = (parseFloat(jsonData.cost_price)).toFixed(2);
+                    var coupon_price = 0;
+                    var logistic_delivery=jsonData.logistic_delivery;
+                    var pc_position=jsonData.pc_position;
+                    var total_good_price = (parseFloat(jsonData.goods_total_sale_price)).toFixed(2);
+                    $("#logistic_price").html('<i class="price" >￥</i>'+logistic_money);
+                    $("#promotion_price").html('<i class="price" >￥</i>'+promotion_price);
+                    $("#cost_price").html('<i class="price" >￥</i>'+cost_price);
+                    $("#all_orders_promotion_price").attr('value',parseFloat(jsonData.promotion_price));
+					if ( $("#is_zt").length > 0 ) {
+						var zt_logistic_val = $('#zt_logistic').val();
+						if(jsonData.lc_abbreviation_name =='ZT'){
+							$("#is_zt_display").css({'display':'none'});
+							$("#lt_id"+obj).attr('checked',true);
+							$("#is_zt").attr('value',1);
+						}else{
+							$("#is_zt_display").css({'display':''});
+							$("#logistic"+zt_logistic_val).css({'display':'none'});
+							$("#lt_id"+obj).attr('checked',true);
+							$("#is_zt").attr('value',0);
+						}
+					}
+                    //var all_orders_price = (parseFloat(jsonData.all_price)+parseFloat(logistic_money)-parseFloat(promotion_price)).toFixed(2);
+                    var all_orders_price = (parseFloat(jsonData.all_price)+parseFloat(logistic_money)+parseFloat(cost_price)).toFixed(2);
+                    if(all_orders_price < 0 ){
+                        all_orders_price = '0.00';
+                    }
+                    $("#all_orders_price").html('<strong><i class="price">￥</i>'+all_orders_price);
+                    $("#total_good_price").html(total_good_price);
+                    $("#coupon_label").html('<i class="price">￥</i>'+coupon_price);
+                    if(logistic_delivery == true && pc_position == 1){
+                        $("#o_payment6").parent().remove();
+                        var showHtml='<dd><input type="radio" checked="checked" onclick="payradio($(this))" value="6" name="o_payment" id="o_payment" validate="{ required:true}">';
+                            showHtml +='<input type="hidden" value="'+pay_name+'" id="o_payment6" name="o_payment6">';
+                            showHtml +='<label for="zhifu">'+pay_name+'</label><span>&nbsp;&nbsp;'+pay_name+'</span></dd>';  
+						showHtml +=$("#payment_list").html();
+						$("#payment_list").children().remove();
+                        $("#payment_list").append(showHtml);
+                    }else if(logistic_delivery == true && pc_position != 1){
+						var o_payment_checked = $('input:radio[name="o_payment"]:checked').val();
+                        $("#o_payment6").parent().remove();
+                        var showHtml='<dd><input type="radio" onclick="payradio($(this))" value="6" name="o_payment" id="o_payment" validate="{ required:true}"';
+						if(o_payment_checked=='6'){
+							showHtml +=' checked="checked" ';
+						}
+						showHtml +='>';
+                        showHtml +='<input type="hidden" value="'+pay_name+'" id="o_payment6" name="o_payment6">';
+                        showHtml +='<label for="zhifu">'+pay_name+'</label><span>&nbsp;&nbsp;'+pay_name+'</span></dd>';
+                        $("#payment_list").append(showHtml);
+                    }else{
+                        var showHtml=$("#o_payment6").parent().html();
+                        if(showHtml!=''){
+                            $("#o_payment6").parent().remove();
+							$('input:radio[name="o_payment"]')[0].checked=true;
+                        }
+                    }
+                }           
+        },'json');
+};
+</script>

@@ -1,0 +1,101 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .product_list_alert_box {position: fixed; left: 0;right: 0;  top: 0;  bottom: 0;  background: rgba(0,0,0, .7); z-index: 999;  }
+    .product_list_box{width: 500px;margin:100px auto;  }
+    .product_alert_content_box {background: #fff;  border: 1px solid #aaa;  border-radius: 3px; box-shadow: 0 0 5px #aaa;  padding: 16px 12px;  }
+    .product_alert_content_title { width:100%;height: 30px; font-size: 1.5em; line-height: 30px; border-bottom: 1px dashed #dddddd;}
+    .product_alert_content_title>a {width: 20px;height: 20px; float: right;border: 1px solid #dddddd;text-align: center;line-height: 20px;margin-bottom: 15px;}
+    .product_alert_content{width: 476px;overflow: hidden;}
+    .product_alert_content>div{width:474px;height:30px;line-height:30px;border: solid 1px #dddddd;border-bottom: none;}
+    .product_alert_content>div:last-child{border-bottom: solid 1px #dddddd;}
+    .product_alert_content>div>div{height:30px;line-height:30px;float: left}
+    .product_alert_content>div div.choice{width:50px;text-align:center;border-right: 1px solid #dddddd;}
+    .product_alert_content>div div.choice input{margin-top: 9px;}
+    .product_alert_content>div div.choice_content{width:404px;line-height:30px;padding-left:10px;text-align: left;}
+    .set_btn_box{width: 100%;height: 30px;line-height: 30px;text-align: center;margin-top: 20px;}
+    .set_btn{display: inline-block;width: 50px;height: 30px;text-align: center;line-height: 30px;background: #f01d64;color: white;border-radius: 5px;}
+    .set_btn:hover{color: white;}
+    .bold_size{font-weight: bold;}
+    .rightBox_content_title>div{width:auto;height:30px;line-height:30px;float: right;border-radius: 5px;overflow: hidden;margin-bottom: 10px;}
+    .rightBox_content_title>div>a{float: left;border-radius: 0px;}
+    .rightBox_content_title>div>a.product_list_alert{background: #479df4;border-right: 1px solid #ffffff}
+    .left{width: 60px;height: 30px;line-height: 30px; padding-left: 10px;border: 1px solid #cccccc;  background: #ffffff;}
+    .focus{border: 1px solid #ed145a;}
+</style>
+<div class="contentRightBox">
+    <div class="rightBox_content_title">
+        <div>
+            <a href="/Ucenter/Warehouse/deliveryList/print/1/odb_id/{$odb_id}" target="_blank">打印预览</a>
+        </div>
+    </div>
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+            <table class="tbList">
+                <thead>
+                <tr class="title">
+                    <th colspan="99">商品送货单</th>
+                </tr>
+                <tr>
+                <th>下单时间</th>
+                <th>订单编码</th>
+                <th>商品详细名字</th>
+                <th>系统商品编码（乙方编制）</th>
+                <th>商品识别码（生产商编制）</th>
+                <th>产地</th>
+                <th>颜色</th>
+                <th>规格</th>
+                <th>单位含量（g）</th>
+                <th>单位包装数量</th>
+                <th>官网零售价（韩币）</th>
+                <th>采购折价率（%）</th>
+                <th>商品采购价（韩币）</th>
+                <th>采购数量</th>
+                <th>已送数量</th>
+                <th>送货数量</th>
+                <th>差额数量</th>
+                <th>官网URL地址</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="goodsList" id="good">
+                    <tr id="list_{$good.op_id}">
+                    <td class="bold_size">{$good.op_create_time}</td>
+                    <td class="bold_size">{$good.o_id}</td>
+                    <td>{$good.g_name}</td>
+                    <td>{$good.pdt_sn}</td>
+                    <td>{$good.pdt_bar_code}</td>
+                    <td>{$good.place.gsd_aliases}</td>
+                    <td>{$good.Spec.gsd_aliases}</td>
+                    <td>{$good.guige.gsd_aliases}</td>
+                    <td>{$good.content.gsd_aliases}</td>
+                    <td>{$good.g_unit}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td id='op_{$good.op_id}' class="op">{$good.op_nums}</td>
+                    <td id='finish_{$good.op_id}' class="finish">{$good.finish_nums}</td>
+                    <if condition="$odb_status eq '0'">
+                    <td><input type="text" id="left_{$good.op_id}" value="{$good.left_nums}" class="left" onchange="getValue('{$good.op_id}')"/></td>
+                    <else />
+                    <td>{$good.left_nums}</td>
+                    </if>
+                    <td id="difference_{$good.op_id}" class="difference">{$good.difference}</td>
+                    <td>{$good.website_url}</td>
+                    </tr>
+                </volist>
+                   <empty name="goodsList">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+                </tfoot>
+            </table>
+    </div>
+</div>

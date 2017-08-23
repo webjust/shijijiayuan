@@ -1,0 +1,68 @@
+<script src="__PUBLIC__/Admin/js/invoice.js"></script>
+<div class="rightInner">
+    <form id="balance_form" name="balance_form" method="post" action="{:U('Admin/BalanceInfo/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">财务设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">是否自动客审：</td>
+                    <td>
+                        <input id="PENDING" type="radio" value="1" name="PENDING" <eq name="PENDING" value="1">checked="checked"</eq>> 是
+                        <input id="PENDING" type="radio" value="0" name="PENDING" <eq name="PENDING" value="0">checked="checked"</eq>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>
+                <tr>
+                    <td class="first">是否自动财审：</td>
+                    <td>
+                        <input id="FINANCE" type="radio" value="1" name="FINANCE" <eq name="FINANCE" value="1">checked="checked"</eq>> 是
+                        <input id="FINANCE" type="radio" value="0" name="FINANCE" <eq name="FINANCE" value="0">checked="checked"</eq>> 否
+                    </td>            
+                    <td><label class="msgClass"></label></td>
+                </tr>                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){   
+        $("#balance_form").validate({
+                errorPlacement: function(error, element) {
+                    var error_td = element.parent('td').next();
+                    error_td.find('label').hide();
+                    error_td.append(error);
+                },
+                submitHandler:function(form){
+                    ajaxpost('balance_form', '', '', 'onerror') 
+                },
+                rules : {
+                    PENDING : {
+                        required:true
+                    },
+                    FINANCE : {
+                        required : true
+                    }
+                },
+                messages : {
+                    PENDING : {
+                        required : '请选择'
+                    },
+                    FINANCE : {
+                        required : '请选择'
+                    }
+                }
+            });
+    });
+</script>

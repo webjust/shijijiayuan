@@ -1,0 +1,62 @@
+<div class="rightInner">
+    <form id="prepaidCard_set" name="prepaidCard_set" method="post" action="{:U('Admin/PrepaidCard/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">充值卡配置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">是否启用充值卡</td>
+                    <td>
+                        <input type="radio" name="PREPAID_OPEN" value="1" <eq name="PREPAID_OPEN" value="1">checked="checked"</eq> />
+                        <label for="water_on_1">开启</label>
+
+                        <input type="radio" name="PREPAID_OPEN"  value="0" <eq name="PREPAID_OPEN" value="0">checked="checked"</eq> />
+                        <label for="water_on_2">关闭</label>
+                    </td>
+                    <td class="last">开启后，会员中心开放充值卡功能</td>
+                </tr>
+                <tr>
+                    <td class="first">是否系统客审</td>
+                    <td>
+                        <input type="radio" name="IS_SERVER" <eq name="IS_SERVER" value="1">checked="checked"</eq>   value="1"  />
+                        <label for="water_type_2">是</label>
+                        <input type="radio" name="IS_SERVER" <eq name="IS_SERVER" value="0">checked="checked"</eq>   value="0"   />
+                        <label for="water_type_2">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否系统财审</td>
+                    <td>
+                        <input type="radio" name="IS_FINANCE" <eq name="IS_FINANCE" value="1">checked="checked"</eq>  value="1"  />
+                        <label for="water_type_2">是</label>
+                        <input type="radio" name="IS_FINANCE" <eq name="IS_FINANCE" value="0">checked="checked"</eq>   value="0"   />
+                        <label for="water_type_2">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保存设置" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        $('#prepaidCard_set').validate();
+    });
+</script>

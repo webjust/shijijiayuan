@@ -1,0 +1,130 @@
+
+<div class="rightInner">
+    <form id="erp_set" name="erp_set" method="post" action="{:U('Admin/CostPerSale/doSet')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <thead>
+            <tr class="title">
+                <th colspan="99">cps基本信息设置</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th colspan="99">返利网cps设置</th>
+            </tr>
+            <tr>
+                <td class="first">shop_key：</td>
+                <td>
+                    <input type="text" class="large" name="FANLI_SHOPKEY" value="{$FANLI_SHOPKEY}">
+                    <span style="margin-left:20px;color:#ff0000;">返利网提供</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">shop_no：</td>
+                <td>
+                    <input type="text" class="large" name="FANLI_SHOPNO" value="{$FANLI_SHOPNO}">
+                    <span style="margin-left:20px;color:#ff0000;">返利网提供</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">s_id：</td>
+                <td>
+                    <input type="text" class="large" name="FANLI_SID" value="{$FANLI_SID}">
+                    <span style="margin-left:20px;color:#ff0000;">返利网提供</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">channel_id：</td>
+                <td>
+                    <input type="text" class="large" name="FANLI_CHANNELID" value="{$FANLI_CHANNELID}">
+                    <span style="margin-left:20px;color:#ff0000;">返利网提供</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">佣金比率：</td>
+                <td>
+                    <input type="number"   max="1" min="0" step="any"  class="large" name="FANLI_RATE" value="{$FANLI_RATE}">
+                    <span style="margin-left:20px;color:#ff0000;">返利网提供(请填写大于0小于1的数字)</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">是否开启返利网cps:</td>
+                <td>
+                    <span>
+                        <input type="radio"  name="CPS_51FANLI_OPEN" value="1" <eq name="CPS_51FANLI_OPEN" value="1">checked="checked"</eq> />
+                        <label >开启</label>
+                    </span>
+                    <span style="margin-left:15px;">
+                        <input type="radio"   name="CPS_51FANLI_OPEN" value="0" <eq name="CPS_51FANLI_OPEN" value="0">checked="checked"</eq> />
+                        <label >关闭</label>
+                    </span>
+                    <span style="margin-left:20px;color:#ff0000;">*开启后才能进行联合登陆、订单推送、订单查询等功能</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <th colspan="99">51比购cps设置</th>
+            </tr>
+            <tr>
+                <td class="first">shop_key：</td>
+                <td>
+                    <input type="text" class="large" name="BIGOU_SHOPKEY" value="{$BIGOU_SHOPKEY}">
+                    <span style="margin-left:20px;color:#ff0000;">51比购网提供</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">商户id(bid)：</td>
+                <td>
+                    <input type="text" class="large" name="BIGOU_BID" value="{$BIGOU_BID}">
+                    <span style="margin-left:20px;color:#ff0000;">51比购网提供</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">channel_id(channelid)：</td>
+                <td>
+                    <input type="text" class="large" name="BIGOU_CHANNELID" value="{$BIGOU_CHANNELID}">
+                    <span style="margin-left:20px;color:#ff0000;">51比购网提供</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">佣金比率：</td>
+                <td>
+                    <input type="number" max="1" min="0" step="any" class="large" name="BIGOU_RATE" value="{$BIGOU_RATE}">
+                    <span style="margin-left:20px;color:#ff0000;">返利网提供(请填写大于0小于1的数字)</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">是否开启51比购cps：</td>
+                <td>
+                    <span>
+                        <input type="radio" name="CPS_51BIGOU_OPEN" value="1" <eq name="CPS_51BIGOU_OPEN" value="1">checked="checked"</eq> />
+                        <label>开启</label>
+                    </span>
+                    <span style="margin-left:15px;">
+                        <input type="radio" name="CPS_51BIGOU_OPEN" value="0" <eq name="CPS_51BIGOU_OPEN" value="0">checked="checked"</eq> />
+                        <label>关闭</label>
+                    </span>
+                    <span style="margin-left:20px;color:#ff0000;">*开启后才能进行联合登陆、订单推送、订单查询等功能</span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="99">
+                    <input type="submit" value="保 存" class="btnA" >
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

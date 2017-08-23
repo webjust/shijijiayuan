@@ -1,0 +1,108 @@
+<div class="rightInner">
+<form action="{:U('Admin/Images/itemImageConfig')}" method="POST" enctype="multipart/form-data">
+	<table width="100%" class="tbForm">
+		<thead>
+			<tr class="title">
+				<th colspan="2">商品详情页显示设置</th>
+			</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td class="first">温馨提醒默认显示设置：</td>
+			<td class="left">
+				<textarea name="ITEM_IMAGE_CONFIG[TIPS]" class="large">{$config_info.TIPS}</textarea>
+				<span>显示在商品详情页的温馨提醒，如果商品资料上没有设置，则使用此处默认值。</span>
+			</td>
+		</tr>
+        <tr>
+			<td class="first">详情页显示购买价：</td>
+			<td class="left">
+                <input type="radio" name="ITEM_IMAGE_CONFIG[BUY_PRICE]" value="1" <if condition="$config_info.BUY_PRICE eq 1">checked</if>/>是
+                <input type="radio" name="ITEM_IMAGE_CONFIG[BUY_PRICE]" value="0" <if condition="$config_info.BUY_PRICE eq 0">checked</if>/>否
+                &nbsp;<span>商品详情页成交记录中的购买价是否显示。</span>
+			</td>
+		</tr>
+		<!--
+		<tr>
+			<td class="first">是否开启：</td>
+			<td style="text-align:left;">
+				<span>
+					<input type="radio" value="0" name="ITEM_IMAGE_CONFIG[WATER_SWITCH]" class="WATER_SWITCH" id="WATER_SWITCH_0" <if condition="$config_info.WATER_SWITCH eq 0">checked</if>>
+					<label for="WATER_SWITCH_0">关闭</label>
+				</span>
+				<span>
+					<input type="radio" value="1" name="ITEM_IMAGE_CONFIG[WATER_SWITCH]" class="WATER_SWITCH" id="WATER_SWITCH_1" <if condition="$config_info.WATER_SWITCH eq 1">checked</if>>
+					<label for="WATER_SWITCH_1">开启图片水印</label>
+				</span>
+				<span>
+					<input type="radio" value="2" name="ITEM_IMAGE_CONFIG[WATER_SWITCH]" class="WATER_SWITCH" id="WATER_SWITCH_2" <if condition="$config_info.WATER_SWITCH eq 1">checked</if>>
+					<label for="WATER_SWITCH_2">开启文字水印</label>
+				</span>
+			</td>
+		</tr>
+		<tr <if condition="$config_info.WATER_SWITCH eq 0">style="display:none;"</if>>
+			<td class="first">水印位置：</td>
+			<td style="text-align:left;">
+				<table class="water_area">
+					<tr>
+						<td>
+							<input type="radio" value="TOP_LEFT" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="TOP_LEFT" <if condition="$config_info.WATER_LOCATE eq 'TOP_LEFT'">checked</if>>
+							<label for="TOP_LEFT">顶部居左</label>
+						</td>
+						<td>
+							<input type="radio" value="TOP_CENTER" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="TOP_CENTER" <if condition="$config_info.WATER_LOCATE eq 'TOP_CENTER'">checked</if>>
+							<label for="TOP_CENTER">顶部居中</label>
+						</td>
+						<td>
+							<input type="radio" value="TOP_RIGHT" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="TOP_RIGHT" <if condition="$config_info.WATER_LOCATE eq 'TOP_RIGHT'">checked</if>>
+							<label for="TOP_RIGHT">顶部居右</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="radio" value="MIDDLE_LEFT" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="MIDDLE_LEFT" <if condition="$config_info.WATER_LOCATE eq 'MIDDLE_LEFT'">checked</if>>
+							<label for="MIDDLE_LEFT">中部居左</label>
+						</td>
+						<td>
+							<input type="radio" value="MIDDLE_CENTER" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="MIDDLE_CENTER" <if condition="$config_info.WATER_LOCATE eq 'MIDDLE_CENTER'">checked</if>>
+							<label for="MIDDLE_CENTER">中部居中</label>
+						</td>
+						<td>
+							<input type="radio" value="MIDDLE_RIGHT" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="MIDDLE_RIGHT" <if condition="$config_info.WATER_LOCATE eq 'MIDDLE_RIGHT'">checked</if>>
+							<label for="MIDDLE_RIGHT">中部居右</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="radio" value="BOTTOM_LEFT" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="BOTTOM_LEFT" <if condition="$config_info.WATER_LOCATE eq 'BOTTOM_LEFT'">checked</if>>
+							<label for="BOTTOM_LEFT">底部居左</label>
+						</td>
+						<td>
+							<input type="radio" value="BOTTOM_CENTER" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="BOTTOM_CENTER" <if condition="$config_info.WATER_LOCATE eq 'BOTTOM_CENTER'">checked</if>>
+							<label for="BOTTOM_CENTER">底部居中</label>
+						</td>
+						<td>
+							<input type="radio" value="BOTTOM_RIGHT" name="ITEM_IMAGE_CONFIG[WATER_LOCATE]" id="BOTTOM_RIGHT" <if condition="$config_info.WATER_LOCATE eq 'BOTTOM_RIGHT'">checked</if>>
+							<label for="BOTTOM_RIGHT">底部居右</label>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		-->
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="2">
+					<input type="hidden" name="dosubmit" value="1" />
+					<button type="submit" class="btnA">保存</button>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){});
+</script>

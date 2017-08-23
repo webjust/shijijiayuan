@@ -1,0 +1,186 @@
+{__NOLAYOUT__}
+<h2 class="CPMTitle"><span>积分兑换</span></h2>
+<div class="jifen"><!--jifen  start-->
+    	<p class="nof" style="display:none"><strong class="red">对不起,您的积分不足,无法兑换</strong><br>当前可用积分：{$point}</p>
+        
+        <table >
+        	<volist name="skus" id="sku" key="k">
+			            <tr id="sku{$g_id}_{$k}">
+                             <td valign="top" width="66">{$key}：</td>
+                             <td>
+                                   <volist name="sku" id="sku_info" key="kk">
+								   <php>
+									$gsd_type = 'text';
+									$va = strpos($sku_info['info'],'|');
+									if($va){
+										$gsdinfos = explode('|', $sku_info['info']);
+										$gsd_value = $gsdinfos[0];
+										$gsd_info = $gsdinfos[1];
+										$gsd_type = 'img';
+									}else{
+										$gsd_value = $sku_info['info'];
+									}
+								   </php>
+                                    <a <if condition="($k eq 1)">class="cho goods_spec{$sku_info.gs_id}"<else />class="he32 goods_spec{$sku_info.gs_id}"</if> name="goods_spec_values" int_gs_id="{$sku_info.gs_id}" int_gsd_id="{$sku_info.gsd_id}" <if condition="$gsd_type eq 'img'"> style="height:30px;"</if>>
+									<if condition="$gsd_type eq 'img'">
+										<img src="{$Think.config.DOMAIN_HOST}{$gsd_info}" width="30" height="30"/>
+									<else/>
+									{$gsd_value}
+									</if>
+								   <i></i></a>
+								  </volist>
+                            </td>
+						</tr>
+			</volist>
+            <tr>
+            	<td>数量：</td>
+                <td>
+                	<p class="width67">
+					     <a  class="reduce" onclick="countNum(-1)"></a>
+                                    <span><input type="text" value="1" id="point_goods_num"></span>
+                        <a class="add" onclick="countNum(1)"></a>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+            	<td></td>
+                <td><input type="button" value="加入购物车" class="addC" id="addToCart" style="cursor: pointer;"/> <input type="button" value="去购物车结算" class="jie" id="addToOrder" style="cursor: pointer;"/></td>
+            </tr>
+        </table>
+</div><!--jifen  end-->
+<script type="text/javascript">
+$(function(){
+     var arr = [],
+         stock = [];
+     var item_id ="{$g_id}";
+     <foreach name='guigei' key="k" item='vosku'>
+            arr["{$k}"] = "{$vosku}";
+   	</foreach>
+    <foreach name='ary_pdt' item='vostock'>
+            stock["{$vostock.pdt_id}"] = "{$vostock.pdt_stock}";
+   	</foreach>
+    
+    var addTocart = function(obj,skip){
+            var pdt_id=''
+            var rsize="";
+			var showvalue="";
+            var _parent_size = jQuery("#sku"+item_id+'_1').find('a.on');
+	        var _parent_color = jQuery("#sku"+item_id+'_2').find('a.on');
+	        var num = $('#point_goods_num').val();//选择商品数量
+	        var color_len = _parent_color.length;
+        	var size_len = _parent_size.length;
+            if(!(/^\d+$/.test(num))){
+                showAlert(false,"商品数量格式不对");
+                return false;
+            }
+            
+            if(size_len>0 && color_len>0){
+		    	
+		 	    var color_int_gs_id="",color_int_gsd_id="",size_int_gs_id="",size_int_gsd_id="";
+	                color_int_gs_id = _parent_color.attr('int_gs_id');
+                    color_int_gsd_id = _parent_color.attr('int_gsd_id');
+	                size_int_gs_id = _parent_size.attr('int_gs_id');
+                    size_int_gsd_id = _parent_size.attr('int_gsd_id');
+				if(color_int_gs_id !='' && color_int_gsd_id !='' && size_int_gs_id !='' && size_int_gsd_id !=''){
+				    var info = color_int_gs_id + ":"+color_int_gsd_id +";"+ size_int_gs_id + ":"+size_int_gsd_id ;
+                    
+                    if(arr[info] && typeof arr[info]!='undefined') {
+                        pdt_id = arr[info];
+                        if(stock[pdt_id]){
+                            var stockNum = stock[pdt_id] || 0;
+                            if(parseInt(num)>parseInt(stockNum)){
+                                showAlert(false,"购买数量大于库存数量");
+                                return false;
+                            }
+                        }
+                    }
+                    else{
+                        showAlert(false,"请选择商品属性");
+                        return false;
+                        
+                    }
+                   
+					
+				}     	
+	        }else{
+	            var _parent_li = obj.parent().parent().parent().find('a.on');
+	            rsize_gs_id =  _parent_li.attr('int_gs_id'); rsize_gsd_id =  _parent_li.attr('int_gsd_id');
+	            if(rsize_gs_id != "" || rsize_gsd_id != ""){
+					var info = rsize_gs_id + ":" + rsize_gsd_id;
+					showvalue=arr[info];
+					if(showvalue && typeof showvalue != undefined){
+					    pdt_id = showvalue;
+                        if(stock[pdt_id]){
+                            var stockNum = stock[pdt_id] || 0;
+                            if(parseInt(num)>parseInt(stockNum)){
+                                showAlert(false,"购买数量大于库存数量");
+                                return false;
+                            }
+                        }
+					}
+                    else{
+                    	//判断商品是否无规格
+                    	<php>if($is_sku == false){ </php>
+                    	var pdt_id = "{$ary_pdt[0]['pdt_id']}";
+                    	var stockNum = "{$ary_pdt[0]['pdt_stock']}";
+                        if(parseInt(num)>parseInt(stockNum)){
+                            showAlert(false,"购买数量大于库存数量");
+                            return false;
+                        }
+						<php>}else{</php>
+                        showAlert(false,"请选择商品属性");
+                        return false;
+                        <php>}</php>
+                    }
+				}      	
+           }
+           if(typeof pdt_id == 'undefined' || pdt_id == null || pdt_id ==''){
+                showAlert(false,"请选择规格");
+                return false;
+            }
+        
+			var data = {
+			             num:num,
+						 type:'item',
+			             pdt_id:pdt_id,
+						 type:'1',
+						 skip:skip
+			           };
+			
+            if(data !=''){
+                 ajaxReturn('/Home/Cart/doAdd',data,'post');
+		   }
+    };
+    
+   //提交到购物车
+    $('#addToCart').click(function(){
+          
+            var _this= $(this);
+            addTocart(_this,2);  
+    });
+	
+	
+    
+    //实现属性的选中与反选中
+	$("a[name='goods_spec_values']").click(function(){
+		
+		if($(this).hasClass('on')){
+			$(this).removeClass('on');
+		}else{
+			//获取当前被点击的属性值所属的属性ID
+			var int_spec_id = $(this).attr('int_gs_id');
+		
+			$('.goods_spec'+int_spec_id).removeClass('on');
+			$(this).addClass('on');
+		}
+		
+	});
+    //去结算
+    $("#addToOrder").click(function(){
+         var _this= $(this);
+         addTocart(_this,1); 
+    });
+});    
+    
+    
+</script>

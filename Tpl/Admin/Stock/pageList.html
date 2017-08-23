@@ -1,0 +1,64 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+					<a href="{:U('Admin/Stock/pageAdd')}" class="btnG ico_add">新增库存调整单</a>
+				</th>
+            </tr>
+            <tr>
+                <th width="120">操作</th>
+                <th>单据状态</th>
+                <th>制单人</th>
+                <th>制单日期</th>
+                <th>审单人</th>
+                <th>审单日期</th>
+                <th>单据类型</th>
+                <th>更新日期</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="datalist" id="vo">
+               <tr>
+					<td width="160">
+						<if condition="$vo.srr_verify gt 0">
+							<a href="javascript:void(0);" style="color:gray;">编辑</a>
+							<a href="javascript:void(0);" style="color:gray;">审核</a>
+							<a href="javascript:void(0);" style="color:gray;">作废</a>
+						<else />
+						<a href='{:U("Admin/Stock/pageEdit","id=$vo[srr_id]")}' class="edit"></a>
+						<a href='{:U("Admin/Stock/pageVerify","id=$vo[srr_id]")}' onclick="return confirm('确定要审核通过此库存调整单吗？此操作会影响商品库存！');">审核</a>
+						<a href='{:U("Admin/Stock/pageInvalid","id=$vo[srr_id]")}' onclick="return confirm('确定要作废此库存调整单吗？');">作废</a>
+						</if>
+						<a href='{:U("Admin/Stock/pageDetail","id=$vo[srr_id]")}' >明细</a>
+					</td>
+					<td>
+						<switch name="vo.srr_verify">
+							<case value="0">未审核</case>
+							<case value="1">审核通过</case>
+							<case value="2">已作废</case>
+						</switch>
+					</td>
+					<td>{$vo.create_username}</td>
+					<td>{$vo.srr_create_time}</td>
+					<td>{$vo.verify_username}</td>
+					<td>{$vo.srr_verify_time}</td>
+					<td>
+						<switch name="vo.srr_type">
+							<case value="0" break="1">系统单据</case>
+							<case value="1" break="1">手工单据</case>
+							<case value="2" break="1">API单据</case>
+							<case value="2" break="1">Excel/CSV导入</case>
+						</switch>
+					</td>
+					<td>{$vo.srr_update_time}</td>
+               </tr>
+               </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

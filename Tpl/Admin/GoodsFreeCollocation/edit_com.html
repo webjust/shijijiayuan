@@ -1,0 +1,249 @@
+
+<div class="rightInner"><!--rightInner  start-->
+    <div id="con_addGoods_1" class="adCon"><!--商品基本信息  开始-->
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑自由推荐<input type="hidden"  value="{$data.fc_id}" id="fc_id"/> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">自由推荐标题：</td>
+                    <td>
+                    	<input type="hidden"  /> 
+                        <input type="text"  value="{$data.fc_title}" id="g_name" onblur='checkGname(this)' name="g_name" class="large" maxlength="60"/>
+                        <font style="color:#ff0000;">*</font>
+                        <span class="gname_error" style="color:#ff0000;"></span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="first">添加自由推荐货号：</td>
+                    <td>
+                        <input type="text"  id="pdt_sn" class="large" onkeypress="EnterPress(event)" />
+                        直接按回车
+                        <button type="submit" id="addGoods"  class="btnA submit-button">添加商品</button>
+                        <div id="goodsSelect" style="display: none;" title="请选择商品">
+                            <include file="GoodsFreeCollocation:getProductsInfo" />
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        <table style="border:1px solid gray;">
+                            <thead>
+                                <tr style="border:1px solid gray;text-align:center;">
+                                    <td style="border:1px solid gray;" width="300px">商品名称</td>
+                                    <td style="border:1px solid gray;" width="200px;">商品编号</td>
+                                    <td style="border:1px solid gray;" width="150px;">库存数</td>
+                                    <td style="border:1px solid gray;" width="150px;">销售价</td>
+                                    <td style="border:1px solid gray;" width="150px;">推荐价</td>
+                                    <td style="border:1px solid gray;" width="150px;">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody id="product_info">
+                                <include file="GoodsFreeCollocation:ajaxLoadEditComPdtLits" />
+                            </tbody>
+                        </table>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="first">有效时间段：</td>
+                    <td>
+                        <input type="text" id="g_on_sale_time" value="{$data.fc_start_time}"  style="width: 145px;float: none;"  class="small timer" />
+                       	 至
+                        <input type="text" id="g_off_sale_time" value="{$data.fc_end_time}" style="width: 145px;float: none;"  class="small timer" />
+                        <font>默认为不限制</font>
+                    </td>
+                    
+                    <td></td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div><!--商品基本信息  结束-->
+    <input type="hidden" value="{$data.g_id}" id="g_id" />
+    
+    
+    <!-- 表单提交 开始 -->
+    <p style="text-align:left; padding:10px 0px;">
+        <button type="submit" class="btnA submit-button" onclick="javascript:submitFrom();">保存</button>
+        <input type="button" value="重置" onclick="javascript:window.location.reload();"  class="btnA" />
+    </p>
+</div><!--rightInner  end-->
+
+<script type="text/javascript">
+var deleteGoods = '';
+//执行添加自由推荐
+function submitFrom(){
+    var data = new Object();
+    var g_name = $("#g_name").val();
+    var fc_id = $("#fc_id").val();
+    if(g_name == ''){
+        $('.gname_error').html('自由推荐标题不能为空');return false;
+    }
+    data['g_name'] = g_name;
+    data['fc_id'] = fc_id;
+    data['g_on_sale_time'] = $("#g_on_sale_time").val();
+    data['g_off_sale_time'] = $("#g_off_sale_time").val();
+    data['combination_goods'] = {};
+    var error_g_name = '';
+    var error_msg = '';
+    var status = '';
+    //循环遍历货品信息，拼接数组
+    var error_g_name = '';
+    var price_status = 0 ;
+    $(".searchGoods").each(function(e){
+        status = 1;
+        data['combination_goods'][e] = {};
+        var releted_pdt_id = $(this).children('td:eq(1)').children("input[name='pro_pdt_id']").val();
+        var releted_pdt_sn = $(this).children('td:eq(1)').children("input[name='pro_pdt_sn']").val();
+        var related_have_sku = $(this).children('td:eq(1)').children("input[name='pro_have_sku']").val();
+        var com_price = $(this).children('td:eq(4)').children().val();
+        var g_id = $(this).children('td:eq(1)').children("input[name='pro_g_id']").val();
+        if(com_price == '' || isNaN(com_price) || com_price<=0){
+        	price_status = 1;
+        }
+        data['combination_goods'][e]['releted_pdt_id'] = releted_pdt_id;
+        data['combination_goods'][e]['releted_pdt_sn'] = releted_pdt_sn;
+        data['combination_goods'][e]['releted_have_sku'] = related_have_sku;
+        data['combination_goods'][e]['com_price'] = com_price;
+        data['combination_goods'][e]['g_id'] = g_id;
+        
+    });
+    if(price_status == '1'){showAlert(false,'请先输入正确的价格格式');return false;}
+    if(status == 0){showAlert(false,'请选择商品');return false;}
+    if(error_msg!=''){showAlert(false,error_msg);return false;}
+    $.post("{:U('Admin/GoodsFreeCollocation/editFreeCollocation')}",data,function(msgData){
+        if(msgData.status == 'error'){
+            showAlert(false,msgData.Msg);return false;
+        }else{
+            showAlert(true,'操作成功','成功',{'确认':msgData.URL});
+        }
+    },'json');
+}
+function checkGname(obj){
+    $(obj).val(rtrim(ltrim($(obj).val())));
+}
+//去左空格;
+function ltrim(s){
+    return s.replace( /^\s*/, "");
+}
+//去右空格;
+function rtrim(s){
+    return s.replace( /\s*$/, "");
+}
+//回车触发搜索商品货号
+function EnterPress(e){ //传入 event 
+    var e = e || window.event; 
+    if(e.keyCode == 13){
+        var pdt_sn = $("#pdt_sn").val();
+        if(pdt_sn==''){
+            showAlert(false,'商品货号不能为空！');return false;
+        }
+        ajaxSelectProducts(pdt_sn);
+    } 
+}
+/**
+ *判断最大下单数，根据商品组合数量与库存
+ */
+function minPlaceOrder(obj){
+    var palce_order_nums = $(obj).val();
+    var min_orders = '';
+    $('.searchGoods').each(function(){
+        var nums = $(this).children('td:eq(2)').children().val();
+        var stock = $(this).children('td:eq(3)').html();
+         min_orders += String(Math.floor(stock/nums))+',';
+        
+    });
+    if(min_orders == ''){
+        $(obj).val('');
+        showAlert(false,'请选择商品！');return false;
+    }
+    min_orders = min_orders.substring(0,min_orders.length-1);
+    
+    min_orders = min_orders.split(',');
+    min_orders = Array.min(min_orders);
+    if(palce_order_nums > min_orders){
+        $(obj).val(min_orders);
+    }
+}
+Array.min=function(array){
+    return Math.min.apply(Math,array);
+}
+//删除货品
+function deleteProduct(obj){
+    if(confirm('确定删除？')){
+        if($(obj).parent().parent().children("td:eq(1)").children("input[name='com_id']").val()){
+            deleteGoods += $(obj).parent().parent().children("td:eq(1)").children("input[name='com_id']").val()+",";
+        }
+        var gid = $(obj).parent().parent().children("td:eq(1)").children("input[name='com_id']").val();
+        $('.hideTr'+gid).remove();
+        $(obj).parent().parent().remove();
+    }
+}
+//隐藏货品
+function hideProduct(obj){
+        var gid = $(obj).parent().parent().children("td:eq(1)").children("input[name='com_id']").val();
+        $('.hideTr'+gid).hide();
+        $('.hp'+gid).hide();
+        $('.sp'+gid).show();
+}
+//展示货品
+function showProduct(obj){
+        var gid = $(obj).parent().parent().children("td:eq(1)").children("input[name='com_id']").val();
+        $('.hideTr'+gid).show();
+        $('.hp'+gid).show();
+        $('.sp'+gid).hide();
+}
+$('#goodsSelect').dialog({
+    resizable:false,
+    autoOpen: false,
+    modal: true,
+    width: 'auto',
+    position: [220,85],
+    buttons: {
+        '确认': function() {
+            $("input[name='gs_pdt_sn']:checked").each(function(){
+                ajaxSelectProducts(this.value);
+            });
+            $(this).dialog( "close" );
+        },
+        '关闭': function() {
+            $( this ).dialog( "close" );
+        }
+    }
+});
+$("#addGoods").click(function(){
+    $('#goodsSelect').dialog('open');
+});
+//根据pdt_sn获取货品详情信息，并将它显示在货品列表
+function ajaxSelectProducts(pdt_sn){
+    $.ajax({
+            url:"{:U('Admin/GoodsFreeCollocation/searchPdtInfo')}",
+            type:'POST',
+            dateType:'json',
+            data:{'g_sn':pdt_sn},
+            success:function(msg){
+                if(msg.status == 'error'){
+                    showAlert(false,msg.msg);return false;
+                }else{
+                    var i = 0;
+                    $(".pro_pdt_sn").each(function(){
+                        if(this.value == pdt_sn){
+                            i++;
+                        }
+                    });
+                    if(i == 0){
+                        $("#product_info").append(msg);
+                    }
+                }
+            }
+        });
+}
+</script>

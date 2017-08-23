@@ -1,0 +1,199 @@
+    <link rel="stylesheet" href="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/css/base.css">
+    <link rel="stylesheet" href="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/css/swiper.css">
+    <script src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/js/TouchSlide.1.1.js"></script>
+    <script src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/js/swiper.jquery.js"></script>
+    <div class="alltop"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/top.png" alt=""></div>
+    <div class="mg ov">
+        <div id="focus" class="focus">
+            <div class="hd">
+                <ul></ul>
+            </div>
+            <div class="bd">
+                <ul>
+                    <li><a href="#"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text1.jpg" alt=""/></a></li>
+                </ul>
+                <!--<ul>-->
+                    <!--<gyfx:adwaptising name='nav'  position="banner">-->
+                        <!--<li><a href="{$nav.naurl}" target="{$nav.ntarget}" ><img _src="{$nav.nimgurl}" src="{$nav.nimgurl}" /></a></li>-->
+                    <!--</gyfx:adwaptising>-->
+                <!--</ul>-->
+            </div>
+        </div>
+        <script type="text/javascript">
+            TouchSlide({ 
+                slideCell:"#focus",
+                titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:".bd ul", 
+                effect:"left", 
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+            });
+        </script>
+        <div class="common coupon">
+            <a href="#">
+                <img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text2.jpg" alt=""/>
+            </a>
+        </div>
+        <div class="common activity">
+            <a href="#">
+                <img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text3.jpg" alt=""/>
+            </a>
+        </div>
+        <!--品牌中心-->
+        <div class="brand">
+            <div class="brand_title">BRAND&nbsp;&nbsp;CENTER</div>
+            <div class="brand_content">
+                <div class="brand_left">品<br/>牌<br/>中<br/>心</div>
+                <div class="brand_right">
+                    <a href=""><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text4.jpg" alt=""/></a>
+                </div>
+            </div>
+            <ul class="index_pp">
+                <gyfx:goodsbrand name="nav" limit="0,12" >
+                    <li>
+                        <a href="{$nav.burlm}"><img src="{$nav.bpic}" alt="{$nav.bname}"></a>
+                    </li>
+                </gyfx:goodsbrand>
+            </ul>
+            <div class="brand_title brand_bottom">进入品牌中心&nbsp;></div>
+        </div>
+        <!--特惠专区-->
+        <div class="special">
+            <div class="brand_title">SPECIAL&nbsp;&nbsp;OFFERS</div>
+            <div class="brand_content">
+                <div class="brand_left">特<br/>惠<br/>转<br/>区</div>
+                <div class="brand_right">
+                    <a href=""><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text5.jpg" alt=""/></a>
+                </div>
+            </div>
+        </div>
+        <!--特惠中心-->
+        <div id="jrfq">
+            <div id="tabBox1" class="tabBox">
+                <div class="hd">
+                  <ul>
+                    <li class="on"><a href="javascript:void(0);">今日特惠</a></li>
+                    <li><a href="javascript:void(0);">明日预告</a></li>
+                  </ul>
+                </div>
+                <div class="bd"  id="tabBox1-bd">
+                    <div class="con">
+                        <ul>
+                            <gyfx:spikelist name="nav" start="0" >
+                                <li><a href="/Wap/Products/detail/gid/{$nav.sp_id}"><img src="{$nav.sp_picture_wap}" alt="{$nav.sp_title}"></a></li>
+                            </gyfx:spikelist>
+                        </ul>
+                    </div>
+                    <div class="con">
+                        <ul>
+                            <gyfx:spikelist name="nav" start="1" >
+                                <li><a href="/Wap/Products/detail/gid/{$nav.sp_id}"><img src="{$nav.sp_picture_wap}" alt="{$nav.sp_title}"></a></li>
+                            </gyfx:spikelist>
+                        </ul>
+                    </div>
+                </div>
+                <div class="brand_title brand_bottom">进入特惠中心&nbsp;></div>
+            </div>   
+        </div>
+        <script type="text/javascript">
+            TouchSlide( { slideCell:"#tabBox1",
+
+                endFun:function(i){ //高度自适应
+                    var bd = document.getElementById("tabBox1-bd");
+                    bd.parentNode.style.height = bd.children[i].children[0].offsetHeight+"px";
+                    if(i>0)bd.parentNode.style.transition="200ms";//添加动画效果
+                }
+
+            } );</script>
+        <!--热销专区-->
+        <div class="hotSell">
+            <div class="brand_title">PUNISHMENT</div>
+            <div class="brand_content">
+                <div class="brand_left">热<br/>销<br/>专<br/>区</div>
+                <div class="brand_right">
+                    <a href=""><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text6.jpg" alt=""/></a>
+                </div>
+            </div>
+            <div id="gdrx">
+                <ul>
+                    <gyfx:goodslist name='nav' hot='1' mod='2' num="14">
+                        <li>
+                            <div class="lh_wrap">
+                                <div class="p-img"><a href="/Wap/Products/detail/gid/{$nav.gid}"><img alt="" src="{$nav.gpic}"></a></div>
+                                <div class="p-name"><a href="/Wap/Products/detail/gid/{$nav.gid}">{$nav.gname}</a></div>
+                                <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><span class="extra">￥<strong>{$nav.maprice|sprintf='%.2f',###}</strong></span><a href="/Wap/Products/detail/gid/{$nav.gid}" class="add_cart_large btnCart">立即抢购</a></div>
+                                <!--<div class="btns">-->
+                                    <!--<a href="javascript:addToInterests('{$nav.gid}');" class="add_cart_small btnCart"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/gray_love.png" alt="">收藏</a>-->
+                                <!--</div>-->
+                            </div>
+                        </li>
+                    </gyfx:goodslist>
+                </ul>
+            </div>
+            <div class="brand_title brand_bottom"><a href="{:U('/Wap/Products/index')}">进入热销专区&nbsp;></a></div>
+        </div>
+        <!--新品专区-->
+        <div class="newProducts">
+            <div class="brand_title">NEW&nbsp;&nbsp;PRODUCT</div>
+            <div class="brand_content">
+                <div class="brand_left">新<br/>品<br/>专<br/>区</div>
+                <div class="brand_right">
+                    <a href=""><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text7.jpg" alt=""/></a>
+                </div>
+            </div>
+            <div id="gdth">
+                <ul>
+                    <gyfx:goodslist name='nav' new='1' mod='2' num="8">
+                        <li>
+                            <div class="lh_wrap">
+                                <div class="p-img"><a href="/Wap/Products/detail/gid/{$nav.gid}"><img alt="" src="{$nav.gpic}"></a></div>
+                                <div class="p-name"><a href="/Wap/Products/detail/gid/{$nav.gid}">{$nav.gname}</a></div>
+                                <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><span class="extra">￥<strong>{$nav.maprice|sprintf='%.2f',###}</strong></span><a href="/Wap/Products/detail/gid/{$nav.gid}" class="add_cart_large btnCart">立即抢购</a></div>
+                                <!--<div class="btns"></div>-->
+                            </div>
+                        </li>
+                    </gyfx:goodslist>
+                </ul>
+            </div>
+            <div class="brand_title brand_bottom"><a href="{:U('/Wap/Products/index?order=_new')}">进入新品专区&nbsp;></a></div>
+        </div>
+        <div class="global">
+            <div class="brand_title">GLOBAL&nbsp;&nbsp;ONLINE</div>
+            <div class="brand_content">
+                <div class="brand_left">全<br/>球<br/>精<br/>品</div>
+                <div class="brand_right">
+                    <a href=""><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/text8.jpg" alt=""/></a>
+                </div>
+            </div>
+            <div id="xyzq">
+                <ul>
+                    <gyfx:adwaptising name='nav' position="tribe" row="9">
+                        <li>
+                            <div class="lh_wrap">
+                                <div class="p-img"><a href="{$nav.naurl}"><img alt="" src="{$nav.nimgurl}"></a></div>
+                                <div class="p-name"><a href="{$nav.naurl}">{$nav.nname}</a></div>
+                                <div class="p-price"><span class="price">￥<strong>68</strong></span><span class="extra">￥<strong>{$nav.maprice|sprintf='%.2f',###}</strong></span><a href="javascript:;" class="add_cart_large btnCart">立即抢购</a></div>
+                            </div>
+                        </li>
+                    </gyfx:adwaptising>
+                </ul>
+            </div>
+            <div class="brand_title brand_bottom"><a href="{:U('/Wap/Products/index?order=_new')}">进入全球精品&nbsp;></a></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".gdspea").height($(".gdspea").prev().height());
+            $(".gdspeb").height($(".gdspeb").prev().height());
+            //wimb = $(".footer li").eq(0).find('a').find('img').attr("src");
+            wimw = $(".footer li").eq(0).find('a').find('img').attr("_src");
+            $(".footer li").eq(0).find('a').addClass("on");
+            //$(".footer li").eq(0).find('a').find('img').attr('_src',wimb);
+            $(".footer li").eq(0).find('a').find('img').attr('src',wimw);
+        });
+    </script>

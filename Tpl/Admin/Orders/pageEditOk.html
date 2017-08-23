@@ -1,0 +1,326 @@
+<script src="__PUBLIC__/Admin/js/order.js"></script>
+<div class="content" style="width:990px; margin:0 auto;">
+<form  id="orderForm" name="orderForm" action="/Admin/Orders/doEditOk" method="post">
+	<div class="rightInner" style="border:none" id="getPageEdit">
+    	<div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">订单信息</h2>
+        	<table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">订单号：</td>
+                    <td width="290">{$ary_orders.o_id}<input type="hidden" name="o_id" id="o_id" value="{$ary_orders.o_id}"/></td>
+                    <td width="90" align="right">订单状态：</td>
+                    <td><if condition="$ary_orders[str_status] neq ''" ><span class="orange">{$ary_orders.str_status}</span><else /><if condition="$ary_orders.str_pay_status neq ''" ><span class="orange">{$ary_orders.str_pay_status}</span>&nbsp;</if>
+                    <if condition="$ary_orders.refund_status neq ''" ><span class="orange">{$ary_orders.refund_status}</span>&nbsp;</if>
+                    <if condition="$ary_orders.refund_goods_status neq ''" ><span class="orange"> {$ary_orders.refund_goods_status}</span>&nbsp;</if>
+                    <if condition="$ary_orders.deliver_status neq ''" ><span class="orange">{$ary_orders.deliver_status}</span></if></if></td>
+                </tr>
+                <tr>
+                	<td align="right">会员名称：</td>
+                    <td>{$members['m_name']} &nbsp;&nbsp;&nbsp;<a href='{:U("Admin/Members/pageList")}?m_name_type=1&m_name={$members["m_name"]}' target="_blank">会员信息</a></td>
+                    <td align="right">下单时间：</td>
+                    <td>{$ary_orders.o_create_time}</td>
+                </tr>
+                <tr>
+                	<td align="right">支付方式：</td>
+                    <td colspan="3">{$ary_orders['payment_name']}</td>
+                </tr>
+            </table>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">收货人信息</h2>
+        	<table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">收货人：</td>
+                    <td width="290"><input type="text" name="o_receiver_name" value="{$ary_orders.o_receiver_name}" class="medium"></td>
+                    <td width="90" align="right">联系手机：</td>
+                    <td><input type="text" name="o_receiver_mobile" value="{$ary_orders.o_receiver_mobile}" class="medium"></td>
+                </tr>
+                <tr>
+                	<td align="right">联系电话：</td>
+                    <td><input type="text" value="{$ary_orders.o_receiver_telphone}" name="o_receiver_telphone" class="medium"></td>
+                    <td align="right">电子邮件：</td>
+                    <td><input type="text" value="{$ary_orders.o_receiver_email}" name="o_receiver_email" class="medium"></td>
+                </tr>
+                <tr>
+                	<td align="right">送货时间：</td>
+                    <td><input type="text" class="medium timer" name="o_receiver_time" readonly="readonly" value="{$ary_orders.o_receiver_time}"></td>
+                    <td align="right">邮政编码：</td>
+                    <td><input type="text" class="medium" name="o_receiver_zipcode" value="{$ary_orders.o_receiver_zipcode}"></td>
+                </tr>
+                <tr>
+                	<td align="right">收货地区：</td>
+                    <td colspan="3">
+                    <include file="Address:addressPage" />
+                    </td>
+                </tr>
+                <tr>
+                	<td align="right">收货地址：</td>
+                    <td colspan="3" ><input type="text" value="{$ary_orders.o_receiver_address}" name="o_receiver_address" class="medium"></td>
+                    </td>
+                </tr>  
+            </table>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">配送方式</h2>
+           <dl class="dl02" id="logistic_dl" style="margin-left:10px;">
+			<if condition="$ary_logistic!=''">
+			    <volist name="ary_logistic" id="logistic" key="key">
+			        <dd>
+			            <input type="radio" onclick="checkLogistic1({$logistic.lt_id})" class="aaa" id="lt_id" value="{$logistic.lt_id}" name="lt_id"  <if condition="$ary_orders[lt_id] eq $logistic[lt_id]"> checked </if>>
+			            <label  for="kuaidi">{$logistic.lc_name}</label>
+			            <span >运费 + <i id="logistic_price_{$logistic.lt_id}">{$logistic.logistic_price}</i>元</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			            <span >配送公司描述： {$logistic.lc_description}</span>
+			        </dd>
+			    </volist>
+			<else />
+			    <dd>无配送方式</dd>
+			</if>   
+           </dl>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">商品信息</h2>
+            <div class="orderList">
+                <table class="tbList wtb">
+                    <thead>
+                        <tr>
+                            <th>商品图片</th>
+                            <th>商品货号</th>
+                            <th>商品名称</th>
+                            <th>商品编码</th>
+                            <th>商品规格</th>
+                            <th>销售价</th>
+                            <th>会员价</th>
+                            <th>折扣或价格</th>
+                            <th>数量</th>
+                            <th>小计</th>
+                            <!-- 
+                            <th>操作</th> -->
+                        </tr>
+                    </thead>
+                    <tbody id="product_info">
+                    
+                    <volist name="ary_orders_info" id="orders_info">
+                    	<if condition="$orders_info[0]['fc_id'] neq 0">
+ 							<volist name="orders_info" id="free_items">
+ 								<volist name="free_items.items" id="free_item">
+			                        <tr class="free_{$free_item.fc_id}">
+			                            <td><img src='{$free_item.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="58" height="58" /></td>
+			                            <td>{$free_item.pdt_sn}
+			                            </td>
+			                            <td><p class="proN">{$free_item.oi_g_name}</p></td>
+			                            <td>{$free_item.g_sn}</td>
+			                            <td>
+			                            <if condition="$free_item.pdt_spec neq ''">
+			                            {$free_item['pdt_spec']}
+			                            <!-- 
+			                                <select class="small">
+			                                	<noempty name="free_item['pdt_specs']">
+			                                	<php>foreach($free_item['pdt_specs'] as $spec){</php>
+			                                	<option value="{$spec.gs_id}" <if condition="$free_item['pdt_spec'] eq $spec['gsd_value']">selected</if>>{$spec.gsd_value}</option>
+			                                	<php>}</php>
+			                                	</noempty>
+			                                </select>   
+			                             -->                       
+			                            </if>
+			                        	</td>
+			                            <td><span id="">{$free_item.pdt_sale_price}</span></td>
+			                            <td><span id="">{$free_item.oi_price}</span></td>
+			                            <td>
+			                            	{$free_item.oi_price}
+			                            </td>
+			                            <td>
+			                            	<p class="width75">			
+												{$free_item.oi_nums}
+			                                </p>
+			                            </td>
+			                            <td style="border-right:1px solid #D7D7D7">{$free_item.subtotal}</td>
+			                        </tr>  
+			                      </volist>             
+                            </volist>
+                    	<else />
+                    	<!-- 赠品无需编辑 -->
+                    		<if condition="$orders_info.oi_type neq 2">
+                    			<!-- 积分商城商品只允许删除-->
+                    			<if condition="$orders_info.oi_type eq 1">
+                    				<tr class="point_{$orders_info.pdt_id}">
+			                            <td><img src='{$orders_info.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="58" height="58" /></td>
+			                            <td>{$orders_info.pdt_sn}
+			                            </td>
+			                            <td><p class="proN">{$orders_info.oi_g_name}</p></td>
+			                            <td>{$orders_info.g_sn}</td>
+			                            <td>
+											{$orders_info.pdt_spec}
+			                        	</td>
+			                            <td>{$orders_info.pdt_sale_price}积分</td>
+			                            <td>{$orders_info.oi_price}</td>
+			                            <td>
+			                            {$orders_info.oi_price}
+			                            </td>
+			                            <td>
+			                            <!-- 暂时不支持
+				                          <a href="javascript:void(0);" class="down reduce cartRed add" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}" pdt_sale_price="{$orders_info['pdt_infos']['pdt_sale_price']}" type="1"></a>
+		                                  <input type="text" class="inputNum" readonly value="{$orders_info.oi_nums}" types="3" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}"  good_type="1" id="nums_{$orders_info['pdt_infos']['pdt_id']}_1"/>
+		                                  <input type="hidden" value="{$orders_info.oi_nums}" id="old_nums_{$orders_info['pdt_infos']['pdt_id']}_1"/>
+		                                  <a href="javascript:void(0);" class="up add" pdt_id="{$orders_info['pdt_infos']['pdt_id']}" stock="{$orders_info['pdt_infos']['pdt_stock']}" pdt_sale_price="{$orders_info['pdt_infos']['pdt_sale_price']}" type="2"></a>
+		                                  <span class="brownblock marTop5" style="display: none;" id="jf_msg">积分不足</span>
+		                                -->
+		                                  {$orders_info.oi_nums}
+			                            </td>
+			                            <td>{$orders_info.subtotal}</td>
+			                            
+			                        </tr>    
+                    			<else />
+                    			<!-- 3组合商品只允许删除-->
+                    			<if condition="$orders_info.oi_type eq 3">
+		  							<volist name="orders_info" id="free_items">
+		 								<volist name="free_items.items" id="free_item">
+					                        <tr class="combo_{$free_item.fc_id}">
+					                            <td><img src='{$free_item.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="58" height="58" /></td>
+					                            <td>{$free_item.pdt_sn}</td>
+					                            <td><p class="proN">{$free_item.oi_g_name}</p></td>
+					                            <td>{$free_item.g_sn}</td>
+					                            <td>
+												{$free_item['pdt_spec']}
+					                        	</td>
+					                            <td>{$free_item.pdt_sale_price}</td>
+					                            <td>{$free_item.oi_price}</td>
+					                            <td>
+					                            	{$free_item.oi_price}
+					                            </td>
+					                            <td>
+													{$free_item.oi_nums}
+					                            </td>
+					                            <td style="border-right:1px solid #D7D7D7">{$free_item.subtotal}</td>
+					                        </tr>  
+					                      </volist>             
+		                            </volist>                   			
+                    			<else />
+                    				 <tr class="normal_{$orders_info.pdt_id}">
+			                            <td><img src='{$orders_info.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="58" height="58" /></td>
+			                            <td>{$orders_info.pdt_sn}
+			                                <input type='hidden' class='pro_pdt_sn' name='pro_pdt_sn[]' value='{$orders_info.pdt_sn}'>
+									        <input type='hidden' name='pro_pdt_id[]' value='{$orders_info.pdt_id}'>
+									        <input type='hidden' name='pro_g_id[]' value='{$orders_info.g_id}'>
+									        <input type='hidden' name='pro_type[]' value='0'>
+			                            </td>
+			                            <td><p class="proN">{$orders_info.oi_g_name}</p></td>
+			                            <td>{$orders_info.g_sn}</td>
+			                            <td>
+			                            <if condition="$orders_info.pdt_spec neq ''">
+			                            {$orders_info['pdt_spec']}
+			                            <!-- 
+			                                <select class="small" id="modifyNormalSku">
+			                                    <noempty name="orders_info['pdt_specs']">
+			                                	<php>foreach($orders_info['pdt_specs'] as $spec){</php>
+			                                	<option value="{$spec.pdt_id}" pdt_id="$spec['pdt_id']" <php>if($orders_info['pdt_spec'] == $spec['gsd_value']){</php>selected<php>}</php>>{$spec.gsd_value}</option>
+			                                	<php>}</php>
+			                                	</noempty>
+			                                </select>   
+			                             -->                       
+			                            </if>
+			                        	</td>
+			                            <td><span id="sp_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.pdt_sale_price}</span></td>
+			                            <td><span id="op_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.oi_price}</span></td>
+			                            <td>
+			                            	{$orders_info.oi_price}
+			                            </td>
+			                            <td>
+			                           	<p class="width75">
+											{$orders_info.oi_nums}
+			                            </p>
+			                            </td>
+			                            <td><span id="total_{$orders_info['pdt_infos']['pdt_id']}_0">{$orders_info.subtotal}</span></td>
+			                        </tr>                        			
+                    			</if>
+                    			<!-- 3组合商品只允许删除-->
+                    			</if>
+                    			<!-- 积分商城商品只允许编辑 -->
+                    		</if>          	
+                    	</if>
+                    </volist> 
+                    </tbody>
+                </table>
+                
+            </div>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">商品信息</h2>
+            <table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">商品总金额：</td>
+                    <td width="290">{$ary_orders.o_goods_all_price}</td>
+                    <td width="90" align="right">支付手续费：</td>
+                    <td>{$ary_orders.o_cost_payment}</td>
+                </tr>
+                <tr>
+                	<td align="right">配送费用：</td>
+                    <td><input type="hidden" class="medium" name="old_cost_freight"  id="old_cost_freight"  value="{$ary_orders.o_cost_freight}">{$ary_orders.o_cost_freight}</td>
+                    <td align="right">邮费差价：</td>
+                    <td><input type="hidden" value="{$ary_orders.o_diff_freight}" id="o_diff_freight" name="o_diff_freight"/><strong id="o_diff_freight_show">{$ary_orders['o_diff_freight']?$ary_orders['o_diff_freight']:'0'}</strong></td>
+                </tr>
+                <tr>
+                    <td align="right">发票抬头：</td>
+                    <td>{$ary_orders.invoice_head}</td>
+                    <td align="right">发票内容：</td>
+                    <td>{$ary_orders.invoice_content}</td>
+                </tr>
+                <tr>
+                	<td align="right">优惠金额：</td>
+                    <td>{$ary_orders.o_discount}</td>
+                    <td align="right">使用优惠券：</td>
+                    <td>{$ary_orders['o_coupon_menoy']?$ary_orders['o_coupon_menoy']:'0'}</td>
+                </tr>
+                <tr>
+                	<td align="right">订单总金额：</td>
+                    <td><strong>{$ary_orders.o_all_price}<input type="hidden" id="old_all_price"  readonly value="{$ary_orders.o_all_price}"/></strong></td>
+                    <td align="right">应付款金额：</td>
+                    <td><strong>{$ary_orders.o_all_price}</strong></td>
+                </tr>
+            </table>
+        </div><!--orderEdit  end-->
+        </div>
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">订单备注</h2>
+            <table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">订单买家留言：</td>
+                    <td>{$ary_orders['o_buyer_comments']}</td>
+                </tr>
+                <tr>
+                	<td align="right">标记：</td>
+                    <td>
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '1'){echo 'checked';}</php> value="1" > <label><img src="__PUBLIC__/Admin/images/colorPic.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '2'){echo 'checked';}</php> value="2"> <label><img src="__PUBLIC__/Admin/images/colorPic02.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '3'){echo 'checked';}</php> value="3"> <label><img src="__PUBLIC__/Admin/images/colorPic03.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '4'){echo 'checked';}</php> value="4"> <label><img src="__PUBLIC__/Admin/images/colorPic04.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '5'){echo 'checked';}</php> value="5"> <label><img src="__PUBLIC__/Admin/images/colorPic05.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '6'){echo 'checked';}</php> value="6"> <label><img src="__PUBLIC__/Admin/images/colorPic06.png" width="12" height="12"></label> &nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                	<td align="right" valign="top">订单卖家备注：</td>
+                    <td><textarea class="mediumBox" name="o_seller_comments">{$ary_orders['o_seller_comments']}</textarea></td>
+                </tr>
+            </table>
+        </div><!--orderEdit  end-->
+        </div>
+        <p class="textCenter">
+        <input type="hidden" value="{$ary_orders['m_id']}" id="m_id"  name="m_id"/>
+        <input type="hidden" value="" id="edit_html"  name="edit_html"/>
+        <input type="button" class="btnA" onclick="return submitFrom()" value="保存"> &nbsp;<a href="/Admin/Orders/pageList" class="btnA">关闭</a>
+        </p>
+    </div>
+</div>
+</form>
+<script src="__PUBLIC__/Admin/js/loading.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var pageEditHtml = $('#getPageEdit').html();
+	//把html信息存起来
+	$('#edit_html').val(pageEditHtml);
+}) 
+</script>

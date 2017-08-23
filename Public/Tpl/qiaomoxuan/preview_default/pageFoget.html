@@ -1,0 +1,82 @@
+<div class="warp">
+    <div class="head">
+    	<p>忘记密码</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/User/pageRegister')}" class="regi">注册</a>
+    </div>
+    <form action="{:U('Wap/User/synReset')}" method="Post" id="loginform">
+    <div class="login">
+    	<div class="loginCon">
+        	<dl class="clearfix">
+            	<dt>用户邮箱：</dt>
+                <dd><input name="user_email" id="user_email" type="text" /></dd>
+                <dt>验证码：</dt>
+                <dd><input type="text" name="verify" class="yaz" />
+                    <span class="yazm">
+                        <a href="javascript:void(0);" onclick="changeverify()">
+                            <img id="loginverify" alt="换一张" title="换一张" src="__APP__/Wap/User/verify/" width="60" onClick="this.src='__APP__/Wap/User/verify/'+Math.random()" />
+                        </a>
+                    </span>
+                </dd>
+            </dl>
+        </div>
+        <input name="savelogin" type="hidden" value="0"/>
+        <input name="jumpUrl" type="hidden" value="{$jumpUrl}"/>
+        <input type="submit" value="找回密码" class="loginbtn">
+    </div>
+    </form>
+    <p class="repeat_x"></p>
+    <div class="otherL">
+    	<p>使用社交帐号登录</p>
+        <div class="olA box">
+            <if condition="$sina eq '1'">
+            <a href="{:U('Wap/User/thdLoginUr/')}?type=Sina"><img src="__IMAGES__lg01.png">微博登陆</a>
+            </if>
+            <if condition="$qq eq '1'">
+            <a href="{:U('Wap/User/thdLoginUr/')}?type=QQ" class="a02"><img src="__IMAGES__lg02.png">QQ登录</a>
+            </if>
+            <if condition="$wangwang eq '1'">
+            <a href="{:U('Wap/User/thdLoginUr/')}?type=wangwang" class="a03"><img src="__IMAGES__lg03.png">旺旺登录</a>
+            </if>
+        </div>
+    </div>
+</div>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script type="text/javascript">
+    function changeverify(){      
+        $('#loginverify').attr('src','{:U("Wap/User/verify")}'+'?r='+Math.random());        	
+    }
+
+    $(function(){
+        $("#loginform").validate({
+            
+            rules : {
+                user_email : {
+					required:true,
+					email:true,
+				},
+                verify : {
+                    required:true,
+                    digits:true,
+                    remote:'/Wap/User/checkVerify',
+                    rangelength:[4,4]
+                }
+            },
+            messages : {
+                user_email : {
+					required : '邮箱不能为空',
+					minlength : '邮箱不能少于4位',
+				},
+                verify : {
+                    required:'请输入验证码',
+                    digits:'对不起，请输入正确的验证码',
+                    rangelength:'验证码长度为4',
+                    remote: '对不起，请输入正确的验证码'
+                }
+            }
+        });
+    });
+</script>
+

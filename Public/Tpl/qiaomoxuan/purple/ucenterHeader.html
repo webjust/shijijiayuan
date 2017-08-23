@@ -1,0 +1,79 @@
+<link href="__CSS__global.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery-webox.js"></script>
+<link href="__PUBLIC__/Lib/webox/image/jquery-webox.css" rel="stylesheet">
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<div class="header">
+  <!-- header begin-->
+  <div class="headerT"><!--headerT begin-->
+    <div class="headerOne">
+      <div class="left">
+        <span>您好，欢迎光临{$commonInfo['GY_SHOP_TITLE']}！</span>
+      </div>
+      <div class="right">
+        <span class="weixin"><a href=""></a></span>
+        <span class="xl"><a target="_blank" href=""></a></span>
+        <span class="news"><a href="{:U('Ucenter/Message/pageMailBox')}"></a></span>
+        <empty name="Think.session.Members.m_name">
+          <span class="rightT">您好 , 请<a href="{:U('Home/User/login')}">登录/注册</a></span>
+          <else/>
+          <span class="rightT">您好 , <a href="{:U('Ucenter/Index/index')}">{$Think.session.Members.m_name}</a> <a href="{:U('Home/User/doLogout')}">[{$Think.lang.TOP_LOGOUT}]</a></span>
+        </empty>
+        <div class="code"><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_QC_LOGO']}" /></div>
+      </div>
+    </div>
+  </div>
+  <!--headerT end-->
+  <div class="headerB"><!--headerB begin-->
+    <div class="headerLogo">
+      <div class="logoLeft">
+	  <a href="/">
+	  <img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']}" width="100px" height="55px" />
+	  </a>
+	  </div>
+      <div class="logoRight">
+        <div class="menu">
+          <ul>
+            <li><a href="{:U('Home/Index/index')}">首页</a></li>
+              <php>$len = 0;$j=0;</php>
+              <gyfx:navigation name='nav'  position="top">\
+                  <php>
+                      $single = mb_strlen($nav['nname']) ;
+                      $len += $single;
+                      if($len < 42 && $single <=18 && $j<=4){
+                      $j++;
+                  </php>
+                  <li><a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a></li>
+                  <php>}else{
+                      $len = $len - $single;
+                  }</php>
+              </gyfx:navigation>
+          </ul>
+        </div>
+        <div class="searchBox">
+          <div class="BoxL">
+            <input type="text" class="searchbox" placeholder="搜索" value="{$itemInfo.keyword|default=''}" onkeyup="doGoodsSearch(this,event);" />
+          </div>
+          <div class="BoxR" id="mini_cart">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--headerB end-->
+  </div>
+  <script type="text/javascript">
+    function doGoodsSearch(dom, e) {
+      e = e || window.event;
+      if(e.keyCode == 13){
+        var keywords = $(dom).val();
+        if(keywords == ''){
+          return false;
+        }
+        keywords = keywords.replace(/%0D%0A/,'');
+        keywords = keywords.replace(/%0d%0a/,'');
+        var __search_base_url = "{:U('Home/Hisense/index')}?keyword="+ keywords;
+        window.location.href = __search_base_url;
+      }
+    }
+  </script>
+</div>
+<!-- header end-->

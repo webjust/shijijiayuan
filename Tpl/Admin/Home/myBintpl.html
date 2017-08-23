@@ -1,0 +1,34 @@
+<include file="Home:tabsBinTem" />
+<div class="rightInner" id="con_tabListP_4"><!--rightInner  start-->
+    <div class="autoDiv">
+        <ul class="tempUl">
+            <!--            <li>
+                            <div class="freeTem">
+                                <a href="#" class="autoT">自定义模板</a>
+                            </div>
+                        </li>-->
+            <volist name="data" id="tpl">
+                <li>
+                    <div class="freeTem">
+                        <h2>{$tpl.ti_name|default=$tpl[ti_dir]}</h2>
+
+                        <if condition="$tpl['ti_name'] neq ''">
+                            <a href='__FXCENTER__{$tpl.ti_thumbnail}' target="_blank">
+                                <img src='__FXCENTER__{$tpl.ti_thumbnail}' width="225" height="260" />
+                            </a>
+                            <else />
+                            <a href='{$tpl.ti_thumbnail}' target="_blank">
+                                <img src='{$tpl.ti_thumbnail}' width="225" height="260" />
+                            </a>
+                        </if>
+                    </div>
+                    <p class="textCenter">
+
+                        <a href='{:U("Admin/Home/restoreTpl","tabs=$filter[tabs]&dir=$tpl[ti_dir]&tid=$tpl[ti_id]")}' class="blue">还原</a>
+                        <a href='{:U("Admin/Home/TemplateDelete","dir=$tpl[ti_dir]&tid=$tpl[ti_id]")}' class="blue confirm">删除</a>
+                    </p>
+                </li>
+            </volist>
+        </ul>
+    </div>
+</div>

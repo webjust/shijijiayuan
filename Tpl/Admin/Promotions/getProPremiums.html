@@ -1,0 +1,104 @@
+{__NOLAYOUT__}
+<td colspan="3">
+    <div style="width:887px;margin-left:75px">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tbForm">
+            <tr id="orders_condition" >
+                <td width="90px" style="padding-left:3px;"><span class="red">*</span> 订单优惠条件</td>
+                <td  style=''>
+                    <input type="text" class="medium" name="cfg_cart_start" id="cfg_cart_start" value="{$config['cfg_cart_start']}" validate="{ required:true,number:true,min:1}"/> - 
+                    <input type="text" name="cfg_cart_end" id="cfg_cart_end" class="medium" value="{$config['cfg_cart_end']}" validate="{ required:true,number:true,min:1}"/>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tbForm">
+            <tbody>
+                <tr>
+                    <td width="80px"><span class="red">*</span>  选择赠品</td>
+                    <td align="left">
+                        <input type="hidden" value="1" name="cfg_goods_area_gift" checked="checked" />
+                       <input type="hidden" value="{$g_gifts}" id="g_gifts" checked="checked" />
+                        <input type="button" class="goodsSelecterGift btnA"  id="add_goods" value="添加商品">
+                        <div id="goodsSelectGift" g_gifts="" style="display: none;" title="请选择商品">
+                            <include file="Products:getGoodsSelecterGift" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                         <table id="raGoodsGiftId" class="tbList" width="100%" style="border-top:1px solid #d7d7d7;">
+                             <tr style="border:1px solid #D7D7D7">
+                                <td style="text-align:center; background-color:#ECECEC; font-size:14px">商品名称</td>
+                                <td style="text-align:center; background-color:#ECECEC; font-size:14px">商品编号</td>
+                                <td style="text-align:center; background-color:#ECECEC; font-size:14px">销售价（元）</td>
+                                <td style="text-align:center; background-color:#ECECEC; font-size:14px">操作</td>
+                            </tr>
+                            <include file="Promotions:getGoodsGiftTr"/>
+                         </table>
+                    </td>
+                </tr>
+        </tbody>
+        </table>
+</div>
+<script type="text/javascript">
+    $('#goodsSelectGift').dialog({
+        resizable:false,
+        autoOpen: false,
+        modal: true,
+        width: 'auto',
+        height:500,
+        open:function(){
+            $('.ui-widget-content').css('overflow-x','hidden');
+        },
+        buttons: {
+            '确认': function() {
+                var dio = $( this );
+                //将弹框内已经选择好的数据发送的母页面的元素
+                //此处不用js拼接html元素，直接把数据发送给控制器，利用控制器生成页面返回替换
+                var data = {};
+                $("input[name='gs_gift_gid[]']").each(function(){
+                    var g_id = $(this).val();
+                        if($(".selected_goods_gift_tr_"+g_id).length > 0) {
+                            $(this).attr('checked',false);
+                        }
+                    });
+                data = $("input[name='gs_gift_gid[]']").serialize();
+                data+=',PZENPIN';
+                var url = "{:U('Admin/Promotions/getGoodsGiftTr')}";
+                $.post(url,data,function(info){
+                    var html= $('#raGoodsGiftId').html() + info;
+                    $('#raGoodsGiftId').html(html);
+                },'text');
+                dio.dialog( "close");
+            },
+            '关闭': function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    $('.goodsSelecterGift').click(function(){
+		$("#gifts").show();
+		$("#g_gifts").val("1");
+		if($("#goodsSelectGift").attr('g_gifts') != '1'){
+			$("#goodsSelectGifterList").html("");
+		}
+        var types=$("input[name='cfg_goods_area_gift']").val();
+        if(types==1){
+            $('#goodsSelectGift').dialog('open');
+        }else{
+            $("input[name='ra_gift_gid[]']").each(function(){
+                $(this).parent('td').parent('tr').remove();
+            })
+        }
+    });
+
+    $('.condition').click(function(){
+        if($(this).val() == '1'){
+            $('#orders_condition').fadeIn('fast');
+            $('#cart_condition').hide();
+        }else if($(this).val() == '2'){
+            $('#cart_condition').fadeIn('fast');
+            $('#orders_condition').hide();
+        }
+    })
+</script>

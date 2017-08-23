@@ -1,0 +1,96 @@
+{__NOLAYOUT__}
+<!--<h2 class="CPMTitle"><span>积分兑换</span></h2>-->
+<div class="jifen"><!--jifen  start-->
+    	<p class="nof" style="display:none"><strong class="red">对不起,您的积分不足,无法兑换</strong><br>当前可用积分：{$point}</p>
+        
+        <table >
+            <volist name="page_detail.ary_goods_spec_list" id="sku" key="k">
+                <tr id="sku{$g_id}_{$k}" class="spec_list">
+                     <td valign="top" width="66">{$sku.gs_name}：</td>
+                     <td>
+                           <volist name="sku.gs_details" id="gs_detail" key="kk">
+                               <php>
+                                   $gsd_type = 'text';
+                                   $va = strpos($gs_detail['gsd_value'],'|');
+                                   if($va){
+                                   $gsdinfos = explode('|', $gs_detail['gsd_value']);
+                                   $gsd_value = $gsdinfos[0];
+                                   $gsd_info = $gsdinfos[1];
+                                   $gsd_type = 'img';
+                                   }else{
+                                   $gsd_value = $gs_detail['gsd_value'];
+                                   }
+                               </php>
+                               <a href="javascript:void (0);" onclick="specSelect(this, 'on');" name="{$gsd_value}" title="{$gsd_value}" class="he32 goods_spec{$gs_detail.gs_id}"
+                                  data-value="{$gs_detail.gsd_id}" >
+                                   <if condition="$gsd_type eq 'img'">
+                                       <img src="{$Think.config.DOMAIN_HOST}{$gsd_info}" width="30" height="30" title="{$gsd_value}"/>
+                                       <else/>
+                                       {$gsd_value}
+                                   </if>
+                                   <i></i>
+                               </a>
+                           </volist>
+                    </td>
+                </tr>
+			</volist>
+            <tr>
+            	<td>数量：</td>
+                <td>
+                	<p class="width67">
+                        <a  class="reduce" onclick="countNum(-1)"></a>
+                        <span><input type="text" value="1" id="point_goods_num"></span>
+                        <a class="doadd" onclick="countNum(1)"></a>
+                        <input type="hidden" id="pdt_id" value="{$page_detail.ary_goods_default_pdt.pdt_id}" />
+                        <input type="hidden" id="pdt_stock" value="{$page_detail.ary_goods_default_pdt.pdt_stock}" />
+                    </p>
+                </td>
+            </tr>
+            <tr>
+            	<td></td>
+                <td>
+                    <input type="button" value="加入购物车" class="addC" id="addToCart" onclick="addTocart(this, 0);" style="cursor: pointer;"/>
+                    <input type="button" value="去购物车结算" class="jie" id="addToOrder" onclick="addTocart(this, 1);" style="cursor: pointer;"/>
+                </td>
+            </tr>
+        </table>
+<script type="text/javascript" src="__JS__goodsDetailSku.js"></script>
+<script type="text/javascript">
+    var fuzzy_stock_open = parseInt('{$stock_data.OPEN_STOCK}');
+    var fuzzy_stock_level = parseInt('{$stock_data.level}');
+
+    var warning_stock_num = parseInt("{$stock_data['STOCK_NUM']}");
+    var json_goods_pdts = JSON.parse('{$page_detail.json_goods_pdts|json_encode}');
+
+    var max_buy_number = parseInt('{$max_buy_number|default=0}');
+    //console.log(json_goods_pdts);
+    //页面初始化操作
+    getPdtBySpecSelect('on');
+
+    function addTocart (obj,skip){
+        var pdt_id= $('#pdt_id').val();
+        var num = $('#point_goods_num').val();//选择商品数量
+        var pdt_stock = parseInt($('#pdt_stock').val());
+        if(!(/^\d+$/.test(num))){
+            showAlert(false,"商品数量格式不对");
+            return false;
+        }
+        if(parseInt(num) > pdt_stock) {
+            showAlert(false,"库存不足");
+            return false;
+        }
+        var data = {
+             num:num,
+             type:'item',
+             pdt_id:pdt_id,
+             type:'1',
+             skip:skip
+           };
+
+        if(data !=''){
+             ajaxReturn('/Home/Cart/doAdd',data,'post','json');
+        }
+    }
+
+</script>
+</div><!--jifen  end-->

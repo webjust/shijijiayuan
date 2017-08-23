@@ -1,0 +1,138 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th>商品评论</th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+					<form id="searchForm" method="post">
+						输入用户昵称：<input type="text" name="mbname" value="{$mbname}">	
+						输入评论标题：<input type="text" name="title" value="{$title}">			   
+						输入评论内容：<input type="text" name="content" value="{$content}">
+						状态：<select name="verify">
+						<option value="All" >所有</option>
+						<!--<option value="0" <if condition="$verify eq 0">selected</if>>审核不通过</option>-->
+						<option value="1" <if condition="$verify eq 1">selected</if>>审核通过</option>
+						<option value="2" <if condition="$verify eq 2">selected</if>>审核中</option>
+						</select>
+						<input type="submit" value="搜 索" class="btnHeader inpButton">
+					</form>
+                </th>
+            </tr>
+            <tr>
+                <th width="120">操作</th>
+                <th width="120">用户名</th>
+                <th width="120">联系方式</th>
+                <th width="120">评论标题</th>
+                <th>评论内容</th>
+                <th width="100">IP地址</th>
+                <th width="130">评论时间</th>
+                <th width="100">状态</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="comment">
+               <tr>
+                   <td width="145">
+					<a class="setComment" href="javascript:void(0);" title="查看审核回复评论" gcid="{$comment[gcom_id]}" data-uri='{:U("Admin/Guestbook/setGoodComment")}' data-acttype="ajax">查看</a>
+					<div id="children_{$comment[gcom_id]}"  style="display:none" title="审核回复评论"></div>
+					<if condition="($comment.gcom_verify eq 2)">
+					<!--<a href='{:U("Admin/Guestbook/doProductsAudit","gcid=$comment[gcom_id]/verify/0")}'>驳回</a>-->
+					<a href='{:U("Admin/Guestbook/doProductsAudit","gcid=$comment[gcom_id]/verify/1")}'>通过</a>
+                    <a href='{:U("Admin/Guestbook/cancelGoodsComment","gcid=$comment[gcom_id]","status=0")}'>作废</a>
+					</if>
+                    <a href='{:U("Admin/Guestbook/doProductsDel","gcid=$comment[gcom_id]")}'>删除</a>
+					</td>
+					<if condition="$comment.m_id eq 0">
+						<td>匿名</td>
+					<else />
+						<td>{$comment.gcom_mbname}</td>
+					</if>
+                    <td>{$comment.gcom_email}</td>
+                    <td>{$comment.gcom_title}</td>
+                    <td>{$comment.gcom_content}</td>
+					<td>{$comment.gcom_ip_address}</td>
+					<td>{$comment.gcom_create_time}</td>
+					<td>
+						<eq name="comment.gcom_verify" value="0">审核不通过</eq>
+						<eq name="comment.gcom_verify" value="1">审核通过</eq>
+						<eq name="comment.gcom_verify" value="2">审核中</eq>	
+					</td>
+               </tr>
+               </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<script>
+//回复评论内容
+$(".setComment").click(function(){
+    var _this = $(this);
+    var gcid = _this.attr('gcid');
+    var url = _this.attr('data-uri');
+    $.ajax({
+        type:"post",
+        url:url,
+        data:{'gcid':gcid},
+        datatype:"html",
+        success:function(html){
+            $("#children_"+gcid).dialog({
+                width:540,
+                resizable:false,
+                autoOpen:false,
+                modal:true,
+                buttons:[
+                    {
+                        text:"确定",
+                        id:"children_queding",
+                        click:function(){
+                            addReplay(gcid,_this);
+                        }
+                    },
+                    {
+                        text:"取消",
+                        id:"children_quexiao",
+                        click:function(){
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+
+            });
+            $("#children_"+gcid).dialog("open");
+            $("#children_"+gcid).html(html);
+        }
+    });
+    
+});
+
+    //提交回复内容
+    function addReplay(gcid,obj){
+        var url = "{:U('Admin/Guestbook/doGoodsComment')}";
+        var gcom_content = $("#gcom_content").val();
+        var g_id = $("#g_id").val();
+        var gcom_id = $("#gcom_id").val();
+        if(gcom_content != ''){
+            $("#children_queding").hide();
+        }
+        $.ajax({
+            type:"post",
+            url:url,
+            data:{'gcom_content':gcom_content,'g_id':g_id,'gcom_id':gcom_id},
+            datatype:"html",
+            success:function(html){
+                    $("#disres").html(html).css({
+                        color:"red",
+                        textAlign:"center"
+                    });
+                    //$("#gcom_content").val("");
+            }
+
+        });
+    }
+
+</script>

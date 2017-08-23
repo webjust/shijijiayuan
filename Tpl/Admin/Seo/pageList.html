@@ -1,0 +1,30 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99"></th>
+            </tr>
+            <tr>
+                <th width="120">操作</th>
+                <th width="120" class="left" >SEO项</th>
+                <th class="left">SEO内容</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="seo">
+            <tr>
+                <td width="120">
+                    <a href='{:U("Admin/Seo/pageEdit","skey=$seo[sc_key]")}'>编辑</a>
+                </td>
+                <td class="left">{$seo.sc_value_desc}</td>
+                <td class="left">{$seo.sc_value}</td>
+            </tr>
+        </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,198 @@
+<div class="warp">
+	<div class="content">
+        <div class="proDetail"><!--proDetail 开始-->
+            <div class="proLTop clearfix">
+                <p class="fleft">
+                    <a href="{:U('Home/Index')}">首页</a><i>></i>
+                    <a href="{:U('Home/ReportList')}">报告列表</a><i>></i>
+                    {$data.try_title}
+                </p>
+            </div>
+            <div class="proDO"><!--proDO 开始-->
+                <div class="proDOL"><!--proDOL 开始-->
+                    <div class="proDOLT"><!--proDOLT 开始-->
+                        <div class="proDOLL"><!--proDOLL 开始-->
+                            <div class="proDOLLT">
+                                <img src="{$Think.config.DOMAIN_HOST}{$data.try_picture}" width="440" height="440" />
+                            </div>
+                            <div class="proDOLLB">
+                                <!-- JiaThis Button BEGIN -->
+                                <div id="ckepop">
+                                    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                                    <span class="jiathis_txt" style="font-family:\5b8b\4f53;">分享到：</span>
+                                    <a class="jiathis_button_qzone"></a>
+                                    <a class="jiathis_button_tsina"></a>
+                                    <a class="jiathis_button_tqq"></a>
+                                    <a class="jiathis_button_renren"></a>
+                                    <a class="jiathis_button_kaixin001"></a>
+                                </div>
+                                <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+                                <!-- JiaThis Button END -->
+                                <a href="javascript:addToInterests('{$data.g_id}');" class="shouc">收藏商品</a>
+                            </div>
+                        </div><!--proDOLL 结束-->
+                        <div class="proDOLR sproDOLR"><!--proDOLR 开始-->
+                            <h3><span>{$data.try_title}</span></h3>
+                            <p class="p02">价值:<span><i>&yen;</i>{$data.g_price|sprintf='%.2f',###}</span>免费提供:<strong>{$data.try_num}</strong>份</p>
+                            <php>
+                                if(empty($report)){
+                            </php>
+                            <div class="sybg"  style="width: auto">
+                                <em></em>
+                                <p class="p03" style="font-size: 20px;margin-bottom: 20px;margin-top: 20px">该试用已经结束,请在申请成功名单中查看申请报告！</p>
+                            </div>
+                            <php>}else{</php>
+                            <div class="sybg"  style="width: auto">
+                                <em></em>
+                                <p class="p03">有<strong>{$total.get_goods_num}</strong>人获得该试用品, 已有<strong>{$total.report_num_checked}</strong>份试用报告:</p>
+                                <dl>
+                                    <volist name="report" id="report_detail">
+                                        <dt>{$report_detail.attr_name}:</dt>
+                                        <dd>
+                                            <span><i class="{$total['color'][$i%4]}" style="width:{$report_detail['attr_value']}%;"></i></span>
+                                            {$report_detail['attr_value']/20|sprintf='%.1f',###}
+                                        </dd>
+                                    </volist>
+                                </dl>
+                                <div class="pscore">
+                                    <strong>{$total['report_avg']/20|sprintf='%.1f',###}</strong>
+                                    <p><label></label><label></label><label></label><label></label><label class="last"></label><i style="width:{$total.report_avg}%;"></i></p>
+                                    <span>试用反馈</span>
+                                </div>
+                                <php>}</php>
+                            </div>
+                            <a href="{:U('Home/Products/detail')}/gid/{$data.g_id}"></a>
+                        </div><!--proDOLR 结束-->
+                    </div><!--proDOLT 结束-->
+                    <div class="proDOLB">
+                        <img src="{$Think.config.DOMAIN_HOST}{$ads_info.ad_pic_url}" width="990" height="104" />
+                    </div>
+                </div><!--proDOL 结束-->
+                <div class="proDOR"><!--proDOR 开始-->
+                    <h4><span>猜你喜欢</span></h4>
+                    <div class="proDORC">
+                        <div class="topdcon">
+                            <ul>
+                                <volist name="glist" id="glist">
+                                <li>
+                                    <dl>
+                                        <volist name="glist" id="list">
+                                        <dd><a href="{$list.gurl}"><img src="{$Think.config.DOMAIN_HOST}{$list.g_picture}" width="140" height="140" /></a></dd>
+                                        </volist>
+                                    </dl>
+                                </li>
+                                </volist>
+                            </ul>
+                        </div>
+                        <div class="preNext">
+                            <a href="javascript:void(0)" class="pre">上一页</a>
+                            <a href="javascript:void(0)" class="next">下一页</a>
+                        </div>
+                    </div>
+                </div><!--proDOR 结束-->
+            </div><!--proDO 结束-->
+
+            <div class="proDTh"><!--proDTh 开始-->
+                <div class="proDThL"><!--proDThL 开始-->
+                    <h3>宝贝排行榜</h3>
+                    <div class="proDThLC"><!--proDThLC 开始-->
+                        <p><span class="onHover" id="tab1" onclick="setTab('tab',1,2)">销售量</span><span id="tab2" onclick="setTab('tab',2,2)">收藏数</span></p>
+                        <div class="proDThLCon" id="con_tab_1" style="display:block;"><!--proDThLCon 开始-->
+                            <ul>
+                            <gyfx:sales name='sale'  limit="10" titlelen='32'>
+                                <li>
+                                <strong>{$key+1}</strong>
+                                    <dl>
+                                        <dt><a href="{$sale.gurl}"><img src="{$Think.config.DOMAIN_HOST}{$sale.gpicture|showImage=###,60,60}" width="60px" height="60px"/></a></dt>
+                                        <dd>
+                                        <a href="{$sale.gurl}">{$sale.lgname}</a>
+                                        <p><i>&yen;</i>{$sale.gprice}</p>
+                                        <span>已售出 <label>{$sale.gsales}</label>件</span>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </gyfx:sales>
+                            </ul>
+                        </div><!--proDThLCon 结束-->
+                        <div class="proDThLCon" id="con_tab_2" style="display:none;"><!--proDThLCon 开始-->
+                            <ul>
+                            <gyfx:collectgoods name='cogs'  num="10" >
+                                <li>
+                                <strong>{$key+1}</strong>
+                                    <dl>
+                                        <dt><a href="{:U('Home/Product/Index')}?gid={$cogs.g_id}"><img src="{$Think.config.DOMAIN_HOST}{$cogs.g_picture|showImage=###,60,60}" width="60" height="60"/></a></dt>
+                                        <dd>
+                                        <a href="{$cogs.gurl}">{$cogs.g_name}</a>
+                                        <p><i>&yen;</i>{$cogs.g_price}</p>
+                                        <span>收藏次数 <label>{$cogs.nums}</label>次</span>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </gyfx:collectgoods>
+                            </ul>
+                        </div><!--proDThLCon 结束-->
+                    </div><!--proDThLC 结束-->
+                </div><!--proDThL 结束-->
+                <div class="proDThR"><!--proDThR 开始-->
+                    <p class="header">
+                        <span class="onHover" id="tabs1" onclick="setTab('tabs',1,3)">试用详情</span>
+                        <span id="tabs2" onclick="setTab('tabs',2,3)">申请成功名单（{$total.report_num}）</span>
+                        <!-- <span id="tabs3" onclick="setTab('tabs',3,3)">试用报告（{$total.report_num}）</span> -->
+                    </p>
+                    <div class="proDThRC sproDThRC" id="con_tabs_1" style="display:block;"><!--proDThRC 开始-->
+                        {$data.try_desc}
+                        <if condition="$data['try_is_show_detail'] eq 1">{$data.g_desc}</if>
+                    </div><!--proDThRC 结束-->
+                    <div class="proDThRC sproDThRC" id="con_tabs_2" style="display:none;"><!--proDThRC 开始-->
+                        <p class="expro">
+                            <b>申请成功的会员请在收到试用品后<strong> 30 天</strong> 内完成报告！</b>
+                            占位或虚假报告将使您被永久取消试用申请资格
+                        </p>
+                        <div class="users"><!--users 开始-->
+                            <volist name="reportList" id="report">
+                                <if condition="$i%4 == 0 OR $i == 1">
+                                <div class="usersM">
+                                    <ul>
+                                </if>
+                                        <li>
+                                            <dl>
+                                                <dt><img src="{$Think.config.DOMAIN_HOST}{$report.try_picture}" width="57" height="60" /></dt>
+                                                <dd>
+                                                    <strong>{$report.m_name}</strong>
+                                                    <span>{$report.tar_create_time|substr=0,-8} 申请成功</span>
+                                                    <if condition="$report['try_oid'] neq 0">
+                                                        <a href="{:U('Home/Try/ReportDetail',array('oid'=>$report['try_oid']))}">查看试用报告></a>
+                                                    <else />
+                                                        <b>尚未提交试用报告!</b>
+                                                    </if>
+                                                </dd>
+                                            </dl>
+                                        </li>
+                                <if condition="$i%4 == 0">
+                                    </ul>
+                                &nbsp;</div>
+                                </if>
+                            </volist>
+                            <php>if(count($reportList) <= 4){</php>
+                                </ul></div>
+                            <php>}</php>
+                        </div><!--users 结束-->
+                        <!-- <div class="usersP">
+                            <a href="#"><img src="images/img11.png" width="57" height="60" /><span>hui635813382</span></a>
+                            <dl>
+                                <dt><img src="images/img12.png" width="158" height="158" /></dt>
+                                <dd>
+                                    <p>"面膜粉颗粒比想像中要小一些, 打开后有股五仁的味道, 本人觉得味道还可以, 一包可以分三次用, 滋润效果挺好的, 用了几次之后感觉肤色亮白了一点, 打算继续使用! 前几天天挺热来回开了三四个小时车,感觉脸上有点发红, 微干,当晚敷了一下第二天起来就挺润的, 应该还是有一定的晒后修复功能吧! "</p>
+                                    <span>2014-05-26 19:47:04</span>
+                                </dd>
+                            </dl>
+                        </div> -->
+                    </div><!--proDThRC 结束-->
+                    <div class="proDThRC sproDThRC" id="con_tabs_3" style="display:none;"><!--proDThRC 开始-->
+                    3
+                    </div><!--proDThRC 结束-->
+                </div><!--proDThR 结束-->
+            </div><!--proDTh 结束-->
+        </div><!--proDetail 结束-->
+    </div>
+</div>

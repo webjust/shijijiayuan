@@ -1,0 +1,185 @@
+<link href="{$Think.config.DOMAIN_HOST}__CSS__slider.style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__productsdetail.js"></script>
+
+<div class="container"><!--container-->
+    <div class="detailTop"> <!--detailTop-->
+		<form id="goodsForm" name="goodsForm" method="post" action="javascript:void(0);">
+		<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"  ></Gyfx:goodsinfo>
+		<input type="hidden" value="{$ary_request.gid}" id="gid">
+		<input type='hidden' id='m_id' value='{$Think.session.Members.m_id}' />
+		<input type='hidden' name='goods_type' value='{$goods_type}' />
+		<p class="detailT">
+			<a href="{:U('Wap/Index/index')}">首页</a>/<a href="{:U('Wap/Products/index')}">商品列表页</a>/<a>{$detail.gsn}</a>
+		</p>
+		<a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+		<!-- 标题价格内容 start-->
+		<div class="proDetail">
+			<h1 class="title">{$detail.gname}<em><em>{$detail.gprice|sprintf='%.2f',###}</em>元</em></h1>
+			<div class="clear"></div>
+			<span class="comment">
+			<php>for($i=0;$i<$str_score;$i++){</php>
+				<i></i>
+			<php>}</php>
+			<php>
+				if($str_score < 5){
+					$bad_score = 5 - $str_score;
+				}
+			</php>
+			<php>for($i=0;$i<$bad_score;$i++){</php>
+				<i class="bad"></i>
+			<php>}</php>
+			({$all_count}条评论)<b><a href="javascript:void(0);" onclick="addToInterests('{$ary_request.gid}');" >收藏</a></b> </span>
+			  <p class="type">{$detail.gsn}</p>
+		</div>
+		<!-- 标题价格内容 end-->
+		<div class="lunbo banner"><!--lunbo-->
+			<div class="swiper-container" id="swiper-container2">
+				<div class="swiper-wrapper">
+				<volist name="detail.gpics" id="pic">
+					<div class="swiper-slide">
+						<a href="javascript:;">
+							<img width="100%" src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,640}" />
+						</a>
+					</div>
+				</volist>
+				</div>
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+			</div>
+		</div>
+		<!--/lunbo--> 
+		<!-- 分类选择 start-->
+		<div class="Choice" id="check_sku"> 
+			<div id="showDetailSkus"></div>
+		</div>
+		<div class="btn_box">
+			<a href="javascript:void(0);" onclick="addToCart();" class="add_cart">加入购物车</a>
+			<a href="javascript:void(0);" id="addToOrder" class="buy_btn">立即购买</a>
+			<input type="hidden" name="way_type" value="" id="way_type"/>
+		</div>
+		</form>
+	</div>
+      <!--!detailTop--> 
+	<div class="taocan dpList" style="margin-bottom:20px;">
+	  <a href="{:U('Wap/Products/collGoodsPage')}?g_id={$ary_request[gid]}" class="dpTitle">优惠搭配</a>
+		 <div class="dpLists" id="coll_goods">	 
+		</div>
+	</div>	
+      <!--detailCenter-->
+    <div class="detailCenter">
+		<div class="detailCenterNav"><!--商品详情start--> 
+			<a href="javascript:;" class="on">商品详情<i></i></a>
+			<div class="detailList" style="display:block;">{$goods_desc.g_phone_desc}</div>
+        </div>
+    <!--商品详情end-->
+		<div class="detailCenterNav detailCommentNav"> <!--商品评价 start--> 
+			<a href="javascript:;">商品评价<i></i></a>
+			<div class="detailList" id="goods_comments"></div>
+		</div>
+		<!--用户评论 end-->
+		
+		<div class="detailCenterNav"> <!--商品咨询 start--> 
+			<a href="javascript:;">商品咨询<i></i></a>
+			<div class="detailList">
+				<div class="Consultation">
+					<h1>商品咨询</h1>
+					<volist name="advice_data" id="vo" key="k">
+					<if condition="$vo['pc_is_reply'] eq 1">
+					<!--商品咨询问题 start-->
+					<div class="questions">
+						<i class="question_flag"></i>
+						<p>{$vo.pc_question_content}</p>
+						<b>{$vo.new_mname|default="匿名用户"}<i>{$vo.pc_create_time}</i></b>
+					</div>
+					<!--商品咨询问题 end--> 
+					<!--商品咨询回答 start-->
+					<if condition="$vo.pc_is_reply eq '1'">
+					<div class="Answer">
+						<em>&#9670;</em>
+						<span>&#9670;</span>
+						<p>{$vo.pc_answer}</p>
+						<b>必迈客服<i>{$vo.pc_reply_time}</i></b>
+					</div>
+					</if>
+					</if>
+					</volist>
+					<!--商品咨询回答 end-->
+					<div class="Doubt">
+						<h3>咨询</h3>
+						<textarea id="question_content" class="txt" name="question_content" placeholder="对产品有任何疑问？"></textarea>
+						<input type="hidden" name="filter_gid" value="{$filter.gid}" id="filter_gid"/>
+					</div>
+					<p class="btnP">
+						<input type="submit" id="addAdvice" value="提交我的疑问" class="btn">
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!--商品咨询 end--> 
+	<!--!detailCenter-->
+	<if condition="$ary_relate_goods neq ''">
+	<div class="recommPro">
+		<div class="botCon">
+			<h1>购买此商品的顾客也同时购买</h1>
+			<ul>
+				<volist name="ary_relate_goods" id="this_coll">
+					<switch name="key">
+                        <case value="0|1|2|3">
+						<li>
+							<a href="/Wap/Products/detail/gid/{$this_coll.g_id}"><img src="{$Think.config.DOMAIN_HOST}<php>echo '/'.ltrim($this_coll['g_picture'],'/');</php>"/></a>
+							<p style="border:none"><a href="#">{$this_coll.g_name}</a></p><p>销售价：<i>{$this_coll.g_price|sprintf='%.2f',###}元</i></p>
+							<p class="price"><i></i> <i></i> <i></i> <i></i> <i></i><b>(销量{$this_coll.g_salenum}件)</b></p>
+						</li>
+						</case>
+                    </switch>
+				</volist>
+			</ul>
+		</div>
+    </div>
+	</if>
+	<form id="orderAddFrom" name="orderAddFrom" method="post" action="/Wap/Orders/pageAdd">
+		<input type="hidden" name="pid[]" id="addOrderPid" value="" />
+		<input type="hidden" name="type[]" id="addOrdertype" value=""/>
+    </form>
+	<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Wap/Orders/addOrderPage">
+		<input type="hidden" name="pid[]" id="submitSkipPid" value="" />
+		<input type="hidden" name="type[]" id="submitSkiptype" value=""/>
+	</form>
+	<input type="hidden" name="mid" id="mid" value="{$Think.session.Members.m_id}"/>
+	<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+	<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+	<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+</div>
+    
+<script>
+	//alert('{$ary_request.gid}');
+	getCommentPage('{$ary_request.gid}');
+	getCollGoodsPage('{$ary_request.gid}');
+	var nullNum = "{$Think.lang.STOCK_ERROR_1}";
+	var notEnough = "{$Think.lang.STOCK_ERROR_2}";
+	var reselection = "{$Think.lang.STOCK_ERROR_3}";
+	var nonExistent = "{$Think.lang.STOCK_ERROR_4}";
+	var notLogin = "{$Think.lang.NO_LOGIN}";
+	
+	var swiper = new Swiper('#swiper-container2', {
+		autoplay:3000,
+		slidesPerView: 1,
+		pagination:".swiper-pagination",
+		paginationClickable: true,
+		spaceBetween: 0,
+		freeMode: true,
+		prevButton:'.swiper-button-prev',
+		nextButton:'.swiper-button-next',
+	});
+	
+	//获取商品sku
+	getDetailSkus('{$ary_request.gid}','0');
+
+	//初始化金额
+	if($('#check_sku a.on').length) {
+		initData();
+	}
+
+</script>

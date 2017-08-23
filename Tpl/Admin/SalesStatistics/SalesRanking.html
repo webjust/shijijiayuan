@@ -1,0 +1,73 @@
+<div class="rightInner">
+    <form method="get" action="{:U('Admin/SalesStatistics/SalesRanking')}" >
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                   
+                    <ul class="conOneUl" style="width:685px;">
+                   
+                        <li>时间：<input type="text" name="start_time" class="large medium timer" value="{$filter.start_time}"  style="width: 145px;float: none;"></li>
+                        <li>至<input type="text" name="end_time" class="large medium timer" value="{$filter.end_time}"  style="width: 145px;float: none;"></li>
+                        <li>
+                            <select name="field" class="small" style="width: auto">
+								<option value="" >全部</option>
+                                <option value="1" <if condition="$filter['field'] eq '1'">selected="selected"</if>>商品编码</option>
+                                <option value="2" <if condition="$filter['field'] eq '2'">selected="selected"</if>>货号</option>
+                            </select>
+                        </li>
+                        <li><input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+                        <li><input type="submit" value="搜索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                    </ul>
+                </th>
+            </tr>
+            <tr>
+                <th>商品商家编码</th>
+                <th>商品品牌</th>
+                <th>货号</th>
+                <th>商品名称</th>
+                <th>销售数量</th>
+                <th>销售金额</th>
+                <th>合计</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val">
+                <tr>
+                    <td>{$val.g_sn}</td>
+                    <td>{$val.gb_name}</td>
+					<td>{$val.pdt_sn}</td>
+					<td>{$val.g_name}</td>
+					<td>{$val.total_nums|default=0}</td>
+					<td>{$val.oi_price|sprintf='%.2f',###}</td>
+					<td>{$val.total_price|sprintf='%.2f',###}</td>
+                </tr>
+            </volist>
+            <notempty name="list">
+                <tr>
+                    <td colspan='4' style="font-size:13px;font-weight:bolder;">合计(已支付且不含退款/退货成功):</td>
+                    <td style="font-weight: bolder;">{$total.all_nums|default=0}</td>
+                    <td style="font-weight: bolder;">{$total.pdt_price|sprintf='%.2f',###}</td>
+                    <td style="font-weight: bolder;">{$total.total_price|sprintf='%.2f',###}</td>
+                </tr>
+            </notempty>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="99">
+					<span class="right page">{$page}</span>
+				</td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<div id="pro_dialog" style="display: none;">
+    <div id="tip_div"></div>
+</div>

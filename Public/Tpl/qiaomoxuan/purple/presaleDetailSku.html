@@ -1,0 +1,77 @@
+{__NOLAYOUT__}
+<empty name="page_detail.gid">
+    商品已下架或不存在
+</empty>
+<li>
+    <volist name="page_detail.ary_goods_spec_list" id="goods_spec" key="k">
+        <dl class="spec_list">
+            <dt>{$goods_spec.gs_name}：</dt>
+            <dd id="sku{$goods_spec.gs_id}_{$k}">
+                <volist name="goods_spec.gs_details" id="gs_detail" key="gskk">
+                    <php>
+                        $gsd_type = 'text';
+                        $va = strpos($gs_detail['gsd_value'],'|');
+                        if($va){
+                        $gsdinfos = explode('|', $gs_detail['gsd_value']);
+                        $gsd_value = $gsdinfos[0];
+                        $gsd_info = $gsdinfos[1];
+                        $gsd_type = 'img';
+                        }else{
+                        $gsd_value = $gs_detail['gsd_value'];
+                        }
+                    </php>
+                    <a href="javascript:void (0);" onclick="specSelect(this, 'on');" name="{$gsd_value}" title="{$gsd_value}" data-value="{$gs_detail.gsd_id}"
+                     >
+                    <if condition="$gsd_type eq 'img'">
+                        <img src="{$Think.config.DOMAIN_HOST}{$gsd_info}" width="40" height="40" title="{$gsd_value}"/>
+                        <else/>
+                        {$gsd_value}
+                    </if>
+                    </a>
+                </volist>
+            </dd>
+        </dl>
+    </volist>
+</li>
+<li>
+    <dl>
+        <dt>数量：</dt>
+        <dd>
+            <span>
+               <input type="text" id="item_num" value="1" onblur="blurSelectNum()" onfocus="if(value == 1){value = '';}" max="{$max_buy_number|default=0}" name="num"/>
+            </span>
+            <strong>
+                <a href="javascript:void(0);" class="up" onclick="countNum(1)"></a>
+                <a href="javascript:void(0);" class="down" onclick="countNum(-1)"></a>
+            </strong>
+
+            <if condition="$Think.session.Members.m_id neq ''">
+                <span class="kucun">库存剩余<label id="showNum">{$p_number}</label>件,您可以购买<label id="canBuyNum">{$max_buy_number|default=0}</label>件</span>
+                <else />
+                <span class="kucun">库存剩余<label id="showNum">{$p_number}</label>件,每人限购<label id="canBuyNum">{$max_buy_number|default=0}</label>件</span>
+            </if>
+
+        </dd>
+    </dl>
+</li>
+<input type="hidden" name="type" value="presale" id="item_type" />
+<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+<input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_id}" name="pdt_id" id="pdt_id" />
+<input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_stock}" name="pdt_stock" id="pdt_stock" />
+<input type="hidden" value="{$max_buy_number|default=0}" name="max_buy_number" id="max_buy_number" />
+<script type="text/javascript" src="__JS__goodsDetailSku.js"></script>
+<script type="text/javascript">
+    var fuzzy_stock_open = parseInt('{$stock_data.OPEN_STOCK}');
+    var fuzzy_stock_level = parseInt('{$stock_data.level}');
+
+    var warning_stock_num = parseInt("{$stock_data['STOCK_NUM']}");
+    var json_goods_pdts = JSON.parse('{$page_detail.json_goods_pdts|json_encode}');
+
+    var max_buy_number = parseInt('{$max_buy_number|default=0}');
+    console.log(json_goods_pdts);
+    //页面初始化操作
+    getPdtBySpecSelect('on');
+
+</script>

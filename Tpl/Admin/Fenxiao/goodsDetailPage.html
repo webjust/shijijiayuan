@@ -1,0 +1,41 @@
+<style type="text/css">
+	td,th{border-left:1px solid #d7d7d7;}
+</style>
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th>
+					商品铺货详细信息
+				</th>
+            </tr>
+        </thead>
+        <tbody>
+			<tr>
+				<td width="800" style="text-align:left;">
+					<span>更新数据超时时间设置：</span>
+					<input type="text" value="120" id="download_time_limit" maxlength="3" size="10"/>
+					<span>（单位是秒，最大值600秒，即10分钟，时间越长，对服务器性能影响越大；定期更新有助于您看见更加准确的报表数据！）</span>
+					<a href="{:U('Admin/Fenxiao/goodsDetailPage')}?pid={$int_pid}&refresh=yes" class="btnA" id="refresh_button" />立即更新</a>
+				</td>
+			</tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#download_time_limit").change(function(){
+		var refresh_time = $("#download_time_limit");
+		if(true === isNaN($(this).val()) || '' === $(this).val()){
+			$("#download_time_limit").val(120);
+		}
+		if($(this).val() > 600 || $(this).val() < 0){
+			$(this).val(120);
+		}
+	});
+	$("#refresh_button").click(function(){
+		$(this).attr({'href':$(this).attr('href') + '&time_limit=' + $("#download_time_limit").val()});
+		return true;
+	});
+});
+</script>

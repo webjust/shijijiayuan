@@ -1,0 +1,27 @@
+{__NOLAYOUT__}
+<table class="tbForm" width="100%;">
+	<tbody>
+        <tr>
+			<td align="left">物流公司：</td>
+			<td align="left">
+                <select name="logistics_name" id="logistics_name">
+                    <volist name="ary_data" id="vo">
+                        <option value="{$vo['lc_id']}_{$vo['lc_name']}" > {$vo['lc_name']} </option>
+                    </volist>
+                </select>
+            </td>
+		</tr>
+        <tr>
+			<td align="left">物流单号：</td>
+			<td align="left">
+                <input name="logistics_no" id="logistics_no"  type="text" value="" />
+            </td>
+		</tr>
+		<tr>
+			<td align="left">备注：</td>
+			<td align="left">
+                <textarea name="memo" id="memo" cols="30" rows="4"></textarea>
+            </td>
+		</tr>
+	</tbody>
+</table>

@@ -1,0 +1,105 @@
+<div class="rightInner tableColor">
+    <table width="100%" class="tbList" data-uri='{:U("Admin/Distirbution/doStatus")}'>
+        <thead>
+           <tr class="title">
+               <th style="text-align:left;font-size: 12px;" colspan="99">
+                   <form id="searchForm" method="get" href='{:U("Admin/Distirbution/deliveryTemplateList")}'>
+                   		店铺来源:
+	                    <select name="lt_shop_id" id="lt_shop_id" style="width:120px">
+	                        <option value="0">请选择</option>
+	                        <volist name="ary_shops" id="vo">
+	                        	<option value="{$vo.ts_sid}" <if condition="$vo.ts_sid eq $ary_data['lt_shop_id']"> selected="selected"</if>>{$vo.ts_title}</option>
+	                        </volist>
+	                         <span style="color:red; margin-left:40px">*</span>
+	                    </select>
+                       <input class="btnHeader inpButton" type="submit"  value="搜索">
+                   </form>
+               </th>
+            </tr>
+            <tr>
+                <th>模板名称</th>
+                <th>店铺名称</th>
+                <th>淘宝物流模版ID</th>
+                <th>卖家店铺ID</th> 
+                <th>发货地址</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_template_data" id="item">
+                <tr>
+                <td>{$item.lt_name}</td>
+                <td>
+	               <volist name="ary_shops" id="vo">
+	               	<if condition="$vo.ts_sid eq $item['lt_shop_id']">{$vo.ts_title}</if>
+	               </volist>
+                </td>
+                <td>
+					{$item.lt_template_id}
+                </td>
+                <td>
+                	{$item.lt_shop_id}
+                </td>
+                <td>{$item.lt_address}</td>
+            </tr>
+            </volist>
+            <empty name="ary_template_data">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+                <span class="wait" id="wait" style="display:none;"></span>
+                <span id="wait1">
+				<input type="button" data-uri='{:U("Admin/Distirbution/downDeliveryTemplate")}'  value="下载物流模板" class="btnA confirm" id="downDeliveryTemplate" /></span>
+          		<span class="right page">{$page}</span>
+          		</td>
+            </tr>
+        </tfoot>
+    </table>
+    <!--</form>-->
+    <div class="clear"></div>
+</div>
+
+<style>
+.wait{background:url("__PUBLIC__/images/loading.gif") no-repeat;height:13px;width:280px;float:left;}
+</style>
+<script>
+    $(document).ready(function(){   
+    
+        //下载物流模板
+        $("#downDeliveryTemplate").live("click",function(){
+   			var shop_source = $("#lt_shop_id").val();
+   			if(shop_source == '0'){
+        		showAlert(false,'请先选择店铺');
+        		return false;
+   			}
+        	$('#wait').css('display','');
+        	$('#wait1').css('display','none');
+            var url = $(this).attr("data-uri");
+            var field = $(this).attr('data-field');
+            $.ajax({
+                url:url,
+                cache:false,
+                dateType:'json',
+                type:'GET',
+                data:{shop_source:shop_source},
+                error:function(){
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                    	showAlert(true,msgObj.info);
+                    	location.reload();
+                    	$('#wait').css('display','none');
+                    	$('#wait1').css('display','');
+                    }else{
+                    	showAlert(false,msgObj.info);
+                    	$('#wait').css('display','none');
+                    	$('#wait1').css('display','');
+                    }
+                }
+            });
+        });
+       
+    });
+</script>

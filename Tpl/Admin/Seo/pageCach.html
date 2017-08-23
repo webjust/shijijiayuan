@@ -1,0 +1,80 @@
+<style>
+.settitle{margin-left:20px;font-size:12px;font-weight:normal;color:#555}
+.infomation {padding: 10px;border: 1px solid #b5cfd9;background: #f2f9fd;margin: 10px 0px;}
+.thdlogin h3 {font-size: 14px;color: #0099cc;border-bottom: 3px solid #deeffa;padding-bottom: 5px;margin-bottom: 5px;}
+.thdlogin h3 img {border: 0;vertical-align: middle;}
+.thdlogin .table {font-size: 12px;border: 0px;width: 100%;text-indent: 15px;_text-indent: 0px;}
+.thdlogin .table tr {height: 25px;}
+.thdlogin .table td {border-bottom: 1px dashed #deeffa;padding-top: 5px;padding-bottom: 5px;_padding-left: 13px;}
+</style>
+
+<div class="infomation">
+    <b>说明：</b>
+    开启缓存机制后更新数据会有一定的时间延迟，如有数据更新请先清除缓存后再刷新页面
+</div>
+<form action="{:U('Admin/Seo/cachAdd')}" method="POST" class="thdlogin">
+    <h3>&nbsp;&nbsp;Memcache数据缓存<span class="settitle"><a href="http://baike.baidu.com/link?url=0I0weAomJEngWhd2DBCVFSy2lcLpfoOw0gIFtwGVNUdYBfRjCN-U3NE3yxqBaoX6IMm41iE0bS4rSQpeELnrSK" target="_blank">什么是Memcache？</a></span></h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="Memcache_stat" value="1" <if condition="$Memcache_stat.sc_value eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="Memcache_stat" value="0" <if condition="$Memcache_stat.sc_value eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info">● 目前支持首页、商品列表数据库缓存</td>
+        </tr>
+        <tr>
+            <td>Memcache服务器IP地址：</td>
+            <td><input type="text" name="Memcache_host" class="medium" value="{$Memcache_host.sc_value}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>Memcache服务器端口：</td>
+            <td><input type="text" name="Memcache_port" class="medium" value="{$Memcache_port.sc_value}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>Memcache缓存有效时间：</td>
+            <td><input type="text" name="Memcache_time" class="medium" value="{$Memcache_time.sc_value}"></td>
+            <td class="info">单位：秒</td>
+        </tr>
+        <tr>
+            <td><input type="button" value="清除Memcache缓存" class="btnA" onclick="removeCache(1);" /></td>
+            <td></td>
+            <td class="info"></td>
+        </tr>
+    </table>
+    <h3>&nbsp;&nbsp;咨询详情页文件缓存</h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="File_cahe_stat" value="1" <if condition="$File_cahe_stat.sc_value eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="File_cahe_stat" value="0" <if condition="$File_cahe_stat.sc_value eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info">● 缓存文件目录将放于与模板同一层，目录文件夹名称自定义</td>
+        </tr>
+        <tr>
+            <td>缓存文件夹名：</td>
+            <td><input type="text" name="File_cahe_name" value="{$File_cahe_name.sc_value}"  class="medium" ></td>
+            <td class="info">缓存文件存放目录名称，放置于与模板同一层，请勿填写：admin,Common,Conf,Lang,Lib,Public,Runtime,Tpl,Ucenter</td>
+        </tr>
+        <tr>
+            <td>缓存文件有效性时间：</td>
+            <td><input type="text" name="File_cahe_time" class="medium" value="{$File_cahe_time.sc_value}"></td>
+            <td class="info">单位：秒</td>
+        </tr>
+        <tr>
+            <td><input type="button" value="清除咨询文章缓存文件"  class="btnA" onclick="removeCache(0);" /></td>
+            <td></td>
+            <td class="info"></td>
+        </tr>
+    </table>
+    <input type="submit" value="提 交" class="btnA" >
+    <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Seo/pageCach')}');" class="btnA" >
+</form>
+<script>
+function removeCache(i){
+    $.post('/Admin/Seo/deleteCacheDir/',{i:i},function(dataMsg){
+        showAlert(dataMsg.status,dataMsg.msg);
+    
+    },'json');
+}
+</script>
+

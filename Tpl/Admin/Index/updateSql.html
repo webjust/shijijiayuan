@@ -1,0 +1,41 @@
+{__NOLAYOUT__}
+<script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+<style>
+/*分销  弹层 “升级“ 开始*/
+.upgrade {height:550px;overflow: auto;border:1px solid #86aff2; padding-left:20px; background:white;-webkit-box-shadow:0px 1px 3px #86aff2;-moz-box-shadow:0px 1px 3px #86aff2;box-shadow:0px 1px 3px #86aff2;}
+.upgrade h2 { font-size:34px; color:#1b72cd; padding:5px; text-align:center;}
+.upgrade p {color:#1b72cd; width:340px; font-size:20px; line-height:18px;}
+.upgrade p span { font-size:14px; color:#666;}
+.upgrade a { font-size:20px; display:block; width:110px; height:25px; line-height:25px; color:white; font-weight:bold; text-align:center; text-decoration:none; margin:0px auto 10px; background-color:#f35030}
+/*分销  弹层 "升级" 结束*/
+</style>
+<div class="upgrade" >
+    <h2>我们升级啦！</h2>
+    <p>升级内容：</p>
+    <div style="font-size:14px;margin-top:-20px;"><xmp>
+    {$file_content}
+    </xmp></div>
+    <a  onclick="doUpdate()" >点击升级</a>
+</div>
+<script type="text/javascript">
+function doUpdate(){
+    var url = '{:U("Admin/Index/doUpdateSql")}';
+    $.ajax({
+        url:url,
+        cache:false,
+        dateType:'json',
+        type:'POST',
+        error:function(){
+        },
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                alert('恭喜您，系统升级成功！');
+                location.href='{:U("Admin/Index/index")}';
+            }else{
+             alert('很抱歉，系统升级失败，请联系我们');
+            }
+        }
+    });
+}
+
+</script>

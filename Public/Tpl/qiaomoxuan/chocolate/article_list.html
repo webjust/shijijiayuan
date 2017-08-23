@@ -1,0 +1,68 @@
+<!--中间内容开始-->
+<div class="YKwarp">
+	<div class="YKadver"></div>
+    <div class="w1192"><!--content1190  start-->
+    	<div class="YKprolOne goodList_navtitle">
+            <a href="{:U('Home/Index/index')}">首页</a> &nbsp;&nbsp;>&nbsp;&nbsp;<a href="{:U('Home/Article/articlelist')}">帮助中心</a> &nbsp;&nbsp;>&nbsp;&nbsp;<a href="#" id="showNmae"></a>
+        </div>
+        <div class="YKproDeCon tous"><!--YKproDeCon  start-->
+        	<div class="YKproDeLeft"><!--YKproDeLeft  start--->
+                <div class="proDhs tous"><!--proDhs  start-->
+                	<a href="{:U('Home/Article/articlelist')}"><h2>帮助中心</h2></a>
+					<div id="h_box">
+					<php>$cate_name = '';</php>
+					<volist name="article_category" id="art">
+						<a href="{$art.curl}"><h3 <if condition="$ary_request['cid'] eq $art[cat_id] or($ary_request['pid'] eq $art[cat_id])"> <php>$cate_name = $art['cat_name'];</php> class="h3_all" </if> ><span class="num_{$key}"></span>{$art.cat_name}</h3></a>
+						<ul <if condition="$ary_request['cid'] eq $art[cat_id] or($ary_request['pid'] eq $art[cat_id])"> <php>$cate_name = $art['cat_name'];</php> style="display:block;" </if>>
+						    <volist name="art['sub']" id="artinfo">
+						        <li><a href="{$artinfo.curl}" <if condition="$artinfo.cat_id eq $ary_request['cid']"> <php>$cate_name = $artinfo['cat_name'];</php>  class="current"</if>>{$artinfo.cat_name}</a></li>
+						    </volist>
+					    </ul>
+					</volist>
+					</div>
+                </div><!--proDhs  end-->
+            </div><!--YKproDeLeft  end--->
+            
+            <div class="YKproDeRight"><!--YKproDeRight  start--->
+            	<div class="comCon"><!--comCon  start-->
+                	<h2 id="newNmae">{$cate_name|default="新闻列表"}</h2>
+                    <div class="YKnewList"><!--YKnewList  start-->
+                        <Gyfx:article name="page3" cid="$ary_request['cid']" num="10">
+                    	<dl>
+                            <volist name="page3" id="article">
+                                <dd><div style="width:13px;height:13px;float:left" <if condition="$article.hot eq '1'">class="hot"</if>></div><span class="fleft"> <i>·</i>&nbsp;<a href="{$article.aurl}" target="_blank">{$article.atitle}</a></span> <span class="fright">{$article.atime}</span></dd>
+                            </volist>
+                        </dl>
+                            <div class="YKfenye" style="text-align:center">
+                                <notempty name="pagearr.page3.upPage">{$pagearr.page3.upPage}</notempty>&nbsp;&nbsp; 
+                                {$pagearr.page3.linkPage}
+                                <notempty name="pagearr.page3.downPage">{$pagearr.page3.downPage}</notempty>
+                            </div>
+                       </Gyfx:article> 
+                    </div><!--YKnewList  end-->
+                </div><!--comCon  end-->
+            </div><!--YKproDeRight  end--->
+        </div><!--YKproDeCon  end-->
+        <div style="clear:both"></div>
+    </div><!--content1190  end-->
+</div>
+<!--中间内容结束-->
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#h_box h3").each(function(){
+			$(this).click(function(){	
+				if($(this).hasClass("h3_all")){
+					$(this).removeClass("h3_all");
+					$(this).next('ul').hide();
+				}
+				else{
+					$("#h_box").find('h3').removeClass("h3_all");
+					$("#h_box").find('ul').hide();
+					$(this).addClass("h3_all");
+					$(this).next('ul').show();
+				}
+			});
+		});
+        $("#showNmae").html($("#newNmae").html());
+	});
+</script>

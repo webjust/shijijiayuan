@@ -1,0 +1,134 @@
+<link href="__UCSS__coupon.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__productsdetail.js"></script>
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">领取优惠券</span>
+    </div>
+</div>
+<div class="container">
+    <h4 style=" font-size: 16px; background-color: #ffffff;line-height: 40px;margin-top: 5px;font-weight: normal; padding: 0 8px;">现金券：</h4>
+    <div class="couponList"  class="couponList1">
+        <volist name="xjList" id="list">
+            <empty name="list.is_receive">
+
+                    <div class="couponA">
+                        <div class="couponL">
+                            <p class="couponName">￥{$list.c_money}</p>
+                            <p>适用范围：{$list.group}</p>
+                            <p>使用期限：<php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+                        </div>
+                        <div class="couponR">
+                            <p class="value-right">
+                                <span class="f120">
+                                    <a href="javascript:void(0);" class="click_receive" cname="{$list.c_name}">领取</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+            </empty>
+        </volist>
+    </div>
+
+    <div class="couponList couponList1">
+        <volist name="xjList" id="list">
+            <notempty name="list.is_receive">
+                <div class="couponA">
+                    <div class="couponL">
+                        <p class="couponName">￥{$list.c_money}</p>
+                        <p>适用范围：{$list.group}</p>
+                        <p>使用期限：<php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+                    </div>
+                    <div class="couponR" style="background: none">
+                        <p class="value-right">
+                            <span class="f120">
+                                <a href="javascript:void(0);" style="background: none">已领取</a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </notempty>
+        </volist>
+    </div>
+    <h4 style=" font-size: 16px; background-color: #ffffff;line-height: 40px;margin-top: 5px;font-weight: normal; padding: 0 8px;">折扣券：</h4>
+    <div class="couponList" >
+    <volist name="zkList" id="list">
+        <empty name="list.is_receive">
+                <div class="couponA">
+                    <div class="couponL">
+                        <p class="couponName"><php>echo $list['c_money']*10;</php>折</p>
+                        <p>适用范围：{$list.group}</p>
+                        <p>使用期限：<php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+                    </div>
+                    <div class="couponR">
+                        <p class="value-right">
+                            <span class="f120">
+                                <a href="javascript:void(0);" class="click_receive" cname="{$list.c_name}">领取</a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+        </empty>
+    </volist>
+    </div>
+    <div class="couponList couponList1"  >
+    <volist name="zkList" id="list">
+        <notempty name="list.is_receive">
+                <div class="couponA">
+                    <div class="couponL">
+                        <p class="couponName"><php>echo $list['c_money']*10;</php>折</p>
+                        <p>适用范围：{$list.group}</p>
+                        <p>使用期限：<php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+                    </div>
+                    <div class="couponR" style="background: none">
+                        <p class="value-right">
+                            <span class="f120">
+                                <a href="javascript:void(0);">已领取</a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+        </notempty>
+    </volist>
+        </div>
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script type="text/javascript">
+$(".click_receive").click(function(){
+    var obj = $(this),
+    cname = obj.attr("cname");
+	$.ajax({
+		url:'/Wap/Coupon/getReceive',
+        cache:false,
+        dataType:"json",
+		type:'POST',
+		data:{
+			cname:cname
+		},
+		success:function(msgObj){
+            if(msgObj.status == 1){
+                //$.ThinkBox.success(msgObj.message);
+                obj.parent().parent('li').addClass('hReceive');
+                obj.parent().append('<i></i>');
+                obj.html('<label>已领用</label>');
+            }else{
+                $.ThinkBox.error(msgObj.message);
+            }
+		}
+	}); 
+});
+</script>
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>

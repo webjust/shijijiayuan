@@ -1,0 +1,16 @@
+{__NOLAYOUT__}
+<if condition="!empty($cards)">
+<div>
+    <dd>
+    储值卡卡号：<label class="checkcards" >{$cards.cardCode}</label><br/>
+    储值卡金额：<label >￥{$cards.cardMoney}</label> 
+    <input type="button" value="" id="card_price" name="card_price"/>
+    <input type="hidden" value="{$cards.cardId}"/>
+    <input type="hidden" value="{$cards.cardType}"/>
+    </dd>
+</div>
+<else />
+	<div style="color:#000000;font-size:18px;margin-top:30px;">
+        {$msg}
+	</div>
+</if>

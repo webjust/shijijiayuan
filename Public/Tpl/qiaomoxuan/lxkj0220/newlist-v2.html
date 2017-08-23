@@ -1,0 +1,977 @@
+<script src="__JS__productslist-v2.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+
+<div class=bannerBox>
+    <div class=slideBoxNav>
+        <gyfx:advertising name='nav'  position="banner">
+          <a href="javascript:void(0)"></a>
+        </gyfx:advertising>
+    </div>
+    <div class=slideBox>
+        <ul>
+          <gyfx:advertising name='nav'  position="banner">
+            <li style="background: url({$nav.nimgurl}) no-repeat center top;background-size: auto 480px;">
+              <a href="{$nav.naurl}" target="{$nav.ntarget}" ><p></p></a>
+            </li>
+          </gyfx:advertising>
+          <div style="clear:both;"></div>
+        </ul>
+    </div>
+</div>
+
+<div id="search_result_wrap">
+    <div class="tt_nav_box">
+        <div class="tt_nav_title">
+            <div class="tt_nav">
+                <a href="{:U('Home/Index/index')}">首页</a> > <a class="spe">新品专区</a>
+                <php>$ary_tmp_cate = array();</php>
+                <Gyfx:catebreadcrumb name='cate'  cid="{$ary_request.cid}">
+                    <if condition="$cate.gcname neq ''">
+                        <a href="{$cate.gcurl}">{$cate.gcname}</a>
+                    </if>
+                    <php>$ary_tmp_cate[] = $cate['gcid'];</php><!-- 将一级分类保存在变量中 -->
+                </Gyfx:catebreadcrumb>
+                <present name="ary_request.name">
+                    {$ary_request.name}
+                </present>
+            </div>
+            <div class="brand_title_search">
+                <div>
+                    <input type="text" placeholder="请输入您想找的品牌"/>
+                    <a href="#"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="filter_box">
+        <div class="filter_title">
+            <div class="filter_title_box">
+                <div class="filter_title_left">
+                    已选条件：
+                </div>
+                <ul class="filter_title_right">
+                    <li class="select_no">暂时没有选择过滤条件</li>
+                </ul>
+            </div>
+        </div>
+        <div class="filter_content">
+            <div class="filter_choose">
+                <div class="filter_classify">
+                    <div class="filter_classify_title">
+                        商品分类
+                    </div>
+                    <div class="filter_classify_content">
+                        <div class="filter_classify_list">
+                            <div>
+                                <ul>
+                                    <li class="filter_classify_all filter_classify_active" style="display: none;"><a>查看全部</a></li>
+                                    <volist name="categoryList" id="gl">
+                                        <li><a href="">{$gl.gc_name}</a></li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="filter_choose_btn">
+                            <a href="#" class="filter_choose_add"><b><i></i></b>多选</a>
+                            <a href="#" class="filter_choose_more">更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter_classify_add">
+                    <div class="filter_classify_title_add">
+                        商品分类
+                    </div>
+                    <div class="filter_classify_content_add">
+                        <div class="filter_classify_list_add">
+                            <ul>
+                                <volist name="categoryList" id="gl">
+                                    <li><i></i><a href="">{$gl.gc_name}</a></li>
+                                </volist>
+                            </ul>
+                            <div>
+                                <a href="Javascript:void (0)" class="fn_confirm">确定</a>
+                                <a href="Javascript:void (0)" class="fn_abolish">取消</a>
+                            </div>
+                        </div>
+                        <div class="filter_choose_btn_box">
+                            <a href="javascript:void(0)" class="filter_choose_add_add"><b><i></i></b>多选</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--国家-->
+            <div class="filter_choose">
+                <div class="filter_country">
+                    <div class="filter_classify_title">
+                        国家
+                    </div>
+                    <div class="filter_country_content">
+                        <div class="filter_country_list">
+                            <div>
+                                <ul>
+                                    <li class="filter_country_all filter_country_active" style="display: none;"><a>查看全部</a></li>
+                                    <volist name="countryList" id="country">
+                                        <li>
+                                            <div class="c_pic"><img src="{$country.country_logo}" alt=""/></div>
+                                            <a href="#search_result_wrap">
+                                                {$country.country_name}
+                                            </a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="filter_choose_btn">
+                            <a href="#" class="filter_choose_add1"><b><i></i></b>多选</a>
+                            <a href="#" class="filter_choose_more1">更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter_country_add">
+                    <div class="filter_classify_title_add">
+                        国家
+                    </div>
+                    <div class="filter_country_content_add">
+                        <div class="filter_country_list_add">
+                            <ul>
+                                <volist name="countryList" id="country">
+                                    <li>
+                                        <i><img src="{$country.country_logo}" alt=""/></i>
+                                        <a href="#search_result_wrap">
+                                            {$country.country_name}
+                                        </a>
+                                    </li>
+                                </volist>
+                            </ul>
+                            <div>
+                                <a href="Javascript:void (0)" class="fn_confirm1">确定</a>
+                                <a href="Javascript:void (0)" class="fn_abolish1">取消</a>
+                            </div>
+                        </div>
+                        <div class="filter_choose_btn_box">
+                            <a href="javascript:void(0)" class="filter_choose_add_add"><b><i></i></b>多选</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--品牌-->
+        <div class="filter_choose">
+            <div class="filter_brand">
+                <div class="filter_classify_title">
+                    品牌
+                </div>
+                <div class="filter_brand_content">
+                    <div class="filter_brand_list">
+                        <div>
+                            <ul>
+                                <li class="filter_brand_all filter_brand_active" style="display: none;"><a>查看全部</a></li>
+                                <volist name="brandList" id="bl">
+                                    <li><a href="">{$bl.gb_name}</a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filter_choose_btn">
+                        <a href="#" class="filter_choose_add2"><b><i></i></b>多选</a>
+                        <a href="#" class="filter_choose_more2">更多</a>
+                    </div>
+                </div>
+            </div>
+            <div class="filter_brand_add">
+                <div class="filter_classify_title_add">
+                    品牌
+                </div>
+                <div class="filter_brand_content_add">
+                    <div class="filter_brand_list_add">
+                        <ul>
+                            <volist name="brandList" id="bl">
+                                <li><i></i><a href="">{$bl.gb_name}</a></li>
+                            </volist>
+                        </ul>
+                        <div>
+                            <a href="Javascript:void (0)" class="fn_confirm2">确定</a>
+                            <a href="Javascript:void (0)" class="fn_abolish2">取消</a>
+                        </div>
+                    </div>
+                    <div class="filter_choose_btn_box">
+                        <a href="javascript:void(0)" class="filter_choose_add_add"><b><i></i></b>多选</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--功效-->
+        <div class="filter_choose">
+            <div class="filter_virtue">
+                <div class="filter_classify_title">
+                    功效
+                </div>
+                <div class="filter_virtue_content">
+                    <div class="filter_virtue_list">
+                        <div>
+                            <ul>
+                                <li class="filter_virtue_all filter_virtue_active" style="display: none;"><a>查看全部</a></li>
+                                <volist name="functionList" id="fl">
+                                    <li><a href="">{$fl.function_name}</a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filter_choose_btn">
+                        <a href="#" class="filter_choose_add3"><b><i></i></b>多选</a>
+                        <a href="#" class="filter_choose_more3">更多</a>
+                    </div>
+                </div>
+            </div>
+            <div class="filter_virtue_add">
+                <div class="filter_classify_title_add">
+                    功效
+                </div>
+                <div class="filter_virtue_content_add">
+                    <div class="filter_virtue_list_add">
+                        <ul>
+                            <volist name="functionList" id="fl">
+                                <li><i></i><a href="">{$fl.function_name}</a></li>
+                            </volist>
+                        </ul>
+                        <div>
+                            <a href="Javascript:void (0)" class="fn_confirm3">确定</a>
+                            <a href="Javascript:void (0)" class="fn_abolish3">取消</a>
+                        </div>
+                    </div>
+                    <div class="filter_choose_btn_box">
+                        <a href="javascript:void(0)" class="filter_choose_add_add"><b><i></i></b>多选</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search_list_head_fiex_box">
+        <div class="search_list_head_fiex">
+            <div class="search_list_head" id="search_list_head_fiex_maodian">
+                <ul>
+                    <php>if(isset($itemInfo['order'])){</php>
+                    <if condition="$ret['hot'][0] neq ''">
+                        <li><a href="#search_result_wrap" class="clickThisTab mask2" k="t" c="hot" t="{$ret['hot'][0]}">
+                            <i>销量</i>
+                        </a></li>
+                        <else/>
+                        <if condition="$itemInfo.order eq '_hot'">
+                            <li><a href="#search_result_wrap" class="clickThisTab mask2" k="c" c="hot" t="hot" href="#search_list_head_fiex_maodian">
+                                <i>销量</i>
+                            </a></li>
+                            <else/>
+                            <li><a href="#search_result_wrap" class="clickThisTab up mask2 asc" k="c" c="hot" t="_hot" href="#search_list_head_fiex_maodian">
+                                <i>销量</i>
+                            </a></li>
+                        </if>
+                    </if>
+                    <if condition="$ret['price'][0] neq ''">
+                        <li><a href="#search_result_wrap" class="clickThisTab mask2" k="t" c="price" t="{$ret['price'][0]}">
+                            <i>价格</i>
+                        </a></li>
+                        <else/>
+                        <if condition="$itemInfo.order eq '_price'">
+                            <li href="#search_result_wrap"><a class="clickThisTab mask2" k="c" c="price" t="price" href="#search_list_head_fiex_maodian">
+                                <i>价格</i>
+                            </a></li>
+                            <else/>
+                            <li><a href="#search_result_wrap" class="clickThisTab up mask2 asc" k="c" c="price" t="_price" href="#search_list_head_fiex_maodian">
+                                <i>价格</i>
+                            </a></li>
+                        </if>
+                    </if>
+                    <if condition="$ret['new'][0] neq ''">
+                        <li><a href="#search_result_wrap" class="clickThisTab mask2" k="t" c="new" t="new">
+                            <i>新品</i>
+                        </a></li>
+                        <else/>
+                        <if condition="$itemInfo.order eq '_new'">
+                            <li><a href="javascript:void(0)" class="clickThisTab mask2" k="c" c="new" t="new#search_list_head_fiex_maodian">
+                                <i>新品</i>
+                            </a></li>
+                            <else/>
+                            <li><a href="javascript:void(0)" class="clickThisTab up mask2 asc" k="c" c="new" t="_new#search_list_head_fiex_maodian">
+                                <i>新品</i>
+                            </a></li>
+                        </if>
+                    </if>
+                    <php>}else{</php>
+                    <li><a href="javascript:void(0)" class="clickThisTab mask2" k="c" c="hot" t="_hot"><i>热销</i></a></li>
+                    <li><a href="javascript:void(0)" class="clickThisTab mask2" k="c" c="new" t="new"><i>新品</i></a></li>
+                    <li><a href="javascript:void(0)" class="clickThisTab mask2" k="c" c="price" t="price"><i>价格</i></a></li>
+                    <php>}</php>
+
+                    <Gyfx:goodslist name="lists" bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" path="$ary_request[path]" order="$ary_request[order]" pagesize="21" start="$ary_request['start']">
+                    </Gyfx:goodslist>
+                </ul>
+                <div class="price_box">
+                    <h2 id="priceSapn">
+                        <div>
+                            <input type="text" class="price" id="startPrice" placeholder="¥" value="{$ary_request['startPrice']}">
+                        </div>
+                        <div style="width:10px;text-align:center">-</div>
+                        <div>
+                            <input type="text" class="price" id="endPrice" placeholder="¥" value="{$ary_request['endPrice']}">
+                        </div>
+                        <div>
+                            <input href="javascript:void(0)" type="submit" value="确定" id="submitPrice" class="btn">
+                        </div>
+                    </h2>
+                </div>
+                <div class="head_pagebtn">
+                    <php>if(empty($pagearr['lists']['nowPage'])){</php>
+                    <!-- <span>暂无数据</span> -->
+                    <php>}else{</php>
+                    <php>if(($pagearr['lists']['nowPage'] != 1)){</php>
+                    <a class="pagebtn_on">{$pagearr.lists.nowPage}/{$pagearr.lists.totalPage}</a>
+                    <a href="{$pagearr.lists.upUrl}#search_list_head_fiex_maodian" class="dis prev"></a>
+                    <php>}</php>
+                    <php>if($pagearr['lists']['nowPage'] == $pagearr['lists']['totalPage']){</php>
+                    <a href="#search_list_head_fiex_maodian" class="enable next"></a>
+                    <php>}else{</php>
+                    <a href="{$pagearr.lists.downUrl}#search_list_head_fiex_maodian" class="enable next"></a>
+                    <php>}</php>
+                    <php>}</php>
+                </div>
+                <div class="head_pageInfo">
+                    <php>if($pagearr['lists']['nowPage'] == 1){</php><span style="color:#ed154b;margin-left: 8px;">{$pagearr.lists.nowPage}</span>/{$pagearr.lists.totalPage}页<php>}</php>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main4">
+        <div id="plist">
+            <ul>
+                <Gyfx:goodslist name="showlist" bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" gname="$ary_request[keyword]"
+                    startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" path="$ary_request[path]" 
+                    order="$ary_request[order]"
+                    pagesize="24" start="$ary_request['start']" mod='4' >
+                    <li <eq name='mod' value="3"> class="last"</eq> >
+                        <div class="lh_wrap">
+                            <div class="1h_wrap_content h_wrap_content">
+                                <div class="p-img"><a href="{$showlist.gurl}" target="_blank"><img alt="" src="{$Think.config.DOMAIN_HOST}{$showlist.gpic|showImage=###,220,220}"></a></div>
+                                <div class="p-name"><a href="{$showlist.gurl}" target="_blank"><span>{$showlist.gdescription}</span>{$showlist.gname}</a></div>
+                                <div class="p-intro">产品功能</div>
+                                <div class="btns">
+                                    <div class="p-price"><span class="price">￥<strong>{$showlist['gs_price']}</strong></span><!--<span class="extra">&nbsp&nbsp&nbsp<strong>{$showlist.comment_nums}</strong>人已经购买</span>--></div>
+                                    <a href="javascript:void(0)" <if condition="$showlist['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$showlist.authorize}','{$showlist.gid}');"<else />onClick='addGoodsCartElse("{$showlist.gid}","{$showlist.authorize}");'</if> class="add_cart_large btnCart" _src="{$Think.config.DOMAIN_HOST}{$showlist.gpic|showImage=###,220,220}">立即购买</a>
+                                    <!--<a href="javascript:addToInterests('{$showlist.gid}');" class="add_cart_small"><img src="__TPL__images/gray_love.png" alt="">收藏</a>-->
+                                </div>
+                                <if condition="$showlist['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                                    <input type="hidden" name="type" value="item" id="item_type_{$showlist.gid}" />
+                                    <input type="hidden" value="{$showlist.pdt_id}" name="pdt_id" id="pdt_id_{$showlist.gid}" />
+                                    <input type="hidden" value="{$showlist.pdt_stock}" name="pdt_stock" id="pdt_stock_{$showlist.gid}" />
+                                    <input type="hidden" value="1" id="item_num_{$showlist.gid}" name="num" />
+                                </if>
+                            </div>
+                            <div class="heart_shape">
+                                <div class="heart_shape_box">
+                                    <div class="heart_shape_l"></div>
+                                    <div class="heart_shape_f"></div>
+                                    <div class="heart_shape_t"></div>
+                                </div>
+                            </div>
+                            <div class="buy_shop">
+                                <a></a>
+                            </div>
+                            <div class="wrap_float_content">
+                                <div class="wrap_float_content_left"></div>
+                                <div class="wrap_float_content_middle">
+                                    <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                                    <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                                    <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                                    <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                                    <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                                </div>
+                                <div class="wrap_float_content_right"></div>
+                            </div>
+                        </div>
+                    </li>
+                </Gyfx:goodslist>
+            </ul>
+        </div>
+        <div id="flyItem" class="fly_item"><img _src="__TPL__images/item-pic.jpg" width="40" height="40"></div>
+    </div>
+    <div class="search_list_foot_fiex_box">
+        <div class="search_list_foot_fiex">
+            <div class="search_list_foot">
+                <Gyfx:goodslist name="lists" bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" path="$ary_request[path]" order="$ary_request[order]" pagesize="21" start="$ary_request['start']">
+                </Gyfx:goodslist>
+                <div class="foot_pageInfo">
+                    <php>if($pagearr['lists']['nowPage'] == 1){</php><span style="color:#ed154b;margin-left: 8px;">{$pagearr.lists.nowPage}</span>/{$pagearr.lists.totalPage}页<php>}</php>
+                </div>
+                <div class="foot_pagebtn">
+                    <php>if(empty($pagearr['lists']['nowPage'])){</php>
+                    <span>暂无数据</span>
+                    <php>}else{</php>
+                    <php>if(($pagearr['lists']['nowPage'] != 1)){</php>
+                    <a href="{$pagearr.lists.upUrl}#search_list_head_fiex_maodian" class="dis prev">上一页</a>
+                    <a class="pagebtn_content">{$pagearr.lists.nowPage}/{$pagearr.lists.totalPage}</a>
+                    <php>}</php>
+                    <php>if($pagearr['lists']['nowPage'] == $pagearr['lists']['totalPage']){</php>
+                    <a href="javascript:void(0);" class="enable next">下一页</a>
+                    <php>}else{</php>
+                    <a href="{$pagearr.lists.downUrl}#search_list_head_fiex_maodian" class="enable next">下一页<i></i></a>
+                    <php>}</php>
+                    <php>}</php>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    
+                    <input type="hidden" name="stock_error_1" value="{$Think.lang.STOCK_ERROR_1}" id="stock_error_1" />
+                    <input type="hidden" name="stock_error_2" value="{$Think.lang.STOCK_ERROR_2}" id="stock_error_2" />
+                    <input type="hidden" name="stock_error_3" value="{$Think.lang.STOCK_ERROR_3}" id="stock_error_3" />
+                    <input type="hidden" name="stock_error_4" value="{$Think.lang.STOCK_ERROR_4}" id="stock_error_4" />
+                    <input type="hidden" name="cid" value="{$ary_request['cid']}" id="cid" />
+                    <input type="hidden" name="bid" value="{$ary_request['bid']}" id="bid" />
+                    <input type="hidden" name="is_new" value="{$ary_request['is_new']}" id="is_new" />
+                    <input type="hidden" name="is_hot" value="{$ary_request['is_hot']}" id="is_hot" />
+                    <input type="hidden" name="startPrice" value="{$ary_request['startPrice']}" id="startPrice" />
+                    <input type="hidden" name="endPrice" value="{$ary_request['endPrice']}" id="endPrice" />
+<script type="text/javascript">
+    $(".h_wrap_content div").on("click","a",function(){
+        var details=$(this).attr("href");
+        var arr=details.split("gid");
+        var newUrl="/Home/Products/detail/v/2/"+"gid"+arr[1];
+        $(this).attr("href",newUrl);
+    });
+
+/*加入收藏*/
+$(".nav_in .bigD a").click(function(){
+    $(this).addClass('navHo').siblings().removeClass('navHo');
+});
+function addToInterests(gid){
+    if(parseInt(gid) <= 0){
+        alert("商品不存在或者已经被下架");return false;
+    }
+    $.ajax({
+        url:"/Home/Products/doAddGoodsCollect",
+        cache:false,
+        dataType:"json",
+        data:{gid:gid},
+        type:"post",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success("加入收藏成功");
+            }else{
+                $.ThinkBox.error(msgObj.info);
+            }
+        }
+    });
+}
+// 条件选择功能
+$(document).ready(function(){
+    //商品分类
+    $(".filter_classify_list ul>li").click(function(){
+        $(this).addClass('filter_classify_active').siblings().removeClass('filter_classify_active');
+        if ($(this).hasClass("filter_classify_all")) {
+            $("#selectA").remove();
+        } else {
+            var copyThisA = $(this).clone();
+            var b=$("<b>X</b>");
+            copyThisA.append(b);
+            if ($("#selectA").length > 0) {
+                $("#selectA a").html($(this).text());
+            } else {
+                $(".filter_title_box ul").append(copyThisA.attr("id", "selectA"));
+            }
+        }
+    });
+    //国家
+    $(".filter_country_list ul>li").click(function(){
+        $(this).addClass('filter_country_active').siblings().removeClass('filter_country_active');
+        if ($(this).hasClass("filter_country_all")) {
+            $("#selectB").remove();
+        } else {
+            var copyThisB = $(this).clone();
+            var b=$("<b>X</b>");
+            copyThisB.children("div").remove();
+            copyThisB.append(b);
+            if ($("#selectB").length > 0) {
+                $("#selectB a").html($(this).text());
+            } else {
+                $(".filter_title_box ul").append(copyThisB.attr("id", "selectB"));
+            }
+        }
+    });
+    //品牌
+    $(".filter_brand_list ul>li").click(function(){
+        $(this).addClass('filter_brand_active').siblings().removeClass('filter_brand_active');
+        if ($(this).hasClass("filter_brand_all")) {
+            $("#selectC").remove();
+        } else {
+            var copyThisC = $(this).clone();
+            var b=$("<b>X</b>");
+            copyThisC.append(b);
+            if ($("#selectC").length > 0) {
+                $("#selectC a").html($(this).text());
+            } else {
+                $(".filter_title_box ul").append(copyThisC.attr("id", "selectC"));
+            }
+        }
+    });
+    //功效
+    $(".filter_virtue_list ul>li").click(function(){
+        $(this).addClass('filter_virtue_active').siblings().removeClass('filter_virtue_active');
+        if ($(this).hasClass("filter_virtue_all")) {
+            $("#selectD").remove();
+        } else {
+            var copyThisD = $(this).clone();
+            var b=$("<b>X</b>");
+            copyThisD.append(b);
+            if ($("#selectD").length > 0) {
+                $("#selectD a").html($(this).text());
+            } else {
+                $(".filter_title_box ul").append(copyThisD.attr("id", "selectD"));
+            }
+        }
+    });
+    //商品分类
+    $("#selectA").live("click", function () {
+        $(this).remove();
+        $(".filter_classify_all").addClass("filter_classify_active").siblings().removeClass("filter_classify_active");
+        $(".filter_classify").show();
+        $('.filter_classify_list_add ul>li').each(function(){
+            $(this).removeClass('selected');
+        });
+    });
+    //国家
+    $("#selectB").live("click", function () {
+        $(this).remove();
+        $(".filter_country_all").addClass("filter_country_active").siblings().removeClass("filter_country_active");
+        $(".filter_country").show();
+        $('.filter_country_list_add ul>li').each(function(){
+            $(this).removeClass('selected');
+        });
+    });
+    //品牌
+    $("#selectC").live("click", function () {
+        $(this).remove();
+        $(".filter_brand_all").addClass("filter_brand_active").siblings().removeClass("filter_brand_active");
+        $(".filter_brand").show();
+        $('.filter_brand_list_add ul>li').each(function(){
+            $(this).removeClass('selected');
+        });
+    });
+    //功效
+    $("#selectD").live("click", function () {
+        $(this).remove();
+        $(".filter_virtue_all").addClass("filter_virtue_active").siblings().removeClass("filter_virtue_active");
+        $(".filter_virtue").show();
+        $('.filter_virtue_list_add ul>li').each(function(){
+            $(this).removeClass('selected');
+        });
+    });
+
+    $("#filter_box li").live("click", function () {
+        if ($(".filter_title_box li").length > 1) {
+            $(".select_no").hide();
+        } else {
+            $(".select_no").show();
+        }
+
+    });
+
+//    确定按钮和取消按钮js功能
+    $(function(){
+        //   商品分类的确定按钮的显示和隐藏
+        $('.filter_classify_list_add ul>li').on('click',function(){
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }else{
+                $(this).addClass('selected');
+            }
+            var $fileList = $(this).parent().find("li.selected");
+            var $tbn=$(this).parent().next().find("a.fn_confirm");
+            if($fileList.length > 0){
+                $tbn.show();
+            }else{
+                $tbn.hide();
+            }
+        });
+
+        //   国家分类的确定按钮的显示和隐藏
+        $('.filter_country_list_add ul>li').on('click',function(){
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }else{
+                $(this).addClass('selected');
+            }
+            var $fileList1=$(this).parent().find("li.selected");
+            var $tbn1=$(this).parent().next().find("a.fn_confirm1");
+            if($fileList1.length > 0){
+                $tbn1.show();
+            }else{
+                $tbn1.hide();
+            }
+        });
+        //   品牌的确定按钮的显示和隐藏
+        $('.filter_brand_list_add ul>li').on('click',function(){
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }else{
+                $(this).addClass('selected');
+            }
+            var $fileList2=$(this).parent().find("li.selected");
+            var $tbn2=$(this).parent().next().find("a.fn_confirm2");
+            if($fileList2.length > 0){
+                $tbn2.show();
+            }else{
+                $tbn2.hide();
+            }
+        });
+        //   功效分类的确定按钮的显示和隐藏
+        $('.filter_virtue_list_add ul>li').on('click',function(){
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }else{
+                $(this).addClass('selected');
+            }
+            var $fileList3= $(this).parent().find("li.selected");
+            var $tbn3=$(this).parent().next().find("a.fn_confirm3");
+            if($fileList3.length > 0){
+                $tbn3.show();
+            }else{
+                $tbn3.hide();
+            }
+        });
+        // 商品分类 为确定按钮绑定事件
+        $('.filter_classify_list_add>div').on('click','a.fn_confirm',function(){
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().find(".selected").each(function(){
+                var copyThisA= $(this).clone();
+                copyThisA.children("i").remove();
+                var b=$("<b>X</b>");
+                copyThisA.append(b);
+                if ($("#selectA").length > 0) {
+                    $("#selectA a").text( $(".filter_classify_list_add>ul>li.selected").text());
+                } else {
+                    $(".filter_title_box ul").append(copyThisA.attr("id", "selectA"));
+                    $(".filter_classify_list>ul>li.filter_classify_all").addClass("filter_classify_active").siblings().removeClass("filter_classify_active");
+                    if ($(".filter_title_box li").length > 1) {
+                        $(".select_no").hide();
+                    } else {
+                        $(".select_no").show();
+                    }
+                }
+            });
+        });
+        // 国家分类 为确定按钮绑定事件
+        $('.filter_country_list_add>div').on('click','a.fn_confirm1',function(){
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().find(".selected").each(function(){
+                var copyThisB= $(this).clone();
+                copyThisB.children("i").remove();
+                var b=$("<b>X</b>");
+                copyThisB.append(b);
+                if ($("#selectB").length > 0) {
+                    $("#selectB a").text( $(".filter_country_list_add>ul>li.selected").text());
+                } else {
+                    $(".filter_title_box ul").append(copyThisB.attr("id", "selectB"));
+                    $(".filter_country_list>ul>li.filter_country_all").addClass("filter_country_active").siblings().removeClass("filter_country_active");
+                    if ($(".filter_title_box li").length > 1) {
+                        $(".select_no").hide();
+                    } else {
+                        $(".select_no").show();
+                    }
+                }
+            });
+        });
+        // 品牌分类 为确定按钮绑定事件
+        $('.filter_brand_list_add>div').on('click','a.fn_confirm2',function(){
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().find(".selected").each(function(){
+                var copyThisC= $(this).clone();
+                copyThisC.children("i").remove();
+                var b=$("<b>X</b>");
+                copyThisC.append(b);
+                if ($("#selectC").length > 0) {
+                    $("#selectC a").text( $(".filter_brand_list_add>ul>li.selected").text());
+                } else {
+                    $(".filter_title_box ul").append(copyThisC.attr("id", "selectC"));
+                    $(".filter_brand_list>ul>li.filter_brand_all").addClass("filter_brand_active").siblings().removeClass("filter_brand_active");
+                    if ($(".filter_title_box li").length > 1) {
+                        $(".select_no").hide();
+                    } else {
+                        $(".select_no").show();
+                    }
+                }
+            });
+        });
+        // 功效分类 为确定按钮绑定事件
+        $('.filter_virtue_list_add>div').on('click','a.fn_confirm3',function(){
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().find(".selected").each(function(){
+                var copyThisD= $(this).clone();
+                copyThisD.children("i").remove();
+                var b=$("<b>X</b>");
+                copyThisD.append(b);
+                if ($("#selectD").length > 0) {
+                    $("#selectD a").text( $(".filter_virtue_list_add>ul>li.selected").text());
+                } else {
+                    $(".filter_title_box ul").append(copyThisD.attr("id", "selectD"));
+                    $(".filter_virtue_list>ul>li.filter_virtue_all").addClass("filter_virtue_active").siblings().removeClass("filter_virtue_active");
+                    if ($(".filter_title_box li").length > 1) {
+                        $(".select_no").hide();
+                    } else {
+                        $(".select_no").show();
+                    }
+                }
+            });
+        });
+        //    取消按钮
+        $('.fn_abolish1').click(function(){
+            $(this).parent().prev("ul").children("li").each(function(){
+                $(this).removeClass('selected');
+            });
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().parent().parent().prev().show();
+            var $fileList1 = $(this).parent().prev().find("li.selected");
+            if($fileList1.length > 0){
+                $(this).prev().show();
+            }else{
+                $(this).prev().hide();
+            }
+            return false;
+        });
+        $('.fn_abolish').click(function(){
+            $(this).parent().prev("ul").children("li").each(function(){
+                $(this).removeClass('selected');
+            });
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().parent().parent().prev().show();
+            var $fileList1 = $(this).parent().prev().find("li.selected");
+            if($fileList1.length > 0){
+                $(this).prev().show();
+            }else{
+                $(this).prev().hide();
+            }
+            return false;
+        });
+        $('.fn_abolish2').click(function(){
+            $(this).parent().prev("ul").children("li").each(function(){
+                $(this).removeClass('selected');
+            });
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().parent().parent().prev().show();
+            var $fileList1 = $(this).parent().prev().find("li.selected");
+            if($fileList1.length > 0){
+                $(this).prev().show();
+            }else{
+                $(this).prev().hide();
+            }
+            return false;
+        });
+        $('.fn_abolish3').click(function(){
+            $(this).parent().prev("ul").children("li").each(function(){
+                $(this).removeClass('selected');
+            });
+            $(this).parent().parent().parent().parent().hide();
+            $(this).parent().parent().parent().parent().prev().show();
+            var $fileList1 = $(this).parent().prev().find("li.selected");
+            if($fileList1.length > 0){
+                $(this).prev().show();
+            }else{
+                $(this).prev().hide();
+            }
+            return false;
+        });
+        //    多选按钮动画
+        $(".filter_choose_add_add").hover(function(){
+                    $(this).animate({color:'#9f0750'}).find('i').animate({top:'-9px'});
+                },function(){
+                    $(this).animate({color:'#7d7165'}).find('i').animate({top:'0'});
+                }
+        );
+    });
+    //    分类按钮js功能
+    $(function() {
+        var $category = $(".filter_classify_list ul>li:gt(16)");
+        $category.hide();
+        //     更多按钮js功能
+        if ($(".filter_classify_list ul>li").size() <= 17) {
+            $('.filter_choose_more').click(function () {
+                $(this).text('更多').css('color', 'black');
+                return false;
+            });
+        } else {
+            $('.filter_choose_more').click(function () {
+                if ($category.is(":visible")) {
+                    $category.hide();
+                    $('.filter_choose_more').text('更多').css('color', 'black');
+                } else {
+                    $category.show();
+                    $('.filter_choose_more').text('收起').css('color', '#fe2495');
+                    $(".filter_classify_list div").css('height', 'auto');
+                }
+                return false;
+            });
+        }
+
+        $('.filter_choose_add').click(function () {
+            $('.filter_classify_add').show();
+            $('.filter_classify').hide();
+            $('.filter_classify_list ul li:gt(16)').hide();
+            $('.filter_choose_more').text('更多').css('color', 'black');
+            var $fileList = $('.filter_classify_list_add ul li.selected');
+            var $nb=$('.fn_confirm');
+            if($fileList.length > 0){
+                $nb.show();
+            }else{
+                $nb.hide();
+            }
+            return false;
+        });
+        //    多选按钮动画
+        $(".filter_choose_add").hover(function () {
+                    $(this).animate({color: '#9f0750'}).find('i').animate({top: '-8px'});
+                }, function () {
+                    $(this).animate({color: '#7d7165'}).find('i').animate({top: '0'});
+                }
+        );
+    });
+//    国家按钮js功能
+    $(function() {
+        var $category1 = $(".filter_country_list ul>li:gt(19)");
+        $category1.hide();
+        //     更多按钮js功能
+        if ($(".filter_country_list ul>li").size() <= 20) {
+            $('.filter_choose_more1').click(function () {
+                $(this).text('更多').css('color', 'black');
+                return false;
+            });
+        } else {
+            $('.filter_choose_more1').click(function () {
+                if ($category1.is(":visible")) {
+                    $category1.hide();
+                    $('.filter_choose_more1').text('更多').css('color', 'black');
+                } else {
+                    $category1.show();
+                    $('.filter_choose_more1').text('收起').css('color', '#fe2495');
+                    $(".filter_country_list div").css('height', 'auto');
+                }
+                return false;
+            });
+        }
+
+        $('.filter_choose_add1').click(function () {
+            $('.filter_country_add').show();
+            $('.filter_country').hide();
+            $('.filter_country_list ul li:gt(19)').hide();
+            $('.filter_choose_more1').text('更多').css('color', 'black');
+            var $fileList1 = $('.filter_country_list_add ul li.selected');
+            var $nb1=$('.fn_confirm1');
+            if($fileList1.length > 0){
+                $nb1.show();
+            }else{
+                $nb1.hide();
+            }
+            return false;
+        });
+        //    多选按钮动画
+        $(".filter_choose_add1").hover(function () {
+                    $(this).animate({color: '#9f0750'}).find('i').animate({top: '-8px'});
+                }, function () {
+                    $(this).animate({color: '#7d7165'}).find('i').animate({top: '0'});
+                }
+        );
+    });
+//    品牌按钮js功能
+    $(function() {
+        var $category2 = $(".filter_brand_list ul>li:gt(18)");
+        $category2.hide();
+        //     更多按钮js功能
+        if ($(".filter_brand_list ul>li").size() <= 19) {
+            $('.filter_choose_more2').click(function () {
+                $(this).text('更多').css('color', 'black');
+                return false;
+            });
+        } else {
+            $('.filter_choose_more2').click(function () {
+                if ($category2.is(":visible")) {
+                    $category2.hide();
+                    $('.filter_choose_more2').text('更多').css('color', 'black');
+                } else {
+                    $category2.show();
+                    $('.filter_choose_more2').text('收起').css('color', '#fe2495');
+                    $(".filter_brand_list div").css('height', 'auto');
+                }
+                return false;
+            });
+        }
+
+        $('.filter_choose_add2').click(function () {
+            $('.filter_brand_add').show();
+            $('.filter_brand').hide();
+            $('.filter_brand_list ul li:gt(18)').hide();
+            $('.filter_choose_more2').text('更多').css('color', 'black');
+            var $fileList2 = $('.filter_brand_list_add ul li.selected');
+            var $nb2=$('.fn_confirm2');
+            if($fileList2.length > 0){
+                $nb2.show();
+            }else{
+                $nb2.hide();
+            }
+            return false;
+        });
+        //    多选按钮动画
+        $(".filter_choose_add2").hover(function () {
+                    $(this).animate({color: '#9f0750'}).find('i').animate({top: '-8px'});
+                }, function () {
+                    $(this).animate({color: '#7d7165'}).find('i').animate({top: '0'});
+                }
+        );
+    });
+//    功效按钮js功能
+    $(function() {
+        var $category3 = $(".filter_virtue_list ul>li:gt(16)");
+        $category3.hide();
+        //     更多按钮js功能
+        if ($(".filter_virtue_list ul>li").size() <= 17) {
+            $('.filter_choose_more3').click(function () {
+                $(this).text('更多').css('color', 'black');
+                return false;
+            });
+        } else {
+            $('.filter_choose_more3').click(function () {
+                if ($category3.is(":visible")) {
+                    $category3.hide();
+                    $('.filter_choose_more3').text('更多').css('color', 'black');
+                } else {
+                    $category3.show();
+                    $('.filter_choose_more3').text('收起').css('color', '#fe2495');
+                    $(".filter_virtue_list div").css('height', 'auto');
+                }
+                return false;
+            });
+        }
+
+        $('.filter_choose_add3').click(function () {
+            $('.filter_virtue_add').show();
+            $('.filter_virtue').hide();
+            $('.filter_virtue_list ul li:gt(16)').hide();
+            $('.filter_choose_more3').text('更多').css('color', 'black');
+            var $fileList3 = $('.filter_virtue_list_add ul li.selected');
+            var $nb3=$('.fn_confirm3');
+            if($fileList3.length > 0){
+                $nb3.show();
+            }else{
+                $nb3.hide();
+            }
+            return false;
+        });
+        //    多选按钮动画
+        $(".filter_choose_add3").hover(function () {
+                    $(this).animate({color: '#9f0750'}).find('i').animate({top: '-8px'});
+                }, function () {
+                    $(this).animate({color: '#7d7165'}).find('i').animate({top: '0'});
+                }
+        );
+    });
+});
+</script>

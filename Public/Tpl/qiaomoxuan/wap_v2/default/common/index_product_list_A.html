@@ -1,0 +1,33 @@
+<!--@title 首页商品列表风格A-->
+<!--@desc 首页商品三联列表，推荐宽度570，高度260，第一件商品突出显示-->
+<div class="index_product_list_A_title" edit-name="模块标题" textstyle-editable="true" style-num="1" textcontent-editable="true" content-num="1">演示列表名称</div>
+<div class="index_product_list_A_content" >
+    <Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order">
+        <if condition="$big_pic eq 1">
+            <eq name="key" value="0">
+            <div class="index_product_list_A_content_first" style="width:{$a/$column-2}%">
+                <if condition="$show_pic eq 1"><a href="{$showlist.gurl}"><img src="{$showlist.gpic}" style="width: 100%; height: 220px;" edit-name="首张图片" imagestyle-editable="true" style-num="2" /></a></if>
+            </div>
+            <else/>
+            <div class="index_product_list_A_content_section" style="width:{$a/$column-2}%">
+                <if condition="$show_pic eq 1"><img src="{$showlist.gpic}" style="width: 100%; height: 160px;" edit-name="列表图片" imagestyle-editable="true" style-num="3" /></if>
+                <br /><a href="{$showlist.gurl}" edit-name="商品标题" textstyle-editable="true" style-num="4">{$showlist.gname|msubstr=0,12,'utf-8',false}</a>
+                <if condition="$price.sale_price neq ''"><span edit-name="销售价" textstyle-editable="true" style-num="5"><br />{$price.sale_price}<b>{$showlist.gprice}</b></span></if>
+                <if condition="$price.market_price neq ''"><span edit-name="市场价" textstyle-editable="true" style-num="6"><br />{$price.market_price}<b>{$showlist.maprice}</b></span></if>
+                <if condition="$price.save_price neq ''"><span edit-name="节省" textstyle-editable="true" style-num="7"><br />{$price.save_price}<b>{$showlist.maprice}</b></span></if>
+                <if condition="$price.discount_price neq ''"><span edit-name="折扣" textstyle-editable="true" style-num="8"><br />{$price.discount_price}<b>{$showlist.maprice}</b></span></if>
+            </div>
+            </eq>
+        <else/>
+            <div class="index_product_list_A_content_section" style="width:{$a/$column-2}%">
+                <if condition="$show_pic eq 1"><img src="{$showlist.gpic}" style="width: 100%; height: 160px;" edit-name="列表图片" imagestyle-editable="true" style-num="3" /></if>
+                <br /><a href="{$showlist.gurl}" edit-name="商品标题" textstyle-editable="true" style-num="4">{$showlist.gname|msubstr=0,12,'utf-8',false}</a>
+                <if condition="$price.sale_price neq ''"><span edit-name="销售价" textstyle-editable="true" style-num="5"><br />{$price.sale_price}<b>{$showlist.gprice|sprintf='%.2f',###}</b></span></if>
+                <if condition="$price.market_price neq ''"><span edit-name="市场价" textstyle-editable="true" style-num="6"><br />{$price.market_price}<b>{$showlist.maprice|sprintf='%.2f',###}</b></span></if>
+                <if condition="$price.save_price neq ''"><span edit-name="节省" textstyle-editable="true" style-num="7"><br />{$price.save_price}<b>{$showlist['maprice']-$showlist['gprice']|sprintf='%.2f',###}</b></span></if>
+                <if condition="$price.discount_price neq ''"><span edit-name="折扣" textstyle-editable="true" style-num="8"><br />{$price.discount_price}<b>{$showlist.maprice|sprintf='%.2f',###}</b></span></if>
+            </div>
+        </if>
+    </Gyfx:goodslist>
+</div>
+<div class="clear"></div>

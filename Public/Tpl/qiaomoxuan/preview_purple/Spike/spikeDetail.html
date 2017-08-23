@@ -1,0 +1,377 @@
+<link rel="stylesheet" href="__CSS__swiper.min.css">
+<script type="text/javascript" src="__JS__jquery.touchslider.min.js"></script>
+<script src="__JS__swiper.min.js"></script>
+<link href="{$Think.config.DOMAIN_HOST}__CSS__spike.css" rel="stylesheet" type="text/css"/>
+<div class="container"><!--container-->
+<Gyfx:goodsinfo name="detail" gid="$g_id" erpguid="$g_id"  ></Gyfx:goodsinfo>
+<input type="hidden" value="{$gid}" id="gid">
+<div class="detailTop"> <!--detailTop-->
+    <p class="detailT">
+        <a href="{:U('/Wap/Index/index')}">首页</a>/
+        <a href="{:U('/Wap/Spike/index')}">秒杀活动</a>/
+        <a href="javascript:void(0)">{$sp_title}</a>
+    </p>
+    <!-- 标题价格内容 start-->
+    <div class="proDetail">
+        <h1 class="title">{$sp_title}<em><em>秒杀价：{$sp_price|sprintf='%.2f',###}</em>元</em></h1>
+        
+        <!--<span class="comment"><i></i><i></i><i></i><i></i><i class="bad"></i>(122好评)<b><a href="">收藏</a></b> </span> -->
+		<P class="time">
+			<i></i>
+			<php>$time = date("Y-m-d H:i:s");</php>
+			<php>if($time <= $sp_start_time){</php>
+				<span  id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+				<script>setGroupbuyTime('{$sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$sp_end_time}',"{$data['sp_id']}","{$detail['gid']}");</script>
+			<php>}elseif($time >= $sp_end_time){</php>
+				<span  class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+			<php>}else{</php>
+				<span  id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+				<script>setGroupbuyTime('{$sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$sp_id}","{$detail['gid']}");</script>
+			<php>}</php>
+		</P>
+		<p>
+		  剩余数量：<b class="numb">{$gstock}</b> 件 （秒杀数量：<b class="numb">{$sp_now_number|default=0}</b> 件）
+		</p>
+        <p class="type">款号：{$detail.gsn}</p>
+    </div>
+    <!-- 标题价格内容 end-->
+    <div class="lunbo banner"><!--lunbo-->
+        <div class="swiper-container" id="swiper-container2">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="javascript:;">
+                        <img width="100%" src="{$Think.config.DOMAIN_HOST}{$sp_picture|showImage=###,640,640}" />
+                    </a>
+                </div>
+				<volist name="detail.gpics" id="pic">
+					<div class="swiper-slide">
+						<a href="javascript:;">
+							<img width="100%" src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,640}" />
+						</a>
+					</div>
+                </volist>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <!--/lunbo-->
+
+    <!-- 分类选择 start-->
+    <div class="Choice">
+        <!-- 颜色分类 start-->
+ <input type="hidden" value="0" id="is_global_stock" />
+        <div class="color" id="showDetailSkus">
+            <!-- 分类 start-->
+			商品规格加载中，请稍后。。。
+			<script type="text/javascript">
+				getDetailSkus('{$sp_id}', 8);
+			</script>
+		</div>
+        <!-- 按钮 start-->
+        <div class="btn_box">
+			<if condition="$detail.authorize eq 1">	
+		   <php>$time = date("Y-m-d H:i:s");</php>
+		   <span id="showGrouupbuy{$sp_id}">
+			<php>if($time <= $sp_start_time){</php>
+			<a href="javascript:void(0);" class="add_cart " disabled  gid="{$gid}" >未开始</a>
+			<php>}elseif($time >= $sp_end_time){</php>
+			<a href="javascript:void(0);" class="add_cart " disabled gid="{$gid}" >秒杀结束</a>
+			<php>}else{</php>
+			<a href="javascript:void(0);" class="add_cart addToOrder"   id="addToOrder" gid="{$gid}" >立即抢购</a>
+			<php>}</php>
+			</span>
+			<else />
+			   您不能购买此商品吆～～
+			</if>
+        </div>
+
+        <!-- 按钮 end-->
+    </div>
+    <!-- 分类选择 end-->
+</div>
+   <!--detailCenter-->
+    <div class="detailCenter">
+		<div class="detailCenterNav"><!--商品详情start--> 
+			<a href="javascript:;" class="on">秒杀详情<i></i></a>
+			<div class="detailList" style="display:block;">{$sp_desc}</div>
+        </div>
+    <!--商品详情end-->
+    
+		<div class="detailCenterNav"> <!--商品评价 start--> 
+			  <a href="javascript:;">商品评价<i></i></a>
+			  <div class="detailList">
+				<div class="Comment">
+					<h1>用户评论</h1>
+					<!--商品评价顶部内容--评价等级 start-->
+					<p class="start"><i></i><i></i><i></i><i></i> <i class="bad"></i><span class="cm">(<em>{$all_count}</em>条评论)</span></p>
+					<!--商品评价顶部内容--评价等级 end--> 
+					<!--商品评价顶部内容 start-->
+					<div class="up"> 
+					<!--商品评价顶部内容左边评价 start-->
+						<div class="c-left">
+							<ul class="nav">
+								<li>
+									<span>好评</span>
+									<div class="gray">
+										<div class="purple"></div>
+									</div>
+									<div class="countNum">(<em>{$good_count}</em>)</div>
+								</li>
+								<li>
+									<span>中评</span>
+									<div class="gray">
+										<div class="purple"></div>
+									</div>
+									<div class="countNum">(<em>{$normal_count}</em>)</div>
+								</li>
+								<li>
+									<span>差评</span>
+									<div class="gray">
+										<div class="purple"></div>
+									</div>
+									<div class="countNum">(<em>{$bad_count}</em>)</div>
+								</li>
+							</ul>
+						</div>
+						<!--商品评价顶部内容左边评价end--> 
+					</div>
+					<!--商品评价底部内容 start--> 
+					<!--商品评价列表内容 start-->
+					<div class="reply"> 
+					<!--商品评价列表内容1 start-->
+					<!-- <php>
+					echo "<pre>";
+					print_r($data);
+					</php> -->
+					<volist name="comment_data" id="comm" >
+						<div class="reply1">
+							<div class="userMsg">
+								<div class="user">
+									<a href="#"><img src="__IMAGES__user.jpg" width="60"/></a>
+								</div>
+								<div class="name">
+									<p>{$comm.m_name}</p>
+								</div>
+							</div>
+							<div class="content">
+								<p>{$comm.gcom_title}</p>
+								<p>
+								<switch name="comm.gcom_star_score">
+                                    <case value="20"><i></i></case>
+                                    <case value="40"><i></i><i></i></case>
+                                    <case value="60"><i></i><i></i><i></i></case>
+                                    <case value="80"><i></i><i></i><i></i><i></i></case>
+                                    <case value="100"><i></i><i></i><i></i><i></i><i></i></case>
+                                </switch>
+									<span class="date">{$comm.gcom_create_time}</span>
+								</p>
+								<p class="assess">{$comm.gcom_content}</p>
+								<if condition="$comm['recomment'] neq ''">
+								<php>foreach($comm['recomment'] as $recomment){</php>
+								<p class="assess">[追加评论]{$recomment['gcom_content']}</p>
+								<span class="date">{$recomment['gcom_create_time']}</span></p>
+								<if condition="$recomment[reply] neq ''">
+								<p class="assess">客服回复：{$recomment[reply][gcom_content]}</p>
+								</if>
+								<php>}</php>
+								</if>
+							</div>
+						</div>
+					</volist>
+					</div>
+				  <!--商品评价列表内容 end--> 
+				</div>
+				<!--商品评价底部内容 start--> 
+			</div>
+		</div>
+		<!--用户评论 end-->
+		
+		<div class="detailCenterNav"> <!--商品咨询 start--> 
+			<a href="javascript:;">商品咨询<i></i></a>
+			<div class="detailList">
+				<div class="Consultation">
+					<h1>商品咨询</h1>
+					<volist name="advice_data" id="vo" key="k">
+					<if condition="$vo['pc_is_reply'] eq 1">
+					<!--商品咨询问题 start-->
+					<div class="questions">
+						<i class="question_flag"></i>
+						<p>{$vo.pc_question_content}</p>
+						<b>{$vo.new_mname|default="匿名用户"}<i>{$vo.pc_create_time}</i></b>
+					</div>
+					<!--商品咨询问题 end--> 
+					<!--商品咨询回答 start-->
+					<if condition="$vo.pc_is_reply eq '1'">
+					<div class="Answer">
+						<em>&#9670;</em>
+						<span>&#9670;</span>
+						<p>{$vo.pc_answer}</p>
+						<b>客服<i>{$vo.pc_reply_time}</i></b>
+					</div>
+					</if>
+					</if>
+					</volist>
+					<!--商品咨询回答 end-->
+					<div class="Doubt">
+						<h3>咨询</h3>
+						<textarea id="question_content" class="txt" name="question_content" placeholder="对产品有任何疑问？"></textarea>
+					</div>
+					<p class="btnP">
+						<input type="submit" id="addAdvice" value="提交我的疑问" class="btn">
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+<!--!detailTop-->
+<!--detailCenter-->
+
+</div>
+<input type="hidden" id="sp_id" value="{$sp_id}" />
+<input type="hidden" id="m_id" value="{$Think.session.Members.m_id}" />
+<input type="hidden" id="is_spike" value="{$is_spike}" />
+<script>
+    var swiper = new Swiper('#swiper-container2', {
+        autoplay:3000,
+        slidesPerView: 1,
+        pagination:".swiper-pagination",
+        paginationClickable: true,
+        spaceBetween: 0,
+        freeMode: true,
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+    });
+</script>
+<script>
+//提交到购物车
+$(document).ready(function(){
+var surplusNums = $("#surplus").html();
+if(0 == surplusNums){
+$("#addToOrder").attr("class", "notSpike");
+$("#addToOrder").html('已售完');
+}
+$('#addToOrder').click( function(){
+    var pdt_id = $('#pdt_id').val();
+    var g_id = $('#g_id').val();
+    var sp_id = $('#sp_id').val();
+    var pdt_stock = parseInt($('#pdt_stock').val());
+    var num = parseInt($('#item_num').val());
+    var is_spike = $("#is_spike").val();
+    <if condition="$detail.delivery eq '1'">
+        var cr_id = parseInt($("#cr_ids").val());
+        if(isNaN(cr_id)){
+        showAlert(false,"请选择配送区域");
+        return;
+        }
+    </if>
+    if (isNaN(num)){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+        return;
+    }
+    if (num < 1){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+        return;
+    }
+    if (num > 1){
+        $.ThinkBox.error("秒杀商品限购1件");
+        return;
+    }
+    if (pdt_stock < 1){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_2}");
+        return;
+    }
+    if (num > pdt_stock){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_3}");
+        return;
+    }
+    if (pdt_id == ""){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+        return;
+    }
+    if(is_spike == 1){
+        showAlert(false,"您已秒杀过该商品！");
+        return false;
+    }
+    //发送ajax请求
+    //        var data = $('#goodsForm').serialize();
+    var data = new Object();
+    data['cart'] = {};
+    data['cart']['pdt_id'] = pdt_id;
+    data['cart']['g_id'] = g_id;
+    data['cart']['sp_id'] = sp_id;
+    data['cart']['num'] = num;
+    data['type'] = 'spike';
+    var m_id = $('#m_id').val();
+    if(m_id == ''){
+    location.href="/Wap/User/login?jumpUrl=/Wap/Spike/detail?sp_id="+sp_id;return false;
+    }
+    if (data != ''){
+        $.ajax({
+            url:'/Wap/Cart/doAdd',
+            dataType:'json',
+            type:'POST',
+            data: data,
+            success:function(dataMsg){
+                 if(dataMsg.status){
+                     $.ThinkBox.success("正在跳转……");
+                     location.href='/Wap/Orders/pageSpikeAdd';
+                     return false;
+                 }else{
+                     $.ThinkBox.error(dataMsg.msg);
+                 }
+            },
+            error:function(){
+                alert('请求失败！');
+            }
+        });
+
+    }
+});
+
+
+    //添加咨询
+    $("#addAdvice").click(function(){
+        var question_content = $("#question_content").val();
+        if(question_content == ''){
+            alert('咨询内容不能为空');return false;
+        }
+        var gid = '{$filter.gid}';
+        var mid = '{$Think.session.Members.m_id}';
+        var m_name = '{$Think.session.Members.m_name}';
+        var url = '/Wap/Products/doGoodsAdvice';
+        $.post(url,{'gid':gid,'mid':mid,'question_content':question_content,'type':1,'question_title':'提问'},function(msgObj){
+            if(msgObj.status == '1'){
+                alert(msgObj.info);
+                var _mvq = window._mvq || [];window._mvq = _mvq;
+                _mvq.push(['$setAccount', 'm-24416-0']);
+
+                _mvq.push(['$setGeneral', 'consult', '', /*用户名*/ m_name, /*用户id*/ mid]);
+                _mvq.push(['$logConversion']);
+//getGoodsAdvice(gid,1);
+                return false;;
+            }else{
+                alert(msgObj.info);
+                return;
+            }
+        },'json')
+    });
+});
+
+
+</script>
+<script type="text/javascript">
+//商品数量更改
+function countNum(i){
+    var _this = $(".proPicker .inS input[name='num']");
+    var num=parseInt(_this.val()),max=parseInt(_this.attr('max'));
+
+        num=num+i;
+        if((num<=0)||(num>1)||(num>999)){return false;}
+        _this.val(num);
+}
+$("#item_num").blur(function(){
+    $(this).val(1);
+});
+</script>
+

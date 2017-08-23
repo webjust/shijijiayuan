@@ -1,0 +1,51 @@
+<script src="__PUBLIC__/Addmin/js/member.js"></script>
+<div class="rightInner">
+    <form id="members_form" name="members_form" method="post" action="{:U('Admin/Sourceplatform/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">会员来源平台编辑</th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td class="first">平台名称：</td>
+                    <td>
+                        <input type="text" name="sp_name" id="sp_name" class="medium" value="{$platform.sp_name}" validtae="{ required:true}"/> <br> 
+                        <input type="hidden" name="sp_id" id="sp_name" class="medium" value="{$platform.sp_id}"/> 
+                    </td>
+                    <td class="last">请输入平台中文名字</td>
+                </tr>
+                <tr>
+                    <td class="first">平台代码：</td>
+                    <td>
+                        <input type="text" name="sp_code" id="sp_code" class="medium" value="{$platform.sp_code}" validate='{ required:true,username:true,remote:"{:U("Admin/Sourceplatform/checkSourceplatformCode","filed=sp_code&msg=等级代码")}"}' /> <br> 
+                    </td>
+                    <td class="last">请输入平台代码</td>
+                </tr>
+                <tr>
+                    <td class="first">有效/无效：</td>
+                    <td>
+            <input type="radio" name="sp_stauts" <if condition="$platform[sp_stauts] eq 1">checked="checked"</if> value="1" />有效<input type="radio"  <if condition="$platform[sp_stauts] eq 0">checked="checked"</if> name="sp_stauts" value="0" />无效
+                    </td>
+                    <td class="last">请输入平台代码</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/Sourceplatform/pageList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#members_form").validate();   
+    });
+</script>

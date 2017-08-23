@@ -1,0 +1,66 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>我的金币 - 金币兑换</span></h2>
+
+    <div class="deposit"><!--deposit  start-->
+        <p class="p01">
+            <span class="span01">兑换账户：</span><strong>{$members.m_name}</strong>
+            <span class="span02">账户金币：</span><b>{$members['m_jlb'] |default="0"}</b>个
+        </p>
+
+        <div class="depositCon"><!--depositCon  start-->
+            <p class="depositConP">
+                <span id="depositConP4" class="onHover">兑换积分</span>
+            </p>
+
+            <div id="con_depositConP_2" class="depositLine">
+                <form action="{:U('Ucenter/Jlb/doAddJlbToPoint')}" method="post" id="jlbtopoint" name="jlbtopoint">
+                    <div class="OffLine02"><!--OffLine02  start-->
+                        <table>
+                            <tr>
+                                <td align="right">可兑换积分数：</td>
+                                <td>
+                                    <span>{$point}</span>
+                                </td>
+                                <td><span>可兑换成最大的积分数</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 兑换积分数：</td>
+                                <td><input type="text" class="input01" name="points" validate="{ required:true,max:{$point},digits:true}" /></td>
+                                <td><span>兑换的积分数不能大于可兑换数量</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top">备注：</td>
+                                <td>
+                                    <textarea name="ji_desc"></textarea>
+                                </td>
+                                <td><span>200个字以内</span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><a href="###" class="brown" id="submit">兑换</a></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div><!--OffLine02  end-->
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div><!--depositCon  end-->
+
+    </div><!--deposit   end-->
+
+</div><!--contentRightBox  end-->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.metadata.setType("attr","validate");
+        $("#jlbtopoint").validate();
+        $("#submit").click(function(){
+            if(false != $("#jlbtopoint").valid()){
+                $("#jlbtopoint").submit();
+            }
+        });
+    });
+</script>

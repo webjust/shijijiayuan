@@ -1,0 +1,186 @@
+<div id="tip_dialog">
+</div>
+<div id="content">
+    <div class="rightInner">
+        <form id="promotion_edit" name="promotion_edit" method="post" action="{:U('Admin/Voucher/doEdit')}">
+            <table class="tbForm" width="100%">
+                <thead>
+                    <tr class="title">
+                        <th colspan="99">销货收款单详情 </th>
+                    </tr>
+                </thead>
+
+                <tbody class="tab">
+                   <tr>
+                        <td class="first">单据编号：</td>
+                        <td>
+							{$data.sr_id}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="first">销货类型：</td>
+                        <td>
+                        <if condition="$data.sr_type eq '0' ">
+                       		 线下支付
+                       		 <input type="hidden" value="0" id="sr_type" />
+                        </if>
+                        <if condition="$data.sr_type eq '1' ">
+                       		 {$pay_name|default='货到付款'}
+                       		 <input type="hidden" value="1" id="sr_type" />
+                        </if>                        
+                        </td>
+                    </tr>
+                    <tr class="type0 type1" style="display:none;">
+                        <td class="first">订单号：</td>
+                        <td>
+                            {$data.o_id}
+                        </td>
+                        <td class="last"></td>
+                    </tr>
+                    <tr class="type1" style="display:none;">
+                        <td class="first">物流单：</td>
+                        <td>
+                            {$data.o_id}
+                        </td>
+                        <td class="last"></td>
+                    </tr>                    
+                   <tr id="memberName" >
+                        <td class="first">会员名称：</td>
+                        <td>
+                            <span id="m_name">{$data.m_name}</span>
+                        </td>
+                    </tr>
+                    <tr class="type0" style="display: none;">
+                        <td class="first">汇款人：</td>
+                        <td>
+                            {$data.sr_remitter}
+                        </td>
+                    </tr>
+                    <tr class="type0" style="display: none;">
+                        <td class="first">开户行：</td>
+                        <td>
+                            {$data.sr_bank}
+                        </td>
+                    </tr>
+                   <tr class="type0 type1" style="display: none;">
+                        <td class="first">金额：</td>
+                        <td>
+                            {$data.to_post_balance}
+                        </td>
+                    </tr>
+                    <tr class="type0" style="display: none;">
+                        <td class="first">流水号：</td>
+                        <td>
+                            {$data.sr_bank_sn}
+                        </td>
+                    </tr>
+                    <tr class="type0" style="display: none;">
+                        <td class="first">汇款时间：</td>
+                        <td>
+                            {$data.sr_remit_time}
+                        </td>
+                    </tr>
+                     <tr class="type0 type1" style="display: none;">
+                        <td class="first">制单人：</td>
+                        <td>
+                            {$data.u_name}
+                        </td>
+                    </tr>     
+                    <tr class="type0 type1" style="display: none;">
+                        <td class="first">制单日期：</td>
+                        <td>
+                            {$data.sr_create_time}
+                        </td>
+                    </tr>    
+                   <tr class="type0 type1" style="display: none;">
+                        <td class="first">确认人：</td>
+                        <td>
+                            {$data.v_name}
+                        </td>
+                    </tr>  
+                   <tr class="type0 type1" style="display: none;">
+                        <td class="first">确认日期：</td>
+                        <td>
+                            {$data.sr_verify_date}
+                        </td>
+                    </tr>  
+                    <tr class="type0 type1" style="display: none;">
+                        <td class="first">状态：</td>
+                        <td>
+	                      <if condition="$data.sr_verify_status eq '0'">
+	                     	<if condition="$data.sr_status eq '0'">
+		 							<strong style="color:red;">已作废</strong>
+		 					<else/>
+		 					<strong style="color:red;">未确认</strong>
+	                      </if>
+	                      </if>
+	                      <if condition="$data.sr_verify_status eq '1'">
+	                      	<strong style="color:red;">已确认</strong>
+	                      </if>
+                        </td>
+                    </tr>                                         
+                    <tr class="type0 type1" style="display: none;">
+                        <td class="first">备注：</td>
+                        <td>
+                        	<textarea class="large medium" name="sr_remark" id="sr_remark" maxlength="200" style="width: 200px;height:100px;float: none;" readonly>{$data.sr_remark}</textarea>
+                        </td>
+                    </tr>                                                                                                
+                    <tr class="last">
+                    	<td></td>
+                        <td>
+                          <input type="hidden" value="{$data.sr_id}" name="sr_id" id="sr_id" />
+						  <if condition="($data.sr_verify_status eq '0') AND ($data.sr_status neq '0')">
+                            <input type="button" value="确 认" class="btnA confirm upstatus" id="conf" />&nbsp;
+                            <input type="button" value="作废"  class="btnA confirm upstatus" id="del"/>
+                            <input type="button" value="取 消" onClick="onUrl('{:U("Admin/Voucher/pageList")}');" class="btnA back" />
+	                      </if>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </form>
+        <div class="clear"></div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+	var type = $("#sr_type").attr("value");
+	
+	if(type == '0'){
+		$(".type1").css('display','none');
+		$(".type0").css('display','');
+	}
+	if(type == '1'){
+		$(".type0").css('display','none');
+		$(".type1").css('display','');
+	}
+    $(".upstatus").click(function(){
+        var tid = $("#sr_id").val();
+        var type = $(this).attr("id");
+        if(tid == ''){
+            showAlert("","未发现单据编号");return false;
+        }
+        $.ajax({
+            url:'{:U("Admin/Voucher/doStatus")}',
+            cache:false,
+            dataType:'TEXT',
+            type:'POST',
+            data:{'tid':tid,'type':type},
+            success:function(msgObj){
+                var msgobj = JSON.parse(msgObj);
+                if(msgobj.status == '0'){
+                	showAlert('',msgobj.info); 
+                }else{
+                	showAlert('',msgobj.info); 
+                	location.href='{:U("Admin/Voucher/pageList")}';
+                }
+            },
+            error:function(msgObj){
+                var msgobj = JSON.parse(msgObj);
+                showAlert('',msgobj.info); 
+            }
+        });
+    });     
+});    
+</script>

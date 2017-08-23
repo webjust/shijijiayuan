@@ -1,0 +1,102 @@
+<!---中间内容部分  开始-->
+<link href="__CSS__point.css" rel="stylesheet">
+<script src="__JS__jquery.colorbox-min.js"></script>
+<div class="warp">
+	<div class="content1200">
+    	<div class="navTop">
+        </div>
+        <div class="inblock"><!--inblock  start-->
+        	<div class="proListLeft"><!--proListLeft   start-->
+            	<div class="borderPadd pb5"><!--borderPadd  start-->
+                	<ul class="navUL">
+					   <Gyfx:goodscate name="cate"  >
+                    	<li  <if condition="($cate['cid'] eq $ary_request['cid']) or ($cate['cid'] eq $ary_request['gpc_id'])">class="on"</if> >
+                        	<strong><a href="{:U('Home/Point/index',"cid=$cate[cid]")}">{$cate.cname}</a></strong>
+                        	<dl <if condition="($cate['cid'] neq $ary_request['cid']) and ($cate['cid'] neq $ary_request['gpc_id'])">style="display:none;"</if>>
+							   <volist name="cate['sub']" id="cat">
+                                <dd><a href="{:U('Home/Point/index',"cid=$cat[cid]")}" <if condition="$cat[cid] eq $ary_request['cid']"> style="color:#970000;" </if>>{$cat.cname}</a></dd>
+                               </volist>
+                            </dl>
+                        </li>
+					   </Gyfx:goodscate>
+                    </ul>
+                </div><!--borderPadd  end-->
+                
+            </div><!--proListLeft   end-->
+            
+            <div class="proListRight"><!--proListRight   start-->
+            	<div class="YGjifen"><!--商城积分   开始--->
+                	<h2>积分商城</h2>
+                    <table>
+					    <Gyfx:goodslist name='showlist' pagesize="12" type="1" start="$ary_request[start]" cid="$ary_request['cid']" gname="$ary_request[keyword]">
+                    	<tr>
+                        	<td width="140" align="center"><a href="{$showlist.gurl}"><img src="{$showlist.gpic|showImage=###,110,110}" width="110" height="110"</a></td>
+                            <td>
+                            	<p class="260"><a href="{$showlist.gurl}" class="green">{$showlist.gname}</a></p>
+                                <span>商家编码：{$showlist.gsn}</span>
+                                <span>单价：<I class="price">￥</I>{$showlist.gprice}</span>
+                            </td>
+                            <td>{$showlist.gpoint}积分</td>
+                            <td align="center"><p class="width82"><input type="button"  value="立即兑换" name="jf_button" data-id="{$showlist[gid]}" data-uri='{:U("Home/Products/getAddToCartDetail")}' onclick="yDh(this)"></p></td>
+                        </tr>
+						</Gyfx:goodslist>
+                    </table>
+					<form action="{:U('Home/Point/index/')}" method="get" >
+                    <div class="fenyeDiv">
+                        <notempty name="pagearr.showlist.upPage">{$pagearr.showlist.upPage}</notempty>&nbsp; {$pagearr.showlist.linkPage}&nbsp; <notempty name="pagearr.showlist.downPage">{$pagearr.showlist.downPage}</notempty>&nbsp;&nbsp; 共{$pagearr.showlist.totalPage}页，
+                            	到第 <input type="text" name="start" value="{$itemInfo.start}"> 页 <input type="submit" value="确定">
+                    </div>
+					</form>
+                </div><!--商城积分   结束--->
+            </div><!--proListRight   end-->
+        </div><!--inblock  end-->
+    </div>
+</div>
+<!---中间内容部分  结束-->
+<!--弹窗-积分兑换   开始-->
+<div style="display:none;" id="pdt_div">
+  <div id="yDhu" class="CPM" style="height:300px"></div>
+</div>
+<!--弹窗-积分兑换   结束-->
+
+<script type="text/javascript">
+$(".borderPadd ul li").hover(function(){
+	$(".navUL ul li").children("dl").hide();
+	$(this).children("dl").show();
+},function(){
+	$(this).children("dl").hide();
+});
+    /** 积分商城页面**/
+//商品数量更改
+function countNum(i){
+    var _this = $("#point_goods_num");
+    var num=parseInt(_this.val());
+        num=num+i;
+        if((num<=0)||(num>999)){return false;}
+        else{_this.val(num);}
+}
+//是否登录
+function isLogin(){
+    var flag = true;
+	if("{$Think.session.Members}" == ''){
+		$.post('/Home/User/doBulkLogin/',{},function(htmlMsg){
+			$.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+		},'html');
+		return false;
+	}
+    return flag;
+}
+function yDh(obj) {
+    if(isLogin()){
+        var _this = $(obj),
+                g_id = _this.attr('data-id');
+        url = _this.attr('data-uri');
+        $.post(url,{item_id:g_id,item_type: 1},function(data){
+//                $('#yDhu').html(data);
+            var box = $.ThinkBox(data, {'title' : '积分兑换','width':'402px','drag' : true,'unload':true});
+        },'TEXT');
+        //$.colorbox({ inline: true, href: "#yDhu", width: "402px", height: "302px", unload: true});
+    }
+}
+/** 积分商城end**/
+</script>

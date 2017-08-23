@@ -1,0 +1,391 @@
+<div class="contentRightBox">
+    <p class="tabListP">
+        <span value_id="1" class="form_add_products_labels onHover">
+            <a href="javascript:void(0);" style="text-decoration: none;">商品基本信息</a>
+        </span>
+        <span value_id="2" class="form_add_products_labels">
+            <a href="javascript:void(0);" style="text-decoration: none;">商品分类</a>
+        </span>
+        <span value_id="3" class="form_add_products_labels">
+            <a href="javascript:void(0);" style="text-decoration: none;">商品图片</a>
+        </span>
+        <span value_id="4" class="form_add_products_labels">
+            <a href="javascript:void(0);" style="text-decoration: none;">详细描述</a>
+        </span>
+        <span value_id="5" class="form_add_products_labels">
+            <a href="javascript:void(0);" style="text-decoration: none;">其他信息</a>
+        </span>
+    </p>
+    <form action="{:U('Ucenter/Goods/doGoodsAdd')}" method="POST" id="goodForm" onsubmit="return javascriptCheckBeforeSubmit();" >
+    <div class="rightInner"><!--rightInner  start-->
+        <div id="con_addGoods_1" class="adCon"><!--商品基本信息  开始-->
+            <table class="tbForm" width="960px;">
+                <tbody>
+                    <tr>
+                        <td class="first">商品名称：</td>
+                        <td>
+                            <input type="text" name="goods_info[g_name]" id="g_name" value="" class="large" maxlength="30"/>
+                            <font style="color:#ff0000;">*</font>
+                            <span class="g_name" style="color:#ff0000;"></span>
+                            <br />
+                            <span style="color:gray;">最多输入<font id="input_text_nums" style="color:green;font-weight:900;">30</font>汉字。</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">商品编码：</td>
+                        <td>
+                            <input type="text" name="goods_info[g_sn]" id="g_sn" value="" class="large" maxlength="100" />
+                            <span style="color:#ff0000;">*</span>
+                            <span class="g_sn" style="color:#ff0000;"></span>
+                            <br />
+                            <span style="color:gray;">字母、数字或“_”、“-”组成，请不要其他字符。</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">品牌：</td>
+                        <td>
+                            <select name="goods[gb_id]" class="medium">
+                                <option value="0">--请选择商品品牌--</option>
+                                <volist name="array_brand" id="vo">
+                                <option value="{$vo.gb_id}">{$vo.gb_name}</option>
+                                </volist>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">由后台审核通过会自动上架：</td>
+                        <td>
+                            <input type="radio" name="goods[g_on_sale]" checked="checked" value="2" id="goods_g_on_sale_2" style="margin-left:30px;" />
+                            <label for="goods_g_on_sale_2" style="cursor:pointer;">否</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">计量单位：</td>
+                        <td><input type="text" name="goods_info[g_unit]" value="" class="small" /></td>
+                        <td></td>
+                    </tr>
+                    <!-- 商品不同行业自定义字段加载  开始 -->
+                    <include file="industryGoodsSpecField" />
+                    <!-- 商品不同行业自定义字段加载  结束 -->
+                    <tr>
+                        <td class="first">商品类型：</td>
+                        <td>
+                            <select class="medium" name="goods[gt_id]" id="goods_type_select">
+                                <option value="0">--请选择商品类型--</option>
+                                <volist name="array_type" id="vo">
+                                <option value="{$vo.gt_id}">{$vo.gt_name}</option>
+                                </volist>
+                            </select>
+                            <font style="color:#ff0000;">*</font>
+                            <br />
+                            <span style="color:gray;">
+                                选择商品类型以后，您可以进一步编辑商品属性和规格。
+                            </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <!-- 商品扩展属性输入位置开始 -->
+                    <tr style="display:none;" id="tbody_goods_spec_area_tr">
+                        <td class="first">商品扩展属性：</td>
+                        <td id="tbody_goods_spec_area" class="ajax_show_area" colspan="2"></td>
+                    </tr>
+                    <!-- 商品扩展属性输入位置结束 -->
+                    
+                    <!-- 商品销售属性选择区域开始 -->
+                    <tr style="display:none;" id="select_goods_sales_spec_box">
+                        <td class="first">商品销售属性：</td>
+                        <td id="goods_sales_spec_select_area" class="ajax_show_area" colspan="2"></td>
+                    </tr>
+                    <!-- 商品销售属性选择区域结束 -->
+                    
+                    <!-- 商品SKU list 开始 -->
+                    <tr style="display:none;" class="add_goods_sku_list">
+                        <td class="first"></td>
+                        <td colspan="2" id="goods_sku_list_form" class="ajax_show_area"></td>
+                    </tr>
+                    <!-- 商品SKU list 结束 -->
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">成本价：</td>
+                        <td>
+                            <input type="text" class="small not_null input_number" name="pdt_cost_price" value="" not_null="成本价必须输入。" input_number="成本价必须是一个数字。" />
+                            <font style="color:#ff0000;">*</font>
+                            <span style="color:#ff0000;"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">销售价：</td>
+                        <td>
+                            <input type="text" class="small not_null input_number" name="pdt_sale_price" id="pdt_sale_price" value="" not_null="销售价必须输入。" input_number="销售价必须是一个数字。" />
+                            <font style="color:#ff0000;">*</font>
+                            <span style="color:#ff0000;"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">会员价格：</td>
+                        <td>
+                            <table style="border:1px solid gray;">
+                                <thead>
+                                    <tr style="border:1px solid gray;text-align:center;">
+                                        <td style="border:1px solid gray;" width="150px;">会员等级</td>
+                                        <td style="border:1px solid gray;" width="200px;">固定价格</td>
+                                        <td style="border:1px solid gray;" width="150px;">折合折扣</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <volist name="array_member_level" id="ml">
+                                <tr style="border:1px solid gray;">
+                                        <td style="border:1px solid gray;text-align:right;">{$ml.ml_name}：</td>
+                                        <td style="border:1px solid gray;">
+                                            <input type="text" name="product_member_level_price[{$ml.ml_id}]" class="small input_number input_null member_level_fixed_price" value="" input_number="会员等级固定价格必须是一个数字。"/>
+                                            <span style="color:#ff0000;"></span>
+                                        </td>
+                                        <td style="border:1px solid gray;text-align:center;">无优惠折扣</td>
+                                </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">市场价：</td>
+                        <td>
+                            <input type="text" class="small not_null input_number" name="pdt_market_price" value="" not_null="市场价格必须输入。" input_number="市场价格必须是一个数字。" />
+                            <font style="color:#ff0000;">*</font>
+                            <span style="color:#ff0000;"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">商品重量：</td>
+                        <td>
+                            <input type="text" class="small not_null input_number" name="pdt_weight" value=""  not_null="商品重量必须输入。" input_number="商品重量必须是一个数字。" />
+                            <font style="color:#ff0000;">*</font>
+                            <span style="color:#ff0000;"></span>g（克）
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">商品库存：</td>
+                        <td>
+                            <input type="text" class="small not_null input_number" name="pdt_total_stock" value=""  not_null="商品库存必须输入。" input_number="商品库存必须是一个数字。" />
+                            <font style="color:#ff0000;">*</font>
+                            <span style="color:#ff0000;"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="disabled_goods_sale_spec_info">
+                        <td class="first">最少起拍数：</td>
+                        <td>
+                            <input type="text" class="small not_null input_number" name="pdt_min_num" value="0"  not_null="商品最少起拍数必须输入。" input_number="商品最少起拍数必须是一个数字。" />
+                            <font style="color:#ff0000;">*</font>
+                            <span style="color:#ff0000;">默认为0，为不限制</span>（件）
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">开启积分兑换：</td>
+                        <td>
+                            <input type="radio" name="goods_info[is_exchange]" id="goods_info_is_exchange_1" value="1" class="is_exchange" />
+                            <label for="goods_info_is_exchange_1">是</label>
+                            <input type="radio" name="goods_info[is_exchange]" checked="checked" id="goods_info_is_exchange_0" value="0" class="is_exchange" />
+                            <label for="goods_info_is_exchange_0">否</label>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="sh" id="goods_info_point_tr" style="display:none;">
+                        <td class="first">换购积分数：</td>
+                        <td>
+                            <input type="text" class="medium" name="goods_info[point]" value="" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">商品备注：</td>
+                        <td><input type="text" class="large" name="goods_info[g_remark]" value="" maxlength="100"/></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!--商品基本信息  结束-->
+        
+        <div id="con_addGoods_2" class="adCon" style="display:none;width:960px;"><!--商品分类  开始-->
+            <div class="wux"><!--wux  start-->
+                <ul>
+                    <volist name="array_category" id="cat">
+                    <li class="cat_list_li checkbox_menus" id="li_catid_{$cat.gc_id}" is_parent="{$cat.gc_is_parent}" parent_id="{$cat.gc_parent_id}" style="margin-left:{$cat['gc_level']*3}em;" >
+                        <if condition="$cat.gc_is_parent eq 1">
+                        <!--<i class="parent_cat_button unfold" gc_id="{$cat.gc_id}"></i>-->
+                        </if>
+                        <input type="checkbox" class="goods_category_checkbox" id="input_id_{$cat.gc_id}" name="related_goods_category[]" value="{$cat.gc_id}" />
+                        <label for="input_id_{$cat.gc_id}" style="cursor:pointer;">{$cat.gc_name}<if condition="$cat.gc_is_display neq 1"><span style="color:#ff0000;">[前台不显示]</span></if></label>
+                    </li>
+                    </volist>
+                </ul>
+            </div><!--wux  end-->
+            
+        </div><!--商品分类  结束-->
+        
+        <div id="con_addGoods_3" class="adCon" style="display:none;width:960px;"><!--商品图片  开始-->
+            <div class="goodsPic"><!--goodsPic  start-->
+                <ul>
+                    <for start="0" end="10">
+                    <li num_id="{$id}">
+                        <div class="imagebox_li_classname imagebox">
+                            <if condition="$i eq 0">
+                                <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Admin/images/product_image_index.png" id="pic_img_src_{$i}" style="width:120px;height:120px;" />
+                            <else />
+                                <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Admin/images/product_image_desc.png" id="pic_img_src_{$i}" style="width:120px;height:120px;" />
+                            </if>
+                        </div>
+                        <if condition="$i eq 0">
+                        <input type="hidden" name="goods_info[g_picture]" id="picture_input_{$i}" value="" />
+                        <else />
+                        <input type="hidden" name="goods_pictures[]" id="picture_input_{$i}" value="" />
+                        </if>
+                        <a href="javascript:void(0);" onclick="javascript:upImage({$i});" class="uploadImageForm btnA">上传图片</a>
+                    </li>
+                    </for>
+                </ul>
+            </div><!--goodsPic  end-->
+            <p style="color:#ff0000;">
+                提示：如果使用在线图片，您可以在弹出的对话框“在线管理”页签中一次选择多张图片，系统会自动依次添加到相应位置。
+                <br />
+                前台模板调用商品图片时请使用管易提供的缩略图方法，提高页面载入速度。
+            </p>
+        </div><!--商品图片  结束-->
+        
+        <div id="con_addGoods_4" class="adCon" style="display:none;width:960px;"><!--详细描述  开始-->
+            <table class="tbForm" style="margin-top:10px">
+                <tbody>
+                    <tr>
+                        <td class="first">商品描述：</td>
+                        <td colspan="2">
+                            <textarea name="goods_info[g_desc]" id="goods_editor"  style="width:100%;"></textarea>
+                        </td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td class="first">DPC:</td>
+                        <td>
+                            <input type="text" name="goods_info[g_dpc_path]" value="" class="large" />
+                        </td>
+                        <td>产品描述路径，通过http请求获取，如：http://dpc.guanyisoft.com/cool6/123.dpc。</td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+        </div><!--详细描述  结束-->
+        
+        <div id="con_addGoods_5" class="adCon" style="display:none;"><!--其他信息  开始-->
+            <table class="tbForm" width="94%" style="margin-top:10px">
+                <tbody>
+                    <tr>
+                        <td class="first">加入推荐：</td>
+                        <td>
+                            <span class="checkbox_menus">
+                                <input type="checkbox" name="goods[g_new]" id="goods_new" value="1" />
+                                <label for="goods_new">新品</label>
+                            </span>
+                            <span class="checkbox_menus">
+                                <input type="checkbox" name="goods[g_hot]" id="goods_hot" value="1" />
+                                <label for="goods_hot">热销</label>
+                            </span>
+                            <span class="checkbox_menus">
+                                <input type="checkbox" name="goods[g_gifts]" id="goods_gifts" value="1" />
+                                <label for="goods_gifts">不正常销售赠品</label>
+                            </span>
+                            <span class="checkbox_menus">
+                                <input type="checkbox" name="goods[g_gifts]" id="goods_gifts_2" value="2" />
+                                <label for="goods_gifts_2">正常销售赠品</label>
+                            </span>
+                            <span class="checkbox_menus">
+                                <input type="checkbox" name="goods[g_pre_sale_status]" id="g_pre_sale_status" value="1" />
+                                <label for="g_pre_sale_status">预售</label>
+                            </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <!-- 加载商品资料自定义字段维护 开始 -->
+                    <include file="goods-info-custom-field" />
+                    <!-- 加载商品资料自定义字段维护 结束 -->
+                    <tr class="sh">
+                        <td class="first">关键词[SEO KEYWORDS]：</td>
+                        <td>
+                            <input type="text" name="goods_info[g_keywords]" class="large" />
+                            <span class="font_999">用逗号或者空格分隔</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="first">描述[SEO DESCRIPTION]：</td>
+                        <td>
+                            <textarea class="mediumBox" name="goods_info[g_description]"></textarea>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!--其他信息  结束-->
+        
+        <!-- 关联商品 开始 -->
+        <div id="con_addGoods_6" class="adCon" style="display:none;">
+            <table class="tbForm" width="100%" style="margin-top:10px">
+                <tbody>
+                    <include file="related-goods-form" />
+                </tbody>
+            </table>
+        </div>
+        <!-- 关联商品 结束 -->
+        
+        <!-- 表单提交 开始 -->
+        <p style="text-align:center; padding:10px 0px;">
+            <input type="hidden" name="page_jump" value="1" id="submit-page-jump-type" />
+            <button type="submit" page_jump="1" class="btnA submit-button">保存</button>
+            <button type="submit" page_jump="2" class="btnA submit-button">保存并继续</button>
+            <input type="reset" value="重置" class="btnA" />
+        </p>
+    </div><!--rightInner  end-->
+    </form>
+    <div id="member-level-price-input" style="display:none;text-align:center;">
+        <input type="hidden" name="xx" value="" id="member-level-price-input-spec-price" />
+        <table style="border:1px solid gray;margin-left:auto;margin-right:auto;">
+            <thead>
+                <tr style="border:1px solid gray;text-align:center;">
+                    <td style="border:1px solid gray;" width="150px;">会员等级</td>
+                    <td style="border:1px solid gray;" width="200px;">固定价格</td>
+                    <td style="border:1px solid gray;" width="150px;">折合折扣</td>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="array_member_level" id="ml">
+            <tr style="border:1px solid gray;">
+                    <td style="border:1px solid gray;">{$ml.ml_name}：</td>
+                    <td style="border:1px solid gray;">
+                        <input type="text" name="demo" ml_id="{$ml.ml_id}" class="small member-level-price-input" value=""/>
+                    </td>
+                    <td class="member-level-price-input-discount">无优惠折扣</td>
+            </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</div>    
+<script type="text/javascript">
+	var PUBLIC_PATH = '__PUBLIC__';
+	var ajaxLoadUnsaleSpec_url = "{:U('Admin/Goods/ajaxLoadUnsaleSpec')}";
+	var loadGoodsSaleSpecForm_url = "{:U('Admin/Goods/ajaxLoadSaleSpec')}";
+	var ajaxSkuLists_url = "{:U('Admin/Goods/ajaxSkuLists')}";
+	var resetFrom_url = "{:U('Admin/Goods/goodsAdd')}";
+	var checkPdtSnUnique = "{:U('Admin/Goods/checkPdtSnUnique')}";
+	window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js?t=<php>echo rand(1,11111);</php>"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/admin-goods-add.js?t=<php>echo rand(1,11111);</php>"></script>

@@ -1,0 +1,62 @@
+<!--footer-->
+<div class="footer">
+	<div class="content">
+    	<div class="footOne"><!--footOne-->
+        	<ul>
+				<Gyfx:articlecate name="artcat"  num="6" recommend="1" is_show="1">
+					<volist name="artcat" key="keys" id="arts">
+						<li>
+							<if condition="$keys eq 1 ">
+								<i></i>
+							<elseif condition="$keys eq 2"/>
+								<i class="i02"></i>
+							<elseif condition="$keys eq 3"/>
+								<i class="i03"></i>
+							<elseif condition="$keys eq 4"/>
+								<i class="i04"></i>
+							<elseif condition="$keys eq 5"/>
+								<i class="i05"></i>
+							<else />
+								<i class="i06"></i>
+							</if>
+							<strong>{$arts.cat_name}</strong>
+							<volist name="arts.list" key="k" id="artinfo">
+								<if condition="$k elt 4">
+									<div style="width:10px;height:10px;float:left" <if condition="$artinfo.hot eq '1'">class="hot2"</if>></div>
+									<a href="{$artinfo.aurl}" target="_blank">{$artinfo.a_title}</a>
+								</if>
+							</volist>
+						</li>
+					</volist>
+				</Gyfx:articlecate>
+            </ul>
+        </div><!--/footOne-->
+		<notempty name="ary_top_ads.bottom_pic">
+        <div class="footTwo">
+		<a href="{$Think.config.DOMAIN_HOST}{$ary_top_ads['bottom_pic_url']}"><img src="{$ary_top_ads['bottom_pic']}" ></a>
+		</div>
+		</notempty>
+        <div class="footThree">
+        	<p>
+				<gyfx:navigation name='nav' row='9' position="bottom">
+					<a href="{$nav['nurl']}">{$nav['nname']}</a><span>|</span>							
+				</gyfx:navigation>
+			</p>
+            <p>{$commonInfo['GY_SHOP_ICP']|default='Copyright © 2009-2016 沪ICP备：12035449号-2'}</p>
+            <!--<img src="__IMAGES__renz.png" width="150" height="52">-->
+        </div>
+    </div>
+</div>
+<!--/footer-->
+<!--弹出框-->
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>

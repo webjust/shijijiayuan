@@ -1,0 +1,37 @@
+{__NOLAYOUT__}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{$page_title}</title>
+<meta name="keywords" content="{$page_keywords}">
+<meta name="description" content="{$page_description}">
+<script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+<script>var url = "{:U('Home/RedEnvelope/doAdd')}";var rd_id = "{$rd_id}";</script>
+<script src="__JS__related.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__style.css" />
+</head>
+<body>
+<div class="hd01"></div>
+<div class="hd02">
+    
+    <a href="javascript:void(0);" class="cannotTime" id="stat_time_1" <if condition="$stat_time neq '1'">style="display:none"</if>>
+        <label id="day">00</label>天
+        <label id="hours">00</label>时
+        <label id="minute">00</label>分
+        <label id="seconds">00</label>秒
+    </a>
+    <script>SETRED("{$rd_start_time}","{$time}","day","hours","minute","seconds");</script>
+    <a href="javascript:void(0);" class="cannot" id="stat_time_2" <if condition="$stat_time neq '2'">style="display:none"</if>>本场结束</a>
+    <a href="javascript:void(0);" id="stat_time_3" <if condition="$stat_time neq '3'">style="display:none"</if>>马上开抢</a>
+</div><!-- class="cannot"-->
+<div class="hd03">
+	<p id="showContent" style="display:none">恭喜您！您已抢到20元红包。</p>
+</div>
+<div class="hd04"></div>
+<div class="hd05"></div>
+<div class="hd06"></div>
+<input type="hidden" value="{$url}" id="url" /> 
+</body>
+
+</html>

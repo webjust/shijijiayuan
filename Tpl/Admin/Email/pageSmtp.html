@@ -1,0 +1,98 @@
+<div class="rightInner">
+    <form id="smtp_set" name="smtp_set" method="post" action="{:U('Admin/Email/doSetSmtp')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">SMTP邮件设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99">SMTP基本信息</th>
+                </tr>
+                <tr>
+                    <td class="first">SMTP地址</td>
+                    <td>
+                        <input type="text" name="GY_SMTP_HOST" class="medium" value="{$GY_SMTP_HOST}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">SMTP端口</td>
+                    <td>
+                        <input type="text" name="GY_SMTP_PORT" class="small" value="{$GY_SMTP_PORT}" validate="{ digits:true}" />
+                    </td>
+                    <td class="last">一般默认端口为25</td>
+                </tr>
+                <tr>
+                    <td class="first">发件人姓名</td>
+                    <td>
+                        <input type="text" name="GY_SMTP_FROM_NAME" class="medium" value="{$GY_SMTP_FROM_NAME}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">发件人邮箱</td>
+                    <td>
+                        <input type="text" name="GY_SMTP_FROM" class="medium" value="{$GY_SMTP_FROM}" validate="{ email:true,required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否要用密码验证</td>
+                    <td>
+                        <input type="radio" name="GY_SMTP_AUTH" value="1" <eq name="GY_SMTP_AUTH" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="GY_SMTP_AUTH" value="0" <eq name="GY_SMTP_AUTH" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">帐号</td>
+                    <td>
+                        <input type="text" name="GY_SMTP_NAME" class="medium" value="{$GY_SMTP_NAME}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">密码</td>
+                    <td>
+                        <input type="password" name="GY_SMTP_PASS" class="medium" value="{$GY_SMTP_PASS}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <th colspan="99">测试是否设置成功</th>
+                </tr>
+                <tr>
+                    <td class="first">测试收件地址</td>
+                    <td>
+                        <input type="text" name="testEmail" id="testEmail" class="medium" validate="{ email:true}" />
+                        <a href="javascript:void(0);" id="sendTestEmail">发送测试</a>
+                    </td>
+                    <td class="last">请注意垃圾箱是否有收到</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#sendTestEmail').click(function(){
+            if(false != $('#smtp_set').valid()){
+                var url = "{:U('Admin/Email/doTestSmtp')}";
+                var data = $('#smtp_set').serialize();
+                ajaxReturn(url,data);
+            }
+        });
+    });
+</script>

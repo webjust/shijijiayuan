@@ -1,0 +1,97 @@
+{__NOLAYOUT__}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+<style type="text/css">
+.name {
+	font-size: 14px;
+	text-align: center;
+}
+.title_name {
+	font-size: 18px;
+}
+.list_oll{font-size: 12px;}
+</style>
+</head>
+
+<body>
+<table width="989" height="116" border="1" align="center">
+  <tr>
+    <td height="33" colspan="8" align="center"><strong class="title_name">发放红包</strong></td>
+  </tr>
+  <tr class="name">
+  	<td width="70"  height="28" align="center">操作</td>
+    <td width="122" align="center">规则名称</td>
+    <td width="64" align="center">红包总数量</td>
+    <td width="94" align="center">已发放红包数量</td>
+    <td width="274" align="center">起止时间</td>
+    <td width="92" align="center">是否可以发放</td>
+    <td width="117" align="center">成功会员数量</td>
+  </tr>
+  <volist name="list" id="cp">
+  <tr class="list_oll" rd_id="{$cp.rd_id}">
+    <td align="center"><input type="button" onclick="ToucjRed(this);" <if condition="$cp.rd_is_status neq '1'">disabled</if> rd_id="{$cp.rd_id}" value="发放" /></td>
+    <td align="center">{$cp.rd_name}</td>
+    <td align="center">{$cp.coupon_nums}</td>
+    <td align="center">{$cp.is_use_num}</td>
+    <td align="center">{$cp.rd_start_time} - {$cp.rd_end_time}</td>
+    <td align="center"><if condition="$cp.rd_is_status eq '1'"><span style="color:green;">可发放</span><else/><span style="color:red">不可发放</span></if></td>
+    <td align="center">{$cp.cache_members_nums}</td>
+  </tr>
+  </volist>
+</table>
+<script>
+function ToucjRed(obj){
+    var rd_id = $(obj).attr('rd_id');
+    if(confirm('确定要发放红包吗？\n\n只能发放一次，发放后，活动将关闭，所有活动记录将清空')){
+        var url = "{:U('Home/RedEnvelope/fafanghongbao')}";
+        $.ajax({
+            url:url,
+            type:'POST',
+            dataType:'JSON',
+            data:{rd_id:rd_id},
+            success:function(dataMsg){
+                alert(dataMsg.info);
+                location.reload();
+            },
+            error:function(){
+            
+            }
+        });
+    }
+    
+}
+$(".list_oll").click(function(){
+    var obj = $(this);
+    var rd_id = obj.attr('rd_id');
+    if(obj.next().hasClass('showPHP'+rd_id)){
+        if(obj.next().css('display') == 'none'){
+            
+            obj.next().show();
+            
+        }else{
+            obj.next().hide();
+        }
+    }else{
+        var url = "{:U('Home/RedEnvelope/LockHB')}";
+        $.ajax({
+            url:url,
+            type:'POST',
+            dataType:'HTML',
+            data:{rd_id:rd_id},
+            success:function(dataMsg){
+                obj.after(dataMsg);
+            },
+            error:function(){
+            
+            }
+        });
+    }
+    
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="">充值审核列表</th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Financial/pageListVerify')}">
+                        用户名：<input type="text" name="user_name" class="large" value="{$data.user_name}" style="width: 145px;">
+                        汇款人：<input type="text" name="re_user_name" class="large" value="{$data.re_user_name}" style="width: 145px;">
+                        支付宝交易号：<input type="text" name="payment_sn" class="large" value="{$data.payment_sn}" style="width: 145px;">
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                </th>
+        </tr>
+        <tr>
+            <th> #</th>
+            <th>操作</th>
+            <th>用户名</th>
+            <th>汇款人</th>
+            <th>充值金额</th>
+            <th>尾数</th>
+            <th>支付宝交易号</th>
+            <th>会员留言</th>
+            <th>回复</th>
+			<th>充值时间</th>
+            <th>创建时间</th>
+			<th>更新时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="ary_examine" id="examine">
+            <tr>
+                <td> <input type="checkbox" name="re_id" id="re_id" value="{$examine.re_id}" /></td>
+                <if condition="$examine.re_status eq '0'">
+                    <td id="list_{$examine.re_id}">
+                        <font id="re_status_{$examine.re_id}" color="red">已作废</font>
+                    </td>
+                <else />
+                    <td  id="list_{$examine.re_id}">
+                        <if condition="$examine[re_verify] eq '2'">
+                            <font color="red">未通过</font>&nbsp;&nbsp;
+                            <font id="re_status_{$examine.re_id}" color="blue" class="verify" data-field="re_status" data-value="0" data-id="{$examine.re_id}" style="cursor: pointer;">作废</font>
+                        <elseif condition="$examine[re_verify] eq '1'"/>
+                            <font color="green">已审核</font>&nbsp;&nbsp;
+                        <else />
+                            <font id="re_verify_1" color="blue" data-field="re_verify" data-value="1" data-id="{$examine.re_id}" class="verify" style="cursor: pointer;">审核</font>&nbsp;&nbsp;
+                            <font id="re_verify_2" color="blue" data-field="re_verify" data-value="2" data-id="{$examine.re_id}" class="verify" style="cursor: pointer;">驳回</font>&nbsp;&nbsp;
+                            <font id="re_status_{$examine.re_id}" color="blue" class="verify" data-field="re_status" data-value="0" data-id="{$examine.re_id}" style="cursor: pointer;">作废</font>
+                        </if>
+                    </td>
+                </if>
+                <td>{$examine.m_name}</td>
+                <td>{$examine.re_name}</td>
+                <td>{$examine.re_money}</td>
+                <td>{$examine.re_money_end}</td>
+                <td>{$examine.re_payment_sn}</td>
+                <td>{$examine.re_message}</td>
+                <td>{$examine.re_admin_message}</td>
+				<td>{$examine.re_time}</td>
+                <td>{$examine.re_create_time}</td>
+				<td>{$examine.re_update_time}</td>
+            </tr>
+            <tr id="next_{$examine.re_id}"  style="display:none">
+                <td colspan="12"></td>
+            </tr>
+        </volist>
+        <empty name="examine">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div id="examine" style="display: none;" title="预存款详细信息">
+      
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div id="verify_div"  style="display: none"><!--弹框  开始-->
+    <table class="alertTable">
+        <tr>
+            <td align="right" width="75" valign="top">备注：</td>
+            <td>
+                <textarea id="verify_comments" class="mediumBox"></textarea>
+            </td>
+        </tr>
+        <!--
+        <tr>
+            <td></td>
+            <td><input type="submit" class="btnA" value="确 定"> <input type="submit" class="btnA" value="取 消"></td>
+        </tr>
+        -->
+    </table>
+</div><!--弹框  结束-->
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".verify").live('click',function(){
+        var id = $(this).attr("data-id");
+        var field = $(this).attr("data-field");
+        var val = $(this).attr("data-value");
+        $("#verify_div").dialog({
+            width:450,
+            height:300,
+            modal:true,
+            title:'',
+            buttons:{
+                '确定':function(){
+                    // if($("#verify_comments").val() == ''){
+                    //     showAlert(false,'备注不能为空！');
+                    //     $(this).dialog("close");
+                    //     return false;
+                    // }
+                    $.ajax({
+                        url:'{:U("Admin/Financial/doStatus")}',
+                        cache:false,
+                        dataType:'json',
+                        type:'POST',
+                        data:{id:id,field:field,val:val,comments:$('#verify_comments').val()},
+                        error:function(){
+                            $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                        },
+                        success:function(msgObj){
+                            if(msgObj.status == '1'){
+                                if(field == 're_status'){
+                                    $("#list_"+id).html("<font color='red'>已作废</font>");
+                                    return false;
+                                }else if(field == 're_verify' && val == '2'){
+                                    $("#list_"+id+" #re_verify_1").remove();
+                                    $("#list_"+id).html("<font color='red'>未通过</font>\r\r<font color='blue' style='cursor: pointer;' data-id='"+id+"' data-value='0' data-field='re_status' class='verify' id='re_status_"+id+"'>作废</font>");
+                                    return false;
+                                }else{
+                                    $("#list_"+id+" #re_verify_2").remove();
+                                    $("#list_"+id).html("<font color='green'>已审核</font>\r\r");
+                                    return false;
+                                }
+                            }else{
+                                $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                            }
+                        }
+                    });
+                    $(this).dialog("close");
+                    return false;
+                }
+            }
+        });
+    });
+});
+</script>

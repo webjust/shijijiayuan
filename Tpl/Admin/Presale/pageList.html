@@ -1,0 +1,138 @@
+<div class="rightInner">
+	<table width="100%" class="tbList">
+		<thead>
+			<tr class="title">
+				<th colspan="99">
+				 <form method="post" action="{:U('Admin/Presale/pageList')}">
+                   <p class="conOneP" style="float: left;">
+                       <a href="{:U('Admin/Presale/pageAdd')}" class="btnG ico_add">添加预售商品</a>
+                       <a href="javascript:void(0);" onclick="return getCheckedProducts(this);" class="btnG Set">批量删除</a>
+                   </p>
+					<span style="margin-left:200px;">
+					有效期：<input type="text" class="width_100 timer search_cond" name="p_start_time" value="{$filter.p_start_time}" />
+					- 
+					<input type="text" class="width_100 timer search_cond" name="p_end_time" value="{$filter.p_start_time}" />
+                    <select name="field" class="small search_cond" style="width: auto">
+                             <option value="1" <if condition="($filter.field eq 1)">selected=selected</if> >预售标题</option>
+                             <option value="2" <if condition="($filter.field eq 2)">selected=selected</if> >预售商品名称</option>
+                             <!-- <option value="3" <if condition="($filter.field eq 3)">selected=selected</if> >商品编码</option> -->
+                    </select>
+                     <input type="text" name="val" class="large search_cond" onkeydown="search(event)" value="{$filter.val}" style="width: 145px;">
+					<a href="javascript:void(0);" class="btnA" id="searchButton">搜索</a>					
+					</span>
+				</form>
+				</th>
+			</tr>
+			<tr>
+				<th><input type="checkbox" class="checkAll" /></th>
+				<th>操作</th>
+				<th>预售标题</th>
+				<th>预售商品名称</th>
+				<th>状态</th>
+				<th>起止时间</th>
+				<th>实际销售</th>
+				<th>虚拟购买</th>
+				<th>限购</th>
+				<th>每人限购</th>
+			</tr>
+		</thead>
+		<form id="coupon_del" method="post" action="{:U('Admin/Presale/doDel')}">
+    		<tbody>
+        		<volist name="list" id="cp">
+        			<tr>
+        				<td>
+                            <input type="checkbox" class="checkSon" name="p_id[]" value="{$cp.p_id}" />
+                        </td>
+        				<td>
+        					<span style="display:block;width:80px;">
+        					<a href='{:U("Admin/Presale/pageEdit?p_id=$cp[p_id]")}' class="edit"></a> | <a href='{:U("Admin/Presale/doDel?p_id=$cp[p_id]")}' class="confirm delete"></a>
+                            </span>
+                        </td>
+        				<td>{$cp.p_title}</td>
+        				<td><span class="blue">{$cp.g_name}</span></td>
+        				<td>
+        				    <eq name="cp.is_active" value="1">
+                                <span class="green">启用</span>
+                            <else/>
+                                <span class="red">停用</span>
+                            </eq>
+        				</td>
+        				<td>{$cp.p_start_time} - {$cp.p_end_time}</td>
+        				<td>{$cp.p_now_number}</td>
+        				<td>
+						{$cp.p_pre_number}
+        				</td>
+        				<td>{$cp.p_number}</td>
+        				<td>{$cp.p_per_number}</td>
+        			</tr>
+        		</volist>
+        		<empty name="list">
+        			<tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        		</empty>
+    		</tbody>
+    		<tfoot>
+    			<tr>
+    				<td colspan="99">
+                        <input type="submit" value="删除选中" class="btnA confirm" id="delAll" />
+                        <span class="right page">{$page}</span>
+                    </td>
+    			</tr>
+    		</tfoot>
+        </form>
+	</table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    //点击搜索按钮搜索
+	$("#searchButton").click(function(){
+		var redirect_url = "{:U('Admin/Presale/pageList')}" + "?";
+		$(".search_cond").each(function(){
+			redirect_url += $(this).attr("name") + "=" + encodeURIComponent($(this).val()) + '&';
+		});
+        redirect_url = redirect_url.substring(0, redirect_url.length-1);
+		location.href= redirect_url;
+	});
+});
+//触发键盘按钮搜索
+function search(event) {
+    var redirect_url = "{:U('Admin/Presale/pageList')}" + "?";
+    $(".search_cond").each(function(){
+        redirect_url += $(this).attr("name") + "=" + encodeURIComponent($(this).val()) + "&";
+    });
+    redirect_url = redirect_url.substring(0, redirect_url.length-1);
+    if(event.keyCode == 13){
+        location.href = redirect_url;
+    }
+}
+function getCheckedProducts(){
+    var p_id = '';
+    $("input[class='checkSon']:checked").each(function(){
+    	p_id += this.value+',';
+    });
+    p_id = p_id.substring(0,p_id.length-1);
+    var mix_id = p_id.split(',');
+    deleteCombiantionGoods(mix_id);
+}
+function deleteCombiantionGoods(mix_id){
+    if(confirm('确定要删除吗？删除后不可恢复')){
+        $.ajax({
+            url:"{:U('Admin/Presale/doDel')}",
+            data:{'p_id':mix_id},
+            dateType:'json',
+            type:'POST',
+            success:function(DataMsg){
+                if(DataMsg.status=='1'){
+                    showAlert(true,DataMsg.info,'',{'成功':'/Admin/Presale/pageList'});return false;
+                }else{
+                    showAlert(false,DataMsg.info);return false;
+                }
+            },
+            error:function(){
+            
+            }
+            
+        });
+    }
+}
+</script>

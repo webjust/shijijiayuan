@@ -1,0 +1,66 @@
+<style type="text/css">
+	td,th{border-left:1px solid #d7d7d7;}
+</style>
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="12">
+					后端产品管理
+				</th>
+            </tr>
+            <tr>
+				<th width="100" rowspan="2">ID</th>
+				<th width="200" rowspan="2">名称</th>
+				<th width="100" rowspan="2">商品编码</th>
+				<th width="60" rowspan="2">分销方式</th>
+				<th width="100" rowspan="2">下载人数</th>
+				<th width="100" rowspan="2">采购次数</th>
+				<th width="200" rowspan="2">零售区间</th>
+				<th width="400" colspan="5">规格属性</th>
+            </tr>
+			<tr>
+				<th width="120">商品编码</th>
+				<th width="100">名称</th>
+				<th width="60">代销采购价</th>
+				<th width="60">经销采购价</th>
+				<th width="60">市场价</th>
+			</tr>
+        </thead>
+        <tbody>
+			
+			<volist name="datalist" id="vo">
+			  <tr>
+				<td width="100" rowspan="{$vo.rows}">{$vo.pid}</td>
+				<td width="200" rowspan="{$vo.rows}" style="text-align:left;">
+					<a href="{:U('Admin/Fenxiao/goodsDetailPage')}?pid={$vo.pid}" title="详细信息">{$vo.name}</a>
+				</td>
+				<td width="100" rowspan="{$vo.rows}" style="text-align:left;">{$vo.outer_id}</td>
+				<td width="60" rowspan="{$vo.rows}">{$vo.trade_type}</td>
+				<td width="100" rowspan="{$vo.rows}">{$vo.items_count}</td>
+				<td width="100" rowspan="{$vo.rows}">{$vo.orders_count}</td>
+				<td width="200" rowspan="{$vo.rows}">{$vo.retail_price_low}-{$vo.retail_price_high}</td>
+				<if condition="$vo.rows eq 1">
+					<td colspan="5">此商品没有SKU</td>
+				</if>
+			  </tr>
+			  <if condition="$vo.rows gt 1">
+			  <volist name="vo['sku_info']" id="sku">
+			  <tr>
+				<td>{$sku.outer_id}</td>
+				<td>{$sku.name}</td>
+				<td>{$sku.cost_price}</td>
+				<td>{$sku.dealer_cost_price}</td>
+				<td>{$sku.standard_price}</td>
+			  </tr>
+			  </volist>
+			  </if>
+			  </volist>
+        </tbody>
+		<tfoot>
+			<tr>
+				<td colspan="99">{$page}</td>
+			</tr>
+		</tfoot>
+    </table>
+</div>

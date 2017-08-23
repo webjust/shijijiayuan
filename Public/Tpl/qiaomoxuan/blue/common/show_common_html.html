@@ -1,0 +1,15 @@
+<div class="news" >
+<p><span onMouseOver="setTab('navS',1,2)" id="navS1" >品牌资讯</span><span onMouseOver="setTab('navS',2,2)" id="navS2" class="onHover">最新快报</span></p>
+<div class="proDeConC" id="con_navS_1" style="display:none;">
+    <Gyfx:article name="art" cid='1' num="5" hot="1">
+        <volist name="art" id="artinfo">
+        <a href="{$artinfo.aurl}">{$artinfo.atitle}</a>
+        </volist>
+    </Gyfx:article>
+</div>
+<div class="proDeConC" id="con_navS_2" style="display:blocss;">
+    <gyfx:notice name="note" num="5">
+    <a href="{$note.pnurl}">{$note.pntitle}</a>
+    </gyfx:notice>
+</div>
+</div>

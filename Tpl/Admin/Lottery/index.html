@@ -1,0 +1,88 @@
+<div class="rightInner">
+	<table width="100%" class="tbList">
+		<thead>
+			<tr class="title">
+				<th colspan="99">
+					<span style="font-size:18px;"><b>全部抽奖活动</b></span>
+					名称：<input type="text" class="width_100 search_cond" name="l_name" value="{$filter.l_name}" />
+					
+					有效期：<input type="text" class="width_100 timer search_cond" name="l_start_time" value="{$filter.l_start_time}" />
+					- 
+					<input type="text" class="width_100 timer search_cond" name="l_end_time" value="{$filter.l_end_time}" />
+					<select name="l_status" id="l_status">
+						<option value="-1">是否启用</option>
+						<option value="2" <if condition="$filter.l_status eq 2">selected</if>>停用</option>
+						<option value="1" <if condition="$filter.l_status eq 1">selected</if>>启用</option>
+					</select>
+					<a href="javascript:void(0);" class="btnA" id="searchButton">搜索</a>
+				</th>
+			</tr>
+			<tr>
+				<th><input type="checkbox" class="checkAll" /></th>
+				<th>操作</th>
+				<th>抽奖名称</th>
+				<th>有效期</th>
+				<th>每日限抽奖次数</th>
+				<th>消耗积分</th>
+				<th>创建时间</th>
+				<th>更新时间</th>
+				<th>是否启用</th>
+			</tr>
+		</thead>
+		<form id="coupon_del" method="get" action="{:U('Admin/Lottery/doDel')}">
+    		<tbody>
+        		<volist name="list" id="cp">
+        			<tr>
+        				<td>
+                            <input type="checkbox" class="checkSon" name="l_id[]" value="{$cp.l_id}" />
+                        </td>
+        				<td>
+							<a href='{:U("Admin/Lottery/addLoterys?l_id=$cp[l_id]")}'>编辑规则</a>
+        					<a href='{:U("Admin/Lottery/pageEdit?l_id=$cp[l_id]")}' class="edit"></a> | 
+                            <a href='{:U("Admin/Lottery/doDel?l_id=$cp[l_id]")}' class="confirm delete"></a>
+                        </td>
+        				<td>{$cp.l_name}</td>
+        				<td>{$cp.l_start_time} - {$cp.l_end_time}</td>
+        				<td>{$cp.l_number}</td>
+        				<td>{$cp.consume_point}</td>
+						<td>{$cp.l_create_time}</td>
+						<td>{$cp.l_update_time}</td>
+						<td>
+						<if condition="$cp.l_status eq '1'">
+						启用
+						<else />
+						停用
+						</if>
+						</td>
+        			</tr>
+        		</volist>
+        		<empty name="list">
+        			<tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        		</empty>
+    		</tbody>
+    		<tfoot>
+    			<tr>
+    				<td colspan="99">
+                        <input type="submit" value="删除选中" class="btnA confirm" id="delAll" />
+						<a href="{:U('Admin/Lottery/pageAdd')}" class="btnA" >新增抽奖活动</a>
+                        <span class="right page">{$page}</span>
+                    </td>
+    			</tr>
+    		</tfoot>
+        </form>
+	</table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#searchButton").click(function(){
+		var redirect_url = "{:U('Admin/Lottery/index')}" + "?";
+		$(".search_cond").each(function(){
+			redirect_url += $(this).attr("name") + "=" + encodeURIComponent($(this).val()) + '&';
+		});
+		var l_status = $('#l_status').val();
+		redirect_url +='l_status='+l_status;
+		location.href= redirect_url;
+	});
+});
+</script>

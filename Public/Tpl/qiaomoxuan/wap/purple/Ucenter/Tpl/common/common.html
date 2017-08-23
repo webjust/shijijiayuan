@@ -1,0 +1,17 @@
+{__NOLAYOUT__}
+        <!--userInfo-->
+            <div class="userName">{$Think.session.Members.m_name}</div>
+            <div class="userIden">
+                <span class="vip"><php>echo $_SESSION['Members']['member_level']['ml_name']</php></span>
+                <span class="score">积分：{$valid_point|default=0}</span>
+            </div>
+            <div class="ucenterNav">
+                <div class="ucenterN"><a href="{:U('Wap/Orders/orderList')}"><span class="count">{$orders|default=0}</span><span>订单</span></a></div>
+                <div class="ucenterN"><a href="{:U('Wap/Collect/pagelist')}"><span class="count">{$collects|default=0}</span><span>收藏</span></a></div>
+                <div class="ucenterN"><a href="{:U('Wap/Message/pageMailBox')}"><span class="count">{$messages|default=0}</span><span>站内信</span></a></div>
+            </div>
+        </div>
+
+
+
+

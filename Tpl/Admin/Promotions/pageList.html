@@ -1,0 +1,59 @@
+<div class="rightInner">
+    <form method="get" action="{:U('Admin/Promotions/doDel')}">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">全部促销</th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>操作</th>
+                <th>状态</th>
+                <th>促销规则名称</th>
+                <th>类型代码</th>
+                <th>起止时间(00表示不限)</th>
+				<th>促销优先级</th>
+                <th>说明</th>
+                <th>促销优先级</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="pmn">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="checkSon" name="pid[]" value="{$pmn.pmn_id}" />
+                    </td>
+                    <td>
+                        <a href='{:U("Admin/Promotions/pageEdit?pid=$pmn[pmn_id]")}'>编辑</a> 
+                        <a href='{:U("Admin/Promotions/doDel?pid=$pmn[pmn_id]")}' class="confirm">删除</a>
+                    </td>
+                    <td>
+                        <eq name="pmn.pmn_enable" value="1">
+                            <span class="green">已启用</span>
+                        <else /><span class="red">已停用</span></eq>
+                    </td>
+                    <td>
+                        <span class="blue">{$pmn.pmn_activity_name}</span><br>{$pmn.pmn_name}
+                    </td>
+                    <td>
+                        <span class="blue" title="{$types[$pmn['pmn_class']]['memo']}">{$pmn.pmn_class}</span>
+                    </td>
+                    <td>{$pmn.pmn_start_time} - {$pmn.pmn_end_time}</td>
+					<td>{$pmn.pmn_order}</td>
+                    <td class="left">{$pmn.pmn_memo}</td>
+                    <td class="">{$pmn.pmn_order}</td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><input type="submit" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,112 @@
+<div class="rightInner">
+    <form id="rules_add" name="rules_add" method="post" action="{:U('Admin/Coupon/doRulesAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">新增抢优惠券规则</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">* 规则名称</td>
+                    <td>
+                        <input type="text" name="rd_name" class="medium" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">生效时间</td>
+                    <td>
+                        <input type="text" name="rd_start_time" id="rd_start_time" class="medium timer" validate="{ required:true}"/> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">失效时间</td>
+                    <td>
+                        <input type="text" name="rd_end_time" id="rd_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr> 
+                    <td class="first">活动优惠券</td>
+
+                    <td colspan="2" style="">
+                        <volist name="coupon" id="c">
+                        <input type="checkbox" name="c_name[]" value="{$c.c_name}" style="vertical-align:-3px;padding: 0px;margin-right: 3px;">
+                        <span>{$c.c_name}（剩余{$c.nums}张）</span>
+                        </volist>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="first">规则备注</td>
+                    <td>
+                        <textarea name="rd_memo" class="mediumBox" validate="{ maxlength:200}"></textarea>
+                    </td>
+                    <td class="last">不超过200字</td>
+                </tr>
+                <tr>
+                    <td class="first">标题[SEO TITLE]：</td>
+                    <td>
+                        <input type="text" class="large" value="" name="rd_title">
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">关键词[SEO KEYWORDS]：</td>
+                    <td>
+                        <input type="text" class="large" value="" name="rd_keywords">
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">描述[SEO DESCRIPTION]：</td>
+                    <td>
+                        <textarea name="rd_description" class="mediumBox"></textarea>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="checkbox" name="rd_is_status" id="rd_is_status" value="1"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    
+    /**提交表单
+     * @author zhangjiasuo <zhangjiasuo@guanyisoft.com>
+     * @date 2013-07-10
+     */
+    function save(){
+        var startTime=$("#rd_start_time").val(); 
+        var endTime=$("#rd_end_time").val(); 
+        var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+        var end=new Date(endTime.replace("-", "/").replace("-", "/")); 
+        if(start > end){
+            showAlert(false,'出错了','生效时间大于失效时间！');
+            return false;
+        }
+        var res = $('#rules_add').valid();
+        if(res){
+            document.rules_add.submit();
+        }
+    }
+</script>

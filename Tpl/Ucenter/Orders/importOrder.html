@@ -1,0 +1,14 @@
+<div class="contentRightBox"><!--contentRightBox start-->
+    <div class="pageList"><!--pageList start-->
+        <h2 class="publicH2"><span>商品导入</span></h2>
+		<form enctype="multipart/form-data" method="post" name="importForm" action="{:U('Ucenter/Orders/doBatchAddGoods')}">
+		<br />
+		上传文件:
+		<input name="upfile" type="file" style="width:auto;border:1 solid #9a9999; font-size:9pt; background-color:#ffffff" />
+		<input type="submit" id="upload_submit" value="上传" class="blue" />
+		&nbsp;&nbsp;<a href="__PUBLIC__/upload/excel/goods_import_excle_template.xlsx" style="color:blue;" target="_blank">商品导入模板下载</a>
+		<br/><br/><br/>
+		</form>
+
+    </div><!--pageList end-->
+</div><!--contentRightBox end-->

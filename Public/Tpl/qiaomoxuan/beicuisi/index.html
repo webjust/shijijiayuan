@@ -1,0 +1,117 @@
+<!-- body start -->
+<Gyfx:onlineservice name="service">
+    <volist name="service" id="online">
+        <div class="cs"><div class="cs-d">{$online[0][o_code]}</div></div>
+    </volist>
+</Gyfx:onlineservice>
+<div class="centent pdt30" style="position:relative; z-index:1">
+<!-- 			banner start -->
+    <div class="cus-banner">
+        <ul class="imgs">
+            <li><a href="#"><img src="__IMAGES__banner/b1.jpg" alt="" /></a></li>
+            <li><a href="#"><img src="__IMAGES__banner/b2.jpg" alt="" /></a></li>
+            <li><a href="#"><img src="__IMAGES__banner/b3.jpg" alt="" /></a></li>
+            <li><a href="#"><img src="__IMAGES__banner/b4.jpg" alt="" /></a></li>
+        </ul>
+        <div class="b"></div>
+        <div class="round r1"></div>
+        <div class="round r2"></div>
+        <div class="round r3"></div>
+        <div class="round r4"></div>
+    </div>
+<!-- 			banner end -->
+    <div class="m-tabs-a1 pdt30 hg icon1">
+        <div class="dd-top">
+            <ul>
+                <li><a href="javascript:;" class="current"><i class="a1"></i><span>最新</span></a></li>
+                <li><a href="javascript:;"><i class="a2"></i><span>最热</span></a></li>
+                <li><a href="javascript:;"><i class="a3"></i><span>品类</span></a></li>
+                <li><a href="javascript:;"><i class="a4"></i><span>售价</span></a></li>
+                <li class="ed"><a href="javascript:;"><i class="a5"></i><span>包装</span></a></li>
+            </ul>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name='newgoods' new="1">   
+                <li><a href="{$newgoods.gurl}" target="_blank"><img src="<php>$newgoods['g_picture'] = '/'.ltrim($newgoods['g_picture'],'/');</php>{$newgoods.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test01.jpg);" alt="" class="pdts"/><div title="{$newgoods.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$newgoods.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="hotgoods" hot="1">
+                <li><a href="{$hotgoods.gurl}" target="_blank"><img src="<php>$hotgoods['g_picture'] = '/'.ltrim($hotgoods['g_picture'],'/');</php>{$hotgoods.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test02.jpg);" alt="" class="pdts"/><div title="{$hotgoods.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$hotgoods.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="cate" cid="22">
+                <li><a href="{$cate.gurl}" target="_blank"><img src="<php>$cate['bpic'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.bpic|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test01.jpg);" alt="" class="pdts"/><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="cate" cid="4">
+                <li><a href="{$cate.gurl}" target="_blank"><img src="<php>$cate['g_picture'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test02.jpg);" alt="" class="pdts"/><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+        <div class="dd-cmt">
+            <ul class="pds-roll">
+                <Gyfx:goodslist name="cate" cid="29">
+                <li><a href="{$cate.gurl}" target="_blank"><img src="<php>$cate['g_picture'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.g_picture|showImage=###,220,220}"  style="background-image:url(__IMAGES__test/test01.jpg);" alt="" class="pdts"/><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a></li>
+                </Gyfx:goodslist>
+            </ul>
+            <div class="b"></div>
+        </div>
+    </div>
+</div>
+<!-- body end		 -->
+<script type="text/javascript">
+    (function($){
+            var banner = $(".cus-banner");
+            banner.find(".imgs").carouFredSel({
+                items:1,
+                responsive:true,
+                scroll : {	
+                    fx : "crossfade",
+                    duration:1000,
+                    timeoutDuration : 2000
+               },
+                auto:{
+                    pauseOnHover:"resume"
+                },
+                pagination:{
+                    container:banner.find(".b"),
+                    deviation: 1  
+                },
+                height:354
+            });
+            $('ul.pds-roll').each(function(){
+                var $this = $(this);
+                $this.carouFredSel({
+                    circular: false,
+                    infinite: false,
+                    items:5,
+                    auto:false,
+                    scroll:{
+                        duration:800,
+                        items:5
+                    },
+                    pagination:{
+                        container:$this.siblings(".b")
+                    }
+                });
+            });
+            $('.m-tabs-a1').each(function(){
+                var $this = $(this);
+                $this.tabs($this.find(".dd-cmt"),{tabs:'.dd-top a'});
+            });			
+        })(jQuery);
+</script>

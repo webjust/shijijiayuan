@@ -1,0 +1,49 @@
+<div id="main">
+	<div class="warp Index col">
+		<div block-dat='{"linkcontent":{"1":"#","3":"#","5":"#","7":"#","9":"#"},"imagecontent":{"2":"__IMAGES__banner_06.jpg","4":"__IMAGES__banner_06.jpg","6":"__IMAGES__banner_06.jpg","8":"__IMAGES__banner_06.jpg","10":"__IMAGES__banner_06.jpg"}}' class="index_show_html block" id="">		<div class="banner">
+			<div class="lb">			
+				<div class="bd" id="focus">
+					<ul id="Lb_show">
+					  <li><a href="#" target="_blank" edit-name="图片链接1" linkcontent-editable="true" content-num="1"><img src="__IMAGES__banner_06.jpg" edit-name="展示图片1" imagecontent-editable="true" content-num="2" imagestyle-editable="true" style-num="1"      /></a></li>
+					  <li><a href="#" target="_blank" edit-name="图片链接2" linkcontent-editable="true" content-num="3" ><img src="__IMAGES__banner_06.jpg" edit-name="展示图片2" imagecontent-editable="true" content-num="4" imagestyle-editable="true" style-num="1"     /></a></li>
+					  <li><a href="#" target="_blank" edit-name="图片链接3" linkcontent-editable="true" content-num="5" ><img src="__IMAGES__banner_06.jpg" edit-name="展示图片3" imagecontent-editable="true" content-num="6" imagestyle-editable="true" style-num="1"     /></a></li>
+					  <li><a href="#" target="_blank" edit-name="图片链接4" linkcontent-editable="true" content-num="7" ><img src="__IMAGES__banner_06.jpg" edit-name="展示图片4" imagecontent-editable="true" content-num="8" imagestyle-editable="true" style-num="1"     /></a></li>
+					  <li><a href="#" target="_blank" edit-name="图片链接5" linkcontent-editable="true" content-num="9" ><img src="__IMAGES__banner_06.jpg" edit-name="展示图片5" imagecontent-editable="true" content-num="10" imagestyle-editable="true" style-num="1"     /></a></li>
+					</ul>
+				</div>
+				<div class="hd">
+					<ul id="Lb_button">
+					  <li></li>
+					</ul>
+				</div>
+			</div>
+		</div></div>
+		<div block-dat='{"linkcontent":{"11":"#","13":"#","15":"#","17":"#"},"imagecontent":{"12":"__IMAGES__picture1.jpg","14":"__IMAGES__picture2.jpg","16":"__IMAGES__picture1.jpg","18":"__IMAGES__picture2.jpg"}}' class="index_pic_ads block" id="">			<div class="product">
+				<ul>
+				  <li class="picture1"><a href="#" target="_blank" edit-name="广告链接1" linkcontent-editable="true" content-num="11"><img src="__IMAGES__picture1.jpg" edit-name="广告图片1" imagecontent-editable="true" content-num="12" imagestyle-editable="true" style-num="2"     width="280" height="200"/></a></li>
+				  <li class="picture3"><a href="#" target="_blank" edit-name="广告链接2" linkcontent-editable="true" content-num="13"><img src="__IMAGES__picture2.jpg" edit-name="广告图片2" imagecontent-editable="true" content-num="14" imagestyle-editable="true" style-num="2"     width="280" height="200"/></a></li>
+				  <li class="picture3"><a href="#" target="_blank" edit-name="广告链接3" linkcontent-editable="true" content-num="15"><img src="__IMAGES__picture1.jpg" edit-name="广告图片3" imagecontent-editable="true" content-num="16" imagestyle-editable="true" style-num="2"     width="280" height="200"/></a></li>
+				  <li class="picture3"><a href="#" target="_blank" edit-name="广告链接4" linkcontent-editable="true" content-num="17"><img src="__IMAGES__picture2.jpg" edit-name="广告图片4" imagecontent-editable="true" content-num="18" imagestyle-editable="true" style-num="2"     width="280" height="200"/></a></li>
+				</ul>
+			</div></div>
+	</div>
+
+	<script type="text/javascript">
+	$(function(){
+		$(".lb").slide({
+            titCell: ".hd ul",
+            mainCell: ".bd ul",
+            effect: "fade",
+            interTime: 4000,
+            innerTime: 2000,
+            autoPlay: true,
+            autoPage: "<li><a>"
+			
+        });
+		$(window).resize(function(){
+			$(".lb .bd li a").css("width","100%");
+			$(".lb .bd li a").parent().css("width","100%");
+			$(".lb .bd li a").parent().parent().css("width","100%");
+		});
+	});
+	</script></div><!--end of main-->

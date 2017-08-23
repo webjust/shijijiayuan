@@ -1,0 +1,93 @@
+<div class="rightInner">
+	<table width="100%" class="tbList">
+		<thead>
+			<tr class="title">
+				<th colspan="99">
+					<span style="font-size:18px;"><b>全部优惠券</b></span>
+					名称：<input type="text" class="width_100 search_cond" name="c_name" value="{$filter.c_name}" />
+					券号：<input type="text" class="width_100 search_cond" name="c_sn" value="{$filter.c_sn}" />
+					有效期：<input type="text" class="width_100 timer search_cond" name="starttime" value="{$filter.starttime}" />
+					- 
+					<input type="text" class="width_100 timer search_cond" name="endtime" value="{$filter.endtime}" />
+					<select name="c_type" id="c_type">
+						<option value="">选择券类型</option>
+						<option value="0">现金券</option>
+						<option value="1">折扣券</option>
+					</select>
+					<a href="javascript:void(0);" class="btnA" id="searchButton">搜索</a>
+					<a href='{:U("Admin/Coupon/pageGetExeclCoupon")}' class="btnG ico_explort">Execl导出优惠券</a>
+				</th>
+			</tr>
+			<tr>
+				<th><input type="checkbox" class="checkAll" /></th>
+				<th>操作</th>
+				<th>优惠券名称</th>
+				<th>编码</th>
+				<th>券类型</th>
+				<th>金额或折扣</th>
+				<th>有效期(00表示永久有效)</th>
+				<th>拥有者</th>
+				<th>是否被用</th>
+			</tr>
+		</thead>
+		<form id="coupon_del" method="get" action="{:U('Admin/Coupon/doDel')}">
+    		<tbody>
+        		<volist name="list" id="cp">
+        			<tr>
+        				<td>
+                            <input type="checkbox" class="checkSon" name="c_id[]" value="{$cp.c_id}" />
+                        </td>
+        				<td>
+        					<a href='{:U("Admin/Coupon/pageEdit?c_id=$cp[c_id]")}' class="edit"></a> | 
+                            <a href='{:U("Admin/Coupon/doDel?c_id=$cp[c_id]")}' class="confirm delete"></a>
+                        </td>
+        				<td>{$cp.c_name}</td>
+        				<td><span class="blue">{$cp.c_sn}</span></td>
+        				<td>
+							<if condition="$cp.c_type eq '' or $cp.c_type eq 0">
+							现金券
+							<else />
+							折扣券
+							</if>
+        				</td>						
+        				<td>{$cp.c_money}</td>
+        				<td>{$cp.c_start_time} - {$cp.c_end_time}</td>
+        				<td>{$cp.m_name}</td>
+        				<td>
+        					<eq name="cp.c_is_use" value="0">
+                                <span class="green">未使用</span>
+                            <else/>
+                                <span class="red">已使用</span>
+                            </eq>
+        				</td>
+        			</tr>
+        		</volist>
+        		<empty name="list">
+        			<tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        		</empty>
+    		</tbody>
+    		<tfoot>
+    			<tr>
+    				<td colspan="99">
+                        <input type="submit" value="删除选中" class="btnA confirm" id="delAll" />
+                        <span class="right page">{$page}</span>
+                    </td>
+    			</tr>
+    		</tfoot>
+        </form>
+	</table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#searchButton").click(function(){
+		var redirect_url = "{:U('Admin/Coupon/pageList')}" + "?";
+		$(".search_cond").each(function(){
+			redirect_url += $(this).attr("name") + "=" + encodeURIComponent($(this).val()) + '&';
+		});
+		var c_type = $('#c_type').val();
+		redirect_url +='&c_type='+c_type;
+		location.href= redirect_url;
+	});
+});
+</script>

@@ -1,0 +1,39 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99"><a href="{:U('Admin/Ad/pageAdd')}" class="btnG ico_add">新增自定义广告</a></th>
+            </tr>
+            <tr>
+				<th width="120">操作</th>
+        <th>链接名称</th>
+        <th>图片</th>
+				<th width="200">链接地址</th>
+				<th width="120">显示位置</th>
+				<th width="120">显示顺序</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="ad">
+              <tr>
+                <td width="120">
+                  <a href='{:U("Admin/Ad/pageEdit","n_id=$ad[n_id]")}'>编辑</a>|
+			            <a href='{:U("Admin/Ad/doDel","n_id=$ad[n_id]")}'>删除</a>
+				        </td>
+                <td>{$ad.n_name}</td>
+                <td><php>if($ad.n_imgurl){</php><img src="{$ad.n_imgurl}" style="max-width: 200px;max-height: 60px;"><php>}</php></td>
+				        <td width="200">{$ad.n_aurl}</td>
+				        <td width="120">
+				        {$ad.n_position}
+				        </td>
+				        <td width="120">{$ad.n_order}</td>
+            </tr>
+          </volist>
+        </tbody>
+        <tfoot>
+          <tr>
+              <td colspan="99">{$page}</td>
+          </tr>
+        </tfoot>
+    </table>
+</div>

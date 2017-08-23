@@ -1,0 +1,75 @@
+<div class="rightInner">
+    <form id="sms_set" name="sms_set" method="post" action="{:U('Admin/Sms/doSetSms')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">SMS设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99">SMS基本信息</th>
+                </tr>
+                <tr>
+                    <td class="first">接入帐号</td>
+                    <td>
+                        <input type="text" name="GY_SMS_NAME" id="GY_SMS_NAME"  class="medium" value="{$GY_SMS_NAME}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">密码</td>
+                    <td>
+                        <input type="password" name="GY_SMS_PASS" id="GY_SMS_PASS"  class="medium" value="{$GY_SMS_PASS}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">短信余额</td>
+                    <td>
+                        {$total}
+                    </td>
+                    <td class="last"></td>
+                </tr>				
+                <tr>
+                    <th colspan="99">测试是否设置成功</th>
+                </tr>
+                <tr>
+                    <td class="first">手机号码</td>
+                    <td>
+                        <input type="text" name="testSms" id="testSms" class="medium" validate="{ required:true}" />
+                        <a href="javascript:void(0);" id="sendTestSms">发送测试短信</a>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#sendTestSms').click(function(){  
+        	var GY_SMS_PASS = $('#GY_SMS_PASS').val().trim();
+        	if(GY_SMS_PASS.length<=0){
+        		showAlert(false,'密码不能为空');
+        	}     
+        	var GY_SMS_NAME = $('#GY_SMS_NAME').val().trim();
+        	if(GY_SMS_NAME.length<=0){
+        		showAlert(false,'接入帐号不能为空');
+        	}          	       	
+            var url = "{:U('Admin/Sms/doTestSms')}";
+            var data = $('#sms_set').serialize();
+            ajaxReturn(url,data);
+        });
+    });
+</script>

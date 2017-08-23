@@ -1,0 +1,67 @@
+{__NOLAYOUT__}
+<volist name="data" id="addr">
+    <dd id="row{$addr.ra_id}">
+        <input class="checkAddr" id="ra_id" value="{$addr.ra_id}" name="ra_id" cr_id ="{$addr.cr_id}" ra_id="{$addr.ra_id}" type="radio" />
+        <label class="checkAddr" ra_id="{$addr.ra_id}" for="addr">
+            {$addr.ra_name},
+            {$addr.address},
+            <if condition="$addr.ra_detail neq ''">
+            {$addr.ra_detail},
+            </if>
+            <if condition="$addr.ra_post_code neq ''">
+            {$addr.ra_post_code},
+            </if>
+            {$addr.ra_phone},
+            {$addr.ra_mobile_phone}</label> 
+        <a href="javascript:void(0);" onClick="clickReceiveForeign($(this));" ra_id="{$addr.ra_id}"  class="update updateAddress">修改</a><i>|</i>
+        <a href="javascript:void(0);" class="del" onclick="addressDelete($(this));" id="{$addr.ra_id}">删除</a>
+    </dd>
+</volist>                
+<div class="fenye" style="padding:0">
+    <if condition="$addr_page['nowPage'] neq 1">
+        <a onclick="getAddressPage('{$addr_page[nowPage]-1}','{$request.name}','{$request.mobile}')"><<上一页</a>
+    </if>
+    <php>
+    $int_i = 1;
+    $totalPage = 0;
+    if($addr_page['nowPage']<5 && $addr_page['totalPage']>5){
+        $totalPage = 5;
+    }else if($addr_page['nowPage']<5 && $addr_page['totalPage']<=5){
+        $totalPage = $addr_page['totalPage'];
+    }
+    if($addr_page['nowPage'] >=3){
+        $minPage = $addr_page['totalPage'] - $addr_page['nowPage'];
+        
+        if($minPage <4){
+            $totalPage = $addr_page['totalPage'];
+            $int_i = $addr_page['totalPage']-4;
+        }else{
+            $totalPage = $addr_page['nowPage']+2;
+            $int_i = $addr_page['nowPage']-2;
+        }
+        if($int_i <= 0){
+            $int_i = 1;
+        }
+    }
+    </php>
+    <php>for($a=$int_i;$a<=$totalPage;$a++){</php>
+        <if condition="$a eq $addr_page['nowPage']">
+        <a href="javascript:void(0);" class="on">{$a}</span>
+        <else/>
+        <a onclick="getAddressPage('{$a}','{$request.name}','{$request.mobile}')">{$a}</a>
+        </if>
+    <php>}</php>
+    <if condition="$addr_page['nowPage'] eq $addr_page['totalPage']">
+        <a>已经是最后一页</a>
+    <else />
+        <a onclick="getAddressPage('{$addr_page[nowPage]+1}','{$request.name}','{$request.mobile}')">下一页>></a>
+    </if>
+</div>
+<script>
+$(function(){
+        $("#cont_addr_list input[name='ra_id']").click(function(){
+            $("#updateAddressForeign").html('');
+        });
+})
+</script>
+

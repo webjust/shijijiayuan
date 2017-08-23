@@ -1,0 +1,51 @@
+<script>
+	$(function(){
+		var $aLi=$('.newsList li');
+		for(var i=0;i<$aLi.length;i++){
+			if(i%5==4){
+				$aLi.eq(i).css('marginBottom','15px')
+			}
+		}
+		var $aBtnLi=$('#tags li');
+		var $AConter=$('#tagContent ul');
+		$aBtnLi.mouseover(function(){
+			$index=$(this).index()
+			$(this).addClass('selectTag').siblings().removeClass('selectTag');
+			$AConter.eq($index).show().siblings().hide()
+		})
+	})
+</script>
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>
+<div id="min">
+	<div class="mintitle">
+	<Gyfx:articleinfo name="artinfo" aid="$aid" >
+		<span style="margin-left:20px">您现在所在位置：</span>
+		<a href="{:U('Home/Index/index')}">首页</a> &nbsp;&nbsp;>&nbsp;&nbsp;
+            <php>if(!empty($artinfo['cname'])){</php>
+            <a href="{:U('Home/Article/articlelist',array('cid'=>$artinfo['cid']))}">{$artinfo.cname}</a> &nbsp;&nbsp;>&nbsp;&nbsp; 
+            <php>}</php>
+            <span>{$artinfo.atitle}</span>
+	</div>
+	<h1 class="f25">{$artinfo.atitle}</h1>
+	<div class="minLeft2">
+		<div class="news_con_left_b tl l_24">
+			<ul class="p10">
+				<li class="txtst pt8 pl5 t717171">发布时间：{$artinfo.atime}</li>
+				<li id="news_content_ft" class="f10 mt10 f14">
+					{$artinfo.acontent}
+				</li>
+				<li id="pagec" class="f10 mt10 tc clear"></li>
+			</ul>
+		</div>
+	</div>
+	</Gyfx:articleinfo>
+</div>
+<div style="clear:both;"></div>

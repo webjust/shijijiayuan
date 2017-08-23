@@ -1,0 +1,174 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="coupon_add" enctype="multipart/form-data" name="coupon_add" method="post" action="{:U('Admin/Point/doEdit')}" onsubmit="return save();">
+        <table class="tbForm" width="100%" id="wrap">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改金豆赠送活动</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<tr>
+					<td  colspan="3" style="text-align:left;padding-left:100px;">
+						* 店铺：
+						<select name="cats_id" class="related_goods_form_info medium" >
+							<option value="0"> -请选择- </option>
+							<volist name="array_category" id="cat">
+                            <option value="{$cat.gc_id}" <if condition="$info.gc_id eq $cat['gc_id']">selected = "selected"</if>>{$cat.gc_name}</option>
+							</volist>
+						</select>
+						绑定的会员：
+                        <input type="text" name="m_name" class="related_goods_form_info medium" id="m_name" value="{$info.m_name}" />
+					</td>
+				</tr>
+                <tr>
+                    <td class="first">* 金豆赠送标题</td>
+                    <td>
+                    	<textarea  name="pa_title" id="pa_title"  maxlength="250" style="width:300px;height:100px;text-align:left;vertical-align:top;" validate="{ required:true}">{$info['pa_title']}</textarea>
+                    </td>
+                    <td class="last">限制250个字符</td>
+                </tr>
+                <tr>
+                    <td class="first">* 活动开始时间</td>
+                    <td>
+                        <input type="text" value="{$info.pa_start_time}" name="pa_start_time" id="pa_start_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 活动结束时间</td>
+                    <td>
+                        <input type="text" value="{$info.pa_end_time}" name="pa_end_time" id="pa_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				<tr>
+					<td class="first">* 每天赠送次数：</td>
+					<td><input type="text" name="pa_day_times" id="pa_day_times"
+                                                class="medium" validate="{ required:true}" value="{$info.pa_day_times}"/></td>
+					<td class="last"></td>
+				</tr>
+				<tr>
+					<td class="first">* 每次赠送金豆数量：</td>
+					<td><input type="text" name="pa_times_num" id="pa_times_num"
+                                                class="medium" validate="{ required:true}" value="{$info.pa_times_num}"/></td>
+					<td class="last"></td>
+				</tr>
+				<tr>
+					<td class="first">* 设置多长时间赠送一次：</td>
+					<td><input type="text" name="pa_how_time" id="pa_how_time"
+                                               class="medium" validate="{ required:true}" value="{$info.pa_how_time}"/>分钟</td>
+					<td class="last"></td>
+				</tr>
+				<tr>
+					<td class="first">显示次序</td>
+					<td><input type="text" name="pa_order" id="pa_order"
+						class="medium" value="{$info.pa_order}"/></td>
+					<td class="last"></td>
+				</tr>	
+	            <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="checkbox" name="pa_status" id="pa_status" <if condition="$info.pa_status eq '1'">checked</if> value="1" />
+                    </td>
+                    <td class="last">不勾选代表停用</td>
+                </tr>	
+ 				<tr>
+					<td class="first">金豆赠送描述</td>
+					<td>
+					<textarea name="pa_desc" id="editor"  style="width:600px;">{$info.pa_desc}</textarea>
+					</td>
+					<td class="last"></td>
+				</tr>	 				
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" value="{$info.pa_id}" name="pa_id" />
+                        <input type="submit" value="提 交" class="btnA">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+	window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript">
+	//实例化编辑器
+	UE.getEditor('editor');
+        window.onload=function(){
+        window.UEDITOR_CONFIG.imageUrl = '__APP__/Upload/Image/imageUp';
+        window.UEDITOR_CONFIG.fileUrl = '__APP__/Upload/Image/fileUp';
+        window.UEDITOR_CONFIG.imagePath = '';
+        window.UEDITOR_CONFIG.filePath = ''; 
+        UE.getEditor('editor');
+    }
+    var dialog;
+    var editor = new UE.ui.Editor({
+        imageRealPath:"editor"
+    });
+    editor.render("myEditor");
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            for(index in arg){
+                var image_path = arg[index]['src'];
+                $("#gp_pic").val(image_path);
+                $("#show_pic").attr({src:image_path});
+                
+            }
+        });
+        
+    });
+    function upImage() {
+        dialog.open();
+    }
+    $("document").ready(function(){
+        $('#coupon_add').validate();
+    });
+    
+    /**提交表单
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-08-26
+     */
+    function save(){
+    	var catsId = $('#cats_id').val();
+    	if(catsId<=0){
+			showAlert(false,'请选择店铺');
+			return false;
+    	}
+    	var name = $('#m_name').val();
+    	if(name.length == 0){
+			showAlert(false,'请填入绑定的会员信息');
+			return false;
+    	}
+    	var pa_title = $('#pa_title').val();
+    	if(pa_title.length>250 || pa_title.length<=0){
+			showAlert(false,'金豆赠送标题必须输入且不能大与250个字符');
+			return false;
+    	}
+        var startTime=$("#pa_start_time").val(); 
+        var endTime=$("#pa_end_time").val(); 
+        var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+        var end=new Date(endTime.replace("-", "/").replace("-", "/")); 
+        if(start > end){
+            showAlert(false,'出错了','活动开始时间大于活动实效时间时间！');
+            return false;
+        }
+
+    	var pa_times_num = parseInt($('#pa_times_num').val());
+    	if(isNaN(pa_times_num) || pa_times_num<0){
+			showAlert(false,'每次赠送金豆数量必须输入');
+			return false;
+    	} 
+        var res = $('#coupon_add').valid();
+    }
+</script>

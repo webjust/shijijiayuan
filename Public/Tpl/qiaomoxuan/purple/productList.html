@@ -1,0 +1,292 @@
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet" text="text/css" />
+<style>
+
+</style>
+<div class="banner"><!--banner begin-->
+  <div class="title">
+    <p>
+		<i><a href="/">首页  </a>/
+		<notempty name="breadcrumb">
+		<a href="{:U('Home/Products/index', 'tid='.$tid)}">{$gt_name} </a>
+		</notempty>
+		</i>
+	</p>
+
+  </div>
+  <notempty name="ary_ads">
+  <div id="focus5" class="bannerImg">
+	<dl>
+		<volist name="ary_ads" id="ads">
+		<dd>
+			<a href="{$ads.ad_url}">
+				<img src="{$ads.ad_pic_url}" >
+			</a>
+		</dd>
+		</volist>
+	</dl>
+  </div>
+  </notempty>
+</div>
+<div class="clear"></div>
+<div class="warp"><!--warp begin-->
+  <div class="Screening">
+    <div class="proList">
+      <h1 class="Stitle"> 筛选器  </h1>
+      <ul id="list_filter">
+			  <li>
+				  <span id="tid">类型:</span>
+				  <div class="rightC">
+                     <Gyfx:goodstype name="type">
+						<a href="javascript:void(0);" data-name="tid" data-value="{$type.gtid}" >{$type.gtname}</a>
+                     </Gyfx:goodstype>
+				  </div>
+				  <i></i>
+			  </li>
+		  <notempty name='ary_search_spec'>
+			<volist name='ary_search_spec' id='search_spec'>
+			<li>
+				<assign name="gs_id" value="$key"/>
+				<php>$current_spec = current($search_spec);</php>
+				<span id="path_{$gs_id}">{$current_spec.gs_name}:</span>
+				<div class="rightC">
+				<volist name="search_spec" id="spec" key="gsd_id">
+					<assign name="gsd_id" value="$key"/>
+					<a href="javascript:void(0);" data-name="path_{$gs_id}" data-value="{$gs_id}:{$gsd_id}" >{$spec.gsd_value}</a>
+				</volist>				
+				</div>
+				<i></i>
+			</li>				
+			</volist>
+		  </notempty>
+        <li>
+			<span id="price">价格：</span>
+			<div class="rightC">
+			<a href="javascript:void(0);" data-name="price" data-value="0-100">0-100</a>
+			<a href="javascript:void(0);" data-name="price" data-value="100-200">100-200</a>
+			<a href="javascript:void(0);" data-name="price" data-value="200-300">200-300</a>
+			<a href="javascript:void(0);" data-name="price" data-value="300-400">300-400</a>
+			</div>
+			<i></i>
+		</li>
+      </ul>
+    </div>
+    <div class="Sort">
+		<span>排序方式：
+		<a href="javascript:void (0);" data-name="order" data-value="new">最新商品</a>
+		<a href="javascript:void (0);" data-name="order" data-value="_hot">人气商品</a>
+		<!--<a href="javascript:void (0);" data-name="order" data-value="_new">销量由高至低</a>-->
+		<a href="javascript:void (0);" data-name="order" data-value="_price">价格由高至低</a>
+		<b>{$ary_page['nowPage']}/{$ary_page['totalPage']}页</b>
+		</span>
+	</div>
+    <div class="Product">
+      <div class="ProList">
+        <ul>
+			<volist name="ary_goods_list" id="goods_info">
+				<li>
+				<a href="{$goods_info.gurl}" class="proImg" target="_blank" title="{$goods_info.gname}">
+					<img src="{$goods_info['g_picture']|showImage=###,180,180}" width="180" height="180" />
+				</a>
+				<p class="proTitle">
+					<a href="{$goods_info.gurl}" target="_blank" title="{$goods_info.gname}">{$goods_info.gname}</a>
+					<i>{$goods_info['gs_price']}</i>
+				</p>
+
+				<p>
+					<php>
+						if(isset($goods_info['comment_statistics']) && !empty($goods_info['comment_statistics'])) {
+							$average_score =  $goods_info['comment_statistics']['average_score'] ? intval($goods_info['comment_statistics']['average_score']) : 0;
+							$light_star_num = round($average_score/20);
+							$grey_star_num = 5 - $light_star_num;
+						}else {
+							$light_star_num = 0;
+							$grey_star_num = 5;
+						}
+						for($i=0; $i< $light_star_num; $i++) {
+							echo '<em></em>';
+						}
+						for($i=0; $i< $grey_star_num; $i++) {
+							echo '<em class="bad"></em>';
+						}
+					</php>
+					<b>({$goods_info['comment_statistics']['total_count']|default=0}评论)</b></p>
+				<p class="btn_A">
+					<a href="{$goods_info.gurl}" class="detail_btn">查看详情</a>
+					<a href="javascript:void (0);" onclick="javascript:addToInterests('{$goods_info.gid}');" class="save_btn">收藏</a>
+				</p>
+				</li>
+			</volist>          
+        </ul>
+        
+       
+    </div>  </div><div class="SP" id="SP"> 
+        <div class="fenyeBox" id="fenyeBox">
+		<php>
+			$int_i = 1;
+			$totalPage = 0;
+			if($ary_page['nowPage']<5 && $ary_page['totalPage']>5){
+				$totalPage = 5;
+			}else if($ary_page['nowPage']<5 && $ary_page['totalPage']<=5){
+				$totalPage = $ary_page['totalPage'];
+			}
+			if($ary_page['nowPage'] >=3){
+				$minPage = $ary_page['totalPage'] - $ary_page['nowPage'];
+
+				if($minPage <4){
+					$totalPage = $ary_page['totalPage'];
+					$int_i = $ary_page['totalPage']-4;
+				}else{
+					$totalPage = $ary_page['nowPage']+2;
+					$int_i = $ary_page['nowPage']-2;
+				}
+				if($int_i <= 0){
+					$int_i = 1;
+				}
+			}
+			for($i=$int_i;$i<=$totalPage;$i++){
+				if($i>0){
+					if($i == $ary_page['nowPage']){
+						echo "<a class='on'>".$i."</a>";
+					}else{
+						if($i > $ary_page['nowPage']){
+							$url = rtrim(substr($ary_page['downUrl'],0,-8),'/').'/'.'start/'.$i;
+							echo "<a href='javascript:void(0);' data-name='start' data-value='".$i."'>".$i."</a>";
+						}else{
+							$url = rtrim(substr($ary_page['upUrl'],0,-8),'/').'/'.'start/'.$i;
+							echo "<a href='javascript:void(0);' data-name='start' data-value='".$i."'>".$i."</a>";
+						}
+					}
+				}
+			}
+		</php>
+        </div>
+      </div> 
+  </div>
+</div>
+<!--warp end--> 
+<!--banner end-->
+<script type="text/javascript" src="__JS__productsdetail.js"></script>
+<script type="text/javascript">
+$(function(){
+	//轮播
+	var sWidth5 = 1200;	
+	var len3 = $("#focus5 dl dd").length;	
+	var index = 0;
+	var t;
+	var btn2 = "<div class='btn'>";
+	for(var i=0; i < len3; i++) {
+		btn2 += "<span></span>";
+	}
+	
+	btn2 += "</div>";
+	$("#focus5").append(btn2);
+	
+	$("#focus5 .btn span").mouseenter(function() {
+		index = $("#focus5 .btn span").index(this);
+		showPics2(index);
+	}).eq(0).trigger("mouseenter");
+
+	$("#focus5 dl").css("width",sWidth5 * (len3));
+	
+	$("#focus5").hover(function() {
+		clearInterval(t);
+	},function() {
+		t = setInterval(function() {
+			showPics2(index);
+			index++;
+			if(index == len3) {index = 0;}
+		},3000); 
+	}).trigger("mouseleave");
+
+	function showPics2(index) { 
+		var nowLeft = -index*sWidth5; 
+		$("#focus5 dl dd").css("width",sWidth5);
+		$("#focus5 dl").stop(true,false).animate({"left":nowLeft},300); 
+		$("#focus5 .btn span").stop(true,false).css("backgroundPosition","0 0").eq(index).stop(true,false).css("backgroundPosition","0 -5px"); 
+	}
+})
+
+	var ary_request = JSON.parse('{$ary_request}');
+	console.log(ary_request);
+	//初始化以选中筛选项
+	if(ary_request != {}) {
+		for(var key in ary_request) {
+			//console.log(key.indexOf("path_"));
+			if(key.indexOf("path_") >= 0 || key == 'tid' || key == 'price') {
+				var v = ary_request[key];
+				var show_label = $('#' + key).text();
+				var show_val = $('#' + key).next('.rightC').find('a[data-value="' + v + '"]').text();
+				console.log(show_val);
+				$(".proList .Stitle").append(" <span><em>" + show_label + show_val + "</em> <i style='cursor:pointer;' data-name='" + key + "' data-value='" + v + "' >x</i> </span>");
+			}
+		}
+	}
+	//点击筛选
+	$('#list_filter a').click(function() {
+		if(ary_request['start']) {
+			delete ary_request.start;
+		}
+		updateUrlQuery($(this));
+	});
+	//点击取消筛选
+	$(".Stitle span i").live("click",function(){
+		var data_name = $(this).attr('data-name');
+		var data_value = $(this).attr('data-value');
+		if(ary_request[data_name]) {
+		  delete ary_request[data_name];
+		}
+		var request_str = objToQueryStr(ary_request);
+		//console.log(request_str);return;
+		window.location.href= '{:U("Home/Products/index")}'+'?'+request_str;
+    
+    });
+  	//点击展开/收起
+	$(".proList ul li i").live("click",function(){
+        $(this).siblings(".rightC").toggleClass("rightRC");
+		$(this).toggleClass("select");
+    });
+</script>
+<script type="text/javascript">
+	var aa=document.getElementById("SP");
+	var bb=document.getElementById("fenyeBox");
+	var outerW=aa.offsetWidth;
+	var innerW=bb.offsetWidth;
+	$(".fenyeBox").css("left",(outerW-innerW)/2+"px");
+	//点击翻页
+	$('#fenyeBox a:not(".on")').click(function(){
+		updateUrlQuery($(this));
+	});
+	//点击排序
+	$('.Sort span a').click(function() {
+		updateUrlQuery($(this));
+	});
+	/**
+	 * 更新请求参数，刷新请求页面
+	 * @param obj
+	 */
+	function updateUrlQuery(obj) {
+		var data_name = obj.attr('data-name');
+		var data_value = obj.attr('data-value');
+		ary_request[data_name] = data_value;
+		var request_str = objToQueryStr(ary_request);
+		//console.log(request_str);return;
+		window.location.href= '{:U("Home/Products/index")}'+'?'+request_str;
+	}
+	/**
+	 * 对象转请求参数键值对
+	 * @param obj
+	 * @returns {string}
+	 */
+	function objToQueryStr(obj) {
+		var query_arr = []
+		for(var key in obj) {
+			key = encodeURIComponent(key);
+			var values = obj[key];
+			values =  encodeURIComponent(values === null ? '' : String(values));
+			query_arr.push( key + '=' + values );
+		}
+		return query_arr.join('&');
+	}
+
+</script>

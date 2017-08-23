@@ -1,0 +1,53 @@
+{__NOLAYOUT__}
+<!--shopcartCon 开始-->
+  <span class="shoppingcart">购物车（<label>{$price_data.all_nums|default='0'}</label>）</span>
+  <!--shopcartHide 开始-->
+  <div class="shopcartHide">
+      <ul>
+        <volist name="cart_data" id="data">
+        <php>if($data[0]['pdt_rule_name']=='自由推荐'){</php>
+        <volist name="data" id="da">
+           <li>
+              <dl>
+                  <dt><a href="/Home/Products/detail/gid/{$da.g_id}"><img src="{$Think.config.DOMAIN_HOST}{$da.g_picture|showImage=###,50,50}" width="50" height="50" /></a></dt>
+                  <dd>
+                      <a href="/Home/Products/detail/gid/{$da.g_id}" class="proN">{$da.g_name}|{$da.g_sn} {$da.pdt_spec}</a>
+                      <span><i>&yen;</i><label class="price">{$da.f_price|sprintf='%.2f',###}</label>x<label class="proNum">{$da.pdt_nums}</label></span>
+                      <a href="javascript:void(0);"  onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});" class="del">删除</a>
+                  </dd>
+              </dl>
+          </li>
+        </volist>
+        <php>}elseif($data[0]['type'] == '6'){</php>
+         <volist name="data" id="da">
+          	<li>
+              <dl>
+                  <dt><a href="/Home/Products/detail/gid/{$da.g_id}"><img src="{$Think.config.DOMAIN_HOST}{$da.g_picture|showImage=###,50,50}" width="50" height="50" /></a></dt>
+                  <dd>
+                      <a href="/Home/Products/detail/gid/{$da.g_id}" class="proN">{$da.g_name}|{$da.g_sn} {$da.pdt_spec}</a>
+                      <span><i>&yen;</i><label class="price">{$da.f_price|sprintf='%.2f',###}</label>x<label class="proNum">{$da.pdt_nums}</label></span>
+                      <a href="javascript:void(0);"  onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});" class="del">删除</a>
+                  </dd>
+              </dl>
+          	</li>
+        </volist>
+        <php>}else{</php>
+        <li>
+              <dl>
+                  <dt><a href="/Home/Products/detail/gid/{$data.g_id}"><img src="{$Think.config.DOMAIN_HOST}{$data.g_picture|showImage=###,50,50}" width="50" height="50" /></a></dt>
+                  <dd>
+                      <a href="/Home/Products/detail/gid/{$data.g_id}" class="proN">{$data.g_name}|{$data.g_sn} {$data.pdt_spec}</a>
+                      <span><i>&yen;</i><label class="price">{$data.f_price|sprintf='%.2f',###}</label>x<label class="proNum">{$data.pdt_nums}</label></span>
+                      <a href="javascript:void(0);" onclick="deleteFromMyCart({$data.pdt_id},{$data.type|default='0'});"  class="del">删除</a>
+                  </dd>
+              </dl>
+        </li>
+        <php>}</php>
+        </volist>
+      </ul>
+      <p>
+          <!-- <a href="#" class="prev"></a><a href="#" class="next"></a> -->
+         	 总计：<i class="price">&yen;</i> <strong class="red">{$price_data.all_price|default="0.00"}</strong>
+          <a href="{:U('Ucenter/Cart/pageList')}" class="showCart">查看购物车</a>
+      </p>
+</div><!--shopcartHide 结束-->

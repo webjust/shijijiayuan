@@ -1,0 +1,235 @@
+<div id="content">
+    <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+            <p class="conOneP" style="float: left;">
+                <a href='{:U("Admin/CardsInfo/addCardsInfo")}' class="btnG ico_add">新增</a>
+                <a href="javascript:void(0);" class="btnG ico_explort">导出Excel</a>
+            </p>
+            <ul class="conOneUl" style="width:849px;">
+                <form method="get" 
+                      <if condition="$filter.st eq 'pending'">
+                        action="{:U('Admin/CardsInfo/pageList','st=pending&status=2')}"
+                      <elseif condition="$filter.st eq 'finance'" />
+                        action="{:U('Admin/CardsInfo/pageList','st=finance&status=2')}"
+                      <else />
+                        action="{:U('Admin/CardsInfo/pageList')}"
+                      </if> style="float: none;">
+                    <li>
+                        <select name="ct_id" class="small" style="width: auto">
+                            <option value="0">选择调整单类型</option>
+                            <volist name="type" id="ty">
+                                <option value="{$ty.ct_id}" <if condition="$ty['ct_id'] eq $filter['ct_id']">selected="selected"</if>>{$ty.ct_name}</option>
+                            </volist>
+                        </select>
+                    </li>
+                    <li>制单时间：<input type="text" name="starttime" class="large medium timer" value="{$filter.starttime}"  style="width: 145px;float: none;"></li>
+                    <li>至<input type="text" name="endtime" class="large medium timer" value="{$filter.endtime}"  style="width: 145px;float: none;"></li>
+                    <li>
+                        <select name="field" class="small" style="width: auto">
+                            <option value="m_name" <if condition="$filter['field'] eq 'm_name'">selected="selected"</if>>会员名</option>
+                            <option value="ci_sn" <if condition="$filter['field'] eq 'ci_sn'">selected="selected"</if>>单据编号</option>
+                            <option value="ci_accounts_receivable" <if condition="$filter['field'] eq 'ci_accounts_receivable'">selected="selected"</if>>收款帐号</option>
+                            <option value="o_id" <if condition="$filter['field'] eq 'o_id'">selected="selected"</if>>订单号</option>
+                            <option value="or_id" <if condition="$filter['field'] eq 'or_id'">selected="selected"</if>>退款单号</option>
+                            <option value="pc_serial_number" <if condition="$filter['field'] eq 'pc_serial_number'">selected="selected"</if>>充值卡流水号</option>
+                        </select>
+                    </li>
+                    <li><input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                </form>
+            </ul>
+            </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>
+                <if condition="$filter.st neq ''">
+                    <th width="80px">操作</th>
+                </if>
+                <th>单据编号</th>
+                <th width="100px">审核状态</th>
+                <th>类型名称</th>
+                <th>会员名</th>
+                <th>调整金额</th>
+                <th>制单人</th>
+                <th>制单日期</th>
+                <th>收款账号</th>
+                <th>订单号</th>
+                <th>退款单号</th>
+                <th>充值卡流水号</th>
+                <if condition="$filter.st eq ''">
+                    <th>是否已作废</th>
+                </if>
+                
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="datas">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" data-xid="checkSon_x" name="ci_id[]" value="{$datas.ci_id}" ci_sn="{$datas.ci_sn}" /></td>
+                    <if condition="$filter.st neq ''">
+                    
+                        <if condition="$datas.ci_verify_status eq '2'">
+                            <td width="80px"><span id="ci_verify_status_{$datas.ci_id}" style="cursor: default;color: gray;">作废</span></td>
+                        <else />
+                            <td width="80px" id="list_status_{$datas.ci_id}">
+                                <span 
+                                      <php>if($filter['st'] == 'pending'){</php>
+                                          <if condition="$datas.ci_service_verify eq '1'">
+                                            style="cursor: default;color: gray;"
+                                          <else />
+                                            style="cursor: pointer;color: blue;"
+                                          </if> 
+                                          data-field="ci_service_verify" id="ci_service_verify_{$datas.ci_id}" 
+                                      <php>}else{if($filter['st'] == 'finance'){ </php>
+										  <if condition="$datas.ci_finance_verify eq '1'">
+                                            style="cursor: default;color: gray;"
+                                          <else />
+                                            style="cursor: pointer;color: blue;"
+                                          </if> 
+                                      <php>}</php>
+                                     
+
+                                        data-field="ci_finance_verify" id="ci_finance_verify_{$datas.ci_id}" 
+                                       <php>}</php>
+                                    data-id="{$datas.ci_id}" data-value='1' class="ServiceVerify">审核</span>&nbsp;&nbsp;
+                                <span id="ci_verify_status_{$datas.ci_id}" <if condition="$datas.ci_verify_status eq '2'">style="cursor: default;color: gray;"<else />style="cursor: pointer;color: blue;" class="ServiceVerify"</if>data-id="{$datas.ci_id}" data-field="ci_verify_status" data-value='2'>作废</span>
+                            </td>
+                        </if>
+                        
+                    </if>
+                    <td>
+                        <if condition="$filter.st neq ''">
+                            <a href='{:U("Admin/CardsInfo/detailCardsInfo","st=$filter[st]&status=2&id=$datas[ci_id]")}' title="{$datas.ci_sn}">{$datas.ci_sn}</a>
+                        <else />    
+                            <a href='{:U("Admin/CardsInfo/detailCardsInfo","id=$datas[ci_id]")}' title="{$datas.ci_sn}">{$datas.ci_sn}</a>
+                        </if>
+                        
+                    </td>
+                    <td width="100px">
+                        <if condition="$datas.ci_verify_status eq '2'">
+                           <font  color="red" >已作废</font>
+                        <else />
+                           	<if condition="$datas.ci_service_verify eq '1'">
+                                <font  color="green" id="ci_service_verify_{$datas.ci_id}_status">已客审</font>
+	                        <else />
+	                                <font  color="red" id="ci_service_verify_{$datas.ci_id}_status">未客审</font>
+	                        </if>
+	                        &nbsp;&nbsp;
+	                        <if condition="$datas.ci_finance_verify eq '1'">
+	                                <font id="ci_finance_verify_{$datas.ci_id}_status" color="green">已财审</font>
+	                        <else />
+	                                <font id="ci_finance_verify_{$datas.ci_id}_status" color="red">未财审</font>
+	                        </if>        
+                        </if>
+                </td>
+                <td>{$datas.ct_name}</td>
+                <td>{$datas.m_name}</td>
+                <td><if condition="$datas.ci_type eq '1'">{$datas.ci_money|sprintf='%.2f',###}<else />{$datas.ci_money|sprintf='%.2f',###}</if></td>
+                <if condition="$datas.single_type eq '2'">
+                    <td>{$datas.m_name}</td>
+                <else />
+                    <td>{$datas.u_name}</td>
+                </if>
+                <td>{$datas.ci_create_time|default='0000-00-00 00:00:00'}</td>
+                <td>{$datas.ci_accounts_receivable|default='暂无'}</td>
+                <td>{$datas.o_id|default='暂无'}</td>
+                <td>{$datas.or_id|default='暂无'}</td>
+                <td>{$datas.pc_serial_number|default='暂无'}</td>
+                <if condition="$filter.st eq ''">
+                    <td><if condition="$datas.ci_verify_status eq '2'"><fon color="red">是</font><else />否</if></td>
+                </if>
+                
+                <td>{$datas.desc|default="暂无"}</td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div><!--rightInner  end-->
+</div>
+    <script>
+    $(document).ready(function(){
+        $(".ico_explort").click(function(){
+            var ci_sns = new Array();;
+            $(".tbList input:checked[class='checkSon']").each(function(){
+                ci_sns.push($(this).attr("ci_sn"));
+            });
+            var ci_id = ci_sns;
+            ci_sns = ci_sns.join(",");
+            if(ci_sns == ''){
+                alert("请选择需要导出的单据编号");
+                return false;
+            }
+            $.ajax({
+                url:'{:U("Admin/CardsInfo/explortCardsInfo")}',
+                cache:false,
+                dataType:'json',
+                data:{ci_sns:ci_sns},
+                type:'POST',
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        var url = "{:U('Admin/CardsInfo/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+                        window.location.href = url;
+                        return false;
+                    }else{
+                        alert(msgObj.info);return false;
+                    }
+                }
+            });
+        });
+        <if condition="$filter.st neq ''"></if>
+        $(".ServiceVerify").live("click",function(){
+            var field = $(this).attr("data-field");
+            var id = $(this).attr("data-id");
+            var val = $(this).attr("data-value");
+            if(field == 'ci_verify_status'){
+                var r=confirm("单据作废后不可恢复,确认操作?");
+                if(r == false){
+                    return false;
+                }
+            }
+            $.ajax({
+                url:'{:U("Admin/CardsInfo/doStatus")}',
+                cache:false,
+                dataType:'json',
+                type:'POST',
+                data:{field:field,id:id,val:val},
+                error:function(){
+                    $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        $("#"+field+"_"+id).css({"color":"gray","cursor":"default"});
+                        $("#"+field+"_"+id).removeClass("ServiceVerify");
+                        var strstatus = '<span style="color:gray;cursor:default;">作废</span>';
+                        $("#list_status_"+id).html(strstatus);
+                        if(field == 'ci_service_verify'){
+                            $("#ci_service_verify_"+id+"_status").css({"color":"green"});
+                            $("#ci_service_verify_"+id+"_status").html("已客审");
+                        }else if(field == 'ci_finance_verify'){
+                            $("#ci_finance_verify_"+id+"_status").css({"color":"green"});
+                            $("#ci_finance_verify_"+id+"_status").html("已财审");
+                        }
+                    }else{
+                        $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                    }
+                }
+            });
+        });
+        
+    });
+    
+    </script>
+

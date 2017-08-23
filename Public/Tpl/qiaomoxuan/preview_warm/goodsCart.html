@@ -1,0 +1,259 @@
+{__NOLAYOUT__}
+<Gyfx:goodsinfo name="data" gid="$ary_request[gid]" erpguid="$ary_request[gid]"  ></Gyfx:goodsinfo>
+<php>
+    $gpicture = $data['gpics'][0]['gp_picture'] ;
+</php>
+<form id="goodsCartForm" name="goodsForm" method="post" action="#">
+    <div class="layout-title sku-box-shadow name-card sku-name-card" >
+        <div class="thumb">
+            <img src="{$gpicture}" alt=""></div>
+        <div class="detail goods-base-info clearfix">
+            <p class="title c-black ellipsis">{$data.gname|mb_substr=###,0,20,'utf-8'}</p>
+            <div class="goods-price clearfix">
+                <div class="current-price pull-left c-black">
+                    <span class="price-name pull-left font-size-14 c-orange">￥</span>
+                    <i class=" price font-size-18 vertical-middle c-orange" id="showPrice">{$data.gprice}</i>
+                </div>
+            </div>
+        </div>
+        <div class="sku-cancel">
+            <div class="cancel-img" id="cancel-img"></div>
+        </div>
+    </div>
+    <div class="adv-opts layout-content" style="max-height: 468px;">
+        <div class="goods-models block block-list border-top-0">
+            <volist name="page_detail.ary_goods_spec_list" id="goods_spec" key="k">
+                <dl class="clearfix block-item spec_list">
+                    <dt class="model-title sku-num pull-left">
+                        <label>{$goods_spec.gs_name}：</label>
+                    </dt>
+                    <dd id="sku{$goods_spec.gs_id}_{$k}">
+                        <volist name="goods_spec.gs_details" id="gs_detail" key="gskk">
+                            <php>
+                                $gsd_type = 'text';
+                                $va = strpos($gs_detail['gsd_value'],'|');
+                                if($va){
+                                $gsdinfos = explode('|', $gs_detail['gsd_value']);
+                                $gsd_value = $gsdinfos[0];
+                                $gsd_info = $gsdinfos[1];
+                                $gsd_type = 'img';
+                                }else{
+                                $gsd_value = $gs_detail['gsd_value'];
+                                }
+                            </php>
+                            <a href="javascript:void (0);" onclick="specSelect(this);" name="{$gsd_value}" title="{$gsd_value}" data-value="{$gs_detail.gsd_id}"
+                            <if condition="$gsd_type eq 'img'"> style="height:40px;"</if>
+                            <eq name="gskk" value="1"> class="on" </eq>  >
+                            <if condition="$gsd_type eq 'img'">
+                                <img src="{$Think.config.DOMAIN_HOST}{$gsd_info}"  style="width:30px;height: 38px;vertical-align: top"title="{$gsd_value}"/>
+                                <else/>
+                                {$gsd_value}
+                            </if>
+                            </a>
+                        </volist>
+                    </dd>
+                </dl>
+            </volist>
+            <dl class="clearfix block-item">
+                <dt class="model-title sku-num pull-left">
+                    <label>数量</label>
+                </dt>
+                <dd>
+                    <dl class="clearfix">
+                        <div class="quantity">
+                            <button class="minus" type="button" ></button>
+                            <input type="text" id="item_num"  name="num" class="txt" value="1">
+                            <button class="plus" type="button"></button>
+                            <div class="response-area response-area-minus" onclick="countNum(-1)"></div>
+                            <div class="response-area response-area-plus" onclick="countNum(1)"></div>
+                            <div class="txtCover"></div>
+                        </div>
+                        <div>
+                                <php>if(!$p_id){</php>
+                                <php>if (!GLOBAL_STOCK) {</php>
+                            <p >库存:
+                                <if condition="$stock_data['OPEN_STOCK'] EQ 1 and $stock_data['level'] neq '' ">
+                                    <if condition="$page_detail['gstock'] elt 0" >
+                                        <label><strong style='color:red' id="showNum">缺货</strong></label>
+                                        <elseif condition="$page_detail['gstock'] gt 0 && $page_detail['gstock'] lt $stock_data['STOCK_NUM']" />
+                                        <label><strong style='color:red' id="showNum">供货紧张</strong></label>
+                                        <elseif condition="$page_detail['gstock'] gt $stock_data['STOCK_NUM']" />
+                                        <label><strong style='color:green' id="showNum">充足</strong></label>
+                                    </if>
+                                    <else/>
+                                    <label id="showNum">{$page_detail.gstock}</label>
+                                </if>
+                            </p>
+                            <input type="hidden" value="0" id="is_global_stock" />
+                            <php>}</php>
+                            <php>}else{</php>
+                            <div>剩余数量：
+                                <label id="surplus">{$p_number}件</label>
+                                <if condition="$Think.session.Members.m_id neq ''">
+                                    每人限购 <label>{$p_per_number}</label>件
+                                    <else/>
+                                    您可以购买<label>{$p_per_number}</label>件
+                                </if>
+                            </div>
+                            <php>}</php>
+                            </p>
+                            <!--<p> (月销量0件)</p>-->
+                        </div>
+                        <input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+                        <input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+                        <input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+                        <input type="hidden" name="type" value="item" id="item_type" />
+                        <input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_id}" name="pdt_id" id="pdt_id" />
+                        <input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_stock}" name="pdt_stock" id="pdt_stock" />
+                        <input type="hidden" value="{$max_buy_number|default=0}" name="max_buy_number" id="max_buy_number" />
+                        <!--<input type="hidden" name="type" value="item" id="item_type" />-->
+                        <!--<input type="hidden"  value="<if condition="$data['skus']['1']['pdt_id'] eq ''">{$data['skus'][0]['pdt_id']}</if>" name="pdt_id" id="pdt_id" />-->
+                        <!--<input type="hidden" value="<if condition="$data['skus']['1']['pdt_id'] eq ''">{$data['skus'][0]['pdt_stock']}</if>" name="pdt_stock" id="pdt_stock" />-->
+                        <div class="stock pull-right font-size-12"></div>
+                    </dl>
+                </dd>
+            </dl>
+            <div class="block-item block-item-messages" style="display: none;"> </div>
+        </div>
+        <div class="confirm-action content-foot clearfix">
+            <input type="hidden" name="way_type" value="0" id="way_type"/>
+            <div class="half-button"> <a onclick="addToOrders();" class=" confirm btn btn-block btn-orange-dark ">立即购买</a> </div>
+            <div class="half-button"> <a onclick="addGoodsCarts();" class=" cart btn btn-block btn-white">加入购物车</a> </div>
+        </div>
+    </div>
+</form>
+<input type="hidden" value="{$data.gid}" id="gid">
+<form id="submitProductListFrom" name="submitProductListFrom" method="post" action="/Ucenter/Orders/pageAdd">
+    <input type="hidden" name="pid[]" id="submitProductListPid" value="" />
+    <input type="hidden" name="type[]" id="submitProductListype" value="0"/>
+</form>
+
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Wap/Orders/addOrderPage">
+    <input type="hidden" name="pid[]" id="submitSkipPid" value="" />
+    <input type="hidden" name="type[]" id="submitSkiptype" value=""/>
+</form>
+
+<script type="text/javascript" src="__JS__goodsDetailSku.js"></script>
+<script type="text/javascript">
+    var fuzzy_stock_open = parseInt('{$stock_data.OPEN_STOCK}');
+    var fuzzy_stock_level = parseInt('{$stock_data.level}');
+
+    var warning_stock_num = parseInt("{$stock_data['STOCK_NUM']}");
+    var json_goods_pdts = JSON.parse('{$page_detail.json_goods_pdts|json_encode}');
+    //console.log(json_goods_pdts);
+    //页面初始化操作
+</script>
+
+<script>
+//商品数量更改
+    function countNum(i){
+        var _this = $("#item_num");
+        var num=parseInt(_this.val());
+        var max = $("#pdt_stock").val();
+        if(max ==''){
+            return false;
+        }
+        max = parseInt(max);
+        num=num+i;
+        if((num<=0)||(num>max)||(num>999) || max==0 || max ==null){return false;}
+        _this.val(num);
+    }
+
+
+    function addGoodsCarts(){
+        var res = allSpecSelectedCheck('on');
+        if(res[0] == false) {
+            $.ThinkBox.error('请选择要购买的商品规格！');return false;
+        }
+        var pdt_id = $('#pdt_id').val();
+
+        var num = parseInt($('#item_num').val());
+        if (isNaN(num)){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return false;
+        }
+        if(parseInt($('#item_num').attr('max')) == 0){
+            $.ThinkBox.error("库存不足");
+            return false;
+        }
+        if (num < 1){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return false;
+        }
+        if (pdt_id == ""){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+            return false;
+        }
+        //发送ajax请求
+        var data = $('#goodsCartForm').serialize();
+//    alert(data);return false;
+        if (data != ''){
+            $.post('/Wap/Cart/doAdd', data, function(dataMsg){
+                if(dataMsg.status == '1'){
+                    $(".ThinkBox-wrapper").hide();
+                    $.ThinkBox.success(dataMsg.info);
+                    ajaxLoadShoppingCart(1);
+                    $(".ThinkBox-modal-blackout-default").remove();
+                    return false;
+                }else{
+                    $.ThinkBox.error(dataMsg.info);
+                    return false;
+                }
+            }, 'json');
+        }
+
+
+    }
+
+    function addToOrders(){
+        var res = allSpecSelectedCheck('on');
+        if(res[0] == false) {
+            $.ThinkBox.error('请选择要购买的商品规格！');return false;
+        }
+        var pdt_id = $('#pdt_id').val();
+        var pdt_stock = parseInt($('#pdt_stock').val());
+        var num = parseInt($('#item_num').val());
+        if (isNaN(num)){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return false;
+        }
+        if (num < 1){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return false;
+        }
+        if (pdt_stock < 1){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return false;
+        }
+        if (pdt_id == ""){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+            return false;
+        }
+        $("#way_type").val('1');//立即购买
+        //发送ajax请求
+        var data = $('#goodsCartForm').serialize();
+        if(data !=''){
+            $.post('/Wap/Cart/doAdd',data,function(dataMsg){
+                if(dataMsg.status){
+                    $("#submitSkipPid").val(pdt_id);
+                    $("#submitSkiptype").val('0');
+                    if(mid ==0){
+                        var skipdata = $("#submitSkipFrom").serialize();
+                        $.cookie("skipdata",skipdata,{ expires: 7 ,secure:false,path:'/Wap/User/'});
+                    }
+                    $("#submitSkipFrom").submit();
+                }else{
+                    $.ThinkBox.error(dataMsg.info);
+                }
+            },'json');
+        }
+    }
+
+$(document).ready(function($){
+    $("#cancel-img").click(
+            function () {
+                $("#addcartshow").css("display",'none');
+            }
+    )
+});
+</script>

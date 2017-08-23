@@ -1,0 +1,53 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+            <p class="conOneP" style="float: left;">
+                <a href="{:U('Admin/Article/pageAdd')}" class="btnG ico_add">新增文章</a>
+            </p>
+            <ul class="conOneUl" style="width:300px;">
+                <form method="get" action="{:U('Admin/Article/pageList')}" >
+                    <li>
+                        <select name="cat_id" class="small" style="width: auto">
+                            <option value='0'>请选择</option>
+                            <volist name="cateinfo" id="ct">
+                                <option value='{$ct[cat_id]}' <if condition="$ct['cat_id'] eq $filter['cat_id']">selected="selected"</if>>{$ct.cat_name}</option>
+                            </volist>
+                        </select>
+                    </li>
+                    <li><input type="text" name="title" class="large" value="{$filter.title}" style="width: 145px;"></li>
+                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                </form>
+            </ul>
+            </th>
+            </tr>
+            <tr>
+				<th width="120">操作</th>
+				<th>文章标题</th>
+				<th width="120">文章分类</th>
+				<th width="120">是否显示</th>
+				<th width="120">添加日期</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="article">
+              <tr>
+                  <td width="120">
+                   <a href='{:U("Admin/Article/pageEdit","aid=$article[a_id]")}'>编辑</a>|
+				<a href='{:U("Admin/Article/doDel","aid=$article[a_id]")}'>删除</a>
+				</td>
+				<td>{$article.a_title}</td>
+				<td width="120">{$article.cat_name}</td>
+				<td width="120">{$article['a_is_display']?'是':'否'}</td>
+				<td width="120">{$article.a_create_time}</td>
+              </tr>
+              </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,251 @@
+<link href="{$Think.config.DOMAIN_HOST}__CSS__collgoods.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.touchslider.min.js"></script>
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__swiper.min.js"></script>
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__dp.js"></script>
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+<div class="header1" id="header">
+<div class="navBar">
+<span class="Htitle"><a href="/Wap/Products/detail/gid/{$gid}">优惠搭配</a></span> 
+</div>
+</div>
+<if condition="$this_coll.gname neq ''">
+<!--content-->
+<div class="container"><!--container-->
+	<div class="dpDetail">
+		<h1 class="dpT">套餐一</h1>
+		<div class="dpL">
+			<div class="dpLL dpDefault">
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<input type="hidden" id="gid" value="{$this_coll.gid}" />
+				<a href="/Wap/Products/detail/gid/{$this_coll.gid}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$this_coll['gpic']}"></a>
+				<div class="orderDR">
+					<a href="/Wap/Products/detail/gid/{$this_coll.gid}" class="proN">{$this_coll.gname}</a>
+					<p>
+				<if condition="$this_coll.skuNames neq ''">
+                <span href="javascript:void(0);" id="selectColl_{$this_coll.gid}" class="select blu onHoverSelectGoods" onclick="selectGoodProducts('{$this_coll.gid}','{$this_coll.authorize}');" >选择商品信息</span>
+                <span style="display:none" class="selected onHoverPdtName" id="collPdt_{$this_coll.gid}">规格规格规格规格</span>
+                </if>
+				</p>
+				</div>
+				<div class="Dprice"><span id="collPrice_{$this_coll.gid}">&yen;{$this_coll.gcoll_price|sprintf='%.2f',###}</span> </div>
+				<p href="javascript:void(0);" <if condition="$this_coll.skuNames neq ''"> style="display:none" </if> id="saveColl_{$this_coll.gid}" class="gra onHoverSavePrice">搭配省{$this_coll.save_price|sprintf='%.2f',###}元</p>
+			  <input type="hidden" gid="{$this_coll.gid}" name="arrayPdt" id="coll_products_{$this_coll.gid}" <if condition="$this_coll.skuNames neq ''">value=""<else/>value="{$this_coll.pdt_id}" save="{$this_coll.save_price|sprintf='%.2f',###}" price="{$this_coll.gcoll_price|sprintf='%.2f',###}"</if> />
+			</div>
+			 <volist name="coll_goods" id="goods">
+			<div id="onHoverCollGoods{$goods.gid}" fuck="1" class="onHoverCollGoods foreachCollGoods dpLL dpCommon">
+			<input type="checkbox" value=""  <if condition="$goods.skuNames neq ''">onclick="collGoodsClick(this,'{$goods.gid}','{$goods.authorize}');"<else/>onclick="collProductClick(this,'{$goods.gid}','{$goods.pdt_id}','{$goods.authorize}','{$goods.gcoll_price}','{$goods.save_price}');"</if> id="coll_goods_{$goods.gid}" /> &nbsp;&nbsp;
+				<a href="/Wap/Products/detail/gid/{$goods.gid}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$goods['gpic']}"></a>
+				<div class="orderDR">
+					<a href="/Wap/Products/detail/gid/{$goods.gid}" class="proN">{$goods.gname}</a>
+					<p>
+					<if condition="$goods.skuNames neq ''">
+					<span class="select onHoverSelectGoods" href="javascript:void(0);"  id="selectColl_{$goods.gid}" onclick="selectGoodProducts('{$goods.gid}','{$goods.authorize}');">选择商品信息</span>
+					<span style="display:none" class="selected onHoverPdtName" id="collPdt_{$goods.gid}">规格规格规格规格</span>					
+					</if>
+					</p>
+				</div>
+				<div class="Dprice"><span id="collPrice_{$goods.gid}">&yen;{$goods.gcoll_price|sprintf='%.2f',###}</span> </div>
+                <input type="hidden" gid="{$goods.gid}" name="arrayPdt" id="coll_products_{$goods.gid}" <if condition="$goods.skuNames eq ''">save="{$goods.save_price|sprintf='%.2f',###}" price="{$goods.gcoll_price|sprintf='%.2f',###}" value="" <else />value="" </if> />
+                <p href="javascript:void(0);" id="saveColl_{$goods.gid}" class="gra onHoverSavePrice">搭配省{$goods.save_price|sprintf='%.2f',###}元</p>				
+			</div>   
+			</volist>
+		</div>
+	</div>
+</div>
+<!--/container-->
+<div class="addcart dpConfirm"></div>
+<div class="addcart addcart1" style="display:block;">
+  <div class="sku-layout sku-box-shadow cartCnt">
+    <div class="layout-title sku-box-shadow name-card sku-name-card">
+      <div class="adv-opts layout-content" style="max-height: 468px;">
+        <div class="confirm-action content-foot clearfix">
+          <div class="half-button f_right"> 合计：<b id="all_coll_price">￥{$this_coll.gcoll_price|sprintf='%.2f',###}</b>
+		  ×&nbsp;<input style="width:35px;border:1px solid #d7d7d7;" type="text" id="cartNums" value="1" onblur="checkNums(this);">
+			<label id="all_save_price"><if condition="$this_coll.skuNames neq ''">搭配买共省0.00元<else/>搭配买共省{$this_coll.save_price|sprintf='%.2f',###}元</if></label>		  
+		  <a href="javascript:;" class="confirm btn  btn-orange-dark " onclick="addCart(1);">立即购买</a> </div>        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="submitCollFrom" name="submitCollFrom" method="post" action="/Wap/Orders/addOrderPage">
+<input type="hidden" name="pid[]" id="submitSkipPid" value="free{$fc_id}" />
+<input type="hidden" name="type[]" id="submitSkiptype" value="4"/>
+</form>
+<input type="hidden" id="fc_id" value="{$fc_id}" />
+<script>
+$(document).ready(function(){
+    $('.onHoverCollGoods').mouseover(function(){
+        if($(this).attr('ohgg') == 1){
+            $(this).find('.onHoverSelectGoods').show();
+            $(this).find('.onHoverPdtName').hide();
+        }
+        
+    });
+    $('.onHoverCollGoods').mouseout(function(){
+        if($(this).attr('ohgg') == 1){
+            $(this).find('.onHoverSelectGoods').hide();
+            $(this).find('.onHoverPdtName').show();
+        }
+    });
+});
+//点击复选框选择多规格商品
+function collGoodsClick(obj,gid,authorize){
+    if($(obj).attr('checked') == 'checked'){
+        $(obj).attr('checked',false);
+        selectGoodProducts(gid,authorize);
+    }else{
+        var nums = $('#cartNums').val();
+        $("#coll_products_"+gid).val('');
+        $("#coll_products_"+gid).attr('price','');
+        $("#coll_products_"+gid).attr('save','');
+        $(obj).parent().parent().removeAttr('ohgg');
+        setRemmendPrice();
+        $("#coll_products_"+gid).val('');
+       
+    }
+}
+//点击复选框选择无规格商品
+function collProductClick(obj,gid,pdt_id,authorize,gcoll_price,save){
+    var nums = parseInt($('#cartNums').val());
+    if(parseInt(pdt_id) <= 0){
+        $.ThinkBox.error("商品不存在或者已经被下架");
+        return false;
+    }
+    if(authorize != '1'){
+        $.ThinkBox.error("您不能购买该商品");
+        return false;
+    }
+    if($(obj).attr('checked') == 'checked'){
+        $("#onHoverCollGoods"+gid).attr('ohgg',1);
+        $("#coll_products_"+gid).val(pdt_id);
+    }else{
+        $("#onHoverCollGoods"+gid).removeAttr('ohgg');
+        $("#coll_products_"+gid).val('');
+    }
+    setRemmendPrice();
+}
+//选择商品属性
+function selectGoodProducts(gid,authorize){
+    if(parseInt(gid) <= 0){
+        $.ThinkBox.error("商品不存在或者已经被下架");
+        return false;
+    }
+    if(authorize != '1'){
+        $.ThinkBox.error("您不能购买该商品");
+        return false;
+    }
+    $.ajax({
+        url:'/Wap/Products/getAddGoodsCart',
+        cache:false,
+        dataType:'HTML',
+        data:{gid:gid},
+        type:"POST",
+        success:function(msgObj){
+			$(".dpConfirm").html(msgObj);
+            //var box = $.ThinkBox(msgObj, {'title' : '请选择您要的商品信息','width':'448px','drag' : true,'unload':true});
+			$(".dpConfirm").show();
+        }
+    });
+
+}
+//重新计算套餐价和搭配优惠金额，返回单组套餐价与优惠金额 格式：套餐价,优惠金额
+function setRemmendPrice(){
+    var all_price = 0.00;
+    var save_price = 0.00;
+    $("input[name='arrayPdt']").each(function(){
+        if($(this).val() != ''){
+            all_price = (parseFloat($(this).attr('price'))+parseFloat(all_price)).toFixed(2);
+            save_price = (parseFloat($(this).attr('save'))+parseFloat(save_price)).toFixed(2);;
+        }
+    });
+    $("#all_coll_price").html("￥"+(all_price*$("#cartNums").val()).toFixed(2));
+    
+    $("#all_save_price").html("搭配买共省"+(save_price*$("#cartNums").val()).toFixed(2)+"元");
+    return all_price+','+save_price;
+}
+//加入购物车
+function addCart(skip){
+    var data = new Object();
+    var pdt_id = '';
+    var nums = '';
+    var gid = '';
+    data['fc_id'] = $("#fc_id").val();
+    var i = 0;
+    var j =0;
+    $("input[name='arrayPdt']").each(function(){
+        if($(this).val() != ''){
+            pdt_id += this.value+',';
+            nums += $("#cartNums").val()+',';
+            gid += $(this).attr('gid')+',';
+            if(parseInt($(this).attr('gid')) == parseInt($("#gid").val())){
+                j=1;
+            }
+            i++;
+        }
+    });
+	//判断库存
+	var g_id = "{$this_coll.gid}";
+	var this_name = "{$this_coll.gname}";
+	if(0 == $("#onHoverCollGoods"+g_id).attr("stock")){
+		$.ThinkBox.error(this_name+" 货品库存不足！");return false;
+	}
+    if(j!=1){
+    
+        $.ThinkBox.error("请选择自由推荐第一件商品");return false;
+    }
+    if(j == 1 && i==1){
+        $.ThinkBox.error("请选择自由推荐商品");return false;
+    }
+    if(skip == '1'){
+        data['skip'] = 1;
+    }
+    data['pdt_id'] = pdt_id.substring(0,pdt_id.length-1);
+    data['num'] = nums.substring(0,nums.length-1);
+    data['g_id'] = gid.substring(0,gid.length-1);
+    $.post('/Wap/Cart/doAddFreeCollocation',data,function(dataMsg){
+        if(dataMsg.status){
+		/*
+            if(skip == '1' && '{$Think.session.Members.m_name}'!='' && dataMsg.url!=''){
+                $.ThinkBox.success(dataMsg.info);
+                $("#submitCollFrom").submit();
+            }else{
+                //ajaxLoadShoppingCart(1);
+                $.ThinkBox.success(dataMsg.info);
+            }
+		*/	
+			console.log('m_id:'+ "{$Think.session.Members.m_id}");
+			if('{$Think.session.Members.m_id}'==0){
+				var skipdata = $("#submitCollFrom").serialize();
+				$.cookie("skipdata",skipdata,{ expires: 7 ,secure:false,path:'/Wap/User/'});
+			}
+			$("#submitCollFrom").submit();	
+        }else{
+            $.ThinkBox.error(dataMsg.info);
+        }
+         
+    },'json');
+    
+}
+//选择购买数量
+function checkNums(obj){
+    var ereg_rule= /[^0-9]+/;
+    var nums = obj.value;
+    var all_coll_price = $("#all_coll_price").html();
+    var all_coll_price = $("#all_coll_price").html();
+    if(nums == ''){return false;}
+    if(nums < 1){
+        $.ThinkBox.error('购买数量不能小于1');
+        $(obj).val('1');
+        nums = 1;
+    }
+    var str_tmp_price = setRemmendPrice();
+    var price = str_tmp_price.split(',');
+    $("#all_coll_price").html("￥"+(parseFloat(price[0])*nums).toFixed(2));
+    
+    $("#all_save_price").html("搭配买共省"+(parseFloat(price[1])*nums).toFixed(2)+"元");
+}
+
+</script>
+</if>

@@ -1,0 +1,748 @@
+<link rel="stylesheet" href="__PUBLIC__/Lib/ztree/css/ztreestyle.css" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Lib/ztree/js/jquery.ztree.core-3.1.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Lib/ztree/js/jquery.ztree.excheck-3.1.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Lib/ztree/js/jquery.ztree.exedit-3.1.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Lib/jquery/js/jquery.blockUI.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/salepromotion.css" type="text/css">
+<script type="text/javascript" language="javascript">
+
+// JavaScript Document
+var setting = {
+		view: {
+			showIcon: false
+		},
+		edit: {
+			enable: true,
+			showRemoveBtn: false,
+			showRenameBtn: false,
+			drag: {
+				isMove: true,
+				autoExpandTrigger: true,
+				prev: dropPrev,
+				inner: dropInner,
+				next: dropNext
+			}
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey:"id",
+				pIdKey:"pId",
+				rootPid:"0"
+			}
+		},
+		callback: {
+			beforeClick: beforeClick,
+			beforeDrag: beforeDrag,
+			beforeDrop: beforeDrop,
+			beforeDragOpen: beforeDragOpen,
+			onDrag: onDrag,
+			onDrop: onDrop,
+			onExpand: onExpand,
+			beforeRemove: beforeRemove,
+			onRemove: onRemove
+		}
+
+};
+var zNodes		= {$ary_data};
+var className	= "dark", curDragNodes, autoExpandNode;
+
+function beforeClick(treeId, treeNode, clickFlag) {
+	className = (className === "dark" ? "":"dark");
+	$.post('{:U("Admin/Salespromotion/ajaxGetMemberNameLevelName")}', {'m_id': treeNode.id}, function(json){
+		$("#m_name_txt").html(json.m_name);
+                if(treeNode.id == '0'){
+                    $("#treeDemo_1_span").html("分销商关系");
+                    $("#treeDemo_1_span").attr("title","分销商关系");
+                }else{
+                    $("#treeDemo_1_span").html("分销商关系");
+                }
+		if(!json.ml_name){
+			$("#m_name_txt").html("分销商关系");
+			$("#ml_name_txt").html('暂无');
+		}else{
+			$("#ml_name_txt").html(json.ml_name);
+		}
+		$("#mr_p_id").val(json.m_id);
+	},'json');
+	return (treeNode.click != false);
+}
+
+function dropPrev(treeId, nodes, targetNode) {
+	var pNode = targetNode.getParentNode();
+	if (pNode && pNode.dropInner === false) {
+		return false;
+	} else {
+		for (var i=0,l=curDragNodes.length; i<l; i++) {
+			var curPNode = curDragNodes[i].getParentNode();
+			if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+function dropInner(treeId, nodes, targetNode) {
+	if (targetNode && targetNode.dropInner === false) {
+		return false;
+	} else {
+		for (var i=0,l=curDragNodes.length; i<l; i++) {
+			if (!targetNode && curDragNodes[i].dropRoot === false) {
+				return false;
+			} else if (curDragNodes[i].parentTId && curDragNodes[i].getParentNode() !== targetNode && curDragNodes[i].getParentNode().childOuter === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+function dropNext(treeId, nodes, targetNode) {
+	var pNode = targetNode.getParentNode();
+	if (pNode && pNode.dropInner === false) {
+		return false;
+	} else {
+		for (var i=0,l=curDragNodes.length; i<l; i++) {
+			var curPNode = curDragNodes[i].getParentNode();
+			if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+
+function beforeDrag(treeId, treeNodes) {
+	className = (className === "dark" ? "":"dark");
+	for (var i=0,l=treeNodes.length; i<l; i++) {
+		if (treeNodes[i].drag === false) {
+			curDragNodes = null;
+			return false;
+		} else if (treeNodes[i].parentTId && treeNodes[i].getParentNode().childDrag === false) {
+			curDragNodes = null;
+			return false;
+		}
+	}
+	curDragNodes = treeNodes;
+	return true;
+}
+function beforeDragOpen(treeId, treeNode) {
+	autoExpandNode = treeNode;
+	return true;
+}
+function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+	className = (className === "dark" ? "":"dark");
+	return true;
+}
+function onDrag(event, treeId, treeNodes) {
+	//className = (className === "dark" ? "":"dark");
+	//showLog("[ "+getTime()+" onDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes." );
+}
+function onDrop(event, treeId, treeNodes, targetNode, moveType) {
+	$('#relation_loading_txt').hide();
+	className = (className === "dark" ? "":"dark");
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	$.post('{:U("Admin/Salespromotion/editMemberRelation")}',{'m_id':treeNode.id,'mr_p_id':treeNode.pId},function(msg){
+		if(msg == 'error'){
+			showAlert(false,'操作失败，请重试。');
+			return;
+		}
+		if(msg == 'nochange'){//通过查询数据库发现没有即使拖动了节点,但是没有更新数据库,所以这块儿什么都不做
+			return;
+		}
+		if(msg == 'success'){
+			showAlert(true,'操作成功！');
+			return;
+		}
+	});
+}
+function onExpand(event, treeId, treeNode) {
+	if (treeNode === autoExpandNode) {
+		className = (className === "dark" ? "":"dark");
+		//showLog("[ "+getTime()+" onExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
+	}
+}
+function beforeRemove(treeId, treeNode) {
+	className = (className === "dark" ? "":"dark");
+	//showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+	return confirm("确认删除 " + treeNode.name + "，以及下级所有节点吗？");
+}
+function onRemove(e, treeId, treeNode) {
+	//showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+}
+
+//删除分销商操作
+function removeMemberTree(e) {
+	var m_id = $("#mr_p_id").val();
+	$('#relation_loading_txt').hide();
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (m_id == null || m_id == '' || m_id.length == 0) {
+		showAlert(false,'顶级分销商关系不能删除。');
+		return;
+	}
+	if (nodes.length == 0) {
+		//alert("请先选择一个节点");
+		showAlert(false,'请选择一个节点。');
+		return;
+	}
+	if(confirm("确认删除 " + treeNode.name + "，以及下级所有节点吗？")){
+		//删除
+		$.post('{:U("Admin/Salespromotion/deleteRelationOne")}',{'m_id':m_id},function(msg){
+			//alert(msg);return;
+			if('error' == msg){
+				showAlert(false,'操作失败，请重试。');
+				return;
+			}else if('success' == msg){
+				showAlert(true,'删除成功！');
+				return;
+				$('#relation_loading_txt').hide();
+			}
+		});
+		var callbackFlag = $("#callbackTrigger").attr("checked");
+		zTree.removeNode(treeNode, callbackFlag);
+	}
+};
+function setTrigger() {
+alert(888);return;
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	zTree.setting.edit.drag.autoExpandTrigger = $("#callbackTrigger").attr("checked");
+}
+$(document).ready(function(){
+$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+$("#callbackTrigger").bind("change", {}, setTrigger);
+});
+</script>
+<script>
+var hidden_data = {};
+
+function addMemberTree(){
+alert(222);return;
+	var mr_p_id = $("#mr_p_id").val();
+	if(mr_p_id < 1){
+		mr_p_id = 0;
+	}
+	$.post('{:U("Admin/Salespromotion/showAddMember")}',{'mr_p_id':mr_p_id},
+		   function(data){
+			   $("#main").html(data);
+			   totarget(data);
+		   }
+	);
+}
+function searchRelation(){
+	$('#relation_loading_txt').show();
+	$('#treeDemo').hide();
+	var m_name	= $("#m_name").val();
+	if(!m_name){
+		$('#relation_loading_txt').hide();
+		showAlert(false,'请输入分销商名称');
+		return ;
+	}
+	location.href='{:U("Admin/Salespromotion/index")}?m_name='+m_name;
+}
+//显示销售额设定
+function showSalescountSet(){
+	var m_name	= $("#m_name_txt").html();
+	var mr_p_id = $("#mr_p_id").val();
+	var type = 1;
+	if(mr_p_id < 1){
+		showAlert(false,'请选择添加的分销商。');
+		return false;
+	}
+	location.href='{:U("Admin/Salespromotion/showSalesSetList")}?m_name='+m_name+'&type='+type;
+}
+//显示商品返利设定
+function showSetPayback(){
+	var m_name	= $("#m_name_txt").html();
+	var mr_p_id	= $("#mr_p_id").val();
+	var type = 1;
+	if(mr_p_id < 1){
+		showAlert(false,'请选择需要设定的分销商。');
+		return false;
+	}
+	location.href='{:U("Admin/Promotings/index")}?m_name='+m_name+'&mr_p_id='+mr_p_id+'&type='+type;
+}
+//显示返利报表
+function showPaybackReport(){
+	var m_name	= $("#m_name_txt").html();
+	var mr_p_id = $("#mr_p_id").val();
+	var type = 1;
+	if(mr_p_id < 1){
+		showAlert(false,'请选择需要显示的分销商。');
+		return false;
+	}
+	location.href='{:U("Admin/Promotings/PBStatements")}'+'?m_name='+m_name+'&type='+type;
+}
+
+</script>
+<style>
+.changewidth {width:100%}
+.changewidth table {width:100%}
+.changewidth table tr td { border-bottom:1px solid #CECECE; padding:5px 0px;}
+</style>
+<!-- 选择其他会员-start -->
+<div id="pro_add_dialog">
+	<div id="other_members_div" class="tck-main width-px500" style="display:none">
+	  <div class="tck-m-min" id="tck-m-min">
+	  
+	    <table cellspacing="0" cellpadding="0" class="tck-table-xzhy-01" id="member_search">
+		  <tr>
+			<td width="70px">会员名称：</td>
+			<td class="sm_name"><input type="text" style="width:197px;" class="input-sty-01 width-px80" name="sm_name" id="sm_name" value=""></td>
+			<td><div id="m_list"><input type="hidden" value="" name="mr_p_id" class="mr_p_id" /></div></td>
+			<td><button class="but-type-022" style="float: left; height: 23px; width: 105px;" id="">查询会员</button></td>
+		  </tr>
+	    </table>
+	   
+	    <div class="tck-div-xzhy-02">
+	    
+		    <div class="tablediv">
+		      <ul>
+		      <table cellspacing="0" cellpadding="0">
+		        <tr>
+		          <td style="width:50px" class="aligncenter">选 项</td>
+		          <td style="width:200px"><span class="marginLeft">会员名称</span></td>
+		          <td style="width:200px"><span class="marginLeft">会员等级</span></td>
+		        </tr>
+		      </table>
+		      </ul>
+		    </div>
+		    
+		    <div class="changewidth" style="border-bottom:1px solid #CECECE;" id="show_member_list">
+		      	<table cellspacing="0" cellpadding="0" id="search_member_result_table">
+		      		<tr><td colspan="3">
+		      		<p id="loading_txt" style="display:none; text-align:center;"><img src="{!$WEBROOT!}modules/admin/statics/images/loading.gif"/></p>
+		      		</td></tr>
+		      	</table>
+		    </div>
+	    </div>
+		<div id="progressBar" class="progressBar" style="display: none;cursor: default ">数据加载中，请稍等...</div> 
+	    <table cellspacing="0" cellpadding="0" class="tck-table-xzhy-01" id="searchMemberResult">
+		  <tr>
+			<td><button class="button-update but-type-01" id="addMembers">选 定</button></td>
+			<td><button class="button-cancel but-type-01" id="addclear">取 消</button></td>
+		  </tr>
+	    </table>
+	
+	  </div>
+	  
+	</div>
+	<!-- 选择其他会员-end -->
+	<!-- 修改会员-start -->
+	<div id="select_members_div" class="tck-m-min" style="display:none">
+	    <table id="search_members_table" cellspacing="0" cellpadding="0" class="tck-table-xzhy-01">
+		  <tr>
+			<td>会员名称：</td>
+			<td id="editMembersList"><input type="text"  class="input-sty-01 width-px80" name="edit_members" id="edit_members" style="width:197px;"></td>
+			<td><button class="but-type-022" style="width:70px;">查询会员</button></td>
+	      </tr>
+	    </table>
+	    
+		<div class="tck-div-xzhy-02">
+	    
+		    <div class="tablediv">
+		      <ul>
+		      <table cellspacing="0" cellpadding="0">
+		        <tr>
+		          <td style="width:50px" class="aligncenter">选项</td>
+		          <td style="width:200px"><span class="marginLeft">会员名称</span></td>
+		          <td style="width:200px"><span class="marginLeft">会员等级</span></td>
+		        </tr>
+		      </table>
+		      </ul>
+		    </div>
+		    
+		    <div class="p-m-r-div-0304" style="border-bottom:1px solid #CECECE;" id="edit_member_list">
+		      	<table cellspacing="0" cellpadding="0" id="search_edit_member_list"></table>
+		    <p id="loading_txt" style="display:none; text-align:center;"><img src="{!$WEBROOT!}modules/admin/statics/images/loading.gif"/></p>
+			</div>
+	    </div>
+		<div id="ajaxprogressBar" class="ajaxprogressBar" style="display: none;cursor: default ">数据加载中，请稍等...</div> 
+	    <table id="search_edit_members_selected_submit_table" cellspacing="0" cellpadding="0" class="tck-table-xzhy-01">
+		  <tr>
+			<td><button class="button-update but-type-01" id="sub_button" m_name="" m_id="">修 改</button></td>
+			<td><button class="button-cancel but-type-01" id="editclear">取 消</button></td>
+		  </tr>
+	    </table>
+	  </div>
+	  <!-- 修改会员-end -->
+</div>
+
+<div class="p-m-r-div-03" >
+		<div class="p-m-r-div-0303 list-head-div">
+		  
+		</div>
+		
+
+		<div class="p-m-r-div-0304 list-content-div" id="pmn_list" style="border:1px solid #E4E4E4; border-top:none; display:inline-block;">
+			<ul style="width:100%; min-width:1000px; heignt:100%">
+				<li style="display:inline; float:left; width:77.8%;border-right:1px solid #E4E4E4; overflow:hidden; heignt:100%">
+					
+						<div style="height:35px;" class="distributor">
+						    <ul class="pmr-ul-0302-right" style="border:0px;height:30px;margin-right:5px; width:300px;">
+						          <!--<script type="text/javascript" src="{!$WEBROOT!}modules/admin/statics/js/search.js"></script>-->
+					              <li>分销商查询：</li>
+					              <li><input type="text" name="m_name" id="m_name" value="{$m_name}" /></li>
+					              <li><button id="button" onclick="searchRelation();" class="but-type-022">搜索</button></li>
+						    </ul>
+					    </div>
+					    <div class="yjgl_div01_01_01" style="margin:0px;border:0px;height:auto;">
+			            	<p id="relation_loading_txt" style="display:none; text-align:center;">
+			            	<img src="__PUBLIC__/Admin/images/loading.gif"/></p>
+			            	<div class="ztreeDemoBackground left">
+			            		<ul id="treeDemo" class="ztree">
+			            		</ul>
+		            		</div>
+		          		</div>
+					
+				</li>
+				<li style="display:inline; float:left; width:22%; overflow:hidden; padding-bottom:400px;border-left:1px solid #E4E4E4;">
+					<div class="yjgl_div01_02" id="addmemberform" style="width:100%; border:none">
+		                <!--yjgl_div01_02   右边-->
+		                <div class="yjgl_div01_02_01">分销商详细信息</div>
+		                <div class="yjgl_div01_02_02" style="height:auto;">
+		                    <!--yjgl_div01_02_02-->
+		                	<table cellpadding="0" cellspacing="0" style="margin:0px;">
+		                    	<tr>
+		                            <td width="90px" align="right"><span>分销商：</span>
+		                                <input type="hidden" name="mr_p_id" id="mr_p_id" value="" /></td>
+		                            <td><div id='wlgq'></div>
+		                                <b id="m_name_txt"></b></td>
+		                        </tr>
+		                        <tr>
+		                        	<td width="90px" align="right"><span>分销商等级：</span></td>
+		                            <td><b id="ml_name_txt"></b></td>
+		                        </tr>
+		                    </table>
+		                </div>
+		                <!--yjgl_div01_02_02-->
+		                <div class="yjgl_div01_02_01">功能操作</div>
+		                <div class="yjgl_div01_02_03">
+		                    <a href="javascript:void(0);" id="addMemberTree">添加子分销商</a>
+		                    <!-- <a href="javascript:void(0);" id="editMemberTree">修改</a> -->
+		                    <!-- <a href="javascript:void(0);" onclick="addMemberTree();">添加子分销商</a>  -->
+		                    <a href="javascript:void(0);" onclick="showSalescountSet();">目标销售额设定</a> 
+		                    <a href="javascript:void(0);" onclick="showSetPayback();">商品返利设置</a> 
+		                    <a href="javascript:void(0);" onclick="showPaybackReport();">返利报表</a> 
+		                    <a href="javascript:void(0);" onclick="removeMemberTree();">删除分销商</a> 
+						</div>
+		                <!--yjgl_div01_02_03-->
+					</div>
+				</li>
+			</ul>
+			
+		</div>
+		
+</div>
+
+<script>
+$(document).ready(function(){
+	//添加子分销商按钮点击事件
+	$("#addMemberTree").click(function(){
+		var mr_p_id = $("#mr_p_id").val();
+		
+		if(mr_p_id == ''){
+			mr_p_id = 0;
+		}
+		//alert(mr_p_id);return false;
+		var m_name	= $("#m_name_txt").html();
+		if(m_name == ''){
+			showAlert(false,'请选择添加的分销商。');
+			return false;
+		}
+		/*if(mr_p_id < 1){
+			mr_p_id = 0;
+		}*/
+		$("#other_members_div").dialog({
+	        height:400,
+	        width:500,
+	        modal:true,
+	        title:'选择分销商',
+	        close:function(){
+	        	$("#other_members_div").dialog('destroy');
+				$('#pro_add_dialog').append($('#other_members_div'));
+	        }
+	    });
+		var strHtml = '';
+		var sm_name  = $("#m_name_txt").html();
+		strHtml += '<input type="hidden" value="'+mr_p_id+'" name="mr_p_id" class="mr_p_id" />';
+		var strSmname = '<input type="text" style="width:197px;" class="input-sty-01 width-px80" name="sm_name" id="sm_name" value="">';
+		//alert(strHtml);
+		$("#m_list").html(strHtml);
+		$("#member_search .sm_name").html(strSmname);
+	});
+
+	//编辑分销商
+	$("#editMemberTree").click(function(){
+		var mr_p_id = $("#mr_p_id").val();
+		if(mr_p_id < 1){
+			showAlert(false,'请选择编辑的分销商。');
+			return false;
+		}
+		$("#select_members_div").dialog({
+        height:400,
+        width:500,
+	        top:10,
+        modal:true,
+	        title:'修改会员',
+	        close:function(){
+	        	$("#select_members_div").dialog('destroy');
+				$('#pro_add_dialog').append($('#select_members_div'));
+	        }
+    });
+		var sm_name  = $("#m_name_txt").html();
+		var strSmname = '<input type="text" style="width:197px;" class="input-sty-01 width-px80" name="edit_members" id="edit_members" value="">';
+		$("#editMembersList").html(strSmname);
+		return false;
+	});
+
+	//编辑分销商 弹出的搜索窗口 查询分销商按钮点击事件处理
+	$("#search_members_table button").die().live('click',function(){
+		var mr_p_id = $("#m_list .mr_p_id").val();
+		var sm_name = $("#edit_members").val();
+		//alert(sm_name);
+		if(sm_name == ''){
+			showAlert(false,'分销商名称不能为空');
+			return false;
+		}
+		$('#loading_txt').show();
+		$.ajax({
+			url:'{:U("Admin/Salespromotion/ajaxEditMembers")}',
+			cache:false,
+			dataType:'TEXT',
+			type:'POST',
+			data:{'m_name':sm_name},
+			success:function(msg){
+				$("#sub_button").attr("m_name",sm_name);
+				$("#sub_button").attr("m_id",mr_p_id);
+				$("#edit_member_list").html(msg);
+				$('#loading_txt').hide();
+				return false;
+			}
+	});
+	});
+	
+	// 修改分销商弹出窗口,修改按钮点击事件处理
+	$("#sub_button").die().live('click',function(){
+		var m_id	= $('input[name=mname]:checked').val();//获取m_id
+		var m_name	= $('input[name=mname]:checked').next().val();//获取
+		var ml_name_txt = $('input[name=mname]:checked').next().next().val();//获取分销商等级
+		var mr_p_id	= $("#mr_p_id").val();
+		if(m_id < 1 && m_id == ''){
+			showAlert(false,'请选择添加的分销商。');
+			return false;
+		}
+		alert(m_id);return;
+		// added by humeng@guanyisoft.com begin
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+		nodes = zTree.getSelectedNodes(),
+		treeNode = nodes[0];
+		if (nodes.length == 0) {
+			//alert("请先选择一个节点");
+			showAlert(false,'请选择一个节点。');
+			return;
+		}
+		//zTree.updateNode();
+		// added by humeng@guanyisoft.com end 
+		
+		$.blockUI({ message: $('#ajaxprogressBar') }); 
+		$.ajax({
+			url:'{:U("Admin/Salespromotion/ajaxEditMemberRelation")}',
+			cache:false,
+			dataType:'JSON',
+			type:'POST',
+			data:{'m_id':m_id,'mr_p_id':mr_p_id},
+			success:function(json){
+				if('repeat' == json.status){
+					showAlert(false,'分销已存在，不能重复操作，请重新选择!');
+				}else if('error' == json.status){
+					showAlert(false,'操作失败，请重试。');
+				}else if('success' == json.status){
+					showAlert(true,'修改成功！');
+					treeNode.id = m_id;
+					treeNode.pId = mr_p_id;
+					treeNode.name = m_name;
+					zTree.updateNode(treeNode);
+					$("#m_name_txt").html(m_name);
+					$("#mr_p_id").val(mr_p_id);
+					$("#ml_name_txt").html(ml_name_txt);
+					//$("#m_list .mr_p_id").val(mr_p_id);
+					//$("#edit_members").val(m_name);
+					//showAlert(true,'添加成功！','{!$WEBENTRY!}/admin/#m=Salescount&act=showMemberRelation&'+Math.random());
+				}
+				$("#select_members_div").dialog('destroy');
+				$('#pro_add_dialog').append($('#select_members_div'));
+			},
+			complete: function() {                     
+				// unblock when remote call returns                     
+				$.unblockUI();                 
+			} 
+		});
+	});
+	
+	
+	
+	//取消分销商添加
+	$("#editclear").live('click',function(){
+		$("#select_members_div").dialog('destroy');
+		$('#pro_add_dialog').append($('#select_members_div'));
+	});
+	
+	
+	//添加分销商
+	$("#searchMemberResult #addMembers").die().live('click',function(){
+		var m_id = $('input[name=mname]:checked').val();//获取 m_id
+		var m_name	= $('input[name=mname]:checked').next().val();//获取 m_name
+		var mr_p_id	= $("#m_list .mr_p_id").val();
+		var ajaxbg = $("#progressBar"); 
+		if(m_id < 1 || m_id == undefined){
+			showAlert(false,'请选择添加的分销商。');
+			return false;
+		}
+		// added by humeng@guanyisoft.com begin
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+		nodes = zTree.getSelectedNodes(),
+		treeNode = nodes[0];
+		if (nodes.length == 0) {
+			//alert("请先选择一个节点");
+			showAlert(false,'请选择一个节点。');
+			return;
+		}
+		$.blockUI({ message: $('#progressBar') }); 
+		$.ajax({
+			url:'{:U("Admin/Salespromotion/addMemberRelation")}',
+			cache:false,
+			dataType:'JSON',
+			type:'POST',
+			data:{'m_id':m_id,'mr_p_id':mr_p_id},
+			success:function(json){
+				if('repeat' == json.status){
+					showAlert(false,'分销已存在，不能重复添加，请重新选择。');
+				}else if('error' == json.status){
+					showAlert(false,'操作失败，请重试。');
+				}else if('success' == json.status){
+                    $("#treeDemo_1_span").html("分销商关系");
+					showAlert(true,'添加成功！');
+					zTree.addNodes(treeNode,{id:m_id, pId:mr_p_id, name:m_name});
+				}
+				$("#other_members_div").dialog('destroy');
+				$('#pro_add_dialog').append($('#other_members_div'));
+				return false;
+			},
+			complete: function() {                     
+				$.unblockUI();                 
+			}
+		});
+
+	});
+	
+	//取消分销商添加
+	$("#addclear").die().live('click',function(){
+			$("#other_members_div").dialog('destroy');
+			$('#pro_add_dialog').append($('#other_members_div'));
+	});
+	
+	//搜索会员
+	$("#member_search button").live('click',function(){
+		var mr_p_id = $("#m_list .mr_p_id").val();
+		var sm_name = $("#sm_name").val();
+		if(sm_name == ''){
+			showAlert(false,'分销商名称不能为空');
+			return false;
+        }
+		$('#loading_txt').show();
+		$.ajax({
+			url:'{:U("Admin/Salespromotion/getMembers")}',
+			cache:false,
+			dataType:'TEXT',
+			type:'POST',
+			data:{'m_name':sm_name},
+			success:function(msg){
+				$('#loading_txt').hide();
+				$("#addMembers").attr("m_name",sm_name);
+				$("#addMembers").attr("m_id",mr_p_id);
+				$("#show_member_list").html(msg);
+				return false;
+			}
+	});
+	});
+});
+</script>
+<script>
+//g_id 这个参数暂不可用
+//function getMembers(obj,g_id,page){
+//
+//	var sm_name = $("#addMembers").attr("m_name");
+//	if(sm_name == ''){
+//		showAlert(false,'分销商名称不能为空');
+//		return false;
+//	}
+//	$('#loading_txt').show();
+//
+//	$.ajax({
+//		url:'{:U("Admin/Salespromotion/getMembers")}',
+//		cache:false,
+//		dataType:'TEXT',
+//		type:'POST',
+//		data:{'m_name':sm_name,'page':page},
+//		success:function(msg){
+//			$("#show_member_list").html(msg);
+//			$('#loading_txt').hide();
+//			return false;
+//		}
+//	});
+//}
+function getMembers(page){
+
+    var sm_name = $('#sm_name').val();
+    var mr_p_id = $("#m_list .mr_p_id").val();
+    if(sm_name == ''){
+        showAlert(false,'分销商名称不能为空');
+        return false;
+    }
+    $('#loading_txt').show();
+
+    $.ajax({
+        url:'{:U("Admin/Salespromotion/getMembers")}',
+        cache:false,
+        dataType:'TEXT',
+        type:'POST',
+        data:{'m_name':sm_name,'p':page},
+        success:function(msg){
+            $('#loading_txt').hide();
+            $("#addMembers").attr("m_name",sm_name);
+            $("#addMembers").attr("m_id",mr_p_id);
+            $("#show_member_list").html(msg);
+            return false;
+        }
+    });
+}
+function ajaxEditMembers(obj,page){
+	var sm_name = $("#sub_button").attr("m_name");
+	if(sm_name == ''){
+		showAlert(false,'分销商名称不能为空');
+		return false;
+	}
+	$('#loading_txt').show();
+	$.ajax({
+		url:'{:U("Admin/Salespromotion/ajaxEditMembers")}',
+		cache:false,
+		dataType:'TEXT',
+		type:'POST',
+		data:{'m_name':sm_name,'page':page},
+		success:function(msg){
+			$("#edit_member_list").html(msg);
+			$('#loading_txt').hide();
+			return false;
+		}
+	});
+}
+
+function ajaxLoading(){
+	$("#ajaxprogressBar").show();
+}
+//$(document).ajaxStart($.blockUI);
+</script>

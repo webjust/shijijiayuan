@@ -1,0 +1,143 @@
+
+<link href="__CSS__style.css" rel="stylesheet" type="text/css">
+<link href="__CSS__base.css" rel="stylesheet" type="text/css" />
+<script src="__JS__common.js" type="text/javascript"></script>
+<script src="__JS__jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<SCRIPT src="__JS__case_script.js" type="text/javascript"></SCRIPT>
+<script src="__JS__top.js" type="text/javascript"></script>
+<script src="__JS__global.js" type="text/javascript"></script>
+<link href="__PUBLIC__/Lib/jquery/css/base/jquery-ui.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery-ui-1.9.2.custom.js"></script>
+<div style="clear: both;height: 10px;"></div>
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<input type="hidden" value="{$commonInfo['GY_SHOP_OPEN']}" name ="gy_shop_open" id="gy_shop_open"/>
+<!--header-->
+<eq name="navindex" value="1">
+    <gyfx:advertising name='nav'  position="indtop">
+        <div class="top_bar"><a href="{$nav.naurl}" target="{$nav.ntarget}" ><img src="{$nav.nimgurl}" alt="{$nav.nname}"></a></div>
+    </gyfx:advertising>
+</eq>
+
+<div id="topbar">
+    <div class="top_in">
+        <div class="top_l">
+            <span class="one"><a href="javascript:void(0);" onclick="AddFavorite('我的网站',location.href)">收藏</a> |</span>
+            <span class="two">嗨~~欢迎来到{$commonInfo['GY_SHOP_TITLE']}！ </span>
+            <span id="shopping_member_list" class="two">
+                <empty name="Think.session.Members.m_name">
+                    请<a href="{:U( URL_PREFIX . '/Home/User/login')}" id="Think_session_Members_m_name" >登陆</a>
+                    <a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}">免费注册</a>
+                </empty>
+                <notempty name="Think.session.Members.m_name">
+                   <strong style="color:#e5582b;">{$Think.session.Members.m_name}</strong>&nbsp;&nbsp;&nbsp;
+                   <a href="{:U('Ucenter/User/doLogout')}">[{$Think.lang.TOP_LOGOUT}]</a>
+                </notempty>
+                <input type="hidden" name="no_login" value="{$Think.session.Members.m_name}" id="no_login" />
+            </span>
+            
+
+        </div>
+        <div class="top_r">
+            <ul>
+                <li><i></i><a href="/Ucenter/Cart/pageList">购物车<span class="cart_price_number">{$price_data.all_nums|default='0'}</span>件</a></li>
+                <li><a href="{:U('Ucenter/Index/index')}">我的账户</a> </li>
+                <li><a href="{:U('Ucenter/Orders/pageList')}">我的订单</a></li>
+                <li><a href="{:U('Home/Article/articlelist')}">帮助中心</a></li>
+                <li><a href="{:U('Home/Article/articleDetail/aid/4')}">关于我们</a></li>
+                <li><a href="{:U('Home/Article/articleDetail/aid/3')}">联系我们</a></li>
+                <li><a href="http://weibo.com/u/6008148736?refer_flag=0000015012_&from=feed&loc=nickname&is_hot=1" target="_blank">新浪微博</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="header" style="clear: both;height: auto;overflow: hidden;">
+    <div class="header" style="float: inherit;">
+        <a href="/" class="logo_l"><img src="__TPL__images/logo.png" /></a>
+        <div class="logo_r">
+            <div class="search">
+                <div class="top">
+                    <if condition="$itemInfo.keyword neq ''">
+                        <input type="text" class="txt" id="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value=' 搜搜呗....说不定有您喜欢的...'}" value=" 搜搜呗....说不定有您喜欢的..." onfocus="if(value==' 搜搜呗....说不定有您喜欢的...') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+                    <else/>
+                        <input type="text" class="txt" id="head_serach_keyword" onBlur="if (value=='') {value=' 搜搜呗....说不定有您喜欢的...'}" value=" 搜搜呗....说不定有您喜欢的..." onFocus="if(value==' 搜搜呗....说不定有您喜欢的...') {value=''}" name="keyword" onKeyPress="EnterPress(event)" onKeyDown="EnterPress()" />
+                    </if>
+                    <input type="submit" id="search_submit_button" value="" class="sub" />
+                </div>
+                <ul class="bottom">
+                    <gyfx:navigation name='nav' position="hot">
+                        <li><a href="{$nav.nurl}" target="{$nav.ntarget}" <eq name="nav.nkey" value="1"> class="n_key" </eq>>{$nav.nname}</a></li>
+                    </gyfx:navigation>
+                </ul>   
+            </div>          
+        </div>
+        <div class="pic">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<div id="nav">
+    <dl class="nav_in">
+        <dt class="alldt">
+            <div class="navsort">
+                <div class='allsort'>                     
+                    <div class='mt' ><a href="/Home/Products/Index">商品分类</a></div>                     
+                    <div class='mc <neq name="navindex" value="1"> md</neq>'>
+                        <Gyfx:goodscate name="cate" k="k">
+                        <div class='item'>
+                            <span>
+                                <if condition="$k lt 13">
+                                    <h3 >
+                                        <a href="{$cate.curl}">{$cate.cname}</a>
+                                        <eq name="cate.gc_key" value="1"> <b><img src="__TPL__images/love.png" alt=""></b> </eq>
+                                    </h3>
+                                </if>
+                                <present name="cate['sub']">
+                                    <volist name="cate['sub']" id="cat" key="cat_key" >
+                                        <h2>
+                                            <a href="{$cat.curl}">{$cat.cname}</a>
+                                            <eq name="cat.gc_key" value="1"> <b><img src="__TPL__images/love.png" alt=""></b> </eq>
+                                        </h2>
+                                    </volist>
+                                </present>
+                            </span>
+                            <div class='i-mc'>
+                                <div class='subitem'>
+                                    <present name="cate['sub']">
+                                        <volist name="cate['sub']" id="cat" >
+                                            <dl class='fore'>
+                                                <dt><a href="{$cat.curl}">{$cat.cname}</a></dt>
+                                                <dd>
+                                                    <present name="cat['sub']">
+                                                        <volist name="cat['sub']" id="sub_cat" >
+                                                            <em <eq name="sub_cat.gc_key" value="1"> class="spe" </eq>><a href="{$sub_cat.curl}">{$sub_cat.cname}</a></em>
+                                                        </volist>
+                                                    </present>
+                                                </dd>
+                                            </dl>
+                                        </volist>
+                                    </present>
+                                </div>
+                            </div>
+                        </div>
+                        </Gyfx:goodscate>
+                    </div>
+                     
+                </div><!--allsort end-->  
+            </div>         
+        <script type="text/javascript"> 
+        $(".allsort").hoverForIE6({current:"allsorthover",delay:200});
+        $(".allsort .item").hoverForIE6({delay:150});
+        </script>
+        </dt>    
+        <dd class="bigD">
+            <gyfx:navigation name='nav'  position="top">
+                <a href="{$nav.nurl}" target="{$nav.ntarget}" <present name="Think.request.name"><eq name="Think.request.name" value="$nav['nname']"> class="on" </eq> </present> >{$nav.nname}</a>
+            </gyfx:navigation>
+        </dd>
+    </dl>
+</div>
+<div class="clear"></div>

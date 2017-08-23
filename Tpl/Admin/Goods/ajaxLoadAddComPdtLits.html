@@ -1,0 +1,20 @@
+{__NOLAYOUT__}
+<tr style='border:1px solid gray;text-align:center;' class='searchGoods'>
+    <td style='border:1px solid gray;'>{$data.g_name}</td>
+    <td style='border:1px solid gray;' class='pdt_sn_search'>{$data.pdt_sn}
+        <input type='hidden' class='pro_pdt_sn' name='pro_pdt_sn' value='{$data.pdt_sn}'>
+        <input type='hidden' name='pro_pdt_id' value='{$data.pdt_id}'>
+        <input type='hidden' name='pro_g_id' value='{$data.g_id}'>
+    </td>
+    <td style='border:1px solid gray;'>
+        <input type='text' class='small not_null input_number' onblur='blurMouseNums(this)' />
+    </td>
+    <td style='border:1px solid gray;'>{$data.pdt_stock}</td>
+    <td style='border:1px solid gray;'>{$data.pdt_sale_price}</td>
+    <td style='border:1px solid gray;'>{$data.specName}</td>
+    <td style='border:1px solid gray;'>
+        <input type='text' class='small not_null input_number' onblur='blurMousePrice(this)' />
+    </td>
+    <td style='border:1px solid gray;'></td>
+    <td style='border:1px solid gray;'><a href='javascript:void(0);' onclick='deleteProduct(this);'>删除</a></td>
+</tr>

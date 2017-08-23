@@ -1,0 +1,322 @@
+<input type="hidden" value="{$IS_AUTO_CART|default=0}" id="is_auto_cart" />
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Wap/js/cart.js"></script>
+<link rel="stylesheet" href="__TPL__/css/style1.css">
+    <script src="__TPL__/js/TouchSlide.1.1.js"></script>
+    <script src="__TPL__/js/swiper.jquery.js"></script>
+
+    <div class="mg ov">
+        <div class="headerTop">
+            <div class="header_in">
+                <div class="home"><a href="/Wap/"><img src="__TPL__/images/home.png" alt=""></a></div>
+                <div class="logo"><a href="/Wap/" title=""><img src="__TPL__/images/logo.png"></a></div>
+                <div class="search"><a href="/Wap/Index/search"><img src="__TPL__/images/search.png" alt=""></a></div>
+            </div>
+        </div>
+        <div id="nav">
+            <div class="nav">
+                <ul>
+                    <li class="spe"><a href="/Wap/">首页</a></li>
+                    <Gyfx:goodscate name="cate" k="k">
+                        <li><a href="/Wap/Products/index?cid={$cate.cid}">{$cate.cname}</a></li>
+                    </Gyfx:goodscate>
+                </ul>
+            </div> 
+        </div>      
+        <div id="focus" class="focus">
+            <div class="hd">
+                <ul></ul>
+            </div>
+            <div class="bd">
+                <ul>
+                    <gyfx:adwaptising name='nav'  position="banner">
+                        <li><a href="{$nav.naurl}" target="{$nav.ntarget}" ><img _src="{$nav.nimgurl}" src="{$nav.nimgurl}" /></a></li>
+                    </gyfx:adwaptising>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+            TouchSlide({ 
+                slideCell:"#focus",
+                titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:".bd ul", 
+                effect:"left", 
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+            });
+        </script>
+
+        <div class="return">
+            <div class="title"><a href="javascript:" onclick="history.back();"><img src="__IMAGES__return.jpg" alt=""></a>购物车</div>
+        </div>
+<div class="warp">
+    <div class="shopcart"><!--shopcart 开始-->
+    	<!--<p class="youhui">优惠：活动商品购满150.00元，即可享受满减优惠</p>-->
+        <div class="scList"><!--scList 开始-->
+            <table width="100%">
+            <form action="#" method="post" id="cartForm" name="cartForm">
+			<if condition="$cart_data neq null ">
+            	<volist name="cart_data" id="item">
+				<php>
+				$is_free = 0;
+				$fc_id = 0;
+				if(!isset($item['type'])){
+					foreach($item as $tmp_item){
+						if(isset($tmp_item['type']) && $tmp_item['type'] == 4){
+							$is_free = 1;
+							$fc_id=$tmp_item['fc_id'];
+						}
+					}				
+				}
+				</php>
+                    <tr>
+                	    <td width="100">
+                            <div class="scListL">
+								<if condition="$is_free eq 1">
+								<input type="checkbox" value="free{$fc_id}"  name="pid[]">&nbsp;&nbsp;
+								<input type="hidden" value="4"  name="type[]">
+								<volist name="item" id="sub_item">
+                                <a href="{:U('Wap/Products/detail')}?gid={$sub_item.g_id}"><img width="100px;" height="100px;" src="{$Think.config.DOMAIN_HOST}{$sub_item.g_picture|showImage=###,100,100}" /></a><br />									
+								</volist>
+								<else/>
+								<input type="checkbox" value="{$item.pdt_id}"  name="pid[]">&nbsp;&nbsp;
+								<input type="hidden" value="0"  name="type[]">								
+                                <a href="{:U('Wap/Products/detail')}?gid={$item.g_id}"><img width="100px;" height="100px;" src="{$Think.config.DOMAIN_HOST}{$item.g_picture|showImage=###,100,100}" /></a>								
+								</if>
+                        </td>
+                        <td>
+                            <div class="scListR">
+							<if condition="$is_free eq 1"><div class="dpBox">
+								<volist name="item" id="sub_item">
+								
+                                <a href="{:U('Wap/Products/detail')}?gid={$sub_item.g_id}" class="pName">{$sub_item.g_name}</a>
+                                <span>{$sub_item.pdt_spec}</span>
+                                <p class="clearfix"><label>数量:</label>
+								{$sub_item.pdt_nums}
+                                </p>
+                                <p>价格:<span class="red">&yen;{$sub_item.pdt_momery|sprintf='%.2f',###}</span></p>
+								<if condition="$sub_item.pdt_rule_name neq ''">
+								<p>促销:<span class="green">{$sub_item.pdt_rule_name}</span></p>
+								
+								</if>	
+								<br />
+								
+								</volist>
+								</div>
+								<span style="top: 50%;right: 20px;position: absolute;width: 12px;height: 14px;margin-top: -7px;">
+								<a href="javascript:void(0);" onclick="removePdtCart('free{$sub_item.fc_id}','{$sub_item.type}');" class="tag2" style=" display: inline-block;right:0px;bottom:0px;"></a>
+								</span>
+							<else/>
+                                <a href="{:U('Wap/Products/detail')}?gid={$item.g_id}" class="pName">{$item.g_name}</a>
+                                <span>{$item.pdt_spec}</span>
+                                <p class="clearfix"><label>数量:</label>
+                                    <a href="javascript:void(0)" class="reduce addNums jian" pdt_id="{$item.pdt_id}" good_type="{$item.type}" stock="{$item.pdt_stock}" pdt_sale_price="{$item.pdt_sale_price}" type="1"></a>
+                                    <input type="text" value="{$item.pdt_nums}" id="pdt_num_{$item.pdt_id}" class="inputNum" good_type="{$item.type}" pdt_id="{$item.pdt_id}" stock="{$item.pdt_stock}"/>
+                                    <input type="hidden" value="{$item.pdt_nums}" id="pdt_num_old_{$item.pdt_id}"/>
+                                    <input type="hidden" id="pdt_sale_price{$item.pdt_id}" value="{$item.pdt_sale_price}" />
+                                    <input type="hidden" id="xiao_price{$item.pdt_id}" value="{$item.pdt_market_price}" />
+                                    <input type="hidden" id="f_price_{$item.pdt_id}" value="{$item.f_price}" />
+                                    <input type="hidden" id="per_save_price_{$item.pdt_id}" value="{$item.pdt_per_save_price}" />
+                                    <a href="javascript:void(0);" class="add addNums" pdt_id="{$item.pdt_id}" good_type="{$item.type}" stock="{$item.pdt_stock}" pdt_sale_price="{$item.pdt_sale_price}" type="2"></a>
+                                </p>
+                                <p>价格:<span class="red" id="pdt_sale_price_{$item.pdt_id}">&yen;{$item.pdt_momery|sprintf='%.2f',###}</span></p>
+								<span class="green" style="display:none;" id="pdt_save_{$item.pdt_id}">&yen;{$item.pdt_save_price|sprintf='%.2f',###}</span>
+                                <!--<p>节省:<span class="green" id="pdt_save_{$item.pdt_id}">&yen;{$item.pdt_save_price|sprintf='%.2f',###}</span></p>-->
+								<if condition="$item.pdt_rule_name neq ''">
+								<p>促销:<span class="green" id="proname{$item.pdt_id}">{$item.pdt_rule_name}</span></p>
+								</if>
+                                <a href="javascript:void(0);" onclick="addToInterests('{$item.g_id}');" class="tag1"></a>
+                                <a href="javascript:void(0);" onclick="removePdtCart('{$item.pdt_id}','{$item.type}');" class="tag2"></a>							
+							</if>
+                            </div>
+                        </td>
+                    </tr>
+                </volist>
+				<volist name="gifts_data"  id="gifts">
+					<tr class="giftscartPdt">
+                	    <td width="100">
+                            <div class="scListL">
+                                <a href="{:U('Wap/Products/detail')}?gid={$gifts.g_id}"><img width="100px;" height="100px;" src="{$Think.config.DOMAIN_HOST}{$gifts.g_picture|showImage=###,100,100}" /></a>
+								<input type="hidden" id="pdt_price{$gifts.pdt_id}" value="{$vo.pdt_sale_price}" />
+							</div>
+                        </td>
+                        <td>
+                            <div class="scListR">
+                                <a href="{:U('Wap/Products/detail')}?gid={$gifts.g_id}" class="pName">{$gifts.g_name}</a>
+                                <span>{$gifts.pdt_spec}</span>
+                                <p class="clearfix"><label>数量:</label>
+								{$gifts.pdt_nums}
+								</p>
+                                <p>价格:<span class="red" id="pdt_sale_price_{$gifts.pdt_id}">&yen;{$gifts.pdt_momery|sprintf='%.2f',###}</span></p>
+								<p>促销:<span class="green" id="pdt_promotion_{$item.pdt_id}">赠品</span></p>
+                                <a href="javascript:void(0);" onclick="addToInterests('{$gifts.g_id}');" class="tag1"></a>
+                            </div>
+                        </td>
+                    </tr>
+
+				</volist>
+			<else />
+
+
+			<tr><td align="center">
+
+                <div class="gwc_js">
+                    <div class="car_kong">
+                        <div class="car_kong_pic"><img src="__IMAGES__gocart.png" alt=""></div>
+                        <div class="car_kobf_word">{$Think.lang.EMPTY_CART}</div>
+                        <div class="qgg"><a href="{:U('Wap/Products/Index')}">去逛逛</a></div>
+                    </div>
+                </div>
+
+            </td></tr>
+			</if>
+
+
+            </form>
+            </table>
+        </div><!--scList 结束-->
+        <if condition="$cart_data neq null ">
+        <p class="p02">
+            <input type="checkbox" name="select_all" id="select_all2">
+            <label>{$Think.lang.SELECT_ALL}</label>
+            <a href="javascript:void(0);" id="delSelected" onclick="javascript:doDel();">
+            {$Think.lang.DELETE_SELECTED}
+            </a>
+        </p>
+        </if>
+        <input type="hidden" value="{$price_data['consumed_ratio']}" id="consumed_ratio">
+        <input type="hidden" value="{$price_data['all_pdt_price']}" pdt_price="{$price_data['all_pdt_price']}" id="all_pdt_price">
+        <input type="hidden" value="{$price_data['pre_price']}" id="all_price_dis">
+        <input type="hidden" value="{$num}" id="current_num">
+        <input type="text" value="{:U('Wap/Orders/addOrderPage/')}" id="post_url" style='display: none;'>
+        <div class="scPrice clearfix">
+		<if condition="$cart_data neq null ">
+        	<ul>
+            	<li><span id="all_product_price">&yen;0.00</span><p>商品总价：</p></li>
+                <li><span id="label_pre_price">&yen;0.00</span><p>商品优惠总额：</p></li>
+                <li><span id="li_i_reward_point">0分</span><p>预计可获积分：</p></li>
+                <li><span>&yen;<label class="red"  id="strong_all_price">0.00</label></span><p>总计（不含运费）：</p></li>
+            </ul>
+        </div>
+        <a onclick="AddOrder();" class="goToB"> 去结算 </a>
+        <a href="{:U('/Wap/Products/index')}" class="contB"> <<<继续购物 </a>
+		</if>
+    </div><!--shopcart 结束-->
+</div>
+<div id="ajax_check_order_error" style="display:none;text-align:center;">
+    <table style="margin-left:auto;margin-right:auto;">
+        <tr style="text-align:center;">
+            <td id="error_message"></td>
+        </tr>
+        <tr>
+            <td>确定要删除该商品吗!</td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    //wimb = $(".footer li").eq(2).find('a').find('img').attr("src");
+    wimw = $(".footer li").eq(2).find('a').find('img').attr("_src");
+    $(".footer li").eq(2).find('a').addClass("on");
+    //$(".footer li").eq(2).find('a').find('img').attr('_src',wimb);
+    $(".footer li").eq(2).find('a').find('img').attr('src',wimw);
+});
+</script>
+<script type="text/javascript">
+    function del_gifts_tr() {
+        $("[class=giftscartPdt]").each(function() {
+            $(this).remove();
+        });
+    }
+    function add_gifts_tr(cart_gifts_data) {
+        var tr_html = '';
+        $.each(cart_gifts_data, function(idx, items) { //alert(items.pdt_id);
+			tr_html += "<tr class='giftscartPdt'>";
+            tr_html += "<td width='100'><div class='scListL'>";
+			tr_html += "<a href='/Wap/Products/detail?gid="+items.g_id+"'>";
+            tr_html += "<img width='100px' height='100px' src=" + items.g_picture + "></a>";
+            tr_html += "<input type='hidden' value=" + items.pdt_sale_price + " id=" + 'pdt_price' + items.pdt_id + "></div></td>";
+			tr_html += "<td><div class='scListR'>"+items.g_name+"<p class='clearfix'><label>数量:</label>"+items.pdt_nums+'</p>';
+			tr_html += "<p>价格:<span class='red' >&yen;"+items.pdt_momery.toFixed(2)+"</span></p>"
+			tr_html += "<p>促销:<span class='green'>赠品</span></p>";
+			tr_html += "<a href='javascript:void(0);' onclick='addToInterests("+items.g_id+");' class='tag1'></a></div></td></tr>";
+        });
+        $("tbody").append(tr_html);
+    }
+    function doDel(){
+        var url = "{:U('Wap/Cart/doDel/')}";
+        var data = new Object();
+        data['pid'] = {};
+        data['type'] = {};
+        var j = 0;
+        $("input[name='pid[]']:checked").each(function(i){
+            data['pid'][i] = this.value;
+            data['type'][i] = $(this).next().val();j++;
+        });
+        if(j == 0){showAlert(false,'请选择删除的商品');return false;}
+        if(confirm('确认从购物车删除这些商品嘛?')){
+            $.get(url,data,function(result){
+                if(result.status == 1){
+					var back_url="{:U('Wap/Cart/pageCartList/')}";
+                    $.ThinkBox.success(result.info);
+                    window.location.href = back_url;
+                }else{
+                    $.ThinkBox.error(result.info);
+
+                }
+
+            },'json');
+        }
+
+    }
+    function AddOrder(){
+        var postUrl = $('#post_url').val();
+        var it = 0;
+        var id = '';
+        $("input[name='pid[]']:checked").each(function(){
+            it++;
+            id += $(this).val() + ',';
+        });
+        if(it == 0){
+            $.ThinkBox.error('请选择购物车商品后再提交订单');return false;
+        }
+        $.ajax({
+            url: "{:U('Wap/Orders/ajaxCheckOrder/')}",
+            cache:false,
+            dataType:'json',
+            data:{pid:id.substr(0,id.length-1)},
+            type:"POST",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    $("#cartForm").attr('action',postUrl);
+                    $("#cartForm").submit();
+                    //window.location.href=postUrl;
+                }else{
+                    /** ****** dialog 对话框展示开始 ******** */
+                    $('#error_message').html(msgObj.info);
+                    $("#ajax_check_order_error").dialog({
+                        // title:'错误!',
+                        width:'auto',
+                        height:'auto',
+                        modal: true,
+                        buttons:{
+                            '确定':function(){
+                                var type = $('.cartPdt'+msgObj.data).find('input[name^=type]').val();
+                                ajaxReturn('/Wap/Cart/doDel/pid/'+msgObj.data+'/type/'+type);
+                            },
+                            '取消':function(){
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                    /** ****** dialog 对话框展示结束 ******** */
+                    // showAlert(false,msgObj.info);
+                }
+            }
+        });
+
+
+
+    }
+</script>
+

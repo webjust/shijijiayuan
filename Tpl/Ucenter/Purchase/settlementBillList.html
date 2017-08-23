@@ -1,0 +1,67 @@
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div class="title" style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        结算单列表
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Supplier/receiptBillList")}' >
+        <div style="width:948px;padding-left:10px;height:30px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+                商品名称/条形码：<input type="text" id="name" name="name" style="border:1px solid #cccccc;" value="{$name}">
+                时间从：<input type="text" name="o_reply_time_1" class="large timer" value="2017-07-17 00:00:00" style="width: 100px;">
+                         到 <input type="text" name="o_reply_time_2" class="large timer" value="" style="width: 100px;">                     
+                <input type="button" id="searchOrderSubmit" value="查询" style="width: 65px;height:25px;background:#ff3366;color:white;margin-left:10px;margin-right: 5px;">
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 650px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+                <thead>
+                <tr>
+                <th>单号</th>
+                <th>时间</th>
+                <th>收货数量</th>
+                <th>金额</th>
+                <th>状态</th>
+                </tr>
+                </thead>
+                <tbody>
+            <volist name="List" id="item">
+            
+                <tr>
+                <th><a href="/Ucenter/Supplier/receiptList/o_id/{$item.id}">{$item.s_sn}</a></th>
+                <th>{$item.o_receipt_time}</th>
+                <th>{$item.receiptSkuNums}</th>
+                <th>{$item.receiptSkuMoney}</th>
+                <th><if condition="$item.o_status eq 0">待处理<elseif condition="$item.o_status eq 2"/>待送货<elseif condition="$item.o_status eq 4"/>待结算<elseif condition="$item.o_status eq 6"/>已结算</if></th>            
+                </tr>
+            
+            </volist>
+                   <empty name="List">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> 
+                </tbody>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+</div>
+<script src="/Public/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+<script src="/Public/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#searchOrderSubmit").click(function(){
+        $('#orders_form').submit();       
+    });
+    $('.edit').editable('/Ucenter/Purchase/TableEdit/table/in_goods_supplier');
+});
+</script>

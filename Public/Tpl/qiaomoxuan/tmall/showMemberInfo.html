@@ -1,0 +1,10 @@
+{__NOLAYOUT__}
+<empty name="Think.session.Members.m_name">
+<a href="{:U('Home/User/login')}" class="login">请登录</a>
+<a href="{:U('Home/User/pageRegister')}" class="regi">免费注册</a>
+</empty>
+<notempty name="Think.session.Members.m_name">
+   {$Think.session.Members.m_name}&nbsp;&nbsp;&nbsp;
+   <a href="{:U('Home/User/doLogout')}">{$Think.lang.TOP_LOGOUT}</a>
+</notempty>
+<input type="hidden" name="no_login" value="{$Think.session.Members.m_name}" id="no_login" />

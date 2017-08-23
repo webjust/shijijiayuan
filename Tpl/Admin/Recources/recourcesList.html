@@ -1,0 +1,46 @@
+<div class="rightInner tableColor">
+    <table width="100%" class="tbList" >
+        <thead>
+            <tr class="title">
+                <th style="text-align:right;font-size: 12px;" colspan="99">
+                    <form id="searchForm" method="post" href='{:U("Admin/Recources/pageList")}'>
+                        再生资源名称：
+                        <input type="text" value="" name="rc_name" class="large">
+                        <input class="btnHeader inpButton" type="submit" value="搜 索">
+                    </form>
+                </th>
+            </tr>
+            <tr>
+                <th>资源编号</th>
+                <th>资源名称</th>
+                <th>规格</th>
+                <th>单位</th>
+                <th>备注</th>
+                <th>记录创建时间</th>     
+                <th>记录更新时间</th>     
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_resources" id="rc">
+            <tr> 
+                <td>{$rc.cr_sn}</td>
+                <td>{$rc.cr_name}</td>
+                <td>{$rc.cr_spec}</td>
+                <td>{$rc.cr_unit}</td>
+                <td>{$rc.cr_remark}</td>
+                <td>{$rc.cr_create_time}</td>
+                <td>{$rc.cr_update_time}</td>
+            </tr>
+            </volist>
+            <empty name="ary_brand">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

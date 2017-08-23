@@ -1,0 +1,68 @@
+
+<div class="warp">
+	<div class="head">
+    	<p>商品描述</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <!-- <a href="javascript:void(0);" onclick="addToInterests('{$ary_request.gid}');" class="jia"></a> -->
+    </div>
+    
+    <div class="proDetail"><!--proDetail 开始-->
+<!--    	<div class="proImg"><a href="javascript:void(0);"><img src="__IMAGES__proimg01.png" /></a></div>-->
+        <p class="repeat_x"></p>
+        
+        <div class="proDCon"><!--proDCon 开始-->
+            <div class="proDO">
+                
+                <div class="proDOC">
+                    <p class="p01">{$goods.g_name}，{$goods.g_remark}</p>
+                        <p class="p02">价格:<strong ><i>&yen;</i><span id="showPrice">{$goods.g_price|sprintf='%.2f',###}</span></strong><del>市场价:<i>&yen;</i><span id="showMarketPirice">{$goods.g_market_price|sprintf='%.2f',###}</span></del>节省:<label><i>&yen;</i><span  id="savePrice">{$goods['g_market_price']-$goods['g_price']}</span></label></p>
+                </div>
+            </div>
+        	<div class="proDO">
+				<notempty name="sp_desc">
+            	<h3>秒杀说明</h3>
+                <div class="proC">
+                	{$sp_desc}
+                </div>				
+				</notempty>
+				<notempty name="gp_desc">
+            	<h3>团购说明</h3>
+                <div class="proC">
+                	{$gp_desc}
+                </div>				
+				</notempty>
+				<if condition="$is_show_desc eq 1">
+            	<h3>商品描述</h3>
+                <div class="proC">
+                	{$goods.g_phone_desc}
+                </div>
+				</if>
+				<empty name="$is_show_desc">
+            	<h3>商品描述</h3>
+                <div class="proC">
+                	{$goods.g_phone_desc}
+                </div>
+				</empty>
+            <!--<div class="proDF"><!--proDF 开始-->
+            	<!--<h2>也许您还感兴趣</h2>
+                <div class="proDFC">
+                	<div class="proDFCT">
+                    	<ul>
+                        	<li class="box">
+                            	<a href="javascript:void(0);" class="on"><img src="__IMAGES__img01.png" /><p>苹果（Apple）iPhone 5c 8G版 </p><span>&yen;2378.00</span></a>
+                                <a href="javascript:void(0);"><img src="__IMAGES__img01.png" /><p>苹果（Apple）iPhone 5c 8G版 </p><span>&yen;2378.00</span></a>
+                                <a href="javascript:void(0);"><img src="__IMAGES__img01.png" /><p>苹果（Apple）iPhone 5c 8G版 </p><span>&yen;2378.00</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="proDFCB clearfix">
+                    	<span class="fleft">总计:<label>&yen;2378.00</label></span>
+                        <a href="javascript:void(0);" class="fright">加入购物车</a>
+                    </div>
+                </div>
+            </div><!--proDF 结束-->
+        </div><!--proDCon 结束-->
+    </div><!--proDetail 结束-->
+	
+</div>
+

@@ -1,0 +1,20 @@
+<!--添加新模块选择框-->
+<div style="display: none;" id="gy_add_mod_dialog" title="请选择要添加的模块">
+    <table style="width: 320px;">
+        <tr>
+            <td>
+                <select size="10" style="width:150px;height: 200px;">
+                    <volist name="tplInfo" id="op">
+                        <option value="{$op.class}" class="gy_add_mod_option" desc="{$op.desc}">{$op.title}</option>
+                    </volist>
+                </select>
+            </td>
+            <td>
+                <textarea style="width: 150px; height: 200px;" readonly="readonly" id="gy_add_mod_desc"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="button" id="gy_add_mod_submit" value="添加到页面" /></td>
+        </tr>
+    </table>
+</div>

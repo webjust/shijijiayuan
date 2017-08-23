@@ -1,0 +1,164 @@
+<link rel="stylesheet" href="__UCSS__global.css">
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a href="{:U('Wap/Index/Index')}">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">个人中心</span>
+        <div class="navbar-home">
+            <a href="{:U('Wap/Ucenter/mySelf')}"><span class="topset"></span></a></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="top-bg">
+        <div class="user-tx">
+            <volist name="ary_extend_data" id="data">
+                <if condition="$data.fields_type eq 'file'">
+                    <img src="{$data.content|default='__UIMAGES__user-tx.jpg'}" class="touxiang" id="headerImg"/>
+                </if>
+            </volist>
+            <form id='headImg' target="iframe" name="headImg" enctype='multipart/form-data' method="post" action="{:U('Wap/Ucenter/upLoadFile')}">
+                <input type="file" onchange="uploadImg();" name="headPortrait" id="headPortrait"/>
+            </form>
+            <iframe id="iframe"  name="iframe" style="display: none;"></iframe>
+            <div class="user-txt">
+                <p>{$info.m_name}</p>
+                <php>if(!empty($info['member_level']['ml_name'])){</php>
+                <p>
+                    <span class="user-vip">
+                        <php>echo $info['member_level']['ml_name']</php></span>
+                </p>
+                <php>}</php>
+            </div>
+        </div>
+    </div>
+    <div class="orderAll">
+        <a href="{:U('Wap/Orders/orderList')}">全部订单<span>查看全部订单</span></a>
+    </div>
+    <div class="mymenu">
+
+        <div class="index-show-grid clearfix ">
+            <div class="col-xs-2  fan-menubox">
+                <a  href="{:U('Wap/Orders/orderList')}?status=3">
+                    <img src="__UIMAGES__mymenu1.png">
+                    <p>待付款</p>
+                    <php>if($status_count['os_3'] != '0'){</php>
+                    <div class="mymenu-mun text-center"><span><strong>{$status_count.os_3|default=0}</strong></span></div>
+                    <php>}</php>
+                </a>
+            </div>
+            <div class="col-xs-2 fan-menubox">
+                <a href="{:U('Wap/Orders/orderList')}?status=1">
+                    <img src="__UIMAGES__mymenu2.png">
+                    <p>待发货</p>
+                     <php>if($status_count['os_1'] != '0'){</php>
+                        <div class="mymenu-mun text-center"><span><strong>{$status_count.os_1}</strong></span></div>
+                     <php>}</php>
+                </a>
+            </div>
+            <div class="col-xs-2 fan-menubox">
+                <a href="{:U('Wap/Orders/orderList')}?status=9">
+                    <img src="__UIMAGES__mymenu3.png">
+                    <p>待收货</p>
+                    <php>if($status_count['os_9'] != '0'){</php>
+                    <div class="mymenu-mun text-center"><span><strong>{$status_count.os_9}</strong></span></div>
+                    <php>}</php>
+                </a>
+            </div>
+            <div class="col-xs-2 fan-menubox">
+                <a href="{:U('Wap/Orders/orderList')}?status=7">
+                    <img src="__UIMAGES__mymenu4.png">
+                    <p>待评价</p>
+                    <php>if($status_count['os_7'] != '0'){</php>
+                    <div class="mymenu-mun text-center"><span><strong>{$status_count.os_7}</strong></span></div>
+                    <php>}</php>
+                </a>
+            </div>
+            <div class="col-xs-2 fan-menubox" style="margin-right:0;">
+                <a href="{:U('Wap/Orders/orderList')}?status=4">
+                    <img src="__UIMAGES__mymenu5.png">
+                    <p>退换/售后</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="navAll">
+        <div class="navList">
+            <span class="s01">
+                <a href="{:U('Wap/Orders/orderList')}">
+                    <img src="__UIMAGES__nav01.png">
+                    <label>我的订单</label>
+                </a>
+            </span>
+            <span class="s01">
+                <a  href="{:U('Wap/Cart/pageCartList')}"><img src="__UIMAGES__nav02.png">
+                     <label>购物车</label>
+                 </a>
+            </span>
+           <span class="s01">
+               <a href="{:U('Wap/PointLog/pageList')}">
+                   <img src="__UIMAGES__nav03.png">
+                   <label>我的积分</label>
+                </a>
+           </span>
+            <span class="s01">
+                <a  href="{:U('Wap/Coupon/couponList')}">
+                    <img src="__UIMAGES__nav04.png">
+                    <label>我的优惠券</label>
+                </a>
+            </span>
+        </div>
+
+        <div class="navList shadowB">
+            <span class="s01">
+                <a href="{:U('Wap/Financial/index')}">
+                    <img src="__UIMAGES__nav05.png">
+                <label>收支明细</label>
+                </a>
+            </span>
+            <span class="s01">
+                <a href="{:U('Wap/My/pageDeliver')}">
+                    <img src="__UIMAGES__nav06.png">
+                    <label>收货地址</label>
+                </a>
+            </span>
+            <span class="s01">
+                <a  href="{:U('Wap/Collect/pageList')}">
+                    <img src="__UIMAGES__nav07.png">
+                    <label>我的收藏</label>
+                </a>
+            </span>
+            <span class="s01">
+                <a href="{:U('Wap/Message/pageMailBox')}">
+                    <img src="__UIMAGES__nav08.png">
+                <label>站内信</label>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function uploadImg() {
+        $("#headImg").submit();
+    }
+    function callback(jsonData) {
+        if(jsonData.result === true){
+            $.ThinkBox.success(jsonData.msg);
+            $('#headerImg').attr('src',jsonData.img_src);
+        }else{
+            $.ThinkBox.error(jsonData.msg);
+        }
+    }
+    /*$("#headImg").submit(function(){
+     $(this).ajaxForm({
+     success: function(msgObj){
+     console.log(msgObj);
+     }
+     });
+     return false;
+     });*/
+</script>

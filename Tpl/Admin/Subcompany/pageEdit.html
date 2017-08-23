@@ -1,0 +1,185 @@
+<div class="rightInner">
+    <form id="subcompany_add" name="subcompany_add" method="post" action="{:U('Admin/Subcompany/doEdit')}" >
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑子公司</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99">子公司基本信息</th>
+                </tr>
+                <tr>
+                    <td class="first">* 公司名称</td>
+                    <td>
+                        <input type="text" class="medium" name="s_name" validate="{ required:true}" value="{$info.s_name}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">公司网址</td>
+                    <td>
+                        <input type="text" class="medium" name="s_website" value="{$info.s_website}" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">省份</td>
+                    <td>
+                        <include file="Address:addressPage" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">联系人</td>
+                    <td>
+                        <input type="text" class="medium" name="s_contacts" value="{$info.s_contacts}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">公司简介</td>
+                    <td>
+                        <textarea class="mediumBox" name="s_detail" validate="{ maxlength:200}" >{$info.s_detail}</textarea>
+                    </td>
+                    <td class="last">200字以内</td>
+                </tr>
+                <tr>
+                    <td class="first">关联商品分类:</td>
+                    <td id="clist" name="clist">
+							  <span id="" class="rule-param rule-param-edit">
+							<span id="" class="element">
+							<input id="cat_selValue" class="medium input-text" type="text" disabled name="cat_selValue" value="{$info['cname']}">
+							<a class="rule-chooser-trigger" ref="'.$this->index.'" href="javascript:void(0)">
+							<img title="Open Chooser" class="v-middle" alt="" src="__PUBLIC__/Admin/images/rule_chooser_trigger.gif"></a>
+                            请点击按钮选择分类
+							</span>
+							</span>
+							<div id="shopMulti_cat" class="shop-cat-list rule-chooser" style="display:none;padding-left: 15px;">
+							    <ul id="cat_selItems">{$catHtml}</ul>
+							</div>
+                    </td>
+                    <td class="last">商品分类和商品品牌至少选择一种</td>
+                </tr>
+                <tr>
+                    <td class="first">关联商品品牌:</td>
+                    <td id="blist" name="blist">
+							  <span id="" class="rule-param rule-param-edit">
+							<span id="" class="element">
+							<input id="brand_selValue" disabled="true" class="medium input-text" type="text" name="brand_selValue" value="{$info['bname']}">
+							<a class="rule-chooser-trigger1" ref="'.$this->index.'" href="javascript:void(0)">
+							<img title="Open Chooser" class="v-middle" alt="" src="__PUBLIC__/Admin/images/rule_chooser_trigger.gif"></a>
+                            请点击按钮选择品牌
+							</span>
+							</span>
+							<div id="shopMulti_brand" class="shop-cat-list rule-chooser" style="display:none;padding-left: 15px;">
+							    <ul id="brand_selItems">{$brandHtml}</ul>
+							</div>
+                    </td>
+                    <td class="last">商品分类和商品品牌至少选择一种</td>
+                </tr>
+                <tr>
+                    <td class="first">* 是否开启</td>
+                    <td>
+                        <input type="radio" name="is_open" value="0" <eq name="info.is_open" value="0" >checked="checked"</eq> /> 是
+                        <input type="radio" name="is_open" value="1" <eq name="info.is_open" value="1" >checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">管辖区域:</td>
+                     <td>
+                        <volist name="ary_area" id="area">
+                            <span style="display: inline-block;margin-right:12px">
+                                <input style="position: relative; top: 2px;" type="checkbox" value="{$area.cr_id}" name="area[]" <if condition="$area.s_id eq $info.s_id ">checked="checked"</if>> {$area.cr_name}
+                            </span>
+                        </volist>
+                   </td>
+                </tr>
+                <tr>
+                    <td class="first">排序：</td>
+                    <td>
+                        <input type="text" class="medium" name="s_sort" value="{$info.s_sort}" disabled />
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" id="s_id" name="s_id" value="{$info.s_id}" />
+                        <input type="submit" value="提 交" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<link href="__PUBLIC__/Admin/css/condition.css" rel="stylesheet">
+<script>
+    $(document).ready(function(){
+        $('#subcompany_add').validate();
+        $('#subcompany_add').submit(function(){
+        	if($('#brand_selValue').val()=="" &&　$('#cat_selValue').val()==""){
+				showAlert('','类目和品牌至少选择一个');
+				return false; 
+        	}
+        });
+        
+		//类目选择
+    	$(".rule-chooser-trigger").click(function(){
+    		if($("#shopMulti_cat").css('display') == 'block'){
+    			$("#shopMulti_cat").css("display","none");
+    		}else{
+    			$("#shopMulti_cat").css("display","block");
+    		}
+    	});
+        
+        $(".cat-checkbox").click(function(){
+    		var selValue = '';
+    		var now_id = $(this).attr("ref");
+			if($(this).attr('checked') == 'checked'){
+	    		$(".cat-checkbox").each(function(){
+	        		if($(this).attr("pid") == now_id){
+	        			$(this).attr("checked","checked");
+	        		}
+	    		});
+			}else{
+	    		$(".cat-checkbox").each(function(){
+	        		if($(this).attr("pid") == now_id){
+	        			$(this).attr("checked",false);
+	        		}
+	    		});
+			}
+    		$(".cat-checkbox:checked").each(function(){
+    			selValue += $(this).attr("ref") + ',';
+    		});
+    		if(selValue.length>0){
+    			selValue = selValue.substr(0,selValue.length-1);
+    		}
+    		$("#cat_selValue").val(selValue);
+    	});
+
+    	//品牌选择
+    	$(".rule-chooser-trigger1").click(function(){
+        	if($("#shopMulti_brand").css('display') == 'block'){
+        		$("#shopMulti_brand").css("display","none");
+        	}else{
+        		$("#shopMulti_brand").css("display","block");
+        	}
+    	});  
+    	
+        $(".brand-checkbox").click(function(){
+    		var selValue = '';
+    		$(".brand-checkbox:checked").each(function(){
+    			selValue += $(this).attr("ref") + ',';
+    		});
+    		if(selValue.length>0){
+    			selValue = selValue.substr(0,selValue.length-1);
+    		}
+            
+    		$("#brand_selValue").val(selValue);
+    	}); 	
+    });
+</script>

@@ -1,0 +1,85 @@
+<div class="rightInner">
+    <form id="spec_form" name="spec_form" method="post" action="{:U('Admin/RefundsProperty/doEditSpec')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">属性编辑</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">属性名称：</td>
+                    <td>
+						<input type="text" name="gs_name" id="gs_name" class="medium" value="{$spec.gs_name}" /> <br> 
+                    </td>
+                     <td class="last">请输入属性名称，同一属性类型下，不能出现相同名称的属性。</td>
+                </tr>
+				<tr>
+                    <td class="first">所属类型：</td>
+                    <td>
+						<span style="margin-right:15px;">
+							<input type="radio" name="gs_show_type"  value="1" <if condition="$spec.gs_show_type eq 1">checked="checked"</if> style="vertical-align:middle;" />退款
+                            <input type="radio" name="gs_show_type"  value="2" <if condition="$spec.gs_show_type eq 2">checked="checked"</if> style="vertical-align:middle;" />退货
+						</span>
+					</td>                    
+                     <td class="last"></td>
+                </tr>
+				<tr>
+                    <td class="first">排序：</td>
+                    <td>
+						<input type="text" name="gs_order" class="medium" value="{$spec.gs_order}" />
+					</td>                    
+                    <td class="last">请填入一个数字，数字越小越靠前。</td>
+                </tr>
+                
+                <tr>
+                    <td class="first">属性值录入方式：</td>
+                    <td>
+                        <input type="radio" name="gs_input_type" value="1" <if condition="$spec.gs_input_type eq 1">checked="checked"</if>  id="gs_input_type_1" />
+						<label for="gs_input_type_1" title="单行文本框">文本框</label>
+						<input type="radio" name="gs_input_type" value="2" <if condition="$spec.gs_input_type eq 2">checked="checked"</if> id="gs_input_type_2" />
+						<label for="gs_input_type_2" title="附件">附件</label>
+						<input type="radio" name="gs_input_type" value="3" <if condition="$spec.gs_input_type eq 3">checked="checked"</if>  id="gs_input_type_3" />
+						<label for="gs_input_type_3" title="适合以一段文字的形式描述商品的某个属性">文本域</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				
+				<tr style="border:1px solid #ff0000;" title="此项只是演示，添加属性时不需要处理此字段。">
+                    <td class="first">属性值的录入展示形式：</td>
+                    <td id="good_spec_style">
+                        <input type="text" name="" class="medium" id="input_style_1" <if condition="$spec.gs_input_type neq 1">style="display:none;"</if> value="请填入属性值......" readonly="readonly" />
+                        <textarea name="" id="input_style_3" style="<if condition="$spec.gs_input_type neq 3">display:none;</if>width:300px;height:60px;" readonly="readonly">请填入属性值......</textarea>
+                    </td>
+					<td class="last" style="color:#ff0000;">*添加或者修改退换货单时，此属性值的录入方式将以左侧显示的方式呈现，演示而已不用做处理。</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="gs_id" value="{$spec.gs_id}" />
+						<input type="hidden" name="dosubmit" value="1" />
+                        <input type="submit" value="保 存" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('/Admin/RefundsProperty/specListPage');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	//表单验证
+	$("#spec_form").validate();
+    //显示方式切换
+	$("#gs_input_type_1,#gs_input_type_2,#gs_input_type_3").click(function(){
+		if(this.checked){
+			var value= $(this).val();
+			$("#input_style_1,#input_style_2,#input_style_3,#good_spec_value_select_2").hide();
+			$("#input_style_" + value + ',#good_spec_value_select_' + value).show();
+			
+		}
+	});
+});
+</script>

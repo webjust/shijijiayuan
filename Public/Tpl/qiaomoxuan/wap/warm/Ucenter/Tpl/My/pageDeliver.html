@@ -1,0 +1,111 @@
+
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <php>
+            if(strpos($_SERVER['HTTP_REFERER'],'editDeliver') || strpos($_SERVER['HTTP_REFERER'],'addAddressPage')){
+            </php>
+            <a  href="{:U('Wap/Ucenter/mySelf')}" >
+                <span class="goback"></span>
+            </a>
+            <php>}else{</php>
+            <a  href="javascript:void(0);" onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+            <php>}</php>
+        </div>
+        <span class="nav-title">收货管理地址</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javascript:void(0);">-->
+                <!--<span class="headmore"></span>-->
+            <!--</a>-->
+        <!--</div>-->
+    </div>
+</div>
+<div class="container">
+    <div class="address">
+        <volist name="deliver" id="dev" empty="$empty">
+            <div class="scMeCon">
+                <div  <if condition="$dev.ra_is_default eq 1"> class="userM default" <else/>  class="userM"  </if> href="javascript:;">
+                    <div class="umessage" <if condition="$pids neq ''"> onclick="returnback({$dev.ra_id},'{$pids}')" <else/> onclick="returnback({$dev.ra_id})" </if>>
+                        <input name="ra_id" id="ra_id" class="otherAddr" value="61" type="hidden">
+                        <p>
+                            <span class="name">
+                            {$dev.ra_name}
+                            </span>
+                            <span class="tel">
+                                 <if condition="$dev['ra_mobile_phone'] neq ''">
+                                     {$dev.ra_mobile_phone}
+                                     <elseif condition="$dev['ra_phone'] neq ''">
+                                         {$dev.ra_phone}
+                                     <else/>
+                                         {$dev.ra_mobile_phone}
+                                 </if>
+                            </span>
+                        </p>
+                        <p>{$dev.address} &nbsp;&nbsp;&nbsp;&nbsp;{$dev.ra_detail}</p>
+                    </div>
+                <a class="moren del_deliver" style="display: block;margin-right: 30px"   ra_id="{$dev.ra_id}" pids="{$pids}" >删除</a>
+                <a class="moren" style="display: block;"  href='{:U("Wap/My/editDeliver",array('raid'=>$dev[ra_id],'pids'=>$pids))}' class="wordBlue" ra_id="{$dev.ra_id}">修改</a>
+                </div>
+            </div>
+        </volist>
+        <div class="scMeCon scAdd">
+            <if condition="$zt eq '1'">
+                <a class="userM" href="{:U('Wap/ReceiveAddress/addAddressPage',array('pid'=>$pids,'zt'=>1))}">
+                    <div class="umessage addmessage">
+                        <p>新增地址</p>
+                    </div>
+                    <a class="moren"></a>
+                </a>
+                <else/>
+                <a class="userM" href="{:U('Wap/ReceiveAddress/addAddressPage',array('pid'=>$pids))}">
+                    <div class="umessage addmessage">
+                        <p>新增地址</p>
+                    </div>
+                    <a class="moren"></a>
+                </a>
+            </if>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="pro_diglog" style="display: none;">
+    <div id="tip_div">您确定要删除吗?</div>
+</div>
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+<script>
+	function returnback(raid,pids){
+		if(pids == '' || pids == undefined ){
+			window.location.href = "/Wap/My/pageDeliver";
+		}else{
+			var zt_url='';
+			if ( $("#is_zt").length > 0 ) {
+				zt_url ='/zt/1';
+			}
+			//秒杀
+			if(pids == 'spike'){
+				window.location.href = "/Wap/Orders/pageSpikeAdd/"+'/raid/'+raid + zt_url;
+			}else{
+				if(pids == 'bulk'){
+					window.location.href = "/Wap/Orders/pageBulkAdd/pid/" + pids+'/raid/'+raid + zt_url;
+				}else{
+					window.location.href = "/Wap/Orders/addOrderPage/pid/" + pids+'/raid/'+raid + zt_url;
+				}
+			}
+		}
+	}
+</script>
+<script>
+    $(function(){
+       console.log(document.referrer);
+    });
+</script>
+
+

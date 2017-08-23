@@ -1,0 +1,107 @@
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<!--header start-->
+<div class="header">
+	<div class="header1">
+		<div class="header1_content">
+			<div class="content_left"><a href="/">{$commonInfo['GY_SHOP_TITLE']}</a></div>
+			<div class="content_right">
+				<ul>
+                    <div id="shopping_member_list">
+                        <li class="li1"><a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}">注册</a></li>
+                        <li class="li1"><a href="{:U( URL_PREFIX . '/Home/User/login')}">登录</a></li>
+		            </div>
+					<li class="li1"><a href="{:U('/Ucenter/Orders/pageList')}" target="_blank">我的订单</a></li>
+					<li class="li1" style="width:80px;">
+						<a href="{:U('/Ucenter/Cart/pageList')}" target="_blank">
+							<div class="shopCart"><!--shopCart-->
+								<span class="cart" id="shopping_cart_list" >购物车 <b class="red">{$price_data.all_nums|default='0'}</b> 件<i></i><em></em></span>
+							</div>
+						</a>
+					</li>
+					<li><a href="{:U('Ucenter/Collect/pageList')}" target="_blank">收藏夹</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+    <div class="header2">
+		<div class="header_logo">
+			<div class="logo_left">
+				<a href="{:U('Home/Index/index')}">
+					<img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']|default='__IMAGES__logo.png'}" width="345" height="47" />
+				</a>
+			</div>
+			<div class="logo_right">
+				<if condition="isset($itemInfo['keyword']) AND $itemInfo.keyword neq ''">
+					<input type="text"  class="inp" id="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value='搜一搜，更精彩！！！'}" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+				<else/>
+					<input type="text"  class="inp" id="head_serach_keyword" onblur="if (value=='') {value='搜一搜，更精彩！！！'}"  value="搜一搜，更精彩！！！" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+				</if>
+				<input class="search" id="search_submit_button" type="submit" value="搜索" style="cursor: pointer;"/>
+				<div class="search_top">
+					<p class="p02">
+					热门搜索：
+					<gyfx:navigation name='nav' position="hot" num="5">
+					<a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a><span>|</span>
+					</gyfx:navigation>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="header3">
+		<div class="header_menu">
+			<div class="all">
+				<a href="{:U('/Home/Products/index/')}" class="all-txt" style="cursor:pointer;" >产品分类</a>
+				<div class="nav-category">
+					<Gyfx:goodscate name="cate" >
+					<dl>
+						<dt>
+						<h2><a href="{$cate.curl}">{$cate.cname}</a></h2>
+						<p class="nav-category-list">
+							<php>if(isset($cate['sub']) && !empty($cate['sub'])){ foreach($cate['sub'] as $cat){</php>
+							<a href="{$cat.curl}" target="_blank">{$cat.cname}</a>
+							<php>}}</php>
+						</p>
+						<b class="nav-line"></b>
+						</dt>
+					</dl>
+					</Gyfx:goodscate>
+				</div>
+			</div>
+			<ul class="nav">
+				<gyfx:navigation name='nav'  position="top">
+					<li class="countries current">
+						<a href="{$nav.nurl}" class="all-txt" target="{$nav.ntarget}" <if condition="$Think.request.name eq $nav.nname">class="on"</if>>{$nav.nname}</a>
+					</li>
+				</gyfx:navigation>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- header end -->
+<script type="text/javascript">
+$(function(){
+	$("#search_submit_button").click(function(){
+		var search_key=$("#head_serach_keyword").val();
+		if(search_key==''){return false;}
+		search_key=search_key.replace(/%0D%0A/,'');
+		search_key=search_key.replace(/%0d%0a/,'');
+		var __search_base_url="{:U('Home/Hisense/')}?keyword="+search_key;window.location.href=__search_base_url;
+	});
+});
+function EnterPress(e){
+	var e=e||window.event;
+	if(e.keyCode==13){
+		var search_key=$("#head_serach_keyword").val();
+		if(search_key==''){return false;}
+		search_key=search_key.replace(/%0D%0A/,'');
+		search_key=search_key.replace(/%0d%0a/,'');
+		var __search_base_url="{:U('Home/Hisense/')}?keyword="+search_key;window.location.href=__search_base_url;
+	}
+}
+
+</script>
+<!-- 判断页面是首页还是其他页面,首页隐藏类目  Start-->
+<input type="hidden" value="1" id="is_show_category"/>
+<!-- 判断页面是首页还是其他页面,首页隐藏类目 End-->

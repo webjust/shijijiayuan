@@ -1,0 +1,148 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="coupon_add" method="post" action="{:U('Admin/Groupbuy/doAddSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">团购设置</th>
+                </tr>
+            </thead>
+            <tbody>
+			
+                 <tr id="shopMulti_cat" style="display:none;" >
+                    <td class="first">关联热销城市:</td>
+                    <td id="clist" name="clist"> 
+                    	<include file="related-goods-form" /> 
+                    </td>
+                    <td class="last"></td>
+                </tr>  
+		
+                <tr>
+                    <td class="first">价格区间</td>
+                    <td>        
+			          <table  id="J_ManagePrice"  class="clearfix dialog manage-cats">
+			               <tr><td><input type="text" name="min_price"  value="{$ary_data['gs_related_price']['min_price']}" class="medium input-text"/>元以下&nbsp;&nbsp;<img src="__PUBLIC__/Admin/images/u48_normal.png" id="addPrice" title="添加价格区间" /></td></tr>
+			               	<volist name="ary_data['gs_related_price']['price']" id="price">
+			                <tr id="point_{$i}">
+				                        <td >
+				                                <input type="text" name="prices_from[]" value="{$price['from']}" class="medium input-text"/>元 - 
+				                                <input type="text" name="prices_to[]" value="{$price['to']}" class="medium input-text"/>元
+				                                <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格区间" />
+				                        </td>	
+								
+			                </tr>
+			                </volist>
+			                <tr id="max_price"><td><input type="text" name="max_price" value="{$ary_data['gs_related_price']['max_price']}"  class="medium input-text"/>元以上</td></tr>
+			          </table>
+        			</td>
+        			 <td class="last"></td>
+                </tr>
+				
+                <tr style="display:none;">
+                    <td class="first">是否显示剩余时间</td>
+                    <td>
+                    <input type="radio" name="gs_timeshow_status"  value="0" />不显示
+                    <!-- 
+                    <input type="radio" name="gs_timeshow_status" <if condition="$ary_data['gs_timeshow_status'] eq '1'" >checked</if> value="1" />显示
+                     -->
+					 
+                      <input type="radio" name="gs_timeshow_status" checked value="1" />显示
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				
+				<php>for($n = 0; $n < 5; $n++){ </php>
+					<tr>
+						<td class="first">广告图片{$n+1}：</td>
+						<td>
+							图片链接地址:<input type="text" name="GY_SHOP_TOP_AD_{$n}_URL" id="GY_SHOP_TOP_AD_{$n}_URL" class="medium" value="{$ary_ads[$n+1]['ad_url']}" validate="{ url:true}" /> 
+							排序：<input type="text" name="sort_order_{$n}" value="{$n+1}" readonly='readonly' class="small" />					
+							<a href="javascript:upImage({$n});" class="btnG ico_upload">上传图片</a>
+							<img src="{$ary_ads[$n+1]['ad_pic_url']}" id="SHOW_TOP_AD_{$n}" style="width:50px;height:50px;" />
+							<a href="javascript:void(0);" image_id="{$n}" class="del images_tools_bar_del">删除</a>	
+							<input type="hidden" id="GY_SHOP_TOP_AD_{$n}" name="GY_SHOP_TOP_AD_{$n}" value="{$ary_ads[$n+1]['ad_pic_url']}"/>
+						</td>   
+						<td class="last"></td>	
+					</tr>
+				<php>}</php>
+                
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="reset" value="重置" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+		
+        var max_tr = $("#max_price");
+        //新增
+        $("#addPrice").click(function(){
+			var tr_html = '<tr><td>';
+			tr_html = tr_html + '<input type="text" name="prices_from[]" value="" class="medium input-text"/>元  - '+ 
+            '<input type="text" name="prices_to[]" value="" class="medium input-text"/>元'+
+            ' <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格区间" />';
+			tr_html = tr_html+'</td></tr>';
+			$(tr_html).insertBefore(max_tr);
+        });
+        //删除
+        $(".deletePrice").live("click",function(){
+        	var tr_html = this.parentNode.parentNode;
+        	tr_html.parentNode.removeChild(tr_html);  
+     	});
+		//删除图片
+    	$(".images_tools_bar_del").click(function(){
+			var image_id = $(this).attr('image_id');
+			$('#GY_SHOP_TOP_AD_'+image_id).val('');
+			$('#GY_SHOP_TOP_AD_'+image_id+'_URL').val('');
+			$('#SHOW_TOP_AD_'+image_id).attr('src','');
+    	}); 
+     	
+    });
+	var dialog;
+	var image_input_id;
+	var image_input_id_s;
+	var editor = new UE.ui.Editor({
+		imageRealPath:"editor"
+	});
+	editor.render("myEditor");
+	editor.ready(function(){
+		editor.hide()
+		dialog = editor.getDialog("insertimage");
+		editor.addListener('beforeInsertImage',function(t, arg){
+			image_input_id = image_input_id-1;
+			for(index in arg){
+				if(typeof arg[index]['src']=='undefined')  continue;
+				image_input_id = image_input_id + 1;
+				if($("#GY_SHOP_TOP_AD_" + image_input_id)){
+				   var image_path = arg[index]['src'];
+					$("#GY_SHOP_TOP_AD_" + image_input_id).val(image_path);
+					$("#SHOW_TOP_AD_" + image_input_id).attr({src:image_path});
+				}
+			}
+		});
+		
+	});
+	/**
+	 * 图片上传方法集成
+	 */
+	function upImage(imageId) {
+		//editor.options.imageRealPath = 'desc';
+		image_input_id = imageId;
+		image_input_id_s = imageId;
+		dialog.open();
+	}
+</script>

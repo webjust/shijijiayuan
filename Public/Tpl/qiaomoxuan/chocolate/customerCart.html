@@ -1,0 +1,50 @@
+{__NOLAYOUT__}
+<volist name="cart_data" id="data">
+    <php>if($data[0]['pdt_rule_name']=='自由推荐'){</php>
+    <volist name="data" id="da">
+        <dl>
+            <dd>
+                <a href='{:U("/Home/Products/detail/","gid=$da[g_id]")}' class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$da['g_picture']}" width="60" height="60"></a>
+                <a href='{:U("/Home/Products/detail/","gid=$da[g_id]")}' class="proN">{$da.g_name}&nbsp;&nbsp;</a><br>
+                <a href='{:U("/Home/Products/detail/","gid=$da[g_id]")}' class="proSpec">{$da.pdt_spec}</a>
+
+                <span>¥ {$da.f_price|sprintf='%.2f',###}</span><code>×</code><span>{$da.pdt_nums}</span>
+                <a href="javascript:void(0);" onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});"  class="cancel"></a>
+            </dd>
+        </dl>
+    </volist>
+    <php>}elseif($data[0]['type'] == '6'){</php>
+    <volist name="data" id="da">
+        <dl>
+            <dd>
+                <a href='{:U("/Home/Products/detail/","gid=$da[g_id]")}' class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$da['g_picture']}" width="60" height="60"></a>
+                <a href='{:U("/Home/Products/detail/","gid=$da[g_id]")}' class="proN">{$da.g_name}&nbsp;&nbsp;</a><br>
+                <a href='{:U("/Home/Products/detail/","gid=$da[g_id]")}' class="proSpec">{$da.pdt_spec}</a>
+
+                <span>¥ {$da.f_price|sprintf='%.2f',###}</span><code>×</code><span>{$da.pdt_nums}</span>
+                <a href="javascript:void(0);" onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});"  class="cancel"></a>
+            </dd>
+        </dl>
+    </volist>
+    <php>}else{</php>
+    <dl>
+        <dd>
+            <a href='{:U("Home/Products/detail/","gid=$data[g_id]")}' class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$data['g_picture']}" width="60" height="60"></a>
+            <a href='{:U("Home/Products/detail/","gid=$data[g_id]")}' class="proN">{$data.g_name}&nbsp;&nbsp;</a><br>
+            <a href='{:U("Home/Products/detail/","gid=$data[g_id]")}' class="proSpec">{$data.pdt_spec}</a>
+
+            <span>¥ {$data.f_price|sprintf='%.2f',###}</span><code>×</code><span>{$data.pdt_nums}</span>
+            <a href="javascript:void(0);" onclick="deleteFromMyCart({$data.pdt_id},{$data.type|default='0'});"  class="cancel"></a>
+        </dd>
+    </dl>
+    <php>}</php>
+</volist>
+<P>
+    <notempty name="cart_data">
+        <span>共 <label>{$price_data.all_nums|default='0'}</label> 件商品  总计：<label>¥</label> <code>{$price_data.all_price|default="0.00"}</code></span>
+    </notempty>
+    <empty name="cart_data">
+        <span>您的购物车还没有任何宝贝。</span>
+    </empty>
+    <a href="{:U('Ucenter/Cart/pageList')}">查看我的购物车</a>
+</P>

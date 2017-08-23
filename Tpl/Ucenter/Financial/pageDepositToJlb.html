@@ -1,0 +1,72 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>预存款充值 - 线下预存款充值</span></h2>
+
+    <div class="deposit"><!--deposit  start-->
+        <p class="p01">
+            <span class="span01">兑换账户：</span><strong>{$members.m_name}</strong>
+            <span class="span02">账户余额：</span><b>{$members['m_balance'] |default="0"}</b> 元
+        </p>
+
+        <div class="depositCon"><!--depositCon  start-->
+            <p class="depositConP">
+                <span id="depositConP1"><a href="{:U('Ucenter/Financial/pageDepositOnline')}">线上预存款充值</a></span>
+                <span id="depositConP2"><a href="{:U('Ucenter/Financial/pageDepositOffline')}">线下预存款充值</a></span>
+                <if condition="$PREPAID_OPEN['sc_value'] eq '1'">
+                <span id="depositConP3"><a href="{:U('Ucenter/Financial/pagePrepaidCard')}">充值卡充值</a></span>
+                </if>
+                <span id="depositConP4" ><a href="{:U('Ucenter/Financial/pageDepositWithdraw')}">预存款提现</a></span>
+                <!--<span id="depositConP4" class="onHover">兑换金币</span>-->
+            </p>
+
+            <div id="con_depositConP_2" class="depositLine">
+                <form action="{:U('Ucenter/Financial/doAddDepositToJlb')}" method="post" id="tojlb_add" name="tojlb_add">
+                    <div class="OffLine02"><!--OffLine02  start-->
+                        <table>
+                            <tr>
+                                <td align="right">可兑换量：</td>
+                                <td>
+                                    <span>{$jlb}</span>
+                                </td>
+                                <td><span>还可兑换的金币数量</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 兑换数量：</td>
+                                <td><input type="text" class="input01" name="jlb_num" validate="{ required:true,range:[1,{$jlb}]}" /></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top">备注：</td>
+                                <td>
+                                    <textarea name="ji_desc"></textarea>
+                                </td>
+                                <td><span>200个字以内</span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><a href="###" class="brown" id="submit">兑换</a></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div><!--OffLine02  end-->
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div><!--depositCon  end-->
+
+    </div><!--deposit   end-->
+
+</div><!--contentRightBox  end-->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.metadata.setType("attr","validate");
+        $("#tojlb_add").validate();
+        $("#submit").click(function(){
+            if(false != $("#tojlb_add").valid()){
+                $("#tojlb_add").submit();
+            }
+        });
+    });
+</script>

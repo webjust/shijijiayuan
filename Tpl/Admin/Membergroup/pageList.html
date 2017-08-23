@@ -1,0 +1,54 @@
+<div class="rightInner">
+    <form method="get" action="{:U('Admin/Membergroup/doDel')}" id="members_del">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                     <p class="conOneP" style="float: left;">
+                        <a href='{:U("Admin/Membergroup/pageAdd")}' class="btnG ico_add">新增分组</a>
+                    </p>
+                    
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkbox checkAll"></th>
+                <th>操作</th>
+                <th>分组名称</th>
+                <th>分组描述</th>             
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_group" id="group">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="mg_id[]" value="{$group.mg_id}" /></td>
+                <td><a href='{:U("Admin/Membergroup/pageEdit?mgid=$group[mg_id]")}'>编辑</a> <a href='{:U("Admin/Membergroup/doDel?mg_id=$group[mg_id]")}' class="confirm">删除</a></td>
+                <td>{$group.mg_name}</td>
+                <td >{$group.mg_info}</td>
+            </tr>
+            </volist>
+            <empty name="ary_group">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><input type="submit" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+$(function() {
+    /*全选与取消*/
+	$('.ckeckAll').click(function(){
+	   
+        if($(this).attr('checked')=='checked'){
+            $('.checkSon').attr('checked','checked');
+        }else{
+            $('.checkSon').removeAttr('checked');
+        }
+    });
+});
+</script>

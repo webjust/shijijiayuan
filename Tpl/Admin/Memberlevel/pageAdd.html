@@ -1,0 +1,87 @@
+<script src="__PUBLIC__/Addmin/js/member.js"></script>
+<div class="rightInner">
+    <form id="members_form" name="members_form" method="post" action="{:U('Admin/Memberlevel/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">会员等级添加</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">等级名称：</td>
+                    <td>
+                        <input type="text" name="ml_name" id="ml_name" class="medium" value="" validate='{ required:true,username:true,remote:"{:U("Admin/Memberlevel/checkMemberLevelEdit","ml_id=$level[ml_id]&type=add&filed=ml_name&msg=等级名称")}"}' /> <br> 
+                    </td>
+                    <td class="last">请输入等级名称</td>
+                </tr>
+                <tr>
+                    <td class="first">等级折扣：</td>
+                    <td>
+                        <input type="text" name="ml_discount" id="ml_discount" class="medium" value="" validate='{ required:true,range:[1,100]}' />% <br> 
+                    </td>
+                    <td class="last">填入1-100的数字 按照百分比计算</td>
+                </tr>
+                 <tr>
+                    <td class="first">等级代码：</td>
+                    <td>
+                        <input type="text" name="ml_code" id="ml_code" class="medium" value="" validate='{ required:true,remote:"{:U("Admin/Memberlevel/checkMemberLevelEdit","ml_id=$level[ml_id]&type=add&filed=ml_code&msg=等级代码")}"}' /> <br> 
+                    </td>
+                    <td class="last">请输入等级代码</td>
+                </tr> 
+                <tr>
+                    <td class="first">等级晋升：</td>
+                    <td>
+                        <input type="text" name="ml_up_fee" id="ml_up_fee" class="medium" value="" validate='{ required:true,number:true}' /> <br> 
+                    </td>
+                    <td class="last">上个等级升到本等级条件(本等级金额必须大于上个等级金额)</td>
+                </tr> 
+				<!--暂时隐藏
+                <tr>
+                    <td class="first">等级返点：</td>
+                    <td>
+                        <input type="text" name="ml_rebate" id="ml_rebate" class="medium" value="" validate='{ required:true,range:[0,100]}' />%  <br> 
+                    </td>
+                    <td class="last">填入0-100的数字 按照百分比计算</td>
+                </tr>  
+				-->	
+				<input type="hidden" name="ml_rebate" id="ml_rebate" class="medium" value="0" />
+                 <tr>
+                <td class="first">是否默认：</td>
+                <td>
+                    <input type="radio" value="0" checked="checked"  name="ml_default" id="ml_default_0" /> 
+					<label for="ml_default_0">否</label> 
+                    <input type="radio" value="1"  name="ml_default" id="ml_default_1" />
+					<label for="ml_default_1">是</label>
+                </td>
+                <td class="last">说明文字</td>
+            </tr> 
+            <tr>
+                <td class="first">是否包邮：</td>
+                <td>
+                    <input type="radio" value="0" checked="checked"  name="ml_free_shipping" id="ml_free_shipping_0" /> 
+					<label for="ml_free_shipping_0">否</label> 
+                    <input type="radio" value="1"  name="ml_free_shipping" id="ml_free_shipping_1" />
+					<label for="ml_free_shipping_1">是</label>
+                </td>
+                <td class="last"></td>
+            </tr>                        
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Memberlevel/pageList')}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#members_form").validate();   
+    });
+</script>

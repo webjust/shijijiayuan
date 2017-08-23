@@ -1,0 +1,129 @@
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a  href="javascript:void(0);" onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">收支明细</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javascript:void(0);" ><span class="headmore"></span></a>-->
+        <!--</div>-->
+    </div>
+</div>
+<div class="container">
+    <div class="cj-filter cj-filter1 tab-wrap">
+        <div class="col-xs-2 active" style="cursor: pointer"  data-id="allList">全 部</div>
+        <div class="col-xs-2" style="cursor: pointer" data-id="incomeList">收入</div>
+        <div class="col-xs-2" style="cursor: pointer" data-id="payList">支出</div>
+    </div>
+    <div class="scoreAll">
+        <div class="score-box clearfix tab-in" id="allList"><!-- 全部-->
+            <h4>
+                预存款余额：<span> {$member['m_balance']|round=2}</span>
+            </h4>
+            <table width="100%" border="0">
+                <tbody>
+                <volist name="datalist" id="ra">
+                    <tr>
+                        <td>
+                            <p><span class="col-xs-6">单据编号：{$ra.bi_sn}</span></p>
+
+                        </td>
+                        <td>
+                            <if condition="$ra.bt_id eq 3 || $ra.bt_id eq 2">
+                                <i class="plus">+￥{$ra.bi_money}</i>
+                            </if>
+                            <if condition="$ra.bt_id eq 1 || $ra.bt_id eq 4">
+                                <i  class="minus">-￥{$ra.bi_money}</i>
+                            </if>
+
+                        </td>
+                        <td>
+                            <p><span>{$ra.bi_desc}</span></p>
+                            <p><span>{$ra.bi_create_time}</span></p>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="score-box clearfix"  style="display: none" id="incomeList"><!--收入-->
+            <table width="100%" border="0">
+                <tbody>
+                <volist name="ary_income" id="ra">
+                    <tr>
+                        <td>
+                            <p><span class="col-xs-6">单据编号：{$ra.bi_sn}</span></p>
+
+                        </td>
+                        <td>
+                            <if condition="$ra.bt_id eq 3 || $ra.bt_id eq 2">
+                                <i class="plus">+￥{$ra.bi_money}</i>
+                            </if>
+                            <if condition="$ra.bt_id eq 1 || $ra.bt_id eq 4">
+                                <i  class="minus">-￥{$ra.bi_money}</i>
+                            </if>
+
+                        </td>
+                        <td>
+                            <p><span>{$ra.bi_desc}</span></p>
+                            <p><span>{$ra.bi_create_time}</span></p>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="score-box clearfix" style="display: none" id="payList"><!--支出-->
+            <table width="100%" border="0">
+                <tbody>
+                <volist name="ary_pay" id="ra">
+                    <tr>
+                        <td>
+                            <p><span class="col-xs-6">单据编号：{$ra.bi_sn}</span></p>
+
+                        </td>
+                        <td>
+                            <if condition="$ra.bt_id eq 3 || $ra.bt_id eq 2">
+                                <i class="plus">+￥{$ra.bi_money}</i>
+                            </if>
+                            <if condition="$ra.bt_id eq 1 || $ra.bt_id eq 4">
+                                <i  class="minus">-￥{$ra.bi_money}</i>
+                            </if>
+
+                        </td>
+                        <td>
+                            <p><span>{$ra.bi_desc}</span></p>
+                            <p><span>{$ra.bi_create_time}</span></p>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="fenye1">
+        {$page}
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.tab-wrap').find('div').click(function () {
+            var id = $(this).data('id');
+            $(this).addClass('active').siblings().removeClass('active');
+            $('#' + id).siblings().css("display",'none');
+            $('#' + id).css("display",'block');
+
+        });
+    });
+</script>
+
+

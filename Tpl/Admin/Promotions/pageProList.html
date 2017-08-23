@@ -1,0 +1,165 @@
+<div class="rightInner">
+    <form method="get" action="{:U('Admin/Promotions/pageProList')}" id="promotion_del">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    <p class="conOneP" style="float: left;">
+                        <a href='{:U("Admin/Promotions/pageProAdd")}' class="btnG ico_add">新增促销</a>
+                    </p>
+                    <ul class="conOneUl" style="width:688px;">
+                   
+                        <li>促销时间：<input type="text" name="pmn_start_time" class="large medium timer" value="{$filter.pmn_start_time}"  style="width: 145px;float: none;"></li>
+                        <li>至<input type="text" name="pmn_end_time" class="large medium timer" value="{$filter.pmn_end_time}"  style="width: 145px;float: none;"></li>
+                        <li>
+                            <select name="field" class="small" style="width: auto">
+                                <option value="pmn_name" <if condition="$filter['field'] eq 'pmn_name'">selected="selected"</if>>促销名称</option>
+                                <option value="pmn_order" <if condition="$filter['field'] eq 'pmn_order'">selected="selected"</if>>优先级</option>
+                                <option value="pmn_class" <if condition="$filter['field'] eq 'pmn_class'">selected="selected"</if>>类型代码</option>
+                            </select>
+                        </li>
+                        <li><input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+                        <li><input type="submit" value="搜索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                    </ul>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"/></th>
+                <th>操作</th>
+                <th>启用/停用</th>
+                <th>促销规则名称</th>
+                <th>促销优先级</th>
+                <th>类型代码</th>
+                <th>起止时间(00表示不限)</th>
+                <th>说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <volist name="list" id="pmn">
+                <tr id="del_{$pmn.pmn_id}">
+                    <td>
+                        <input type="checkbox" class="checkSon" name="pid[]" value="{$pmn.pmn_id}" data-xid="checkSon_x"/>
+                    </td>
+                    <td>
+                        <a href='{:U("Admin/Promotions/pageProEdit?pid=$pmn[pmn_id]")}'>编辑</a> 
+                         <a href='javascript:;' class="Del" pid="{$pmn.pmn_id}">删除</a>
+                    </td>
+					<td>
+					<eq name="pmn.pmn_enable" value="1">
+						<img src="__PUBLIC__/Admin/images/span-true.png" pmn_enable="1" onclick="ajaxSetNew({$pmn.pmn_id},this);" />
+					<else />
+						<img src="__PUBLIC__/Admin/images/span-false.png" pmn_enable="0" onclick="ajaxSetNew({$pmn.pmn_id},this);" />
+					</eq>
+					</td>
+                    <td>
+                        {$pmn.pmn_name}
+                    </td>
+                    <td>{$pmn.pmn_order}</td>
+                    <td>
+                        <span class="blue" title="{$types[$pmn['pmn_class']]['memo']}">{$pmn.pmn_class}</span>
+                    </td>
+                    <td>{$pmn.pmn_start_time} - {$pmn.pmn_end_time}</td>
+                    <td class="left">{$pmn.pmn_memo}</td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="99"><input type="button" value="删除选中" class="btnA"  id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<div id="pro_dialog" style="display: none;">
+    <div id="tip_div"></div>
+</div>
+<script type="text/javascript">
+    var pidobj = {};
+    var i = 0;
+    $("input[type='button']").click(function(){
+        if(!$("input:checked").val()){
+            showAlert(false,"请选择要删除的内容");
+            return false;
+        }
+        $("input:checked").each(function(){
+            pidobj[i] = $(this).val();
+            i++;
+        });
+        if(confirm("确定要删除？")){
+            $.ajax({
+                url:"{:U('Admin/Promotions/doProDel')}",
+                data:{pid:pidobj},
+                type:"post",
+                dataType:"json",
+                success:function(msginfo) {
+                    if(msginfo.status == 1){
+                        $("input:checked").parents('tr').remove();
+                        showAlert(true,msginfo.info);
+                    }else{
+                        showAlert(false,msginfo.info);
+                    }
+                }
+            });
+        }
+        
+    });
+    
+    //单个删除
+    $(".Del").click(function(){
+        var pid = $(this).attr("pid");
+        if(confirm("确定要删除？")){
+            $.ajax({
+                url:"{:U('Admin/Promotions/doProDel')}",
+                type:"post",
+                datatye:"json",
+                data:{pid:pid},
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+						//$("input:checked").parents('tr').remove();
+						$("#del_"+pid).remove();
+                        showAlert(true,msgObj.info);
+                    }else{
+                        showAlert(false,msgObj.info);
+                    }
+                }
+            });
+        }
+        
+    });
+	
+	//促销停用在启用
+	function ajaxSetNew(int_pmn_id,clickObj){
+        var pmn_enable = 1;
+        if($(clickObj).attr("pmn_enable") == 1){
+            pmn_enable = 0;
+        }
+        var msg = '关闭促销';
+        if(pmn_enable == 1){
+            msg = '启用促销';
+        }
+        if(confirm("确定要" + msg + '吗？')){
+            $.post(
+            '{:U("Admin/Promotions/ajaxDoProEdit")}',
+            {'pmn_id':int_pmn_id,'pmn_enable':pmn_enable},
+            function(msgObj){
+                if(msgObj.status == '1'){
+                    var image_path = '__PUBLIC__/Admin/images/span-false.png';
+                    if(1 == pmn_enable){
+                        image_path = '__PUBLIC__/Admin/images/span-true.png';
+                    }
+                    $(clickObj).attr({src:image_path,pmn_enable:pmn_enable}).hide().show(2000);
+                }
+            },
+            'json'
+        );
+        }
+    }
+</script>

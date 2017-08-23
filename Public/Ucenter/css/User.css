@@ -1,0 +1,78 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*用户中心  登录  开始*/
+.uLCon { display:inline-block; width:100%;}
+.uLConLeft { float:left; background:url(../images/uLoginLeft.jpg) no-repeat; width:633px; height:472px;}
+.uLConRight { float:right; background:url(../images/uLoginRighttop.jpg) no-repeat; width:327px; padding-top:130px;}
+span.urightbotbj { display:block; background:url(../images/uLoginRightbot.jpg) no-repeat; height:11px; overflow:hidden;}
+.uLoginRepeaty { width:100%; background:url(../images/uLoginRightrepeaty.jpg) repeat-y; position:relative; display:inline-block;}
+span.spantablebjtop { display:block; width:100%; background:url(../images/uLoginspanTbj.jpg) no-repeat; height:4px; overflow:hidden; margin-top:42px;}
+span.spantablebjbottom { display:block; width:100%; background:url(../images/uLoginspanTbotbj.jpg) no-repeat; height:4px;}
+
+.uLCon01 {width:100%;overflow:hidden;}
+span.wrong { position:absolute; background:url(../images/wrong.jpg) no-repeat; width:260px; height:26px; line-height:26px; padding-left:30px; color:#4c4c4c; margin:10px 0px 0px 20px}
+.uLCon01 table { width:290px; margin-left:20px; margin-top:-3px; border-right:1px solid #C6C7CB;  border-left:1px solid #C6C7CB}
+.uLCon01 table tr td {padding:5px 0px; background:url(../images/tabletdbj.jpg) repeat-x top #E5E6EA;}
+.uLCon01 table tr td.td01 { font-weight:bold; text-align:right; color:#898A8C}
+.uLCon01 table tr td input { font-size:14px; width:211px; padding:5px 0px; border:hidden; background:none; border:none;}
+.uLCon01 table tr td input.input02 { float:left; width:119px;}
+.uLCon01 table tr td span.check { float:left; width:50px; height:24px; margin-left:2px; background:#ccf1d0;}
+.uLCon01 table tr td a.change { float:left; color:#949494; margin:6px 0px 0px 2px;}
+
+.uLCon01 p.p01 { width:100%; text-align:center; padding:10px 0px 15px 0px; background:url(../images/uLoginRightpbj.jpg) no-repeat center bottom;}
+.uLCon01 p.p01 span { margin:0px 15px;}
+.uLCon01 p.p01 a { color:#636363}
+.uLCon01 a.login { display:block; background:url(../images/uLoginbuttonbj.jpg) no-repeat; text-align:left; width:217px; border:none; text-indent:-9999px; height:46px; overflow:hidden; margin:14px 0px 22px 55px; cursor:pointer}
+/*用户中心  登录  结束*/
+
+/*用户中心注册页   开始*/
+.uRegister { width:960px; display:inline-block; position:relative;}
+.uRegisterLeft { float:left; background:url(../images/registerLeft.jpg) no-repeat; width:374px; height:473px;}
+.uRegisterRight { float:right; background:url(../images/registerRight01.jpg) no-repeat; width:586px; padding-top:137px;}
+.uRegiRepeaty { width:100%; background:url(../images/registerRepeaty.jpg) repeat-y; overflow:hidden;}
+span.spanbo { display:block; overflow:hidden; width:586px; background:url(../images/registerBot.jpg) no-repeat; height:15px;}
+.uRegiRepeaty table { width:566px; margin-left:20px; margin-top:-2px;}
+.uRegiRepeaty table tr td { padding:5px 0px;}
+.uRegiRepeaty table tr td.td01 { text-align:right; font-weight:bold; color:#898A8C; font-size:14px; background:url(../images/tabletdbj.jpg) repeat-x top #E5E6EA; border-left:1px solid #C6C7CB}
+.uRegiRepeaty table tr td.td02 {  background:url(../images/tabletdbj.jpg) repeat-x top #E5E6EA; border-right:1px solid #C6C7CB}
+.uRegiRepeaty table input { width:236px; border:hidden; padding:5px 0px; color:#333; background:none; font-size:14px; color:#333; _border:none; +border:none;}
+.uRegiRepeaty table input.text02 { width:138px; float:left;}
+.uRegiRepeaty table span.check { float:left; width:50px; height:24px; margin-left:2px; background:#ccf1d0;}
+.uRegiRepeaty table a.change { color:#949494; margin:6px 0px 0px 2px; float:left}
+span.tablebjbottm { display:block; overflow:hidden; width:100%; background:url(../images/uRegiTablebjbottom.jpg) no-repeat; height:6px;}
+
+.uRegiRepeaty p { width:100%; text-align:center; color:#333; padding:20px 0px 10px; background:url(../images/registerPbj.jpg) no-repeat center bottom;}
+.uRegiRepeaty p label { position:relative; top:-2px; left:4px;}
+.uRegiRepeaty a.registerBut { display:block; border:none; background:url(../images/registerButtonbj.jpg) no-repeat; width:217px; height:46px; text-align:left; text-indent:-999px; overflow:hidden; margin:16px 0px 15px 168px; cursor:pointer}
+/*用户中心注册页   结束*/
+
+.uForgetpass { width:100%; background:url(../images/uForgetpassbjtop.jpg) no-repeat; width:586px; padding-top:137px; float:right;}
+.uRegiRepeaty input.uForgetButton { display:block; border:none; background:url(../images/uForgetButton.jpg) no-repeat; width:217px; height:46px; text-align:left; text-indent:-999px; overflow:hidden; margin:16px 0px 15px 168px; cursor:pointer}
+
+/*用户中心的列表可编辑项*/
+table .edit{
+    background-color: oldlace;
+    text-decoration: underline;
+}
+
+/*搜索按钮样式*/
+.btn{
+    border: none;
+    background-color: black;
+    height: 22px;
+    line-height: 22px;
+    color: #ffffff;
+    padding: 0 10px;
+    border-radius: 4px;
+}
+
+.form-controller{
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    color: #555555;
+    font-size: 13px;
+    height: 21px;
+    line-height: 21px;
+    padding: 0 3px;
+}

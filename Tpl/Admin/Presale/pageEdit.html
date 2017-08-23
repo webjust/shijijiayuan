@@ -1,0 +1,278 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="coupon_add" enctype="multipart/form-data" name="coupon_add" method="post" action="{:U('Admin/Presale/doEdit')}" onsubmit="return save();">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑预售活动</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<tr>
+					<td  colspan="3" style="text-align:left;padding-left:100px;">
+						分类：
+						<select name="search_cats" class="related_goods_form_info medium" >
+							<option value="0"> -请选择- </option>
+							<volist name="ary_category" id="cat">
+							<option value="{$cat.gc_id}"><php>for($j=0;$j<$cat['gc_level'];$j++){echo '--';}</php>{$cat.gc_name}</option>
+							</volist>
+						</select>
+						品牌：
+						<select name="search_brand" class="related_goods_form_info medium">
+							<option value="0"> -请选择- </option>
+							<volist name="ary_brand" id="vo">
+								<option value="{$vo.gb_id}">{$vo.gb_name}</option>
+							</volist>
+						</select>
+						关键词：
+						<input type="text" name="keywords" class="related_goods_form_info medium" id="search_keywords" value="" />
+						<button type="button" id="related_goods_form_search_info" class="btnA">搜索</button>
+					</td>
+				</tr>
+                <tr>
+                    <td class="first">* 预售标题</td>
+                    <td>
+                    	<textarea  name="p_title" id="p_title"   maxlength="250" style="width:300px;height:100px;text-align:left;vertical-align:top;" validate="{ required:true}">{$info.p_title}</textarea>
+                    </td>
+                    <td class="last">限制250个字符</td>
+                </tr>
+                <tr>
+                    <td class="first">* 预售商品</td>
+                    <td>
+                    <input type="hidden" value="1" id="good_type"/>
+                     <input type="hidden" value="" id="item_price" /> 
+                        <select name="g_id" id="g_related_goods_ids_selected_info" onchange="showPic(this)" validate="{ required:true}">
+                        	<option value="{$info.g_id}" selected >{$info.g_name}</option>	
+                        </select>
+                    </td>
+                    <td class="last">必填</td>
+                </tr>
+                <tr>
+                    <td colspan="5" >
+                        <include file="Presale:getPresaleGoods" />
+                    </td>
+                </tr>
+                <tr style="height:50px;">
+                    <td class="first">商品图片</td>
+                    <td>
+                        <a href="javascript:upImage();" class="btnG ico_upload">上传图片</a>
+                        <img width="50px" height="50px" src="{$info.p_picture}" id="show_pic">
+                        &nbsp;
+                        <input type="hidden" id="p_pic" name="p_pic" value="{$info.p_picture}"/>
+
+                    </td>
+                    <td class="last">不上传图片按商品主图,建议您图片大小为500*500</td>
+                </tr>
+                <tr>
+                    <td class="first">* 区域限售</td>
+                    <td>
+						<a class="rule-chooser-trigger" ref="'.$this->index.'" href="javascript:void(0)">
+						<img title="Open Chooser" class="v-middle" alt="" src="__PUBLIC__/Admin/images/rule_chooser_trigger.gif"></a>
+                           	请点击按钮选择显示或隐藏限售区域
+						<div id="shopMulti_cat" class="shop-cat-list rule-chooser" style="padding-left: 15px;">
+						   <include file="related-goods-form" /> 
+						</div> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 活动开始时间</td>
+                    <td>
+                        <input type="text" name="p_start_time" value="{$info.p_start_time}" id="p_start_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 活动结束时间</td>
+                    <td>
+                        <input type="text" name="p_end_time" value="{$info.p_end_time}" id="p_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr> 
+                <tr>
+                    <td class="first">是否使用定金</td>
+                    <td>
+                        <input type="checkbox" name="is_deposit" <if condition="$info.is_deposit eq '1'">checked</if> id="is_deposit" value="1" />
+                    </td>
+                    <td class="last">不勾选代表一次性付清</td>
+                </tr>
+                <tr>
+                    <td class="first"> 定金</td>
+                    <td>
+                        <input type="text" name="p_deposit_price" id="p_deposit_price" value="{$info.p_deposit_price}" class="medium" />
+                    </td>
+                    <td class="last"></td>
+                </tr>                 
+                <tr>
+                    <td class="first">* 限购数量</td>
+                    <td>
+                        <input type="text" name="p_number" id="p_number" class="medium" value="{$info.p_number}" validate="{ required:true}"/>
+                    </td>
+                    <td class="last">达到此数量，预售活动自动结束。0表示没有数量限制</td>
+                </tr>                 
+                <tr>
+                    <td class="first">补交尾款时间</td>
+                    <td>
+                        <input type="text" name="p_overdue_start_time"  value="{$info.p_overdue_start_time}" id="p_overdue_start_time" class="medium timer" />
+                        	至
+                        <input type="text" name="p_overdue_end_time" value="{$info.p_overdue_end_time}" id="p_overdue_end_time" class="medium timer" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">价格阶梯设置类型</td>
+                    <td>
+                        <label><input type="radio" name="p_tiered_pricing_type" id="p_tiered_pricing_type_1" value="1"  onclick="changeDiscountType(this);" <eq name="info.p_tiered_pricing_type" value="1">checked</eq>/>按减少指定金额计算</label>
+                        <label><input type="radio" name="p_tiered_pricing_type" id="p_tiered_pricing_type_2" value="2"  onclick="changeDiscountType(this);" <eq name="info.p_tiered_pricing_type" value="2">checked</eq>/>按价格折扣计算</label>
+                    </td>
+                    <td class="last">按价格折扣计算：请输入小于等于1的正数，如0.88=8.8折</td>
+                </tr>
+                <tr>
+                    <td class="first">价格阶梯</td>
+                    <td colspan="2">
+                        <table  id="J_ManagePrice"  class="clearfix dialog manage-cats" style="width: 100%">
+                            <tr>
+                                <td>
+                                    商品正常销售价：&yen;<span id="normal_sale_price">{$info.g_price|default=0.00}</span>
+                                </td>
+                                <td class="last">作为普通商品销售时的价格</td>
+                            </tr>
+                            <if condition="$info['p_tiered_pricing_type'] eq 1">
+                                <tr class="price_discount_init" data-type="1">
+                                    <td>
+                                        初始预售价：减<input type="text" name="p_price"  value="{$info['p_price']|default=0}" class="medium input-text" onblur="checkPresalePrice(this);" />元&nbsp;&nbsp;
+                                        <!--<img src="__PUBLIC__/Admin/images/u48_normal.png" onclick="addTieredPrice();" title="添加价格阶梯" />-->
+                                    </td>
+                                    <td class="last">在普通销售价上减去指定金额作为预售初始价</td>
+                                </tr>
+                                <tr class="price_discount_init" data-type="2" style="display: none;">
+                                    <td>
+                                        初始预售价：<input type="text" value="" class="medium input-text" onblur="checkPresalePrice(this);"/>折&nbsp;&nbsp;
+                                        <!--<img src="__PUBLIC__/Admin/images/u48_normal.png" onclick="addTieredPrice();" title="添加价格阶梯" />-->
+                                    </td>
+                                    <td class="last">在普通销售价上打指定折扣作为预售初始价</td>
+                                </tr>
+                                <!--<volist name="info.related_prices" id="price">-->
+                                    <!--<tr class="tiered_price_config">-->
+                                        <!--<td>-->
+                                            <!--数量达到：<input type="text" name="nums[]" value="{$price['rgp_num']}" class="medium input-text nums"/>以上，-->
+                                            <!--减<input type="text" name="prices[]" value="{$price['rgp_price']}" class="medium input-text prices"/>元-->
+                                            <!--<img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格阶梯" />-->
+                                        <!--</td>-->
+                                        <!--<td class="last">请输入小于等于商品销售金额的数字</td>-->
+                                    <!--</tr>-->
+                                <!--</volist>-->
+                                <else/>
+                                <tr class="price_discount_init" data-type="2" >
+                                    <td>
+                                        初始预售价：<input type="text" name="p_price" value="{$info['p_price']|default=1}" class="medium input-text" onblur="checkPresalePrice(this);"/>折&nbsp;&nbsp;
+                                        <img src="__PUBLIC__/Admin/images/u48_normal.png" onclick="addTieredPrice();" title="添加价格阶梯" />
+                                    </td>
+                                    <td class="last">在普通销售价上打指定折扣作为预售初始价</td>
+                                </tr>
+                                <tr class="price_discount_init" data-type="1" style="display: none;">
+                                    <td>
+                                        初始预售价：减<input type="text"  value="" class="medium input-text" onblur="checkPresalePrice(this);" />元&nbsp;&nbsp;
+                                        <img src="__PUBLIC__/Admin/images/u48_normal.png" onclick="addTieredPrice();" title="添加价格阶梯" />
+                                    </td>
+                                    <td class="last">在普通销售价上减去指定金额作为预售初始价</td>
+                                </tr>
+                                <!--<volist name="info.related_prices" id="price">-->
+                                    <!--<tr class="tiered_price_config">-->
+                                        <!--<td>-->
+                                            <!--数量达到：<input type="text" name="nums[]" value="{$price['rgp_num']}" class="medium input-text nums"/>以上，-->
+                                            <!--<input type="text" name="prices[]" value="{$price['rgp_price']}" class="medium input-text prices"/>折销售-->
+                                            <!--<img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格阶梯" />-->
+                                        <!--</td>-->
+                                        <!--<td class="last">请输入小于等于1的正数，如0.88，意思是8.8折</td>-->
+                                    <!--</tr>-->
+                                <!--</volist>-->
+                            </if>
+
+                            <tr id="price_discount_hide" class="tiered_price_config" style="display: none;">
+                                <td>
+                                    数量达到：<input type="text" value="" class="medium input-text nums"/>以上，
+                                    减<input type="text" value="" class="medium input-text prices"/>元
+                                    <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格阶梯" />
+                                </td>
+                                <td class="last">请输入小于等于商品销售金额的数字</td>
+                            </tr>
+                            <tr id="price_discount_rate_hide" class="tiered_price_config" style="display:none;">
+                                <td>
+                                    数量达到：<input type="text" value="" class="medium input-text nums"/>以上，
+                                    <input type="text" value="" class="medium input-text prices"/>折销售
+                                    <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格阶梯" />
+                                </td>
+                                <td class="last">请输入小于等于1的正数，如0.88，意思是8.8折</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <eq name="is_on_mulitiple" value="2">
+				<tr>
+					<td class="first">* 每个会员限购</td>
+					<td>
+                        <input type="text" name="p_per_number" id="p_per_number" value="{$info.p_per_number}" class="medium" validate="{ required:true}"/>
+                    </td>
+					<td class="last"></td>
+				</tr>
+                    <else/>
+                    <input type="hidden" name="p_per_number" value="0"/>
+                </eq>
+				<tr>
+					<td class="first">虚拟数量</td>
+					<td><input type="text" name="p_pre_number" id="p_pre_number" value="{$info.p_pre_number}"
+						class="medium" /></td>
+					<td class="last"></td>
+				</tr>		
+				<tr>
+					<td class="first">显示次序</td>
+					<td><input type="text" name="p_order" id="p_order" value="{$info.p_order}"
+						class="medium" /></td>
+					<td class="last"></td>
+				</tr>	
+	            <tr>
+                    <td class="first">是否显示商品详情</td>
+                    <td>
+                        <input type="checkbox" name="p_goodshow_status" <if condition="$info.p_goodshow_status eq '1'">checked</if> id="p_goodshow_status" value="1" />
+                    </td>
+                    <td class="last"></td>
+                </tr>				
+	            <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="checkbox" name="is_active" id="is_active" <if condition="$info.is_active eq '1'">checked</if> value="1" />
+                    </td>
+                    <td class="last">不勾选代表停用</td>
+                </tr>	
+ 				<tr>
+					<td class="first">预售描述</td>
+					<td>
+					<textarea name="p_desc" id="editor"  style="width:600px;">{$info.p_desc}</textarea>
+					</td>
+					<td class="last"></td>
+				</tr>	               								
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                    	<input type="hidden" value="{$info.p_id}" name="p_id" />
+                        <input type="submit" value="提 交" class="btnA">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/presale.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var g_related_goods_ids_selected_info = $('#g_related_goods_ids_selected_info');
+        changePresaleGoods(g_related_goods_ids_selected_info[0]);
+    });
+</script>

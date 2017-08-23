@@ -1,0 +1,37 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99"><a href="{:U('Admin/Nav/pageAdd')}" class="btnG ico_add">新增自定义导航</a></th>
+            </tr>
+            <tr>
+				<th width="120">操作</th>
+				<th>链接名称</th>
+				<th width="200">链接地址</th>
+				<th width="120">显示位置</th>
+				<th width="120">显示顺序</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="nav">
+              <tr>
+                  <td width="120">
+                   <a href='{:U("Admin/Nav/pageEdit","n_id=$nav[n_id]")}'>编辑</a>|
+				<a href='{:U("Admin/Nav/doDel","n_id=$nav[n_id]")}'>删除</a>
+				</td>
+				<td>{$nav.n_name}</td>
+				<td width="200">{$nav.n_url}</td>
+				<td width="120">
+				{$nav.n_position}
+				</td>
+				<td width="120">{$nav.n_order}</td>
+              </tr>
+              </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

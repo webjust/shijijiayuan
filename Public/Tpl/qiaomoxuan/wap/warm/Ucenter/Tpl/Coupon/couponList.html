@@ -1,0 +1,110 @@
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a  href="{:U('Wap/Ucenter/index')}"><span class="goback"></span></a>
+        </div>
+        <span class="nav-title">我的优惠券</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javascript:void(0);" >-->
+                <!--<span class="headmore"></span></a>-->
+        <!--</div>-->
+    </div>
+</div>
+<div class="container">
+    <div class="cj-filter cj-filter1">
+        <div class="col-xs-2 <php>if(empty($type)){</php>active<php>}</php>"><a href="{:U('Wap/Coupon/couponList')}">全 部</a></div>
+        <div class="col-xs-2 <php>if($type== '1'){</php>active<php>}</php>"><a href="{:U('Wap/Coupon/couponList')}?type=1">未使用</a></div>
+        <div class="col-xs-2 <php>if($type== '2'){</php>active<php>}</php>"><a  href="{:U('Wap/Coupon/couponList')}?type=2">已使用</a></div>
+    </div>
+    <div class="couponList">
+       <php>if(empty($type)){</php>
+        <h4>您共有优惠券<span> {$count|default=0}</span>张</h4>
+        <php>}elseif($type == '1'){</php>
+        <h4>您共有<span> {$count|default=0}</span>张优惠券还未使用</h4>
+        <php>}elseif($type=='2'){</php>
+        <h4>您有<span> {$count|default=0}</span>张优惠券已经使用</h4>
+        <php>}</php>
+        <volist name="ary_coupon" id="coupon">
+            <eq name="coupon[c_is_use]" value="0"><!--未使用-->
+                <eq name="coupon[no]" value="0"><!--未过期-->
+                    <div class="couponA">
+                        <div class="couponL">
+                            <p class="couponName">dedede{$coupon.c_name}</p>
+                            <p>券号：{$coupon.c_sn}</p>
+                            <p>使用期限：{$coupon.c_start_time}--{$coupon.c_end_time}</p>
+                        </div>
+                        <div class="couponR">
+                            <p class="value-right">
+                                <if  condition="$coupon.c_type eq 0 ">
+                                    <span class="f120">￥{$coupon.c_money}</span>
+                                    <span>现金券</span>
+                                </if>
+                                <if  condition="$coupon.c_type eq 1 ">
+                                    <php> $coupon['c_money'] =  $coupon['c_money']*10;</php>
+                                    <span class="f120">{$coupon.c_money} 折</span>
+                                    <span>折扣券</span>
+                                </if>
+
+                            </p>
+                        </div>
+                    </div>
+                </eq>
+            </eq>
+        </volist>
+    </div>
+    <div class="couponList couponList1">
+        <volist name="ary_coupon" id="coupon1">
+            <neq name="coupon1[c_is_use]" value="0"><!--已使用-->
+                <div class="couponA">
+                    <div class="couponL">
+                        <p class="couponName">{$coupon1.c_name}</p>
+                        <p>券号：{$coupon1.c_sn}</p>
+                        <p>使用期限：{$coupon1.c_start_time}--{$coupon1.c_end_time}</p>
+                    </div>
+                    <div class="couponR">
+                        <p class="value-right">
+                            <if  condition="$coupon1.c_type eq 0 ">
+                                <span class="f120">￥{$coupon1.c_money}</span>
+                                <span>现金券</span>
+                            </if>
+                            <if  condition="$coupon1.c_type eq 1 ">
+                                <php> $coupon1['c_money'] =  $coupon1['c_money']*10;</php>
+                                <span class="f120">{$coupon1.c_money} 折</span>
+                                <span>折扣券</span>
+                            </if>
+                        </p>
+                    </div>
+                    </div>
+                <else/>
+                <eq name="coupon1[no]" value="1"><!--已过期-->
+                    <div class="couponA">
+                        <div class="couponL">
+                            <p class="couponName">{$coupon1.c_name}</p>
+                            <p>券号：{$coupon1.c_sn}</p>
+                            <p>使用期限：{$coupon1.c_start_time}--{$coupon1.c_end_time}</p>
+                        </div>
+                            <div class="couponR couponE">
+                                <p class="value-right">
+                                    <if  condition="$coupon1.c_type eq 0 ">
+                                        <span class="f120">￥{$coupon1.c_money}</span>
+                                        <span>现金券</span>
+                                    </if>
+                                    <if  condition="$coupon1.c_type eq 1 ">
+                                        <php> $coupon1['c_money'] =  $coupon1['c_money']*10;</php>
+                                        <span class="f120">{$coupon1.c_money} 折</span>
+                                        <span>折扣券</span>
+                                    </if>
+                                </p>
+                            </div>
+                        </div>
+                </eq>
+                </if>
+            </neq>
+        </volist>
+    </div>
+    <div class="fenye1">
+        {$page}
+    </div>
+</div>

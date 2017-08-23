@@ -1,0 +1,22 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>公告</span></h2>
+	<div class="helpList"><!--helpList  start-->
+		<div class="helpListCon"><!--helpListCon  start-->
+			<ul>
+				<volist name="list" id="notice">
+				<li>
+                                    <if condition="$notice.pn_is_top eq '1'">
+                                        <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Ucenter/images/headtopic.gif" title="置顶贴" alt="置顶贴" width="12px" height="12px" style="float: left;margin-right: 5px;margin-top: 2px;">
+                                    </if>
+                                    <a href='{:U("Ucenter/Notice/pageRead","pnid=$notice[pn_id]")}'>{$notice.pn_title}</a><span class="time">{$notice.pn_create_time}</span></li>
+				</volist>
+			</ul>
+		</div><!--helpListCon  end-->
+		<div class="fenye">
+			{$page}
+		</div>
+	</div><!--helpList  end-->
+</div><!--contentRightBox  end-->
+<!-- 右侧主题内容结束 -->

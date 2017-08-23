@@ -1,0 +1,668 @@
+<script type="text/javascript" src="__PUBLIC__/Admin/js/order.js"></script>
+<div class="rightInner" style="height:auto">
+    <table width="100%" class="tbList" >
+        <thead>
+            <tr class="title">
+                <th colspan="22">
+                    <p class="conOneP" style="float: left;">
+                        <a href="javascript:void(0);" class="btnG ico_explort">导出Excel</a>
+                    </p>
+                    <p class="conOneP" style="float: left;">
+                        <a href="javascript:void(0);" class="btnG Set" id="setAutoOrders">批量审核订单</a>
+                    </p>
+
+                <span style="text-align:right;font-size: 12px;float: left;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Orders/pageList')}" style='width:55%;'>
+                        下单时间从：<input type="text" name="o_create_time_1" class="large timer" value="{$filter.o_create_time_1}" style="width: 100px;">
+						 到 <input type="text" name="o_create_time_2" class="large timer" value="{$filter.o_create_time_2}" style="width: 100px;">						
+                        订单号：<input type="text" name="o_id" class="large" value="{$filter.o_id}" style="width: 100px;">
+                        试用订单：<input type="checkbox" name="o_try" value="1" <if condition="$filter['o_try'] eq 1 "> checked="checked" </if>>&nbsp;
+                        第三方订单号：<input type="text" name="o_source_id" class="large" value="{$filter.o_source_id}" style="width: 100px;">
+                        商品名称：<input type="text" name="oi_g_name" class="large" value="{$filter.oi_g_name}" style="width: 135px;">
+                        收货人：<input type="text" name="o_receiver_name" class="large" value="{$filter.o_receiver_name}" style="width: 100px;">
+                        收货人手机：<input type="text" name="o_receiver_mobile" class="large" value="{$filter.o_receiver_mobile}" style="width: 100px;">
+                                <input type="submit" name="search" value="搜 索" class="btnHeader inpButton">
+                                <a href="javascript:void(0);" class="btnG ico_syn order_search" style='position: relative;top: 2px;background-position: 0px -413px;'>高级搜索</a>
+                    </form>
+                    
+                </span>
+                </th>
+        </tr>
+        <tr>
+            <th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>
+            <th style="width:60px">操作</th>
+            <th>订单号</th>
+			<th>第三方订单号</th>
+            <th>订单状态</th>
+            <th>商品名</th>
+            <th>售后状态</th>
+            <th>数量</th>
+	     	<th>订单金额</th>
+			<th>支付方式</th>
+            <th>收货人</th>
+            <!--<th>手机号</th>-->
+            <th>物流公司</th>
+            <th>物流费用</th>
+            <th>会员名</th>
+            <th>下单时间</th>
+            <th>修改时间</th>
+            <th>支付时间</th>
+            <th>发货时间</th>
+            <th>客服</th>
+            
+            <th>订单备注</th>
+            <th>订单来源CPS</th>
+			<th style="width:120px;">来源IP</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="order">
+            <tr>
+                <td><input type="checkbox" class="checkSon" data-xid="checkSon_x" name="o_id[]" value="{$order.o_id}" o_sn="{$datas.o_sn}" /></td>
+                <td style="padding-right: 45px;">
+                <span style="width:120px;display:block;">
+                    <a class="blue setPoint" href="javascript:void(0);" o_id="{$order.o_id}" data-uri='{:U("Admin/Orders/setOrdersRemark")}' data-acttype="ajax">备注</a>
+                    <div id="children_{$order.o_id}"  style="display:none" title="卖家备注"></div>
+                    <!-- <if condition="($order.o_goods_type neq '5') and ($order.o_status neq '4')">
+                    <a href="javascript:void(0);" id="EditOrderGoodsPrice" onClick="javascript:EditOrderGoodsPrice('{$order.o_id}');">修改价格</a>
+                    </if> -->
+                    
+                     <if condition="$order.o_pay_status eq '1'">
+	                     <if condition="($order.deliver_status neq '已发货') and ($order.refund_status eq '') and $order.o_audit eq '0'">
+	                            &nbsp;<a href="{:U('Admin/Orders/pageEditOk')}?o_id={$order.o_id}" >编辑</a>
+	                     </if>
+                         
+                      <else />
+                    	 <if condition="$order.str_status neq '作废'">
+	                            &nbsp;<a href="{:U('Admin/Orders/pageEdit')}?o_id={$order.o_id}" >编辑</a>
+	                     </if>
+                        
+                      </if>
+                      <if condition="$order.o_status neq '4'" >
+                        <a href="javascript:void(0);" onclick="overOrders('{$order.o_id}',this);" <if condition="$order['pay_back'] eq 1">title="请先支付与发货才能返利"</if> >完成</a>
+                      </if>
+                      	 <if condition="$order.is_diff eq '1'">
+	                     <span style="margin-left:10px;">已拆单</span>
+	                     <else />
+	                     <if condition="(($order.o_pay_status eq '1') or ($order.o_payment eq '6')) and($order.deliver_status neq '已发货') and ($order.refund_status eq '')  and ($filter['order_remove_on'] eq '1') and ($order.refund_goods_status eq '') and ($order.str_status neq '作废')">
+	                     <a style="margin-left:10px;"  href="{:U('Admin/Orders/autoRemoveOrderItems')}?o_id={$order.o_id}"  title="手动拆单">手动拆单</a>
+	                     </if>
+	                     </if>            
+				</span>
+                </td>
+                <td id="oid_{$order.o_id}">
+                    <a href="{:U('Admin/Orders/pageDetails')}?o_id={$order.o_id}" style="width:120px;display:block;<if condition="$order['oi_range'] eq 1">color:red;</if>">
+                        {$order.o_id}
+                    </a>
+                </td>
+				
+				<td id="oid_{$order.o_source_id}" >
+                    <a href="javascript:void(0);" style="width:120px;display:block;"><if condition="$order.o_source_id neq 0 ">{$order.o_source_id}</if></a>
+                </td>
+                <td>
+                <span style="width:220px;display:block;">
+                    <!-- 订单的作废状态 start -->
+                    <if condition="$order.str_status eq '作废'">
+                        <span>{$order.str_status}</span>
+                    <elseif condition="$order.o_status eq '4'" />
+                        <span>完结</span>
+                    <else />
+                    
+	                     <if condition="$order.o_audit eq '1'">
+	                     <span style="margin-left:10px;">已审核</span>
+	                     <else />
+	                     <if condition="(($order.o_pay_status eq '1') or ($order.o_payment eq '6')) and($order.deliver_status neq '已发货') and ($order.refund_status eq '') and ($order.refund_goods_status eq '')">
+	                      <span style="margin-left:10px;color:blue;cursor:pointer;" class="check_audit" id="hide_audit_{$order.o_id}" o_id="{$order.o_id}" title="审核通过">未审核</span>
+	                     <span style="margin-left:10px;display:none;" id="check_audit_{$order.o_id}" >已审核</span>
+	                     <else />
+	                     	<span style="margin-left:10px;">未审核</span>
+	                     </if>
+	                     </if>
+                        <!-- 订单的付款状态 start -->    
+                        <span style="margin-left:10px;">{$order.str_pay_status}</span>
+                        <!-- 订单的发货状态 start -->
+                        <if condition="$order.deliver_status eq '已发货'">
+                            <span style="margin-left:10px;">已发货</span>
+							<if condition="$order.o_status eq '5'" >
+							已确认收货
+							<else />
+							未确认收货
+							</if>
+                        <else />
+                            <span style="margin-left:-2px;"  id="unship_{$order.o_id}">未发货</span>
+                        </if>
+                    </if>
+                   </span> 
+                </td>
+                <td style="width:52px" title="{$order.g_name}"><span class="proN">{$order.g_name}</span></td>
+                <td>
+				   <if condition="($order.refund_status eq '') && ($order.refund_goods_status eq '')">
+						暂无
+						<else />    
+						<span style='color:red;font-weight: bold;'>{$order.refund_status} {$order.refund_goods_status}</span>
+					</if>
+                </td>
+                <td>{$order.oi_nums}</td>
+                <td>{$order.o_all_price}</td>
+                <td>{$order.pc_name}</td>
+                <td>{$order.o_receiver_name}</td>
+                <!--<td>{ $order.o_receiver_mobile}</td>-->
+                <td>{$order.delivery_company_name}</td>
+                <td id="td_freight_{$order.o_id}">{$order.o_cost_freight}</td>
+                <td>{$order.m_name}</td>
+                <td>{$order.o_create_time}</td>
+                <td>{$order.o_update_time}</td>
+                <td>{$order.order_pay_time|default="0000-00-00 00:00:00"}</td>
+                <td>{$order.order_deliver_time|default="0000-00-00 00:00:00"}</td>
+                <td>{$order.admin_name}</td>
+                <td title="{$order.o_seller_comments}"><span class="comments" style="white-space:normal">{$order.o_seller_comments}</span></td>
+                <td>{$order.channel_id}</td>
+				<td>{$order.o_source}</td>
+			</tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="left page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display:none;">
+        <div id="ajax_loading">
+            <div id="ajaxsenddiv_loading">
+                <img src="__PUBLIC__/images/loading.gif" title="正在加载中..." style="margin-top:30px;"/>
+            </div>
+        </div>
+        <div id="orders_dialog">
+            
+            
+            
+        </div>
+        <div id="orders_price_edit"></div>
+        <div id="select_orders_property"></div>
+    </div>
+    
+</div>
+<script type="text/javascript">
+	//定义高度
+	var divHeight=$(document.body).outerHeight(true);
+	var height = (divHeight/2.6-10)+"px";
+	$("#wrap").css('height',height);
+    $(".ico_explort").click(function(){
+        var o_ids = new Array();;
+        $(".tbList input:checked[class='checkSon']").each(function(){
+            o_ids.push($(this).val());
+        });
+        var o_id = o_ids;
+        o_ids = o_ids.join(",");
+        $.ajax({
+            url:'{:U("Admin/Orders/getOrdersDialog")}',
+            cache:false,
+            dataType:'HTML',
+            data:{o_ids:o_ids},
+            type:'POST',
+            success:function(msgObj){
+                $("#orders_dialog").html(msgObj);
+                $("#orders_dialog").dialog({
+                    height:'300',
+                    width:'auto',
+                    resizable:false,
+                    modal:true,
+                    title:'订单导出',
+                    buttons: {
+                        '确认': function() {
+                            selectOrders();
+                            $("#orders_dialog").dialog('destroy');
+                            $('#pro_dialog').append($('#orders_dialog'));
+                        },
+                        '关闭': function() {
+                            $("#orders_dialog").dialog('destroy');
+                            $('#pro_dialog').append($('#orders_dialog'));
+                        }
+                    },
+                    close:function(){
+                        $("#orders_dialog").dialog('destroy');
+                        $('#pro_dialog').append($('#orders_dialog'));
+                    }
+                });
+            }
+        });
+    });
+    
+    function selectOrders(){
+        var data = new Object();
+        var start = parseInt($("#orders_start").val());
+        var end = parseInt($("#orders_end").val());
+        var type = $("input[name='orders_type']:checked").val();
+        data['orders_type'] = type;
+        var start_time = $("input[name='o_create_time_start']").val();
+        var end_time = $("input[name='o_create_time_end']").val();
+        var o_ids = '';
+        if(type == '0') {
+            if(start < 0 || end <= 0 || end <= start ){
+                alert("导出开始页必须小于结束页大小");return false;
+            }
+            data['start'] = start;
+            data['end'] = end;
+        }
+        else if(type == '1'){
+            o_ids = $(".order_ids").attr("o_ids");
+            data['o_ids'] = o_ids;
+            if(o_ids == ''){
+                alert("请选择需要导出的单据");return false;
+            }
+            if(start <= 0){
+                alert("输入有误请重新输入");return false;
+            }
+            if(end <= 0){
+                alert("输入有误请重新输入");return false;
+            }
+        }else if(type == '3'){
+            data['o_create_time_start'] = start_time;
+            data['o_create_time_end'] = end_time;
+            if(start_time == '' || end_time == ''){
+                alert("下单时间不能为空，请重新输入");return false;
+            }
+        }else if(type=='4'){
+			var requset = '{$get}';
+            if(requset == '[]'){
+                showAlert(false,"请先搜索后再导出订单");return false;
+            }
+			data['search'] = requset;
+			
+		}
+        $.post("{:U('Admin/Orders/selectOrdersPropetry')}",{},function(dataHTML){
+            $("#select_orders_property").html(dataHTML);
+            $("#select_orders_property").dialog({
+                    height:'auto',
+                    width:'auto',
+                    resizable:false,
+                    modal:true,
+                    title:'请选择要导出的可选字段',
+                    buttons: {
+                        '确认': function() {
+                            data['export_type'] = {};
+                            $('.goods_sale_property_checked').each(function(i){
+                                data['export_type'][$(this).attr('ename')] = {}
+                                data['export_type'][$(this).attr('ename')] = $(this).attr('e_value');
+                            });
+                            explortOrder(data);
+                            $("#select_orders_property").dialog('destroy');
+                            $('#pro_dialog').append($('#select_orders_property'));
+                        },
+                        '关闭': function() {
+                            $("#select_orders_property").dialog('destroy');
+                            $('#pro_dialog').append($('#select_orders_property'));
+                        }
+                    },
+                    close:function(){
+                        $("#select_orders_property").dialog('destroy');
+                        $('#pro_dialog').append($('#select_orders_property'));
+                    }
+                });
+        },'html')
+    }
+    
+    function explortOrder(data){
+        $.post('{:U("Admin/Orders/explortOrdersInfo")}',data,function(msgObj){
+            if(msgObj.status == '1'){
+                var url = "{:U('Admin/BalanceInfo/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+                window.location.href = url;
+                return false;
+            }else{
+                alert(msgObj.info);return false;
+            }
+        },"json");
+    }
+    /*高级搜索*/
+    $(".order_search").click(function(){
+        $.ajax({
+           url:'{:U("Admin/Orders/getOrdersSearch")}', 
+            cache:false,
+            dataType:"HTML",
+            data:{},
+            type:"POST",
+            success:function(msgObj){
+                $("#orders_dialog").html(msgObj);
+                $("#orders_dialog").dialog({
+                    width:'830',
+                    resizable:false,
+                    modal:true,
+                    title:'高级搜索'
+                });
+            }
+        });
+    });
+
+    
+    //修改订单价格
+    function EditOrderGoodsPrice(o_id) {
+           $.ajax({
+           url:'{:U("Admin/Orders/ajaxGetOrderItems")}', 
+            cache:false,
+            dataType:"JSON",
+            data:{"o_id":o_id},
+            type:"POST",
+            success:function(json){
+                if(json.success == 1) {
+                    var html = '<table class="tbList">';
+                    html += '<thead>';
+                    html += '<tr><th>订单总价:</th><th>'+json.data.o_all_price+'</th><th>商品总价:</th><th>'+json.data.o_goods_all_price+'</th><th>物流费用:</th><th>'+json.data.o_cost_freight+'</th><th>优惠券金额:</th><th>'+json.data.o_coupon_menoy+'</th><th colspan="4"><input type="hidden" id="new_price_oid" value="'+json.data.o_id+'"/><input type="hidden" id="orderm_m_id" value="'+json.data.m_id+'"/></th></tr>';
+                    html += '<tr><th>商品名称</th><th>商品编号</th><th>规格</th><th>销售价</th><th>购买价</th><th>数量</th><th>促销</th><th>新价格</th><th>可否修改价格</th><th>原因</td></tr></thead>';
+                    html += '<tbody>';
+                    var i=0;
+                    for(i in json.data.items) {
+                        html += ''+
+                         '<tr class="editGoodsinfo" pdt_sn="'+json.data.items[i].pdt_sn+'" pdt_id="'+json.data.items[i].pdt_id+'" g_id="'+json.data.items[i].g_id+'" oi_type="'+json.data.items[i].oi_type+'" oi_nums="'+json.data.items[i].oi_nums+'" oi_id="'+json.data.items[i].oi_id+'">'+
+                            '<td>'+json.data.items[i].g_name+'</td>'+
+                            '<td>'+json.data.items[i].g_sn+'</td>'+
+                            '<td>'+json.data.items[i].spec_value+'</td>'+
+                            '<td>'+json.data.items[i].pdt_sale_price+'</td>'+
+                            '<td>'+json.data.items[i].oi_price+'</td>'+
+                            '<td>'+json.data.items[i].oi_nums+'</td>'+
+                            '<td>'+json.data.items[i].promotion+'</td>';
+                            if (json.data.items[i].can_modify != 1) {
+                                html +=  '<td><input type="text"  class="new_price_input" value="" oi_nums="'+json.data.items[i].oi_nums+'" readonly="readonly" oi_id="'+json.data.items[i].oi_id+'"/></td>';
+                                html += '<td style="color:red">否</td>';
+                            } else {
+                                html +=  '<td><input type="text"  class="new_price_input" value="" oi_nums="'+json.data.items[i].oi_nums+'" onKeyUp="javascript:newPriceChange();"  oi_id="'+json.data.items[i].oi_id+'"/></td>';
+                                html += '<td>是</td>';
+                            }
+                            html += ''+
+                            '<td>'+json.data.items[i].not_modify_reason+'</td>'+
+                        '</tr>';
+                        i++;
+                    } 
+                  
+                    html += '<tr><td colSpan="6"></td><td>新商品总价：</td><td><input type="text" id="new_goods_total_price" value="" disabled style="width:80px;"/></td><td>新订单总价：</td><td><input type="text"  id="new_order_total_price" value="" disabled style="width:80px;"/></td></tr>';
+                    html += '<tr><td colSpan="10" id="new_price_result"> </td></tr>';
+                    html += '</tbody>';
+                    html += '</table>';
+                    $("#orders_price_edit").html(html);
+                    $("#orders_price_edit").dialog({
+                        height:'auto',
+                        width:'auto',
+                        resizable:true,
+                        modal:true,
+                        title:'订单高级搜索',
+                        closeOnEscpe:true,
+                        buttons:[
+                            {
+                                text:"计算总价",
+                                id:'dialog_calculate_price',
+                                click:function() {
+                                    var data = new Object();
+                                    data['o_id'] = $("#new_price_oid").val();
+                                    data['m_id'] = $("#orderm_m_id").val();
+                                    data['pageList'] = '1';
+                                    data['pro_pdt_sn'] = {};
+                                    data['pro_pdt_id'] = {};
+                                    data['pro_g_id'] = {};
+                                    data['pro_type'] = {};
+                                    data['pro_price'] = {};
+                                    data['pro_num'] = {};
+                                    $(".editGoodsinfo").each(function(i){
+                                        data['pro_pdt_sn'][i] = $(this).attr('pdt_sn');
+                                        data['pro_pdt_id'][i] = $(this).attr('pdt_id');
+                                        data['pro_g_id'][i] = $(this).attr('g_id');
+                                        data['pro_type'][i] = $(this).attr('oi_type');
+                                        data['pro_price'][i] = $("input[oi_id='"+$(this).attr('oi_id')+"']").val();
+                                        data['pro_num'][i] = $(this).attr('oi_nums');
+                                    });
+                                    $.post('{:U("/Admin/Orders/computePrice/")}',data,function(dataJson){
+                                        var new_order_total_price = (parseFloat(dataJson.ary_data.o_goods_all_price)+parseFloat(json.data.o_cost_freight)).toFixed(2);
+                                        $("#new_goods_total_price").val(dataJson.ary_data.o_goods_all_price);
+                                        $("#new_order_total_price").val(new_order_total_price);
+                                        for (x in dataJson.ary_orders_info){
+                                            var oi_price = dataJson.ary_orders_info[x]['oi_price'];
+                                            var oi_id = $(".editGoodsinfo[pdt_id='"+dataJson.ary_orders_info[x]['pdt_id']+"']").attr("oi_id");
+                                            $(".editGoodsinfo[pdt_id='"+dataJson.ary_orders_info[x]['pdt_id']+"']").children('td:eq(6)').html(dataJson.ary_orders_info[x]['pmn_name']);;
+                                            $("input[oi_id='"+oi_id+"']").val(oi_price);
+                                        }
+                                        $("#dialog_ok_modified").show();
+                                    },'json');
+                                }
+                            },
+                            {
+                                text:"确定修改",
+                                id:'dialog_ok_modified',
+                                style:'display:none',
+                                click:function() {
+                                    //return false;
+                                    $("#dialog_ok_modified").hide();
+                                    $("#new_price_result").html('<span style="color:green;">提交中,请稍后...</span>');
+                                    var priceData = new Object();
+                                    priceData['o_id'] = $("#new_price_oid").val();
+                                    priceData['m_id'] = $("#orderm_m_id").val();
+                                    priceData['pageList'] = '1';
+                                    priceData['pro_pdt_sn'] = {};
+                                    priceData['pro_pdt_id'] = {};
+                                    priceData['pro_g_id'] = {};
+                                    priceData['pro_type'] = {};
+                                    priceData['pro_price'] = {};
+                                    priceData['pro_num'] = {};
+                                    $(".editGoodsinfo").each(function(i){
+                                        priceData['pro_pdt_sn'][i] = $(this).attr('pdt_sn');
+                                        priceData['pro_pdt_id'][i] = $(this).attr('pdt_id');
+                                        priceData['pro_g_id'][i] = $(this).attr('g_id');
+                                        priceData['pro_type'][i] = $(this).attr('oi_type');
+                                        priceData['pro_price'][i] = $("input[oi_id='"+$(this).attr('oi_id')+"']").val();
+                                        priceData['pro_num'][i] = $(this).attr('oi_nums');
+                                    });
+                                    //return false;
+                                    $.ajax({
+                                       url:'{:U("Admin/Orders/ajaxUpdateOrderItemsPrice")}', 
+                                        cache:false,
+                                        dataType:"JSON",
+                                        data:priceData,
+                                        type:"POST",
+                                        success:function(json) {
+                                            if(json.success == 1) {
+                                                $("#new_price_result").html('<span style="color:green;">更新成功！</span>');
+                                            } else {
+                                                $("#new_price_result").html('<span style="color:red;">'+json.msg+'</span>');
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+                        ]
+                    });
+                } else {
+                    showAlert(false,'出错了',json.msg);
+                    return false;
+                }
+            }
+        });
+    }
+    
+    function newPriceChange() {
+         $("#new_goods_total_price").val('');
+         $("#new_order_total_price").val('');
+         $("#dialog_ok_modified").hide();
+         $("#new_price_result").html('');
+    }
+	
+    //设置备注
+    $(".setPoint").click(function(){
+        var _this = $(this);
+        var o_id = _this.attr('o_id');
+        var url = _this.attr('data-uri');
+        $.post(url,{'o_id':o_id},function(html){
+            $('#children_'+o_id).dialog({
+                height:300,
+                width:350,
+                resizable:false,
+                autoOpen: false,
+                modal: true,
+				title:'卖家备注',
+                buttons: { 
+                    '确定':function(){
+                        addPoint(o_id,$( this ));
+						$(".remarktable").remove();
+                    },
+                    '取消': function() {
+                        $( this ).dialog( "close" );
+                        $(".remarktable").remove();
+                    }
+                },
+				close:function(){
+					$(".remarktable").remove();
+				}
+            });
+            $('#children_'+o_id).dialog('open');
+            $('#children_'+o_id).html(html);
+        },'html');
+        
+    });
+    //添加备注
+    function addPoint(o_id,obj){
+        var url = "{:U('Admin/Orders/OrderRemarkUpdate')}";
+        var remark =$('#remark').val();
+        $.post(url, {'o_id':o_id,'remark':remark}, function(msgObj){
+            if(msgObj.status == '1'){
+                showAlert(true,'备注设置成功');
+                obj.dialog( "close" );
+                $(".remarktable").remove();
+                return false;
+            }else{
+                showAlert(false,'出错了',msgObj.info);
+                return false;
+            }
+                
+        }, 'json');
+    }
+
+    //订单审核
+    $(".check_audit").click(function(){
+        var o_id = $(this).attr("o_id");
+        $.ajax({
+           url:'{:U("Admin/Orders/checkAudit")}', 
+            cache:false,
+            dataType:"json",
+            data:{o_id:o_id},
+            type:"POST",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    showAlert(true,'订单审核成功');
+                	$("#hide_audit_"+o_id).css("display","none");
+                    $("#check_audit_"+o_id).css("display","");
+                }else{
+                	showAlert(false,msgObj.info);
+                }
+            }
+        });
+    });
+    //订单批量审核
+    $("#setAutoOrders").click(function(){
+        var o_id = '';
+        $(".checkSon:checked").each(function(){
+            o_id += this.value+',';
+        });
+        o_id = o_id.substring(0,o_id.length-1);
+        if(o_id == ''){
+            showAlert(false,'请选择要审核的订单');return false;
+        }
+        $.ajax({
+           url:'{:U("Admin/Orders/checkAudit")}', 
+            cache:false,
+            dataType:"json",
+            data:{o_id:o_id},
+            type:"POST",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    showAlert(true,'订单审核成功');
+                    $(".checkSon:checked").each(function(){
+                        $("#hide_audit_"+this.value).css("display","none");
+                        $("#check_audit_"+this.value).css("display","");
+                    });
+                	
+                }else{
+                	showAlert(false,msgObj.info);
+                }
+            }
+        });
+    });
+    function overOrders(oid,obj){
+        if(!confirm("订单完结后不能做修改和售后操作,确认?")){
+            return false;
+        }
+        $.ajax({
+            url:'{:U("Admin/Orders/overOrder")}',
+            dateType:'json',
+            data:{oid:oid},
+            type:'POST',
+            success:function(msg){
+                if(msg.status){
+                    $(obj).parent().parent().next().next().next().children().html('完结');
+                    $(obj).remove();
+                }
+                showAlert(msg.status,msg.msg);
+            }
+        
+        });
+    }
+	//设置新物流费用(前提是订单未支付)
+    $(".setFreight").click(function(){
+        
+        var _this = $(this);
+        var o_id = _this.attr('o_id');
+        var url = _this.attr('data-uri');
+        $.post(url,{'o_id':o_id},function(html){
+            $('#children_f_'+o_id).dialog({
+                height:300,
+                width:420,
+                resizable:false,
+                autoOpen: false,
+                modal: true,
+                buttons: { 
+                    '确定':function(){
+                                    
+                        FeightUpdate(o_id,$( this ));
+                    },
+                    '取消': function() {
+                        $( this ).dialog( "close" );
+                        $('#children_f_'+o_id).hide();
+                    }
+                }
+            });
+            $('#children_f_'+o_id).dialog('open');
+            $('#children_f_'+o_id).html(html);
+        },'html');
+        
+    });
+    
+    //修改物流费用
+    function FeightUpdate(o_id,obj){
+        var url = "{:U('Admin/Orders/OrderFreightUpdate')}";
+        var tzfx =$('#tzfx_'+o_id).find('option:selected').val();
+        var tzje =$('#tzje_'+o_id).val();
+       
+        $.post(url, {'o_id':o_id,'tzje':tzje,'tzfx':tzfx}, function(msgObj){
+            if(msgObj.status == '1'){
+                
+                showAlert(true,'物流费用修改成功');
+                obj.dialog( "close" );
+                $('#children_f_'+o_id).hide();
+				var td_freight = $('#td_freight_'+o_id);
+				if(tzfx==1) td_freight.html((parseFloat(td_freight.html()-parseFloat(tzje))).toFixed(3));
+				else td_freight.html((parseFloat(td_freight.html())+parseFloat(tzje)).toFixed(3));
+                return false;
+            }else{
+                showAlert(false,'出错了',msgObj.info);
+                return false;
+            }
+                
+        }, 'json');
+    }
+
+	//跳转到订单详情页
+    function openOrderDetail(oid) {
+    	window.open("{:U('Admin/Orders/pageDetails')}?o_id="+oid);
+    	return false;
+    }
+</script>

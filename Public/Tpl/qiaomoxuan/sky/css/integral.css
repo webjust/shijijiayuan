@@ -1,0 +1,52 @@
+a,abbr,acronym,address,applet,big,blockquote,body,caption,cite,code,dd,del,dfn,div,dl,dt,em,fieldset,font,form,h1,h2,h3,h4,h5,h6,html,iframe,img,input,ins,kbd,label,legend,li,object,ol,p,pre,q,s,samp,select,small,span,strike,strong,sub,table,tbody,td,textarea,tfoot,th,thead,tr,tt,ul,var{margin:0;padding:0}
+.wrapT{background:url(../images/bg2.png) 0 0 repeat}
+.wrap{z-index:2}
+.tgList{overflow:hidden}
+.prtad{box-shadow:0 5px 5px rgba(0,0,0,.1)}
+.tgOne{padding-top:30px}
+.tg_Nav{padding:8px 0;background-color:#FFF;overflow:hidden;border-bottom:2px solid #dcdcdc}
+.tg_Nav p{float:left;width:70px;text-align:center;font-size:16px;line-height:22px;margin-left:5px;margin-top:0;text-indent:0}
+.tg_Nav p a{color:#F61D4B}
+p.tgL_img{text-indent:0}
+ul{padding:0;margin:0}
+ol,ul{list-style:none}
+.tg_Nav ul{margin-left:20px;padding-left:10px;font-size:14px;border-left:1px solid #DCDCDC;float:left}
+.tg_Nav ul li{float:left}
+.tg_Nav ul li a:hover,.tg_Nav ul li.cur a{background-color:#ff658e;color:#FFF}
+.tg_Nav ul li a{display:block;position:relative;padding:2px 9px;text-align:center;color:#666;white-space:nowrap;margin-right:10px}
+.tgL{margin-top:15px}
+.tgL .tgL_t{background:transparent url(../images/title_bg1.png) no-repeat scroll 0 0;height:45px;width:210px}
+.tgL .tgL_t h2{color:#fff;padding-left:62px;line-height:45px}
+.guide-bd{overflow:hidden}
+.abs{position:absolute}
+.guide-bd li{display:inline;width:380px;margin:10px 0 0 10px;position:relative;height:380px}
+.tgL_title{left:0;right:0;bottom:0;height:100px;color:#fff;background-color:#fff}
+.tgL_name{padding:9px 12px;border-bottom:1px dashed #eee;line-height:22px}
+.tgL_name span{font-size:16px;color:#333;font-weight:700;line-height:24px;width:260px;display:inline-block;float:left;max-height:48px;overflow:hidden;text-overflow:ellipsis}
+.tgL_name em{color:#666;font-size:14px;position:absolute;right:12px;font-style:normal}
+.tgL_price{color:#db2342;font-size:12px;line-height:1.5;padding:9px 12px;left:0;bottom:0;position:absolute}
+.tgL_price i{color:#666;font-style:normal;margin-left:6px;text-decoration:line-through}
+.tgL_price em{font-size:20px;font-style:normal;font-weight:700}
+.tgL_tip .tip{background:url(../images/bg5.png) no-repeat;height:26px;padding:0 9px 0 13px;position:relative;line-height:22px;left:-5px;float:left}
+.tgL_btn{border:none;outline:0;cursor:pointer;font-family:inherit;display:inline-block;background:url(../images/bg4.png) no-repeat center center;background-size:120px 40px;width:100px;padding-top:8px;height:32px;color:#fff;font-size:16px;padding-right:20px;text-align:center;float:left;margin-right:1px}
+.tgL_btn{position:absolute;bottom:0;right:0}
+.fl{float:left!important}
+.tgL_tip{top:0;left:0;font-size:14px;color:#fff}
+.fenye{height:40px;font-size:0;text-align:center;margin:25px 0}
+.fenye a{display:inline-block;height:38px;line-height:38px;margin-left:-1px;padding:0 14px;background:#fff;border:1px solid #E5E5E5;color:#333;font-size:14px}
+.activityA{padding:12px 0;padding-left:53px;margin-left:12px;background:#D8243A url(../images/tgB.png) 25px 11px no-repeat}
+.activityA1{background:#D8243A url(../images/tgE.png) 25px 11px no-repeat}
+.activityA p{color:#fff}
+.activityA p span{color:#FC0;font-weight:700}
+.finished { background:url(../images/bg41.png) no-repeat center center; }
+.tgL_img a img{ vertical-align:top;}
+.guide-bd li {
+    display: inline;
+    width: 380px;
+    margin: 10px 0 0 10px;
+    position: relative;
+    height: 480px;
+}
+.proDOL{
+    top: 0px;
+}

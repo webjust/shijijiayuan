@@ -1,0 +1,70 @@
+
+/*自由搭配   开始*/
+.tuanNav table th span.classi { background-position:0px -122px; padding-left:15px;}
+.tgL_btn label span.addDP,.tgL_btn label span.addDP02 { position:absolute; bottom:0px; right:0px; text-align:left; text-indent:-999px; overflow:hidden; background:url(../images/adddapei.png) no-repeat; width:127px; height:44px;}
+.tgL_btn label span.addDP02 { background-position:0px -44px;}
+
+.dp { height:auto}
+.titD h2 span.dps { width:128px;}
+.titD h2 a.cancel { background:#2A80D1; text-align:center; text-indent:0px; color:white; width:78px; height:28px; line-height:28px; margin-top:0px;text-decoration: none;}
+.dap { display:inline-block; width:100%; background:#f2f2f2; padding-bottom:20px;}
+.dapC { width:960px; margin:0 auto;}
+.dapContent { float:left; width:792px; margin-top:10px; overflow-x:auto; overflow-y:hidden;}
+.dapContent div { float:left; width:164px;}
+.dapContent span { float:left; width:120px;}
+.dapContent span a.proP { display:block; border:1px solid #CCCCCC;}
+.dapContent span a.proP img { display:block;}
+.dapContent span a.proN { display:block; line-height:18px; height:36px; overflow:hidden;}
+.dapContent span label { color:#AC0000}
+.dapContent span p input { float:left; margin-top:3px;}
+.dapContent span p a.delet { float:right; color:#5f1785}
+.dapContent i { float:left; background:url(../images/dpjia.png) no-repeat; width:34px; height:34px; margin:45px 5px 0px 5px;}
+p.dpP { float:left; padding-left:50px; background:url(../images/dpd.png) no-repeat 7px -113px; padding-top:20px;}
+p.dpP span,p.dpP strong,p.dpP a { display:block;}
+p.dpP span { margin:8px 0px;}
+p.dpP strong { color:#AC0000; font-size:20px;}
+p.dpP span.ls { color:#009966; font-size:14px;}
+p.dpP a { width:116px; height:43px; overflow:hidden; text-indent:-999px; text-align:left; background:url(../images/buynow.png) no-repeat;}
+/*自由搭配   结束*/
+
+/*对比页 弹层 开始*/
+.contrast { height:auto; position:fixed; bottom:0px; width:100%;z-index: 1100;margin-bottom:-8px}
+.titD { height:28px; border-bottom:3px solid #5f1785;}
+.titD h2 { height:28px; margin:0 auto; border-bottom:3px solid #5f1785; width:960px;}
+.titD h2 span { float:left; width:84px; height:28px; text-align:center; line-height:28px; color:white; font-size:18px; background:#2A80D1;}
+.titD h2 a { float:right; width:70px; height:28px; text-align:center; background:#e5582b; color:white; font-size:18px;}
+.contC { height:151px; background:white;}
+.contC div { width:960px; margin:0 auto;}
+.contC ul { float:left; height:151px; background:url(../images/contra.png) no-repeat; width:867px;}
+.contC ul li { display:inline; float:left; width:201px; height:151px; overflow:hidden; margin-right:12px;}
+.contC ul li dl { padding-top:50px; background:white; height:100px;}
+.contC ul li dt,.contC ul li dd { float:left;}
+.contC ul li dt { width:50px;}
+.contC ul li dt img { display:block;}
+.contC ul li dd { margin-left:10px; width:132px;}
+.contC ul li dd a.proN { display:block; line-height:1.5em; height:3em; overflow:hidden;}
+.contC ul li dd p { height:20px; line-height:20px;}
+.contC ul li dd p strong { float:left; color:#ac0000;}
+.contC ul li dd p a { float:left; margin-left:10px; color:#005AA0}
+
+.contC p.gray { float:left; width:90px; text-align:center; padding-top:51px;}
+.contC p.gray a.contrA { display:block; width:70px; height:32px; line-height:32px; color:white; background:#ff9b2e; font-weight:bold; margin-bottom:5px;}
+.contC p.gray a.contrA:hover{background: #c7c7c7;}
+.contC p.gray a.delAll { color:#999; width:70px;}
+.contC p.brown a.contrA { background:#e78505;}
+.contC p.gray a.delAll { color:#e5582b}
+/*对比页 弹层 结束*/
+
+/*对比内容页  开始*/
+.contrastCon { background:white; margin-top:20px;}
+.contrastCon table { width:100%;}
+.contrastCon table td { border:1px solid #ddd; text-align:center; padding:15px; color:#333}
+.contrastCon table thead td { height:32px; line-height:32px; background:#F7F7F7;text-align:left; font-size:14px; padding:5px 0px 0px 15px;}
+.contrastCon table .red { color:#C00}
+.contrastCon table .gray { color:#999}
+.contrastCon table .blue { color:#005EA7}
+.contrastCon table tbody td p { width:140px; margin:0 auto;}
+.contrastCon table a img { display:block; margin:0 auto}
+.contrastCon table h2 { font-family:微软雅黑; font-size:25px;}
+.contrastCon table strong { font-family:verdana; font-size:14px;}
+/*对比内容页  结束*/

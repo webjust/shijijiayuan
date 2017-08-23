@@ -1,0 +1,16 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>快钱支付接口PHP版</title>
+    </head>
+    <body onLoad="javascript:document.E_FORM.submit();">
+        <form method="post" name="E_FORM" action="https://www.99bill.com/gateway/recvMerchantInfoAction.htm">
+            <volist name="data" id="li">
+                <input type="hidden" name="{$key}" value="{$li}" />
+            </volist>
+            <input type="hidden" name="signMsg" value="{$signmsg}" />
+        </form>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<script>
+    var IS_ON_MULTIPLE = '{$is_on_mulitiple}';
+</script>
+<link href="__PUBLIC__/Ucenter/css/Products.css" rel="stylesheet">
+<script src="__PUBLIC__/Ucenter/js/products.js"></script>
+<div class="contentRightBox"><!--contentRightBox start-->
+    <div class="pageList"><!--pageList start-->
+        <h2 class="publicH2"><span>商品编号下单</span></h2>
+        <form name="goodsQuickForm" id="goodsQuickForm" action="#" method="post">
+            <table id="tbQuickForm">
+                <tr>
+                    <td width="480px" valign="top">
+                        <i>商品编号：</i>
+                        <input type="text" name="pdtsn" class="pdtsn" pdt-id="" validate="" />
+                    </td>
+                    <td width="480px" valign="top">订购数量：
+                        <input disabled="disabled" type="text" name="" class="cartNum QuickOrder" value="" data-min="" data-init="" validate="{ number:true,digits:true,min:0,messages:{ number:'{$Think.lang.FOMART_ERROR}',digits:'{$Think.lang.FOMART_ERROR}',min:'{$Think.lang.STOCK_ERROR}'}}" />
+                        <span class="red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td width="480px" valign="top"><i>商品编号：</i><input type="text" name="pdtsn" class="pdtsn" pdt-id="" validate="" /></td>
+                    <td width="480px" valign="top">订购数量：<input disabled="disabled" type="text" name="" data-min="" data-init="" class="cartNum QuickOrder" value="" validate="{ number:true,digits:true,min:0,messages:{ number:'{$Think.lang.FOMART_ERROR}',digits:'{$Think.lang.FOMART_ERROR}',min:'{$Think.lang.STOCK_ERROR}'}}" /><span class="red"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td width="480px" valign="top"><i>商品编号：</i><input type="text" name="pdtsn" class="pdtsn" pdt-id=""  validate="" /></td>
+                    <td width="480px" valign="top">订购数量：<input disabled="disabled" type="text" name="" data-min=""  data-init="" class="cartNum QuickOrder" value="" validate="{ number:true,digits:true,min:0,messages:{ number:'{$Think.lang.FOMART_ERROR}',digits:'{$Think.lang.FOMART_ERROR}',min:'{$Think.lang.STOCK_ERROR}'}}" /><span class="red"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+            </table>
+            <a href="javascript:void(0);" class="newMore" id="newMore">+新增一行</a>
+            <a href="javascript:void(0);" class="newMore" id="removeMore">-删除一行</a>
+            <p>
+                <button class="blue" type="button" id="goodsQuickSubmit" disabled="true">加入购物车</button>
+                <button class="brown reset" type="reset">重 置</button>
+            </p>
+        </form>
+        <div class="clear"></div>
+
+        <div id="insertDiv" style="display: none;">
+            <table>
+                <tr>
+                    <td width="480px" valign="top"><i>商品编号：</i><input type="text" name="pdtsn" class="pdtsn" pdt-id="" validate="" /></td>
+                    <td width="480px" valign="top">订购数量：<input disabled="disabled" type="text" name="" data-min="" data-init="" class="cartNum QuickOrder" value="" validate="{ number:true,digits:true,min:0,messages:{ number:'{$Think.lang.FOMART_ERROR}',digits:'{$Think.lang.FOMART_ERROR}',min:'{$Think.lang.STOCK_ERROR}'}}" /><span class="red"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+            </table>
+        </div>
+    </div><!--pageList end-->
+</div><!--contentRightBox end-->

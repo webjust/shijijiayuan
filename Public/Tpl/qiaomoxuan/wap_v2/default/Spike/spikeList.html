@@ -1,0 +1,127 @@
+
+<div class="warp">
+    <div class="head">
+    	<p>限时抢购</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/Ucenter/index')}" class="gwc1" style="right: 42px;top: 8px;"></a>
+        <a href="{:U('Wap/Index/index')}" class="gwc2" style="right: 2px;top: 7px;"></a>
+		<!--
+        <a href="javascript:void(0);" class="sch"></a>-->
+    </div>
+    <input type="hidden" id="startNum" value="2" />
+    <div class="proList">
+    	<ul id="productList">
+			 <volist name="data" id="list">
+            <li class="clearfix">
+            	<a href="{:U('Wap/Spike/detail')}?sp_id={$list['sp_id']}" class="img"><img src="{$Think.config.DOMAIN_HOST}{$list.sp_picture|showImage=###,100,100}" width="100" height="100" /></a>
+                <div class="proM" style="font-size:14px;">
+                	<a href="{:U('Wap/Spike/detail')}?sp_id={$list['sp_id']}"  title="{$list.sp_title}" class="proN">{$list.sp_title}</a>
+                    <p><i>&yen;</i><strong>{$list.sp_price|sprintf='%.2f',###}</strong></p>
+                    <span><label>{$list['sp_now_number']}</label>人购买</span>
+					<php>$time = date("Y-m-d H:i:s");</php>
+					<php>if($time <= $list['sp_start_time']){</php>
+						<div id="showGroupTime{$list['sp_id']}" class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;"><label id="showText{$list['sp_id']}">距开始还有：</label><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+						<script>setGroupbuyTime('{$list.sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$list.sp_end_time}',"{$list['sp_id']}","{$list['g_id']}");</script>
+					<php>}elseif($time >= $list['sp_end_time']){</php>
+						<div class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+					<php>}else{</php>
+						
+						<div id="showGroupTime{$list['sp_id']}" class="gpendtime qproPriceB" style="font-size:14px;margin-top:8px;">剩余时间：<label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</div>
+						<script>setGroupbuyTime('{$list.sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$list['sp_id']}","{$list['g_id']}");</script>
+					<php>}</php>					
+					
+                </div>
+            </li>			 
+
+			</volist>           
+        </ul>
+        <div id="loading" class=" clearfix" style="display: none;">正在加载...</div>
+    </div> 
+    
+</div>
+ <!--筛选 结束-->
+<script type="text/javascript">
+    $.extend({
+        //获取所有的url参数
+        getUrlVars: function(){
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        },
+        //获取某个url参数
+        getUrlVar: function(name){
+            return $.getUrlVars()[name];
+        }
+    });
+    $(function(){
+        
+        //监听滚动条
+        var range = 150;             //距下边界长度/单位px
+        var can_ajax = true;
+        var end_product_list = false;
+        $(window).scroll(function(){
+            if(end_product_list){
+                return ;
+            }
+            var windowHeight=$(window).height();//浏览器窗口高度
+            var scrollTopHeight=$(window).scrollTop();//滚动条顶部距离窗口顶部的高度（页面超出窗口的高度）
+            var winAndScrollHeight=windowHeight+scrollTopHeight;//浏览器窗口高度加上滚动条顶部高度    
+            var contentHeight=$("body").height();//内容高度
+            if(winAndScrollHeight >= (contentHeight - range)) { //当相等时代表已经到了页面最底部
+                
+                loadproducts();
+            }
+        
+        });
+        
+        function loadproducts(){
+            if(!can_ajax){
+                return ;
+            }
+            if((window.location.href.indexOf('?') + 1) == 0){
+                var query_string = 'r='+(Math.floor(Math.random()*10000)+1);
+            }else{
+                var query_string = window.location.href.slice(window.location.href.indexOf('?') + 1);
+            }
+            
+            var startNum = parseInt($("#startNum").val());
+            $.ajax({
+                url: "/Wap/Spike/ajaxSpikeList",
+                type : 'GET',
+                data: query_string+"&start="+startNum,
+                beforeSend: function(){
+                    can_ajax = false;
+                    $("#loading").show();
+                    // Handle the beforeSend event
+                },
+                complete : function(Jdata){
+                    can_ajax = true;
+                    $("#loading").hide();
+//                    console.log(jQuery.parseJSON(Jdata.responseText).data.html);return;
+                    if(Jdata.status){
+                        if(jQuery.parseJSON(Jdata.responseText).data.html){
+                            $("#productList").append(jQuery.parseJSON(Jdata.responseText).data.html);
+                            $("#startNum").val(startNum += 1);
+                        }else{
+                            end_product_list = true;
+                        }
+                    }else{
+                        
+                    }
+                },
+                dataType : "json"
+            });
+        }
+        
+        
+
+    });
+    
+</script>
+</html>

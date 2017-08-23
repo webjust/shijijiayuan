@@ -1,0 +1,217 @@
+
+<div class=bannerBox>
+    <div class=slideBoxNav>
+        <gyfx:advertising name='nav'  position="banner">
+          <a href="javascript:void(0)"></a>
+        </gyfx:advertising>
+    </div>
+    <div class=slideBox>
+        <ul>
+          <gyfx:advertising name='nav'  position="banner">
+            <li style="background: url({$nav.nimgurl}) no-repeat center top;background-size:auto 480px;">
+              <a href="{$nav.naurl}" target="{$nav.ntarget}" ><p></p></a>
+            </li>
+          </gyfx:advertising>
+          <div style="clear:both;"></div>
+        </ul>
+    </div>
+</div>
+
+<div class="brand_title_box">
+    <div class="tt_nav_box">
+        <div class="tt_nav_title">
+            <div class="tt_nav">
+                <a href="/Home/Index/index/v/2">首页</a> > <a class="spe">品牌中心</a>
+                <php>$ary_tmp_cate = array();</php>
+                <Gyfx:catebreadcrumb name='cate'  cid="{$ary_request.cid}">
+                    <if condition="$cate.gcname neq ''">
+                        <a href="{$cate.gcurl}">{$cate.gcname}</a>
+                    </if>
+                    <php>$ary_tmp_cate[] = $cate['gcid'];</php><!-- 将一级分类保存在变量中 -->
+                </Gyfx:catebreadcrumb>
+                <present name="ary_request.name">
+                    {$ary_request.name}
+                </present>
+            </div>
+            <div class="brand_title_search">
+                <div>
+                    <input type="text" placeholder="请输入您想找的品牌"/>
+                    <a href="#"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="brand_nav" id="brand_nav">
+    <div class="brand_nav_search">
+         <div class="brand_nav_search_title">首字母快速筛选：</div>
+         <p>
+             <volist name="letters" id="lt">
+                 <a href="" name="gb_letter" >{$lt.name}</a>
+             </volist>
+         </p>
+    </div>
+    <div class="brand_nav_country">
+        <div class="brand_nav_search_title">国&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</div>
+        <p>
+            <volist name="countryList" id="ppcl">
+                <a href="" name="gb_region" >{$ppcl.country_name}</a>
+            </volist>
+            <!--<if condition="$lt.name eq $gb_letter">class='seled'</if>-->
+            <!--<a>-->
+                <!--<span>欧美</span>-->
+                <!--<div class="toggle_country">-->
+                    <!--<div>-->
+                        <!--<div class="toggle_country_ico"></div>-->
+                    <!--</div>-->
+                    <!--<ul>-->
+                        <!--<li><a href="#">美国</a></li>-->
+                        <!--<li><a href="#">英国</a></li>-->
+                        <!--<li><a href="#">法国</a></li>-->
+                        <!--<li><a href="#">德国</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</a>-->
+        </p>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#brand_nav a").hover(function () {
+                    $(this).addClass("seling");
+                },function () {
+                    $(this).removeClass("seling");
+                }
+        );
+        $("#brand_nav p a").click(function () {
+            $(this).parents("p").children("a").each(function () {
+                $('a',this).removeClass("seled");
+            });
+            $(this).attr("class", "seled");
+            RetSelecteds();
+            var kkkk=RetSelecteds();
+            var kkkkk=$(this).attr('name');
+            if(kkkkk=="gb_letter"){
+                var kkk=kkkk.split("/gb_letter/");
+                var k=kkk[1].split("/");
+                k.shift();
+                if((k!=null)&&k!=""){
+                    k="/"+k.join("/");
+                    $(this).attr("href",kkk[0]+"/gb_letter/"+$(this).html()+k);
+                }else{
+                    $(this).attr("href",kkk[0]+"/gb_letter/"+$(this).html());
+                }
+            }else{
+                var kkk=kkkk.split("/gb_region/");
+                var k=kkk[1].split("/");
+                k.shift();
+                if((k!=null)&&k!=""){
+                    k="/"+k.join("/");
+                    $(this).attr("href",kkk[0]+"/gb_region/"+$(this).html()+k);
+                }else{
+                    $(this).attr("href",kkk[0]+"/gb_region/"+$(this).html());
+                }
+            }
+            var $href=window.location.href;
+        });
+    });
+    function RetSelecteds() {
+        var result = window.location.href;
+        $("#brand_nav p a[class='seled']").each(function () {
+            result +="/"+$(this).attr("name")+"/"+$(this).html();
+        });
+        return result;
+    }
+</script>
+<div id="ppct">
+    <div class="ppctBox">
+        <div class="ppctList">
+             <ul>
+                 <volist name="brandList" id="bl">
+                     <li>
+                         <div><a href="" id="{$bl.gb_id}"><img src="{$bl.gb_logo}" alt=""/></a></div>
+                     </li>
+                 </volist>
+             </ul>
+        </div>
+    </div>   
+</div>
+<div class="main4">
+    <div id="plist">
+        <ul>
+            <Gyfx:goodslist name="showlist" bid="$ary_request['bid']" cid="$ary_request['cid']" tid="$ary_request['tid']" gname="$ary_request[keyword]"
+                            startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" path="$ary_request[path]"
+                            order="$ary_request[order]"
+                            pagesize="24" start="$ary_request['start']" mod='4' >
+                <li <eq name='mod' value="3"> class="last"</eq> >
+                <div class="lh_wrap">
+                    <div class="1h_wrap_content h_wrap_content">
+                        <div class="p-img"><a href="{$showlist.gurl}" target="_blank"><img alt="" src="{$Think.config.DOMAIN_HOST}{$showlist.gpic|showImage=###,220,220}"></a></div>
+                        <div class="p-name"><a href="{$showlist.gurl}" target="_blank"><span>{$showlist.gdescription}</span>{$showlist.gname}</a></div>
+                        <div class="p-intro">产品功能</div>
+                        <div class="btns">
+                            <div class="p-price"><span class="price">￥<strong>{$showlist['gs_price']}</strong></span><!--<span class="extra">&nbsp&nbsp&nbsp<strong>{$showlist.comment_nums}</strong>人已经购买</span>--></div>
+                            <a href="javascript:void(0)" <if condition="$showlist['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$showlist.authorize}','{$showlist.gid}');"<else />onClick='addGoodsCartElse("{$showlist.gid}","{$showlist.authorize}");'</if> class="add_cart_large btnCart" _src="{$Think.config.DOMAIN_HOST}{$showlist.gpic|showImage=###,220,220}">立即购买</a>
+                            <!--<a href="javascript:addToInterests('{$showlist.gid}');" class="add_cart_small"><img src="__TPL__images/gray_love.png" alt="">收藏</a>-->
+                        </div>
+                        <if condition="$showlist['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                            <input type="hidden" name="type" value="item" id="item_type_{$showlist.gid}" />
+                            <input type="hidden" value="{$showlist.pdt_id}" name="pdt_id" id="pdt_id_{$showlist.gid}" />
+                            <input type="hidden" value="{$showlist.pdt_stock}" name="pdt_stock" id="pdt_stock_{$showlist.gid}" />
+                            <input type="hidden" value="1" id="item_num_{$showlist.gid}" name="num" />
+                        </if>
+                    </div>
+                    <div class="heart_shape">
+                        <div class="heart_shape_box">
+                            <div class="heart_shape_l"></div>
+                            <div class="heart_shape_f"></div>
+                            <div class="heart_shape_t"></div>
+                        </div>
+                    </div>
+                    <div class="buy_shop">
+                        <a></a>
+                    </div>
+                    <div class="wrap_float_content">
+                        <div class="wrap_float_content_left"></div>
+                        <div class="wrap_float_content_middle">
+                            <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                            <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                            <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                            <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                            <a><img src="__TPL__images/star_ico.png" alt=""/></a>
+                        </div>
+                        <div class="wrap_float_content_right"></div>
+                    </div>
+                </div>
+                </li>
+            </Gyfx:goodslist>
+        </ul>
+    </div>
+    <div id="flyItem" class="fly_item"><img _src="__TPL__images/item-pic.jpg" width="40" height="40"></div>
+</div>
+<div id="ppctList">
+    <div class="ppctList">
+        <ul>
+            <li>
+                <div>
+                    <a href=""></a>
+                </div>
+                <div>
+                    <a href=""></a>
+                </div>
+                <div>
+                    <a href=""></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(".ppctList ul li").on("click","a",function(){
+        var id=$(this).attr("id");
+        var newUrl="/Home/Products/index/v/2/"+"bid/"+id;
+        $(this).attr("href",newUrl);
+    });
+</script>
+<script>
+</script>

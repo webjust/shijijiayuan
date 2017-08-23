@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<link rel="stylesheet" href="__UCSS__ucenter.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+<script type="text/javascript" src="__UJS__jquery.raty.min.js"></script>
+
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a  href="javascript:void(0);" onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">订单评论</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javaScript:void(0)">-->
+                <!--<span class="headmore"></span>-->
+            <!--</a>-->
+        <!--</div>-->
+    </div>
+</div>
+<form id="evalform" method="post" action='{:U("Wap/Orders/addComment")}' enctype ="multipart/form-data" onsubmit="return checkform();">
+<div class="container">
+    <!--container-->
+    <div class="shopCart">
+        <!--detailTop-->
+        <div class="orderO"><!--orderO 开始-->
+            <!--<div class="orderState">-->
+                <!--<h1>订单状态 <span>未付款</span> <b>订单编号：2222442222</b></h1>-->
+            <!--</div>-->
+            <div class="orderOT">
+                <ul>
+                    <volist name="orders_goods_info" id="goods_info">
+                        <li>
+                            <a href='{:U("Wap/Products/detail","gid=$goods_info[g_id]")}' class="proPic">
+                                <img src="{$goods_info.g_picture|default='__IMAGES__banner.jpg'}">
+                            </a>
+                            <div class="orderDR">
+                                <a href='{:U("Wap/Products/detail","gid=$goods_info[g_id]")}' class="proN">
+                                    {$goods_info.oi_g_name|msubstr=###,0,10}
+                                </a>
+                                <p>{$goods_info.pdt_spec}</p>
+                                <p>价格:<span>{$goods_info.oi_price}元</span></p>
+                            </div>
+                            </li>
+
+                            <!--订单图片信息1结束-->
+                            <div class="edit-comment mt15">
+                                给商品评分
+                                <div id="function-demo{$goods_info.pdt_id}"  data-score="5"  class="target-star function-demo"></div>
+                                <div id="function-hint{$goods_info.pdt_id}" class="hint"></div>
+                            </div>
+                            <input type="hidden" class="gcom_star_score" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][gcom_star_score]" value="100" />
+                            <input type="hidden" class="g_name" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][g_name]" value="{$goods_info.oi_g_name}" />
+                            <input type="hidden" value="{$goods_info.pdt_spec}" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][pdt_spec]" />
+                            <!--商品名称-->
+                            <input type="hidden" value="{$goods_info.oi_g_name}" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][oi_g_name]" />
+                            <div class="userEdit calEdit">
+                                <div class="infoL">
+                                    <div class="orderA"><span>心得</span>
+                                        <div class="textareaA">
+                                            <textarea class="input_textarea" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][comment]"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <input type="hidden" value="{$goods_info.g_id}" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][g_id]" />
+
+                    </volist>
+                </ul>
+            </div>
+        </div>
+        <div class="infoB infoB1">
+            <input type="hidden" value="{$oid}" name="oid">
+            <label><input type="checkbox" name="anony" value="1"/>匿名评论</label>
+            <input  type="submit" class="gobuy after" value="发表评价"/>
+        </div>
+    </div>
+</div>
+</form>
+<input hidden="hidden" id="defaultpath" value="__TPL__/Ucenter/images">
+
+<!--/container-->
+<script type="text/javascript">
+    $(function() {
+//        $.fn.raty.defaults.path = 'lib/img';
+        var path = $('#defaultpath').val();
+        $(".function-demo").each(function(){
+            var demo =  '#'+ $(this).attr('id');
+            $(demo).raty({
+                number: 5,//多少个星星设置
+                targetType: 'hint',//类型选择，number是数字值，hint，是设置的数组值
+//            path      : 'star/demo/img',
+                path: path,
+                hints: ['不满意', '', '一般', '', '五星好评'],
+                cancelOff: 'cancel-off-big.png',
+                cancelOn: 'cancel-on-big.png',
+                size: 24,
+                starHalf: 'star-half-big.png',
+                starOff: 'star-off-big.png',
+                starOn: 'star-on-big.png',
+                target: $(this).next(),
+                cancel: false,
+                targetKeep: true,
+                targetText: '请选择评分',
+                score: function() {
+                    return $(this).attr('data-score');
+                },
+                click: function (score, evt) {
+                    $(this).parent().parent().next().val(score*20);
+                }
+            });
+
+        });
+    });
+
+</script>

@@ -1,0 +1,14 @@
+{__NOLAYOUT__}
+<ul style="list-style: none;">
+	<!-- 卖家发货信息 -->
+	<li>
+		<span class="time">{$delivery_info.od_created}</span>
+		<span class="context">卖家已发货。</span>
+	</li>
+	<volist name="post_track_info" id="vo">
+	<li>
+		<span class="time">{$vo.time}</span>
+		<span class="context">{$vo.context}</span>
+	</li>
+	</volist>
+</ul>

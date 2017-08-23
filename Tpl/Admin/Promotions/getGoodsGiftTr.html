@@ -1,0 +1,109 @@
+{__NOLAYOUT__}
+<tbody >
+<volist name="rGoods" id="goods"> 
+    <tr class="selected_goods_tr_{$goods.g_id}">
+        <td style="text-align:center;">{$goods.g_name}</td>
+        <td style="text-align:center;"><span class="blue">{$goods.g_sn}</span></td>
+        <td style="text-align:center;">{$goods.g_price}</td>
+    <if condition="$filter.type neq 'add'">
+        <eq name="goods_page" value="PYIKOUJIA">
+            <td style="text-align:center;">
+                <input type="text" onblur="shortcut({$goods.g_id})" id="shortcut_goods_{$goods.g_id}" validate="{ number:true}" name="cfg_discounts[{$goods.g_id}]" value="{$goods.g_price_config.cfg_products}" class="tiny cfg_discounts">
+            </td>
+        </eq>
+    </if>
+        
+        <td style="text-align:center;">
+            <a onclick="delGoods($(this),{$goods.g_id});" href="javascript:void(0);">删除</a>
+            <a href="javascript:void(0);" onclick="expansion({$goods.g_id});">展开</a>
+            <input type="hidden" name="ra_gift_gid[]" value="{$goods.g_id}">
+        </td> 
+    </tr>
+    <tr class="selected_goods_gift_tr_{$goods.g_id}" id="selected_goods_products_tr_{$goods.g_id}" style="display:none; padding-left:30px;">
+        <td></td>
+        <td colSpan="6">
+            <table class="" style="width:100%">
+                <thead>
+                    <tr class="tbody_products_{$goods.g_id}">
+                        <th style="text-align:center;">商家编码</th>
+                        <th style="text-align:center;">规格</th>
+                        <th style="text-align:center;">销售价</th>
+                        <if condition="$filter.type neq 'add'">
+                        <eq name="goods_page" value="PYIKOUJIA">
+                            <th>一口价</th>
+                        </eq>
+                        </if>
+                        <th style="text-align:center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="goods['products']" id ="pro">
+                        <tr class="tbody_products_{$goods.g_id}" style="display:">
+                            <td>{$pro.pdt_sn}</td>
+                            <td>{$pro.specName}</td>
+                            <td>{$pro.pdt_sale_price}</td> 
+                        <if condition="$filter.type neq 'add'">
+                            <eq name="goods_page" value="PYIKOUJIA">
+                            <td>
+                                <input type="text" name="cfg_products[{$goods.g_id}][{$pro.pdt_id}]" value="{$goods.g_price_config.cfg_products}" class="tiny cfg_discounts shortcut_pro_{$goods.g_id}"/> 
+                            </td>
+                            </eq>
+                        </if>
+                            
+
+                            <neq name="goods_page" value="PYIKOUJIA">
+                            
+                                <input type="hidden" name="cfg_products[{$goods.g_id}][{$pro.pdt_id}]" value="{$goods.g_price_config.cfg_products}" class="tiny cfg_discounts shortcut_pro_{$goods.g_id}"/> 
+                           
+                            </neq>
+                            <td>
+                                <a onclick="delGoods($(this));" href="javascript:void(0);">删除</a>
+                                <a href="javascript:void(0);" onclick="expansion({$goods.g_id})">收起</a>
+                            </td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</volist>
+</tbody>
+<script type="text/javascript">
+     /*批量删除*/
+    function batchDelGoods(){
+        $("input[name='ra_gift_gid[]']").each(function(){
+            if($(this).prop("checked")== true){
+               
+                $(this).parent('td').parent('tr').remove();
+                $("#selected_goods_products_tr_"+$(this).attr('g_id')).remove();
+            }
+        })
+    }
+    /*
+     * 展开操作
+     */
+    function expansion(gid){
+        var display_val = $("#selected_goods_products_tr_"+gid).css('display');
+        if(display_val == 'none'){
+            //$(".tbody_products_"+gid).css({'display':''});
+            $("#selected_goods_products_tr_"+gid).show();
+        }else {
+            $("#selected_goods_products_tr_"+gid).hide();
+            //$(".tbody_products_"+gid).css({'display':'none'});
+        }
+    }
+     /*删除商品*/
+    function delGoods(obj,gid){
+        obj.parent('td').parent('tr').remove();
+        $(".tbody_products_"+gid).remove();
+        //console.log("selected_goods_products_tr_"+gid);
+        $("#selected_goods_products_tr_"+gid).remove();
+    }
+    function checkAll(){
+        if($('.checkAll_tr').attr('checked')=='checked'){
+            $('.checkSon_tr').attr('checked','checked');
+        }else{
+            $('.checkSon_tr').removeAttr('checked');
+        }
+    }
+</script>

@@ -1,0 +1,80 @@
+<div class="rightInner">
+    <form method="get" action="{:U('Admin/GoodsGroup/doDel')}" id="members_del">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                     <p class="conOneP" style="float: left;">
+                        <a href='{:U("Admin/GoodsGroup/addGroup")}' class="btnG ico_add">新增商品分组</a>
+                    </p>
+                    
+                </th>
+            </tr>
+            <tr>
+                <th style="width:30px;"><input type="checkbox" class="ckeckAll" /></th>
+                <th style="width:60px;">操作</th>
+				<th style="width:60px;">排序</th>
+				<th style="width:60px;">商品数量</th>
+                <th>分组名称</th>
+                <th>分组描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="datalist" id="group">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="ggid[]" value="{$group.gg_id}" /></td>
+                <td>
+					<a href="{:U('Admin/GoodsGroup/pageEdit')}/ggid/{$group.gg_id}">编辑</a>
+					<a href="{:U('Admin/GoodsGroup/doDel')}?ggid[]={$group.gg_id}" class="confirm">删除</a>
+				</td>
+				<td>
+					<input type="text" name="change_order" class="change_order tiny" gg_id="{$group.gg_id}" order="{$group.gg_order}" value="{$group.gg_order}" />
+				</td>
+				<td><a href='{:U("Admin/Products/pageList","ggid=$group[gg_id]")}'>{$group_goods_nums[$group['gg_id']]}</td>
+                <td style="text-align:left;">{$group.gg_name}</td>
+                <td style="text-align:left;">{$group.gg_desc}</td>
+            </tr>
+            </volist>
+            <empty name="datalist">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><input type="submit" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".change_order").change(function(){
+		if(!isNaN($(this).val())){
+			//POST请求到服务器，将排序修改掉
+			$.post('{:U("Admin/GoodsGroup/changeOrder")}',{gg_id:$(this).attr("gg_id"),gg_order:$(this).val()},function(dataObj){
+				//alert("商品分组排序修改成功。");
+				if(dataObj.status == true){
+					window.location.href = "{:U('Admin/GoodsGroup/pageList')}/p/<php>echo (isset($_GET['p']) && is_numeric($_GET['p']))?$_GET['p']:1</php>/t/" + Math.random()*10000;
+				}else{
+					alert(dataObj.msg);
+				}
+			},'json');
+		}else{
+			$(this).val($(this).attr("order"));
+		}
+		return false;
+	});
+	
+	//全选与全不选
+	$(".ckeckAll").click(function(){
+		if(this.checked){
+			$(".checkSon").attr({'checked':true});
+		}else{
+			$(".checkSon").attr({'checked':false});
+		}
+	});
+	
+});
+</script>

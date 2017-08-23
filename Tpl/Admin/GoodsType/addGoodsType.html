@@ -1,0 +1,50 @@
+<div class="rightInner">
+    <form id="type_form" name="type_form" method="post" action="{:U('Admin/GoodsType/doAddType')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">商品类型添加</th>
+                </tr>
+            </thead>
+            <tbody>
+				<tr>
+                    <td class="first">商品属性类型：</td>
+                    <td>
+                        <select name="gt_type">
+							<option value="0">商品属性</option>
+							<option value="1">商品试用属性<option>
+						</select>
+                    </td>                    
+                     <td class="last">选择所属商品属性类型</td>
+                </tr>
+                <tr>
+                    <td class="first">类型名称：</td>
+                    <td>
+                        <input type="text" name="gt_name" id="gt_name" class="medium" value="" validate='{ required:true,remote:"{:U("Admin/GoodsType/checkTypeName","msg=类型名称")}"}' /> <br>
+                    </td>                    
+                     <td class="last">请输入类型名称</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="jump" id="pageJumpType" value="0" />
+                        <input type="submit" value="保存" jump="0" class="btnA" >
+                        <input type="submit" value="保存并添加属性" jump="1" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/GoodsType/pageList')}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){
+		$("input[type='submit']").click(function(){
+			$("#pageJumpType").val($(this).attr("jump"));
+		});
+        $("#type_form").validate();
+    });
+</script>

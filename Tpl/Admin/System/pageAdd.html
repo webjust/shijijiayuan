@@ -1,0 +1,91 @@
+<div class="rightInner">
+    <form id="system_form" name="system_form" method="post" action="{:U('Admin/System/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">添加管理员</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">用户名：</td>
+                    <td>
+                        <input type="text" name="u_name" id="u_name" class="medium" value="" validate="{ required:true,maxlength:30,remote:'{:U('Admin/System/checkName')}'
+}"/> <br> 
+                    </td>
+                    <td class="last">这里输入管理员登陆时需要的账号</td>
+                </tr>
+                <tr>
+                    <td class="first">密码：</td>
+                    <td>
+                        <input type="password" name="u_passwd" id="u_passwd" class="medium" value="" validate="{ required:true,rangelength:[6,20],messages:{required:'密码不能为空'}}"/> <br> 
+                    </td>
+                    <td class="last">6 - 20个字符组成，只能使用数字、字母和下划线</td>
+                </tr>
+                <tr>
+                    <td class="first">确认密码：</td>
+                    <td>
+                        <input type="password"  id="u_passwd_1" class="medium" value="" validate="{ required:true,rangelength:[6,20],equalTo:u_passwd,messages:{required:'确认密码不能为空'}}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">所属权限组：</td>
+                    <td>
+                        <select name="role_id" id="role_id" validate="{ selected:true}">
+                            <option value="0">--请选择--</option>
+                            <volist name="data.role" id="role">
+                                <option value="{$role.id}">{$role.name}</option>
+                            </volist>
+                        </select> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">姓名：</td>
+                    <td>
+                        <input type="text" name="u_real_name" id="u_real_name" class="medium" value="" validate="{ maxlength:30}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">编号：</td>
+                    <td>
+                        <input type="text" name="u_no" id="u_no" class="medium" value="" validate="{ maxlength:50}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">部门：</td>
+                    <td>
+                        <input type="text" name="u_department" id="u_department" class="medium" value="" validate="{ maxlength:50}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">备注：</td>
+                    <td>
+                        <textarea id="u_mome" name="u_mome" cols ="80" rows = "8" validate="{ maxlength:50}"></textarea> <br> 
+                    </td>
+                    <td class="last">100字以内</td>
+                </tr>
+                <tr>
+                    <td class="first">状态：</td>
+                    <td>
+                        <input type="radio" value="1" checked=""  name="u_status" /> 启用 
+                        <input type="radio" value="0"  name="u_status" /> 禁用 
+                    </td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#system_form').validate();
+    });
+</script>

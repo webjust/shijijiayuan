@@ -1,0 +1,50 @@
+<include file="Home:tabsTem" />
+<div class="rightInner" id="con_tabListP_4"><!--rightInner  start-->
+    <div class="autoDivCon">
+        <include file="Home:titleTpl" />
+        <div class="templates" id="con_template_1">
+            <form action="{:U('Admin/Home/doAddTpl')}" method="post" style="float: none;" id="Tplform" name="Tplform" enctype="multipart/form-data">
+                <table class="tbForm">
+                    <tr>
+                        <td><input type="text" class="large" name="ti_name" value="{$filter.dir}" validate='{ required:true,maxlength:30,remote:"{:U("Admin/Home/checkEditTplName","tiid=$data[ti_id]")}"}'/></td>
+                    </tr>
+                </table>
+                <table class="tbForm">
+                    <tr>
+                        <td>
+                            <ul class="tempUl">
+                                <li class="set">
+                                    <a href="javascript:void(0);">
+                                        <if condition="$data.ti_name eq '1'">
+                                            <img src='__FXCENTER__{$data.ti_thumbnail}' width="225" height="260" />
+                                        <else />    
+                                            <img src='{$data.ti_thumbnail}' width="225" height="260" />
+                                        </if>
+                                            
+                                    </a>
+                                    <p class="textCenter"><input type="file" name="ti_thumbnail" value="上传缩略图"></p>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" value="{$data.ti_id}" name="ti_id" />
+                            <input type="hidden" value="{$filter.dir}" name="ti_dir" />
+                            <input type="hidden" value="{$filter.wapdir}" name="wapdir" />
+                            <input type="submit" class="btnHeader" value="保 存" />
+<!--                            <input type="submit" class="btnHeader prevA" value="撤 消" />
+                            <input type="submit" class="btnHeader" value="预 览" />
+                            <input type="submit" class="btnHeader" value="放入草稿箱" />-->
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){   
+        $("#Tplform").validate();   
+    });
+</script>

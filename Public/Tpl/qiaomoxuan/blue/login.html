@@ -1,0 +1,201 @@
+<style>
+    .error{color:red;}
+</style>
+<link href="__CSS__pt_page_newlogin.css" type="text/css" rel="stylesheet"/>
+<script type="text/javascript">
+ (function(window,document){
+      if(top!=window) top.location=location.href;
+      document.uniqueID!=document.uniqueID&&!!location.hash&&(location.hash=location.hash);
+      window.focus();
+  })(this,document);
+</script>
+<!--YSTwarp start-->
+<div class="YSTwarp">
+    <div class="area"><!--area start-->
+        <div class="col"><!--col  start-->
+            <div class="crumb">
+                <div class="content1000">
+                    <strong>用户登录</strong>
+                </div>
+            </div>
+            <div class="login"><!--login  start-->
+                <div class="content1000"><!--content1000  start-->          
+                    <div class="loginCon"><!--loginCon  start-->
+                        
+                            <div class="loginConL">
+                            <form action="{:U('Home/User/doLogin')}"  method="post" id="regForm">
+                                <ul>
+                                    <li>
+                                        <dl>
+                                            <dt>用户名：</dt>
+                                            <dd><span><input type="text" name="m_name" id="m_name"/></span></dd> 
+                                            <p></p>
+                                        </dl>
+                                    </li>
+                                    <li>
+                                        <dl>
+                                            <dt>密&nbsp;&nbsp;码：</dt>
+                                            <dd><span><input type="password" name="m_password" id="m_password" autocomplete="off"/></span></dd>
+                                            <p></p>
+                                        </dl>
+                                    </li>
+									<if condition="$vef.sc_value eq 1">
+                                    <li>
+                                        <dl>
+                                            <dt>*验证码：</dt>
+                                            <dd>
+                                                <span class="yanzm"><input type="text" name="verify" id="verify"/></span>
+                                                <a href="javascript:void(0);" onclick="changeverify()">
+                                                    <img id="loginverify" src="__APP__/Home/User/verify/" width="78" height="37" onClick="this.src='__APP__/Home/User/verify/'+Math.random()">换一张
+                                                </a>
+                                                <p></p>
+                                            </dd>
+                                        </dl>
+                                    </li>
+									</if>
+                                </ul>
+                                <a href="{:U('Home/User/pageFoget')}">忘记密码？</a>
+                                <input name="savelogin" type="hidden" value="0"/>
+                            	<input name="requsetUrl" id="requsetUrl" type="hidden" value="{$requset_url}"/>
+                                <input type="submit" value="登录" class="login">
+                                 </form>
+                            </div>
+                       
+                        <div class="loginConR">
+                            <strong>还不是{$commonInfo['GY_SHOP_TITLE']}客户?</strong>
+                            <a href="{:U('Home/User/pageRegister')}">注册新用户</a>
+                        <div class="contr">
+                            <h3>使用社交帐号登录</h3>
+                            <div class="others">
+                                <span class="sepln"></span>
+
+                                <ul class="w-user w-user-3">
+                                    <if condition="$sina eq '1'">
+                                    <li class="w1 sina">
+                                        <a href="{:U('Home/User/thdLoginUr/')}?type=Sina">使用新浪微博登录</a><!-- 使用新浪微博登录 -->
+                                        
+                                    </li>
+                                    </if>
+                                    <if condition="$qq eq '1'">
+                                        <li class="w1 qq">
+                                            <a href="{:U('Home/User/thdLoginUr/')}?type=QQ">使用腾讯QQ登录</a><!-- 使用腾讯QQ登录 -->
+                                        </li>
+                                    </if>
+                                     <if condition="$renren eq '1'">
+                                        <li class="w1 rr">
+                                            <a href="{:U('Home/User/thdLoginUr/')}?type=RenRen">使用人人帐号登录</a><!-- 使用使用人人网登录 -->
+                                        </li>
+                                    </if>
+					<if condition="$wx eq '1'">
+                        <li class="w1">
+						<div id="wx_login" class="t_center">
+							<img src="__IMAGES__ewm_wx.jpg" />
+							<span class="f12 gray3" style="margin-top:10px;">使用微信扫描上方二维码登陆</span>
+						</div>
+						</li>
+					</if>
+                                </ul>
+                            </div>
+                        </div>                       
+                        </div>
+                    </div><!--loginCon  end-->
+                </div><!--content1000  end-->
+            </div><!--login  end-->
+        </div><!--col  end-->
+    </div><!--area  end-->
+</div>
+<!--YSTwarp end-->
+<script type="text/javascript" src="__JS__base.js"></script>
+<eq name="wxloginstatus" value="1">
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<script>
+	var obj = new WxLogin({
+	  id:"wx_login", 
+	  appid: "{$wxid}", 
+	  scope: "snsapi_login", 
+	  redirect_uri: "{$wx_redirect_uri}",
+	  state: "{$wxrand}",
+	  style: "white", //可选值：black,white
+	  href: ""
+	});
+</script>
+</eq>
+<script>
+	function redirectUri(obj){
+		if(obj == 'fogetpass'){
+			window.parent.location.href="{:U('Home/User/pageFoget')}";
+		}else if(obj == 'registpage'){
+			$.popup.close();
+			$.popup.popwin('/Home/User/ajaxRegPage', { settings: { width: 410, height:710, title: '注册',head:true} });
+		}
+	}
+</script>
+<script type="text/javascript">
+function changeverify(){      
+    $('#loginverify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());        	
+}
+$(document).ready(function(){
+    $("#regForm").validate({
+        errorPlacement: function(error, element) {
+            var error_td = element.parent("span").siblings("p");
+            error_td.append(error);
+        },
+        submitHandler:function(form){
+            var rand = '{$Think.session.rand}'.toString();
+            var m_password = $("#m_password").val().toString();
+            var new_password = encode64(m_password+rand);
+            $("#m_password").val(new_password);
+            var formdata = $("#regForm").serialize();
+			var url = $("#requsetUrl").val();
+			var isreset = url.indexOf("doReset");
+			var mobilereset = url.indexOf("synResetByMobile");
+            $.ajax({
+                url:"{:U('Home/User/doLogin')}",
+                data:formdata,
+                dataType:"json",
+                type:"post",
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+					var url = $("#requsetUrl").val();
+						if(msgObj.url){
+							url = msgObj.url;
+						}
+                    	if( isreset !== -1 || mobilereset !== -1){
+							$.ThinkBox.success('登录成功,等待跳转……');
+							window.location.href = "/Home/Index/index";
+						}else{
+							$.ThinkBox.success('登录成功,等待跳转……');
+							window.location.href = url;
+						}
+                    }else{
+                       showAlert(false,msgObj.info);
+                       return false;
+                    }
+                }
+            });
+        },
+        rules : {
+            verify : {
+                required:true,
+                digits:true,
+                remote:'/Home/User/checkVerify',
+                rangelength:[4,4]
+            }
+        },
+        messages : {
+            verify : {
+                required:'请输入验证码',
+                rangelength:'验证码长度为4',
+                digits:'对不起，请输入正确的验证码'
+            }
+        }
+    });
+});
+</script>
+
+
+
+
+
+
+

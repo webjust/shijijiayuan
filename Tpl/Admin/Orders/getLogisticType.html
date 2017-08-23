@@ -1,0 +1,14 @@
+{__NOLAYOUT__}
+<if condition="$ary_logistic!=''">
+    <volist name="ary_logistic" id="logistic" key="key">
+        <dd>
+            <input type="radio" onclick="checkLogistic({$logistic.lt_id})" class="aaa" id="lt_id" value="{$logistic.lt_id}" name="lt_id" <eq name="i" value="0"> checked </eq>>
+            <label  for="kuaidi">{$logistic.lc_name}</label>
+            <span >运费 + <i id="logistic_price_{$logistic.lt_id}">{$logistic.logistic_price}</i>元</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span >配送公司描述： {$logistic.lc_description}</span>
+            <input type="hidden" id="o_cost_freight" name="o_cost_freight" value="{$logistic.logistic_price}">
+        </dd>
+    </volist>
+<else />
+    <dd>无配送方式</dd>
+</if>    

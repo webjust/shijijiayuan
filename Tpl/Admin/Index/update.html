@@ -1,0 +1,7 @@
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script>
+    $.post('{:U("Admin/Index/updateSql")}',{},function(htmlMsg){
+        $.ThinkBox(htmlMsg, {'title' : '系统升级','width':'850px','drag' : true,'unload':true});
+    },'html');
+</script>

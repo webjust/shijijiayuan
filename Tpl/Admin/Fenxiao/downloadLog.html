@@ -1,0 +1,74 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="5">
+					供销平台数据下载日志记录
+				</th>
+            </tr>
+            <tr>
+				<th width="60">进程ID</th>
+				<th width="150">下载开始时间</th>
+				<th width="150">下载结束时间</th>
+				<th width="120">进程状态</th>
+				<th width="120">进程进度</th>
+            </tr>
+        </thead>
+        <tbody>
+			<empty name="datalist">
+				<tr>
+					<td colspan="5" style="text-align:left;font-size:18px;">
+						没有任何数据可以显示！
+					</td>
+				</tr>
+			<else />
+				<volist name="datalist" id="vo">
+				  <tr>
+					<td width="60">{$vo.id}</td>
+					<td width="150">{$vo.start_time}</td>
+					<td width="150">{$vo.end_time}</td>
+					<td width="120">{$vo.status}</td>
+					<td width="120">
+						<div class="graph" style="position: relative;width: 200px;border: 1px solid #B1D632;">
+							<strong class="bar" style="width: {$vo.present}%;display: block;position: relative;background: #B1D632;text-align: center;color: #333;height: 1em;line-height: 2em;"></strong>
+						</div>
+					</td>
+				  </tr>
+				  </volist>
+			  </empty>
+        </tbody>
+        <tfoot>		
+            <tr>
+				<td colspan="2" style="text-align:left;">
+					<button id="downloadDataButton" style="background-color:#F27B04;color:#ffffff;font-size:24px;height:34px;wdith:150px;border:0 none;cursor:pointer;">立即下载</button>
+				</td>
+                <td colspan="3">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div id="dialogWindow"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#downloadDataButton").click(function(){
+		//下载按钮样式切换
+		$(this).attr({"disabled":true}).css({"background-color":"gray"});
+		$.ajax({
+			url:"{:U('/Admin/Fenxiao/downloadPage')}",
+			cache:false,
+            dataType:'json',
+            type:'POST',
+            data:{'step':0},
+            beforeSend:function(){
+                ;
+            },
+            error:function(){
+                ;
+            },
+            success:function(jsonObj){
+                ;
+            }
+		});
+	});
+});
+</script>

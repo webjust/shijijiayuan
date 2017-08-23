@@ -1,0 +1,160 @@
+
+    <link rel="stylesheet" href="__TPL__/css/base.css">
+    <div class="alltop"><img src="__IMAGES__top.png" alt=""></div>
+    <div class="mg ov">
+        <div class="onload">
+            <div class="header_in">
+                <div class="logo"><a href="/Wap/" title=""><img src="__IMAGES__logo.png"></a></div>
+            </div>
+        </div>
+        <div class="czmm">
+            <div class="tabBox">
+                <form method="post" action="{:U('Wap/User/doRegister')}" id="regform">
+                    <div class="hd">
+                      <ul>
+                        <li class="on"><span><a href="javascript:void(0);">注册</a></span></li>
+                        <li><span><a href="/Wap/User/Login">登录</a></span></li>
+                      </ul>
+                    </div>
+                    <div class="bd">
+                        <div class="slide">
+                            <div class="reg">
+                                <div class="onload_sjh"><input type="text" placeholder="用户名" name='m_name' id='m_name'></div>
+                                <div class="onload_sjh"><input type="password" placeholder="密码" name='m_password' id='m_password'></div>
+                                <div class="onload_sjh"><input type="password" placeholder="确认密码" name='m_password_confirm' id='m_password_confirm'></div>
+                                <div class="sjh2">
+                                    <input type="text" placeholder="验证码" class="yaz" name='verify' id='verify'>
+                                    <span class="yazm">
+                                        <a href="javascript:void(0);" >
+                                        <img id="loginverify" alt="换一张" title="换一张" src="__APP__/Wap/User/verify/" width="60" onClick="this.src='__APP__/Wap/User/verify/'+Math.random()">
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="onload_sub">
+                                    <input name="jumpUrl" type="hidden" value="{$jumpUrl}"/>
+                                    <notempty name="resgister_field_extend">
+                                            <volist name="resgister_field_extend" id="field">
+                                                <input type="hidden" name="{$field.fields_content}" value="{$field.content}" />
+                                            </volist>
+                                    </notempty>
+                                    <notempty name="m_recommended">
+                                        <input type="hidden" name="m_recommended" value="{$m_recommended}" >
+                                    </notempty>
+                                    <input type="submit" value="注册" class="loginbtn">
+                                </div>
+                                <div class="wjmm1">注册即表示您已同意<a href="{:U('Wap/User/reg_term')}">彩妆国际用户协议</a></div>
+                                <dl>
+                                    <dt>使用以下帐号登录</dt>
+                                    <dd>
+                                        <if condition="$sina eq '1'">
+                                            <a href="{:U('Wap/User/thdLoginUr/')}?type=Sina"><img src="__IMAGES__o2.png" alt=""><p>微博</p></a>
+                                        </if>
+                                        <if condition="$qq eq '1'">
+                                            <a href="{:U('Wap/User/thdLoginUr/')}?type=QQ"><img src="__IMAGES__o3.png" alt=""><p>QQ</p></a>
+                                        </if>
+                                        <if condition="$wangwang eq '1'">
+                                            <a href="{:U('Wap/User/thdLoginUr/')}?type=wangwang"><img src="__IMAGES__lg03.png">旺旺登录</a>
+                                        </if>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+
+<script type='text/javascript'>
+    $("input").bind('input propertychange',function(){
+        var m_name = $("input[name='m_name']").val();
+        var m_password = $("input[name='m_password']").val();
+        var m_password_confirm = $("input[name='m_password_confirm']").val();
+        var verify = $("input[name='verify']").val();
+        var d_m_name = $("[for='m_name']").css("display");
+        var d_m_password = $("[for='m_password']").css("display");
+        var d_m_password_confirm = $("[for='m_password_confirm']").css("display");
+        var d_verify = $("[for='verify']").css("display");
+        var L_verify = verify.length;
+        if(m_name != '' && m_password != '' && m_password_confirm != ''  && verify != '' && d_m_name != 'inline-block' && d_m_password != 'inline-block' && d_m_password_confirm != 'inline-block' &&  L_verify==4){
+            $(".onload_sub").css("background","rgb(255, 51, 102)");
+            $(".loginbtn").css("color","rgb(255, 255, 255)");
+        }else{
+            $(".onload_sub").css("background","#e0e0e0");
+            $(".loginbtn").css("color","rgb(153, 153, 153)");
+        }
+    });
+    $(function(){
+        $("#regform").validate({
+            submitHandler:function(form){
+                //form.submit();
+                var formdata = $("#regform").serialize();
+                $.ajax({
+                    url:"{:U('Wap/User/doRegister')}",
+                    data:formdata,
+                    dataType:"json",
+                    type:"post",
+                    success:function(msgObj){
+                        if(msgObj.status == 1){
+                            alert("注册成功,等待跳转……");
+                            window.location.href = "{:U('Wap/User/Login')}";
+                        }else{
+                           alert(msgObj.info);
+                           window.location.href = "{:U('Wap/User/Login')}";
+                           return false;
+                        }
+                    }
+                });
+            },
+            rules : {
+                m_name : {
+                    required:true,
+                    minlength:4,
+                    isCheck:true,
+                    remote:'/Wap/User/checkName'
+                },
+                m_password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                m_password_confirm : {
+                    required : true,
+                    equalTo  : '#m_password'
+                },
+                verify : {
+                    required:true,
+                    digits:true,
+                    remote:'/Wap/User/checkVerify',
+                    rangelength:[4,4]
+                }
+            },
+            messages : {
+                m_name : {
+                    required : '用户名不能为空',
+                    minlength : '用户名不能少于4位',
+                    isCheck: '用户名不能包含敏感字符',
+                    remote:'该用户名已经存在'
+                },
+                m_password  : {
+                    required : '密码不能为空',
+                    minlength: '密码长度应在6-20个字符之间',
+                    maxlength: '密码长度应在6-20个字符之间'
+                },
+                m_password_confirm : {
+                    required : '请再次输入您的密码',
+                    equalTo  : '两次输入的密码不一致'
+                },
+                verify : {
+                    required:'请输入验证码',
+                    digits:'对不起，请输入正确的验证码',
+                    rangelength:'验证码长度为4',
+                    remote: '对不起，请输入正确的验证码'
+                }
+            }
+        });
+    });
+</script>

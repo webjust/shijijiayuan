@@ -1,0 +1,112 @@
+<div class="rightInner">
+    <form id="delivery_edit" method="post" action="{:U('Admin/Delivery/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改配送公司</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">* 配送公司</td>
+                    <td><input type="text" name="lc_name" value="{$info.lc_name}" class="medium" validate="{ required:true}" /></td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 物流公司代码</td>
+                    <td>
+                        <input type="text" name="lc_abbreviation_name" value="{$info.lc_abbreviation_name}" class="small" validate="{ required:true}" />
+                    </td>
+                    <td class="last">第三方接口的物流公司简称，用于查询物流状态。
+					<!--<a href="javascript:void(0);" id="viewHelp" class="red">点击查看帮助</a>-->
+					</td>
+                </tr>
+				<!-- Edit By Mithern 快递100对接代码 --> 
+				<tr>
+                    <td class="first">快递100物流公司代码</td>
+                    <td>
+                        <input type="text" name="lc_kuaidi100_name" value="{$info.lc_kuaidi100_name}" class="small" />
+                    </td>
+                    <td class="last">用于调用快递100接口跟踪物流。调用接口可能会产生费用，请自行与快递100联系。</td>
+                </tr>
+				<tr>
+                    <td class="first">京东物流公司名称</td>
+                    <td>
+                        <input type="text" name="lc_jd_name" value="{$info.lc_jd_name}" class="small" />
+                    </td>
+                    <td class="last">用于京东发货时和京东物流方式匹配。</td>
+                </tr>				
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="radio" name="lc_is_enable" value="1" <eq name="info.lc_is_enable" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="lc_is_enable" value="0" <eq name="info.lc_is_enable" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否支持{$pay_name|default='货到付款'}</td>
+                    <td>
+                        <input type="radio" name="lc_cash_on_delivery" value="1" <eq name="info.lc_cash_on_delivery" value="1">checked="checked"</eq> /> 是
+                        <input type="radio" name="lc_cash_on_delivery" value="0" <eq name="info.lc_cash_on_delivery" value="0">checked="checked"</eq> /> 否
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 排序值</td>
+                    <td>
+                        <input type="text" name="lc_ordernum" class="small" value="{$info.lc_ordernum}" validate="{ digits:true,min:0,required:true}" />
+                    </td>
+                    <td class="last">数值越小越靠前</td>
+                </tr>
+                <tr>
+                    <td class="first">配送公司描述</td>
+                    <td>
+                        <textarea name="lc_description" validate="{ maxlength:200}" class="mediumBox" >{$info.lc_description}</textarea>
+                    </td>
+                    <td class="last">200字以内</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="{$info.lc_id}" name="lc_id" />
+                        <input type="submit" value="提 交" class="btnA" >&nbsp;
+                        <input type="button" value="返 回" class="btnA back" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+
+    <div id="help" style="display: none;" title="物流公司字母简称帮助说明">
+        <include file="Delivery:help" />
+    </div>
+    
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#delivery_edit').validate();
+        /* 第三方物流接口平台需要录入的物流公司代码说明 */
+        $('#help').dialog({
+            height:500,
+            width:600,
+            resizable:false,
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                '确认': function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+        $('#viewHelp').click(function(){
+            $('#help').dialog('open');
+        });
+    });
+</script>

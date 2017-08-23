@@ -1,0 +1,78 @@
+<link href="__PUBLIC__/Ucenter/css/Distribution.css" rel="stylesheet">
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>我的返利</span></h2>
+    <div class="myOrder">
+        <div class="myDepositOne" style="height:auto;">
+            <table class="tableTop">
+                <tr>
+                    <td width="100%">
+                        累计获得返利:
+                        <b class="wordBlue">
+                            <i class="price">￥</i>{$price|default="0"}
+                        </b>
+                    </td>
+                </tr>
+                <form action='{:U("Ucenter/Promoting/payBack")}' method="GET">
+                <tr>
+                    <td>
+                        分销商名称：
+                        <input type="text" id="user_name"  name="user_name" class="input02" value="{$user_name}">
+                        <input type="submit" value="搜 索" class="blue"></input>
+                    </td>
+                </tr>
+               </form>
+            </table>
+        </div>
+        <div class="chooseProCon">
+            <div id="con_choose_1" class="chooseDiv">
+                <table class="tableCon">
+                    <thead>
+                        <tr>
+                            <td width="185">分销商名</td>
+                            <td width="159">类型</td>                  
+                            <td width="188">金额（元）</td>
+                            <td width="166">返点比例</td>
+                            <td width="166">时间</td>  
+                        </tr>                        
+                                                
+                    </thead>
+                    <tbody>
+                    <volist name="datalist" id="vo">
+                        <tr>
+                            <td width="185">{$vo.m_name}</td>
+                            <td width="159">
+                                <if condition="$vo.oi_type eq 0">
+                                    正常</b>
+                                <else />
+                                    促销</b>
+                                </if>
+                            </td>
+                            <td width="150">
+								<b class="wordBlue">
+                                    <i class="price">￥</i>{$vo.o_all_price}
+                                </b>
+							</td>
+                            <td width="150">
+								{$vo.ml_rebate}
+							</td>
+                            <td width="150">
+								{$vo.o_create_time}
+							</td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+        <div class="myOderBot">
+            <div class="myOderBotRight">
+                <div class="fenye">
+                   {$page}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

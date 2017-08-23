@@ -1,0 +1,96 @@
+<div class="rightInner tableColor">
+    <form action="{:U('Admin/RefundsProperty/returnReasonbulkDelete')}" method="POST" onsubmit="return beforeDeleteConfirm();">
+        <table width="100%" class="tbList">
+            <thead>
+            <tr class="title">
+                <th colspan="4">
+                    退换货自定义理由列表
+                </th>
+                <th style="text-align:right">
+                    <a class="btnG ico_add" href="/Admin/RefundsProperty/returnReasonAdd">添加退费退货理由</a>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" id="checkbox_check_all" class="checkbox " /></th>
+                <th>操作</th>
+                <th>退换货理由</th>
+                <th>排序</th>
+                <th>类型</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="ary_reason" id="reason">
+                <tr>
+                    <td>
+                        <if condition="$reason.rr_is_default eq 0">
+                        <input type="checkbox" class="checkSon" name="rr_id[]"  value="{$reason.rr_id}" />
+                        </if>
+                    </td>
+                    <td>
+                        <a href='{:U("Admin/RefundsProperty/returnReasonEdit?rrid=$reason[rr_id]")}'>编辑</a>
+                        <if condition="$reason.rr_is_default eq 0">
+                        <a href='{:U("Admin/RefundsProperty/returnReasonDelete?rrid=$reason[rr_id]")}' class="confirm">删除</a>
+                        </if>
+                    </td>
+                    <td>{$reason.rr_name}</td>
+                    </td>
+                    <td>{$reason.rr_order}</td>
+                    <td>
+                        <if condition="$reason.rr_show_type eq 1">
+                            退款
+                            <elseif condition="$reason.rr_show_type eq 2" />
+                            退货
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            <empty name="ary_reason">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="99">
+                    <input type="submit" value="删除选中" class="btnA confirm" />
+                    <span class="right page">{$page}</span>
+                </td>
+
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#checkbox_check_all").click(function(){
+            var bool_is_checked = this.checked;
+            $(".checkSon").each(function(){
+                $(this).attr('checked',bool_is_checked);
+            })
+        });
+        $("#goods-spec-list-type-change").change(function(){
+            var selected_goods_type_id = parseInt($(this).val());
+            if( selected_goods_type_id > 0){
+                var request_uri = "{:U('Admin/RefundsProperty/specListPage')}/gt_id/" + $(this).val();
+                window.location.href = request_uri;
+            }else{
+                window.location.href = "{:U('Admin/RefundsProperty/specListPage')}";
+            }
+            return false;
+        });
+    });
+    function beforeDeleteConfirm(){
+        //验证是否选择要删除的数据
+        var is_checked = false;
+        $(".checkSon").each(function(){
+            if(this.checked){
+                is_checked = true;
+            }
+        });
+        if(!is_checked){
+            alert("请选择您要删除的退款退货理由！");
+            return false;
+        }
+    }
+</script>

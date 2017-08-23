@@ -1,0 +1,603 @@
+<link href="__PUBLIC__/Ucenter/css/Cart.css" rel="stylesheet">
+<script src="__PUBLIC__/Ucenter/js/orders.js"></script>
+<!-- 中间内容开始 -->
+  <!-- 右侧主题内容开始 -->
+    <div class="contentRightBox"><!--contentRightBox  start-->
+        <h2 class="publicH2"><span>我的订单</span></h2>
+        <div <if condition="$ary_orders['o_pay_status'] neq '1'"> class="checkInformation orderSuccess" <else/> class="checkInformation paymentSuc" </if> ><!--checkInformation   start-->
+            <p class="topPic"></p>
+            <div class="orderSucCon"><!--orderSucCon  start-->
+                <ul>
+                    <li>
+                        <strong>订单编号：{$ary_orders.o_id}</strong>
+						<input type="hidden" name="orders_id" id="orders_id" value="{$ary_orders.o_id}">
+                        <input type="hidden" name="str_pay_status" value="{$ary_orders.str_pay_status}">
+                        <input type="hidden" name="deliver_status" value="{$ary_orders.deliver_status}">
+                        <b>订单状态：<i>{$ary_orders.str_status} <if condition="$ary_orders['o_status'] eq '1'">{$ary_orders.str_pay_status}</if>  {$ary_orders.refund_goods_status} {$ary_orders.refund_status} {$ary_orders.str_auto_status} <if condition="$ary_orders['o_status'] eq '1'">{$ary_orders.deliver_status}</if></i></b>
+                        <if condition="(($ary_orders['o_pay_status'] neq '1') and ($ary_orders['o_status'] eq '1')) and ($ary_orders['o_payment'] neq '24' and $ary_orders['o_payment'] neq '20') ">
+						<neq name="ary_orders.o_payment" value="6">
+                                <if condition="$ary_orders['str_pay_status'] eq '已支付'">
+
+                                <elseif condition="($ary_orders['oi_type'] eq '5') and ($ary_orders['str_pay_status'] eq '部分支付')" />
+                                    <a href='{:U("Ucenter/Orders/OrderSuccess/","oid=$ary_orders[o_id]")}' class="blue" >支付尾款</a>
+                                <else />
+                                    <a href='{:U("Ucenter/Orders/OrderSuccess/","oid=$ary_orders[o_id]")}' class="blue" >付款</a>
+                                </if>  
+						</neq>
+                        <elseif condition="$ary_orders['o_payment'] eq '20' or $ary_orders['o_payment'] eq '24'"/> 
+                            <a href='{:U("Ucenter/Orders/paymentPage/","oid=$ary_orders[o_id]")}' class="brown">提醒发货</a>
+                        <elseif condition="$ary_orders['o_status'] eq '1' && $ary_orders['refund_type'] eq '1' && ($ary_orders['o_audit'] neq '1' OR $ALLOW_REFUND_APPLY.sc_value eq 1)"  />
+                            <empty name="refund_num">
+                                <if condition="$ary_orders.oi_type neq 9">
+                                    <a href='{:U("Ucenter/Aftersale/pageAdd/","oid=$ary_orders[o_id]&refund_type=1")}' class="brown">退 款</a>
+                                </if>
+                            </empty>
+                        <elseif condition="$ary_orders['o_status'] eq '1' && $ary_orders['refund_type'] eq '2'" />   
+                            <!--<a href='{:U("Ucenter/Aftersale/pageAdd/","oid=$ary_orders[o_id]&refund_type= 2")}' class="brown">退  货</a>-->
+                        <elseif condition="($ary_orders['o_status'] eq '1' && $ary_orders['o_audit'] neq '1') or ($ary_orders['str_status'] eq '已确认' && $ary_orders['refund_status'] neq '退款中' && $ary_orders['refund_goods_status'] neq '退货中' && $ary_orders['refund_goods_status'] neq '退款成功' && $ary_orders['refund_goods_status'] neq '退货成功')"/>
+                            <if condition="$ary_orders.oi_type neq 9">
+                                <a href='{:U("Ucenter/Aftersale/pageAdd/","oid=$ary_orders[o_id]&refund_type=2")}' class="brown">申请售后</a>
+                            </if>
+                            <if condition="$ary_orders.oi_type eq 9">
+                                <a href='{:U("Ucenter/Try/pageAdd/","oid=$ary_orders[o_id]")}' class="brown">填写试用报告</a>
+                            </if>
+                            <!-- <a href='{:U("Ucenter/Aftersale/pageAdd/","oid=$ary_orders[o_id]&refund_type=1")}' class="brown">退 款</a> -->
+                        </if> 
+                        <!-- 退运费 start -->
+                        <notempty name="open_delivery">
+                            <if condition="($ary_orders['o_status'] eq '5' || $ary_orders['o_status'] eq '4') && $ary_orders['o_pay_status'] eq 1">
+                                <a href='javascript:void(0);' data-id="{$ary_orders['o_id']}" id="delivery" class="brown">申请退运费</a>
+                                <script type="text/javascript">
+                                $(function(){
+                                    $('#delivery').bind({'click':delivery});
+                                });
+                                </script>
+                            </if>
+                        </notempty>
+                        <!-- 退运费 end -->
+							<if condition="($ary_orders['str_pay_status'] eq '已支付' and ($ary_orders['payment_name'] neq $pay_name) and $ary_orders['deliver_status'] eq '已发货' and $ary_orders['o_status'] eq '1' or $ary_orders['refund_status'] eq '退款驳回' and ($ary_orders['payment_name'] neq $pay_name) and $ary_orders['deliver_status'] eq '已发货' and $ary_orders['o_status'] eq '1')">
+						
+                            <if condition="$ary_orders['is_pay'] eq '1' and $ary_orders['o_payment'] eq '2' and $ary_orders['o_payment'] eq '4' and $ary_orders['o_payment'] eq '5'">
+                                    <a href='{:U("Ucenter/Orders/OrderConfirmation/","oid=$ary_orders[o_id]")}' class="brown">确认收货 </a>
+                                <else />
+                                    <a href='{:U("Ucenter/Orders/OrderConfirmation/","oid=$ary_orders[o_id]")}' class="brown">确认收货 </a>
+                            </if>
+							
+                        </if> 
+						<if condition="$ary_orders['payment_name'] eq $pay_name && $ary_orders['deliver_status'] eq '已发货'">
+						<if condition="$ary_orders['str_status'] neq '已确认' and $ary_orders.str_status neq '完成' ">
+							<a href='{:U("Ucenter/Orders/OrderConfirmation/","oid=$ary_orders[o_id]")}' class="brown">确认收货 </a>
+						</if>
+						</if>
+								
+                        <if condition="$ary_orders.oi_type neq 5">
+                        <a href="javascript:void(0);" id="invalidOrder" onclick ="againOrdres();" o_id ="{$ary_orders.o_id}" class="repeat a01">照此单重新下单</a>
+                        </if>
+						<if condition="$ary_orders.o_pay_status eq 0 && $ary_orders.deliver_status neq '已发货'">
+							<a href="javascript:void(0);" id="invalid" <if condition="$ary_orders['str_status'] eq '作废'">style="display:none"</if> o_id ="{$ary_orders.o_id}" <if condition="$ary_orders.oi_type eq 5"> class="repeat a01"<else/>class="a01"</if>>作废此订单</a>
+						</if>
+                    </li>
+                    <li>订单总金额：<span><i class="price">￥</i> {$ary_orders['o_all_price']|number_format=2}</span></li>
+                    <present name="o_source_id"><li>来源单号：{$o_source_id}</li></present>
+					<li>下单日期：{$ary_orders.o_create_time}</li>
+                </ul>
+            </div><!--orderSucCon  end-->
+
+            <div class="">
+
+            </div>
+
+            <div class="checkInforCon"><!--checkInforCon  start-->
+                <ul>
+                    <li>
+                        <p class="tongyongP"><span>收货信息</span></p>
+                        <dl class="dlSuc">
+                            <dd>收 货 人：{$ary_orders.o_receiver_name}</dd>
+                            <dd>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：{$ary_orders.o_receiver_state}{$ary_orders.o_receiver_city}{$ary_orders.o_receiver_county}{$ary_orders.o_receiver_address}</dd>
+                            <dd>固定电话：{$ary_orders.o_receiver_telphone}</dd>
+                            <dd name="o_receiver_mobile">手机号码：{$ary_orders.o_receiver_mobile}<a href="javascript:void(0);" onClick="lookMobile(this);">查看手机号</a></dd>
+                            <notempty name="ary_orders['o_receiver_idcard']"><dd name="o_receiver_idcard">身份证号：{$ary_orders.o_receiver_idcard}<a href="javascript:void(0);" onClick="lookIDcard(this);">查看身份证号</a></dd><input type="hidden" name="receiver_idcard" value="{$ary_orders.o_receiver_idcard}"/></notempty>
+                            <input type="hidden" name="receiver_mobile" value="{$ary_orders.o_receiver_mobile}"/>
+                            <dd>电子邮件：{$ary_orders.o_receiver_email}</dd>
+                            <dd>订单备注：{$ary_orders.o_buyer_comments}</dd>
+                            <dd>发货备注：<if condition="$ary_orders['o_shipping_remarks'] eq '1'">发货先发，缺货后发
+                                          <elseif condition="$ary_orders['o_shipping_remarks'] eq '2'"/> 等缺货一起发
+                                          <elseif condition="$ary_orders['o_shipping_remarks'] eq '3'"/> 修改订单，删除缺货商品 
+                                          </if> 
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <p class="tongyongP"><span>物流信息</span></p>
+                        <!--  <span class="pointOut">暂时没有物流信息！</span>-->
+                        
+                    <table class="tableOrder">
+                        <tr>
+                            <td>收货地址：{$ary_orders.o_receiver_state}{$ary_orders.o_receiver_city}{$ary_orders.o_receiver_county}{$ary_orders.o_receiver_address}</td>
+                        </tr>
+                        <!--
+                        <tr>
+                            <td>运送方式：快递</td>
+                        </tr>
+                        -->
+                        <tr>
+                            <td>物流公司：{$ary_delivery['delivery']['od_logi_name']} </td>
+                        </tr>
+                        <tr>
+                            <td>运单号： {$ary_delivery['delivery']['od_logi_no']}
+                                <if condition="$ary_delivery['delivery']['od_logi_no'] != ''">
+                                    <a href="javascript:void(0);" onclick="showPostTrack('{$ary_delivery['delivery']['od_id']}');" style="margin-left:30px;color:#0000ff;">查看物流</a>
+                                </if>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td id="postTrackInfo"></td>
+                        </tr>
+                        <if condition="$is_zt == '1'">
+							<tr>
+								<td>提货时间：{$ary_orders.o_receiver_time}</td>
+							</tr>
+                        </if>
+                    </table>
+                    </li>
+                    <li>
+                        <p class="tongyongP"><span>支付及配送方式</span></p>
+                        <dl class="dlSuc">
+                            <dd>支付方式：{$ary_orders.payment_name}</dd>
+                            <dd>配送方式：{$ary_orders.str_logistic}
+							<if condition="$is_zt eq 1 and $ary_orders.lc_abbreviation_name eq 'ZT'">
+							<if condition="$ary_orders.str_status eq '' and $ary_orders.deliver_status eq '未发货' and ($ary_orders.str_pay_status eq '已支付' or ($ary_orders.str_pay_status eq '未支付' and $ary_orders.o_payment eq 6)) ">
+							<a href="javascript:void(0);" title="未收到提货短信,点击重新发送" id="send_mobile" onClick="sendMobile(this);">提货短信重发</a>
+							</if>
+							</if>
+							</dd>
+                            <dd>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：<i class="price">￥</i>{$ary_orders.o_cost_freight|number_format=2}</dd>
+                            <!--
+                            <dd>送货时间：{$ary_orders.o_receiver_time}  
+                            </dd>
+                            -->
+                        </dl>
+                    </li>
+                </ul>
+            </div><!--checkInforCon  end-->
+            <div class="shopList"><!--shopList  start-->
+                <p class="tongyongP"><span>购物清单</span></p>  
+                <table class="table01">
+                    <thead>
+                        <tr>
+                            <td width="105">商品图</td>
+                            <td width="221">商品名称</td>
+                            <td width="119">原始单价</td>
+							<td width="119">销售单价</td>
+                            <td width="66">购买数量</td>
+                            <td width="106">商品小计</td>
+                            <td width="106">促销</td>
+                            <td width="60">状态</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <form id="orders_goods_form" name="orders_goods_form" method="post" >
+                        <volist name="orders_goods_info" id="goods_info">
+                            <tr>
+                                <td width="115" valign="top">
+                                    <div class="cartProPic"><a href='{:U("Home/Products/detail","gid=$goods_info[g_id]")}'><img src='{$Think.config.DOMAIN_HOST}{$goods_info.g_picture|showImage=###,68,68|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68"></a></div>
+                                </td>
+                                <td width="291">
+                                    <div class="cartProName">
+                                    <if condition="$goods_info.oi_type neq '2'">  
+                                        <input type="hidden" id="cart{$goods_info.pdt_id}" name="cart[{$goods_info.pdt_id}]" class="inputNum" value="{$goods_info.oi_nums}" >
+                                        <input type="hidden" id="" name="" value="{$goods_info.pdt_id}">
+                                    </if>
+                                        <a title="{$goods_info.oi_g_name}" href='{:U("Home/Products/detail","gid=$goods_info[g_id]")}'  target="_blank">{$goods_info.oi_g_name}</a>
+                                        <span>商品编号：{$goods_info.g_sn}</span>
+                                        <span>规格：{$goods_info.pdt_spec}</span>
+                                    </div>
+                                </td>
+                                <if condition="$goods_info.oi_type EQ 1 ">
+                                    <td width="149"> {$goods_info.oi_score}积分</td>
+									<td width="86"></td>
+                                    <td width="86">{$goods_info.oi_nums}</td>
+                                    <td width="186">
+                                        <strong class="strong01">{$goods_info.oi_score|intval}积分</strong>
+                                    </td>
+                                <elseif condition="$goods_info.oi_type EQ 11 " />
+                                    <td width="149"><i class="price">￥</i>
+                                        <php>echo sprintf("%0.2f",(($goods_info['o_goods_all_price'])/$goods_info['oi_nums']));</php>
+                                    </td>
+                                    <td width="86">
+                                        <i class="price">￥</i>
+                                        <php>echo sprintf("%0.2f",(($goods_info['o_goods_all_price'])/$goods_info['oi_nums']));</php>
+                                    </td>
+                                    <td width="86">{$goods_info.oi_nums}</td>
+                                    <td width="186">
+                                        <strong class="strong01">
+                                            <i class="price">￥</i>
+                                            <php>echo sprintf("%0.2f",$goods_info['o_goods_all_price']);</php>
+                                        </strong>
+                                    </td>
+                                <else />
+                                    <td width="149"><i class="price">￥</i> {$goods_info.pdt_sale_price|number_format=2}</td>
+									<td width="86">
+										<i class="price">￥</i>
+										<php>echo sprintf("%0.2f",($goods_info['oi_price']));</php>
+									</td>
+                                    <td width="86">{$goods_info.oi_nums}</td>
+                                    <td width="186">
+                                        <strong class="strong01">
+										 <i class="price">￥</i>
+										 <php>echo sprintf("%0.2f",$goods_info['subtotal']);</php>
+										</strong>
+                                    </td>
+                                </if>
+                                <td width="106">
+	                                <!-- <span style="color:#E87A01;">{$goods_info.promotion}</span> -->
+                                    <volist name="goods_info.promotions" id="pro">
+	                                <p style="width: 65px; background: #FA890F; margin:4px auto 0px; color: white; font-style: normal;">
+	                                    <a href="javascript:void(0);" style='color:#FFFFFF;white-space: nowrap;overflow: hidden;' title="{$pro}">{$pro}</a>
+	                                </p>
+                                    </volist>
+                                </td>
+                                <td width="">
+                                    {$goods_info.str_refund_status} {$goods_info.str_ship_status}
+                                    <br />
+                                </td>
+                            </tr>  
+                        </volist>
+                        <volist name="ary_combo" id="combo_info">
+                            <tr>
+                                <td width="115" valign="top" >
+                                    <volist name="combo_info.item" id="combo_item">
+                                        <div class="cartProPic" style="margin-top: 10px;">
+                                            <a href="#">
+                                                <img src='{$combo_item.g_picture|showImage=###,68,68|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68">
+                                            </a>
+                                        </div>
+                                    </volist>
+                                </td>
+                                <td width="291">
+                                    <volist name="combo_info.item" id="combo_item">
+                                        <div class="cartProName" style="margin-top: 10px;">
+                                            <input type="hidden" id="cart{$combo_item.pdt_id}" name="cart[{$goods_info.pdt_id}]" class="inputNum" value="{$goods_info.oi_nums}" >
+                                            <input type="hidden" id="" name="" value="{$combo_item.pdt_id}">
+                                            <a href="javascript:void(0);">{$combo_item.oi_g_name}</a>
+                                            <span>商品编号：{$combo_item.g_sn}</span>
+                                            <span>规格：{$combo_item.pdt_spec}</span>
+                                        </div>
+                                    </volist>
+                                </td>
+        
+                                <td width="149"><i class="price">￥</i> {$combo_info.pdt_sale_price|number_format=2}</td>
+                                <td width="86">{$combo_info.num}</td>
+                                <td width="186">
+                                        <strong class="strong01"><i class="price">￥</i> {$combo_info.o_all_price|number_format=2}</strong>
+                                </td>
+                                <td width="">{$combo_info.str_refund_status} {$combo_info.str_ship_status}</td>
+                            </tr>  
+                        </volist>
+                    </form>    
+                    </tbody>
+                </table>
+                <div class="shopListCon"><!--shopListCon  start-->
+                    <div class="shopListConRight"><!--shopListConLeft  start-->
+                        <ul>
+                            <if condition="($ary_orders['oi_type'] eq '5') OR ($ary_orders['oi_type'] eq '8' OR $ary_orders['oi_type'] eq '1')">
+                                <li>
+									<span class="span01">商品金额：</span>
+									<label><i class="price">￥</i>{$ary_orders.o_goods_all_price|number_format=2}</label>
+								</li>
+                                <elseif condition="$ary_orders['oi_type'] eq 11" />
+                                <li>
+                                    <span class="span01">商品金额：</span>
+                                    <label><i class="price">￥</i>{$ary_orders['pdt_sale_price'] * $ary_orders['oi_nums']| sprintf='%0.2f',###} </label>
+                                </li>
+                            <else/>
+                                <li>
+									<span class="span01">商品金额：</span>
+									<label><i class="price">￥</i>{$ary_orders.o_goods_all_price|number_format=2}</label>
+								</li>
+                            </if>
+							<if condition="$ary_orders['o_tax_rate'] gt 0 ">
+								<li>
+									<span class="span01">订单税额：</span>
+									<label><i class="price">￥</i>{$ary_orders.o_tax_rate|number_format=2}</label>
+								</li>
+							</if>
+                            <li>
+								<span class="span01">运费金额：</span>
+								<label><i class="price">￥</i>{$ary_orders.o_cost_freight|number_format=2}</label>
+							</li>
+                            <li><span class="span01">可获积分：</span><label>{$ary_orders.o_reward_point|default="0"}分</label></li>
+                            <li><span class="span01">花费积分总计：</span><label>{$ary_orders.o_freeze_point|default="0"}分</label></li>
+                            <notempty name="ary_orders.o_point_money">
+                                <li>
+                                    <span class="span01">花费积分抵扣金额：</span>
+                                    <label>
+                                        <i class="price">￥</i>{$ary_orders.o_point_money|number_format=2}
+                                    </label>
+                                </li>
+                            </notempty>
+                            <if condition="$ary_orders[oi_type] neq '5'">
+                                 <li>
+									<span class="span01">优&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;惠：</span>
+									<label><i class="price">￥</i>{$ary_orders.o_discount|number_format=2}</label>
+								</li> 
+                                <li>
+                                    <span class="span01">优惠券金额：</span>
+                                    <label>
+                                        <i class="price">￥</i>{$ary_orders.o_coupon_menoy|number_format=2}
+                                    </label>
+                                </li>
+                            
+                            </if>
+
+                            <notempty name="ary_orders.o_bonus_money">
+                                <li>
+                                    <span class="span01">红包金额：</span>
+                                    <label>
+                                        <i class="price">￥</i>{$ary_orders.o_bonus_money|number_format=2}
+                                    </label>
+                                </li>
+                            </notempty>
+                            <notempty name="ary_orders.o_cards_money">
+                                <li style="display:none;">
+                                    <span class="span01">储值卡金额：</span>
+                                    <label>
+                                        <i class="price">￥</i>{$ary_orders.o_cards_money|number_format=2}
+                                    </label>
+                                </li>
+                            </notempty>
+                            <notempty name="ary_orders.o_jlb_money">
+                                <li style="display:none;">
+                                    <span class="span01">金币金额：</span>
+                                    <label>
+                                        {$ary_orders.o_jlb_money|number_format=2}
+                                    </label>
+                                </li>
+                            </notempty>
+                            <notempty name="ary_orders.o_reward_jlb">
+                            <li style="display:none;"><span class="span01">促销获赠金币：</span><label>{$ary_orders.o_reward_jlb}</label></li>
+                            </notempty>
+                            
+                            <if condition="$ary_orders['o_pay_status'] eq 3">
+                            <li><span class="span01">已支付金额：</span><label><i class="price">￥</i>{$ary_orders.o_pay|default="0"}</label></li>
+                            </if>
+                            <li>
+								<span class="span01">余&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：</span>
+								<label><i class="price">￥</i>{$ary_orders.m_balance|number_format=2}</label>
+							</li>
+                            <li>
+								<span class="last">订单总金额：</span>
+								<label><strong><i class="price">￥</i>{$ary_orders['o_all_price']|number_format=2}</label></strong>
+							</li>
+                            <if condition="$ary_orders['o_pay_status'] neq '1' && $ary_orders['o_status'] eq '1'">
+                                    <li><span class="last">还应支付金额：</span>
+									<label><strong><i class="price">￥</i>{$ary_orders['o_order_amount']|number_format=2}</label></strong></li>
+                                <li>
+                                    <a href='{:U("Ucenter/Orders/OrderSuccess/","oid=$ary_orders[o_id]")}' class="brown" ><if condition="($ary_orders['oi_type'] eq '5') and ($ary_orders['str_pay_status'] eq '部分支付')">支付尾款<else/>立即付款</if></a>
+                                </li>
+                            </if>
+                        </ul>
+                    </div><!--shopListConRight  end-->
+                </div><!--shopListCon  end-->
+            </div><!--shopList  end-->
+        </div><!--checkInformation   end-->
+    </div><!--contentRightBox  end-->
+<!-- 中间内容结束 -->
+
+<div id="invalidOrder_div"  style="display: none"><!--弹框  开始-->
+    <table class="alertTable">
+       <tr>
+            <td align="right" width="75" valign="top">作废类型：</td>
+            <td>
+                <select name="cacelType" id="cacelType" >
+                    <option value="0">选择类型</option>
+                    <option value="1">不想买了</option>
+                    <option value="2">别家更便宜</option>
+                    <option value="3">重新拍</option>
+                    <option value="4">其他原因</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div><!--弹框  结束-->
+<div id="delivery_div" style="display:none;">
+    <table class="alertTable">
+        <tr>
+            <td align="right" width="90" valign="top">退运费金额：</td>
+            <td>
+                <input type="text" name="delivery_price" id="delivery_price" value="">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" width="90" valign="top">退运费理由：</td>
+            <td>
+                <input type="hidden" name="o_id" value="{$ary_orders['o_id']}">
+                <textarea name="delivery_reason" id="delivery_reason" style="margin-top:5px;"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+function delivery(){
+    $('#delivery').unbind();
+    $("#delivery_div").dialog({
+        width:367,
+        height:215,
+        modal:true,
+        title:"申请退运费",
+        buttons:[
+            {
+                text:"确定",
+                click:function() {
+                    var num = /^([1-9][0-9]{0,10})|(0)\.?[0-9]{0,3}$/;
+                    var delivery_price = $("#delivery_price").val();
+                    var delivery_reason = $('#delivery_reason').val();
+                    var o_id = $('#delivery').attr('data-id');
+                    var url = '{:U("/Ucenter/Aftersale/doAddDelivery")}';
+
+                    if (!num.exec(delivery_price)) {
+                        alert("请输入正确金额!");
+                        $("#delivery_price").focus();
+                        return false;
+                    }
+
+                    if(delivery_reason == ''){
+                        alert('请输入申请理由!');
+                        $('#delivery_reason').focus();
+                        return false;
+                    }
+
+                    $.ajax({
+                        url:url,
+                        data:{"oid":o_id,"delivery_price":delivery_price,"delivery_reason":delivery_reason},
+                        type:"post",
+                        dataType:"json",
+                        success:function(msgobj) {
+                            $("#delivery_div").dialog("close");
+                            $("#delivery_reason").val("");
+                            $("#delivery_price").val("");
+                            $("#delivery_div").hide();
+                            if(msgobj.status == 1){
+                                $('#delivery').remove();
+                            }
+                            showAlert(msgobj.status,msgobj.info,'',msgobj.url);
+                        }
+                    });
+                }
+            },
+            {
+                text:"取消",
+                click:function() {
+                    $(this).dialog("close");
+                    $('#delivery').bind({'click':delivery});
+                    $('#delivery_price').val("");
+                    $('#delivery_reason').val("");
+                }
+            }
+        ],
+        close:function() {
+            $('#delivery').bind({'click':delivery});
+            $('#delivery_price').val("");
+            $('#delivery_reason').val("");
+        }
+    });
+}
+    $("#invalid").click(function(){
+        var o_id = $("#invalid").attr("o_id");
+        var url = '/Ucenter/Orders/ajaxInvalidOrder';
+        var str_pay_status = $("input[name='str_pay_status']").val();
+        var deliver_status = $("input[name='deliver_status']").val();
+        if(str_pay_status != "未支付" || deliver_status != "未发货") {
+            showAlert(false,"此订单不能作废");
+            return false;
+        }
+        $("#invalidOrder_div").dialog({
+            width:367,
+            height:215,
+            modal:true,
+            title:"作废订单",
+            buttons:[
+                {
+                    text:"确定",
+                    click:function() {
+                        if($("#cacelType").val() == '0'){
+                            showAlert(false,'作废类型不能为空！');
+                            $(this).dialog("close");
+                            return false;
+                        }
+                        var cacel_type = $("#cacelType").val();
+                        $.ajax({
+                            url:url,
+                            data:{"oid":o_id,"cacel_type":cacel_type,"trigger":"click"},
+                            type:"post",
+                            dataType:"json",
+                            success:function(msgobj) {
+                                showAlert(msgobj.status,msgobj.info,'',msgobj.url);
+                                $("#invalidOrder_div").dialog("close");
+                                $("#cacelType").val("");
+                                if(msgobj.status == 1) {
+                                    $("#invalid").hide();
+                                }
+                            }
+                        });
+                    }
+                },
+                {
+                    text:"取消",
+                    click:function() {
+                        $(this).dialog("close");
+                        $("#cacelType").val("");
+                    }
+                }
+            ],
+            close:function() {
+                $("#cacelType").val("");
+            }
+        });
+    });
+    function lookMobile(obj){
+        var url = '/Ucenter/Orders/showMobile/';
+        var html = $(obj);
+        var oid = $('#orders_id').val();
+        var o_receiver_mobile = $("dd[name='o_receiver_mobile']");
+        var receiver_mobile = $("input[name='receiver_mobile']").val();
+        if(html.html() == '查看手机号' && html.html() != '' && oid != ''){
+            $.ajax({
+                url : url,
+                data : {'oid':oid},
+                type:"post",
+                dataType:"json",
+                success:function(info){
+                    if(info.mobile){
+                        o_receiver_mobile.html('手机号码：'+info.mobile+'<a onclick="lookMobile(this)" href="javascript:void(0)">关闭显示'+'</a>');
+                    }
+                }
+            })
+        }
+        if(html.html() == '关闭显示' && html.html() != ''){
+            o_receiver_mobile.html('手机号码：'+receiver_mobile+'<a onclick="lookMobile(this)" href="javascript:void(0)">查看手机号'+'</a>');
+        }
+    }
+	//提货短信重发
+	function sendMobile(obj){
+	 if(confirm("确定重新发送短信吗？")){
+        var url = '/Ucenter/Orders/sendMobile/';
+        var html = $(obj);
+		var oid = $('#orders_id').val();
+		$.ajax({
+			url : url,
+			data : {'oid':oid},
+			type:"post",
+			dataType:"json",
+			success:function(info){
+				alert(info.message);
+				return;
+			}
+		})	 
+	 }
+    }
+    function lookIDcard(obj){
+        var url = '/Ucenter/Orders/showIDcard/';
+        var html = $(obj);
+        var oid = $('#invalidOrder').attr('o_id');
+        var o_receiver_idcard = $("dd[name='o_receiver_idcard']");
+        var receiver_idcard = $("input[name='receiver_idcard']").val();
+        if(html.html() == '查看身份证号' && html.html() != '' && oid != ''){
+            $.ajax({
+                url : url,
+                data : {'oid':oid},
+                type:"post",
+                dataType:"json",
+                success:function(info){
+                    if(info.idcard){
+                        o_receiver_idcard.html('身份证号：'+info.idcard+'<a onclick="lookIDcard(this)" href="javascript:void(0)">关闭显示'+'</a>');
+                    }
+                }
+            })
+        }
+        if(html.html() == '关闭显示' && html.html() != ''){
+            o_receiver_idcard.html('身份证号：'+receiver_idcard+'<a onclick="lookIDcard(this)" href="javascript:void(0)">查看身份证号'+'</a>');
+        }
+
+    }
+</script>

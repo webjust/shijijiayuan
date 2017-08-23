@@ -1,0 +1,112 @@
+<div class="rightInner">
+	<if condition="isset($is_edit) && 1 == $is_edit">
+    <form id="group_form" name="group_form" method="post" action="{:U('Admin/Salespromotion/saveSalesSet')}" onsubmit="return formBeforeSubmitCheck();">
+		<input type="hidden" value="{$ary_data.mss_id}" class="mss_id" name="mss_id" id="mss_id">
+		<input type="hidden" value="edit" name="method" >
+	<else />
+		<form id="group_form" name="group_form" method="post" action="{:U('Admin/Salespromotion/saveSalesSet')}" onsubmit="return formBeforeSubmitCheck();">
+    	<input type="hidden" value="add" name="method" >
+    </if>
+		<table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">添加销售额</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">分销商：</td>
+                    <td>
+                    	<input type="text" id="m_name" name="m_name" class="medium" value="{$ary_data.m_name}">
+						<span style="color:gray;" id="show_checkname_msg">分销商名称，唯一。</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">起始年月日：</td>
+                    <td>
+                        <input type="text" id="mss_time_begin" class="timer medium" readonly='readonly' name="mss_time_begin" value="{$ary_data.mss_time_begin}" />
+						<span style="color:gray;">例:2014-01-01。</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">结束年月日：</td>
+                    <td>
+                        <input type="text" id="mss_time_end" name="mss_time_end" readonly='readonly' class="timer medium" value="{$ary_data.mss_time_end}" />
+						<span style="color:gray;">例:2020-01-01。</span>
+                    </td>
+                </tr>
+               <tr>
+                    <td class="first">目标销售额：</td>
+                    <td>
+                        <input type="text" id="mss_target_sales" name="mss_sales" value="{$ary_data.mss_sales}" maxlength="8" class="medium"  />
+						<span style="color:gray;">例:例1000.00。</span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99" style="padding-left:170px;">
+						<input type="hidden" name="dosubmit" value="1" />
+                        <input type="submit" value="提 交" class="btnA" />
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Salespromotion/showSalesSetList')}?m_name={$m_name}');" class="btnA" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+function formBeforeSubmitCheck(){
+	var m_name = $("#m_name").val();
+	var mss_time_begin = $("#mss_time_begin").val();//起始日期
+	var mss_time_end = $("#mss_time_end").val();//结束日期
+	var mss_sales = $("#mss_target_sales").val();
+	var mss_id = $("#mss_id").val();
+	var method = $("#method").val();
+	if(m_name == ''){
+		 showAlert(false, '分销商不能为空,请输入分销商名称!');
+		 return false;
+	}
+	if(mss_time_begin == ''){
+		 showAlert(false, '起始年月不能为空,请输入起始年月!');
+		 return false;
+	}
+	if(mss_time_end == ''){
+		 showAlert(false, '结束年月不能为空,请输入结束年月!');
+		 return false;
+	}
+	if (mss_sales.length == 0 || mss_sales == 0.00){
+		showAlert(false,'目标销售额输入有误,请输入目标销售额！');
+		return false;
+	}
+    var ereg_rule=/^([\d]+|([\d]+[.]?|[\d]+[.]?[\d]+))$/;
+	if(!ereg_rule.test(mss_sales)){
+		$("#mss_target_sales").val('0');
+		showAlert(false, '目标销售额不合法!');
+		return false;
+	}
+}
+</script>
+<script>
+$(document).ready(function(){
+	$("#m_name").live("blur",function(){
+		var url	= "{:U('Admin/Salespromotion/ajaxCheckSalesSetMname')}";
+		var mss_id	= $("#mss_id").val();
+		if(!this.value){
+			$('#show_checkname_msg').html('分销商名称，唯一。');
+			return ;
+		}
+		$("#show_checkname_msg").html('<img src="__PUBLIC__/Admin/images/ajax-loader10.gif"/>');
+		$.post(url,{'mss_id':mss_id,'m_name':this.value},
+			function(msg){
+				$("#show_checkname_msg").html(msg.msg);
+				if(msg.status=='success'){
+					$("#show_checkname_msg").css('color','green');
+				}else{
+					$("#show_checkname_msg").css('color','red');
+				}
+		},'json');
+	});
+});
+</script>

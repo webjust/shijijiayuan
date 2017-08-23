@@ -1,0 +1,295 @@
+<link rel="stylesheet" href="__UCSS__global.css">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet" text="text/css" />
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+<!--<script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>-->
+<script src="__PUBLIC__/Lib/jquery/js/jquery-ui-1.9.2.custom.js"></script>
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $.divselect("#divselect1","#inputselect");
+    });
+</script>
+<!--content-->
+<div class="container">
+    <!--container-->
+    <div class="titleTop"> <!--titleTop-->
+        <p class="detailT"><a href="#">首页</a>/<a href="#">我的订单</a></p>
+        <h1><span>我的订单</span></h1>
+    </div><!--titleTop-->
+    <!--Ucenter-->
+    <div class="Ucenter">
+        <!--userInfo-->
+        <div class="userInfo" id="userInfo">
+            <script>
+                getcommoninfo();
+            </script>
+        </div>
+        <!--userInfo-->
+        <!--ucenter_S-->
+        <div class="ucenter_S">
+            <div class="selectort"><span class="select">我的订单</span>
+                <ul style="display: none;">
+                    <li><a href="{:U('Wap/Orders/orderList')}"  selectid="2">我的订单</a></li>
+                    <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                    <li><a href="{:U('Wap/My/pageDeliver')}" selectid="4">我的地址</a></li>
+                    <li><a href="{:U('Wap/Message/pageMailBox')}" selectid="5">站内消息</a></li>
+                    <li><a href="{:U('Wap/Collect/pagelist')}" selectid="6">收藏列表</a></li>
+                    <li><a href="{:U('Wap/PointLog/pagelist')}" selectid="8">我的积分</a></li>
+                    <li><a href="{:U('Wap/Coupon/couponList')}" selectid="9">我的优惠券</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--ucenter_S-->
+        <!--Myorder-->
+        <div class="Myorder">
+            <h1>我的订单</h1>
+            <!--search-->
+
+                <div class="Search"><!--搜索订单 begin-->
+                <form method="get" action='{:U("/Wap/Orders/orderList")}' id="search_form">
+                    <div class="search_left">搜索订单：
+                        <input type="text" class="inp" name="o_id" id="o_id" value="{$chose['o_id']}"/>
+                        <a href="javascript:;" id="search1">搜索</a>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                       $(function(){
+                            $("#search1").click(function(){
+                                $("#search_form").submit();
+                                return false;
+                            });
+                       });
+                </script>
+                <form id="orders_form" method="get" action='{:U("/Wap/Orders/orderList")}' >
+                <input type='hidden' name='status' id='status' value='0' />
+                <div class="Screening"><span>筛选：</span>
+                    <div id="divselect1"> <a href="javascript:;"  class="select">{$str_orders_status}<i></i></a>
+                        <ul>
+                            <li><a href="#" selectid="1" value="0" type='status'>所有订单<i class="on"></i></a></li>
+                            <li><a href="#" selectid="2" value="3" type='status'>待付款<i class="on"></i></a></li>
+                            <li><a href="#" selectid="3" value="1" type='status'>待发货<i class="on"></i></a></li>
+                            <li><a href="#" selectid="4" value="2" type='status'>待收货<i class="on"></i></a></li>
+                            <li><a href="#" selectid="5" value="7" type='status'>待评价<i class="on"></i></a></li>
+                            <li><a href="#" selectid="6" value="5" type='status'>三月内订单<i class="on"></i></a></li>
+                            <li><a href="#" selectid="7" value="6" type='status'>三月前订单<i class="on"></i></a></li>
+                            <li><a href="#" selectid="8" value="4" type='status'>退款/退货中<i class="on"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                    <script>
+                        function doFilter(){
+                            $("#orders_form").submit();
+                            return false;
+                        }
+                        $(function(){
+                            $("ul").find("a[type='status']").click(function(){
+                                var o_status = $(this).attr("value");
+                                $("#status").val(o_status);
+                                $("#orders_form").submit();
+                                return false;
+                            });
+                            $("#divselect1").click(function(){
+                                $("#ul").toggle();
+                            });
+                        });
+                    </script>
+                </form>
+            </div>
+            <!--搜索订单 ebd-->
+            <!--search-->
+            <!--orderCount-->
+            <div class="orderCount">所有订单，共 {$member.order_count} 单</div>
+            <!--orderCount-->
+            <!--order-->
+            <div class="order">
+                <if condition="$orders_info NEQ ''">
+                  <!--<php>dump($orders_info)</php>-->
+                <volist name="orders_info" id="orders">
+                <h1>{$orders.o_id}</h1>
+                <!--订单状态开始-->
+                <div class="state"><span>状态：
+                        <em>
+                            {$orders.str_status}
+                            <if condition="$orders[str_status] eq '' ">
+                               {$orders.str_pay_status}
+
+                               {$orders.refund_status}
+
+                                {$orders.deliver_status}
+                            </if>
+                            <if condition="$orders[refund_goods_status] neq '' ">
+                                {$orders.refund_goods_status}
+                            </if>
+                            <if condition="$orders[o_audit] eq 1">&nbsp;&nbsp;已审核</if>
+                        </em>
+                        </span>
+                    
+
+                </div>
+
+                <!--订单状态结束-->
+                <!--订单详情开始-->
+                <div class="orderInfo">
+                    <div class="orderTb">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="order_tb">
+                            <tr>
+                                <td>下单时间:</td>
+                                <td>{$orders.o_create_time}</td>
+							</tr>
+							<tr>
+                                <td>收件人:</td>
+                                <td>{$orders.o_receiver_name}</td>
+                            </tr>
+                            <tr>
+                                <td>订单编号:</td>
+                                <td class="orderC">{$orders.o_id}</td>
+							</tr>
+							<tr>
+                                <td>订单金额:</td>
+                                <td> {$orders.o_all_price|sprintf='%.2f',###}元</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--订单图片信息开始-->
+                            <div class="infoP">
+                                <!--订单图片信息1开始-->
+                                <php>$order_items = $orders['items'];</php>
+
+                                <notempty name='order_items'>
+                                    <volist name='order_items' id='item'>
+                                        <div class="infoPic">
+                                            <div class="info_left"><a href="{:U('Wap/Products/detail')}?gid={$item.g_id}"><img src="{$item['g_picture']['g_picture']}"></a></div>
+                                            <div class="info_right">
+                                                <p>商品： {$item.oi_g_name}</p>
+                                                <notempty name="item['pdt_spec']" id="spec">
+                                                <p>{$item.pdt_spec}</p>
+                                                </notempty>
+                                                <p>价格：{$item.oi_price|sprintf='%.2f',###}元</p>
+                                            </div>
+                                        </div>
+                                    </volist>
+                                </notempty>
+								<a href="{:U('Wap/Orders/orderDetail')}?oid={$orders.o_id}" style="font-size:15px">查看订单详情</a>
+                                <!--订单图片信息1结束--》
+                                <!--订单图片信息操作开始-->
+
+                                <input type="hidden" name="str_pay_status" value="{$orders.str_pay_status}">
+                                <input type="hidden" name="deliver_status" value="{$orders.deliver_status}">
+                                <div class="infoB" <if condition="$orders.str_status eq '作废'"> style="border-bottom:1px solid #fff;" </if> >
+                                    <if condition="(($orders['o_pay_status'] neq '1') and ($orders['o_status'] eq '1')) and ($orders['o_payment'] neq '24' and $orders['o_payment'] neq '20') ">
+                                        <neq name="ary_orders.o_payment" value="6">
+                                            <if condition="$orders['str_pay_status'] eq '已支付'">
+
+                                                <elseif condition="($orders['oi_type'] eq '5') and ($orders['str_pay_status'] eq '部分支付')" />
+                                                <a href='{:U("Wap/Orders/OrderSuccess/","oid=$orders[o_id]")}' class="gobuy" style="background-color: #5f1785;border-radius: 4px;color: #ffffff;display: inline-block;font-size: 16px;padding: 12px 0;text-align: center;width: 40%;">支付尾款</a>
+                                                <else />
+                                                <a href='{:U("Wap/Orders/OrderSuccess/","oid=$orders[o_id]")}' class="gobuy" style="background-color: #5f1785;border-radius: 4px;color: #ffffff;display: inline-block;font-size: 16px;padding: 12px 0;text-align: center;width: 40%;">去付款</a>
+                                            </if>
+
+                                        </neq>
+                                    </if>
+                                <if condition="($orders['is_evaluate'] neq '1') and ($orders['o_status'] eq '5')">
+                                    <a href='{:U("Wap/Orders/addMemberEvaluate","oid=$orders[o_id]")}' class="gobuy" style="background-color: #5f1785;border-radius: 4px;color: #ffffff;display: inline-block;font-size: 16px;padding: 12px 0;text-align: center;width: 40%;">去评价</a>
+                                 </if>
+                                   <if condition="($orders['o_pay_status'] eq 0) and ($orders.str_status neq '作废')" >
+                                    <a href="javascript:void(0);" id="invalid_{$orders.oi_id}" class="cancel" o_id ="{$orders.o_id}">取消订单</a>
+                </if>
+                                </div>
+                                <!--订单图片信息操作结束-->
+                            </div>
+                    <!--订单图片信息开始-->
+                </div>
+                </volist>
+                <!--订单详情结束-->
+                <else />
+                    <div class="orderC"><!--orderC 开始-->没有符合条件的记录！</div><!--orderC 结束-->
+                </if>
+                <div class="fenye">
+                    {$page}
+                </div>
+            </div>
+            <!--order-->
+        </div>
+        <!--Myorder-->
+    </div>
+    <!--Ucenter-->
+</div>
+<div id="invalidOrder_div"  style="display: none"><!--弹框  开始-->
+    <table class="alertTable">
+        <tr>
+            <td align="right" width="75" valign="top">作废类型：</td>
+            <td>
+                <select name="cacelType" id="cacelType" >
+                    <option value="0">选择类型</option>
+                    <option value="1">不想买了</option>
+                    <option value="2">别家更便宜</option>
+                    <option value="3">重新拍</option>
+                    <option value="4">其他原因</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div><!--弹框  结束-->
+<!--/container-->
+
+<script type="text/javascript">
+
+
+    //作废订单操作
+    $(".cancel").click(function(){
+        var o_id = $(this).attr("o_id");
+        var url = '/Wap/Orders/ajaxInvalidOrder';
+        var str_pay_status = $("input[name='str_pay_status']").val();
+        var deliver_status = $("input[name='deliver_status']").val();
+        if(str_pay_status != "未支付" || deliver_status != "未发货") {
+            alert("此订单不能作废");
+            return false;
+        }
+        $("#invalidOrder_div").dialog({
+            width:367,
+            height:215,
+            modal:true,
+            title:"作废订单",
+            buttons:[
+                {
+                    text:"确定",
+                    click:function() {
+                        if($("#cacelType").val() == '0'){
+                            $.ThinkBox.error("作废类型不能为空！");
+                            $(this).dialog("close");
+                            return false;
+                        }
+                        var cacel_type = $("#cacelType").val();
+                        $.ajax({
+                            url:url,
+                            data:{"oid":o_id,"cacel_type":cacel_type,"trigger":"click"},
+                            type:"post",
+                            dataType:"json",
+                            success:function(msgobj) {
+                                if(msgobj.status == 1) {
+                                    $.ThinkBox.success(msgobj.info);
+                                    $("#invalidOrder_div").dialog("close");
+                                    $("#cacelType").val("");
+                                    location.replace(location)
+                                }else{
+                                    $.ThinkBox.error(msgobj.info);
+                                }
+                            }
+                        });
+                    }
+                },
+                {
+                    text:"取消",
+                    click:function() {
+                        $(this).dialog("close");
+                        $("#cacelType").val("");
+                    }
+                }
+            ],
+            close:function() {
+                $("#cacelType").val("");
+            }
+        });
+    });
+</script>
+

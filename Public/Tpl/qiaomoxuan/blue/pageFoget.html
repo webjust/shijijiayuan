@@ -1,0 +1,101 @@
+<style>
+.error{color:red;}
+</style>
+<div class="YSTwarp">
+    <div class="area">
+        <div class="col">
+            <div class="crumb">
+                <div class="content1000">
+                    <strong>忘记密码</strong>
+                </div>
+            </div>
+            <div class="reg">
+                <div class="content1000">
+                    <div class="regCon">
+                        <div class="regConL">
+							<form id="forgetform" action="/Home/User/synReset" method="post">
+								<ul>
+									<li>
+										<dl>
+											<dt>
+												*用户邮箱：
+											</dt>
+											<dd>   
+												<span class="inS">
+													<input type="text" validate="{ required:true}" class="medium" id="username" name="username">
+												</span>
+												<i></i>    
+											</dd>
+										</dl>
+									</li>
+									<li>
+										<dl>
+											<dt>*校&nbsp;验&nbsp;码：</dt>
+											<dd>
+												<span class="yanzm"><input type="text" id="verify" name="verify"></span>
+												<a onclick="changeverify(this)" href="javascript:void(0);"><img width="78" height="37" onclick="this.src='/Home/User/verify/'+Math.random()" src="/Home/User/verify/" id="loginverify">换一张</a>
+												<i onclick="this.src='/Home/User/verify/'+Math.random()" style="display:none;color:red" class="message">验证码有误</i>
+												<i></i>  
+										   </dd>
+										</dl>
+									</li>
+								</ul>
+								<input type="submit" id="submitForm" class="login" value="找回密码">
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+function changeverify(){      
+    $('#loginverify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());        	
+}
+$(document).ready(function(){
+	$("#forgetform").validate({
+		errorPlacement: function(error, element) {
+			var error_td = element.parent("span").siblings("i");
+			error_td.append(error);
+		},
+		rules : {
+			username : {
+				required:true,
+				email:true,
+			},
+			verify : {
+				required:true,
+				digits:true,
+				remote:'/Home/User/checkVerify',
+				rangelength:[4,4]
+			}
+		},
+		messages : {
+			username : {
+				required : '注册邮箱不能为空',
+				minlength : '注册邮箱不能少于4位',
+				remote:'该用户名已经存在'
+			},
+			verify : {
+				required:'请输入验证码',
+				rangelength:'验证码长度为4',
+				digits:'对不起，请输入正确的验证码'
+			}
+		}
+	});
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

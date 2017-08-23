@@ -1,0 +1,169 @@
+<link href="{$Think.config.DOMAIN_HOST}__CSS__slider.style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__productsdetail.js"></script>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__goodsDetailSku.js"></script>
+<div class="warp">
+    <div class="head">
+        <p>商品详情</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/Cart/pageCartList')}" class="gocart"></a>
+        <a href="javascript:void(0);" onclick="addToInterests('{$ary_request.gid}');" class="jia"></a>
+    </div>
+    <Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"  ></Gyfx:goodsinfo>
+    <input type="hidden" value="{$ary_request.gid}" id="gid">
+    <input type='hidden' id='m_id' value='{$Think.session.Members.m_id}' />
+    <!--<php>//dump($detail);die;</php>-->
+    
+    <input type='hidden' name='goods_type' value='{$goods_type}' />
+    <div class="proDetail"><!--proDetail 开始-->
+        <!--轮播开始-->
+        <div class="proImg">
+            <div class="addWrap">
+              <div class="swipe" id="mySwipe">
+                <div class="swipe-wrap">
+                    <volist name="detail.gpics" id="pic">
+                    <div><a href="javascript:;"><img width="100%" height="100%" src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,640}" /></a></div>
+                    </volist>
+                </div>
+              </div>
+              <ul id="position">
+                <volist name="detail.gpics" id="pic" >
+                <if condition="$i eq '0'">
+                <li class="cur"></li>
+                <else />
+                <li class=""></li>
+                </if>
+                </volist>
+                
+              </ul>
+            </div>
+        </div>
+        <script src="{$Think.config.DOMAIN_HOST}__JS__swipe.min.js"></script> 
+        <script type="text/javascript">
+        var bullets = document.getElementById('position').getElementsByTagName('li');
+        var banner = Swipe(document.getElementById('mySwipe'), {
+            auto: 2000,
+            continuous: true,
+            disableScroll:false,
+            callback: function(pos) {
+                var i = bullets.length;
+                while (i--) {
+                  bullets[i].className = ' ';
+                }
+                bullets[pos].className = 'cur';
+            }
+        });
+        </script>
+        <!--轮播结束-->
+        <p class="repeat_x"></p>
+        <div class="proDCon"><!--proDCon 开始-->
+            <form id="goodsForm" name="goodsForm" method="post" action="javascript:void(0);">
+            <div class="proDO">
+                <h2><a href="{:U('Wap/Products/description')}?g_id={$ary_request[gid]}" style="width:100%;display:block;">商品信息</a></h2>
+                <div class="proDOC">
+				<!-- <php>
+				echo "<pre>";
+				print_r($detail);
+				</php> -->
+                    <p class="p01">{$detail.gname}<if condition="$detail['gremark'] neq '' ">，{$detail.gremark}</if></p>
+                    <php>
+                        $money = round(($g_market_price- $g_price),2);
+                    </php>
+                        <p class="p02">价格:<strong ><i>&yen;</i><span id="showPrice">{$detail.gprice|sprintf='%.2f',###}</span></strong><del>市场价:<i>&yen;</i><span id="showMarketPirice">{$g_market_price|sprintf='%.2f',###}</span></del>节省:<label><i>&yen;</i><span  id="savePrice">{$money}</span></label></p>
+                </div>
+            </div>
+            <div class="proDTC"><!--proDTC 开始-->
+                <div class="proDT">
+                    <div id="showDetailSkus">商品规格加载中.....
+                        <script>getDetailSkus('{$ary_request.gid}');</script>
+                    </div>
+					<a href="javascript:void(0);" id="addToOrder" class="goBuy">立即购买</a>
+                    <a href="javascript:void(0);" onclick="addToCart();" class="goBuy">加入购物车</a>
+					<input type="hidden" name="way_type" value="" id="way_type"/>
+                </div>
+                
+                <i></i>
+            </div><!--proDTC 结束-->
+            </form>
+			<!--
+            <div class="taocan">
+                <h2>优惠套餐</h2>
+                <div class="tcCon" id='coll_goods'>
+                  
+                </div>
+            </div>-->
+			<div class="taocan dpList">
+			  <a href="{:U('Wap/Products/collGoodsPage')}?g_id={$ary_request[gid]}" class="dpTitle">优惠搭配</a>
+				 <div class="dpLists" id="coll_goods">	 
+				</div>
+			</div>	
+            <div class="proDTh">		
+                <div class="proDThC">
+                    <a href="{:U('Wap/Products/specifications')}?g_id={$ary_request[gid]}">规格参数</a>
+                    <a href="{:U('Wap/Comment/getCommentPage')}?g_id={$ary_request[gid]}">商品评价（{$all_count}）</a>
+                    <a href="{:U('Wap/Products/getGoodsAdvice')}?g_id={$ary_request[gid]}">购买咨询（{$advice_count}）</a>
+                </div>
+                <i></i>
+            </div>
+            <div class="proDF"><!--proDF 开始-->
+                <h2>也许您还感兴趣</h2>
+                <div class="proDFC">
+                    <div class="proDFCT">
+                        <ul>
+                            <li class="box">
+                            <volist name="ary_relate_goods" id="this_coll">
+                                <switch name="key">
+                                    <case value="0|1|2">
+
+                                            <a href="/Wap/Products/detail/gid/{$this_coll.g_id}" class="proPic">
+                                                <img src="{$Think.config.DOMAIN_HOST}<php>echo '/'.ltrim($this_coll['g_picture'],'/');</php>" style="width:70px;height:100px;" />
+                                                <p title="{$this_coll.g_name}" style="width:70px;height:55px;overflow:hidden;">{$this_coll.g_name}</p>
+                                                <span id="collPrice_{$this_coll.g_id}">&yen;{$this_coll.g_price|sprintf='%.2f',###}</span>
+                                            </a>
+                                    </case>
+                                </switch>
+                            </volist>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<div class="proDFCB clearfix">
+                        <span class="fleft">总计:<label>&yen;2378.00</label></span>
+                        <a href="javascript:void(0);" class="fright">加入购物车</a>
+                    </div>-->
+                </div>
+            </div><!--proDF 结束-->
+        </div><!--proDCon 结束-->
+    </div><!--proDetail 结束-->
+    <input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+	<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+	<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+    <form id="orderAddFrom" name="orderAddFrom" method="post" action="/Wap/Orders/pageAdd">
+    <input type="hidden" name="pid[]" id="addOrderPid" value="" />
+    <input type="hidden" name="type[]" id="addOrdertype" value=""/>
+    </form>
+	<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Wap/Orders/addOrderPage">
+		<input type="hidden" name="pid[]" id="submitSkipPid" value="" />
+		<input type="hidden" name="type[]" id="submitSkiptype" value=""/>
+	</form>
+</div>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__product.js"></script>
+
+<script type="text/javascript" >
+var nullNum = "{$Think.lang.STOCK_ERROR_1}";
+var notEnough = "{$Think.lang.STOCK_ERROR_2}";
+var reselection = "{$Think.lang.STOCK_ERROR_3}";
+var nonExistent = "{$Think.lang.STOCK_ERROR_4}";
+var notLogin = "{$Think.lang.NO_LOGIN}";
+//获取自由组合商品
+getCollGoodsPage('{$ary_request.gid}');
+//获取相关商品
+getRelateGoodsPage('{$ary_request.gid}');
+
+$(function(){
+    var $slideshow = $('.proImg').slides({
+        skip: false,
+        auto: false,
+        speed : 600
+    });
+})
+</script>

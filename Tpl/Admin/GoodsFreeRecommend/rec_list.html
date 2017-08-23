@@ -1,0 +1,140 @@
+<div id="tip_dialog">
+    <div id="good_dialog" style="display:none">
+    </div>
+</div>
+<div id="content">
+    <div class="rightInner" ><!--rightInner  start-->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <form method="get" action="{:U('Admin/GoodsFreeRecommend/freeRecommendList')}">
+                        <th colspan="99">
+                            <p class="conOneP" style="float: left;">
+                                <a href="{:U('Admin/GoodsFreeRecommend/addFreeRecommendPage')}" class="btnG ico_add">添加自由搭配</a>
+                                <a href="javascript:void(0);" onclick="return getCheckedProducts(this);" class="btnG Set">批量删除</a>
+                            </p>
+                            
+                            <ul class="conOneUl" style="width:815px;">
+                                    <li>有效时间：<input type="text" name="fr_statr_time" class="large medium timer" value="{$Think.get.fr_statr_time}"  style="width: 145px;float: none;"></li>
+                                    <li>至<input type="text" name="fr_end_time" class="large medium timer" value="{$Think.get.fr_end_time}"  style="width: 145px;float: none;"></li>
+                                    <li>
+                                        <select name="field" class="small" style="width: auto">
+                                            <option value="1" <if condition="($Think.get.field eq 1)">selected=selected</if> >自由搭配标题</option>
+                                            <option value="2" <if condition="($Think.get.field eq 2)">selected=selected</if> >商品编码</option>
+                                        </select>
+                                    </li>
+                                    <li><input type="text" name="val" class="large" value="{$Think.get.val}" style="width: 145px;"></li>
+                                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                            </ul>
+                        </th>
+                    </form>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll"></th>
+                    <th width="45px">操作</th>
+                    <th>自由搭配标题</th>
+                    <th>有效时间</th>
+                    <th>是否启用</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="datas">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="fr_id" value="{$datas.fr_id}"  /></td>
+                    <td width="45px">
+						<a class="blue isDel delete" href="javascript:void(0);" onclick="deleteRecommendGoods({$datas.fr_id});" title="删除此商品"  ></a>
+						<a class="blue edit" href='{:U("Admin/GoodsFreeRecommend/editFreeRecommendPage","fr_id=$datas[fr_id]")}' title="编辑此商品" ></a>
+
+                    </td>
+                    <td>{$datas.fr_name}</td>
+                    <td>
+                        {$datas.fr_statr_time} - {$datas.fr_end_time}
+                    </td>
+                    <td>
+                        <if condition="$datas[fr_status] eq 1">
+                            <img src="__PUBLIC__/Admin/images/span-true.png" onclick="isEnable(this);" fr_id="{$datas.fr_id}" isEnable="0" />
+                        <elseif condition="$datas[fr_status] eq 0" />
+                            <img src="__PUBLIC__/Admin/images/span-false.png" onclick="isEnable(this);" fr_id="{$datas.fr_id}" isEnable="1" />
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+            </table>
+    </div><!--rightInner  end-->
+</div>
+<script>
+function isEnable(obj){
+    var enable = $(obj).attr('isEnable');
+    if(enable==1){
+        var msg = '确定启用自由搭配？';
+    }else{
+        var msg = '确定停用自由搭配？';
+    }
+    if(confirm(msg)){
+        var fr_id = $(obj).attr('fr_id');
+        $.ajax({
+                url:"{:U('Admin/GoodsFreeRecommend/enableFreeRecommend')}",
+                type:'POST',
+                data:{'fr_status':enable,'fr_id':fr_id},
+                dateType:'json',
+                success:function(dataMsg){
+                    if(dataMsg.status == 'success'){
+                        showAlert(true,dataMsg.Msg);
+                    }else{
+                        showAlert(false,'失败');
+                    }
+                },
+                error:function(){
+                    
+                }});
+        if(enable == 1){
+            $(obj).attr('isEnable','0');
+            $(obj).attr('src','/Public/Admin/images/span-true.png');
+            $('#showpic'+fr_id).attr('src','/Public/Admin/images/span-true.png');
+        }else{
+            $(obj).attr('isEnable','1');
+            $(obj).attr('src','/Public/Admin/images/span-false.png');
+            $('#showpic'+fr_id).attr('src','/Public/Admin/images/span-false.png');
+        }
+    }
+}
+function getCheckedProducts(){
+    var fr_id = '';
+    $("input[class='checkSon']:checked").each(function(){
+        fr_id += this.value+',';
+    });
+    fr_id = fr_id.substring(0,fr_id.length-1);
+    deleteRecommendGoods(fr_id);
+}
+function deleteRecommendGoods(fr_id){
+    if(confirm('确定要删除吗？删除后不可恢复')){
+        $.ajax({
+            url:"{:U('Admin/GoodsFreeRecommend/ajaxDelFreeRecommend')}",
+            data:{'fr_id':fr_id},
+            dateType:'json',
+            type:'POST',
+            success:function(DataMsg){
+                if(DataMsg.status=='success'){
+                    showAlert(true,DataMsg.Msg,'',{'成功':'/Admin/GoodsFreeRecommend/freeRecommendList'});return false;
+                }else{
+                    showAlert(false,DataMsg.Msg);return false;
+                }
+            },
+            error:function(){
+            
+            }
+            
+        });
+    }
+}
+</script>

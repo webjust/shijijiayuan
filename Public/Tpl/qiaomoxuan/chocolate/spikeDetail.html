@@ -1,0 +1,272 @@
+<link href="__CSS__spike.css" rel="stylesheet">
+<link href="__CSS__promotion.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<div class="HXwarp" id="main">
+	<div class="area">
+    	<div class="content1192"><!--content1192 col  start-->
+            <Gyfx:goodsinfo name="detail" gid="$g_id" erpguid="$g_id"  >
+            <div class="goodList_navtitle block">
+            	<a href="#">首页</a>
+                <span>></span>
+                <gyfx:breadcrumbs name='breadcrumb'  gid="$g_id" >
+                    <a href="{$breadcrumb.gcurl}">{$breadcrumb.cname}</a><span>></span>
+                </gyfx:breadcrumbs>
+                {$detail.gname}
+            </div>
+            <!--seckillDatils start-->
+            <form id="goodsForm" name="goodsForm" method="post" action="#">
+           	<div class="seckillDatils">
+            	<div class="seckillDatilsL">
+                	<img src="{$Think.config.DOMAIN_HOST}{$sp_picture}" width="460" height="460" />
+                </div>
+                <div class="seckillDatilsR">
+                	<h3>{$sp_title}</h3>
+                    <div class="seckillParam">
+                        <ul>
+                            <li>
+                                商品编号：<label id="">{$detail.gsn}</label>
+                            </li>
+                            <li>
+                                市 场 价：<label id="showMarketPrice">{$pdt_set_sale_price|sprintf='%.2f',###}</label> 元
+                            </li>
+                            <li>
+                                <php>
+
+                                    $discount = round($sp_price/$pdt_set_sale_price *10 ,1);
+                                    $save_money = round($pdt_set_sale_price - $sp_price, 2);
+                                </php>
+                                秒 杀 价：<i>&yen;</i><strong>{$sp_price|sprintf='%.2f',###}</strong>
+                                
+                                折扣： <span id="discountPrice"><php>echo sprintf('%.2f',$discount)</php></span> 折
+                            </li>
+                            <input type="hidden" value="{$sp_price}" id="sp_price"/>
+                            <li>
+                                剩余数量：<b class="numb">{$gstock}</b> 件
+                                （秒杀数量：<b class="numb">{$sp_now_number|default=0}</b> 件）
+                            </li>
+                        </ul>
+                    </div>
+                        <div class="proPicker"><!--proPicker  start-->
+                            <ul id="proHover" class="on"><!-- 选择信息资料后，ul加上class="on"；默认是没有的 -->
+                                <li id="showDetailSkus">
+                                    商品规格加载中，请稍后。。。
+                                    <script type="text/javascript">
+                                        getDetailSkus('{$sp_id}', 8);
+                                    </script>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="seckillParam">
+                            <ul>
+                                <li>
+								<span id="showGrouupbuy{$sp_id}">
+								<if condition="$detail.authorize eq 1">
+									<php>$time = strtotime('now');</php>
+									<php>if($time <= strtotime($sp_start_time)){</php>
+									<a href="javascript:void(0);" class="goTobuy " disabled gid="{$g_id}" >距秒杀开始还剩：</a>
+									<php>}elseif($time >= strtotime($sp_end_time)){</php>
+									<input type="button" id="addNotOrder" disabled class="notSpike" value="立即购买" />
+									<php>}else{</php>
+									<input type="button" id="addToOrder" class="maySpike" gid="{$detail.gid}"  value="立即购买" />
+									<php>}</php>
+								</if>
+
+								</span>
+							<php>if($time <= strtotime($sp_start_time)){</php>
+								<p style='position: relative;top: 10px;' id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</p>
+								<script>setGroupbuyTime('{$sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$sp_end_time}',"{$sp_id}","{$g_id}");</script>
+							<php>}elseif($time >= strtotime($sp_end_time)){</php>
+								<p style='position: relative;top: 10px;' class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</p>
+							<php>}else{</php>
+								<p style='position: relative;top: 10px;' id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</p>
+								<script>setGroupbuyTime('{$sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$sp_id}","{$g_id}");</script>
+							<php>}</php>	
+						
+                                </li>
+                            </ul>
+                        </div>
+                    <div class="fenxiang">
+                        <!-- Baidu Button BEGIN -->
+                        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                        <span class="bds_more">分享到：</span>
+                        <a class="bds_qzone"></a>
+                        <a class="bds_tsina"></a>
+                        <a class="bds_tqq"></a>
+                        <a class="bds_renren"></a>
+                        <a class="bds_t163"></a>
+                        <a class="shareCount"></a>
+                        </div>
+                        <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=0" ></script>
+                        <script type="text/javascript" id="bdshell_js"></script>
+                        <script type="text/javascript">
+                        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+                        </script>
+                        <!-- Baidu Button END -->
+                    </div>
+                </div>                
+            </div>
+                </form>
+            </Gyfx:goodsinfo>
+            <!--seckillDatils end-->
+            
+			<div class="inlineBlock">
+				<!--tuanExplain start-->	
+				<div class="tuanExplain">
+					<div class="tuanExplainTag">
+						<p>
+							<strong>秒杀说明</strong>
+						</p>
+					</div>
+					<div class="tuanExplain_con">
+					   {$sp_desc}
+					 </div>
+					 
+				</div>
+				<!--tuanExplain end-->
+				<if condition="$sp_goods_desc_status eq '1'">
+				<!--tuanIntro start-->
+				<div class="tuanIntro">
+					<div class="tuanIntroTag">
+						<p>
+							<strong>商品介绍</strong>
+						</p>
+					</div>
+					<div class="tuanIntro_con">
+						{$detail.gdesc}
+					</div>
+				</div>
+                                </if>
+				<!--tuanIntro end-->
+			</div>
+        </div><!--content1192 col  start-->
+    </div>
+</div>
+<input type="hidden" id="sp_id" value="{$sp_id}" />
+<input type="hidden" id="g_id" value="{$g_id}" />
+<input type="hidden" id="is_spike" value="{$is_spike}" />
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script>
+	$(function(){
+		$(".classiCon").attr('style','display:none;');
+		$('.classiCon').css('display','none');
+        $('.allSpan').mouseover(function(){
+            $('.classiCon').css('display','block');
+        });
+        $('.allClassi').mouseleave(function(){
+            $('.classiCon').css('display','none');
+        });
+		 $(".classiCon ul li").hover(function(){
+            $(this).find("div.secondD").show()
+        },function(){
+            $(this).find("div.secondD").hide()
+        })
+        
+        $(".secondD dl dd").hover(function(){
+            $(this).find("div.thirdD").show().end().addClass("on");
+        },function(){
+            $(this).find("div.thirdD").hide().end().removeClass("on");
+        })
+        
+        $(".allClassi").hover(function(){
+            $(".classiCon02").slideDown();
+        },function(){
+            $(".classiCon02").slideUp();
+        })  
+	})
+</script>
+<script type="text/javascript">
+
+//商品数量更改
+function countNum(i){
+    var _this = $(".proPicker input[name='num']");
+    var num=parseInt(_this.val()),max=parseInt(_this.attr('max'));
+
+        num=num+i;
+        if((num<=0)||(num>1)||(num>999)){return false;}
+        _this.val(num);
+}
+$("#item_num").blur(function(){
+    $(this).val(1);
+});
+//提交到购物车
+$(document).ready(function(){
+    var surplusNums = $("#surplus").html();
+    if(0 == surplusNums){
+        $("#addToOrder").attr("class", "notSpike");
+    }
+	$('#addToOrder').live('click',function(){
+        var res = allSpecSelectedCheck('on');
+        if(res[0] == false) {
+            $.ThinkBox.error('请选择要购买的商品规格！');return false;
+        }
+        var pdt_id = $('#pdt_id').val();
+        var g_id = $('#g_id').val();
+        var sp_id = $('#sp_id').val();
+        var pdt_stock = parseInt($('#pdt_stock').val());
+        var num = parseInt($('#item_num').val());
+		var is_spike = $("#is_spike").val();
+		if(is_spike == 1){
+			showAlert(false,"您已秒杀过该商品！");
+			return false;
+		}
+        <if condition="$detail.delivery eq '1'">
+        var cr_id = parseInt($("#cr_ids").val());
+        if(isNaN(cr_id)){
+            showAlert(false,"请选择配送区域");
+            return;
+        }
+        </if>
+        if (isNaN(num)){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return;
+        }
+        if (num < 1){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");
+            return;
+        }
+        if (num > 1){
+            $.ThinkBox.error("秒杀商品限购1件");
+            return;
+        }
+        if (pdt_stock < 1){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_2}");
+            return;
+        }
+        if (num > pdt_stock){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_3}");
+            return;
+        }
+        if (pdt_id == ""){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+            return;
+        }
+        //发送ajax请求
+//        var data = $('#goodsForm').serialize();
+        var data = new Object();
+        data['cart'] = {};
+        data['cart']['pdt_id'] = pdt_id;
+        data['cart']['g_id'] = g_id;
+        data['cart']['sp_id'] = sp_id;
+        data['cart']['num'] = num;
+        data['type'] = 'spike';
+        if("{$Think.session.Members}" == ''){
+            $.post('/Home/User/doBulkLogin/',{},function(htmlMsg){
+                $.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+            },'html');
+            return false;
+        }
+            if (data != ''){
+//                data = data + '&skip=1';
+                $.post('/Home/Cart/doAdd',data,function(dataMsg){
+                    if(dataMsg.status){
+                        $.ThinkBox.success("正在跳转……");
+                        location.href='/Ucenter/Orders/pageSpikeAdd';
+                    }else{
+                        $.ThinkBox.error(dataMsg.msg);
+                    }
+                },'json');
+        }
+    });
+});
+</script>

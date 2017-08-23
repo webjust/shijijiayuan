@@ -1,0 +1,219 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .rightBox_content_title{margin-bottom: 10px;}
+    .rightBox_content_title span{font-weight: bold;font-size: 16px;}
+</style>
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <div class="rightBox_content_title">
+        <span>提交供应商资料</span>
+    </div>
+    <!--<h2 class="publicH2"><span>提交供应商资料</span></h2>-->
+    <div class="deliverList">
+        <form  method="post" id="edit_deliverTable" action="/Ucenter/My/dosupplier" enctype="Multipart/form-data">
+            <table class="deliverTable">
+                <tr>
+                    <td width="99" align="right"> 供应商名称：</td>
+                     <td>
+                    <if condition="$supplier[s_name] eq true">
+				   <input type="text" class="input01" value="{$supplier.s_name}" id="s_name" name="s_name" validate=""  disabled="disabled">
+
+                    <else/>
+                        <input type="text" class="input01" value="" id="s_name" name="s_name" validate="{ required:true,isCheck:true,rangelength:[1,20],s_name:true,messages:{required:'供应商名称不能为空',isCheck:'包含非法字符，请重新输入',rangelength:'供应商名称在1到20字符之间'}}"> 
+                    </if>
+                         <i class="red">*</i>
+                   </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right"> 品牌：</td>
+                    <td>
+                        <select name="s_gb_id" class="medium">
+                            <option value="0">--请选择品牌--</option>
+                            <volist name="array_brand" id="vo">
+                            <if condition="$vo.gb_id eq $supplier[s_gb_id]">
+                            <option value="{$vo.gb_id}" selected="selected">{$vo.gb_name}</option>
+                            <else/> 
+                            <option value="{$vo.gb_id}">{$vo.gb_name}</option>
+                            </if>
+                           
+                            </volist>
+                        </select>
+                        <i class="red">*</i>
+                    </td>
+                </tr>
+               <tr>
+                <td width="99" align="right">产品注册商标：</td>
+                <td>
+                <if condition="$supplier[s_business_photo] eq true">
+               <img src="{$supplier.s_business_photo}" height="150" width="150">
+                <else/>
+                <div id="imagePreview1"></div> 
+                    <input id="s_trademark_photo" type="file" onchange="loadImageFile1();" value="" name="s_trademark_photo" class="input01"/>
+                <input type="hidden" class="input01" value="" id="s_trademark_photo" name="s_trademark_photo">
+                </if>
+                </td>
+            </tr>
+
+             <tr>
+                <td width="99" align="right">营业执照：</td>
+                <td>
+                <if condition="$supplier[s_trademark_photo] eq true">
+                <img src="{$supplier.s_trademark_photo}" height="150" width="150">
+                <else/>
+                <div id="imagePreview2"></div>
+                    <input id="s_business_photo" type="file" onchange="loadImageFile2();" value="" name="s_business_photo" class="input01"/>
+                <input type="hidden" class="input01" value="" id="s_business_photo" name="s_business_photo">
+                </if>
+                </td>
+            </tr>
+             <tr>
+                <td width="99" align="right">税务登记证：</td>
+                <td>
+                <if condition="$supplier[s_tax_photo] eq true">
+                 <img src="{$supplier.s_tax_photo}" height="150" width="150">
+                <else/>
+                <div id="imagePreview3"></div>
+                    <input id="s_tax_photo" type="file" onchange="loadImageFile3();" value="" name="s_tax_photo" class="input01"/>
+                    <input type="hidden" class="input01" value="" id="s_tax_photo" name="s_tax_photo">
+
+                </if>
+                </td>
+            </tr>
+            <tr>
+                <tr>
+                <td width="99" align="center">
+                    <if condition="$supplier[s_status] eq 0">
+                        <div id="add_product_2" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    您好在审核中...
+                                </div>
+                            </div>
+                        </div>
+                    <if condition="$supplier[s_status] eq 1">
+                        <div id="add_product_2" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    您好在审核通过...
+                                </div>
+                            </div>
+                        </div>
+                    </if>
+                    <else/>
+                          <button class="blue" type="submit" >提交</button>
+                    </if>
+                </td>
+            </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#add_product_2').click(function(){
+         $(this).addClass('hide');
+    });
+    var loadImageFile1 = (function () {
+        if (window.FileReader) {
+            var oPreviewImg = null, oFReader = new window.FileReader(),
+                    rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+            oFReader.onload = function (oFREvent) {
+                if (!oPreviewImg) {
+                    var newPreview = document.getElementById("imagePreview1");
+                    oPreviewImg = new Image();
+                    oPreviewImg.style.width = (newPreview.offsetWidth).toString() + "px";
+                    oPreviewImg.style.height = (newPreview.offsetHeight).toString() + "px";
+                    newPreview.appendChild(oPreviewImg);
+                }
+                oPreviewImg.src = oFREvent.target.result;
+            };
+
+            return function () {
+                var aFiles = document.getElementById("s_trademark_photo").files;
+                if (aFiles.length === 0) { return; }
+                if (!rFilter.test(aFiles[0].type)) { alert("You must select a valid image file!"); return; }
+                oFReader.readAsDataURL(aFiles[0]);
+            }
+
+        }
+        if (navigator.appName === "Microsoft Internet Explorer") {
+            return function () {
+                alert(document.getElementById("s_trademark_photo").value);
+                document.getElementById("imagePreview1").filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = document.getElementById("s_trademark_photo").value;
+
+            }
+        }
+    })();
+</script>
+<script type="text/javascript">
+    var loadImageFile2 = (function () {
+        if (window.FileReader) {
+            var oPreviewImg = null, oFReader = new window.FileReader(),
+                    rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+            oFReader.onload = function (oFREvent) {
+                if (!oPreviewImg) {
+                    var newPreview = document.getElementById("imagePreview2");
+                    oPreviewImg = new Image();
+                    oPreviewImg.style.width = (newPreview.offsetWidth).toString() + "px";
+                    oPreviewImg.style.height = (newPreview.offsetHeight).toString() + "px";
+                    newPreview.appendChild(oPreviewImg);
+                }
+                oPreviewImg.src = oFREvent.target.result;
+            };
+
+            return function () {
+                var aFiles = document.getElementById("s_business_photo").files;
+                if (aFiles.length === 0) { return; }
+                if (!rFilter.test(aFiles[0].type)) { alert("You must select a valid image file!"); return; }
+                oFReader.readAsDataURL(aFiles[0]);
+            }
+
+        }
+        if (navigator.appName === "Microsoft Internet Explorer") {
+            return function () {
+                alert(document.getElementById("s_business_photo").value);
+                document.getElementById("imagePreview2").filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = document.getElementById("s_business_photo").value;
+
+            }
+        }
+    })();
+</script>
+<script type="text/javascript">
+    var loadImageFile3 = (function () {
+        if (window.FileReader) {
+            var oPreviewImg = null, oFReader = new window.FileReader(),
+                    rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+            oFReader.onload = function (oFREvent) {
+                if (!oPreviewImg) {
+                    var newPreview = document.getElementById("imagePreview3");
+                    oPreviewImg = new Image();
+                    oPreviewImg.style.width = (newPreview.offsetWidth).toString() + "px";
+                    oPreviewImg.style.height = (newPreview.offsetHeight).toString() + "px";
+                    newPreview.appendChild(oPreviewImg);
+                }
+                oPreviewImg.src = oFREvent.target.result;
+            };
+
+            return function () {
+                var aFiles = document.getElementById("s_tax_photo").files;
+                if (aFiles.length === 0) { return; }
+                if (!rFilter.test(aFiles[0].type)) { alert("You must select a valid image file!"); return; }
+                oFReader.readAsDataURL(aFiles[0]);
+            }
+
+        }
+        if (navigator.appName === "Microsoft Internet Explorer") {
+            return function () {
+                alert(document.getElementById("s_tax_photo").value);
+                document.getElementById("imagePreview3").filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = document.getElementById("s_tax_photo").value;
+
+            }
+        }
+    })();
+</script>

@@ -1,0 +1,13 @@
+{__NOLAYOUT__}
+<volist name="mIds" id="member">
+    <if condition="$member.m_name NEQ ''">
+        <tr id="tr_members_{$member.m_id}">	
+            <td><input class="checkSon"  name="check_members"  type="checkbox" /></td>
+            <input type="hidden"  name="ra_mid[]" id="{$member.m_id}"  value="{$member.m_id}">
+            <td class="m_names">{$member.m_name}</td>
+            <td >{$member.ml_name}</td>
+            <td><a href="javascript:void(0);" onclick="delMember($(this));" class="blue">删除</a></td>
+        </tr>
+    </if>
+</volist>
+

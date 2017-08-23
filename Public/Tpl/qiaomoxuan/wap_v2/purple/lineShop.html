@@ -1,0 +1,84 @@
+<div class="container"><!--container begin-->
+	<div class="detailTop">
+		<p class="detailT"><a href="{:U('Wap/Index/index')}">首页</a>/<a>线下门店</a></p>
+		<h1 class="title">线下门店</h1>
+    </div>
+    <div class="lineShop">
+        <div class="L_img"><img src="__IMAGES__Line1.jpg"/></div>
+		<div class="Commentary">
+			<h1> 线下门店</h1>
+			<p>{$articleinfo.a_content}</p>
+			<form action="{:U('Wap/Index/lineShop')}" method="POST" id="shopform"> 
+			<div class="Search">
+				<h1>线下门店查询</h1>
+				<div class="selectorO">
+					<span class="select"><select id="province"  class="selectCity " name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city','');"/>
+						<option>请选择省份</option>
+						<volist name="citys" id="val">
+							<option id="option_add_{$val.cr_id}" value="{$val.cr_id}">{$val.cr_name}</option>
+						</volist>
+					</select></span>
+				</div>
+				<div class="selectorT">
+					<span class="select"><select  id="city" class="selectCity" name="city" onchange="selectCityRegion(this, 'region','');">
+						<option value="0" selected="selected">请选择城市</option>
+						<p class="red"></p></span>
+					</select>
+				</div>
+				<div class="selectorTr">
+					<span class="select"><select id="region"  class="selectCity" onchange="selectCityRegion(this, '','');" name="region" >
+						<option value="0" selected="selected">请选择地区</option>
+						<i style="width:auto;float:right"></i>
+					</select></span>
+				</div>
+				<div class="Search_btn"><input type="submit" value="搜索"/></div>
+			</div>
+			</form>
+		</div>
+	</div>
+  
+	<!--发现店铺 begin-->
+	<div class="Found">
+		<h1 class="shop">一共发现{$num}家店铺</h1>
+		<if condition = "$addr.data neq ''">
+		<volist name="addr.data" id="shops">
+		<div class="f_shop">
+			<div class="f_left"><img src="{$shops.shopImgList['0']}"/></div>
+			<div class="f_right">
+				<h1>{$shops.shop_name}</h1>
+				<p>地址：{$shops.address}</p>
+				<p>电话：{$shops.tel}</p>
+				<p>邮箱：{$shops.email}</p>
+			</div>
+		</div>
+		</volist>
+		<else />
+		<div class="f_shop">
+			暂无店铺信息！！
+		</div>
+		</if>
+	</div>
+</div><!--发现店铺 end-->
+<!--container end-->
+<script>
+    function selectCityRegion(obj, item, default_value) {
+        var value = obj.value;
+        if (!value) {
+            value = obj;
+        }
+        var url = '/Wap/Address/getCityRegion/';
+        $('#'+item).load(url, {
+            'parent': value,
+            'default_value':default_value
+        }, function(){
+            if('' != default_value) {
+                this.value = default_value;
+            }
+        });
+
+    }
+    function initSelectCityRegion() {
+        $('#city').html('<option value="0">请选择</option>');
+        $('#region').html('<option value="0">请选择</option>');
+    }
+</script>

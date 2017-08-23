@@ -1,0 +1,191 @@
+<div class="rightInner">
+    <form id="point_set" name="point_set" method="post" action="{:U('Admin/Point/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">积分设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+			    <tr>
+                    <th colspan="99">积分设置</th>
+                </tr>
+                <tr>
+                    <td class="first">积分累计方式：</td>
+                    <td>
+                        <input type="radio" name="is_consumed" value="0" <eq name="ary.is_consumed" value="0">checked="checked"</eq> /> 不使用积分
+                        <input type="radio" name="is_consumed" value="1" <eq name="ary.is_consumed" value="1">checked="checked"</eq> /> 按每笔订单中商品总价格计算积分
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">获得积分节点：</td>
+                    <td>
+                        <input type="radio" name="cinsumed_channel" value="0" <eq name="ary.cinsumed_channel" value="0">checked="checked"</eq> /> 发货后
+                        <input type="radio" name="cinsumed_channel" value="1" <eq name="ary.cinsumed_channel" value="1">checked="checked"</eq> /> 确认收货后
+                        <input type="radio" name="cinsumed_channel" value="2" <eq name="ary.cinsumed_channel" value="2">checked="checked"</eq> /> 订单完成后
+                    </td>
+                </tr>
+				
+				<tr id="ratio_tr" <eq name="ary.is_consumed" value="0">style="display:none"</eq>>
+                    <td class="first">积分换算比率：</td>
+                    <td>
+                        <input type="text" class="large" name="consumed_ratio" value="{$ary.consumed_ratio}" validate="{range:[0,1],number:true}"/>
+                    </td>
+					<td class="last">
+                        示例：如果换算比率80%，请输入0.8 
+                        <br>订单所得积分 = 订单商品总价格 X 积分换算比率
+                    </td>
+				</tr>
+				<tr>
+                    <td class="first">启用积分抵金：</td>
+                    <td>
+                        <input type="radio" name="is_buy_consumed" value="0" <eq name="ary.is_buy_consumed" value="0">checked="checked"</eq> /> 不启用
+                        <input type="radio" name="is_buy_consumed" value="1" <eq name="ary.is_buy_consumed" value="1">checked="checked"</eq> /> 启用
+					</td>
+                </tr>
+				<tr id="ratio_tr" >
+                    <td class="first">积分抵金最高：</td>
+                    <td>
+                        <input type="text" class="large" isinteger="0" isnegtive="0" name="consumed_buy_ratio" value="{$ary.consumed_buy_ratio}" validate="{range:[0,100],number:true}"/>%
+                    </td>
+					<td class="last">
+						积分抵金比率应该是大于0小于等于100的数字（小数点后最多两位抵扣。100表示可完全用积分）	
+                    </td>
+				</tr>	
+				<tr id="ratio_tr" >
+                    <td class="first">每换1分钱需要抵用：</td>
+                    <td>
+                        <input type="text" class="large" isinteger="0" isnegtive="0" name="consumed_points" value="{$ary.consumed_points}" validate="{range:[0,1000000],number:true}"/>
+                    </td>
+					<td class="last">
+						每换1分钱需要抵用的积分数（不超过999999）示例: 10个积分抵用1元 设置0.1
+                    </td>
+				</tr>
+				<tr>
+                    <td class="first">启用积分抵扣最低额：</td>
+                    <td>
+                        <input type="radio" name="is_low_consumed" value="0" <eq name="ary.is_low_consumed" value="0">checked="checked"</eq> /> 不启用
+                        <input type="radio" name="is_low_consumed" value="1" <eq name="ary.is_low_consumed" value="1">checked="checked"</eq> /> 启用
+					</td>
+                </tr>
+				<tr id="ratio_low_tr" <eq name="ary.is_low_consumed" value="0">style="display:none"</eq>>
+                    <td class="first">积分抵扣最低额：</td>
+                    <td>
+                        <input type="text" id="low_consumed_points"  class="large" isinteger="0" isnegtive="0" name="low_consumed_points" value="{$ary.low_consumed_points}" validate="{range:[1,1000000],number:true}"/>
+                    </td>
+					<td class="last">允许使用的最少积分（大于0的整数，如填写100，表示会员下单时，若使用积分，最少应使用100积分，且只能使用100整数倍的积分） 
+                    </td>
+				</tr>
+                <tr>
+                    <th colspan="99">扩展积分设置</th>
+                </tr>
+                <tr>
+                    <td class="first">注册会员：</td>
+                    <td>
+                        <input type="text" class="large" validate="{number:true}" name="regist_points" value="{$ary.regist_points}" />
+                    </td>
+					<td class="last">
+                        根据信息填写完整程度,按项目给分,不享受积分翻倍
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">会员评论：</td>
+					<td>
+                        <input type="text" validate="{number:true}" class="large" name="recommend_points" value="{$ary.recommend_points}" />
+                    </td>
+					<td class="last">
+                        评价完成并审核成功发放<!--,享受积分翻倍-->
+                    </td>					
+                </tr>
+				<!--
+                <tr>
+                    <td class="first">会员追加评论：</td>
+					<td>
+                        <input type="text" validate="{number:true}" class="large" name="again_recommend_points" value="{$ary.again_recommend_points}" />
+                    </td>
+					<td class="last">
+                        再次评价完成并审核成功发放,享受积分翻倍
+                    </td>						
+                </tr>	
+				-->
+                <tr>
+                    <td class="first">会员晒单：</td>
+					<td>
+                        <input type="text" validate="{number:true}" class="large" name="show_recommend_points" value="{$ary.show_recommend_points}" />
+                    </td>
+					<td class="last">
+                        评定审核成功后发放<!--,享受积分翻倍-->
+                    </td>					
+                </tr>				
+                <tr>
+                    <td class="first">会员邀请好友：</td>
+					<td>
+                        <input type="text" validate="{number:true}" class="large" name="invites_points" value="{$ary.invites_points}" />
+                    </td>
+					<td class="last">
+                       推荐1名完整注册会员奖励，无数量限制，审核后发放,不享受积分翻倍
+                    </td>						
+                </tr>
+                <tr>
+                    <td class="first">会员登陆：</td>
+					<td>
+                        <input type="text" validate="{number:true}" class="large" name="login_points" value="{$ary.login_points}" />
+                    </td>
+					<td class="last">
+                        每日第一次手动登陆获得,不享受积分翻倍
+                    </td>					
+                </tr>
+                <tr>
+                    <td class="first">会员签到：</td>
+					<td>
+                        <input type="text" validate="{number:true}" class="large" name="sign_points" value="{$ary.sign_points}" />
+                    </td>
+					<td class="last">
+                        每日签到成功后,不享受积分翻倍
+                    </td>					
+                </tr>				
+            </tbody>
+			<tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("input[name='is_consumed']").click(function(){
+        if($(this).val() == 0){
+			$('#ratio_tr').hide();
+        }else{
+			$('#ratio_tr').show();
+        }
+	});
+	$("input[name='is_low_consumed']").click(function(){
+        if($(this).val() == 0){
+            $('#ratio_low_tr').hide();
+        }else{
+			$('#ratio_low_tr').show();
+        }
+	});
+	$('#point_set').validate(
+	//{
+		//rules : {
+            //low_consumed_points : {
+                //remote:'/Admin/Point/checkLowPoint'
+            //},
+        //},
+        //messages : {
+            //low_consumed_points : {
+                //remote : '',
+            //},
+        //}
+	//}
+	);
+});
+</script>

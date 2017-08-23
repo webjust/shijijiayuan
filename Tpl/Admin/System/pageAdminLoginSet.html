@@ -1,0 +1,32 @@
+<div class="rightInner">
+    <form id="point_set" name="point_set" method="post" action="{:U('Admin/System/doAdminLoginSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">管理员登录提示 </th>
+                </tr>
+            </thead>
+
+            <tbody>
+			    <tr>
+                    <th colspan="99">管理员登录提示 </th>
+                </tr>
+                <tr>
+                    <td class="first">显示管理员未登录提示语：</td>
+                    <td>
+                        <input type="radio" name="ADMIN_LOGIN_PROMPT_SET" value="0" <eq name="ADMIN_LOGIN_PROMPT_SET" value="0">checked="checked"</eq> /> 不显示
+                        <input type="radio" name="ADMIN_LOGIN_PROMPT_SET" value="1" <eq name="ADMIN_LOGIN_PROMPT_SET" value="1">checked="checked"</eq> /> 显示
+                    </td>
+                </tr>
+            </tbody>
+			<tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

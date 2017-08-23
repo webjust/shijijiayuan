@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>{$common_title}{$page_title}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="keywords" content="{$page_keywords}">
+        <meta name="description" content="{$page_description}">
+        <link href="__PUBLIC__/Lib/jquery/css/base/jquery-ui.css" rel="stylesheet">
+        <link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+        <script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+        <script src="__PUBLIC__/Lib/jquery/js/jquery-ui-1.9.2.custom.js"></script>
+        <script src="__PUBLIC__/Lib/jquery/js/jqalert-0.9.js"></script>
+        <script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+        <script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+        <script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+        <script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+        <script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+        <script src="__PUBLIC__/Lib/jquery/js/jquery.blockUI.js"></script>
+        <script src="__PUBLIC__/Lib/jquery/js/jquery-webox.js"></script>
+        <link href="__PUBLIC__/Lib/webox/image/jquery-webox.css" rel="stylesheet">
+        <script src="__PUBLIC__/Lib/jquery/js/jquery.slideshow.js"></script>
+        <script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+        <script src="__PUBLIC__/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+        <script src="__PUBLIC__/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+        <link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+        <link href="__PUBLIC__/Lib/jquery/css/jquery.slideshow.css" rel="stylesheet">
+		<script src="__PUBLIC__/Lib/jquery/js/jquery.slides.min.js"></script>
+        <!-- 标准模板只有一个js文件js.js,css文件style.css Start-->
+        <script src="__JS__js.js"></script>
+        <link href="__CSS__style.css" rel="stylesheet">
+        <!-- 标准模板只有一个js文件js.js,css文件style.css End-->
+        <script>
+        function U(url) {
+            return ("__WEBROOT__"+url).replace('//','/'); 
+        }
+        var _IMAGES_ = "__IMAGES__";
+        var _CSS_ = "__CSS__";
+        var _JS_ = "__JS__";
+        </script>
+        <script>
+        $(document).ready(function(){
+            $("img").show().lazyload({ 
+                effect:"fadeIn",
+                failure_limit : 100,
+                skip_invisible:false
+            });
+        });
+        </script>
+        <script src="__PUBLIC__/Lib/jquery/js/jquery.lazyload.min.js"></script>
+    </head>
+	<php> if(!empty($_SESSION['OSS']['GY_OSS_PIC_URL']) || (!empty($_SESSION['OSS']['GY_OTHER_IP']) && !empty($_SESSION['OSS']['GY_OTHER_ON']) )){</php>
+    <input type="hidden" value="1" id="oss_id" />
+   	<php>}else{</php>
+   	<input type="hidden" value="0" id="oss_id" />
+   	<php>}</php>
+	<php> if($_SESSION['OSS']['GY_QN_ON'] == '1'){</php>
+    <input type="hidden" value="1" id="qn_id" />
+   	<php>}else{</php>
+   	<input type="hidden" value="0" id="qn_id" />
+   	<php>}</php>
+	<body>
+	    <include file="$headerTpl" />
+	    {__CONTENT__}
+	    <include file="Common:incOnline" />
+	    <include file="$footerTpl" />
+	    <!-- 是否有统计代码,有则显示  Start-->
+	    <noempty name="shop_code">
+	    	{$shop_code}
+	    </noempty>
+	    <!-- 是否有统计代码，有则显示 End-->
+	</body>
+</html>

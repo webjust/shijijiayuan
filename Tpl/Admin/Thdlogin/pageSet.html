@@ -1,0 +1,210 @@
+<style>
+.settitle{margin-left:20px;font-size:12px;font-weight:normal;color:#555}
+.infomation {padding: 10px;border: 1px solid #b5cfd9;background: #f2f9fd;margin: 10px 0px;}
+.thdlogin h3 {font-size: 14px;color: #0099cc;border-bottom: 3px solid #deeffa;padding-bottom: 5px;margin-bottom: 5px;}
+.thdlogin h3 img {border: 0;vertical-align: middle;}
+.thdlogin .table {font-size: 12px;border: 0px;width: 100%;text-indent: 15px;_text-indent: 0px;}
+.thdlogin .table tr {height: 25px;}
+.thdlogin .table td {border-bottom: 1px dashed #deeffa;padding-top: 5px;padding-bottom: 5px;_padding-left: 13px;}
+</style>
+
+<div class="infomation">
+    <b>说明：</b>
+    开启微博一键登录功能前，请进入相应开放平台申请APIkey以及Secretkey。
+</div>
+<form action="{:U('Admin/Thdlogin/doAdd')}" method="POST" class="thdlogin">
+    <h3><img src="__PUBLIC__/images/sinaweibo.png" width="20px">&nbsp;&nbsp;新浪微博设置<span class="settitle">新浪开放平台地址：<a href="http://open.weibo.com" target="_blank">http://open.weibo.com</a></span></h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="thdlogin[status][sina]" value="1" <if condition="$sina eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="thdlogin[status][sina]" value="0" <if condition="$sina eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info">● 支持一键登录</td>
+        </tr>
+        <tr>
+            <td>App Key</td>
+            <td><input type="text" name="thdlogin[data][sinaid]" class="medium" value="{$sinaid}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>App Secret</td>
+            <td><input type="text" name="thdlogin[data][sinakey]" class="medium" value="{$sinakey}"></td>
+            <td class="info"></td>
+        </tr>
+    </table>
+<!--    <h3><img src="__PUBLIC__/images/qqweibo.png" width="20px">&nbsp;&nbsp;腾讯微博设置<span class="settitle">腾讯微博开放平台地址：<a href="http://open.t.qq.com" target="_blank">http://open.t.qq.com</a></span></h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="thdlogin[status][tqq]" value="1" <if condition="$tqq eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="thdlogin[status][tqq]" value="0" <if condition="$tqq eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info">● 支持一键登录</td>
+        </tr>
+        <tr>
+            <td>App Key</td>
+            <td><input type="text" name="thdlogin[data][tqqid]" class="medium" value="{$tqqid}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>App Secret</td>
+            <td><input type="text" name="thdlogin[data][tqqkey]" class="medium" value="{$tqqkey}"></td>
+            <td class="info"></td>
+        </tr>
+    </table>-->
+    
+    <h3><img src="__PUBLIC__/images/qzone.png" width="20px">&nbsp;&nbsp;QQ号码一键登陆<span class="settitle">QQ开放平台地址：<a href="http://open.qq.com/" target="_blank">http://open.qq.com</a></span></h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="thdlogin[status][qq]" value="1" <if condition="$qq eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="thdlogin[status][qq]" value="0" <if condition="$qq eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>APP ID</td>
+            <td><input type="text" name="thdlogin[data][qqid]" class="medium" value="{$qqid}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>KEY</td>
+            <td><input type="text" name="thdlogin[data][qqkey]" class="medium" value="{$qqkey}"></td>
+            <td class="info"></td>
+        </tr>
+    </table>
+    
+    <h3><img src="__PUBLIC__/images/renren.png" width="20px">&nbsp;&nbsp;人人帐号一键登陆<span class="settitle">人人开放平台地址：<a href="http://dev.renren.com/" target="_blank">http://dev.renren.com</a></span></h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="thdlogin[status][renren]" value="1" <if condition="$renren eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="thdlogin[status][renren]" value="0" <if condition="$renren eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>API Key</td>
+            <td><input type="text" name="thdlogin[data][renrenid]" class="medium" value="{$renrenid}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>Secret Key</td>
+            <td><input type="text" name="thdlogin[data][renrenkey]" class="medium" value="{$renrenkey}"></td>
+            <td class="info"></td>
+        </tr>
+    </table>
+    
+<!--    <h3><img src="__PUBLIC__/images/wangwang.gif" width="20px" height="20px">&nbsp;&nbsp;旺旺帐号一键登陆<span class="settitle">旺旺开放平台地址：<a href="http://open.taobao.com/" target="_blank">http://open.taobao.com</a></span></h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="thdlogin[status][wangwang]" value="1" <if condition="$wangwang eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="thdlogin[status][wangwang]" value="0" <if condition="$wangwang eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>API Key</td>
+            <td><input type="text" name="thdlogin[data][wangwangid]" class="medium" value="{$wangwangid}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>Secret Key</td>
+            <td><input type="text" name="thdlogin[data][wangwangkey]" class="medium" value="{$wangwangkey}"></td>
+            <td class="info"></td>
+        </tr>
+    </table>-->
+    <h3><img src="__PUBLIC__/images/weixin.png" width="20px">&nbsp;&nbsp;微信扫描二维码登陆<span class="settitle">微信开放平台地址：<a href="http://open.weixin.qq.com" target="_blank">http://open.weixin.qq.com</a></span></h3>
+    <table class="table" style="margin:5px 0 20px 0;line-height:250%">
+        <tr>
+            <td width="150px">是否开启</td>
+            <td width="330px"><input type="radio" name="thdlogin[status][wx]" value="1" <if condition="$wx eq '1'">checked="true"</if>> 开启&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="thdlogin[status][wx]" value="0" <if condition="$wx eq '0'">checked="true"</if>> 关闭</td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>APP ID</td>
+            <td><input type="text" name="thdlogin[data][wxid]" class="medium" value="{$wxid}"></td>
+            <td class="info"></td>
+        </tr>
+        <tr>
+            <td>Secret KEY</td>
+            <td><input type="text" name="thdlogin[data][wxkey]" class="medium" value="{$wxkey}"></td>
+            <td class="info"></td>
+        </tr>
+    </table>
+    <input type="submit" value="提 交" class="btnA" >
+    <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Thdlogin/pageSet')}');" class="btnA" >
+</form>
+
+
+<!--<div class="rightInner">
+    <form  method="post" action="{:U('Admin/Thdlogin/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">第三方授权登录设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">腾讯APP_ID：</td>
+                    <td>
+                        <input type="text" name="QQ_ID" id="QQ_ID" class="medium" value="{$QQ_ID.sc_value}"  /> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">腾讯APP_KEY：</td>
+                    <td>
+                        <input type="text" name="QQ_KEY" id="QQ_KEY" class="medium" value="{$QQ_KEY.sc_value}"  /><br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">新浪APP_ID：</td>
+                    <td>
+                        <input type="text" name="SINA_ID" id="SINA_ID" class="medium" value="{$SINA_ID.sc_value}"  /> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">新浪APP_KEY：</td>
+                    <td>
+                        <input type="text" name="SINA_KEY" id="SINA_KEY" class="medium" value="{$SINA_KEY.sc_value}"  /><br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">旺旺APP_ID：</td>
+                    <td>
+                        <input type="text" name="WANGWANG_ID" id="WANGWANG_ID" class="medium" value="{$WANGWANG_ID.sc_value}" /> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">旺旺APP_KEY：</td>
+                    <td>
+                        <input type="text" name="WANGWANG_KEY" id="WANGWANG_KEY" class="medium" value="{$WANGWANG_KEY.sc_value}" /><br> 
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="first">人人网APP_ID：</td>
+                    <td>
+                        <input type="text" name="RENREN_ID" id="RENREN_ID" class="medium" value="{$RENREN_ID.sc_value}"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">人人网APP_KEY：</td>
+                    <td>
+                        <input type="text" name="RENREN_KEY" id="RENREN_KEY" class="medium" value="{$RENREN_KEY.sc_value}"/><br> 
+                    </td>
+                </tr>
+                 <tr>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Thdlogin/pageSet')}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>-->

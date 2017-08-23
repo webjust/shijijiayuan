@@ -1,0 +1,230 @@
+{__NOLAYOUT__}
+<form id="updateAddr">
+    <table>
+        <tr>
+            <td width="90" align="right"><i class="red">*</i> 收货人姓名：</td>
+            <td width="870"><input type="text" class="input01" name="ra_name" id="rname" value="{$addr.ra_name}" validate="{ required:true}" /></td>
+        </tr>
+        <tr>
+            <td align="right"><i class="red">*</i> 选择地区：</td>
+            <td>
+                <select id="province" name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city','');" validate="{ required:true}">
+                    <option value="0" selected="selected">请选择</option>
+                </select>
+                <select id="city" name="city" onchange="selectCityRegion(this, 'region','');" validate="{ required:true}">
+                    <option value="0" selected="selected">请选择</option>
+                </select>
+                <select id="region" name="region" validate="{ required:true}">
+                    <option value="0" selected="selected">请选择</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><i class="red">*</i>收货人地址：</td>
+            <td width="870">
+                <input type="text" class="input01" style="width:350px;" maxlength="80" name="ra_detail" id="ra_detail" value="{$addr.ra_detail}" validate="{ required:true}">
+            </td>
+        </tr>
+        <tr>
+            <td align="right">手机号码：</td>
+            <td>
+                <input type="text" class="input01" name="ra_mobile_phone" id="ra_mobile_phone" value="{$addr.ra_mobile_phone}" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">固定电话：</td>
+            <td>
+                <input type="text" class="input01" name="ra_phone" id="ra_phone" value="{$addr.ra_phone}" maxlength="16" />
+                <span class="gray">手机号码和固定电话两者至少写一项</span>
+            </td>
+        </tr>
+		<if condition="$is_show_address eq '1'">
+		<tr>
+            <td align="right"><i class="red"></i>店铺类型：</td>
+			<if condition="$ary_result.to_source eq '3'">
+            <td><input type="radio"  value="taobao" class="shop_type" name="shop_type">淘宝&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio"  value="paipai" class="shop_type" name="shop_type">拍拍&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio"  value="jd" class="shop_type" name="shop_type" checked>京东
+			</td>			
+			</if>
+			<if condition="$ary_result.to_source neq '3'">
+            <td><input type="radio"  value="taobao" class="shop_type" name="shop_type" checked>淘宝&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio"  value="paipai" class="shop_type" name="shop_type">拍拍&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio"  value="jd" class="shop_type" name="shop_type">京东
+			</td>			
+			</if>
+        </tr>
+		<if condition="$ary_result.to_source neq '3'">
+		<tr>
+            <td align="right"><i class="red"></i>粘贴收货地址：</td>
+            <td>
+			<textarea id="address_consignee" rows="2" cols="85" style="width:300px"></textarea>
+			<span class="gray">复制下单用户收货人地址，然后在空白处点击</span>
+			</td>
+        </tr>
+		</if>
+		</if>
+        <tr>
+            <td align="right">邮政编码：</td>
+            <td><input type="text" class="input01" value="{$addr.ra_post_code}" name="ra_post_code" id="ra_post_code" validate="{isZipCode:true,messages:{required:'邮政编码不能为空'}}"/></td>
+        </tr>
+    </table>
+</form>
+{$set_edit_js}
+<if condition="$is_show_address eq '1'">
+<script type="text/javascript">
+$(document).ready(function(){
+      $("#address_consignee").blur(function(){
+                var address_consignee = $("#address_consignee").val();
+				//alert(address_consignee);
+                var shop_type = '';
+                $(".shop_type[name='shop_type']").each(function(){
+                    if($(this).is(':checked')){
+                        shop_type	= $(this).val();
+                    }	
+                }); //店铺类型
+                if(address_consignee == "" || shop_type == ""){
+                    //alert('请填写收货人地址');
+                    return false;
+                }else{
+				    //alert(shop_type);alert(address_consignee);
+                    
+                    //收货人省市地区联动
+                    if(shop_type == 'taobao'){
+					var address = address_consignee.split("，");
+                    //收货人 
+                    $("#rname").val(address[0]);
+					//alert(address[2]);alert(address[3]);alert(address[4]);
+			        var strCity = $.trim(address[3]);
+					
+                     var consignee = strCity.split(/\\s+/g);
+					 if(typeof consignee == 'undefined' || consignee == '') return false;
+			            //匹配省份
+                      $("#province option").each(function(){
+						    var _this = $(this);
+                            if(_this.text() == consignee[0]){
+                             //  alert(_this.text()); 
+                                _this.attr("selected",true);
+                              //  selectCity(this, 'city','',consignee[1],consignee[2]); 
+							  var init_data =  _this.val();
+							  selectCityRegion_new(init_data,'city',consignee[1],consignee[2]);
+							    //selectCityRegion
+                            }
+                        });
+						var str_ra = '';
+						var _len = consignee.length;
+						if(_len>3) {
+						       for(var i=3;i<_len;i++){
+							       str_ra +=consignee[i]+' ';
+							   }
+						}
+                        //收货人地址 
+                        $("#ra_detail").val(str_ra);
+                        //邮政编码
+                        $("#ra_post_code").val(address[4]);
+                        //手机号码
+                        $("#ra_mobile_phone").val($.trim(address[1]));
+                        //电话号码
+                        if(address[3] !== ''){
+                            var phone = address[2].split("-");
+                            //$("#ra_phone_area").val(phone[0]);
+                            $("#ra_phone").val(phone[1]);
+                            //$("#ra_phone_ext").val(phone[2]);
+                        }
+                    }else if(shop_type == 'paipai'){
+					     
+					     var address = address_consignee.split("，");
+						 if(typeof address == 'undefined' || address == '') return false;
+						 
+                         //收货人 
+                         $("#rname").val(address[0]);
+                        //拍拍数据包含电话
+                        if(address.length>4){
+                            var consignee = address[3].split(/\\s+/g);
+                            //处理拍拍省级地区缺少省字
+                            if(consignee[0].indexOf("上海")>= 0 || consignee[0].indexOf("北京")>= 0 || consignee[0].indexOf("天津")>= 0 || consignee[0].indexOf("重庆")>= 0){
+                                consignee[0] = consignee[0];
+                                consignee[2] = consignee[1];
+                                consignee[1] = consignee[0]+'市'; 
+                            }else if(consignee[0].indexOf('香港') >= 0 || consignee[0].indexOf('澳门')>= 0){
+                                consignee[0] = consignee[0]+'特别行政区'; 
+                            }
+                            else{
+                                consignee[0] = consignee[0]+'省';
+                            }
+                    
+                            //匹配省份
+                            $("#province option").each(function(){
+							    var _this = $(this);
+                                if(_this.text() == consignee[0]){
+                                    _this.attr("selected",true);
+									var init_data =  _this.val();
+                                    selectCityRegion_new(init_data,'city',consignee[1],consignee[2]);
+                                }
+                            });
+							var str_ra = '';
+						    var _len = consignee.length;
+						    if(_len>3) {
+						       for(var i=3;i<_len;i++){
+							       str_ra +=consignee[i]+' ';
+							   }
+						    }
+                            //收货人地址 
+                            $("#ra_detail").val(str_ra);
+                            //邮政编码
+                            $("#ra_post_code").val(address[4]);
+                            //手机号码
+                            $("#ra_mobile_phone").val($.trim(address[1]));
+                            //电话号码
+                            if(address[3] !== ''){
+                                var phone = address[2].split("-");
+                                //$("#ra_phone_area").val(phone[0]);
+                                $("#ra_phone").val(phone[1]);
+                                //$("#ra_phone_ext").val(phone[2]);
+                            }
+                        }else{
+                            var consignee = address[2].split(" ");
+                            //处理拍拍省级地区缺少省字
+                            if(consignee[0].indexOf("上海")>=0 || consignee[0].indexOf("北京")>=0 || consignee[0].indexOf("天津")>=0 || consignee[0].indexOf("重庆")>=0){
+                                consignee[0] = consignee[0];
+                                consignee[3] = consignee[2];
+                                consignee[2] = consignee[1];
+                                consignee[1] = consignee[0]+'市'; 
+                            }else if(consignee[0].indexOf("香港")>0 || consignee[0].indexOf("澳门")>0){
+                                consignee[0] = consignee[0]+'特别行政区'; 
+                            }
+                            else{
+                                consignee[0] = consignee[0]+'省';
+                            }
+   	        		
+                            //匹配省份
+                            $("#province option").each(function(){
+							    var _this = $(this);
+                                if(_this.text() == consignee[0]){
+                                    _this.attr("selected",true);
+									var init_data =  _this.val();
+                                    selectCityRegion_new(init_data,'city',consignee[1],consignee[2]);
+                                }
+                            });
+							var str_ra = '';
+						    var _len = consignee.length;
+						    if(_len>3) {
+						       for(var i=3;i<_len;i++){
+							       str_ra +=consignee[i]+' ';
+							   }
+						    }
+                            //收货人地址 
+                            $("#ra_detail").val(str_ra);
+                            //邮政编码
+                            $("#ra_post_code").val(address[3]);
+                            //手机号码
+                            $("#ra_mobile_phone").val(address[1]);
+                        }
+                    }
+                }
+    	
+                return false;
+            });
+});
+</script>
+</if>

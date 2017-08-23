@@ -1,0 +1,28 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+    分拣单号:<input type="text"  value="" id="osob_id" name="osob_id" class="large" maxlength="60"/>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.onload = function()
+    {
+      document.getElementById("osob_id").focus();
+    }
+    $('input').bind('input propertychange', function() { 
+        var osob_id = $("#osob_id").val();
+        if(osob_id.length==15){
+            location.href= "/Ucenter/Warehouse/orderBasket?osob_id="+ osob_id;
+        }
+    });
+</script>

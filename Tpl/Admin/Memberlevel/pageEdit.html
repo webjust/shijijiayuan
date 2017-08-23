@@ -1,0 +1,80 @@
+<div class="rightInner">
+    <form id="members_form" name="members_form" method="post" action="{:U('Admin/Memberlevel/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">会员等级修改</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">等级名称：</td>
+                    <td>
+                        <input type="text" name="ml_name" id="ml_name" class="medium" value="{$level.ml_name}" validate='{ required:true,username:true,remote:"{:U("Admin/Memberlevel/checkMemberLevelEdit","ml_id=$level[ml_id]&type=edit&filed=ml_name&msg=等级名称")}"}'/> <br> 
+                    </td>
+                    <td class="last">请输入等级名称</td>
+                </tr>
+                <tr>
+                    <td class="first">等级晋升：</td>
+                    <td>
+                        <input type="text" name="ml_up_fee" id="ml_up_fee" class="medium" value="{$level.ml_up_fee}" validate='{ required:true,number:true}' /> <br> 
+                    </td>
+                    <td class="last">上个等级升到本等级条件(本等级金额必须大于上个等级金额)</td>
+                </tr>
+				<!--
+                <tr>
+                    <td class="first">等级返点：</td>
+                    <td> 
+                        <input type="text" name="ml_rebate" id="ml_rebate" class="medium" value="{$level.ml_rebate}" validate='{ required:true,range:[0,100]}' />%  <br> 
+                    </td>
+                    <td class="last">填入0-100的数字 按照百分比计算</td>
+                </tr>
+				-->
+				<input type="hidden" name="ml_rebate" id="ml_rebate" class="medium" value="0" />
+                <tr>
+                    <td class="first">等级折扣：</td>
+                    <td>
+                        <input type="text" name="ml_discount" id="ml_discount" class="medium" value="{$level.ml_discount}" validate='{ required:true,range:[1,100]}'/> %<br> 
+                    </td>
+                    <td class="last">填入1-100的数组 按照百分比计算</td>
+                </tr>
+                <tr>
+                    <td class="first">是否包邮：</td>
+                    <td>
+                        <input type="radio" value="0" id="ml_free_shipping_0" <if condition="$level.ml_free_shipping eq 0">checked="checked"</if> name="ml_free_shipping" />
+    					<label for="ml_free_shipping_0">否</label> 
+                        <input type="radio" value="1" id="ml_free_shipping_1" <if condition="$level.ml_free_shipping eq 1">checked="checked"</if> name="ml_free_shipping" />
+    					<label for="ml_free_shipping_1">是</label> 
+                    </td>
+                    <td class="last">说明文字</td>
+                </tr>  
+                 <tr>
+                <td class="first">是否默认：</td>
+                <td>
+                    <input type="radio" value="0" id="ml_default_0" <if condition="$level.ml_default eq 0">checked="checked"</if> name="ml_default" />
+					<label for="ml_default_0">否</label> 
+                    <input type="radio" value="1" id="ml_default_1" <if condition="$level.ml_default eq 1">checked="checked"</if> name="ml_default" />
+					<label for="ml_default_1">是</label> 
+                </td>
+                <td class="last">说明文字</td>
+            </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" />
+                        <input type="button" onClick="onUrl('{:U('Admin/Memberlevel/pageList')}');" value="取 消" class="btnA" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" id="ml_id" name="ml_id" value="{$level.ml_id}" >
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#members_form").validate();   
+    });
+</script>

@@ -1,0 +1,82 @@
+<style>
+    #oHeader_box{width:100%;overflow: hidden;}
+    .oHeader_top,.oHeader_head,.oHeader_nav{width: 100%;overflow: hidden;}
+    .oHeader_top>div,.oHeader_head>div,.oHeader_nav>div{width: 1200px;overflow: hidden;margin: 0 auto;}
+    .oHeader_top{background:#f5f5f5;}
+    .oHeader_top>div a{float:right;height:18px;line-height: 18px;padding: 0 5px;}
+    .oHeader_top>div b{display: block;margin-left: 5px;border: 4px solid transparent;border-top-color:black;float:right;margin-top: 7px; }
+
+    .oHeader_head{background:white;}
+    .oHeader_head>div{height:106px;}
+    .oHeader_head>div a{float:left;height:96px;padding:0 5px;overflow: hidden;}
+    .oHeader_head>div a img{height:96px;width: auto;}
+    .oHeader_head>div p{float:left;line-height:20px;margin-top: 76px;}
+    .oHeader_head>div b{float:right;height:101px;padding-top: 5px;overflow: hidden;}
+    .oHeader_head>div b img{height:101px;width: auto;}
+
+    .oHeader_nav{background:#3c474d;}
+    .oHeader_nav div{height:26px;}
+    .oHeader_nav div ul li{float:left;text-align: center;line-height: 26px;}
+    .oHeader_nav div ul li.oHeader_nav_btn{width:120px;height:26px;background:#31383e;}
+    .oHeader_nav div ul li.oHeader_nav_btn a{color:white;}
+
+    /*侧边栏样式*/
+    .contentLeft{width:120px !important;}
+    .contentLeft h2{width:100% !important;}
+    #menus h2{background:#31383e !important;}
+    .contentLeft ul li a{padding-left: 15px !important;}
+    .contentLeft ul{width: 120px;}
+    .contentLeft h2 span{text-align: left !important;margin-left: 15px!important;}
+
+    /*右侧栏样式*/
+    .contentRightBox{width:1040px !important;}
+    .contentRightBox>div.title{width:1028px !important;}
+    .contentRightBox>form>div{width:1028px !important;}
+    .contentRightBox>form>div>a{background: black !important;}
+    #searchOrderSubmit{background:black !important;border:none!important;}
+
+    .contentRightBox>div>table>tbody>tr>th{border: 1px solid #d7d7d7;}
+</style>
+<div id="oHeader_box">
+    <div class="oHeader_top">
+        <div>
+            <notempty name="Think.session.Members.m_name">
+                <a href="{:U('Ucenter/User/doLogout')}" rel="nofollow">{$Think.lang.TOP_LOGOUT}<b></b></a>
+            </notempty>
+        </div>
+    </div>
+    <div class="oHeader_head">
+        <div>
+            <a href="">
+                <img src="__TPL__images/logo.png" alt=""/>
+            </a>
+            <p>
+                <notempty name="Think.session.Members.m_name">
+                    <strong style="color:#e5582b;">{$Think.session.Members.m_name}</strong>&nbsp;&nbsp;&nbsp;<span></span>
+                </notempty>
+            </p>
+            <b>
+                <img src="__TPL__images/houtai_test_ico.jpg" alt=""/>
+            </b>
+        </div>
+    </div>
+    <div class="oHeader_nav">
+        <div>
+            <ul>
+                <li class="oHeader_nav_btn"><a href="">首页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script language="javaScript">
+    now = new Date(),hour = now.getHours()
+    if(hour < 6){$('.oHeader_head p span').text("[凌晨好！]")}
+    else if (hour < 9){$('.oHeader_head p span').text("[早上好！]")}
+    else if (hour < 12){$('.oHeader_head p span').text("[上午好！]")}
+    else if (hour < 14){$('.oHeader_head p span').text("[中午好！]")}
+    else if (hour < 17){$('.oHeader_head p span').text("[下午好！]")}
+    else if (hour < 19){$('.oHeader_head p span').text("[傍晚好！]")}
+    else if (hour < 22){$('.oHeader_head p span').text("[晚上好！]")}
+    else {$('.oHeader_head p span').text("[夜里好！]")}
+
+</script>

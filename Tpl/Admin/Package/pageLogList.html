@@ -1,0 +1,64 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th>数据包下载日志</th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+					<form id="searchForm" method="post">
+						数据包标题：<input type="text" name="title" value="{$title}">
+						<input type="submit" value="搜 索" class="btnHeader inpButton">
+					</form>
+                </th>
+            </tr>
+            <tr>
+                <th width="120">操作</th>
+                <th>数据包标题</th>
+                <th width="120">数据包类型</th>
+                <th width="200">会员</th>
+                <th width="200">下载日期</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="package">
+               <tr>
+                   <td width="120"><input name="chkItem" type="checkbox" value="{$package.pl_id}"></td>
+					<td>{$package.p_title}</td>
+					<td>{$cate[$package[p_cate]]}</td>
+					<td width="120">{$package['m_name']}</td>
+					<td width="200">{$package.pl_create_time}</td>
+               </tr>
+               </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+					<input type="checkbox" class="che" id="che"> <label for="che">全选</label>
+					<a href="#" class="wordBlue J_allDel">批量删除</a>
+                	{$page}
+				</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.J_allDel').click(function(){
+    	if(confirm('是否删除数据包下载日志')){
+    		var strVal = [];  
+            $("[name=chkItem]:checked").each(function(){
+            	strVal.push($(this).val());
+            });
+	    	var data = 'plid=' + strVal;
+	    	ajaxReturn('{:U("Admin/Package/doDelLog")}',data,'post');
+    	}
+    	return false;
+    });
+    $("#che").click(function(){
+    	if($("#che").attr("checked")=='checked'){
+    		$("[name = chkItem]:checkbox").attr("checked", true);
+        }else{ 
+        	$("[name = chkItem]:checkbox").attr("checked", false);
+        }
+    });
+});
+</script>

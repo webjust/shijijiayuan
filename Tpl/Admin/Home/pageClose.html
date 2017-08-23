@@ -1,0 +1,55 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="CloseForm" method="post" action="{:U('Admin/Home/doSetClose')}" onsubmit="return CloseForm();">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">暂停营业公告</th>
+                </tr>
+            </thead>
+            <tbody>
+                <if condition="$data.STATUS eq '1'">
+                    <tr>
+                        <td class="first">当前状态：</td>
+                        <td colspan="2">
+                            <input type="submit" class="btnA" value="已暂停" style="background-color: gray;">
+                        </td>
+                    </tr>  
+                </if>
+                
+                <tr>
+                    <td class="first">选择状态：</td>
+                    <td colspan="2">
+                <input type="radio" name="status" id="rdoOpen" class="status" value="1" <if condition="$data.STATUS eq '1'">checked="checked"</if> />暂停营业
+                        <input type="radio" name="status" id="rdoClose"  class="status" value="0"  <if condition="$data.STATUS eq '0'">checked="checked"</if> />正常营业
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">暂停营业公告：</td>
+                    <td colspan="2"><script id="editor" name="set_content" type="text/plain">{$data.CONTENT}</script></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    //实例化编辑器
+    UE.getEditor('editor');
+</script>
+<script>
+    $(document).ready(function(){   
+        //$("#CloseForm").validate();  
+    });
+</script>

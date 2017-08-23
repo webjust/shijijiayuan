@@ -1,0 +1,235 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="integral_add" enctype="multipart/form-data" name="integral_edit" method="post" action="{:U('Admin/Integral/doEdit')}">
+        <input type="hidden" name="integral_id" value="{$info.integral_id}"/>
+        <table class="tbForm" width="100%" id="wrap">
+            <thead>
+            <tr class="title">
+                <th colspan="99">编辑积分兑换商品</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td  colspan="3" style="text-align:left;padding-left:100px;">
+                    分类：
+                    <select name="search_cats" class="related_goods_form_info medium" >
+                        <option value="0"> -请选择- </option>
+                        <volist name="array_category" id="cat">
+                            <option value="{$cat.gc_id}"><php>for($j=0;$j<$cat['gc_level'];$j++){echo '--';}</php>{$cat.gc_name}</option>
+                        </volist>
+                    </select>
+                    品牌：
+                    <select name="search_brand" class="related_goods_form_info medium">
+                        <option value="0"> -请选择- </option>
+                        <volist name="array_brand" id="vo">
+                            <option value="{$vo.gb_id}">{$vo.gb_name}</option>
+                        </volist>
+                    </select>
+                    关键词：
+                    <input type="text" name="keywords" class="related_goods_form_info medium" id="search_keywords" value="" />
+                    <input  type="hidden"   name="search_integral" class="related_goods_form_info medium" id="search_integral" value="1" />
+                    <button type="button" id="related_goods_form_search_info" class="btnA">搜索</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">* 积分商品</td>
+                <td>
+                    <input type="hidden" value="1" id="good_type"/>
+                    <input type="hidden" value="" id="item_price" />
+                    <select name="g_id" id="g_related_goods_ids_selected_info" onchange="showPic()" validate="{ required:true}">
+                        <option  value="{$info.g_id}">{$info.g_name}</option>
+                    </select>
+                </td>
+                <!--<td class="last">必填，更加商品选择区域限售</td>-->
+            </tr>
+            <tr>
+                <td class="first">* 积分标题</td>
+                <td>
+                    <textarea  name="integral_title" id="integral_title"  maxlength="250" style="width:300px;height:100px;text-align:left;vertical-align:top;" validate="{ required:true,maxlength:250,remote:'{:U('Admin/Integral/checkName',"integral_id=$info[integral_id]")}'}">{$info.integral_title}</textarea>
+                </td>
+                <td class="last">限制250个字符</td>
+            </tr>
+            <tr>
+                <td class="first">* 活动开始时间</td>
+                <td>
+                    <input type="text" name="integral_start_time" id="integral_start_time" value="{$info.integral_start_time}" class="medium timer" validate="{ required:true}"/>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">* 活动结束时间</td>
+                <td>
+                    <input type="text" name="integral_end_time" id="integral_end_time" value="{$info.integral_end_time}" class="medium timer" validate="{ required:true}"/>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">* 所需积分</td>
+                <td><input type="text" name="integral_need" id="integral_need" value="{$info.integral_need}" class="medium" validate="{ required:true}"/></td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">* 还需现金</td>
+                <td><input type="text" name="money_need_to_pay" id="money_need_to_pay"  value="{$info.money_need_to_pay}" class="medium" validate="{ required:true}"/></td>
+                <td class="last"></td>
+            </tr>
+            <tr style="height:50px;">
+                <td class="first">商品图片</td>
+                <td>
+                    <a href="javascript:upImage();" class="btnG ico_upload">上传图片</a>
+                    <img width="50px" height="50px" src="{$info.integral_picture}" id="show_pic">
+                    &nbsp;
+                    <input type="hidden" id="integral_pic" name="integral_pic" value="{$info.integral_picture}"/>
+                </td>
+                <td class="last">不上传图片按商品主图,建议您图片大小为500*500</td>
+            </tr>
+            <!--<tr>-->
+            <!--<td class="first">区域限售</td>-->
+            <!--<td>-->
+            <!--<a class="rule-chooser-trigger" ref="'.$this->index.'" href="javascript:void(0)">-->
+            <!--<img title="Open Chooser" class="v-middle" alt="" src="__PUBLIC__/Admin/images/rule_chooser_trigger.gif"></a>-->
+            <!--请点击按钮选择显示或隐藏限售区域-->
+            <!--<div id="shopMulti_cat" class="shop-cat-list rule-chooser" style="display:none;padding-left: 15px;">-->
+            <!--<include file="related-goods-form" />-->
+            <!--</div>-->
+            <!--</td>-->
+            <!--<td class="last">（移动端暂不支持）</td>-->
+            <!--</tr>-->
+            <tr>
+                <td class="first">积分类目</td>
+                <td>
+                    <select name="gcid" class="small search_cond" style="width: auto">
+                        <option value="0" >选择类目</option>
+                        <volist name="cates" id="cate">
+                            <option value="{$cate['gc_id']}" <if condition="($info['gc_id'] eq $cate['gc_id'])">selected=selected</if> >{$cate['gc_name']}</option>
+                        </volist>
+                    </select>
+                </td>
+                <td class="last">（移动端暂不支持）</td>
+            </tr>
+            <tr>
+            <td class="first">* 限购数量</td>
+            <td>
+            <input type="input" name="integral_num" id="integral_num" class="medium"  value="{$info.integral_num}" validate="{ required:true}"/>
+            </td>
+            <td class="last">达到此数量，积分活动自动结束。请填写正整数</td>
+            </tr>
+
+            <tr>
+                <td class="first">是否显示商品详情 </td>
+
+                <td>
+                    <input type="radio" name="integral_goods_desc_status" value="1" <eq name="info.integral_goods_desc_status" value="1">checked</eq>/>启用
+                    <input type="radio" name="integral_goods_desc_status"  value="0" <eq name="info.integral_goods_desc_status" value="0">checked</eq>/>停用
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">是否启用</td>
+
+                <td>
+                    <input type="radio" name="integral_status" value="1"  <eq name="info.integral_status" value="1">checked</eq> />启用
+                    <input type="radio" name="integral_status"  value="0" <eq name="info.integral_status" value="0">checked</eq> />停用
+                </td>
+                <td class="last">不勾选代表停用</td>
+            </tr>
+            <tr>
+                <td class="first">PC端积分描述</td>
+                <td>
+                    <textarea name="integral_desc" id="editor"  style="width:600px;">{$info.integral_desc}</textarea>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">手机端积分描述</td>
+                <td>
+                    <textarea name="integral_mobile_desc" id="mobile_editor"  style="width:600px;">{$info.integral_mobile_desc}</textarea>
+                </td>
+                <td class="last"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="99">
+                    <input type="submit" value="提 交" class="btnA">
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    //实例化编辑器
+    UE.getEditor('editor');
+    //实例化编辑器
+    UE.getEditor('mobile_editor');
+    var dialog;
+    var editor = new UE.ui.Editor({
+        imageRealPath:"editor"
+    });
+    editor.render("myEditor");
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            for(index in arg){
+                var image_path = arg[index]['src'];
+                $("#integral_pic").val(image_path);
+                $("#show_pic").attr({src:image_path});
+
+            }
+        });
+
+    });
+    function upImage() {
+        dialog.open();
+    }
+
+    $(document).ready(function() {
+        $("#integral_add").validate();
+        $(".rule-chooser-trigger").click(function() {
+            var show_cat = $("#shopMulti_cat").css('display');
+            if ($("#shopMulti_cat").css('display') == 'block') {
+                $("#shopMulti_cat").css("display", "none");
+            } else {
+                $("#shopMulti_cat").css("display", "block");
+            }
+        });
+
+        $("#related_goods_form_search_info").click(function(){
+            var request_url = "{:U('Admin/Goods/adminSearchGoods')}?";
+            $(".related_goods_form_info").each(function(){
+                request_url += $(this).attr('name') + '=' + encodeURIComponent($(this).val()) + '&';
+            });
+            $.ajax({
+                url:request_url,
+                data:{},
+                success:function(htmlObj){
+                    var htmls_options = "<option value='0'>请先下拉选择参与积分兑换活动的商品</option>";
+                    for (var x in htmlObj){
+                        var goods = htmlObj[x];
+                        htmls_options += '<option pic="' + goods.g_picture+ '" ' + 'price="' + goods.g_price+ '" value="' +  goods.g_id + '">' + goods.g_name+',价格：'+ goods.g_price+ '</option>';
+                    }
+                    $("#g_related_goods_ids_selected_info").html(htmls_options);
+                },
+                type:'GET',
+                timeout:30000,
+                dataType:'json'
+            });
+        });
+
+    });
+
+    //显示图片
+    function showPic(){
+        var pic = $("#g_related_goods_ids_selected_info").find("option:selected").attr('pic');
+        $("#item_price").val($("#g_related_goods_ids_selected_info").find("option:selected").attr('price'));
+        $("#integral_pic").val(pic);
+        $("#show_pic").attr("src",pic);
+    }
+</script>

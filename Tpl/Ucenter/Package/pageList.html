@@ -1,0 +1,21 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>数据包</span></h2>
+	<div class="helpList"><!--helpList  start-->
+		<div class="helpListCon"><!--helpListCon  start-->
+			<ul>
+				<volist name="list" id="package">
+				<!--  
+				<li><a href='{:U("Ucenter/Package/pageDownload","pid=$package[p_id]")}'>{$package.p_title}</a><span class="time">{$package.p_create_time}</span></li>
+				-->
+				<li><a href='{$package.p_path}'>{$package.p_title}</a><span class="time">{$package.p_create_time}</span></li>
+				</volist>
+			</ul>
+		</div><!--helpListCon  end-->
+		<div class="fenye">
+			{$page}
+		</div>
+	</div><!--helpList  end-->
+</div><!--contentRightBox  end-->
+<!-- 右侧主题内容结束 -->

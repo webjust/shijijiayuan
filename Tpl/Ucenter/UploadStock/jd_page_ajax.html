@@ -1,0 +1,245 @@
+<style type="text/css">
+.rightInner{ border: 1px solid #d7d7d7; border-bottom-width: 2px; clear: both; position: relative;  width: 100%; min-height: 40px; min-width: 1020px; height: auto; padding-bottom: 8px; margin-bottom: 3px;overflow:auto;}
+.rightInner a.green,.green{ color: green}
+.rightInner a.red,.red,.rightInner a.btnR{ color: #FF0000;}
+.rightInner .left, td.left,.tbList tbody tr td.left{ text-align: left;}
+.rightInner .right{ float: right; display: inline-block;}
+.rightInner .page{ margin-right: 10px;}
+.rightInner .larger{font-size: 1.1em;}
+.rightInner .bolder{ font-weight: bold;}
+.tbForm{ position: relative;}
+.tbInner{} /*表单或列表中嵌套的小表格*/
+
+.tbList thead tr th,.tbForm thead tr th{ height: 22px; font-size: 14px; color: #333; text-align: center; background: #ececec; white-space: nowrap; font-weight: normal; border: 1px solid #d7d7d7; padding: 3px 15px;}
+.tbList thead tr.title th,.tbForm thead tr.title th{background-image:url('../images/listTwoToptdbj.jpg'); height: 30px; text-align: left;}
+.tbList tbody tr td{ padding: 5px 5px; line-height: 140%; border:1px solid #d7d7d7;text-align: center; word-break:break-all;}
+.tbList tbody tr td span{ text-align: center; overflow: hidden; white-space:nowrap;  display:inline-block;}
+
+.tbList tbody tr:hover td,.tbInner tr:hover td{ background-color: #ececec;}
+.tbList tfoot tr td{ padding: 10px 5px 2px 15px;}
+.tbList tbody.nohover tr:hover td{ background-color: #fff;}
+/* 分页样式开始 */
+.page  a { background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #E3E3E3; color: #333333; display: inline-block; height: 22px; line-height: 22px; padding: 0 3px; text-align: center;}
+.page  a.a1 { background: url("../images/pages.png") no-repeat scroll 0 5px transparent; padding: 0;}
+.page  a:hover { background: none repeat scroll 0 0 #F1F1F1; color: #000000; text-decoration: none;}
+.page .current{ background: none repeat scroll 0 0 #5A85B2; border: 1px solid #5A85B2; color: #FFFFFF; display: inline-block; height: 22px; line-height: 22px; padding: 0 10px; text-align: center;}
+</style>
+<div class="pageQuickDetails"><!--pageQuickDetails  start-->
+    <form id="goodsSelectForm" name="goodsSelectForm" method="post" action="#">
+        <!--商品循环体开始-->
+        <volist name="list" id="goods">
+            <div class="pageQuickDTwo"><!--pageQuickDTwo  start-->
+                <p class="p01">
+                    <a href='#' target="_blank">
+                        {$goods.base.title}
+                    </a>
+                    <span>京东编码:{$goods.base.outer_id}</span>
+                </p>
+
+                <div class="pQuickDTwoCon"><!--pQuickDTwoCon  start-->
+                    <div class="pQuickDTwoConLeft"><!--pQuickDTwoConLeft  start-->
+                        <div class="prodctPic" id="g_picture_{$goods.base.num_iid}">
+                            <a href="#" class="proPic">
+                                <img <if condition='$goods.base.g_picture neq ""'>src='{$goods.base.g_picture|showImage=###,130,130}'<else />
+								src='__PUBLIC__/Ucenter/images/grey.gif'
+								</if>     data-original='{$goods.base.g_picture|showImage=###,130,130|default="Ucenter/images/pdtDefault.jpg"}' width="130" height="130" <if condition="$goods.base.g_picture neq ''">class="thumb lazy"<else />class="lazy"</if> />
+                            </a>
+							<input type="hidden"  value="{$goods.base.num_iid}" id="item_num_iid" name="item_num_iid" />
+                        </div>
+                    </div><!--pQuickDTwoConLeft  end-->
+                    <div class="pQuickDTwoConRight"><!--pQuickDTwoConRight  start-->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td width="143">京东货品编码</td>
+                                    <td width="136">京东货品名称规格</td>
+                                    <td width="107">分销货品编码</td>
+                                    <td width="105">分销货品规格</td>
+									<td width="84">库存</td>
+                                    <td width="84">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--货品循环体开始-->
+                            <volist name="goods.list" id="ho" key="pdtKey">
+                                <tr <eq name="pdtKey" value="1">class="first"</eq>>
+                                <td width="173"><empty name="ho.subTitle">无编码<else />{$ho.outer_id}</empty></td>
+                                
+                               <td width="177">
+								     <empty name="ho.subTitle">无规格<else />{$ho.subTitle}</empty>
+								</td>
+                               <td width="77" id="td_sn_<notempty name='ho.sku_id'>{$ho.sku_id}<else />{$ho.num_iid}</notempty>" class="pdt_sn_td">{$ho.pdt_sn}</td>
+                                <td width="75" id="td_spec_<notempty name='ho.sku_id'>{$ho.sku_id}<else />{$ho.num_iid}</notempty>" class="pdt_spec_td">
+								  {$ho.pdt_spec}
+                                </td>
+								<td width="84">{$ho.pdt_stock}</td>
+                                <td width="106">
+									<input type="button" value="同步" style="cursor: pointer;background: #5AA5DC; color: #FFF;" class="setSingleGugei" num_iid="{$ho.num_iid}" sku_id="{$ho.sku_id}"/>
+									<input type="hidden"  value="{$ho.outer_id}" class="setGugei_outerid"/>
+									<input type="hidden"  value="{$ho.num_iid}" class="setGugei_numiid" id="setGugei_numiid_<notempty name='ho.sku_id'>{$ho.sku_id}<else />{$ho.num_iid}</notempty>"/>
+									<input type="hidden"  value="{$ho.sku_id}" class="setGugei_skuid" id="setGugei_skuid_<notempty name='ho.sku_id'>{$ho.sku_id}<else />{$ho.num_iid}</notempty>"/>
+									<!--<div id="children_{$ho.outer_id}"  style="display:none" title="规格关联"></div>-->
+                                </td>
+                                </tr>
+                            </volist>
+                            <!--货品循环体结束-->
+                            </tbody>
+                            
+                        </table>
+                    </div><!--pQuickDTwoConRight  end-->
+                </div><!--pQuickDTwoCon  end-->
+            </div><!--pageQuickDTwo  end-->
+        </volist>
+        <!--商品循环体结束-->
+
+        <div class="quickOrderFenCon" id="goodsSelect"><!--quickOrderFenCon   start--->
+		    <include file="UploadStock:getProductsInfo" />
+        </div><!--quickOrderFenCon   end--->
+         <input type="hidden" id="choose_skuid" value="">
+        <div class="clear"></div>
+    </form>
+	
+	
+	<if condition="$page neq '1' ">
+		<div class="myOderBot">
+			<div class="myOderBotRight">
+				<div class="fenye">
+					分页
+					<select name="page" id="page" style="height:22px;">
+						<for start="1" end="$page">
+							<option value="{$i}" <if condition="$i eq $p "> selected = "selected" </if> >{$i}</option>
+						</for>
+					</select>
+				</div>
+			</div>
+		</div>
+	</if>
+	
+</div><!--pageQuickDetails  end-->
+<script type="text/javascript">
+
+//更改店铺
+$("#page").change(function(){
+	var shopID = jQuery("#shop_id  option:selected").val();
+	var page = jQuery("#page  option:selected").val();
+	if(page == 'undefined' || page == 0) {
+	   alert('请选择分页');
+	   return false;
+	}
+	if(shopID == 'undefined' || shopID == 0) {
+	   alert('请选择京东店铺');
+	   return false;
+	}
+	
+	$.ajax({
+			url:"{:U('Ucenter/UploadStock/showItemsJdAjax')}",
+			type:'POST',
+			dataType:'html',
+			cache:false,
+			data:{shopID:shopID,p:page},
+			beforeSend:function(){
+				$('#ajaxsenddiv_loading').dialog({
+			        height:'auto',
+			        width:400,
+			        modal:true,
+			        title:'提示：',
+					close:function (){
+						$("#ajaxsenddiv_loading").dialog('destroy');
+						$('#ajaxsenddiv').append($('#ajaxsenddiv_loading'));
+					}
+			    });
+			},
+			success: function(htm) {
+			    $('#submit_button_float_div').html(htm);
+				$("#ajaxsenddiv_loading").dialog("close");
+				
+			},
+			error: function(json) {
+				$("#ajaxsenddiv_loading").dialog("close");
+				alert('提交超时！');
+			}
+		});
+});
+
+
+$(document).ready(function(){
+    
+     $('#goodsSelect').dialog({
+		resizable:false,
+		autoOpen: false,
+		modal: true,
+		width: '1100px',
+		buttons: {
+			'关联': function() {
+				
+				relateGoods();
+				$(this).dialog( "close" );
+			},
+			'关闭': function() {
+				$( this ).dialog( "close" );
+			}
+			}
+	});
+	$(".setGugei").click(function(){
+	    var _this = $(this).parent();
+        var skuid = _this.find('.setGugei_skuid').val();
+		if(typeof skuid == 'undefined' || skuid == null || skuid == '') return false;
+		if(skuid == 0) skuid = _this.find('.setGugei_numiid').val();
+		//alert(outerid);
+		$('#choose_skuid').val(skuid);
+		$('#goodsSelect').dialog('open');
+	});
+
+    
+	//单个京东商品规格库存
+	$(".setSingleGugei").click(function(){
+		      
+			   var shopID = jQuery("#shop_id  option:selected").val();
+			   var _this = $(this);
+			   var num_iid = _this.attr('num_iid');
+			   var sku_id = _this.attr('sku_id');
+				$.ajax({
+					url:"{:U('Ucenter/UploadStock/doSynStockJd')}",
+					type:'POST',
+					dataType:'json',
+					cache:false,
+					data:{shopID:shopID,type:'single',num_iid:num_iid,sku_id:sku_id},
+					beforeSend:function(){
+						$('#ajaxsenddiv_loading').dialog({
+						height:'auto',
+						width:400,
+						modal:true,
+						title:'提示：',
+						close:function (){
+							$("#ajaxsenddiv_loading").dialog('destroy');
+							$('#ajaxsenddiv').append($('#ajaxsenddiv_loading'));
+						}
+					});
+				},
+				success: function(json) {
+				
+				  $("#ajaxsenddiv_loading").dialog("close");
+				  if(json.status == 1){	
+					
+					if(json.fail >0) {
+					   
+				        alert('成功上传修改'+json.success_sku_num+'个规格的库存数量,失败上传'+json.fail+'个商品规格,'+json.msg);
+						
+					} else {
+							alert('成功上传修改'+json.success_sku_num+'个规格的库存数量');
+					
+					}
+				  }
+				  else {
+				      alert(json.msg);
+				  }
+					return false;
+				},
+				error: function(json) {
+					$("#ajaxsenddiv_loading").dialog("close");
+					alert('提交超时！');
+				}
+			});
+		});	
+});	
+</script>

@@ -1,0 +1,96 @@
+<!--中间内容  开始-->
+<div class="warp">
+    <div class="lottery"><!--lottery  start-->
+    	<div class="ly-plate"><!--抽奖转盘-->
+            <div class="rotate-bg" ><a id="do_lottery" l_id="{$l_id}"></a></div>
+            <div style="width:330px;height:330px;"><div class="lottery-star"><img width="330px" height="330px" src="{$ary_lottery['l_detail']['lottery_pic']}" id="lotteryBtn" ><input type="hidden" name="t" id="t" value="0" /></div></div>
+        </div>
+        <h2 class="activityTime">活动时间：{$ary_lottery.l_start_time} — {$ary_lottery.l_end_time}</h2>
+		<div class="lotList" id="show_lottery_list">
+        	<table>
+            	<thead>
+                	<tr>
+                    	<td>用户</td>
+                        <td>抽得奖项</td>
+                        <td>时间</td>
+                    </tr>
+                </thead>
+                <tbody>
+					<volist name='ary_lotterys' id="lottery">
+                    <tr>
+                        <td><span>{$lottery['m_name']}</span></td>
+                        <td>
+						<if condition="$lottery['ul_type'] eq 1">
+						<code>红包{$lottery['ul_bonus_money']}元</code>
+						</if>
+						<if condition="$lottery['ul_type'] eq 2">
+						<code>{$lottery['ul_title']}</code>
+						</if>
+						</td>
+                        <td><label>{$lottery['ul_confirm_time']}</label></td>
+                    </tr>
+					</volist>
+                </tbody>
+            </table>
+        </div>
+		
+    </div><!--lottery  end-->
+</div>
+<!--中间内容  结束-->
+<script src="__JS__jQueryRotate.2.2.js"></script>
+<script src="__JS__jquery.easing.min.js"></script>
+<script type="text/javascript">
+setInterval("ajaxLoadLotteryList()",10000);
+function ajaxLoadLotteryList(){
+	var l_id = "{$l_id}";
+	if(!l_id){
+		l_id = 0;
+	}
+	$.post('/Home/Lottery/LotteryList',{'l_id':l_id},function(htmlObj){
+		$("#show_lottery_list").html(htmlObj);
+	},'html');
+}
+$(document).ready(function(){
+	var rotateFunc = function(awards,angle,text){  //awards:奖项，angle:奖项对应的角度
+		//$('#lotteryBtn').stopRotate();
+		$("#lotteryBtn").rotate({
+			angle:0, 
+			duration: 1000, 
+			animateTo: angle+360*10, //angle是图片上各奖项对应的角度，1440是我要让指针旋转4圈。所以最后的结束的角度就是这样子^^
+			callback:function(){
+				showAlert(true,text);
+			}
+		}); 
+	};
+	/**
+	$("#lotteryBtn").click(function(){ 
+		rotateFunc(2,60,'恭喜您抽中10元')
+	});
+	**/
+    $('#do_lottery').click(function(){
+	    var data = 'l_id=' + $(this).attr('l_id');
+		if($(this).attr('l_id') == ''){
+			showAlert(false,'抽奖信息不存在');return false;
+		}
+		$.ajax({
+			url:'{:U("Ucenter/Lottery/doLottery")}',
+			data:data,
+			success:function(result){
+				if(result.status == 0){
+					showAlert(false,result.info);
+				}else{
+					var infos = result.info.split("|");
+					var total = parseInt(infos[1]*(360/infos[0])-(360/infos[0])/2);
+					rotateFunc(infos[1],total,infos[2]);
+				}
+				//showAlert(result.status,result.info,'',result.url);
+			},
+			error:function(){
+				alert('请求无响应或超时');
+			},
+			type:'post',
+			dataType:'json'
+		});
+    });
+});
+</script>

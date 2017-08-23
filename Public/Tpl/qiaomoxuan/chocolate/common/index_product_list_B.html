@@ -1,0 +1,32 @@
+
+    <div style="height: 375px;">
+	<Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+        <if condition="$showlist['show_pic'] eq 1">
+        <div class="promotionImg">
+            <a target="_blank" name="hwg_none_cc_hd01" href="{$showlist.gurl}"title="{$showlist.gname}">
+                <img src="{$showlist.gpic}" height="200" width="200" alt="{$showlist.gname}" >
+            </a>
+        </div>
+         </if>
+        <if condition="$showlist['show_name'] eq 1">
+        <h3 class="productName">
+            <a target="_blank" name="hwg_none_cc_hd01" href="{$showlist.gurl}" title="{$showlist.gname}">
+                {$showlist.gname}
+            </a>
+        </h3>
+        </if>
+        <div class="priceSale product-price" data-sku="124615907|1|2|0070070002">
+            <div class="discount shanGouDisount"><strong><php>echo sprintf('%.1f',$showlist['gprice']/$showlist['pdt_market_price']*10)</php></strong></div>
+            <div class="price shanGouPrice"><p class="nowPrice">
+                <if condition="$showlist['sale_price'] neq ''">
+                <p><i textstyle-editable="true" style-num="6">¥</i><strong>{$showlist.gprice|sprintf='%.2f',###}</strong></p>
+                </if>
+                <if condition="$showlist['market_price'] neq ''">
+                <p class="yigou"><span></span>
+                    <del class="ptxt" textstyle-editable="true" style-num="7">{$showlist.market_price}<label>{$showlist.pdt_market_price|sprintf='%.2f',###}</label></del>
+                </p>
+                </if>
+            </div>
+        </div>
+		</Gyfx:goodslist>
+    </div>

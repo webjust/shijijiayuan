@@ -1,0 +1,161 @@
+<div class="p-m-r-div-01">
+    <ul class="p-m-r-ul-01">
+        <div class="pmr-01-0-s">
+            <ul>
+                <div class="pmr-010s-01"><a href="javascript:void(0);">后台首页</a></div>
+                <div class="pmr-010s-02"><a href="javascript:void(0);"></a></div>
+            </ul>
+        </div>
+    </ul>
+</div>
+<script type="text/javascript" src="/modules/admin/statics/js/public.js"></script>
+<div class="p-m-r-div-02">
+    <ul>
+        <li> 您的位置： <a href="#">桌面</a><span>></span><a href='m=Salescount&act=addSalesSet'>分销商管理</a><span>></span><span class="title_cls"> 销售额设定</span><span>></span><span class="title_cls">编辑销售额</span></li>
+    </ul>
+</div>
+<div id="articleform" class='bd-pmr-ty-kuangjia'>
+    <ul>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr>
+                <td width="150px" style="height:30px; float:right; font-size:14px; font-weight:bold;">编辑销售额</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="height:30px; float:right; font-size:12px; padding-top:8px; color:#666666;">分销商：</td>
+                <td style="height:30px;"><input type="text" id="m_name" name="m_name" value="{!$ary_data.m_name!}"><font color="red">*</font><span id="show_checkname_msg"></span></td>
+            </tr>
+            
+            <tr>
+                <td style="height:30px; float:right; font-size:12px; padding-top:8px; color:#666666;">起始年月：</td>
+                <td style="height:30px;">
+                    <input type="text" id="mss_time_begin" name="mss_time_begin" value="{!$ary_data.mss_time_begin!}" onFocus="
+		                    	var mss_time_begin=$dp.$('mss_time_begin');
+		                    	WdatePicker({
+		                    		onpicked:function(){mss_time_begin.focus();},
+		                    		maxDate:'#F{$dp.$D(\'mss_time_end\')}',
+		                    		dateFmt:'yyyy-MM'})"><font color="red">*</font><span id="show_checkname_msg"></span>
+                </td>
+            </tr>
+            <tr>
+                <td style="height:30px; float:right; font-size:12px; padding-top:8px; color:#666666;">结束年月：</td>
+                <td style="height:30px;"><input type="text" id="mss_time_end" name="mss_time_end" value="{!$ary_data.mss_time_end!}" onFocus="
+		                    	var mss_time_end=$dp.$('mss_time_end');
+		                    	WdatePicker({
+		                    		onpicked:function(){mss_time_end.focus();},
+		                    		minDate:'#F{$dp.$D(\'mss_time_begin\')}',
+		                    		dateFmt:'yyyy-MM'})"><font color="red">*</font><span id="show_checkname_msg"></span></td>
+            </tr>
+            <tr>
+                <td style="height:30px; float:right; font-size:12px; padding-top:8px; color:#666666;">目标销售额：</td>
+                <td style="height:30px;"><input type="text" id="mss_sales" name="mss_sales" value="{!$ary_data.mss_sales!}"><span id="show_checkname_msg"></span></td>
+            </tr>
+            <tr>
+                <td width="10%" align="center">
+                	<input type="hidden" value="{!$ary_data.mss_id!}" class="mss_id" name="mss_id" id="mss_id">
+                	<input type="hidden" value="Salescount" class="Salescount" name="m" id="Salescount">
+                	<input type="hidden" value="add_salesset" class="add_salesset" name="formid" id="add_salesset">
+                </td>
+                <td ><button class="but-type-01" id="submit_btn" name="sbt_btn" success="">保 存</button></td>
+            </tr>
+        </table>
+    </ul>
+</div>
+
+<script>
+$(document).ready(function(){
+	$("#m_name").live("blur",function(){
+		var url	= "{!$WEBENTRY!}/admin/";
+		var mss_id	= $("#mss_id").val();
+		$(this).next('span').remove();
+		if(!this.value){
+			$('#show_checkname_msg').html('');
+			return ;
+		}
+		$("#show_checkname_msg").html('<img src="/modules/admin/statics/images/ajax-loader10.gif"/>');
+		$.post(url,{'m':'Salescount','act':'ajaxCheckSalesSetMname','mss_id':mss_id,'m_name':this.value},
+			function(msg){
+			//alert(msg);return;
+			if('error' == msg || !msg){
+				$("#show_checkname_msg").html('不存在，请重试！');
+				$("#submit_btn").attr("success","error");
+				return false;
+			}else if('repeat' == msg){
+				$("#show_checkname_msg").html('已设定，请输入其他分销商！');
+				$("#submit_btn").attr("success","repate");
+				return false;
+			}
+			$('#show_checkname_msg').html('');
+			$("#submit_btn").attr("success","");
+		});
+	});
+	
+	//判断目标销售额
+	$("#mss_sales").live("blur",function(){
+		var val = {!$ary_data.mss_sales!};
+		var m_val = $(this).val();
+		if(m_val == ''){
+			alert("此项不能为空");
+			return false;
+		}
+		if(m_val != ''){
+			var ereg_rule=/^\+?[1-9][0-9]*$/;
+			if(!ereg_rule.test($(this).val()) && m_val < 1){
+				$(this).val(val);
+				popupGlobalTipDiv(false,'必须输入数字！');
+				$(this).focus();
+				return false;
+			}
+		}
+		
+	});
+
+	$("#submit_btn").click(function(){
+		var m_name = $("#m_name").val();
+		var mss_id = $("#mss_id").val();
+		var mss_year = $("#mss_year").val();
+		var mss_month = $("#mss_month").val();
+		var mss_sales = $("#mss_sales").val();
+		var success = $(this).attr("success");
+		if(success == 'repate'){
+			popupGlobalTipDiv(false, '已设定，请输入其他分销商！');
+			return false;
+		}
+		if(mss_sales == ''){
+			alert("此项不能为空");
+			return false;
+		}
+		if(success == 'error'){
+			popupGlobalTipDiv(false, '不存在，请重试！');
+			return false;
+		}
+		//alert(m_name);
+		if(m_name == ''){
+			 popupGlobalTipDiv(false, '分销商不能为空');
+			 return false;
+		}
+		if(mss_year == ''){
+			 popupGlobalTipDiv(false, '年份不能为空');
+			 return false;
+		}
+		if(mss_month == ''){
+			 popupGlobalTipDiv(false, '月份不能为空');
+			 return false;
+		}
+		$.ajax({
+			url:'{!$WEBENTRY!}/admin/',
+			cache:false,
+			dataType:'TEXT',
+			type:'POST',
+			data:{'m':'salescount','act':'saveSalesSetEdit','m_name':m_name,'mss_year':mss_year,'mss_month':mss_month,'mss_sales':mss_sales,'mss_id':mss_id},
+			success:function(json){
+				if('error' == json) {
+			        popupGlobalTipDiv(false, '操作失败，请重试。');
+			    }else if('success' == json){
+			        popupGlobalTipDiv(true, '保存成功','{!$WEBENTRY!}/admin/#m=Salescount&act=showSalesSetList&'+Math.random());
+			    }
+			}
+		});
+	});
+});
+</script>

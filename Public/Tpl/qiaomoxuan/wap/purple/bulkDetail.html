@@ -1,0 +1,303 @@
+﻿<link href="{$Think.config.DOMAIN_HOST}__CSS__slider.style.css" rel="stylesheet" type="text/css"/>
+<script src="__JS__bulkdetail.js" type="text/javascript"></script>
+<div class="warp">
+    <div class="head">
+        <p>团购详情</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/Cart/pageCartList')}" class="gocart"></a>
+    </div>
+    <Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+    <input type="hidden" value="{$ary_request.gid}" id="gid">
+	<input type="hidden" value="{$ary_request.gp_id}" name="gp_id" id="gp_id">
+    <input type='hidden' id='m_id' value='{$Think.session.Members.m_id}' />
+    <input type='hidden' name='goods_type' value='{$goods_type}' />
+    <div class="proDetail"><!--proDetail 开始-->
+        <!--轮播开始-->
+        <div class="proImg">
+            <div class="addWrap">
+              <div class="swipe" id="mySwipe">
+                <div class="swipe-wrap">
+                    <volist name="detail.gpics" id="pic">
+                    <div><a href="javascript:;"><img width="100%" src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###}" /></a></div>
+                    </volist>
+                </div>
+              </div>
+              <ul id="position">
+                <volist name="detail.gpics" id="pic" >
+                <if condition="$i eq '0'">
+                <li class="cur"></li>
+                <else />
+                <li class=""></li>
+                </if>
+                </volist>
+              </ul>
+            </div>
+        </div>
+        <script src="{$Think.config.DOMAIN_HOST}__JS__swiper.bulk.js"></script> 
+        <script type="text/javascript">
+        var bullets = document.getElementById('position').getElementsByTagName('li');
+        var banner = Swipe(document.getElementById('mySwipe'), {
+            auto: 2000,
+            continuous: true,
+            disableScroll:false,
+            callback: function(pos) {
+                var i = bullets.length;
+                while (i--) {
+                  bullets[i].className = ' ';
+                }
+                bullets[pos].className = 'cur';
+            }
+        });
+        </script>
+        <!--轮播结束-->
+        <p class="repeat_x"></p>
+        <div class="proDCon"><!--proDCon 开始-->
+            <form id="bulkForm" name="bulkForm" method="post" action="javascript:void(0);">
+            <div class="proDO">
+                <h2>商品信息</h2>
+                <div class="proDOC">
+                    <p class="p01">{$gp_title}<if condition="$detail['gremark'] neq '' ">，{$gremark}</if></p>
+					<p class="p03">团购价:<strong ><i>&yen;</i><span>{$gp_price|sprintf='%.2f',###}</span><span id="showPrice" style="display:none;"></span></strong><del></p>
+					<p class="p03">商城价:<i>&yen;</i><span id="">{$pdt_set_sale_price|sprintf='%.2f',###}</span></del>&nbsp&nbsp&nbsp节省:<label><i>&yen;</i><span  id="">{$pdt_set_sale_price-$gp_price}</span></label></p>
+                    <p class="time" id="showGroupTime">
+                        <i></i>
+                        <span><abbr>此商品正在参加团购：</abbr></span>
+						<span id="timebox{$gp_id}">
+							<!--<b id="day">0</b>天-->
+							<b id="hour">0</b>小时
+							<b id="minute">0</b>分钟
+							<b id="second">0</b>秒
+						</span>
+                        <span><abbr>后结束，请尽快购买!</abbr></span>
+                        <script>countDown("{$gp_end_time}","{$gp_id}","1","<php>echo date('Y-m-d H:i:s');</php>",'1',"tuangouOver");</script>
+                    </p>
+					<p class="p03">
+						<span class="tit">销售量：</span>
+						<span id="score">{$gp_now_number}件</span>
+					</p>
+                </div>
+            </div>
+			
+            <div class="proDTC"><!--proDTC 开始-->
+                <div class="proDT">
+                    <div class="Choice" id="check_sku"> 
+						<div id="showDetailSkus"></div>
+					</div>
+                    <input type="hidden" name="way_type" value="bulk" id="way_type"/>
+                    <if condition="$buy_status eq 0">
+                        <a class="goBuy" title="您的购买数已用完" href="javascript:void(0);" >您的购买数已用完</a>
+                        <elseif condition="$buy_status eq 1" />
+                        <if condition="$is_deposit eq 1">
+                            <!--启用定金支付-->
+                            <a class="goBuy" title="立即付定金" onclick="addToOrder(2);" href="javascript:void(0);">立即付定金</a>
+                            <else/>
+                            <!--未启用定金支付-->
+                            <a class="goBuy" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);">立刻购买</a>
+                        </if>
+                        <elseif condition="$buy_status eq 2" />
+                        <assign name="curUrl" value="__SELF__" />
+                        <a class="goBuy" title="请先登录" href="{:U('Wap/User/Login')}?rquestUrl={$curUrl|urlencode}">请先登录</a>
+                        <elseif condition="$buy_status eq 3" />
+                        <a class="goBuy" title="团购活动尚未开始" href="javascript:void(0);">团购活动尚未开始</a>
+                        <elseif condition="$buy_status eq 4"/>
+                        <a class="goBuy" title="团购活动已结束" href="javascript:void(0);">团购活动已结束</a>
+                        <elseif condition="$buy_status eq 5"/>
+                        <a class="goBuy" title="团购商品已售完" href="javascript:void(0);" >团购商品已售完</a>
+                    </if>
+                </div>
+                <i></i>
+            </div><!--proDTC 结束-->
+            </form>
+                <div class="detailCenter">
+		<div class="detailCenterNav"><!--商品详情start--> 
+			<a href="javascript:;" class="on">商品详情<i></i></a>
+			<div class="detailList" style="display:block;">
+			<notempty name="gp_desc">
+			<h1>团购描述：</h1>
+				{$gp_desc}
+			</notempty>
+			<if condition="$is_show_desc eq 1">
+			<h1>商品详情：</h1>
+				{$goods_desc.g_phone_desc}
+			</if>
+			</div>
+        </div>
+    <!--商品详情end-->
+    
+		<div class="detailCenterNav"> <!--商品评价 start--> 
+			  <a href="javascript:;">商品评价<i></i></a>
+			  <div class="detailList">
+				<div class="Comment">
+					<h1>用户评论</h1>
+					<!--商品评价顶部内容--评价等级 start-->
+					<p class="start"><i></i><i></i><i></i><i></i> <i class="bad"></i><span class="cm">(<em>{$all_count}</em>条评论)</span></p>
+					<!--商品评价顶部内容--评价等级 end--> 
+					<!--商品评价顶部内容 start-->
+					<div class="up"> 
+					<!--商品评价顶部内容左边评价 start-->
+						<div class="c-left">
+							<ul class="nav">
+								<li>
+									<span>好评</span>
+									<div class="gray">
+										<div class="purple"></div>
+									</div>
+									<div class="countNum">(<em>{$good_count}</em>)</div>
+								</li>
+								<li>
+									<span>中评</span>
+									<div class="gray">
+										<div class="purple"></div>
+									</div>
+									<div class="countNum">(<em>{$normal_count}</em>)</div>
+								</li>
+								<li>
+									<span>差评</span>
+									<div class="gray">
+										<div class="purple"></div>
+									</div>
+									<div class="countNum">(<em>{$bad_count}</em>)</div>
+								</li>
+							</ul>
+						</div>
+						<!--商品评价顶部内容左边评价end--> 
+					</div>
+					<!--商品评价底部内容 start--> 
+					<!--商品评价列表内容 start-->
+					<div class="reply"> 
+					<!--商品评价列表内容1 start-->
+					<!-- <php>
+					echo "<pre>";
+					print_r($data);
+					</php> -->
+					<volist name="comment_data" id="comm" >
+						<div class="reply1">
+							<div class="userMsg">
+								<div class="user">
+									<a href="#"><img src="__IMAGES__user.jpg" width="60"/></a>
+								</div>
+								<div class="name">
+									<p>{$comm.m_name|default="匿名用户"}</p>
+								</div>
+							</div>
+							<div class="content">
+								<p>{$comm.gcom_title}</p>
+								<p>
+								<switch name="comm.gcom_star_score">
+                                    <case value="20"><i></i></case>
+                                    <case value="40"><i></i><i></i></case>
+                                    <case value="60"><i></i><i></i><i></i></case>
+                                    <case value="80"><i></i><i></i><i></i><i></i></case>
+                                    <case value="100"><i></i><i></i><i></i><i></i><i></i></case>
+                                </switch>
+									<span class="date">{$comm.gcom_create_time}</span>
+								</p>
+								<p class="assess">{$comm.gcom_content}</p>
+								<if condition="$comm['recomment'] neq ''">
+								<php>foreach($comm['recomment'] as $recomment){</php>
+								<p class="assess">[追加评论]{$recomment['gcom_content']}</p>
+								<span class="date">{$recomment['gcom_create_time']}</span></p>
+								<if condition="$recomment[reply] neq ''">
+								<p class="assess">客服回复：{$recomment[reply][gcom_content]}</p>
+								</if>
+								<php>}</php>
+								</if>
+							</div>
+						</div>
+					</volist>
+					</div>
+				  <!--商品评价列表内容 end--> 
+				</div>
+				<!--商品评价底部内容 start--> 
+			</div>
+		</div>
+		<!--用户评论 end-->
+		
+		<div class="detailCenterNav"> <!--商品咨询 start--> 
+			<a href="javascript:;">商品咨询<i></i></a>
+			<div class="detailList">
+				<div class="Consultation">
+					<h1>商品咨询</h1>
+					<volist name="advice_data" id="vo" key="k">
+					<if condition="$vo['pc_is_reply'] eq 1">
+					<!--商品咨询问题 start-->
+					<div class="questions">
+						<i class="question_flag"></i>
+						<p>{$vo.pc_question_content}</p>
+						<b>{$vo.new_mname|default="匿名用户"}<i>{$vo.pc_create_time}</i></b>
+					</div>
+					<!--商品咨询问题 end--> 
+					<!--商品咨询回答 start-->
+					<if condition="$vo.pc_is_reply eq '1'">
+					<div class="Answer">
+						<em>&#9670;</em>
+						<span>&#9670;</span>
+						<p>{$vo.pc_answer}</p>
+						<b>必迈客服<i>{$vo.pc_reply_time}</i></b>
+					</div>
+					</if>
+					</if>
+					</volist>
+					<!--商品咨询回答 end-->
+					<div class="Doubt">
+						<h3>咨询</h3>
+						<textarea id="question_content" class="txt" name="question_content" placeholder="对产品有任何疑问？"></textarea>
+					</div>
+					<p class="btnP">
+						<input type="submit" id="addAdvice" value="提交我的疑问" class="btn">
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+        </div><!--proDCon 结束-->
+    </div><!--proDetail 结束-->
+    
+    <form id="orderAddFrom" name="orderAddFrom" method="post" action="/Wap/Orders/pageAdd">
+    <input type="hidden" name="pid[]" id="addOrderPid" value="" />
+    <input type="hidden" name="type[]" id="addOrdertype" value=""/>
+    </form>
+	<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Wap/Orders/addOrderPage">
+		<input type="hidden" name="pid[]" id="submitSkipPid" value="" />
+		<input type="hidden" name="type[]" id="submitSkiptype" value=""/>
+	</form>
+</div>
+<input type="hidden" value="" name="cr_ids" id="cr_ids">
+<input type="hidden" value="{$gp_id}" name="gp_id" id="gp_id">
+<input type="hidden" value="{$data.g_id}" name="item_id" id="item_id">
+<input type="hidden" value="{$gp_price}" name="yprice" id="yprice">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_1}" name="error_1" id="error_1">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_4}" name="error_4" id="error_4">
+<input type="hidden" name="no_login" value="{$Think.session.Members.m_name}" id="no_login" />
+
+<script type="text/javascript">
+//获取商品sku
+getDetailSkus('{$gp_id}','5');
+//添加咨询
+$("#addAdvice").click(function(){
+	var question_content = $("#question_content").val();
+	if(question_content == ''){
+		alert('咨询内容不能为空');return false;
+	}
+	var gid = '{$filter.gid}';
+	var mid = '{$Think.session.Members.m_id}';
+	var m_name = '{$Think.session.Members.m_name}';
+	var url = '/Wap/Products/doGoodsAdvice';
+	$.post(url,{'gid':gid,'mid':mid,'question_content':question_content,'type':1,'question_title':'提问'},function(msgObj){
+		if(msgObj.status == '1'){
+			alert(msgObj.info);
+			var _mvq = window._mvq || [];window._mvq = _mvq;
+			_mvq.push(['$setAccount', 'm-24416-0']);
+
+			_mvq.push(['$setGeneral', 'consult', '', /*用户名*/ m_name, /*用户id*/ mid]);
+			_mvq.push(['$logConversion']);
+			//getGoodsAdvice(gid,1);
+			return false;;
+		}else{
+			alert(msgObj.info);
+			return;
+		}
+	},'json')
+});
+
+</script>

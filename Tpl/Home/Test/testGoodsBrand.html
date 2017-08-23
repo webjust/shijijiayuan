@@ -1,0 +1,31 @@
+<!-- 
+     * 自定义商品类目标签
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-03-29
+     * @param name,bid
+     * @return array
+     * 品牌ID	bid
+	 * 品牌名称	bname
+	 * 品牌图片	bpic
+	 * 品牌URL	burl
+     示例：
+	array(1) {
+	  [0] => array(4) {
+	    ["bid"] => string(1) "1"
+	    ["bname"] => string(12) "鸿兴尔克"
+	    ["bpic"] => string(0) ""
+	    ["burl"] => NULL
+	  }
+	}
+ -->
+<h3>{$title}</h3>
+<h4>查询一条品牌信息</h4>
+<Gyfx:goodsbrand name="brand"  bid="1">
+    <li>{$brand.bid} - {$brand.bname} - {$brand.bpic} - {$brand.burl}</li>
+</Gyfx:goodsbrand>
+
+<hr />
+<h4>查询所有品牌信息</h4>
+<Gyfx:goodsbrand name="brand"  >
+    <li>{$brand.bid} - {$brand.bname} - {$brand.bpic} - {$brand.burl}</li>
+</Gyfx:goodsbrand>

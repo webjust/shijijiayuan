@@ -1,0 +1,237 @@
+<!-- 中间内容开始 -->
+<!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet"/>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+<style>
+    .rightBox_content_title > a {
+        float: right;
+    }
+
+    .rightBox_content_title > div {
+        float: left;
+    }
+
+    .bold_size {
+        font-weight: bold;
+    }
+
+    .pink {
+        background: lightpink; /*选中当前行时，添加背景色*/
+    }
+
+    a.website{
+        color: #333;
+        text-decoration: underline;
+        font-weight: normal;
+    }
+
+    a.website:visited{
+        color: blue;
+    }
+</style>
+<div class="contentRightBox">
+    <div class="title"
+         style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        供应商商品列表
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Purchase/supplierGoodsList")}'>
+        <div style="width:948px;padding-left:10px;height:30px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+            品牌英文名：
+            <input type="text" id="brand" name="brand" class="form-controller" value="{$brand}">
+            商品名：
+            <input type="text" id="name" name="name" class="form-controller" value="{$name}">
+            识别状态：
+            <select id="match" name="match" class="form-controller">
+                <option value="0">请选择</option>
+                <option value="1"
+                <if condition="$match eq 1">selected="selected"</if>
+                >未识别/识别不到</option>
+                <option value="2"
+                <if condition="$match eq 2">selected="selected"</if>
+                >系统识别过且未审核</option>
+                <option value="3"
+                <if condition="$match eq 3">selected="selected"</if>
+                >已人工审核</option>
+            </select>
+            <input type="button" id="searchOrderSubmit" class="btn" value="查询"
+                   style="margin-left:10px;margin-right: 5px;">
+            <a href="javascript:void(0);"
+               style="display:inline-block;width: 65px;height:25px;line-height: 25px;text-align: center;background:#ff3366;color: white;"
+               onclick="AutoMatch();">商品匹配</a>
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 350px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+            <thead>
+            <tr>
+                <th>操作</th>
+                <th>id</th>
+                <th>识别表id</th>
+                <th>mnc</th>
+                <th>mn</th>
+                <th>mc</th>
+                <th>nc</th>
+                <th>m</th>
+                <th>n</th>
+                <th>c</th>
+                <th>属国语</th>
+                <th>中文</th>
+                <th>英文</th>
+                <th>商品主图</th>
+                <th>品牌属国</th>
+                <th>进口</th>
+                <th>是否直邮</th>
+                <th>国货</th>
+                <th>属国名</th>
+                <th>英文名</th>
+                <th>中文名</th>
+                <th>单位含量</th>
+                <th>单位包装数量</th>
+                <th>使用部位</th>
+                <th>商品代码</th>
+                <th>条形码</th>
+                <th>批发采购价（人民币）</th>
+                <th>批发供应价（人民币)</th>
+                <th>零售价（人民币）</th>
+                <th>优惠折头</th>
+                <th>批发供应价（属国币)</th>
+                <th>零售价（属国币)</th>
+                <th>优惠折头</th>
+                <th>供应商当前库存</th>
+                <th>基本库存</th>
+                <th>供应商名称</th>
+                <th>品牌官网</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="List" id="item">
+                <tr>
+                    <th><a onclick="javascript:delItem({$item.id});">删除</a></th>
+                    <th><a onclick="javascript:loadSign({$item.id});">{$item.id}</a></th>
+                    <th>
+                        <div class="edit" id="in_id-{$item.id}">{$item.in_id}</div>
+                    </th>
+                    <th>{$item.mnc_in_id}</th>
+                    <th>{$item.mn_in_id}</th>
+                    <th>{$item.mc_in_id}</th>
+                    <th>{$item.nc_in_id}</th>
+                    <th>{$item.m_in_id}</th>
+                    <th>{$item.n_in_id}</th>
+                    <th>{$item.c_in_id}</th>
+                    <th>{$item.language_country}</th>
+                    <th><a onclick="javascript:loadSign({$item.id});">{$item.name_cn}</a></th>
+                    <th>{$item.name_en}</th>
+                    <th>{$item.photo}</th>
+                    <th>{$item.brand_country}</th>
+                    <th></th>
+                    <th>{$item.import}</th>
+                    <th>{$item.home_made}</th>
+                    <th>{$item.brand_ori}</th>
+                    <th>{$item.brand_en}</th>
+                    <th>{$item.brand_cn}</th>
+                    <th><div class="edit" id="unit-{$item.id}">{$item.unit}</div></th>
+                    <th><div class="edit" id="package-{$item.id}">{$item.package}</div></th>
+                    <th>{$item.partused}</th>
+                    <th>{$item.goods_sn}</th>
+                    <th>{$item.bar_code}</th>
+                    <th>{$item.purchase_price_cn}</th>
+                    <th>{$item.supply_price_cn}</th>
+                    <th>{$item.retail_price_cn}</th>
+                    <th>{$item.discount_cn}</th>
+                    <th>{$item.supply_price_ori}</th>
+                    <th>{$item.retail_price_ori}</th>
+                    <th>{$item.discount_ori}</th>
+                    <th>{$item.all_stock}</th>
+                    <th>{$item.base_stock}</th>
+                    <th>{$item.supplier}</th>
+                    <th><a href="{$item.website}" class="website">{$item.website}</a></th>
+                </tr>
+            </volist>
+            <empty name="List">
+                <tr>
+                    <td colspan="99" class="left">暂时没有数据!</td>
+                </tr>
+            </empty>
+            </tbody>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+    显示搜索的品牌所有记录：
+    <input type="checkbox" id="like_brand" name="like_brand" <?php echo isset($_GET['like_brand']) ? checked : '' ?> />
+    <div id="signList"></div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#searchOrderSubmit").click(function () {
+            $('#orders_form').submit();
+        });
+        $('.edit').editable('/Ucenter/Purchase/TableEdit/table/in_goods_supplier');
+
+        // 选中当前行时，给当前行添加了背景色，其他行移除背景色
+        $('tr').click(function () {
+            $(this).siblings('tr').removeClass('pink');
+            $(this).addClass('pink');
+        });
+
+        $('.edit').click(function () {
+            $(this).parents('tr').siblings('tr').removeClass('pink');
+            $(this).parents('tr').addClass('pink');
+        });
+    });
+
+    function loadSign(id) {
+        var url = '/Ucenter/Purchase/signList/id/' + id;
+
+        // 判断是否显示品牌匹配的所有记录
+        if ($("#like_brand").is(':checked')) {
+            var url = url + '/findAll/1';
+        }
+
+        if ($("input[name='brand']").val()) {
+            var url = url + '/brand/' + $("input[name='brand']").val();
+        }
+
+        /*使用ajax同步加载，解决load方法无法加载静态页面js的问题*/
+        // $("#signList").load(url);
+        $.ajax({
+            url: url,
+            cache: true,
+            async: false,
+            success: function (html) {
+                $("#signList").html(html);
+            }
+        });
+    }
+
+    function delItem(id) {
+        if (confirm("确定要清空数据吗？")) {
+            var url = '/Ucenter/Purchase/ajaxDelSupplierGood';
+            $.post(url, {id: id}, function (data) {
+                if (data.result) {
+                    showAlert(true, '删除成功!');
+                    location.reload();
+                } else {
+                    showAlert(false, '删除失败!');
+                    return false;
+                }
+            }, 'json');
+        }
+    }
+    function AutoMatch() {
+        var brand = $('#brand').val();
+        if (!brand) {
+            alert('请输入品牌名');
+            return;
+        }
+        else {
+            window.location.href = '/Ucenter/Purchase/AutoMatchV3/brand/' + brand;
+        }
+    }
+</script>

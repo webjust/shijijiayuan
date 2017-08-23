@@ -1,0 +1,23 @@
+<div style="height:270px">
+	<Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+	<if condition="$showlist['show_pic'] eq 1">
+	<a href="{$showlist.gurl}" target="_blank" title="{$showlist.gname}">
+		<img src="{$showlist.gpic|showImage=###,307,240}" alt="{$showlist.gname}" />
+	</a>
+	</if>
+	<span>
+		<p class="title">{$showlist.field1|mb_substr=###,0,7,'utf-8'}</p>
+		<p class="title1">{$showlist.field2|mb_substr=###,0,7,'utf-8'}</p>
+		<if condition="$showlist['show_name'] eq 1">
+		<p class="title2"><a target="_blank" name="hwg_none_cc_hd01" href="{$showlist.gurl}" title="{$showlist.gname}">{$showlist.gname}</a></p>
+		</if>
+		<p class="price">
+		<if condition="$showlist['sale_price'] neq ''">
+			<em textstyle-editable="true" style-num="7">￥   {$showlist.gprice|sprintf='%.2f',###}</em>
+		</if>
+			<a href="{$showlist.gurl}" class="gobuy">立即抢购</a>
+		</p>
+	</span>
+	<b></b> 
+	</Gyfx:goodslist>
+</div>

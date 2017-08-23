@@ -1,0 +1,361 @@
+<link href="__PUBLIC__/Ucenter/css/Products.css" rel="stylesheet">
+<script type="text/javascript">
+    var IS_ON_MULTIPLE = '{$is_on_mulitiple}';
+</script>
+<script src="__PUBLIC__/Ucenter/js/products.js"></script>
+<!--
+<script src="__PUBLIC__/Lib/jquery/js/jquery.lazyload.min.js"></script>
+-->
+<div class="quickOrderBox"><!--quickOrderBox  start-->
+    <div class="quickOrderCon"><!--quickOrderCon   start-->
+        <h2 class="publicH2"><span>{$Think.lang.TAKE_ORDERS}</span><a href="{:U('Ucenter/Products/pageList')}" id="reset">{$Think.lang.RESET_SEARCH}</a></h2>
+        <div class="pageQuick"><!--pageQuick   start-->
+            <table>
+                <tbody>
+                    <tr>
+                        <td width="74" valign="top">{$Think.lang.GOODS_TYPES}:</td>
+                        <td width="886">
+                            <a href='{:U("Ucenter/Products/pageList","gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=$chose[onum]&oprice=$chose[oprice]&otime=$chose[otime]&stock=$chose[stock]&combo=$chose[combo]")}' class='all <eq name="chose.gtid" value="0">on</eq>'>{$Think.lang.ALL}</a>
+                            <p class="p01" id="cate_box1" style="display:block">
+                                <volist name="search.types" id="type" offset="0" length="10">
+                                    <a <eq name="chose.gtid" value="$type[gt_id]">class="on"</eq> href='{:U("Ucenter/Products/pageList","gtid=$type[gt_id]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=$chose[onum]&oprice=$chose[oprice]&otime=$chose[otime]&stock=$chose[stock]&combo=$chose[combo]")}'>
+                                        {$type.gt_name}
+                                    </a>
+                                </volist>
+                            </p>
+							<p class="p01" id="cate_box2" style="display:none">
+                                <volist name="search.types" id="type">
+                                    <a <eq name="chose.gtid" value="$type[gt_id]">class="on"</eq> href='{:U("Ucenter/Products/pageList","gtid=$type[gt_id]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=$chose[onum]&oprice=$chose[oprice]&otime=$chose[otime]&stock=$chose[stock]&combo=$chose[combo]")}'>
+                                        {$type.gt_name}
+                                    </a>
+                                </volist>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="74" valign="top">{$Think.lang.GOODS_BRANDS}:</td>
+                        <td width="886">
+                            <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=$chose[onum]&oprice=$chose[oprice]&otime=$chose[otime]&stock=$chose[stock]&combo=$chose[combo]")}' class='all <eq name="chose.gbid" value="0">on</eq>'>
+                                {$Think.lang.ALL}
+                            </a>
+                            <p class="p01" id="brand_box1" style="display:block">
+                                <volist name="search.brands" id="brand" offset="0" length="10">
+                                    <a <eq name="chose.gbid" value="$brand[gb_id]">class="on"</eq> href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$brand[gb_id]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=$chose[onum]&oprice=$chose[oprice]&otime=$chose[otime]&stock=$chose[stock]&combo=$chose[combo]")}'>
+                                        {$brand.gb_name}
+                                    </a>
+                                </volist>
+                            </p>
+							<p class="p01" id="brand_box2" style="display:none">
+                                <volist name="search.brands" id="brand">
+                                    <a <eq name="chose.gbid" value="$brand[gb_id]">class="on"</eq> href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$brand[gb_id]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=$chose[onum]&oprice=$chose[oprice]&otime=$chose[otime]&stock=$chose[stock]&combo=$chose[combo]")}'>
+                                        {$brand.gb_name}
+                                    </a>
+                                </volist>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><!--pageQuick   end-->
+    </div><!--quickOrderCon   end-->
+    <div class="flex">
+        <span>
+			<!--<a href='{:U("Ucenter/Products/pageList","more=1")}'>-->
+			<a href='javascript:void(0);' id="more">
+				{$Think.lang.MORE}<b class="flex01"></b>
+			</a>
+		</span>
+    </div>
+</div><!--quickOrderBox  end-->
+
+<div class="pageQuickDetails"><!--pageQuickDetails  start-->
+
+    <div class="pageQuickDOne"><!--pageQuickDOne   start-->
+        <form id="goodsSearchForm" method="get" action='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gbid=$chose[gbid]&onum=$chose[onum]&oprice=$chose[oprice]&otime=$chose[otime]&combo=$chose[combo]")}' >
+            <p class="p01">
+                <span class="span01">{$Think.lang.CATES}：</span>
+                <select name="gcid">
+                    <option value="0">--{$Think.lang.ALL_CATES}--</option>
+                    <volist name="search.cates" id="cate">
+                        <option value="{$cate.gc_id}" <eq name="chose.gcid" value="$cate[gc_id]">selected="selected"</eq> ><for start="0" end="$cate[gc_level]">&nbsp;&nbsp;</for>{$cate.gc_name}</option>
+                    </volist>
+                </select>
+                <span class="span02">{$Think.lang.GOODS_NAME}：</span>
+				<input type="text" name="gname" value="{$chose.gname}" class="input01" x-webkit-speech />
+                <span class="span02">{$Think.lang.GOODS_SN}：</span>
+				<input type="text" name="gsn" value="{$chose.gsn}" class="input01" />
+                <span class="span02">{$Think.lang.PRICE}：</span>
+				<input type="text" name="price1" value="{$chose.price1}" class="input02" />
+				<i>-</i>
+				<input type="text" name="price2" value="{$chose.price2}" class="input02" /> <em>{$Think.lang.YUAN}</em>
+                <input type="submit" value="{$Think.lang.SEARCH}" class="inputBtn">
+            </p>
+            <p class="p02">
+                <span class="span01">{$Think.lang.ORDER}：</span>
+                <switch name="chose.onum" >
+                    <case value="up">
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=down&stock=$chose[stock]&combo=$chose[combo]")}' class="down">
+                            {$Think.lang.SALE_TOTAL}
+                        </a>
+                    </case>
+                    <case value="down">
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=up&stock=$chose[stock]&combo=$chose[combo]")}' class="up">
+                            {$Think.lang.SALE_TOTAL}
+                        </a>
+                    </case>
+                    <default />
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&onum=up&stock=$chose[stock]&combo=$chose[combo]")}'>
+                            {$Think.lang.SALE_TOTAL}
+                        </a>
+                </switch>
+
+                <switch name="chose.oprice" >
+                    <case value="up">
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&oprice=down&stock=$chose[stock]&combo=$chose[combo]")}' class="down">
+                            {$Think.lang.PRICE}
+                        </a>
+                    </case>
+                    <case value="down">
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&oprice=up&stock=$chose[stock]&combo=$chose[combo]")}' class="up">
+                            {$Think.lang.PRICE}</a>
+                        </case>
+                    <default />
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&oprice=up&stock=$chose[stock]&combo=$chose[combo]")}'>
+                            {$Think.lang.PRICE}
+                        </a>
+                </switch>
+
+                <switch name="chose.otime" >
+                    <case value="up">
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&otime=down&stock=$chose[stock]&combo=$chose[combo]")}' class="down">
+                            {$Think.lang.ONLINE_TIME}
+                        </a>
+                    </case>
+                    <case value="down">
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&otime=up&stock=$chose[stock]&combo=$chose[combo]")}' class="up">
+                            {$Think.lang.ONLINE_TIME}
+                        </a>
+                    </case>
+                    <default />
+                        <a href='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&otime=up&stock=$chose[stock]&combo=$chose[combo]")}'>
+                            {$Think.lang.ONLINE_TIME}
+                        </a>
+                </switch>
+
+                <switch name="chose.ajax" >
+					 <default />
+					<input type="checkbox" name="stock" id="ck" class="input01" url='{:U("Ucenter/Products/pageList","gtid=$chose[gtid]&gcid=$chose[gcid]&gbid=$chose[gbid]&gname=$chose[gname]&gsn=$chose[gsn]&price1=$chose[price1]&price2=$chose[price2]&otime=up&combo=$chose[combo]")}' value="1" <eq name="chose.stock" value="1">checked="checked"</eq> >
+
+				</switch>
+				<label for="ck">{$Think.lang.ONLY_HAS_STOCK}</label>
+                
+            </p>
+        </form>
+    </div><!--pageQuickDOne   end-->
+    <form id="goodsSelectForm" name="goodsSelectForm" method="post" action="#">
+        <!--商品循环体开始-->
+        <volist name="list" id="goods">
+            <php>
+                $product = $goods['products'];
+                if($product[0]['pdt_is_combination_goods'] == 0){
+            </php>
+            <div class="pageQuickDTwo"><!--pageQuickDTwo  start-->
+                <p class="p01">
+                    <a href='{:U("Home/Products/detail","gid=$goods[g_id]")}' target="_blank">
+                        {$goods.g_name}<if condition="$goods['g_gifts'] eq 1"><span style="color:red;padding:5px;">赠品</span></if>
+                    </a>
+                    <span>
+                        <if condition="$chose.combo neq '1'">是否库存预售:<if condition="$goods.g_pre_sale_status EQ 1 "> 是&nbsp;&nbsp;&nbsp;<else /> 否&nbsp;&nbsp;&nbsp;</if></if>
+                    </span>
+                    <span>{$Think.lang.GOODS_SN}:{$goods.g_sn}</span>
+                </p>
+
+                <div class="pQuickDTwoCon"><!--pQuickDTwoCon  start-->
+                    <div class="pQuickDTwoConLeft"><!--pQuickDTwoConLeft  start-->
+                        <div class="prodctPic">
+                            <a href="#" class="proPic">
+							<!--
+                                <img src='{$goods.g_picture|default="Ucenter/images/pdtDefault.jpg"}'  data-original='{$goods.g_picture|default="Ucenter/images/pdtDefault.jpg"}' style="width: 130px;height: 130px;"<if condition="$goods.g_picture neq ''">class="thumb lazy"<else />class="lazy"</if> >
+							-->	
+							 <img src="{$Think.config.DOMAIN_HOST}{$goods.g_picture|showImage=###,130,130}" width="130px" height="130px"  />
+                            </a>
+                        </div>
+                        <a href='{:U("Home/Products/detail","gid=$goods[g_id]")}' class="checkDetails" target="_blank">{$Think.lang.VIEW_DETAIL}</a>
+                        <!-- <a   href="javascript:void(0);"  class="collect" name="jf_button" data-id="{$goods[g_id]}" data-uri='{:U("Ucenter/Products/doCollect")}' onclick="yDh(this)">{$Think.lang.ADD_COLLECT}</a> -->
+						<a href="javascript:addToInterests('{$goods[g_id]}');"  class="collect" name="jf_button">{$Think.lang.ADD_COLLECT}</a>
+                    </div><!--pQuickDTwoConLeft  end-->
+                    <div class="pQuickDTwoConRight"><!--pQuickDTwoConRight  start-->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td width="173">{$Think.lang.PRODUCT_SN}</td>
+                                    <td width="106">{$Think.lang.GOODS_SPEC}</td>
+                                    <td width="77">{$Think.lang.WEIGHT}（g）</td>
+                                    <td width="75">{$Think.lang.STOCK}</td>
+                                    <td width="84">{$Think.lang.BUY_NUM}</td>
+                                    <td width="89">{$Think.lang.PRICE}（{$Think.lang.YUAN}）</td>
+                                    <td width="86">{$Think.lang.MEMBER_PRICE}（{$Think.lang.YUAN}）</td>
+                                    <!-- <td width="72">{$Think.lang.STOCK_ONWAY}</td> -->
+                                    <td>{$Think.lang.MEMO}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--货品循环体开始-->
+                            <volist name="goods.products" id="product" key="pdtKey">
+                                <tr <eq name="pdtKey" value="1">class="first"</eq> <gt name="pdtKey" value="4">style="display:none;"</gt> >
+                                <td width="173">{$product.pdt_sn}</td>
+                                <td width="106">
+                                    <div class="standard"><!--standard  start-->
+                                        <span>{$product.specName|substrs=###,15}</span>
+                                        <div class="standardCon"><!--standardCon  start-->
+                                            <ul>
+                                                {$product.specName}
+                                            </ul>
+                                        </div><!--standardCon  end-->
+                                    </div><!--standard  end-->
+                                </td>
+                                 <eq name="goods.PrepOnsale" value="1">
+                                  <td colspan="5" align="left" style="text-align: left; text-indent: 15px;">本商品为预上架   上架时间-{$goods.g_on_sale_time}</td>
+                                <else />
+                                <td width="77">{$product.pdt_weight}</td>
+                                
+                                <eq name="goods.authorize" value="1">
+                               
+                                <td width="75">
+                                    <if condition="$stock_data.OPEN_STOCK EQ 1 and $stock_data[level] neq '' ">
+                                      <if condition="$product.pdt_stock ELT 0 ">
+                                            <span class="brownblock marTop5">缺货</span>
+                                      </if>
+                                      <if condition="$product.pdt_stock GT 0 and $product.pdt_stock ELT $stock_data.STOCK_NUM ">
+                                        <span class="brownblock marTop5">供货紧张</span>
+                                      </if>
+                                      <if condition="$product.pdt_stock GT $stock_data.STOCK_NUM ">
+                                            <span class="brownblock marTop5">库存充足</span>
+                                      </if>
+                                <else/>
+                                     {$product.pdt_stock}
+                                </if>
+                                    
+                                </td>
+                                <td width="94">
+                                    <!-- 预售商品在库存为零时可以购买-->
+                                   
+                                    <input type="hidden" nam="g_pre_sale_status" id="g_pre_sale_status" value="{$goods.g_pre_sale_status}" />
+                                    <a href="javascript:void(0);" class="reduce" for="cart{$product.pdt_id}"></a>
+                                    <input type="text" id="cart{$product.pdt_id}" name="cart[{$product.pdt_id}]" class="inputNum" value="0" min_num="{$product.pdt_min_num}"   validate="{ number:true,digits:true, <eq name='goods.g_pre_sale_status' value='0'> range:[0,{$product.pdt_stock}],</eq>messages:{ number:'{$Think.lang.FOMART_ERROR}',digits:'{$Think.lang.FOMART_ERROR}',range:'{$Think.lang.STOCK_ERROR}'}}" pdtId='{$product.pdt_id}'>
+                                    <input type="hidden" value="{$product.pdt_id}" name="pid[]" />
+                                    <a href="javascript:void(0);" class="add" for="cart{$product.pdt_id}" max="{$product.pdt_stock}"></a>
+                                </td>
+                                <td width="89">{$product.pdt_sale_price}</td>
+                                <td width="86">{$product.gPrice}</td>
+                                <!-- <td width="72">{$product.pdt_on_way_stock}</td> -->
+                                <else />
+                                <td colspan="4" align="left" style="text-align: left; text-indent: 15px;">您无权购买本商品~</td>
+                                </eq>
+                                </eq>
+                                <eq name="goods.g_pre_sale_status" value="1">
+                                <td>
+                                    <!--<div class="standard">
+                                        <span>预售商品信息</span>
+                                        <div class="standardCon">
+                                            <ul> 
+                                                <li><strong>到货时间：</strong>{$product.factory_arrival_start_date}至{$product.factory_arrival_end_date}</li>
+                                                <li><strong>预计发完时间：</strong>{$product.promise_send_start_date}至{$product.promise_send_end_date}</li> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    -->
+                                </td>
+                                <else />
+                                <td>
+                                    <div class="standard"><!--standard  start-->
+										<span>
+											<if condition = "$product.pdt_g_remark neq ''">
+											{$product.pdt_g_remark}
+											<else />
+											{$goods.g_remark}
+											</if>
+										</span>
+                                        <div class="standardCon"><!--standardCon  start-->
+                                            <ul> 
+                                                <li>
+													<if condition = "$product.pdt_g_remark neq ''">
+													{$product.pdt_g_remark}
+													<else />
+													{$goods.g_remark}
+													</if>
+												</li>
+                                            </ul>
+                                        </div><!--standardCon  end-->
+                                    </div><!--standard  end-->
+                                </td>
+                                </eq>
+                                </tr>
+                            </volist>
+                            <!--货品循环体结束-->
+                            </tbody>
+                            <gt name="pdtKey" value="4">
+                            <tfoot>
+                                <tr class="pdtSwitch">
+                                    <td colspan="9"><span class="open" title="{$Think.lang.MORE}"></span></td>
+                                </tr>
+                            </tfoot>
+                            </gt>
+                        </table>
+                    </div><!--pQuickDTwoConRight  end-->
+                </div><!--pQuickDTwoCon  end-->
+            </div><!--pageQuickDTwo  end-->
+            <php>}</php>
+        </volist>
+        <!--商品循环体结束-->
+
+        <div class="quickOrderFenCon"><!--quickOrderFenCon   start--->
+            <div class="fenye">
+                {$page}
+            </div>
+        </div><!--quickOrderFenCon   end--->
+
+        <div class="bottomP" id="quick_order_button_div" 
+		style="position:fixed;z-index:10000;background-color:rgb(208,208,208);bottom:0px; width:980px;">
+            <a href="javascript:void(0);" class="brown" id="addToOrder">{$Think.lang.BUY_NOW}</a>
+            <a href="javascript:void(0);" class="blue" id="addToCart">{$Think.lang.ADD_CART}</a>
+        </div>
+		<div class="clear"></div>
+    </form>
+</div><!--pageQuickDetails  end-->
+<!-- 右侧主题内容结束 -->
+<!--弹窗-积分兑换   开始-->
+<div style="display:none" id="pdt_div" >
+  <div id="yDhu" class="CPM" style="height:300px"></div>
+</div>
+<!--弹窗-积分兑换   结束-->
+<script src="__PUBLIC__/Lib/jquery/js/jquery.colorbox-min.js"></script>
+<script type="text/javascript">
+<!--
+function yDh(obj) {
+       var _this = $(obj),
+         g_id = _this.attr('data-id');
+             url = _this.attr('data-uri');
+       $.post(url,{'g_id':g_id},function(data){
+               $('#yDhu').html(data);
+           },'TEXT'); 
+   $.colorbox({ inline: true, href: "#yDhu", width: "402px", height: "302px"});
+}
+function sc5(){
+    //document.getElementById("quick_order_button_div").style.top=(document.documentElement.scrollTop+document.documentElement.clientHeight-document.getElementById("quick_order_button_div").offsetHeight)+"px";
+    //document.getElementById("quick_order_button_div").style.left=(document.documentElement.scrollLeft+document.documentElement.clientWidth-document.getElementById("quick_order_button_div").offsetWidth)+"px";
+}
+function scall(){
+    //sc5();
+}
+window.onscroll=scall;
+window.onresize=scall;
+window.onload=scall;
+//-->
+$(document).ready(function(){
+    //$("img.lazy").lazyload({ 
+        //effect:"fadeIn",
+       // failure_limit : 100
+   // });
+});
+</script>

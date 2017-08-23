@@ -1,0 +1,85 @@
+<div class="rightInner">
+    <form name="" id="" method="get" action="#">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        <a class="btnG ico_refresh" href="{:U('Admin/Fenxiao/pageOrderAnalysis')}" >分析采购单</a>
+                        <a class="btnG ico_msg" href="{:U('Admin/Fenxiao/pagePriceDaixiao')}" >代销乱价采购单</a>
+                        <a class="btnG ico_msg" href="{:U('Admin/Fenxiao/pagePriceJingxiao')}" >经销乱价采购单</a>
+                        <a class="btnG ico_msg" href="{:U('Admin/Fenxiao/pagePriceCuanhuo')}" >窜货采购单</a>
+                        <a class="btnG ico_print" href="{:U('Admin/Fenxiao/pagePriceChart')}" >乱价统计</a>
+                        <!--
+                        <a class="btnG ico_add" href="#" >添加</a>
+                        <a class="btnG ico_syn" href="#" >同步</a>
+                        <a class="btnG ico_print" href="#" >打印</a>
+                        <a class="btnG ico_corss" href="#" >叉叉</a>
+                        <a class="btnG ico_mouse" href="#" >鼠标</a>
+                        <a class="btnG ico_del" href="#" >回收站</a>
+                        <a class="btnG ico_usr" href="#" >用户</a>
+                        <a class="btnG ico_msg" href="#" >信息</a>
+                        <a class="btnG ico_mail" href="#" >邮件</a>
+                        <a class="btnG ico_upload" href="#" >上传</a>
+                        <a class="btnG ico_refresh" href="#" >刷新</a>
+                        <a class="btnG ico_del2" href="#" >清空</a>
+                        -->
+                    </th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>操作</th>
+                    <th>采购单编号</th>
+                    <th>采购单总额/邮费/实付</th>
+                    <th>采购人</th>
+                    <th>采购单状态</th>
+                    <th>采购时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="vo">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" /></td>
+                    <td><a href="#" class="detail" oid="{$vo.fenxiao_id}">查看详情</a></td>
+                    <td><span class="blue">{$vo.fenxiao_id}</span></td>
+                    <td>{$vo.distributor_username}</td>
+                    <td>{$vo.total_fee}/{$vo.post_fee}/{$vo.distributor_payment}</td>
+                    <td>{$vo.status}</td>
+                    <td>{$vo.created}</td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">如果没有数据!可以尝试先进行下载和分析</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <!--<input type="submit" value="删除选中" class="btnA confirm" id="delAll" />-->
+                        <span class="right page">{$page}</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+    <div id="alertWindow"></div>
+</div>
+<script>
+    $(document).ready(function(){
+
+        $('#alertWindow').dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                '确认': function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+        $('.detail').click(function(){
+            $('#alertWindow').dialog('open');
+        });
+
+    });
+</script>

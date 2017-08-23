@@ -1,0 +1,61 @@
+<div class="rightInner">
+	<if condition="isset($is_edit) && 1 == $is_edit">
+    <form id="group_form" name="group_form" method="post" action="{:U('Admin/GoodsGroup/pageEdit')}" onsubmit="return formBeforeSubmitCheck();">
+		<input type="hidden" name="gg_id" value="{$goods_group.gg_id}" />
+	<else />
+	<form id="group_form" name="group_form" method="post" action="{:U('Admin/GoodsGroup/addGroup')}" onsubmit="return formBeforeSubmitCheck();">
+    </if>
+		<table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">添加商品分组</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">分组名称：</td>
+                    <td>
+                        <input type="text" name="gg_name" id="gg_name" class="medium" value="{$goods_group.gg_name}" />
+						<span style="color:#ff0000;"> * 商品分组名称，唯一。</span>
+						<br />
+						<span style="color:gray;">请填写一个简明扼要的分组名称，使用时可以一目了然。</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">分组描述：</td>
+                    <td>
+                        <textarea name="gg_desc" id="gg_desc" class="mediumBox">{$goods_group.gg_desc}</textarea>
+						<br />
+						<span style="color:gray;">关于这个商品分组的简单描述，不要超过200个字符（约70个汉字），可不填。</span>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="first">分组排序：</td>
+                    <td>
+                        <input type="text" name="gg_order" id="gg_order" class="medium" value="{$goods_group.gg_order}" />
+						<br />
+						<span style="color:gray;">数字越小越靠前，默认0。</span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="dosubmit" value="1" />
+                        <input type="submit" value="提 交" class="btnA" />
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/GoodsGroup/pageList')}');" class="btnA" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+function formBeforeSubmitCheck(){
+	if($("#gg_name").val() == ""){
+		$("#gg_name").next("span").html("商品分组名称必须输入！");
+		return false;
+	}
+}
+</script>

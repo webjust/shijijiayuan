@@ -1,0 +1,103 @@
+<!--中间内容 开始-->
+<link href="__CSS__spike.css" rel="stylesheet">
+<div class="HXwarp" id="main">
+	<div class="area">
+    	<div class="content1192"><!--content1192 col  start-->
+        	<div class="goodList_navtitle block">
+            	<a href="{:U('Home/Index/index')}">首页</a>
+				<span>></span>
+				<a href="javascript:void(0);">限时抢购</a>
+                <if condition="($get.cr_name neq '')">
+                <span>></span><a>{$get.cr_name}</a>
+                </if>
+            </div>
+            
+            <div class="goodList_nav tuanNav block"><!--goodList_nav  start-->
+            	<table>
+                	<tr>
+                    	<th width="100" valign="top" align="center"><h2><span>区域：</span></h2></th>
+                        <td>
+                        	<p>
+                                <a href="{:U('Home/Spike/index')}?startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get.cr_id eq ''"> class="on" </if>>全部</a>
+                                <volist name="city" id="city_info">
+                                    <a href="{:U('Home/Spike/index')}?cr_id={$city_info.cr_id}&startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get['cr_id'] eq $city_info['cr_id']">class="on"</if>>{$city_info['cr_name']}</a>
+                                </volist>
+                                
+                            </p>
+                        </td>
+                    </tr>
+  
+                    <tr>
+                    	<th valign="top" align="center"><h2><span class="price">价格：</span></h2></th>
+                        <td>
+                        	<p> 
+                                <a href="{:U('Home/Spike/index')}?cr_id={$get.cr_id}" <if condition="($get.startPrice eq '') and  ($get.endPrice eq '')"> class="on"  </if>>全部</a>
+                                <a href="{:U('Home/Spike/index')}?startPrice=0&endPrice=1000&cr_id={$get.cr_id}" <if condition="$get.endPrice eq '1000'" >class="on"</if>>0-1000</a>
+                                <a href="{:U('Home/Spike/index')}?startPrice=1000&endPrice=3000&cr_id={$get.cr_id}" <if condition="$get.endPrice eq '3000'" >class="on"</if>>1000-3000</a>
+                                <a href="{:U('Home/Spike/index')}?startPrice=3000&endPrice=5000&cr_id={$get.cr_id}" <if condition="$get.endPrice eq '5000'" >class="on"</if>>3000-5000</a>
+                                <a href="{:U('Home/Spike/index')}?startPrice=5000&cr_id={$get.cr_id}" <if condition="$get.startPrice eq '5000'" >class="on"</if>>5000以上</a>
+                            </p>
+                        </td>
+                    </tr>
+  
+                </table>
+            </div><!--goodList_nav  end-->
+            
+            <div class="goodList_con block"><!--goodList_con  start-->
+                <div class="gcUl tuan"><!--gcUl  start-->
+                	<ul>
+                        <volist name="data" id="list">
+                        <li>
+                        	<a href="{:U('Home/Spike/detail')}?sp_id={$list['sp_id']}" class="proP">
+                                <img src="{$Think.config.DOMAIN_HOST}{$list.sp_picture}" width="285" height="285">
+                                <h3>
+                                	<span>{$list['sp_now_number']}人购买</span>
+									
+									<php>$time = date("Y-m-d H:i:s");</php>
+									<php>if($time <= $list['sp_start_time']){</php>
+										<span id="showGroupTime{$list['sp_id']}" class="time gpendtime qproPriceB"><label id="showText{$list['sp_id']}">距开始还剩：</label><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+										 <i></i>
+										<script>setGroupbuyTime('{$list.sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$list.sp_end_time}',"{$list['sp_id']}","{$list['g_id']}");</script>
+									<php>}elseif($time >= $list['sp_end_time']){</php>
+										<span class="time gpendtime qproPriceB"><label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+										 <i></i>
+									<php>}else{</php>
+										<span id="showGroupTime{$list['sp_id']}" class="time gpendtime qproPriceB">剩余时间：<label class="day">00</label>天<label class="hours">00</label>小时<label class="minutes">00</label>分<label class="seconds">00</label>秒</span>
+										 <i></i>
+										<script>setGroupbuyTime('{$list.sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$list['sp_id']}","{$list['g_id']}");</script>
+									<php>}</php>
+                                </h3>
+                            </a>
+                            <a href="{:U('Home/Spike/detail')}?sp_id={$list['sp_id']}" class="proN">{$list.sp_title}</a>
+                            <strong><i>&yen;</i>{$list.sp_price|sprintf='%.2f',###}</strong>
+                            <!--<p>原价：<del><i>&yen;</i> {$detail.mprice|sprintf='%.2f',###}</del> &nbsp;&nbsp;&nbsp;&nbsp;折扣：<php>echo sprintf('%.1f',$list['sp_price']/$list['cust_price']*10)</php>折</p>-->
+                            <a href="{:U('Home/Spike/detail')}?sp_id={$list['sp_id']}" class="gotosee">去看看</a>
+                        </li>
+                        </volist>
+                    </ul>
+                </div><!--gcUl  end-->
+            </div><!--goodList_con  end-->
+            <div class="fenye block"><!--fenye  start-->
+                <php>if(!isset($pagearr['nowPage']) || $pagearr['nowPage'] == 1){</php>
+                <a href="javascript:void(0);" class="prev on">首页</a>
+                <a href="javascript:void(0);" class="prev on">上一页</a>
+                <php>}</php>
+                <php>if(isset($pagearr['nowPage']) && $pagearr['nowPage'] != 1){</php>
+                    <a href="<php>echo rtrim(substr($pagearr['upUrl'],0,-3),'/').'/';</php>" class="prev">首页</a>
+                    <a href="{$pagearr.upUrl}" class="prev">上一页</a>
+                <php>}</php>
+                {$pagearr.linkPage}
+                <php>if($pagearr['nowPage'] == $pagearr['totalPage']){</php>
+                    <a href="javascript:void(0);" class="prev on">下一页</a>
+                    <a href="javascript:void(0);" class="prev on">尾页</a>
+                <php>}</php>
+                <php>if($pagearr['nowPage'] < $pagearr['totalPage']){</php>
+                    <a href="{$pagearr.downUrl}" class="next">下一页</a>
+                    <a href="<php>echo rtrim(substr($pagearr['downUrl'],0,-3),'/').'/';</php>p/{$pagearr['totalPage']}" class="next">尾页</a>
+                <php>}</php> &nbsp;&nbsp;&nbsp;
+            </div><!--fenye  end-->
+            
+        </div><!--content1192 col  start-->
+    </div>
+</div>
+<!--中间内容 结束-->

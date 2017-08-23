@@ -1,0 +1,87 @@
+<link href="__PUBLIC__/Ucenter/css/Distribution.css" rel="stylesheet">
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>站内信</span></h2>
+	<div class="myOrder mailBox"><!--myOrder mailBox  start-->
+		<div class="chooseProCon"><!--chooseProCon  start-->
+        	<p class="choosePtop">
+            	<a href="{:U('Ucenter/Message/pageMailBox')}" class="onHover"><span>收件箱</span></a>
+                <a href="{:U('Ucenter/Message/pageSendBox')}"><span>发件箱</span></a>
+                <a href="{:U('Ucenter/Message/pageSend')}"><span>写站内信</span></a>
+            </p>
+           <div id="con_choose_1" class="chooseDiv"><!--chooseDiv  start-->
+				<div class="mailCon01"><!--mailCon01   start-->
+                   <table class="tableCon">
+                       <thead>
+                           <tr>
+                               <td width="40"></td>
+                               <td width="79">状态</td>
+                               <td width="132">发信人</td>
+                               <td width="291">标题</td>
+                               <td width="242">时间</td>
+                               <td>操作</td>
+                           </tr>
+                       </thead>
+                       <tbody>
+							<volist name="list" id="msg">
+                           <tr>
+                               <td width="40"><input name="chkItem" id="check" type="checkbox" value="{$msg.sl_id}"></td>
+                               <td width="79"><span {$msg['rsl_is_look']==1?' class="state01"':' class="state02"'}></span></td>
+                               <td width="132">{$msg.from_name}</td>
+                               <td width="291"><span class="wordBlue"><a href='{:U("Ucenter/Message/pageRead","mid=$msg[sl_id]&type=to")}' class="wordBlue">{$msg.sl_title}</a></span></td>
+                               <td width="242">{$msg.sl_create_time}</td>
+                               <td>
+                                   <a href='{:U("Ucenter/Message/pageReply","mid=$msg[sl_id]")}' class="wordBlue">回复</a>
+                                   <span class="wordBlue">|</span>
+                                   <a href="javascrip:void(0);" class="wordBlue J_del" slid='{$msg.sl_id}'>删除</a>
+                               </td>
+                           </tr>
+                           </volist>
+                       </tbody>
+                   </table>
+                   <div class="myOderBot"><!--myOderBot  start-->
+                       <div class="myOderBotLeft" style="width:26%"><!--myOderBotLeft  start-->
+                           <input type="checkbox" class="che" id="che" name="checkAll"> <label for="che">全选</label>
+                           <a href="#" class="wordBlue J_allDel">批量删除</a>
+                       </div><!--myOderBotLeft  end-->
+                       <div class="myOderBotRight" style="width:74%"><!--myOderBotRight  start-->
+                       		<div class="fenye">
+								{$page}
+							</div>
+                       </div><!--myOderBotRight  end-->
+                   </div><!--myOderBot  end-->
+               </div><!--mailCon01   end-->
+            </div><!--chooseDiv  end-->
+        </div><!--chooseProCon  end-->
+    </div><!--myOrder mailBox   end-->
+</div><!--contentRightBox  end-->
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.J_del').click(function(){
+    	if(confirm('是否删除站内信')){
+	    	var data = 'slid=' + $(".J_del").attr("slid") + "&type=0";
+	    	ajaxReturn('{:U("Ucenter/Message/doDelete")}',data,'post');
+    	}
+    	return false;
+    });
+    $('.J_allDel').click(function(){
+        if($("#che").attr("checked")=='checked' || $('#check').attr('checked')=='checked'){
+            if(confirm('是否删除站内信')){
+                var strVal = [];  
+                $("[name=chkItem]:checked").each(function(){
+                    strVal.push($(this).val());
+                });
+                var data = 'slid=' + strVal + "&type=0";
+                ajaxReturn('{:U("Ucenter/Message/doDelete")}',data,'post');
+            }
+        }
+    	return false;
+    });    
+    $("#che").click(function(){
+    	if($("#che").attr("checked")=='checked'){
+    		$("[name = chkItem]:checkbox").attr("checked", true);
+        }else{ 
+        	$("[name = chkItem]:checkbox").attr("checked", false);
+        }
+    });
+});
+</script>

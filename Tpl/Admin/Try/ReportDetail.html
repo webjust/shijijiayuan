@@ -1,0 +1,17 @@
+{__NOLAYOUT__}
+<table class="tbForm" width="100%;">
+	<tbody>
+		<volist name="ary_data" id="question">
+			<tr>
+				<td class="first">{$question.attr_name}：</td>
+				<td align="left">
+					<if condition="$question['gs_input_type'] eq 4">
+						{$question['attr_value']/20}星
+					<else />
+						{$question.attr_value}
+					</if>
+				</td>
+			</tr>
+		</volist>
+	</tbody>
+</table>

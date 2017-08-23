@@ -1,0 +1,105 @@
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div class="title" style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        收货单
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Purchase/receiptList")}' >
+        <div style="width:948px;padding-left:10px;height:30px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 650px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+                <thead>
+                <tr>
+                <th>id</th>
+                <th>属国语</th>
+                <th>中文</th>
+                <th>英文</th>
+                <th>商品主图</th>
+                <th>品牌属国</th>
+                <th>进口</th>
+                <th>国货</th>
+                <th>属国名</th>
+                <th>英文名</th>
+                <th>中文名</th>
+                <th>单位含量</th>
+                <th>单位包装数量</th>
+                <th>商品代码</th>
+                <th>条形码</th>
+                <th>采购数量</th>
+                <th>送货数量</th>
+                <th>收货数量</th>
+                <th>供应商当前库存</th>
+                <th>基本库存</th>
+                <th>批发采购价（人民币）</th>
+                <th>批发供应价（人民币)</th>
+                <th>零售价（人民币）</th>
+                <th>优惠折头</th>
+                <th>批发供应价（属国币)</th>
+                <th>零售价（属国币)</th>
+                <th>供应商名称</th>
+                <th>品牌官网</th>
+                
+                </tr>
+                </thead>
+                <tbody>
+            <volist name="List" id="item">
+                <tr>
+                <th>{$item.id}</th>
+                <th>{$item.language_country}</th>
+                <th>{$item.name_cn}</th>
+                <th>{$item.name_en}</th>
+                <th><img src="{$item.g_picture}" height="80" width="80"></th>
+                <th>{$item.brand_country}</th>
+                <th>{$item.import}</th>
+                <th>{$item.home_made}</th>
+                <th>{$item.brand_ori}</th>
+                <th>{$item.brand_en}</th>
+                <th>{$item.brand_cn}</th>
+                <th>{$item.unit}</th>
+                <th>{$item.package}</th>
+                <th>{$item.goods_sn}</th>
+                <th>{$item.bar_code}</th>
+                <th>{$item.nums}</th>
+                <th>{$item.supply_nums}</th>
+                <th>{$item.receipt_nums}</th>
+                <th>{$item.all_stock}</th>
+                <th>{$item.base_stock}</th>
+                <th>{$item.purchase_price_cn}</th>
+                <th>{$item.supply_price_cn}</th>
+                <th>{$item.retail_price_cn}</th>
+                <th>{$item.discount_cn}</th>
+                <th>{$item.supply_price_ori}</th>
+                <th>{$item.retail_price_ori}</th>
+                <th>{$item.supplier}</th>
+                <th>{$item.website}</th>                
+                </tr>
+            </volist>
+                   <empty name="List">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> 
+                </tbody>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#searchOrderSubmit").click(function(){
+        $('#orders_form').submit();       
+    });
+});
+</script>

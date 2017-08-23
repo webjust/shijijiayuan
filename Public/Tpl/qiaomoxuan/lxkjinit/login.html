@@ -1,0 +1,168 @@
+
+<div id="onload">
+    <div class="onload">
+        <div class="right">
+            <div class="loginBord">
+                <div class="loginTit">
+                    <div class="tosignup"><a href="{:U('Home/User/pageRegister')}">立即免费注册>></a></div>
+                    <h1><strong>登陆芥茉帐号</strong></h1>
+                </div>
+                <form id="regForm" method="post" action="{:U('Home/User/doLogin')}">
+                    <div class="textbox_ui user">
+                        <span class="inS"><input id="m_name" class="text" type="text" validate="{ required:true}" name="m_name" placeholder="已验证手机/邮箱/用户名"></span>
+                        <i style="line-height:25px;color:#F00;"><label class="error" for="m_name" generated="true"></label></i>
+                    </div>
+                    <div class="textbox_ui pass">
+                        <span class="inS"><input id="m_password" class="text" type="password" validate="{ required:true}" name="m_password" placeholder="密码"></span>
+                        <i style="line-height:25px;color:#F00;"><label class="error" for="m_password" generated="true"></label></i>
+                    </div>
+                    <div class="captchaWrap textbox_ui">
+                        <span class="inS"><input type="text" class="yzm" name="verify" validate="{ required:true}" id="verify" value="" placeholder="请输入验证码"/></span>
+                        <a href="javascript:void(0)" onclick="changeverify()" id="change_dynamic_verify_code">
+							<img id="loginverify" src="__APP__/Home/User/verify/" width="68" height="27" onClick="this.src='__APP__/Home/User/verify/'+Math.random()"><i>换一张？</i>
+						</a>
+						<div style="width:100%;height:1px;clear:both;"></div>
+						<i style="line-height:25px;color:#F00;"><label class="error" for="verify" generated="true"></label></i>
+                    </div>
+                    <input class="loginbtn submit_btn" type="submit" value="登 录" readonly="readonly" id="loginSubmit" style=" display: block;width: 100%;cursor:pointer;">
+                    <input class="loginbtn submit_btn1" type="submit" value="免登陆购买" style=" display: block;width: 100%;">
+                    <div id="errorMsg"><a href="{:U('Home/User/pageFoget')}">忘记密码？</a></div>
+					<input type="hidden" id="requsetUrl" name="requsetUrl" value="{$requset_url}"/>
+                </form>
+            </div>
+            <div class="iconAccout">
+                <div>第三方帐号登陆:</div>
+                <p>
+					<if condition="$sina eq '1'">
+                    	<a href="{:U('Home/User/thdLoginUr/')}?type=Sina" class="a3" title="新浪微博"><img src="__TPL__images/sina.png" alt=""></a><!-- 使用新浪微博登录 -->
+					</if>
+					<if condition="$qq eq '1'">
+                    	<a href="{:U('Home/User/thdLoginUr/')}?type=QQ" class="a1" title="QQ"><img src="__TPL__images/qq.png" alt=""></a><!-- 使用腾讯QQ登录 -->
+					</if>
+					<if condition="$renren eq '1'">
+                    	<a href="{:U('Home/User/thdLoginUr/')}?type=RenRen" class="last"><i class="i04"></i>人人</a><!-- 使用使用人人网登录 -->
+					</if>
+					<if condition="$wx eq '1'">
+					<div id="wx_login" class="t_center">
+						<img src="__IMAGES__ewm_wx.jpg" />
+						<span class="f12 gray3" style="margin-top:10px;">使用微信扫描上方二维码登陆</span>
+					</div>
+					</if>
+                </p>
+            </div>       
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+#topbar,#header .logo_r,#header .pic,#nav,#third,.mui-mbar-tabs{display: none;}
+</style>
+<script type="text/javascript" src="__JS__base.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.form.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<eq name="wxloginstatus" value="1">
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<script>
+	var obj = new WxLogin({
+	  id:"wx_login", 
+	  appid: "{$wxid}", 
+	  scope: "snsapi_login", 
+	  redirect_uri: "{$wx_redirect_uri}",
+	  state: "{$wxrand}",
+	  style: "white", //可选值：black,white
+	  href: ""
+	});
+</script>
+</eq>
+<script>
+	function redirectUri(obj){
+		if(obj == 'fogetpass'){
+			window.parent.location.href="{:U('Home/User/pageFoget')}";
+		}else if(obj == 'registpage'){
+			$.popup.close();
+			$.popup.popwin('/Home/User/ajaxRegPage', { settings: { width: 410, height:710, title: '注册',head:true} });
+		}
+	}
+</script>
+<script type="text/javascript">
+function changeverify(){      
+    $('#loginverify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());     	
+}
+$(document).ready(function(){
+    $("#regForm").validate({
+        errorPlacement: function(error, element) {
+            var error_td = element.parent("dd").siblings("i");
+            error_td.append(error);
+        },
+        submitHandler:function(form){
+            var rand = '{$Think.session.rand}'.toString();
+            var m_password = $("#m_password").val().toString();
+            var new_password = encode64(m_password+rand);
+            $("#m_password").val(new_password);
+            var formdata = $("#regForm").serialize();
+			var url = $("#requsetUrl").val();
+			var isreset = url.indexOf("doReset");
+			var mobilereset = url.indexOf("synResetByMobile");
+            $.ajax({
+                url:"{:U('Home/User/doLogin')}",
+                data:formdata,
+                dataType:"json",
+                type:"post",
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+						if(msgObj.url){
+							url = msgObj.url;
+						}
+						if( isreset !== -1 || mobilereset !== -1){
+							$.ThinkBox.success('登录成功,等待跳转……');
+							window.location.href = "/Home/Index/index";
+						}else{
+							$.ThinkBox.success('登录成功,等待跳转……');
+							window.location.href = url;
+						}
+                    }else{
+                    	alert(msgObj.info);
+                       showAlert(false,msgObj.info);
+                       return false;
+                    }
+                }
+            });
+        },
+        rules : {
+			m_name : {
+				required:true,
+				minlength:4,
+				isCheck:true,
+			},
+			m_password : {
+				required : true
+			},
+            verify : {
+				rangelength:[4,4],
+                required:true,
+				digits:true,
+                remote:'/Home/User/checkVerify'
+            }
+        },
+        messages : {
+			m_name : {
+				required : '用户名不能为空',
+				minlength : '用户名不能少于4位',
+				isCheck: '用户名不能包含敏感字符',
+			},
+			m_password  : {
+				required : '密码不能为空'
+			},
+            verify : {
+				rangelength:'验证码长度为4',
+                required:'请输入验证码',
+				digits:'对不起，请输入正确的验证码'
+            }
+        }
+    });
+});
+</script>

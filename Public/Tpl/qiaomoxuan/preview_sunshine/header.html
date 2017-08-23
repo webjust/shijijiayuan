@@ -1,0 +1,134 @@
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<input type="hidden" value="{$commonInfo['GY_SHOP_OPEN']}" name ="gy_shop_open" id="gy_shop_open"/>
+<!--header-->
+<div class="header">
+    <div class="hTwo clearfix" ><!--hTwo  start-->
+		<if condition="isset($ary_top_ads['big_pic']) AND $ary_top_ads['big_pic'] neq ''">
+			<div class="imagOne" ><a href="{$ary_top_ads['big_pic_url']}" ><img src="{$Think.config.DOMAIN_HOST}{$ary_top_ads['big_pic']}" width="100%" ></a></div>
+		</if>
+        <if condition="isset($ary_top_ads['small_pic']) AND $ary_top_ads['small_pic'] neq ''">
+			<div class="imagTwo" <if condition="$ary_top_ads['big_pic'] eq ''">style="display:block;"</if>><a href="{$ary_top_ads['small_pic_url']}"><img src="{$Think.config.DOMAIN_HOST}{$ary_top_ads['small_pic']}"  width="100%"  ></a></div>
+		</if>
+    </div><!--hTwo  end-->  
+	<div class="headOne"><!--headOne-->
+    	<div class="content">
+        	<p class="fleft">
+            	<a onclick="addfavor(window.location,document.title)" style="cursor:pointer" href="javascript:void(0)" class="collect">收藏</a>
+				<span>|</span>您好，欢迎光临{$commonInfo['GY_SHOP_TITLE']}！ 
+				<span id="shopping_member_list">
+					<if condition="$commonInfo['GY_SHOP_OPEN'] eq '0' ">
+						<strong style="color:#e5582b;">{$Think.session.Members.m_name}</strong>
+						<a href="{:U('Ucenter/User/doLogout')}">[{$Think.lang.TOP_LOGOUT}]</a>
+					</if>
+				</span>
+            </p>
+            <div class="hright"><!--hright-->
+            	<p class="fl">
+                	<span>|</span><a href="{:U('Ucenter/Index/index')}">我的账户</a>
+					<span>|</span><a href="{:U('Ucenter/Orders/pageList')}">我的订单</a>
+					<span>|</span><a href="{:U('Home/Article/articlelist')}">帮助中心</a>
+					<span>|</span><a href="{:U('Home/Article/articleDetail',array('aid'=>'1'))}">关于我们</a>
+					<span>|</span><a target="_blank" class="weibo" href="http://e.weibo.com/guanyisoft" target="_blank">新浪微博</a>
+					<span>|</span><a target="_blank" class="txweibo" href="http://t.qq.com/guanyisoft" target="_blank">腾讯微博</a> 
+                </p>
+            	<div class="shopCart"><!--shopCart-->
+                	<span class="cart" id="shopping_cart_list" >购物车 <b class="red">{$price_data.all_nums|default='0'}</b> 件<i></i><em></em></span>
+					<div class="cartCon"><!--cartCon-->
+                    </div><!--cartCon-->
+                </div><!--/shopCart-->
+            </div><!--/hright-->
+        </div>
+    </div><!--/headOne-->
+    <div class="headTwo"><!--headTwo-->
+    	<div class="content">
+        	<div class="logo">
+            	<a href="/">
+					<img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']}" width="310" height="59">
+				</a>
+            </div>            
+            <div class="search"><!--search-->
+            	<p class="inputP">
+					<if condition="$itemInfo.keyword neq ''">
+						<input type="text" class="text" id="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value='搜搜呗....说不定有您喜欢的...'}" value="搜搜呗....说不定有您喜欢的..." onfocus="if(value=='搜搜呗....说不定有您喜欢的...') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+					<else/>
+						<input type="text" class="text" id="head_serach_keyword" onblur="if (value=='') {value='搜搜呗....说不定有您喜欢的...'}" value="搜搜呗....说不定有您喜欢的..." onfocus="if(value=='搜搜呗....说不定有您喜欢的...') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+					</if>
+					<input type="submit" id="search_submit_button" value="搜索" class="submit" />
+                </p>
+                <p class="navP">
+                	<span style="font-size:12px;  color:#000000;">热门：</span>
+					<gyfx:navigation name='nav'  position="hot">
+						<a href="{$nav.nurl}">{$nav.nname}</a>
+					</gyfx:navigation>
+                </p>
+            </div><!--/search-->
+           <if condition="$ary_top_ads['right_pic'] neq ''">
+            <div class="hotline">			
+				<a href="{$Think.config.DOMAIN_HOST}{$ary_top_ads['right_pic_url']}"><img src="{$ary_top_ads['right_pic']}" width="190" height="60"></a></div>
+			<else/>
+			<div class="hotline">
+            	<span style="font-size:14px; font-weight:bold; color:#000000;">订购热线</span>
+                <code style="font-size:18px; font-weight:bold; color:#FF0000;">400-800-123123</code>
+            </div>
+			</if>
+        </div>
+    </div><!--/headTwo-->
+    
+    <div class="headThree"><!--headThree-->
+   		<div class="content">
+            <div class="allClassi"><!--allClassi-->
+                <a href="/Home/Products/Index"><span class="allSpan">所有商品分类<i></i></span></a>
+                <div class="classiCon"><!--classiCon-->
+                    <ul>
+                        <Gyfx:goodscate name="cate" k="k">
+							<li>
+								<p>
+                                    <if condition="$k lt 13">
+									<a href="{$cate.curl}" class="firstA">{$cate.cname}</a>
+									<i></i>
+                                    </if>
+								</p>
+								<div class="secondD"><!--secondD-->
+									<code></code>
+									<dl>
+										<present name="cate['sub']">
+											<volist name="cate['sub']" id="cat" >
+												<dd>
+													<span><a href="{$cat.curl}">{$cat.cname}<i></i></a></span>
+													<div class="thirdD">
+														<em></em>
+														<present name="cat['sub']">
+															<volist name="cat['sub']" id="sub_cat" >
+																<a href="{$sub_cat.curl}">{$sub_cat.cname}</a>
+															</volist>
+														</present>
+													</div>
+												</dd>
+											</volist>
+										</present>
+									</dl>
+								</div><!--/secondD-->
+							</li>
+						</Gyfx:goodscate>
+                    </ul>
+                </div><!--/classiCon-->
+            </div><!--/allClassi-->
+            
+            <div class="nav"><!--nav-->
+				<gyfx:navigation name='nav'  position="top">
+					<a href="{$nav.nurl}" <present name="Think.request.name"><eq name="Think.request.name" value="$nav['nname']"> class="on" </eq> </present> >{$nav.nname}</a>
+				</gyfx:navigation>
+            </div><!--/nav-->
+        </div>
+    </div><!--/headThree-->
+</div>
+<!--/header-->
+<script type="text/javascript">
+function addfavor(url,title){if(confirm("网站名称："+title+"\n网址："+url+"\n确定添加收藏?")){var ua=navigator.userAgent.toLowerCase();if(ua.indexOf("msie 8")>-1){external.AddToFavoritesBar(url,title,"")}else{try{window.external.addFavorite(url,title)}catch(e){try{window.sidebar.addPanel(title,url,"")}catch(e){alert("加入收藏失败，请使用Ctrl+D进行添加")}}}}return false};
+</script>
+<script type="text/javascript">
+$("#search_submit_button").click(function(){var search_key=$("#head_serach_keyword").val();if(search_key==''){return false;}
+search_key=search_key.replace(/%0D%0A/,'');search_key=search_key.replace(/%0d%0a/,'');var __search_base_url="{:U('Home/Hisense/')}?keyword="+search_key;window.location.href=__search_base_url;});function EnterPress(e){var e=e||window.event;if(e.keyCode==13){var search_key=$("#head_serach_keyword").val();if(search_key==''){return false;}
+search_key=search_key.replace(/%0D%0A/,'');search_key=search_key.replace(/%0d%0a/,'');var __search_base_url="{:U('Home/Hisense/')}?keyword="+search_key;window.location.href=__search_base_url;}}
+</script>

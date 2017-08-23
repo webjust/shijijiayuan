@@ -1,0 +1,165 @@
+<div class="rightInner">
+    <form id="coupon_add" name="coupon_add" method="post" action="{:U('Admin/Coupon/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">新生成优惠券</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">* 优惠券名称</td>
+                    <td>
+                        <input type="text" name="c_name" class="medium" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 优惠券编码</td>
+                    <td>
+                        <input type="text" name="c_sn" class="medium" validate="{ required:true,remote:'__APP__/Admin/Coupon/getCheck',path:true,minlength:6 }" />
+                    </td>
+                    <td class="last">数字与字母组合，至少6位</td>
+                </tr>
+	            <tr>
+                    <td class="first">* 优惠券类型</td>
+                    <td>
+                       <input type="radio" value="0" name="c_type" checked/>现金券
+                       <input type="radio" value="1" name="c_type" />折扣券			   
+                    </td>
+                    <td class="last"></td>
+                </tr>			
+                <tr>
+                    <td class="first">* 优惠券面额或折扣比率</td>
+                    <td>
+                        <input type="text" name="c_money" class="medium" validate="{ required:true,number:true}" />
+                    </td>
+                    <td class="last">当优惠券类型为折扣券是请输入折扣比率<br />范围大于0小于1,例如8折,请输入0.8</td>
+                </tr>				
+                <tr>
+                    <td class="first">生效时间</td>
+                    <td>
+                        <input type="text" name="c_start_time" id="c_start_time" class="medium timer" validate="{ required:true}"/> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">失效时间</td>
+                    <td>
+                        <input type="text" name="c_end_time" id="c_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">指定会员</td>
+                    <td>
+                        <input type="checkbox" name="c_user_id" id="c_user_id" value="1" />
+                        <input type="text" id="c_user_name" name="m_name" class="medium" style="display:none;" value="请输入会员账户名" validate="{ remote:'__APP__/Admin/Members/getCheckName'}" />
+                    </td>
+                    <td class="last">不勾选代表任何人均可使用，勾选上则指定使用者</td>
+                </tr>
+                <tr>
+                    <td class="first">是否不限使用条件</td>
+                    <td>
+                        <input type="checkbox" name="c_condition" id="c_condition" value="all" checked="checked" />
+                        <span id="c_condition_money" style="display: none;" >订单满
+                             <input type="text" class="small" name="c_condition_money" validate="{ number:true}" /> 元才可以使用
+                        </span>
+                    </td>
+                    <td class="last">勾选上表示不限定使用条件</td>
+                </tr>
+                <tr> 
+                        <td class="first">商品分组</td>
+
+                        <td>
+                        <table class="tblist">
+                            <tbody>
+                                <volist name="goodsgroup" id="data" mod="10">
+                                <eq name="mod" value="0">
+                                <tr>
+                                </eq>
+                                    <td><input type="checkbox" name="gg_name[]" id="gg_name" value="{$data.gg_id}"> {$data.gg_name}</td>
+                                <eq name="mod" value="4">
+                                </tr>
+                                </eq>
+                               </volist>
+                            </tbody>
+                        </table>
+                     </td>
+                </tr>
+
+                <tr>
+                    <td class="first">优惠券备注</td>
+                    <td>
+                        <textarea name="c_memo" class="mediumBox" validate="{ maxlength:200}"></textarea>
+                    </td>
+                    <td class="last">不超过200字</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $("document").ready(function(){
+
+        $("#c_user_id").click(function(){
+            if($(this).attr('checked')=='checked'){
+                $("#c_user_name").fadeIn('fast');
+            }else{
+                $("#c_user_name").fadeOut('fast');
+            }
+        });
+                
+        $("#c_user_name").click(function(){
+            $('#c_user_name').attr("value",'');
+        });
+
+        $("#c_condition").click(function(){
+            if($(this).attr('checked')=='checked'){
+                $("#c_condition_money").fadeOut('fast');
+            }else{
+                $("#c_condition_money").fadeIn('fast');
+            }
+        });
+
+        $('#coupon_add').validate();
+    });
+    
+    /**提交表单
+     * @author zhangjiasuo <zhangjiasuo@guanyisoft.com>
+     * @date 2013-07-10
+     */
+    function save(){
+        var startTime=$("#c_start_time").val(); 
+        var endTime=$("#c_end_time").val(); 
+        var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+        var end=new Date(endTime.replace("-", "/").replace("-", "/")); 
+        if(start > end){
+            showAlert(false,'出错了','生效时间大于失效时间！');
+            return false;
+        }
+        var res = $('#coupon_add').valid();
+		var c_type =  $("input[name='c_type']:checked").val();
+		if(c_type == '1'){
+			var c_money = parseFloat($("input[name='c_money']").val());
+			if(c_money<=0 || c_money>=1){
+				showAlert(false,'出错了','折扣券折扣比例大于0,小于1！');
+				return false;			
+			}
+		}
+        if(res){
+            document.coupon_add.submit();
+        }
+    }
+</script>

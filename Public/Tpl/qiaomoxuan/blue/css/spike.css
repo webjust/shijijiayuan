@@ -1,0 +1,16 @@
+@charset "utf-8";
+.proPicker ul li { float:left; padding:5px ; background:#eefcfc;}
+.proPicker ul li dl dt {width:84px; float:left; text-align:right; padding-top:10px;}
+.proPicker ul li dl dd {width:324px; float:left; font-weight:bold; color:#666; padding-top:5px;}
+.proPicker ul li dl dd a {
+    display: inline-block;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    font-weight: normal;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 0px 5px;
+    line-height: 20px;
+	height: auto;
+}
+.proPicker ul li dl dd a img{ vertical-align:top;}

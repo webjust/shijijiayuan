@@ -1,0 +1,389 @@
+@CHARSET "UTF-8";
+
+/*---------------- 分销授权线-分销商引荐管理 -----------------*/
+.yjgl_div {
+	border:2px solid #DFDFDF;
+	margin:20px 38px 0px 10px;
+
+}
+.yjgl_div01 {
+	margin:26px 0px 22px 53px;
+}
+
+/*-----左边部分-----*/
+.yjgl_div01_span01 {
+	font-size:13px;
+}
+
+.yjgl_houj {
+	width:800px;
+	height:570px;
+	border:1px solid #DCDCDC;
+	margin-top:10px;
+}
+
+.yjgl_div01_01 {
+	width:373px;
+	margin:20px 0px 0px 30px;
+	float:left;
+}
+.yjgl_div01_01_ul01 li {
+	float:left;
+	line-height:22px;
+}
+.yjgl_div01_01_ul01 li span {
+	color:#666;
+	font-size:12px;
+	margin-left:3px;
+}
+.yjgl_div01_01_ul01 li input {
+	width:197px;
+	border:1px solid #dcdcdc;
+}
+.yjgl_div01_01_ul01 li a {
+	background:url(../images/fl_13.jpg) no-repeat;
+	width:85px;
+	height:22px;
+	line-height:22px;
+	text-align:center;
+	display:block;
+	color:white;
+	font-size:12px;
+	font-weight:bold;
+	margin-left:10px;
+	margin-top:2px;
+}
+*+html .yjgl_div01_01_ul01 li a {
+	margin-top:1px;
+}
+.yjgl_div01_01_01 {
+	width:100%;
+	height:487px;
+	border:1px solid red;
+	margin-top:20px;
+}
+/*-----右边部分-----*/
+.yjgl_div01_02 {
+	float:right;
+	width:22%;
+	height:100%;
+	border-left:1px solid #DCDCDC;
+}
+.yjgl_div01_02_01 {
+	background:url("../images/p-mr-14.jpg") repeat-x scroll 0 0 transparent;
+	width:100%;
+	height:35px;
+	line-height:35px;
+	text-align:center;
+	font-weight:bold;
+	/*color:333px;*/
+	font-size:13px;
+}
+.yjgl_div01_02_02 {
+	font-size:12px;
+	width:100%;
+	height:50px;
+}
+.yjgl_div01_02_02 table {
+	margin-top:10px;
+	line-height:20px;
+}
+.yjgl_div01_02_02 table tr td span {
+	color:#666;
+}
+.yjgl_div01_02_02 table tr td b {
+	color:#333;
+}
+.yjgl_div01_02_03 {
+	text-align:center;
+}
+.yjgl_div01_02_03 a {
+	background:url(../images/fl_12.jpg) no-repeat;
+	width:160px;
+	height:26px;
+	line-height:26px;
+	text-align:center;
+	font-weight:bold;
+	color:white;
+	font-size:13px;
+	display:block;
+	margin:0 auto;
+	margin-top:10px;
+}
+
+/*------------分销授权线-分销商引荐管理-弹出框部分 -------------------*/
+.yjgl_tc {
+	border:2px solid #333;
+	width:451px;
+	height:362px;
+}
+
+.yjgl_tc_div01 {
+	width:100%;
+	height:31px;
+	background-color:#666;
+	line-height:31px;
+}
+.yjgl_tc_div01 span {
+	color:white;
+	margin-left:10px;
+	font-size:13px;
+}
+.yjgl_tc_div01 a {
+	float:right;
+	margin:8px 10px 0px 0px;
+}
+
+.yjgl_tc_div02 {
+	width:100%;
+	height:330px;
+	background-color:#F7F7F7;
+}
+.yjgl_tc_div02_01 {
+	position:absolute;     /*如果div里有背景色，那么在IE浏览器中没有这句话也能实现效果，但在chrome中，就会出现错误*/
+	margin:25px 0px 25px 30px;
+}
+
+.yjgl_tc_div02_02_01 {
+	margin:75px 0px 0px 26px;
+	position:absolute;
+	text-align:center;
+}
+.yjgl_tc_div02_02_01 table {
+	width:400px;
+	text-align:center;
+	font-size:12px;
+	color:#333;
+	border:1px solid #E4E4E4;
+	border-bottom:none;
+}
+.yjgl_tc_div02_02_01 table tr.tr01 td {
+	line-height:30px;
+	background-color:#EFEFEF;
+	border-bottom:1px solid #E4E4E4;
+}
+.yjgl_tc_div02_02_01 table tr.tr02 td {
+	line-height:35px;
+	border-bottom:1px solid #E4E4E4;
+}
+.yjgl_tc_div02_02_01_a01 {
+	background:url(../images/fl_10.jpg) no-repeat;
+	width:55px;
+	height:26px;
+	line-height:26px;
+	text-align:center;
+	display:inline-block;
+	color:white;
+	font-weight:bold;
+	margin:15px 5px 0px 0px;
+}
+.yjgl_tc_div02_02_01_a02 {
+	background:url(../images/fl_10.jpg) no-repeat;
+	width:55px;
+	height:26px;
+	line-height:26px;
+	text-align:center;
+	display:inline-block;
+	color:white;
+	font-weight:bold;
+	margin-top:15px;
+}
+.ajaxprogressBar {
+border: solid 2px #86A5AD;
+background: white url(../images/ajaxloading.gif) no-repeat 10px 10px;
+}
+.ajaxprogressBar {
+display: block;
+width: 148px;
+height: 28px;
+position: fixed;
+top: 50%;
+left: 50%;
+margin-left: -74px;
+margin-top: -14px;
+padding: 10px 10px 10px 50px;
+text-align: left;
+line-height: 27px;
+font-weight: bold;
+position: absolute;
+z-index: 2001;
+} 
+.progressBar {
+border: solid 2px #86A5AD;
+background: white url(../images/ajaxloading.gif) no-repeat 10px 10px;
+}
+.progressBar {
+background: white url(../images/ajaxloading.gif) no-repeat 10px 10px;
+display: block;
+width: 148px;
+height: 28px;
+position: fixed;
+top: 50%;
+left: 50%;
+margin-left: -74px;
+margin-top: -14px;
+padding: 10px 10px 10px 50px;
+text-align: left;
+line-height: 27px;
+font-weight: bold;
+position: absolute;
+z-index: 2001;
+} 
+.distributor { width:100%; background: url(../images/p-mr-14.jpg) repeat-x;}
+.tablediv { width:100%; background:#EFEFEF; height:30px; line-height:30px; border-bottom:1px solid #DCDCDC;}
+.tablediv table tr td {background:url(../images/tabletrtdliney.png) repeat-y right}
+
+.pmr-ul-0302-right li {
+	float:left;
+	margin:8px 1px 0px 5px;
+}
+.pmr-ul-0302-right li a {
+	margin-right:5px;
+	display:inline-block;
+	margin-top:3px;
+}
+.pmr-ul-0302-right li button {
+	display:inline-block;
+	margin-right:3px;
+	margin-top:0px;
+}
+.pmr-ul-0302-right input            { background: url(../images/p-mr-15.jpg) no-repeat left top; border: 1px solid; border-color:#AFAFAF #AFAFAF #DCDCDC #DCDCDC ; }
+.pmr-ul-0302-right input            { height: 18px; line-height: 18px; vertical-align:middle; }
+.pmr-ul-0302-right input:hover      { border: 1px solid #85BEE5 ;}
+.pmr-ul-0302-right a                { color:#4484D8; }
+.pmr-ul-0302-right li button {
+    display: inline-block;
+    margin-right: 3px;
+    margin-top: 0;
+}
+.but-type-022 {
+    background: url("../images/but-type-bg-02.jpg") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    font-weight: bold;
+    height: 20px;
+    width: 70px;
+    display: inline-block;
+	margin-right: 3px;
+	margin-top: 0;
+}
+.but-type-01 {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 10px 0 0;
+    padding: 0 10px;
+    vertical-align: middle;
+    width: auto;
+}
+.but-type-01 {
+    background: url("../images/but-type-bg-01.jpg") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+}
+.but-type-02 {
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    width: auto;
+}
+.but-type-02 {
+    background: url("../images/but-type-bg-02.jpg") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    height: 20px;
+}
+.but-type-03 {
+    font-size: 12px;
+    height: 23px;
+    line-height: 23px;
+    text-align: center;
+    vertical-align: middle;
+    width: 67px;
+}
+.but-type-022 {
+    background: url("../images/but-type-bg-02.jpg") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    font-weight: bold;
+    height: 20px;
+    width: 70px;
+    border: none;
+}
+.tck-table-xzhy-01                  { width: auto; margin: 15px auto; }
+.tck-table-xzhy-01 td               { padding: 0px 5px; }
+.select-sty-01 {
+    background: url("../images/p-mr-27.jpg") no-repeat scroll left top rgba(0, 0, 0, 0);
+    border-color: #AFAFAF #AFAFAF #DCDCDC #DCDCDC;
+    border-style: solid;
+    border-width: 1px;
+    padding: 0 0 0 4px;
+}
+.select-sty-01:hover {
+    border: 1px solid #85BEE5;
+}
+.select-sty-01 {
+    height: 22px;
+}
+.input-sty-01 {
+    border: 1px solid #85BEE5;
+    height: 20px;
+    line-height: 20px;
+    vertical-align: middle;
+}
+.input-sty-01:hover {
+    border: 1px solid #85BEE5;
+}
+
+.p-m-r-div-0302                     { height: 34px; background: url(../images/p-mr-14.jpg) repeat-x; border: 1px solid #DCDCDC ; }
+.p-m-r-div-0302 ul                  { margin: 0px 0px 0px 5px; }
+.pmr-ul-0302-left                   { float:left; }
+.pmr-ul-0302-right                  { float:right; }
+.pmr-ul-0302-left li                { float:left; border: 1px solid #CCC; margin: 6px 0px 6px 6px; }
+.pmr-ul-0302-left a                 { float:left; display: block; height: 18px; line-height: 18px; vertical-align:middle; padding: 0px 5px 0px 22px; border: 1px solid #EBEBEB; color:#333 }
+.pmr-ul-0302-left a:hover           { color:#4484D8; }
+
+
+.p-m-r-div-0303{
+ 	background: none repeat scroll 0 0 #EFEFEF;
+    border-color: #DCDCDC;
+    border-style: solid;
+    border-width: 0 0 1px;
+    width: 100%;
+}
+.p-m-r-div-0303 ul{margin: 0 18px 0 0;}
+.p-m-r-div-0303 table{color: #333333;width: 100%;}
+.p-m-r-div-0303 td{
+   background: url("../images/tabletrtdliney.png") repeat-y scroll right center rgba(0, 0, 0, 0);
+    height: 30px;
+}
+.p-m-r-div-0304 {
+    margin: 0;
+    overflow-y: scroll;
+    width: 100%;
+}
+.p-m-r-div-0304 table{ 
+	color: #333333;
+    margin: 0;
+    width: 100%;
+}
+.list-content-table tr td {
+    border-bottom: 1px solid #E4E4E4;
+}
+.p-m-r-div-0304 td {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #DCDCDC;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 0 1px;
+    height: 35px;
+}
+.p-m-r-div-changepage {
+    height: 20px;
+    margin: 20px 0;
+    width: 100%;
+}
+.p-m-r-div-changepage {
+    height: 20px;
+    margin: 20px 0;
+    width: 100%;
+}

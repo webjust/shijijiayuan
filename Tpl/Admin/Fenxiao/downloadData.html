@@ -1,0 +1,149 @@
+<style type="text/css">
+.graph{position: relative;border: 1px solid #B1D632;margin-left:auto;margin-right:auto;}
+.bar{display:block;position: relative;background: #B1D632;text-align: center;color: #333;height: 2em;line-height: 2em;}
+.small_bar{display: block;position: relative;margin:1px;background: #B1D632;text-align: center;color: #333;height: 1em;line-height: 2em;}
+.downloadButton{background-color:#F27B04;color:#ffffff;font-size:24px;height:34px;wdith:300px;border:1 none;cursor:pointer;}
+</style>
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="5">
+					供销平台数据下载
+					<span style="color:#ff0000;font-size:18px;">
+					数据下载完成前，请不要关闭此页面！！！
+					</span>
+				</th>
+            </tr>
+            <tr>
+				<th width="60">任务ID</th>
+				<th width="100">任务名称</th>
+				<th width="400">任务描述</th>
+				<th width="200">进程进度</th>
+				<th width="150">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+			<volist name="datalist" id="vo">
+			  <tr>
+				<td width="60" title="这个ID仅仅是一个数字，仅此而已！">{$vo.id}</td>
+				<td width="200" style="text-align:left;">{$vo.name}</td>
+				<td width="300" style="text-align:left;">{$vo.desc}</td>
+				<td width="200">
+					<div class="graph">
+						<strong id="bar_{$vo.id}" class="small_bar" style="width:0%;"></strong>
+					</div>
+				</td>
+				<td width="120">
+					<button class="btnA download_child_button" id="{$vo.id}" act="{$vo.model}">下载更新</button>
+				</td>
+			  </tr>
+			  </volist>
+        </tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<input type="checkbox" name="checkbox" value="1" checked="checked" disabled="disabled" id="passError" />
+					<label for="passError" style="cursor:pointer;">遇到数据下载错误时忽略，继续下载其他数据</label>
+					<img id="showMessageBox" src="__PUBLIC__/Admin/images/ajaxloading.gif" style="display:none;" />
+				</td>
+			</tr>
+		</tfoot>
+    </table>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".download_child_button").click(function(){
+		getPageInfo($(this).attr("act"),this);
+	});
+	/*
+	$("#downloadDataButton").click(function(){
+		//下载按钮样式切换
+		$(this).attr({"disabled":true}).css({"background-color":"gray"});
+		downloadFenxiaoData(1,1);
+	});
+	*/
+});
+
+//获取下载数据的分页信息
+function getPageInfo(mod,Obj){
+	var task_id = $(Obj).attr("id");
+	$.ajax({
+		url:"{:U('/Admin/Fenxiao/getPageInfo')}",
+		cache:false,
+		dataType:'json',
+		data:{'mod':mod},
+		success:function(jsonObj){
+			if(false === jsonObj.status){
+				alert("请求发生错误！\n\r错误消息：" + jsonObj.message + "\n\r错误代码:" + jsonObj.code);
+				return false;
+			}
+			//将数据存入Button
+			$(Obj).attr({'pagesize':jsonObj.pagesize,'total_page':jsonObj.total_page,'page_no':1});
+			//如果没有数据，则直接进度条满
+			if(jsonObj.total_page < 1){
+				$("#bar_" + task_id).css({"width":'100%'});
+				return false;
+			}
+			//下载数据
+			return downloadFenxiaoData(Obj);
+		},
+		timeout:30000,
+		type:'POST',
+		beforeSend:function(){},
+		complete:function(){},
+	});
+}
+function downloadFenxiaoData(buttonObj){
+	$("#showMessageBox").show();
+	var downloadPage = parseInt($(buttonObj).attr("page_no"));
+	var totalPage = parseInt($(buttonObj).attr("total_page"));
+	var task_id = $(buttonObj).attr("id");
+	//进度条处理
+	var persent = parseInt(downloadPage/totalPage*100);
+	if(persent > 100){
+		persent = 100;
+	}
+	//如果当前要下载的页数比总的页数还要大
+	if( downloadPage > totalPage){
+		//如果数据已经下载完成
+		$("#showMessageBox").hide();
+		return false;
+	}
+	
+	//如果数据还没下载完成，则继续下载
+	$.ajax({
+		url:"{:U('/Admin/Fenxiao/downloadRoute')}",
+		cache:false,
+		dataType:'json',
+		data:{'mod':$(buttonObj).attr("act"),'page_no':$(buttonObj).attr("page_no"),'page_size':$(buttonObj).attr("pagesize")},
+		beforeSend:function(){},
+		success:function(jsonObj){
+			if(false === jsonObj.status){
+				alert("请求发生错误！\n\r错误消息：" + jsonObj.message + "\n\r错误代码:" + jsonObj.code);
+				return false;
+			}
+			//处理进度条
+			$("#bar_" + task_id).css({"width":persent + '%'});
+			//更新下一次要下载的页数
+			$(buttonObj).attr({'page_no':jsonObj.page_no});
+			//继续下载下一批数据
+			downloadFenxiaoData(buttonObj);
+		},
+		//超时时间设置为30秒
+		timeout:30000,
+		type:'POST',
+		complete:function(){},
+		error:function(){
+			//下载时遇到错误，是否继续
+			//TODO 此处需要对选项进行判断
+		}
+	});
+}
+function loadingStart(){
+	$("#showMessageBox").html('');
+}
+function loadingComplete(){
+	$("#showMessageBox").html('加载完成!');
+}
+</script>

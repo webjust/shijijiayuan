@@ -1,0 +1,78 @@
+<div class="rightInner">
+    <form id="online_config" method="post" action="{:U('Admin/Financial/doConfigOnline')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        配置您的交行在线支付收款账户
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">* 商户代码</td>
+                    <td>
+                        <input type="text" name="MERCHANT_ID" value="{$info.config.MERCHANT_ID}"/>
+                    </td>
+                    <td class="last">交行发放的商户唯一标示</td>
+                </tr>
+                <tr>
+                    <td class="first">* 商户证书</td>
+                    <td>
+                        <input type="file" name="SIGN_CERT_PATH" />
+                    </td>
+                    <td class="last">格式为.pfx的 证书文件</td>
+                </tr>
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                     	已保存文件路径: {$info.config.SIGN_CERT_PATH.upload_path}&nbsp;&nbsp;&nbsp;上传时间：{$info.config.SIGN_CERT_PATH.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 商户证书密码</td>
+                    <td>
+                        <input type="text" name="SIGN_CERT_PWD" value="{$info.config.SIGN_CERT_PWD}"/>
+                    </td>
+                    <td class="last">签名用私钥文件密码</td>
+                </tr>
+                <tr>
+                    <td class="first">* 验签证书文件</td>
+                    <td>
+                        <input type="file" name="VERIFY_CERT_PATH" />
+                    </td>
+                    <td class="last">格式为.cer的证书文件</td>
+                </tr>
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        已保存文件路径: {$info.config.VERIFY_CERT_PATH.upload_path}&nbsp;&nbsp;&nbsp;上传时间：{$info.config.VERIFY_CERT_PATH.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="BOCOMPAY" name="code" />
+                        <input type="submit" value="保 存" class="btnA" />&nbsp;
+                        <input type="button" value="返 回" class="btnA back" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#online_config').validate();
+    });
+</script>

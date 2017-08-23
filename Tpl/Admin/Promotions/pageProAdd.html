@@ -1,0 +1,377 @@
+<div class="rightInner">
+    <form id="promotion_add" name="promotion_add" method="post" action="{:U('Admin/Promotions/doProAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">新建促销活动</th>
+                </tr>
+            </thead>
+            <tbody class="tab">
+                <tr>
+                    <th colspan="99">促销基本信息</th>
+                </tr>
+                <tr>
+                    <td class="first"><span class="red">*</span> 规则名称</td>
+                    <td>
+                        <input type="text" name="pmn_name" value="" class="large" validate="{ required:true,maxlength:30}" />
+                    </td>
+                    <td class="last">建议不超过30个字</td>
+                </tr>
+                <tr>
+                    <td class="first"><span class="red">*</span> 优先级</td>
+                    <td>
+                        <select name="pmn_order" class="medium" id="pmn_order" validate="{ selected:true}" >
+                            <option value="">请选择</option>
+                            <volist name="orders" id="od">
+                                <option value="{$od.num}" <neq name="od.pmn_id" value="0">disabled="disabled"</neq> >
+                                    {$od.num}<neq name="od.pmn_id" value="0"> -- 已被{$od.pmn_activity_name} - {$od.pmn_name}使用</neq>
+                                </option>
+                            </volist>
+                        </select>
+                        <input type="checkbox" id="showDisableOrder" checked="checked" /> 
+                        <label for="showDisableOrder">显示已占用</label>
+                    </td>
+                    <td class="last">数值越大越被优先使用。为避免发生冲突，每个优先级仅能被一个活动规则占用</td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="radio" name="pmn_enable" value="1" checked="checked" /> 启用
+                        <input type="radio" name="pmn_enable" value="0" /> 停用 </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"><span class="red">*</span> 促销开始时间</td>
+                    <td>
+                        <input type="text" class="medium timer" name="pmn_start_time" id="pmn_start_time" validate="{required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"><span class="red">*</span> 促销结束时间</td>
+                    <td>
+                        <input type="text" class="medium timer" name="pmn_end_time" id="pmn_end_time" validate="{required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <include file="Members:addMembersPublic" />
+                <tr>
+                    <td class="first"><span class="red">*</span> 促销规则</td>
+                    <td>
+                        <select id="pmn_rule" name="pmn_class" class="medium" validate="{ selected:true}" style="width:450px;" onchange="change_rule(this.value);">
+                            <option value="0">请选择</option>
+                            <volist name="types" id="tp">
+                                <option value="{$tp.code}">促销活动规则 - {$tp.memo}</option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				<tr id="category">
+					<td class="first"><span class="red">*</span> 商品分类</td>
+					<td id="clist" name="clist">
+							  <span id="" class="rule-param rule-param-edit">
+							<span id="" class="element">
+							<input id="cat_selValue" class="medium input-text" readonly="readonly" type="text" name="cat_selValue" value="{$info['cids']}">
+							<a class="rule-chooser-trigger" ref="'.$this->index.'" href="javascript:void(0)">
+							<img title="Open Chooser" class="v-middle" alt="" src="__PUBLIC__/Admin/images/rule_chooser_trigger.gif"></a>
+							请点击按钮选择分类
+							</span>
+							</span>
+							<div id="shopMulti_cat" class="shop-cat-list rule-chooser" style="display:none;padding-left: 15px;">
+								<ul id="cat_selItems">{$catHtml}</ul>
+							</div>
+					</td>
+					<td class="last">商品分类、商品品牌、商品分组、指定商品至少选择一个</td> 
+				</tr>
+				<tr id="brand">
+					<td class="first"><span class="red">*</span> 商品品牌</td>
+					<td id="blist" name="blist">
+							  <span id="" class="rule-param rule-param-edit">
+							<span id="" class="element">
+							<input id="brand_selValue" readonly="readonly" class="medium input-text" type="text" name="brand_selValue" value="{$info['bids']}">
+							<a class="rule-chooser-trigger1" ref="'.$this->index.'" href="javascript:void(0)">
+							<img title="Open Chooser" class="v-middle" alt="" src="__PUBLIC__/Admin/images/rule_chooser_trigger.gif"></a>
+							请点击按钮选择品牌
+							</span>
+							</span>
+							<div id="shopMulti_brand" class="shop-cat-list rule-chooser" style="display:none;padding-left: 15px;">
+								<ul id="brand_selItems">{$brandHtml}</ul>
+							</div>
+					</td>
+					<td class="last"></td>
+				</tr>                
+                <tr id="group">
+                    <td class="first"><span class="red">*</span> 商品分组</td>
+                    <td>
+                        <table class="tblist">
+                            <tbody>
+                                <volist name="gGroup" id="group" mod="10">
+                                <eq name="mod" value="0">
+                                <tr>
+                                </eq>
+                                    <php>if(!in_array($group['gg_id'],$allgroup)){</php><td><input type="checkbox" name="gg_name[]" id="gg_name" value="{$group.gg_id}"> <span>{$group.gg_name}</span></td><php>}</php>
+                                <eq name="mod" value="4">
+                                </tr>
+                                </eq>
+                               </volist>
+                            </tbody>
+                        </table> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr id='html_box'>
+                </tr>
+                <tr id='rule_box'>
+                </tr>
+                
+                <tr>
+                    <td class="first">促销规则描述</td>
+                    <td><textarea name="pmn_memo" class="mediumBox" validate="{ maxlength:200}"></textarea></td>
+                    <td class="last">200字以内</td>
+                </tr>
+                <tr class="last">
+                    <td colspan="99">
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();"/>&nbsp;
+                        <input type="button" value="取 消" class="btnA back" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<link href="__PUBLIC__/Admin/css/condition.css" rel="stylesheet">
+<script type="text/javascript">
+/**
+ * 提交表单
+ * @author zhangjiasuo <zhangjiasuo@guanyisoft.com>
+ * @date 2013-05-29
+ */
+function save(){
+    var types=$("#rule_box input:radio[name='cfg_goods_area']:checked").val();  //选择商品
+    var pmn_type = $(".tbForm select[name='pmn_class']").val();
+    var res = $('#promotion_add').valid();
+    var start_price =$('#cfg_cart_start').val();
+    var end_price =$('#cfg_cart_end').val();
+    var ra_part = $("input[name='ra_all']:checked").val();
+    var memberName = $("input[name='memberName']").val();
+    //定义一个判断标示
+    var i = 0;
+    if(ra_part == 0){
+        $('input[class="checkedMeInfo"]:checked').each(function(){
+             i = 1;
+        });
+         if(memberName != ""){
+            i = 1;
+        }
+       if(i != 1){
+            showAlert(false,'部分会员选项不能为空');
+            return false;
+       }
+
+    }
+
+    if(parseFloat(end_price) < parseFloat(start_price)){
+        showAlert(false,'出错了','优惠条件起始价格大于结束价格！');
+        return false;
+    }
+
+    if(pmn_type == 'PYIKOUJIA'){
+        if(types==1){
+            var num = $("input[name='ra_gid[]']").length;
+            if(num==0){
+                showAlert(false,'出错了','请您选择商品！');
+                return false;
+            }
+        }
+    }
+
+    if(res){
+        document.promotion_add.submit();
+    }
+} 
+
+//修改促销规则
+function change_rule(selectVal){
+    if(selectVal != 'PYIKOUJIA' && selectVal != '0'){
+        $.ajax({
+            url:"{:U('Admin/Promotions/getPromotionsGoods')}",
+            cache:false,
+            dataType:'HTML',
+            data:{type:'add'},
+            type:"post",
+            success:function(msgObj){
+                $('#html_box').html(msgObj);
+            }
+        });
+    }
+    //判断是否为真正的onchange事件
+    if(selectVal != $('#rule_box').data('index')){
+        $('#rule_box').data('index',selectVal);
+    }else{
+        return;
+    }
+    var html = '';
+    switch(selectVal){
+        case "MZHEKOU":
+            html = "<td class='first' colspan='3'>"
+                 + "<div>"
+                 + "<table><tr class='load'>"
+                 + "<td class='first'><span class='red'>*</span> 优惠条件</td><td style='text-align:left;width:630px;'><input type='text' id='cfg_cart_start' name='cfg_cart_start' class='small' validate='{ required:true,number:true,min:1}' value='{$config->cfg_cart_start}' />-<input type='text' id='cfg_cart_end' name='cfg_cart_end' class='small' value='{$config->cfg_cart_end}' validate='{ required:true,number:true,min:1}' /></td>"
+                 + "<td class='last'>购物车金额在此范围内享受优惠，优惠条件为必填项。<br>例如：500-2000代表500以上2000以下。</td></tr>"
+                 + "<tr class='load'>"
+                 + "<td class='first'><span class='red'>*</span> 给与多少折扣</td><td style='text-align:left;width:630px;'><input type='text' name='cfg_discount' class='small' validate='{ required:true,range:[0,1],number:true}' value='{$config->cfg_discount}'  />"
+                 + "<td class='last'>示例：如果打8折，请输入0.8</td>"
+                 + "</tr></table>";
+                
+        break;
+        case "MJIAN":
+            html = "<td class='first' colspan='3'>"
+                 + "<div>"
+                 + "<table><tr class='load'>"
+                 + "<td class='first'><span class='red'>*</span> 优惠条件</td><td style='text-align:left;width:630px;'><input type='text' id='cfg_cart_start' name='cfg_cart_start' class='small' validate='{ required:true,number:true,min:1}' value='{$config->cfg_cart_start}' />-<input type='text' id='cfg_cart_end' name='cfg_cart_end' class='small' value='{$config->cfg_cart_end}' validate='{ required:true,number:true,min:1}' /></td>"
+                 + "<td class='last'>购物车金额在此范围内享受优惠，优惠条件为必填项。<br>例如：500-2000代表500以上2000以下。</td></tr>"
+                 + "<tr class='load'>"
+                 + "<td class='first'><span class='red'>*</span> 整单立减多少元</td><td style='text-align:left;width:630px;'><input type='text' name='cfg_discount' class='small' validate='{ required:true,min:0,number:true}' value='{$config->cfg_discount}'  />"
+                 + "<td class='last'>输入优惠的金额</td>"
+                 + "</tr></table>";
+        break;
+        case "MZENPIN":
+             $.ajax({
+                url:"{:U('Admin/Promotions/getProPremiums')}",
+                cache:false,
+                dataType:'HTML',
+                data:{},
+                type:"post",
+                success:function(msgObj){
+                    $('#rule_box').html(msgObj);
+                }
+             });
+        break;
+        case "MBAOYOU":
+            html = "<td class='first' colspan='3'>"
+                 + "<div>"
+                 + "<table><tr class='load'>"
+                 + "<td class='first'><span class='red'>*</span> 优惠条件</td><td style='text-align:left;width:630px;'><input type='text' id='cfg_cart_start' name='cfg_cart_start' class='small' validate='{ required:true,number:true,min:1}' value='{$config->cfg_cart_start}' />-<input type='text' id='cfg_cart_end' name='cfg_cart_end' class='small' value='{$config->cfg_cart_end}' validate='{ required:true,number:true,min:1}' /></td>"
+                 + "<td class='last'>购物车金额在此范围内享受优惠，优惠条件为必填项。<br>例如：500-2000代表500以上2000以下。</td></tr>"
+                 +"</table>";
+            break;
+        case "MQUAN":
+             $.ajax({
+                url:"{:U('Admin/Promotions/getPreferential')}",
+                cache:false,
+                dataType:'HTML',
+                data:{},
+                type:"post",
+                success:function(msgObj){
+                    $('#rule_box').html(msgObj);
+                }
+             });
+        break;
+        case "PYIKOUJIA":
+            $.ajax({
+                url:"{:U('Admin/Promotions/getPromotionsGoods')}",
+                cache:false,
+                dataType:'HTML',
+                data:{},
+                type:"post",
+                success:function(msgObj){
+                    $('#rule_box').html(msgObj);
+                }
+            });
+        break;
+        case "MJLB":
+            html = "<td class='first' colspan='3'>"
+                 + "<div>"
+                 + "<table><tr class='load'>"
+                 + "<td class='first'><span class='red'>*</span> 优惠条件</td><td style='text-align:left;width:630px;'><input type='text' id='cfg_cart_start' name='cfg_cart_start' class='small' validate='{ required:true,number:true,min:1}' value='{$config->cfg_cart_start}' />-<input type='text' id='cfg_cart_end' name='cfg_cart_end' class='small' value='{$config->cfg_cart_end}' validate='{ required:true,number:true,min:1}' /></td>"
+                 + "<td class='last'>购物车金额在此范围内享受优惠，优惠条件为必填项。<br>例如：500-2000代表500以上2000以下。</td></tr>"
+                 + "<tr class='load'>"
+                 + "<td class='first'><span class='red'>*</span> 可获取得金币</td><td style='text-align:left;width:630px;'><input type='text' name='cfg_discount' class='small' validate='{ required:true,min:0,number:true}' value='{$config->cfg_discount}'  />"
+                 + "<td class='last'>输入赠送的金币数量</td>"
+                 + "</tr></table>";
+        break;
+    }
+    if(selectVal == 'PYIKOUJIA'){
+        $("#group").hide();
+		$("#category").hide();
+		$("#brand").hide();
+    }else{
+        $("#group").show();
+		$("#category").show();
+		$("#brand").show();
+    }
+    
+    $('#rule_box').html(html);
+    //alert(selectVal);return false;
+}
+$(document).ready(function(){
+    /*显示和隐藏已经被占用的优先级*/
+    $('#showDisableOrder').click(function(){
+        if($(this).attr('checked')=='checked'){
+            $("#pmn_order option:disabled").show();
+        }else{
+            $("#pmn_order option:disabled").hide();
+        }
+    });
+    //刷新页面后 自动调用被选的 促销规则
+    change_rule($("#pmn_rule option:selected").val());
+	
+	//类目选择
+	$(".rule-chooser-trigger").click(function(){
+		if($("#shopMulti_cat").css('display') == 'block'){
+			$("#shopMulti_cat").css("display","none");
+		}else{
+			$("#shopMulti_cat").css("display","block");
+		}
+	});
+	 
+	 $(".cat-checkbox").click(function(){
+		var selValue = '';
+		var now_id = $(this).attr("ref");
+		if($(this).attr('checked') == 'checked'){
+			$(".cat-checkbox").each(function(){
+				if($(this).attr("pid") == now_id){
+					$(this).attr("checked","checked");
+				}
+			});
+		}else{
+			$(".cat-checkbox").each(function(){
+				if($(this).attr("pid") == now_id){
+					$(this).attr("checked",false);
+				}
+			});
+		}
+		$(".cat-checkbox:checked").each(function(){
+			selValue += $(this).attr("ref") + ',';
+		});
+		if(selValue.length>0){
+			selValue = selValue.substr(0,selValue.length-1);
+		}
+		$("#cat_selValue").val(selValue);
+	});
+
+	//品牌选择
+	$(".rule-chooser-trigger1").click(function(){
+		if($("#shopMulti_brand").css('display') == 'block'){
+			$("#shopMulti_brand").css("display","none");
+		}else{
+			$("#shopMulti_brand").css("display","block");
+		}
+	});  
+	
+	 $(".brand-checkbox").click(function(){
+		var selValue = '';
+		$(".brand-checkbox:checked").each(function(){
+			selValue += $(this).attr("ref") + ',';
+		});
+		if(selValue.length>0){
+			selValue = selValue.substr(0,selValue.length-1);
+		}
+		 
+		$("#brand_selValue").val(selValue);
+	}); 
+	
+});
+</script>

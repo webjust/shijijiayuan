@@ -1,0 +1,65 @@
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div class="title" style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        分类利润率税率列表C12
+    </div>
+    <div style="overflow-x:auto;height: 650px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>商品分类名称</th>
+                <th>韩国直邮</th>
+                <th>香港直邮</th>
+                <th>国内发货</th>
+                <th>国内已售商品利润率</th>
+                <th>独家销售商品利润率</th>
+                <th>个人直邮税率(普通)</th>
+                <th>个人直邮税率(奢侈品)</th>
+                <th>BC直邮税率(普通)</th>
+                <th>BC直邮税率(奢侈品)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="List" id="item" key="k">
+                <tr>
+                <td>{$item.gc_id}</td>
+                <td>{$item.gc_name}</td>
+                <td><div class="edit" id="korean_direct-{$item.gc_id}">{$item.korean_direct}</div></td>
+                <td><div class="edit" id="HK_direct-{$item.gc_id}">{$item.HK_direct}</div></td>
+                <td><div class="edit" id="domestic_shipment-{$item.gc_id}">{$item.domestic_shipment}</div></td>
+                <td><div class="edit" id="profit_notsole-{$item.gc_id}">{$item.profit_notsole}</div></td>
+                <td><div class="edit" id="profit_sole-{$item.gc_id}">{$item.profit_sole}</div></td>
+                <td><div class="edit" id="person_normal-{$item.gc_id}">{$item.person_normal}</div></td>
+                <td><div class="edit" id="person_notnormal-{$item.gc_id}">{$item.person_notnormal}</div></td>
+                <td><div class="edit" id="BC_normal-{$item.gc_id}">{$item.BC_normal}</div></td>
+                <td><div class="edit" id="BC_notnormal-{$item.gc_id}">{$item.BC_notnormal}</div></td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#searchOrderSubmit").click(function(){
+        $('#orders_form').submit();       
+    });
+    $('.edit').editable('/Ucenter/Purchase/TableEdit/table/goods_category');
+});
+</script>

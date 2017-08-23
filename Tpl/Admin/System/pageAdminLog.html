@@ -1,0 +1,41 @@
+<div class="rightInner tableColor" data-uri='{:U("Admin/System/doEditStatus")}'>
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    管理员登陆日志列表
+                </th>
+            </tr>
+            <tr>
+                <!--<th><input type="checkbox" class="checkAll" /></th>-->
+                <th>登录时间</th>
+                <th>登陆者</th>
+                <th>最后登录IP</th>
+                <th>地点(仅供参考)</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="list">
+            <tr>
+                <!--<td><input type="checkbox" name="u_id" value="" /></td>-->
+                <td>{$list.log_create}</td>
+                <td>{$list.u_name}</td>
+                <td>{$list.log_ip}</td>
+                <td>{$list.ip_location.country} / {$list.ip_location.area}</td>
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display: none;">
+        <div id="tip_div"></div>
+    </div>
+</div>

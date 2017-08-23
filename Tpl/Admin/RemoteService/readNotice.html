@@ -1,0 +1,13 @@
+{__NOLAYOUT__}
+<if condition="$notice neq '' ">
+<div style="text-align:center;">
+	<div style="margin-left:auto;margin-right:auto;">
+		<h1>{$notice.ai_title}</h1>
+		发布时间：{$notice.ai_create_time}
+		最后更新：{$notice.ai_update_time}<br />
+		<div style="width:95%;border:1px solid #AAFF88;height:auto;min-height:150px;text-align:left;padding:10px;">
+			{$notice.ai_content|default='此公告无详细内容'}
+		</div>
+	</div>
+</div>
+</if>

@@ -1,0 +1,57 @@
+<div class="rightInner">
+    <form id="coupon_del" method="get" action="{:U('Admin/Financial/pageListDeposits')}">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="">预存款充值/扣款 </th>
+                    <th colspan="99" style="text-align:right;font-size: 12px;">
+                            用户名：<input type="text" name="o_id" class="large" value="{$filter.o_id}" style="width: 145px;">
+                                    <input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </th>
+                </tr>
+                <tr>
+                    <th>操作</th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>会员等级</th>
+                    <th>手机</th>
+                    <th>电子邮件</th>
+                    <th>注册时间</th>
+                    <th>账户余额</th>
+                    <th>可用余额</th>
+                    <th>充值总金额</th>
+                    <th>已消费总金额</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="ary_members_account" id="ma">
+                <tr>
+                    <td>
+                        <a href='{:U("Admin/Financial/pageAddDeposits?m_id=$ma[m_id]")}'>充值</a>&nbsp;
+                        <a href='{:U("Admin/Financial/pageDeductDeposits?m_id=$ma[m_id]")}' >代扣</a>
+                    </td>
+                    <td>{$ma.m_name} </td>
+                    <td>{$ma.m_real_name} </td>
+                    <td>{$ma.ml_name}</td>
+                    <td>{$ma.m_mobile}</td>
+                    <td>{$ma.m_email}</td>
+                    <td>{$ma.m_create_time}</td>
+                    <td>{$ma.m_balance}</td>
+                    <td>{$ma.m_balance}</td>
+                    <td>{$ma.all_account}</td>
+                    <td>{$ma.m_all_cost}</td>
+                </tr>
+            </volist>
+            <empty name="ary_members_account">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

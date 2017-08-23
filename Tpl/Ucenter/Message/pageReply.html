@@ -1,0 +1,48 @@
+<link href="__PUBLIC__/Ucenter/css/Distribution.css" rel="stylesheet">
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>站内信</span></h2>
+	<div class="myOrder mailBox"><!--myOrder mailBox  start-->
+		<form id="sendForm" method="post" action='{:U("Ucenter/Message/doReply")}' >
+		<div class="chooseProCon"><!--chooseProCon  start-->
+        	<p class="choosePtop">
+            	<a href="{:U('Ucenter/Message/pageMailBox')}"><span>收件箱</span></a>
+                <a href="{:U('Ucenter/Message/pageSendBox')}"><span>发件箱</span></a>
+                <a href="{:U('Ucenter/Message/pageSend')}" class="onHover"><span>写站内信</span></a>
+            </p>
+           <div id="con_choose_1" class="chooseDiv"><!--chooseDiv  start-->
+            	<div class="mialConBot"><!--mialConBot   start-->
+                	<table class="tableTop">
+                    	<tr>
+                        	<td width="70" align="right"><i class="red">*</i> 收件人：</td>
+                            <td>{$messageInfo.to_name}</td>
+                        </tr>
+                        <tr>
+                        	<td align="right"><i class="red">*</i> 主题：</td>
+                            <td>
+                            	<input name="title" type="text" class="input01" value="{$messageInfo.reply_title}" validate="{ required:true,isCheck:true,messages:{required:'主题不能为空',isCheck:'包含非法字符，请重新输入'}}"><span class="spanWrong"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td align="right" valign="top"><i class="red">*</i> 内容：</td>
+                            <td>
+                            	<textarea name="content" validate="{ required:true,isCheck:true,messages:{required:'内容不能为空',isCheck:'包含非法字符，请重新输入'}}">{$messageInfo.reply_content}</textarea>
+                        		<span class="spanWrong"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                        	<td></td>
+                            <td><input type="submit" class="blue" value="发 送"/><!--  <button id="btnSendMsg" class="blue"> 发 送 </button>--></td>
+                        </tr>
+                    </table>
+                </div><!--mialConBot   end-->
+            </div><!--chooseDiv  end-->
+        </div><!--chooseProCon  end-->
+        <input type="hidden" name="sl_id" value="{$messageInfo.sl_id}"/>
+        </form>
+    </div><!--myOrder mailBox   end-->
+</div><!--contentRightBox  end-->
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#sendForm').validate();
+});
+</script>

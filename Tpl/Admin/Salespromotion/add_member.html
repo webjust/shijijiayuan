@@ -1,0 +1,107 @@
+<div class="p-m-r-div-01">
+  <ul class="p-m-r-ul-01">
+    <div class="pmr-01-0-s">
+      <ul>
+        <div class="pmr-010s-01"><a href="javascript:void(0);">后台首页</a></div>
+<div class="pmr-010s-02"><a href="javascript:void(0);"></a></div>
+      </ul>
+    </div>
+    <!--<div class="pmr-01-0">
+      <ul>
+        <div class="pmr-01-0-01"><a href="javascript:void(0);">站点优化</a></div>
+        <div class="pmr-01-0-02"><a href="#2"></a></div>
+      </ul>
+    </div>
+    <div class="pmr-01-0">
+      <ul>
+        <div class="pmr-01-0-01"><a href="javascript:void(0);">用户管理</a></div>
+        <div class="pmr-01-0-02"><a href="#2"></a></div>
+      </ul>
+    </div>-->
+  </ul>
+</div>
+<div class="p-m-r-div-02">
+  <ul>
+    <li> 您的位置： <a href="javascript:void(0);">桌面</a><span>></span> <a href="m=Salescount&act=showMemberRelation">分销商引荐管理</a> <span>></span> 添加分销商</li>
+  </ul>
+</div>
+<div id="add_member_form" class='bd-pmr-ty-kuangjia'>
+    <ul>
+    <div id="ajax_add_members" style="width:800px;">
+        <div class="tck-m-min" id="addmembersform">
+            <table cellspacing="0" cellpadding="0" class="tck-table-xzhy-01">
+                <tr>
+                    <td>分销商查询:</td>
+                    <td>
+                        <input type="text" name="sm_name" id="sm_name" class="input-sty-01 width-px170" /></td>
+                    <td>
+                        <button class="but-type-01" onclick="search_member()">搜索</button>
+                    </td>
+                </tr>
+            </table>
+            <hr class="height-px1 margin-h-20" />
+            <div id="content_members"></div>
+            <p id="loading_txt" style="display:none; text-align:center;"><img src="{!$WEBROOT!}modules/admin/statics/images/loading.gif"/></p>
+            <div class="tck-ty-button">
+                <button class="but-type-01" onclick="addMembers();">提交</button>
+                <input type="text" name="mr_p_id" id="mr_p_id" value="{!$mr_p_id!}" />
+            </div>
+        </div>
+    </div>
+    </ul>
+</div>
+<script type="text/javascript">globalvariablesPost('{!$globalPost!}');</script>
+<script>
+var hidden_data = {};
+function search_member(){
+	var url	= "{!$WEBENTRY!}/admin/";
+	var sm_name	= $("#sm_name").val();
+	$('#loading_txt').show();
+	$.post(url,{'m':'salescount','act':'getMembers','sm_name':sm_name},function(msg){
+		//alert(msg);return;
+		if(msg){
+			$("#content_members").html(msg);
+		}
+		$('#loading_txt').hide();
+	});
+}
+function addMembers(){
+	var m_id	= $("input[@type=radio][name=mname][checked]").val();
+	var mr_p_id	= $("#mr_p_id").val();
+	if(m_id < 1){
+		popupGlobalTipDiv(false,'请选择添加的分销商。');
+		return ;
+	}
+	//alert(m_id);
+	//alert(mr_p_id);
+	$.post("{!$WEBENTRY!}/admin/",{'m':'salescount','act':'addMemberRelation','m_id':m_id,'mr_p_id':mr_p_id},function(json){
+		if('repeat' == json.status){
+			//alert('分销已存在，不能重复添加，请重新选择。'); return ;
+			popupGlobalTipDiv(false,'分销已存在，不能重复添加，请重新选择。');
+			return ;
+		}else if('error' == json.status){
+			//alert('操作失败，请重试。'); return 
+			popupGlobalTipDiv(false,'操作失败，请重试。');
+			return ;
+		}else if('success' == json.status){
+			//alert('添加成功！');
+			//window.location.href='{!$WEBENTRY!}/admin/#m=Salescount&act=showMemberRelation'; return ; 
+			popupGlobalTipDiv(true,'添加成功！','{!$WEBENTRY!}/admin/#m=Salescount&act=showMemberRelation');
+		}
+	},"json");
+	
+}
+function showhide(val,idname){
+	if(val == 'hide'){
+		$("#"+idname).css('display','none');
+	}else if(val == 'show'){
+		$("#"+idname).css('display','');
+	}
+}
+function delMember(e, id) {
+	if(confirm("确认要删除吗？")) {
+		hidden_data[id] = null;
+		$(e).parent().remove();
+	}
+}
+</script>

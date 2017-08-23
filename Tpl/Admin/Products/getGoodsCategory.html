@@ -1,0 +1,119 @@
+{__NOLAYOUT__}
+<div style=" padding:20px 0px; width:450px;"><!--弹框  开始-->
+    <form action='{:U("Admin/Products/pageList","tabs=$filter[tabs]")}' method="get" onsubmit="return ValidateForm(this);">
+        <table class="alertTable">
+            <tr>
+                <td align="right" width="75" valign="top">商品分类：</td>
+                <td>
+                    <ul class="brandUl">
+                        <li>
+                            <select size="8" multiple="multiple" id="multipleselect" name="category[]">
+                                <volist name="category" id="vo">
+                                    <option value='{$vo.gc_id}'>{$vo.title_show}</option>
+                                </volist>
+                            </select>
+                        </li>
+                        <li><span>商品品牌：</span></li>
+                        <li>
+                            <select size="8" multiple="multiple" id="multipleselect" name="brand[]">
+                                <volist name="brand" id="bd">
+                                    <option value='{$bd.gb_id}'>{$bd.gb_name}</option>
+                                </volist>
+                            </select>
+                        </li>
+                    </ul>
+                    <p class="gray6">以上选项，可以按住CTRL来进行多选</p>
+                </td>
+            </tr>
+            <if condition="$filter.tabs neq 'shelves'">
+            <tr>
+                <td align="right" style="width: 106px;">商品上下架状态：</td>
+                <td id="fxstatus">
+                    <input type="checkbox" class="inputRadio" id="ra05" name="status" value='1'/> <label for="ra05">在架</label>
+                    <input type="checkbox" class="inputRadio" id="ra06" name="status" value='2'/> <label for="ra06">下架</label>
+                    <label id="fxstatus_msg" val='0' class="msg"></label>
+                </td>
+            </tr>
+            </if>
+            <tr>
+                <td align="right">库存：</td>
+                <td>
+                    <select class="small" name="stockSymbol">
+                        <option value="gt">大于</option>
+                        <option value="lt">小于</option>
+                        <option value="eq">等于</option>
+                        <option value="egt">大于等于</option>
+                        <option value="elt">小于等于</option>
+                    </select>
+                    <input type="text" class="medium" value="" name="stock" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">更新时间：</td>
+                <td class="load">
+                    <input type="text" class="medium dater" name="start_time" id="start_time"/>
+                    -
+                    <input type="text" class="medium dater" name="end_time" id="end_time"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="right"></td>
+                <td>
+                    <input type="checkbox" class="inputCheckb" name="new" id="new" /> <label>新品</label> &nbsp;&nbsp;
+                    <input type="checkbox" class="inputCheckb" name="hot" id="hot"/> <label>热销</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" class="btnA" value="搜 索"> <input type="button" class="btnA" value="取 消" id="goodClose"></td>
+            </tr>
+        </table>
+    </form>
+</div><!--弹框  结束-->
+<script>
+$(document).ready(function(){
+    $("#goodClose").click(function(){
+        $("#good_dialog").dialog('destroy');
+        $('#tip_dialog').append($('#good_dialog'));
+    });
+
+    $(".inputRadio").die().click(function(){
+        var vid = $(this).parent().attr("id");
+        var count = $("#"+vid+" input[type='checkbox']:checked").length;
+        if(parseInt(count) >='2'){
+            $("#"+vid+"_msg").html("<font color='red'>只能选其一</font>");
+            $("#"+vid+"_msg").attr("val","1");
+        }else{
+            $("#"+vid+"_msg").html("");
+        }
+    });
+    
+     $(".dater").datepicker({
+        showMonthAfterYear: true,
+        changeMonth: true,
+        changeYear: true,
+        buttonImageOnly: true
+    });
+    $(".timer").datetimepicker({
+        showMonthAfterYear: true,
+        changeMonth: true,
+        changeYear: true,
+        buttonImageOnly: true
+    });
+});
+function ValidateForm(){
+    var count = '';
+    $(".alertTable .msg").each(function(){
+        var val = $(this).attr("val");
+        if(val == '1'){
+            count = '1';
+        }else{
+            count = '0';
+        }
+    });
+    if(count == '1'){
+        return false;
+    }else{
+        return true;
+    }
+}    
+</script>

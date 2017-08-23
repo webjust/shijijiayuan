@@ -1,0 +1,53 @@
+{__NOLAYOUT__}
+<head>
+</head>
+<style>
+span.firstSpan { position:relative; height:30px; display:block; width:107px; border:1px solid #C5C5C5; border-bottom:none; z-index:2}
+span.firstSpan i { position:absolute; width:100%; height:100%; background:white; opacity:0.9;filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; z-index:1; left:0; top:0;}
+span.firstSpan em { position:absolute; background:url(__IMAGES__icon.png) no-repeat -8px -12px; width:18px; height:15px; text-align:center; line-height:12px; color:white; top:-8px; left:22px; z-index:2; font-style:normal;}
+.headOne .content .cartspan a:hover{color:white;}
+</style>
+<div class="shopCart"><!--shopCart-->
+	<span class="cart" id="shopping_cart_list" >购物车 <b class="red">{$price_data.all_nums|default='0'}</b> 件<i></i><em></em></span>
+	<div class="cartCon"><!--cartCon-->
+		<span class="firstSpan" ><i style="position:absolute; width:100%; height:100%; background:white; opacity:0.9;filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; z-index:1; left:0; top:0;"></i></span>
+		<div class="cartList" style="bakground-color:white;">
+			<ul style="background-color:white;">
+			<volist name="cart_data" id="data">
+			<php>if($data[0]['pdt_rule_name']=='自由推荐'){</php>
+			<volist name="data" id="da">
+				<li style="background-color:white;">
+					<a href="/Home/Products/detail/gid/{$da.g_id}" class="proPic"><img src="{$da['g_picture']}" width="50" height="50" /></a>
+					<a href="/Home/Products/detail/gid/{$da.g_id}" class="proN">{$da.g_name}|{$da.g_sn} {$da.pdt_spec}</a>
+					<span><code>&yen;{$da.f_price|sprintf='%.2f',###}</code><label>×</label><b>{$da.pdt_nums}</b></span>
+					<a href="javascript:void(0);" onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});" class="delete">删除</a>
+				</li>                  
+			</volist>
+			<php>}elseif($data[0]['type'] == '6'){</php>
+			 <volist name="data" id="da">
+				<li style="background-color:witle;">
+					<a href="/Home/Products/detail/gid/{$da.g_id}" class="proPic"><img src="{$da['g_picture']}" width="50" height="50" /></a>
+					<a href="/Home/Products/detail/gid/{$da.g_id}" class="proN">{$da.g_name}|{$da.g_sn} {$da.pdt_spec}</a>
+					<span><code>&yen;{$da.f_price|sprintf='%.2f',###}</code><label>×</label><b>{$da.pdt_nums}</b></span>
+					<a href="javascript:void(0);" onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});" class="delete">删除</a>
+				</li> 
+			</volist>
+			<php>}else{</php>
+				<li style="background-color:witle;">
+					<a href="/Home/Products/detail/gid/{$data.g_id}" class="proPic"><img src="{$data['g_picture']}" width="50" height="50" /></a>
+					<a href="/Home/Products/detail/gid/{$data.g_id}" class="proN">{$data.g_name}|{$data.g_sn} {$data.pdt_spec}</a>
+					<span><code>&yen;{$data.f_price|sprintf='%.2f',###}</code><label>×</label><b>{$data.pdt_nums}</b></span>
+					<a href="javascript:void(0);" onclick="deleteFromMyCart({$data.pdt_id},{$data.type|default='0'});" class="delete">删除</a>
+				</li>
+			<php>}</php>
+			</volist>
+
+			</ul>
+			<p class="cartBot" style="background-color:white;padding-top:4px;">
+				<span class="cartspan"><a href="{:U('Ucenter/Cart/pageList')}" class="check">查看购物车</a></span>
+				<a style="margin-top:5px;text-align:center;">总计:<b style="color:red;font-size:15px;text-align:center;">&yen;</b><strong class="red" style="font-size:15px;">{$price_data.all_price|default="0.00"}&nbsp;&nbsp;&nbsp;</strong></a>
+			</p>
+			
+		</div>
+	</div><!--cartCon-->
+</div><!--/shopCart-->

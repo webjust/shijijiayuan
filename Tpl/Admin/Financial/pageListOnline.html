@@ -1,0 +1,80 @@
+<script src="__PUBLIC__/Admin/js/PayOnline.js"></script>
+<div class="rightInner">
+    <form id="Pay_List" method="post" action="{:U('Admin/Financial/doSequence')}">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        在线支付设置
+                    </th>
+                </tr>
+                <tr>
+                    <th>是否启用</th>
+                    <th>配置</th>
+                    <th>支付代码</th>
+                    <th>支付名</th>
+                    <th>最近更新时间</th>
+					<th>支付来源</th>
+                    <th>说明</th>
+                    <th>上移 下移</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="list" id="pc" key="k" >
+                    <tr id="{$pc.pc_abbreviation}">
+                        <td><input type="checkbox" class="pc_status" value="{$pc.pc_abbreviation}" <eq name="pc.pc_status" value="1">checked="checked"</eq> /></td>
+                        <td><eq name="pc.hasCfg" value="1"><a href='{:U("Admin/Financial/pageConfigOnline?code=$pc[pc_abbreviation]")}'>编辑</a></eq></td>
+                        <td><span class="blue">{$pc.pc_abbreviation}</span></td>
+                        <td>{$pc.pc_custom_name}</td>
+                        <td>{$pc.pc_last_modify}</td>
+						<td>
+						<if condition="$pc.pc_source eq 1 ">
+							PC端
+						<elseif condition="$pc.pc_source eq 3 "/>
+							PC端/APP
+						<elseif condition="$pc.pc_source eq 4 "/>
+							wap
+						<elseif condition="$pc.pc_source eq 5 "/>
+							PC端/wap
+						<elseif condition="$pc.pc_source eq 6 "/>
+							APP/wap
+						<else />
+							PC 端/APP/wap
+						</if>						
+						</td>
+                        <td class="left">{$pc.pc_memo}</td>
+                        <td>
+                            <span name="UP_{$pc.pc_abbreviation}" onclick="UpSequence('{$pc.pc_abbreviation}')" style="cursor: pointer" > ↑</span>
+                            <span name="DOWN_{$pc.pc_abbreviation}" onclick="DownSequence('{$pc.pc_abbreviation}')" style="cursor: pointer" >↓</span>
+                        </td>
+                        <input id="Sequence_{$pc.pc_abbreviation}" name="Sequence_{$pc.pc_abbreviation}" type="hidden" value="{$k}" />
+                    </tr>
+                </volist>
+                <empty name="list">
+                    <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99"><input class="btnA" type="submit" value="排序保存"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.pc_status').click(function(){
+            var code = $(this).val();
+            if($(this).attr('checked') == 'checked'){
+                var status = 1;
+            }else{
+                var status = 0;
+            }
+            var url = "{:U('Admin/Financial/doStatusOnline')}";
+            $.get(url,{ 'code':code,'status':status});
+        });
+    });
+</script>

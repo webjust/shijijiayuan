@@ -1,0 +1,191 @@
+{__NOLAYOUT__}
+<form id="goodsCartForm" name="goodsForm" method="post" action="#">
+	<div class="addCart"></div>
+	<div class="sku-layout sku-box-shadow cartCnt">
+	  <div class="layout-title sku-box-shadow name-card sku-name-card">
+		<div class="thumb"><img src="{$Think.config.DOMAIN_HOST}{$data.gpic}" alt=""></div>
+		<div class="detail goods-base-info clearfix">
+		  <div class="goods-price clearfix">
+			<div class="current-price pull-left c-black">
+			 <span class="price-name pull-left font-size-14 c-orange">￥</span><i class=" price font-size-18 vertical-middle c-orange"><span id="showCollPrice">{$data.gprice}</span></i><b>（库存<span id="showCollNum">{$data.gstock}</span>件）</b> </div>
+			 <div class="select-type"><i id="show_spec">还未选</i></div>
+		  </div>
+		</div>
+		<div class="sku-cancel">
+		  <div class="cancel-img"></div>
+		</div>
+	  </div>
+	<div class="selectType">
+		<volist name="data.skuNames" id="sku" key="k">
+			<div class="typeOne">
+				<h1>{$key}</h1>
+				<dl id="skus{$data.gid}_{$k}">
+					<php>$va = strpos($sku[0],'|')?1:0;</php>
+					<volist name="sku" id="sku_info">
+					<php>
+					$type = 0;
+					$va = strpos($sku_info,'|');
+					if($va){
+						$skuinfos = explode('|',$sku_info);
+						$sku_name = $skuinfos[0];
+						$sku_info = $skuinfos[1];
+						$type = 1;
+					}else{
+						$sku_name = $sku_info;
+					}
+					</php>				
+					<dd name="{$sku_name}" <eq name="data['skus'][1]['pdt_id']" value=""> class="on" </eq>  onclick="return showCollSelect(this);" >
+						<if condition="$type eq 1">
+						<img src="{$Think.config.DOMAIN_HOST}{$sku_info}" width="30" height="30" />
+						<else/>
+						{$sku_info}
+						</if>
+					</dd>
+					</volist>
+					<volist name="data.skus" id="value">
+						<input type="hidden" value="{$value.pdt_stock}" id="pdtId_{$value.pdt_id}">
+					</volist>
+                    <input type="hidden" id="pdt_coll_id" <if condition="$data['skus'][1]['pdt_id'] eq ''">value="{$data['skus'][0]['pdt_id']}"<else/>value=""</if> />
+                    <input type="hidden" id="fr_coll_id" value="{$filter.fr_id}" />					
+				</dl>
+			</div>
+		</volist>	
+	</div>
+	<div class="confirm-action content-foot clearfix">
+	 <div class="half-button f_right"><a href="javascript:;" class="confirm btn  btn-orange-dark " onclick="addGoodsCarts();">确定</a> </div>
+	</div>
+	</div>
+	</form>
+<input type="hidden" value="{$data.gid}" id="gid">
+
+<script>
+var arr = new Object();
+//将商品库存信息存在js数组里
+<foreach name = 'data.skus' item = 'vosku'>
+//alert("{$vosku.skuName}");
+arr["{$vosku.skuName}"] = "{$vosku.pdt_id}|{$vosku.pdt_stock}|{$vosku.pdt_sale_price}|{$vosku.pdt_market_price}|{$vosku.pdt_collocation_price}";
+</foreach>
+<if condition="$data['skus'][1]['pdt_id'] eq ''">
+var specColl = '{$vosku.skuName}';
+var pirceColl = '{$vosku.pdt_collocation_price}';
+var price = '{$vosku.pdt_sale_price}';
+<else/>
+var specColl = '';
+var pirceColl = 0;
+var price = 0;
+</if>
+function showCollSelect(obj){
+    
+    var _this = jQuery(obj);
+    
+    var item_id = "{$data.gid}";
+    var name = '';
+    var _item_id = $('#' + item_id);
+
+    if (_this.hasClass('on')){
+        _this.removeClass("on");
+        $("#pdt_coll_stock").val("");
+        $("#pdt_coll_id").val("");
+        alert("请勾选您要的商品信息");return;
+    } else{
+        _this.siblings().removeClass("on");
+        _this.addClass("on");
+        var rsize = "";
+        var showvalue = "";
+        var _parent_color = $("#skus" + item_id + '_1').find('dd.on');
+        var _parent_size = $("#skus" + item_id + '_2').find('dd.on');
+        var color_len = _parent_color.length;
+        var size_len = _parent_size.length;     
+        if (size_len > 0 && color_len > 0){
+            $("#propError").html("");
+            var color = "", size = "";
+            color = _parent_color.attr('name');
+            size = _parent_size.attr('name');
+            if (color != '' && size != ''){
+                var info = size + ";" + color;
+                showvalue = arr[info]?arr[info]:"";
+                specColl = color+"/"+size;
+                var vale = showvalue.split("|");
+                if (vale.length > 0){
+                    if (vale[0]){
+                        $("#pdt_coll_id").val(vale[0]);
+                    }
+                    if (vale[1]){
+                        $("#showCollNum").html(vale[1]);
+                    } else{
+                        $("#showCollNum").html(0);
+                    }
+                    if (vale[4]){
+                        $("#showCollPrice").html(vale[4]);
+                        pirceColl = vale[4];
+                        price = vale[2];
+                    }
+					if(specColl){
+						$('#show_spec').html("已选择"+"<span><em>"+color+"<b>,</b>"+size+"</em></span>");
+					}
+                }
+            }
+        } else{
+            var _parent_li = _this.parent().parent().find('dd.on');
+            rsize = _parent_li.attr('name');
+            
+            if (rsize != ""){
+                var info = rsize;
+                showvalue = arr[info];
+                specColl = rsize;
+                if (showvalue != undefined){
+                    var vale = showvalue.split("|");
+                    if (vale.length > 0){
+                        if (vale[0]){
+                            $("#pdt_coll_id").val(vale[0]);
+                        }
+                        if (vale[1]){
+                            $("#pdt_coll_stock").val(vale[1]);
+                            $("#showCollNum").html(vale[1]);
+                        } else{
+                            $("#showCollNum").html(0);
+                        }
+                        if (vale[4]){
+                            $("#showCollPrice").html(vale[4]);
+                            pirceColl = vale[4];
+                            price = vale[2];
+                        }
+						if(specColl){
+							$('#show_spec').html("已选择"+"<span><em>"+specColl+"</em></span>");
+						}						
+                    }
+                }
+            }
+        }
+    }
+}
+function addGoodsCarts(){
+	var num = parseInt($("#showCollNum").html());
+	if(0 == num){
+		alert("该货品库存不足！");
+        return false;
+	}
+    var pdt_id = $('#pdt_coll_id').val();
+    var nums = parseInt($('#cartNums').val());
+    var dapei = "搭配省"+((price-pirceColl)*nums).toFixed(2)+"元";
+    if (pdt_id == ""){
+        alert("{$Think.lang.STOCK_ERROR_4}");
+        return false;
+    }
+    $("#collPdt_"+{$data.gid}).show().html(specColl);
+    $("#collPrice_"+{$data.gid}).html(parseFloat(pirceColl).toFixed(2));
+    $("#selectColl_"+{$data.gid}).hide();
+    $("#saveColl_"+{$data.gid}).show().html(dapei);
+    $(".dpConfirm").hide(300);
+    $("#coll_goods_"+{$data.gid}).attr('checked',true);
+    $("#coll_products_"+{$data.gid}).val(pdt_id);
+    $("#coll_products_"+{$data.gid}).attr('price',parseFloat(pirceColl).toFixed(2));
+    $("#coll_products_"+{$data.gid}).attr('save',(price-pirceColl).toFixed(2));
+    setRemmendPrice();
+    $("#onHoverCollGoods"+{$data.gid}).attr('ohgg',1);
+    return false;
+}
+$(".cancel-img").click(function() {
+	$(".dpConfirm").hide(300);
+})
+</script>

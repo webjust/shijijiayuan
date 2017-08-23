@@ -1,0 +1,99 @@
+<div class="rightInner">
+    <form id="coupon_add" name="coupon_add" method="post" action="{:U('Admin/Lottery/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">新增抽奖活动</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">* 抽奖名称</td>
+                    <td>
+                        <input type="text" name="l_name" class="medium" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 每日限抽奖次数</td>
+                    <td>
+                        <input type="text" name="l_number" class="medium" validate="{ required:true,number:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">消耗积分</td>
+                    <td>
+						启用:<input type="checkbox" value="1" name="is_consume_pont" />
+                        积分：<input type="text" name="consume_point" class="medium" validate="{number:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>				
+                <tr>
+                    <td class="first">生效时间</td>
+                    <td>
+                        <input type="text" name="l_start_time" id="l_start_time" class="medium timer" validate="{ required:true}"/> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">失效时间</td>
+                    <td>
+                        <input type="text" name="l_end_time" id="l_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+
+                <tr>
+                    <td class="first">抽奖描述(活动规则)</td>
+                    <td>
+                        <textarea name="l_desc" class="mediumBox" validate="{ maxlength:300}"></textarea>
+                    </td>
+                    <td class="last">不超过300字</td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        启用：<input type="checkbox" value="1" name="l_status" />
+                    </td>
+                    <td class="last"></td>
+                </tr>				
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#coupon_add').validate();
+    });
+    
+    /**提交表单
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2014-07-14
+     */
+    function save(){
+        var startTime=$("#l_start_time").val(); 
+        var endTime=$("#l_end_time").val(); 
+        var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+        var end=new Date(endTime.replace("-", "/").replace("-", "/")); 
+        if(start > end){
+            showAlert(false,'出错了','生效时间大于失效时间！');
+            return false;
+        }
+        var res = $('#coupon_add').valid();
+        if(res){
+            document.coupon_add.submit();
+        }
+    }
+</script>

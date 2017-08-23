@@ -1,0 +1,368 @@
+<script src="__JS__productslist.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            var qcloud={};
+            $('[new_nav]').hover(function(){
+                var _nav = $(this).attr('new_nav');
+                clearTimeout( qcloud[ _nav + '_timer' ] );
+                qcloud[ _nav + '_timer' ] = setTimeout(function(){
+                    $('[new_nav]').each(function(){
+                        //$(this)[ _nav == $(this).attr('new_nav') ? 'addClass':'removeClass' ]('a');
+                    });
+                    $('#'+_nav).stop(true,true).slideDown(100);
+                }, 150);
+            },function(){
+                var _nav = $(this).attr('new_nav');
+                clearTimeout( qcloud[ _nav + '_timer' ] );
+                qcloud[ _nav + '_timer' ] = setTimeout(function(){
+                    //$('[new_nav]').removeClass('a');
+                    $('#'+_nav).stop(true,true).slideUp(100);
+                }, 150);
+            });
+            $(".headNav dl dd a:last-child").css("border-right","none");
+        });
+
+    </script>
+<div class="wrap pt10 dltBg clear">
+    <div class="w1180 clearfix">
+        <!--prtListTop start-->
+        <div class="prtListTop clearfix">
+            <!--prtad start-->
+            <notempty name="ary_ads">
+                <div id="focus5" class="bannerImg">
+                <dl>
+                    <volist name="ary_ads" id="ads">
+                        <dd>
+                            <a href="{$ads.ad_url}">
+                                <img src="{$ads.ad_pic_url}" >
+                            </a>
+                        </dd>
+                    </volist>
+                </dl>
+                </div>
+            </notempty>
+            <!--prtad end-->
+            <!--prtType start-->
+            <div class="prtType">
+                <!--prtPath start-->
+                <div class="prtPath">
+                    <a href="{:U('Home/Index/index')}">首页</a> >
+                    <a href="{:U('Home/Products/index/')}">所有产品</a>
+                    <gyfx:catebreadcrumb name='catebreadcrumb' cid="{$ary_request.cid}">
+                        <if condition="$catebreadcrumb.gcname neq ''">
+                            &gt;<a href="{$catebreadcrumb.gcurl}">{$catebreadcrumb.gcname}</a>
+                            <php>$ary_tmp_cate[] = $catebreadcrumb['gcid'];</php>
+                        </if>
+                    </gyfx:catebreadcrumb>
+
+                </div>
+			
+                <!--prtPath end-->
+              <div class="tuanNav goodListN">
+			  <ul>
+                <li>
+                    <span>您已选择：</span>
+                    <div class="rightC">
+                    <volist name="ary_request" id="param">
+                        <switch name="key">
+                            <case value="cid">
+                                <php>$cname;$cid; $ary_cate = array();</php>
+                                <Gyfx:goodscate name="cate" >
+                                    <php>
+                                        if($cate['cid'] == $ary_tmp_cate[0]){
+                                        $cname = $cate['cname'];
+                                        }
+                                    </php>
+                                </Gyfx:goodscate>
+                                <notempty name="param">
+                                    <a  class="choseItem" href="javascript:;" data-type="cid" data-value="{$param}">
+                                        {$cname}<b>×</b>
+                                    </a>
+                                </notempty>
+                            </case>
+							
+                            <case value="startPrice">
+                                <empty name="param">
+                                    <php>if(!empty($ary_request['endPrice'])){</php>
+                                        <a  class="choseItem"href="javascript:;" data-type="startPrice" data-value="{$param}">
+                                            {$ary_request.endPrice} 以下
+                                            <b>×</b>
+                                        </a>
+                                    <php>}else{</php>
+                                    <a  class="choseItem"href="javascript:;" data-type="startPrice" data-value="{$param}">
+                                        {$param}
+                                        <if condition="$ary_request.endPrice neq ''">
+                                            - {$ary_request.endPrice}
+                                            <else/>
+                                            以上
+                                        </if>
+                                        <b>×</b>
+                                    </a>
+									<php>}</php>
+                                </empty>
+                            </case>
+							
+                            <case value="endPrice">
+                                <if condition="isset($ary_request['startPrice']) neq 1">
+                                    <a class="choseItem" href="javascript:;" data-type="startPrice" data-value="{$param}">
+                                        {$ary_request.endPrice} 以下<b>×</b>
+                                    </a>
+                                </if>
+                            </case>
+                            <case value="path">
+                                <if condition="isset($ary_request['path']) neq ''">
+                                    <Gyfx:goodslist name='spec' bid="$ary_request['bid']" cid="$ary_request['cid']" new="$ary_request['new']" hot="$ary_request['hot']" tid="$ary_request['tid']"   start="$ary_request[start]" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" order="$ary_request[order]" path='$ary_request[path]'>
+                                    </Gyfx:goodslist>
+                                    <notempty name="spec['spec']">
+                                        <volist name="spec['spec']" id='sc'>
+                                            <volist name="sc['specs']" id='sps'>
+                                                <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":".$sps['gsd_id']);</php>
+                                                <if condition="$ary_request['paths'][$sc['gs_id']] eq $sps[gsd_id] ">
+                                                    <a class="choseItem"href="javascript:;" data-type="path" data-value="{$sps.gsd_aliases}">
+                                                        {$sps.gsd_aliases}<b>×</b>
+                                                    </a>
+                                                </if>
+                                            </volist>
+                                        </volist>
+                                    </notempty>
+                                </if>
+                            </case>
+                        </switch>
+                    </volist>
+                    <a href="{:U('Home/Products/index')}">重置筛选条件</a>
+                    </div>
+                </li>
+                <li><span>分类名称：</span>
+                    <php>$cname;$cid; $ary_cate = array();</php>
+                    <div class="rightC">
+                        <a href='{:U("Home/Products/index")}' <if condition="$ary_request.cid eq ''">class="on" </if>>全部</a>
+                        <Gyfx:goodscate name="cate" >
+                            <a href="{$cate.curl}" <present name="ary_tmp_cate"><if condition="$ary_tmp_cate[0] eq $cate[cid]">class="on"</if></present> >{$cate.cname}</a>
+                            <present name="ary_tmp_cate">
+                                <php>
+                                    if($cate['cid'] == $ary_tmp_cate[0]){
+                                    $cname = $cate['cname'];
+                                    $cid = $cate['cid'];
+                                    $ary_cate = $cate['sub'];
+                                    }
+                                </php>
+                            </present>
+                        </Gyfx:goodscate>
+                    </div>
+                </li>
+                <Gyfx:goodslist name='spec' bid="$ary_request['bid']" cid="$ary_request['cid']" new="$ary_request['new']" hot="$ary_request['hot']" tid="$ary_request['tid']" pagesize="12" start="$ary_request[start]" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" order="$ary_request[order]" path='$ary_request[path]'>
+                </Gyfx:goodslist>
+                <notempty name="spec['spec']">
+                    <volist name="spec['spec']" id='sc'>
+                        <li><span>{$sc.gs_name}：</span>
+                            <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":0");</php>
+                            <div class="rightC">
+                            <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$brand.bid}&tid={$ary_request.tid}&path={$bpath}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="$ary_request['paths'][$sc['gs_id']] eq '' "> class="on" </if> >不限</a>
+
+                            <volist name="sc['specs']" id='sps'>
+                                <php>$bpath = bpath($ary_request['path'],$sc['gs_id'].":".$sps['gsd_id']);</php>
+                                <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$bpath}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="$ary_request['paths'][$sc['gs_id']] eq $sps[gsd_id] "> class="on" </if>>{$sps.gsd_aliases}</a>
+                            </volist>
+                            </div>
+                        </li>
+                    </volist>
+                </notempty>
+                <li><span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</span>
+                    <div class="rightC">
+                    <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&path={$ary_request.path}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="($ary_request.startPrice eq '') and  ($ary_request.endPrice eq '')"> class="on"  </if>>不限</a>
+                    <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=0&endPrice=399&path={$ary_request.path}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="$ary_request.endPrice eq 399" >class="on"</if> >0-399</a>
+                    <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=400&endPrice=799&path={$ary_request.path}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="$ary_request.endPrice eq 799" >class="on"</if> >400-799</a>
+                    <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=800&endPrice=1399&path={$ary_request.path}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="$ary_request.endPrice eq 1399" >class="on"</if> >800-1399</a>
+                    <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=4300&endPrice=6999&path={$ary_request.path}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="$ary_request.endPrice eq 6999" >class="on"</if> >1400-1799</a>
+                    <a href="{:U('Home/Products/index')}?cid={$ary_request.cid}&bid={$ary_request.bid}&tid={$ary_request.tid}&startPrice=7000&path={$ary_request.path}&new={$ary_request.new}&hot={$ary_request.hot}" <if condition="$ary_request.startPrice eq 5000" >class="on"</if> >1800以上</a>
+                    <span class="search">
+                        <form action="{:U('Home/Products/index')}" method="get">
+                            <input type="text" class="type1" id="price1" name="startPrice"/>
+                            <input type="text" class="type1" id="price2" name="endPrice" onblur="checkprice();"/>
+                            <input type="submit" class="box" id="submitPrice" value="确定"/>
+                        </form>
+                    </span>
+                        </div>
+                </li>
+                <li><span>商品排序：</span>
+                    <div class="rightC proList2">
+                    <php>if(isset($itemInfo['order'])){</php>
+                    <if condition="$ret['hot'] neq ''">
+                        <a href="javascript:void(0);" class="clickThisTab" k="t" c="hot" t="{$ret['hot'][0]}">
+                            销量
+                        </a>
+                        <else/>
+                        <if condition="$itemInfo.order eq '_hot'">
+                            <a href="javascript:void(0);" class="clickThisTab " k="c" c="hot" t="hot">
+                                销量
+                            </a>
+                            <else/>
+                            <a href="javascript:void(0);" class="clickThisTab up " k="c" c="hot" t="_hot">
+                                销量
+                            </a>
+                        </if>
+                    </if>
+                    <if condition="$ret['price'] neq ''">
+                        <a href="javascript:void(0);" class="clickThisTab " k="t" c="price" t="{$ret['price'][0]}" >
+                            价格
+                        </a>
+                        <else/>
+                        <if condition="$itemInfo.order eq '_price'">
+                            <a href="javascript:void(0);" class="clickThisTab " k="c" c="price" t="price">
+                                价格
+                            </a>
+                            <else/>
+                            <a href="javascript:void(0);" class="clickThisTab up " k="c" c="price" t="_price">
+                                价格
+                            </a>
+                        </if>
+                    </if>
+                    <if condition="$ret['new'] neq ''">
+                        <a href="javascript:void(0);" class="clickThisTab" k="t" c="new" t="{$ret['new'][0]}" >
+                            新品
+                        </a>
+                        <else/>
+                        <if condition="$itemInfo.order eq '_new'">
+                            <a href="javascript:void(0);" class="clickThisTab " k="c" c="new" t="new">
+                                新品
+                            </a>
+                            <else/>
+                            <a href="javascript:void(0);" class="clickThisTab up " k="c" c="new" t="_new">
+                                新品
+                            </a>
+                        </if>
+                    </if>
+                    <php>}else{</php>
+                    <a href="javascript:void(0);" class="clickThisTab " k="c" c="hot" t="_hot">销量</a>
+                    <a href="javascript:void(0);" class="clickThisTab " k="c" c="price" t="price">价格</a>
+                    <a href="javascript:void(0);" class="clickThisTab " k="c" c="new" t="new">新品</a>
+                    <php>}</php>
+                    </div>
+                </li>
+				</ul>
+				</div>
+            </div>
+            <!--prtType end-->
+        </div>
+        <!--prtListTop end-->
+        <!--proList start-->
+        <div class="proList">
+            <div class="bd">
+                <ul>
+                    <Gyfx:goodslist name='showlist'  lid="$ary_request['lid']" did="$ary_request['did']" tid="$ary_request['tid']" bid="$ary_request['bid']" cid="$ary_request['cid']" pagesize="16" start="$ary_request[start]" gname="$ary_request[keyword]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" order="$ary_request[order]" path='$ary_request[path]' ggid="$ary_request['ggid']">
+                        <li>
+                            <a href="{$showlist.gurl}"> <img src="{$showlist['g_picture']|showImage=###,280,280}" title="{$showlist.gname}"/></a>
+                            <p class="instr">
+                                <a href="{$showlist.gurl}"> {$showlist.gname|mb_substr=###,0,10,'utf-8'}
+                      
+                                </a>
+                            </p>
+							<p class="priceL">零售价：¥
+							<em>{$showlist['gs_price']|sprintf='%.2f',###}</em>
+							<i>市场价：￥{$showlist.maprice|sprintf='%.2f',###}</i></p>
+                        </li>
+                    </Gyfx:goodslist>
+                </ul>
+            </div>
+            <div class="hd">
+                <php>if(($pagearr['showlist']['nowPage'] == 1) || empty($pagearr['showlist']['nowPage'])){</php>
+                <a class="prev prevStop" href="javascript:void(0)"> </a>
+                <a  href="javascript:void(0)">首页</a>
+                <php>}else{</php>
+                <php>if($pagearr['showlist']['nowPage'] != 1){</php>
+                <a href="{$pagearr.showlist.upUrl}" class="prev"></a>
+                <a  href="<php>echo rtrim(substr($pagearr['showlist']['upUrl'],0,-8),'/').'/';</php>">首页</a>
+                <php>}}</php>
+                {$pagearr['showlist']['linkPage']}
+                <php>if(($pagearr['showlist']['nowPage'] == $pagearr['showlist']['totalPage'])){</php>
+                <a href="javascript:void(0)">尾页 </a>
+                <php>}else{</php>
+                <php>if($pagearr['showlist']['totalPage']!=1){</php>
+                <a  href="<php>echo rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['showlist']['totalPage']}">尾页</a>
+                <php>}}</php>
+
+                <a class="pageState blk-inline">{$pagearr['showlist']['nowPage']}/{$pagearr['showlist']['totalPage']}</a>
+                <php>if(($pagearr['showlist']['nowPage'] == $pagearr['showlist']['totalPage'])){</php>
+                <a class="next nextStop" href="javascript:void(0)"> </a>
+                <php>}else{</php>
+                <php>if($pagearr['showlist']['totalPage']!=1){</php>
+                <a href="{$pagearr.showlist.downUrl}" class="next"></a>
+                <php>}}</php>
+
+        </div>
+    </div>
+    <input type="hidden" name="path" value="{$ary_request['path']}" id="path" />
+    <input type="hidden" name="tid" value="{$ary_request['tid']}" id="tid" />
+    <input type="hidden" name="cid" value="{$ary_request['cid']}" id="cid" />
+    <input type="hidden" name="bid" value="{$ary_request['bid']}" id="bid" />
+    <input type="hidden" name="is_new" value="{$ary_request['is_new']}" id="is_new" />
+    <input type="hidden" name="is_hot" value="{$ary_request['is_hot']}" id="is_hot" />
+    <input type="hidden" name="startPrice" value="{$ary_request['startPrice']}" id="startPrice" />
+    <input type="hidden" name="endPrice" value="{$ary_request['endPrice']}" id="endPrice" />
+    <include file="$commonIncOnline" />
+</div>
+ </div>
+<script>
+    $(function(){
+        //轮播
+        var sWidth5 = 1200;
+        var len3 = $("#focus5 dl dd").length;
+        console.log(len3);
+        var index = 0;
+        var t;
+        var btn2 = "<div class='btn'>";
+        for(var i=0; i < len3; i++) {
+            btn2 += "<span></span>";
+        }
+
+        btn2 += "</div>";
+        $("#focus5").append(btn2);
+
+        $("#focus5 .btn span").mouseenter(function() {
+            index = $("#focus5 .btn span").index(this);
+            showPics2(index);
+        }).eq(0).trigger("mouseenter");
+
+        $("#focus5 dl").css("width",sWidth5 * (len3));
+
+        $("#focus5").hover(function() {
+            clearInterval(t);
+        },function() {
+            t = setInterval(function() {
+                showPics2(index);
+                index++;
+                if(index == len3) {index = 0;}
+            },3000);
+        }).trigger("mouseleave");
+
+        function showPics2(index) {
+            var nowLeft = -index*sWidth5;
+            $("#focus5 dl dd").css("width",sWidth5);
+            $("#focus5 dl").stop(true,false).animate({"left":nowLeft},300);
+            $("#focus5 .btn span").stop(true,false).css("backgroundPosition","0 0").eq(index).stop(true,false).css("backgroundPosition","0 -5px");
+        }
+    })
+</script>
+ <script>
+    $(function(){
+        var wrap=$(".wrap");
+        wrap.css({"padding-top":0});
+    })
+
+</script>
+<script>
+    $(function(){
+        //添加选择样式
+        var order = "{$ary_request.order}";
+        if( order=='hot' || order=='_hot'){
+            $('.proList2').find('a').removeClass("on");
+            $('.proList2').find('a:first-child').addClass("on");
+        }else if(order=='_price' || order=='price'){
+            $('.proList2').find('a').removeClass("on");
+            $('.proList2').find('a:nth-child(2)').addClass("on");
+        }else if(order=='new' || order=='_new'){
+            $('.proList2').find('a').removeClass("on");
+            $('.proList2').find('a:last-child').addClass("on");
+        }
+    })
+</script>

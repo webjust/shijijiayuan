@@ -1,0 +1,8 @@
+.tgTitle1 {
+    background: #F72862 url(../images/clock.png) 6px 10px no-repeat;
+    background-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    color: #ffffff;
+    text-indent: 30px;
+}

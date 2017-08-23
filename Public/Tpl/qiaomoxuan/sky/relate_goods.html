@@ -1,0 +1,42 @@
+{__NOLAYOUT__}
+<!--  轮播动画开始  -->
+<div id="slider">
+    <div class="bd" >
+        <ul>
+            <if condition="count($ary_relate_goods) neq 0">
+                <volist name="ary_relate_goods" id="this_coll">
+                    <li>
+                        <a href="/Home/Products/detail/gid/{$this_coll.g_id}" class="proImg">
+                            <img  src="{$this_coll['g_picture']}"  width="150" height="50"/>
+                        </a>
+                        <a href="#" class="proS">{$this_coll.g_name|mb_substr=###,0,5,'utf-8'}</a>
+                        <p class="p01">商城价：<strong><i>&yen;{$this_coll.g_price|sprintf='%.2f',###}</i></strong></p>
+                    </li>
+                </volist>
+            </if>
+
+        </ul>
+    </div>
+    <!-- 切换区域开始 -->
+
+    <!-- 上下翻页切换按钮 -->
+    <div class="hd">
+        <a href="javascript:void (0);" id="btn_prev" class="prev"></a>
+        <a href="javascript:void (0);" id="btn_next" class="next"></a>
+    </div>
+</div>
+<!--  轮播动画结束  -->
+        <script>
+            $(function(){
+                $("#slider").slide({
+                    titCell: ".hd ul",
+                    mainCell: ".bd ul",
+                    autoPage: true,
+                    effect: "topLoop",
+                    autoPlay: true,
+                    scroll: 2,
+                    vis: 2,
+                    interTime: 4000
+                });
+            })
+        </script>

@@ -1,0 +1,250 @@
+
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+
+<div class="header" id="header"><!--header start-->
+	<div class="navbar">
+		<div class="navbar-icon">
+			<a  href="javascript:void(0);" onclick="window.history.back();">
+				<span class="goback"></span>
+			</a>
+		</div>
+		<span class="nav-title">添加收货地址</span>
+		<!--<div class="navbar-home">-->
+			<!--<a  href="javascript:void(0);">-->
+			<!--<span class="headmore"></span>-->
+			<!--</a>-->
+		<!--</div>-->
+	</div>
+</div>
+<form action="" id="addforms">
+<div class="container">
+	<div class="address">
+		<div class="orderL">
+			<h1>使用新地址
+				<!--<span class="closeit"></span>-->
+			</h1>
+			<div class="odrderD orderE">
+				<span class="addr_edit">收货人*</span>
+				<input type="text" id="ra_name" name="ra_name" class="input_order" placeholder="名字"/>
+			</div>
+			<p></p>
+			<div class="odrderD orderE">
+				<span class="addr_edit">手机号码*</span>
+				<input type="text" id="ra_mobile_phone" name="ra_mobile_phone" class="input_order"  placeholder="手机"/>
+			</div>
+			<p></p>
+			<div class="odrderD orderE">
+				<span class="addr_edit">收货区域</span>
+				<div class="Select">
+					<select id="province"  class="selectCity " name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city','');"/>
+					<option>省份</option>
+					<volist name="citys" id="val">
+						<option id="option_add_{$val.cr_id}" value="{$val.cr_id}">{$val.cr_name}</option>
+					</volist>
+					</select>
+				</div>
+				<p></p>
+				<div class="Select">
+					<select  id="city" class="selectCity" name="city" onchange="selectCityRegion(this, 'region','');">
+						<option value="0" selected="selected">城市</option>
+					</select>
+				</div>
+				<p></p>
+				<div class="Select">
+					<select id="region"  class="selectCity" onchange="selectCityRegion(this, '','');" name="region" >
+						<option value="0" selected="selected">地区</option>
+					</select>
+				</div>
+				<p></p>
+			</div>
+			<div class="odrderD orderE">
+				<span class="addr_edit">街道地址</span>
+				<input type="text" class="input_order" id="ra_detail" name="ra_detail" placeholder="街道门牌信息" />
+			</div>
+			<p></p>
+			<div class="odrderD orderE">
+				<span class="addr_edit">邮政编码</span>
+				<input type="text" class="input_order" id="ra_post_code" name="ra_post_code" placeholder="邮政编码（选填）"  />
+			</div>
+			<p></p>
+			<div class="odrderD orderE">
+				<span class="addr_edit"></span>
+				<label class="setDefault">
+					<input type="checkbox"  id="ra_is_default" value="1" name="ra_is_default" checked />
+					设为默认地址</label>
+			</div>
+			<p></p>
+			<div class="odrderD orderE">
+				<span class="addr_edit"></span>
+				<input type="hidden" name="pids" id="pids" value="{$pids}">
+				<input type="hidden" name="m_id" id="m_id" value="{$m_id}">
+				<input type="hidden" name="raid" id="raid" value="{$raid}">
+				<if condition="$zt eq '1'">
+					<input type="hidden" name="is_zt" id="is_zt" value="{$zt}">
+				</if>
+				<button type="submit" class="confirm_addr"  onclick="doAddAddress();">确认收货地址</button>
+				<span class="addr_edit"></span>
+			</div>
+		</div>
+	</div>
+	<div class="member_editpass" style="display: none;">
+		<b></b>
+	</div>
+</div>
+</form>
+
+
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+    <script>
+	$(document).ready(function(){
+		//表单验证
+		$("#addforms").validate({
+			errorPlacement: function(error, element) {
+				var error_td = element.parent('div').next('p');
+				if (element.is(':text') || element.is(':password')) {
+					error_td.append(error);
+				}
+            },
+			submitHandler:function(form){
+				var province = $("#province").val();
+				var city = $("#city").val();
+				var region = $("#region").val();
+				if ( $("#is_zt").length > 0 ) {
+					var zt = $('#is_zt').val();
+					//自提 收货地址为广东省 广州市 白云区
+					$("#ra_detail").attr("value",'广州白云国际机场航站楼三层出发厅16号门旁');	
+					var province = '440000';
+					var city = '440100';
+					var region = '440111';
+				}
+				if("省份" == province || 0 == city || 0 == region){
+					$.ThinkBox.error("请选择收货地址！");
+					return false;
+				}
+				var m_id = $("#m_id").val();
+				var ra_name = $("#ra_name").val();
+				var ra_mobile_phone = $("#ra_mobile_phone").val();
+				if(region){
+					var cr_id = $("#region").val();
+				}else{
+					var cr_id = $("#city").val();
+				}
+				
+				var ra_is_default = $("#ra_is_default:checked").val();
+				var ra_detail = $("#ra_detail").val();
+				var ra_post_code = $("#ra_post_code").val();
+				var pids = $('#pids').val();
+				
+				$.ajax({
+					url:"{:U('/Wap/ReceiveAddress/doAdd')}",
+					data:{"ra_name":ra_name,"ra_post_code":ra_post_code,"ra_detail":ra_detail,"ra_mobile_phone":ra_mobile_phone,"cr_id":cr_id,"m_id":m_id,"ra_is_default":ra_is_default},
+					type:"POST",
+					dataType:"JSON",
+					success:function(msgObj){
+						if(msgObj){
+							if(pids!=''){
+								//window.location.href = "/Wap/Orders/addOrderPage?pid=" + pids;
+								if(pids == 'spike'){
+									window.location.href = "/Wap/Orders/pageSpikeAdd"+"?raid="+msgObj.data+"&zt="+zt;
+								}else{
+									if(pids == 'bulk'){
+										window.location.href = "/Wap/Orders/pageBulkAdd"+"?raid="+msgObj.data+"&zt="+zt;
+									}else{
+										window.location.href = "/Wap/Orders/addOrderPage?pid=" + pids+"&raid="+msgObj.data+"&zt="+zt;
+									}
+								}
+							}else{
+								window.location.href = "/Wap/My/pageDeliver";
+							}
+						}else{
+							alert("保存收货地址失败！");
+						}
+						
+						
+						
+					}
+				});
+			},
+			rules : {
+				ra_name : {
+					required:true,
+					isCheck:true,
+					maxlength:20
+				},
+				ra_mobile_phone : {
+					required : true,
+					rangelength:[11,11],
+					isPhone:true
+				},
+				ra_detail : {
+					required : true,
+					isCheck : true,
+					rangelength:[0,50]
+				},
+				ra_post_code : {
+					isZipCode : true,
+				}
+			},
+			messages : {
+				ra_name : {
+					required : '必填字段',
+					isCheck: '包含非法字符！请重新输入',
+					maxlength:'收货人姓名不能超过20个字符'
+				},		
+				ra_mobile_phone  : {
+					required : '必填字段',
+					rangelength:'手机号码格式有误',
+					isPhone:'请正确输入手机号！'
+				},
+				ra_detail : {
+					required : '必填字段',
+					isCheck : '包含非法字符！请重新输入',
+					rangelength : '不能超过50个字！'
+				},
+				ra_post_code : {
+					isZipCode : '请输入合法邮编！',
+				}
+			}
+		});
+	});
+	
+    function selectCityRegion(obj, item, default_value) {
+        var value = obj.value;
+        if (!value) {
+            value = obj;
+        }
+		if (value == 0) {
+            $('#region').html('<option value="0">请选择</option>');
+            return false;
+        }
+        var url = '/Wap/Address/getCityRegion/';
+        $('#'+item).load(url, {
+            'parent': value,
+			'item': item ,
+            'default_value':default_value
+        }, function(msgObj){
+			if(msgObj == ''){
+                $("#"+item).css("display","none");
+            }else{
+                $("#"+item).css("display","");
+                if ('' != default_value) {
+                	this.value = default_value;
+                }
+            }
+        });
+
+    }
+    function initSelectCityRegion() {
+        $('#city').html('<option value="0">请选择</option>');
+        $('#region').html('<option value="0">请选择</option>');
+    }
+
+</script>
+<if condition="$raid gt 0 ">
+    {$js_city}
+</if>
+

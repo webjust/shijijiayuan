@@ -1,0 +1,108 @@
+<noempty name="ary_online">
+<style>
+/*在线咨询   开始*/
+.cusService { display:inline-block; position:fixed; right:0px; top:200px;}
+.cusServiceCon { float:left; width:180px; border:1px solid #d7d7d7; background:white; display:none}
+.cusServiceCon table { width:100%}
+.cusServiceCon table thead td { border-bottom:1px solid #d7d7d7; color:#333; font-size:14px; text-shadow:1px 1px 3px #999;}
+.cusServiceCon table td { padding:5px 0px; line-height:23px; padding-left:10px;}
+.cusServiceCon table td.addBorder { border-top:1px dashed #d7d7d7;}
+.cusServiceCon table td a { display:inline-block; white-space:nowrap}
+.cusServiceCon table td span { position:relative; top:-6px; margin-left: 4px;}
+.cusServiceCon table td a:hover { text-decoration:none; color:red;}
+.cusServiceCon table tfoot td { border-top:1px sold #d7d7d7;}
+a.cusSerClick { float:left; background:url(__PUBLIC__/Ucenter/images/customerService.jpg) no-repeat 0px -124px; width:42px; height:124px;}
+a.cusSerClickAgain { background-position:0px 0px;}
+/*在线咨询   结束*/
+</style>
+<present name="ary_online">
+<div class="cusService" style="z-index:100"><!--cusService  客服 start-->
+	<div class="cusServiceCon" id="cusCon">
+    	<table>
+        	<thead>
+            	<tr>
+                	<td><strong>在线咨询</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="ary_online" id="online">
+            	<tr><td align="center"><strong>{$online.oc_name}</strong></td></tr>
+                <volist name="online.server" id="server">
+				<tr>
+                	<td>
+                    	{$server.o_code}<span>{$server.o_name}</span>
+                    </td>
+                </tr>
+                </volist>
+                </volist>
+            </tbody>
+            <tfoot>
+            	<tr>
+                	<td style="border-top:1px solid #d7d7d7;">在线时间：{$online_start_time|default='9:00'}-{$online_end_time|default='18:00'}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+	<php>
+	if(!empty($_SESSION['Members'])){
+		$company_id = '8088';
+		$key = 'live800';
+		$user_id = $_SESSION['Members']['m_id'];
+		$loginname = $_SESSION['Members']['m_name'];
+		$grade = $_SESSION['Members']['ml_id'];
+		$name = $_SESSION['Members']['m_real_name'];
+		if(empty($name)){
+		$name = $loginname;
+		}
+		$memo = '';
+		$timestamp = getTimestamp(13);
+	}
+	$infoValue = '';
+	$hashcode = strtoupper(md5(strtoupper(urlencode($user_id.$loginname.$grade.$name.$memo.$timestamp.$key))));
+$infoValue="userId=".$user_id."&loginname=".$loginname."&grade=".$grade."&name=".$name."&memo=".$memo."&hashCode=".$hashcode."&timestamp=".$timestamp;	
+$infoValue = urlencode($infoValue);
+//print_r($infoValue);	
+</php>
+    <a href="javascript:void(0)" onclick="openLive800Window('http://care3.live800.com/live800/chatClient/chatbox.jsp?companyID=8088&configID=854&info=<php>echo $infoValue</php>');"  class="cusSerClick"  style="display:block"></a>
+</div><!--cusService  end-->
+<script type="text/javascript">
+/*$(function(){
+	$("a.cusSerClick").hover(function(){
+		$(".cusServiceCon").show();
+		$(this).css("babkgroundPosition":"0px 0px")
+	},function(){
+		$(".cusServiceCon").hide();
+		$(this).css("babkgroundPosition":"0px -124px")
+	})
+});*/
+
+window.onload=function(){
+/**暂时注释
+	var azx=document.getElementById('azx');
+	var cus=document.getElementById('cusCon');
+	
+	azx.onclick=function(){
+		if(cus.style.display=='block'){
+			cus.style.display='none'
+			this.style.backgroundPosition='0px -124px';
+		}else {
+			cus.style.display='block';
+			this.style.backgroundPosition='0px 0px'
+		}
+	}
+**/
+}
+</script>
+<script>
+function openLive800Window(chatUrl)
+{
+	var enterurl=encodeURIComponent(document.URL);
+	var pagereferrer=encodeURIComponent(document.referrer);
+	chatUrl=chatUrl+"&enterurl="+enterurl+"&pagereferrer="+pagereferrer;
+	try{
+		window.open(chatUrl,"在线客服","toolbar=0,scrollbars=0,location=0,menubar=0,resizable=0,width=653,height=663,titlebar=0,directories=0,status=0");
+	}catch(e){}
+}
+</script>
+</present>
+</noempty>

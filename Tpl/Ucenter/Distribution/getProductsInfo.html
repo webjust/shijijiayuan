@@ -1,0 +1,134 @@
+{__NOLAYOUT__}
+<!--<div id="isAjax" style="display:none">用此ID标识本页面是通过ajax载入进来的</div>-->
+<div class="rightInner load" id="goodsSelecterInner">
+    <table width="100%" class="tbForm">
+        <thead>
+            <tr class="title">
+                <th colspan="99">查找商品规格</th>
+            </tr>
+        </thead>
+        <tbody>
+		    <!--<a href="javascript:void(0);" class="dpwh_a01" id="synChoose"><b>同步选中</b></a>-->
+			<input type="button" href="javascript:void(0);" id="synChoose" value="同步商品" />
+    &nbsp;&nbsp;&nbsp; 需要同步的内容：<input type="checkbox" name="store"  id="hasStore">同步库存 <span><input type="checkbox" name="price" id="hasPrice" checked="checked" />同步价格 </span>
+            <!--<tr>
+				<td>货品编码</td>
+                <td>
+                    <input type="text" class="medium" value="{$chose.pdt_sn}" name="pdt_sn" id="pdt_sn" />
+                </td>
+                <td colspan="99" align="right">
+                    <input type="button" value="查 找" class="btnA" onclick="goodsSelecterSerch();" >
+                </td>
+            </tr>-->
+        </tbody>
+    </table>
+</div>
+
+<div class="rightInner load" id="goodsSelecterList">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr>
+                <th><a href="javascript:void(0);" id="chooseAll">全选</a>/<a href="javascript:void(0);" id="cancelAll">取消</a></th>
+                <th>商品名称</th>
+                <th>商品编码</th>
+                <th>货品</th>
+				<th>规格</th>
+                <th>价格 [原&raquo;新]</th>
+				<th>库存 [原&raquo;新]</th>
+				<th>状态</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="goods_list" id="it">
+            <tr class="goods_list" num_iid="{$it.num_iid}" hasSku="{$it.hasSku}" properties="{$it.properties}" price="{$it.price_new}" store="{$it.store_new}">
+                <td width="50px"><input type="checkbox" class="syncheck" /></td>
+                <td width="100px" align="left">{$it.title}</td>
+                <td width="80px" align="left">{$it.g_sn}</td>
+                <td width="80px" align="left">{$it.pdt_sn}</td>
+                <td width="150px" align="left">{$it.subTitle}</td>
+                <td width="90px">{$it.price_old} &raquo;{$it.price_new}</td>
+                <td width="90px">{$it.store_old} &raquo;{$it.store_new}</td>
+                <td width="60px"><span class="result">未同步</span></td>
+            </tr>
+            
+        </volist>
+		<present name="goods_list">
+           <empty name="goods_list">
+            <tr><td colspan="99" class="left">该店铺下没有需要同步的商品</td></tr>
+           </empty>
+		</present> 
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+	<input type="hidden" id="shopID" value="{$shopID}" />
+    <div class="clear"></div>
+</div>
+<script src="__PUBLIC__/Admin/js/loading.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $("#synChoose").click(function(){
+            
+			var url = "{:U('Ucenter/Distribution/doSynOne')}";
+            var timer = 0;
+            $(".syncheck:checked").parents('.goods_list').each(function(){
+                var obj = $(this);
+                var shopID = $("#shopID").val();
+                if($("#hasPrice").attr('checked')=='checked'){
+                    var hasPrice = 1;
+                }else{
+                    var hasPrice = 0;
+                }
+				
+				if($("#hasStore").attr('checked')=='checked'){
+                    var hasStore = 1;
+                }else{
+                    var hasStore = 0;
+                }
+				if(hasStore == 0 && hasPrice == 0) {
+				    alert('请选择同步库存和同步价格选择一个');
+					return false;
+				}
+				
+                var price = obj.attr('price');
+                var store = obj.attr('store');
+                var num_iid = obj.attr('num_iid');
+                var hasSku = obj.attr('hasSku');
+                var properties = obj.attr('properties');
+                //每隔300毫秒发送一次请求，以免阻塞
+                //理论上目前每个授权周期（5分钟）内，能处理1000件商品/货品，对于超过1000件的，可能需要另行处理。
+                timer += 300;
+                setTimeout(function(){
+                    obj.fadeIn('fast');
+                    obj.find('.result').html('同步中...');
+                    $.post(url,{shopID:shopID,hasPrice:hasPrice,hasStore:hasStore,price:price,store:store,num_iid:num_iid,hasSku:hasSku,properties:properties},function(data){
+                        if(data.status){
+                            //更新成功
+                            obj.find('.result').html('同步成功');
+                            obj.find('.result').css('color','green');
+                        }else{
+						    var msg = '同步失败';
+						    if(data.err_code == 53)  msg = '请重新授权'; 
+                            obj.find('.result').html(msg);
+                            obj.find('.result').css('color','red');
+                        }
+                    },'json');
+                },timer); 
+            });
+        });
+        
+        //////////////////////////////////////////////////////////////////////
+        
+        $("#chooseAll").click(function(){
+            $('.syncheck').attr("checked","checked");
+        });
+        
+        $("#cancelAll").click(function(){
+            $('.syncheck').removeAttr("checked");
+        });
+    });
+</script>

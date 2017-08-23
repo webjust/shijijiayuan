@@ -1,0 +1,145 @@
+﻿<link href="{$Think.config.DOMAIN_HOST}__CSS__spike.css" rel="stylesheet" type="text/css"/>
+<script src="__JS__js.js"></script>
+<div class="header" id="header">
+    <div class="navBar">
+        <div class="hbtn">
+            <div class="logo">
+                <a onclick="window.history.back();">
+                    <img src="__IMAGES__logo.png">
+                </a>
+            </div>
+            <div class="search">
+                <form method="get" action="{:U('Wap/Products/index')}" >
+                    <input  style="padding: 0px" placeholder="搜索商品/店铺" name="q" value="" class="search-input" type="text">
+                    <button type="submit" class="custom-search-button">搜索</button>
+                </form>
+            </div>
+            <div class="info">
+                <notempty name="Think.session.Members.m_name">
+                    <a href="{:U('Wap/User/doLogout')}">[退出]</a>
+                    <else/>
+                    <a href="{:U('Wap/User/login')}">登录</a>
+                </notempty>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container"><!--container-->
+    <div class="tgTitle">团购活动进行中</div>
+        <div class="listAll">
+            <ul>
+                <volist name="data" id="list">
+                    <if condition="$list['stat_time'] neq 2">
+                        <li>
+                            <a href="{:U('Wap/Bulk/detail')}?gp_id={$list['gp_id']}&gid={$list['g_id']}">
+                                <img  src="{$Think.config.DOMAIN_HOST}{$list.gp_picture|showImage=###,230,230}" width="230" height="230">
+                                <php>$time = date("Y-m-d H:i:s");</php>
+                                <php>if($list['stat_time'] == 1){</php>
+                                <p id="timebox{$list.gp_id}" class="time_remain ">
+                                    <label>距开始还有：</label>
+                                    <label id="day">00</label>天
+                                    <label id="hours">00</label>小时
+                                    <label id="minutes">00</label>分
+                                    <label id="seconds">00</label>秒
+                                </p>
+                                <script>countDown("{$list.gp_start_time}","{$list.gp_id}","2","<php>echo date('Y-m-d H:i:s');</php>","{$list.gp_end_time}","tuangouOver");</script>
+                                <php>}elseif($list['stat_time'] ==2){</php>
+                                <span><abbr style="color:red">已结束!</abbr></span>
+                                <php>}else{</php>
+                                <p id="timebox{$list.gp_id}" class="time_remain ">
+                                    <label>剩余：</label>
+                                    <label id="day">00</label>天
+                                    <label id="hours">00</label>小时
+                                    <label id="minutes">00</label>分
+                                    <label id="seconds">00</label>秒
+                                </p>
+                                <script>countDown("{$list.gp_end_time}","{$list.gp_id}","1","<php>echo date('Y-m-d H:i:s');</php>",'1',"tuangouOver");</script>
+                                <php>}</php>
+                                <p>{$list.gp_title|mb_substr=###,0,15,'utf-8'}</p>
+                                <p class="price">
+                                    <span>原价：<del>{$list.cust_price|sprintf='%.2f',###}元</del></span>
+                                    <span>团购价：<i>{$list.gp_price|sprintf='%.2f',###}元</i></span>
+                                </p>
+                                <p class="price">{$list['gp_now_number']}人付款</p>
+                            </a>
+                        </li>
+                    </if>
+                </volist>
+                <!--<li>-->
+                    <!--<a href="">-->
+                        <!--<img src="__IMAGES__pro1.jpg">-->
+                        <!--<p class="time_remain"><span>还剩08时28分18秒</span></p>-->
+                        <!--<p>Mil4001蓝色跑鞋</p>-->
+                        <!--<p class="price"><span>原价：<del>300元</del></span><span>团购价：<i>239元</i></span></p>-->
+                        <!--<p class="price">122人付款</p>-->
+                    <!--</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+</div>
+
+
+
+
+
+<div class="fenye">
+    <php>if($page['nowPage'] == 1){</php>
+    <a class="prev prev-disable" href="javascript:void(0)">上一页</a>
+    <php>}else{</php>
+    <a href="/Wap/Spike/Index" class="change">首页</a>
+    <a href="{$page.upUrl}" class="prev01">上一页</a>
+    <php>}</php>
+    <php>
+        $int_i = 1;
+        $totalPage = 0;
+        if($page['nowPage']<4 &&  $page['totalPage']>4){
+        $totalPage = 4;
+        }else if($page['nowPage']<4 &&  $page['totalPage']<=4){
+        $totalPage = $page['totalPage'];
+        }
+        if($page['nowPage'] >=2){
+        $minPage = $page['totalPage'] - $page['nowPage'];
+        if($minPage <3){
+        $totalPage = $page['totalPage'];
+        $int_i = $page['totalPage']-3;
+        }else{
+        $totalPage = $page['nowPage']+1;
+        $int_i = $page['nowPage']-1;
+        }
+        if($int_i <= 0){
+        $int_i = 1;
+        }
+        }
+        for($i=$int_i;$i<=$totalPage;$i++){
+        if($i>0){
+        if($i == $page['nowPage']){
+        echo "<a class='cur'>".$i."</a>";
+        }else{
+        if($i > $page['nowPage']){
+        $url = '/Wap/Spike?p='.$i;
+        echo "<a href=".$url.">".$i."</a>";
+        }else{
+        $url = '/Wap/Spike?p='.$i;
+        echo "<a href=".$url.">".$i."</a>";
+        }
+        }
+        }
+        }
+    </php>
+    <php>if($page['nowPage'] == $page['totalPage']){</php>
+    <a class="next next-disable" href="javascript:void(0)">下一页<i class="icon"></i></a>
+    <php>}</php>
+    <php>if($page['nowPage'] < $page['totalPage']){</php>
+    <a href="{$page.downUrl}" class="next">下一页</a>
+    <php>
+        $lastpage = '/Wap/Spike/index?p='.$page['totalPage'];
+    </php>
+    <a href="{$lastpage}" class="change">尾页</a>
+    <php>}</php>
+</div>
+
+
+
+
+
+

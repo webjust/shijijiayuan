@@ -1,0 +1,62 @@
+<p class="tabListP" id="tabs">
+    <span id="tabListP1" <if condition="$tabs eq 'pageEdit'">class="onHover"</if>><a href='{:U("Admin/Members/pageEdit","mid=$m_id")}'>会员编辑</a></span>
+    <span id="tabListP2" <if condition="$tabs eq 'pointList'">class="onHover"</if> ><a href='{:U("Admin/Members/pointList","mid=$m_id")}'>积分历史</a></span>
+</p>
+<div id="content">
+   <div class="rightInner" id="tabList1">
+       <table class="tbList" width="100%">
+            <thead>
+                  <th>日期</th>
+                  <th>获取积分</th>
+                  <th>消耗积分</th>
+                  <th>摘要</th>
+				  <th>积分来源</th>
+            </thead>
+            <tbody>
+                            <volist name="ary_pointlog" id="pointlog">  
+                                <tr>
+                                    <td align="center">{$pointlog.u_create}</td>
+                                    <td align="center"><b class="yellow"><notempty name="pointlog.reward_point">{$pointlog.reward_point}</notempty></b></td>
+                                    <td align="center"><notempty name="pointlog.consume_point">{$pointlog.consume_point}</notempty></td>
+                                    <td align="center">{$pointlog.memo}</td>
+									<td align="center">
+									<if condition="$pointlog.type eq 0">购物赠送</if>
+									<if condition="$pointlog.type eq 1">购物消费积分</if>
+									<if condition="$pointlog.type eq 2">注册奖励积分</if>
+									<if condition="$pointlog.type eq 3">评论送积分</if>
+									<if condition="$pointlog.type eq 4">订单退货成功还原冻结积分</if>
+									<if condition="$pointlog.type eq 5">管理员积分调整</if>
+									<if condition="$pointlog.type eq 6">积分冻结</if>
+									<if condition="$pointlog.type eq 7">作废订单成功还原冻结积分</if>
+									<if condition="$pointlog.type eq 8">订单作废还原冻结积分</if>
+									<if condition="$pointlog.type eq 9">抽奖消费积分</if>
+									<if condition="$pointlog.type eq 10">每日签到</if>
+									<if condition="$pointlog.type eq 11">金币兑换积分</if>
+									<if condition="$pointlog.type eq 12">积分兑换金币</if>
+									<if condition="$pointlog.type eq 13">登陆获赠积分</if>
+									<if condition="$pointlog.type eq 14">推荐注册送积分</if>
+									<if condition="$pointlog.type eq 15">晒单送积分</if>
+                                    <volist  name="members_fields" id="fields">
+                                    <php>$typeId = $fields['id']+100;</php>
+                                    <if condition="$pointlog.type eq $typeId">完善会员信息{$fields.field_name}送积分</if>
+                                    </volist>
+									</td>
+								</tr>
+                            </volist>
+            </tbody>
+            <tfoot>
+                                <tr>
+                                    <td colspan="99">
+                                        <span class="right page">
+                                            {$page}
+                                        </span>
+                                    </td>
+                                </tr>
+            </tfoot>
+            
+        </table>
+        <input type="hidden" id="m_id" name="m_id" value="{$members.m_id}">
+    
+    <div class="clear"></div>
+ </div>
+</div>

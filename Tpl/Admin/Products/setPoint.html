@@ -1,0 +1,45 @@
+{__NOLAYOUT__}
+<table class="tbForm" width="100%;">
+	<tbody>
+		<tr>
+			<td class="first">商品名称：</td>
+			<td align="left">{$ary_data.g_name}</td>
+		</tr>
+		<tr>
+			<td class="first">是否开启积分：</td>
+			<td align="left">
+				<input type="radio" name="is_exchange" id="is_exchange_1" <?php echo ($ary_data[is_exchange]==1?' checked="checked"':''); ?> value="1" />
+				<label for="is_exchange_1">是</label>
+				<input type="radio" name="is_exchange" id="is_exchange_0" <?php echo ($ary_data[is_exchange]==0?' checked="checked"':''); ?> value="0"/>
+				<label for="is_exchange_0">否</label>
+			</td>
+		</tr>
+		<tr id="point_input_tr" <?php echo ($ary_data[is_exchange]==0?' style="display:none;"':''); ?>>
+			<td class="first">积分兑换金额：</td>
+			<td align="left">
+				<input name="point" type="text" value="{$ary_data.point}" id="point"  />
+			</td>
+		</tr>
+		<tr id="gifts_point_input_tr" <?php echo ($ary_data[is_exchange]==0?' style="display:none;"':''); ?>>
+			<td class="first">赠送积分：</td>
+			<td align="left">
+				<input name="gifts_point" type="text" value="{$ary_data.gifts_point}" id="gifts_point"  />(活动商品除外)
+			</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("input[name='is_exchange']").click(function(){
+		if(this.checked){
+			if(1 == $(this).val()){
+				$("#point_input_tr").show(1000);
+				$("#gifts_point_input_tr").show(1000);
+			}else{
+				$("#point_input_tr").hide(1000);
+				$("#gifts_point_input_tr").hide(1000);
+			}
+		}
+	});
+});
+</script>

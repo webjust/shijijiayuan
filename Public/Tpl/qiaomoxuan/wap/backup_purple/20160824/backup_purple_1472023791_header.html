@@ -1,0 +1,43 @@
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, minimum-scale=1,initial-scale=1, maximum-scale=1, user-scalable=1;" id="viewport" name="viewport" />
+<link rel="stylesheet" type="text/css" href="__TPL__dist/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__TPL__dist/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="__TPL__dist/css/doc.css">
+<link rel="stylesheet" href="__CSS__swiper.min.css">
+<script type="text/javascript" src="__JS__jquery.touchslider.min.js"></script>
+<script src="__JS__swiper.min.js"></script>
+<div class="header" id="header"><!--/header-->
+    <div class="hbtn">
+		<div class="logo">
+			<a href="http://www.jiemoinpin.com/Home/Article/articleDetail/aid/3"><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_WAP_LOGO']|default='__IMAGES__logo.png'}" height="55"/></a>
+		</div>
+		<div class="navB">
+			<a href=""><img src="__IMAGES__navB.png"/></a>
+			<input type="hidden" id="navB" value="__IMAGES__navB.png"/>
+			<input type="hidden" id="navB1" value="__IMAGES__navB1.png"/>
+		</div>
+		<div class="user">
+			<a href="{:U('Wap/Ucenter/index')}"><img src="__IMAGES__user.png" /></a>
+		</div>
+		<div class="shopCart">
+			<a href="{:U('Wap/Cart/pageCartList')}"><img src="__IMAGES__shopcart.png" onload="head2()" /><span id="shopping_cart_list">{$price_data.all_nums|default='0'}</span></a>
+		</div>
+	</div>
+	<div class="menu">
+	<gyfx:navigation name='nav'  position="wap">
+		<a href="{$nav.nurl}">{$nav.nname}</a>
+	</gyfx:navigation>
+	</div>
+</div>
+<script type="text/javascript">
+	function head2(){
+		var hr =$(".header").outerHeight();
+		/*	$(".container").css("padding-top",hr);*/
+		$(".menu").css("top",hr);
+	}
+	/*********异步加载购物车****/
+	ajaxLoadShoppingCart(1);
+
+</script>

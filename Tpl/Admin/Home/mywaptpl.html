@@ -1,0 +1,85 @@
+<include file="Home:tabsTem" />
+<div class="rightInner" id="con_tabListP_4"><!--rightInner  start-->
+    <div class="autoDiv">
+        <ul class="tempUl">
+<!--            <li>
+                <div class="freeTem">
+                    <a href="#" class="autoT">自定义模板</a>
+                </div>
+            </li>-->
+            <volist name="data" id="tpl">
+                <li>
+                    <div class="freeTem">
+                        <h2>{$tpl.ti_name|default=$tpl[ti_dir]}</h2>
+                        <a href='javascript:;'>
+                            <if condition="$tpl['ti_name'] neq ''">
+                                <img src='{$tpl.ti_thumbnail}' width="225" height="260" />
+                            <else />
+                                <img src='{$tpl.ti_thumbnail}' width="225" height="260" />
+                            </if>
+                        </a>
+                    </div>
+                    <p class="textCenter">
+                        <span id="status_{$tpl.ti_dir}" <if condition="$tpl.ti_dir eq $template[sc_value]">class="doAllStatus"</if>>
+                            <if condition="$tpl.ti_dir eq $template[sc_value]">
+                                <input type="submit" class="btnX" value="已使用" tp="{$tpl.ti_dir}" data-uri='{:U("Admin/Wap/doTplStatus")}'>
+                            <else />
+                                <input type="button" class="btnA doTplStatus" tp="{$tpl.ti_dir}" data-uri='{:U("Admin/Wap/doTplStatus")}' value="使用此模板">
+                            </if>
+                        </span>
+
+                    <br />
+                        <a href='{:U("Admin/Home/doEditTpl","tabs=$filter[tabs]&dir=$tpl[ti_dir]&tid=$tpl[ti_id]&wapdir=1")}' class="blue">编辑</a>
+                        <a href='{:U("Admin/Wap/TemplateBin","dir=$tpl[ti_dir]&tid=$tpl[ti_id]")}' class="blue confirm">删除</a>
+                    </p>
+                </li>
+            </volist>
+        </ul>
+    </div>
+    <script>
+    $(document).ready(function(){
+        $(".doTplStatus").die().live("click",function(){
+            var url = $(this).attr("data-uri");
+            var tp = $(this).attr("tp");
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {tp:tp},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        $('.doAllStatus input').val("使用此模板");
+                        $('.doAllStatus input').removeClass("btnX").addClass("btnA").addClass("doTplStatus");
+                        $("#status_"+tp+" input").val("已使用");
+                        $("#status_"+tp+" input").removeClass("btnA").removeClass("doTplStatus").addClass("btnX");
+                        $("#J_ajax_loading").removeClass('ajax_error').addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+
+        });
+
+    });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+</div>

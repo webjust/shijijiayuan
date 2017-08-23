@@ -1,0 +1,159 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+<form id="articleForm" method="post" action="{$article?U('Admin/Article/doEdit'):U('Admin/Article/doAdd')}" enctype="multipart/form-data">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">{$article?'修改文章':'添加文章'}</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="first">* 标题：</td>
+		<td><input class="large" type="text" name="a_title" value="{$article.a_title}" id="a_title" validate="{required:true}"></td>
+	</tr>
+	<tr>
+	    <td class="first">文章分类：</td>
+		<td>
+			<select class="medium" name="cat_id">
+			<option value="0">请选择</option>
+			<volist name="cateinfo" id="cate">
+				<option{$cate[cat_id]==$article[cat_id]?' selected="selected"':''} value="{$cate.cat_id}">{$cate.cat_name}</option>
+				<volist name="cate['sub']" id="sub">
+				<option{$sub[cat_id]==$article[cat_id]?' selected="selected"':''} value="{$sub.cat_id}">└{$sub.cat_name}</option>
+				</volist>
+			</volist>
+			</select>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">广告图片：</td>
+	    <td>
+			<if condition="$article[ul_image_path]">
+			<img src="{$article.ul_image_path}" width="120" height="50"/>
+			<else />
+			</if>	    
+	    	<input class="large" type="file" name="f_imagepath" id="f_imagepath">
+	    	<input type="hidden" name="ul_image_path" value="{$article.ul_image_path}"/>
+            <a href="javascript:deleteImg();">删除图片</a>
+	    </td>
+	</tr>
+	<tr>
+	    <td class="first">是否显示：</td>
+	    <td>
+	        <input type="radio" name="a_is_display" value="0"{$article['a_is_display']?'':' checked="checked"'}>否
+	        <input type="radio" name="a_is_display" value="1"{$article['a_is_display']?' checked="checked"':''}>是
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">是否热门：</td>
+	    <td>
+	        <input type="radio" name="hot" value="0"{$article['hot']?'':' checked="checked"'}>否
+	        <input type="radio" name="hot" value="1"{$article['hot']?' checked="checked"':''}>是
+		</td>
+	</tr>
+	<tr style="" class="timezone">
+	    <td class="first"> 开始时间：</td>
+		<if condition="$article[a_startime] neq ''">
+			<td class="wtime">
+			<input type="text" style="height:18px;width:130px;"  name="startime" id="from"  class="timer" value="{$article[a_startime]}" validate="{required:true}"/>	
+			</td>
+			<else/>
+			<td class="wtime">
+	       <input type="text" style="height:18px;width:130px;"  name="startime" id="from"  class="timer" validate="{required:true}" />	
+		</td>
+		</if>	
+	    
+	</tr>
+	<tr style="" class="timezone">
+	    <td class="first">  结束时间：</td>
+		<if condition="$article[a_endtime] neq ''">
+	    <td class="wtime">	      
+	      <input type="text" style="height:18px;width:130px;"  name="endtime" id="end"  class="timer" value="{$article[a_endtime]}" validate="{required:true}"/>
+		</td>
+		<else/>
+		<td class="wtime">	      
+	      <input type="text" style="height:18px;width:130px;"  name="endtime" id="end"  class="timer" value="" validate="{required:true}"/>
+		</td>
+		</if>		
+	</tr>
+	<tr>
+	    <td class="first">排序：</td>
+		<td><input class="small" type="text" name="a_order" value="{$article.a_order}" id="a_order"><samp style="font-style:italic;">值越大，排序越靠前</samp></td>
+	</tr>
+	<tr>
+	    <td class="first">文章作者：</td>
+		<td><input class="medium" type="text" name="a_author_email" value="{$article.a_author_email}" id="a_author_email"></td>
+	</tr>
+	<tr>
+	    <td class="first">作者email：</td>
+		<td><input class="large" type="text" name="a_author" value="{$article.a_author}" id="a_author"></td>
+	</tr>
+	<tr>
+	    <td class="first">seo文章关键字：</td>
+		<td><input class="large" type="text" name="a_keywords" value="{$article.a_keywords}" id="a_keywords"></td>
+	</tr>
+	<tr>
+	    <td class="first">seo描述：</td>
+		<td><textarea class="mediumBox" name="a_description" id="a_description">{$article.a_description}</textarea></td>
+	</tr>
+	<tr>
+	    <td class="first">商品简介：</td>
+		<td><textarea class="mediumBox" name="a_desc" id="a_desc">{$article.a_desc}</textarea></td>
+	</tr>
+	<tr>
+	    <td class="first">外部链接：</td>
+		<td><input class="large" type="text" name="a_link" value="{$article.a_link}" id="a_link" validate="{url:true}"><samp style="font-style:italic;">可选项，外部链接必须以“http://”或者“https://”开头。</samp></td>
+	</tr>
+	<tr>
+	    <td class="first">* 文章内容：</td>
+		<td>
+			<script id="editor" name="a_content" type="text/plain">{$article.a_content}</script>
+		</td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" >
+            <input type="button" id="goback" value="取 消" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+<input name="a_id" type="hidden" value="{$article.a_id}"/>
+</form>
+<div class="clear"></div>
+</div>
+<script>
+	$("#from").bind('input propertychange', function() {changePassWord();});
+    function deleteImg(){
+        var img = $('#f_imagepath').siblings('img');
+        img.removeAttr('src');
+        $("input[name='ul_image_path']").val('');
+        img.remove();
+    }
+</script>
+<script type="text/javascript">
+   	//实例化编辑器
+	UE.getEditor('editor');
+    $("document").ready(function(){
+        $('#articleForm').validate();
+        $("#goback").click(function(){
+            location.href="{:U("Admin/Article/pageList")}";
+        }); 
+    });
+	 $(".").datepicker({
+            showButtonPanel: true,
+            changeMonth: true,
+            autoSize: true,
+            minDate: new Date(1940, 1 - 1, 1),
+            yearRange: '1940:+5',
+            changeYear: true
+        });
+</script>

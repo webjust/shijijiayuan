@@ -1,0 +1,343 @@
+<div id="content">
+    <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+            <p class="conOneP" style="float: left;">
+                <a href="{:U('Admin/PrepaidCard/pageAuto')}" class="btnG ico_add">批量新增充值卡</a>
+                <a href="javascript:void(0);" class="btnG ico_del2">批量删除</a>
+                <a href='javascript:void(0);' class="btnG ico_explort">导出Excel</a>
+                
+            </p>
+            <ul class="conOneUl" style="width:815px;">
+                <form method="get" id="card_search" action="{:U('Admin/PrepaidCard/pageList')}" >
+
+                    <li>有效期：<input type="text" name="starttime" class="large medium timer" value="{$filter.starttime}"  style="width: 145px;float: none;"></li>
+                    <li>至<input type="text" name="endtime" class="large medium timer" value="{$filter.endtime}"  style="width: 145px;float: none;"></li>
+                    <li>
+                        <select name="use_type" onchange='javascript:$("#card_search").submit();' class="small" style="width: auto">
+                            <option <if condition="$filter['use_type'] eq ''">selected</if> value="">使用状态</option>
+                            <option <if condition="$filter['use_type'] eq '1'">selected</if> value="1">已使用</option>
+                            <option <if condition="$filter['use_type'] eq '2'">selected</if> value="2">未使用</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select name="field" class="small" style="width: auto">
+                            <option <if condition="$filter['field'] eq 'pc_name'">selected</if> value="pc_name">充值卡名称</option>
+                            <option <if condition="$filter['field'] eq 'pc_serial_number'">selected</if> value="pc_serial_number">充值卡流水号</option>
+                            <option <if condition="$filter['field'] eq 'pc_card_number'">selected</if> value="pc_card_number">充值卡号</option>
+                            <option <if condition="$filter['field'] eq 'pc_money'">selected</if> value="pc_money">面值</option>
+                            <option <if condition="$filter['field'] eq 'm_name'">selected</if> value="m_name">使用者</option>
+                        </select>
+                    </li>
+                    <li><input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                </form>
+            </ul>
+            </th>
+            </tr/>
+            <tr>
+                <th>
+                <input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>
+                <th width="100px">操作</th>
+                <th>充值卡名称</th>
+                <th>充值卡流水号</th>
+                <th>充值卡号</th>
+                <th>充值密码</th>
+                <th>面值</th>
+                <th>有效期</th>
+                <th>使用状态</th>
+                <th>使用者</th>
+                <th>使用时间</th>
+                <th>启用状态</th>
+            </tr>
+            </thead>
+            <tbody>
+                <volist name="data" id="card">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="pc_id[]" value="{$card.pc_id}" /></td>
+                    <td width="100px" id="cardHtml{$card.pc_id}">
+                        <php>if($card['m_name'] != '' && $card['pc_processing_status'] !=2){</php>
+                            <if condition="$card['pc_service_verify'] eq '1'">
+                            <span style="cursor: default;color: green;margin-top:6px;">已客审</span>
+                            <else/>
+                            <span pc_id="{$card.pc_id}" ajax-val="1" ajax-field="pc_verify_status" ajax-url='{:U("Admin/PrepaidCard/pcServiceVerify")}' class="clickCardType" titles="客审" style="cursor: pointer;color: blue;margin-top:6px;">客审</span>
+                            </if>
+                            <if condition="$card['pc_finance_verify'] eq '1'">
+                            <span style="cursor: default;color: green;margin-top:6px;">已财审</span>
+                            <else/>
+                            <span pc_id="{$card.pc_id}" ajax-val="1" ajax-field="pc_finance_verify" ajax-url='{:U("Admin/PrepaidCard/pcFinanceVerify")}' class="clickCardType" titles="财审" style="cursor: pointer;color: blue;margin-top:6px;">财审</span>
+                            </if>
+                            <if condition="$card['pc_processing_status'] eq '0'">
+                            <span pc_id="{$card.pc_id}" ajax-val="2" ajax-field="pc_processing_status" ajax-url='{:U("Admin/PrepaidCard/pcProcessingError")}' class="clickCardType" titles="驳回" style="cursor: pointer;color: blue;margin-top:6px;">驳回</span>
+                            </if>
+                        <php>}</php>
+                        <php>if($card['m_name'] != '' && $card['pc_processing_status'] ==2){</php>
+                            <span style="cursor: default;color: red;margin-top:6px;">已驳回</span>
+                        <php>}</php>
+                        <php>if($card['m_name'] == ''){</php>
+                            <span pc_id="{$card.pc_id}" titles="删除" ajax-val="0" ajax-field="delete_card" ajax-url='{:U("Admin/PrepaidCard/deleteCard")}' class="clickCardType" style="cursor: pointer;color: blue;margin-top:6px;">删除</span>
+                            <span style="cursor: pointer;color: blue;margin-top:6px;" onclick="javascript:location.href='/Admin/PrepaidCard/pageEdit/pc_id/{$card.pc_id}'">编辑</span>
+                        <php>}</php>
+                        
+                    </td>
+                    <td>{$card.pc_name}</td>
+                    <td>{$card.pc_serial_number}</td>
+                    <td>{$card.pc_card_number}</td>
+                    <td>{$card.pc_password}</td>
+                    <td>{$card.pc_money}</td>
+                    <td>{$card.pc_start_time} - {$card.pc_end_time}</td>
+                    <td>
+                        <if condition="$card['m_id'] eq '0'">
+                            未使用
+                        <else/>
+                            <span style="cursor: default;color: green;margin-top:6px;">已使用</span>
+                        </if>
+                    </td>
+                    <td>{$card.m_name}</td>
+                    <td>{$card.pc_use_time}</td>
+                    <td>
+                        <if condition="$card['is_open'] eq '1'">
+                            <img src="__PUBLIC__/Admin/images/span-true.png" titles="停用" pc_id="{$card.pc_id}" ajax-val="0" ajax-field="is_open" ajax-url='{:U("Admin/PrepaidCard/isOpen")}' class="clickCardType" />
+                        <else/>
+                            <img src="__PUBLIC__/Admin/images/span-false.png" titles="启用" pc_id="{$card.pc_id}" ajax-val="1" ajax-field="is_open" ajax-url='{:U("Admin/PrepaidCard/isOpen")}' class="clickCardType" />
+                        </if>
+                    </td>
+                </tr>
+                </volist>
+                <empty name="data">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div><!--rightInner  end-->
+</div>
+<div id="excel_dialog" style="display:none;"></div>
+<input type="hidden" value="{$filterExcel}" name="filterExcel"/>
+<script>
+$(".clickCardType").click(function(){
+    var clickObj = $(this);
+    var url = $(this).attr('ajax-url');
+    var field = $(this).attr('ajax-field');
+    var val = $(this).attr('ajax-val');
+    var pc_id = $(this).attr('pc_id');
+    var title = $(this).attr('titles');
+    if(pc_id == undefined){
+        $("#J_ajax_loading").addClass('ajax_error').html("请选择需要操作的充值卡！").show().fadeOut(5000);
+        return false;
+    }
+    if(confirm("确定要"+title+"？")){
+        $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {pc_id:pc_id,val:val,field:field},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(2000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        if(field == 'is_open'){
+                            var image_path = '__PUBLIC__/Admin/images/span-false.png';
+                            if(val == 1){
+                                image_path = '__PUBLIC__/Admin/images/span-true.png';
+                            }
+                            clickObj.attr({src:image_path,'ajax-val':(val==1)?'0':'1','titles':(val==1)?'停用':'启用'}).hide().show(2000); 
+                        }
+                        switch(field){
+                            case 'pc_verify_status':
+                                 clickObj.css({cursor:'default',color:'green'}).html('已客审');
+                            break;
+                            case 'pc_finance_verify':
+                                clickObj.css({cursor:'default',color:'green'}).html('已财审');
+                                $("span[pc_id='"+pc_id+"'][ajax-field='pc_processing_status']").remove();
+                            break;
+                            case 'pc_processing_status':
+                                $("span[pc_id='"+pc_id+"']").remove();
+                                var html = '<span style="cursor: default;color: red;margin-top:6px;">已驳回</span>';
+                                $("#cardHtml"+pc_id).html(html);
+                            break;
+                            case 'delete_card':
+                                 location.reload();
+                            break;
+                            default :
+                            
+                            break;
+                        }
+                        $("#J_ajax_loading").removeClass('ajax_error').addClass('ajax_success').html(msgObj.info).show().fadeOut(2000);
+                    }else{
+                        $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html(msgObj.info).show().fadeOut(2000);
+                    }
+                }
+                
+            });
+    }
+});
+
+$('.ico_del2').click(function(){
+    var pc_id = '';
+    $(".checkSon:checked").each(function(){
+        pc_id += this.value+',';
+    });
+    if(pc_id == ''){
+        $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html('请选择要删除的充值卡').show().fadeOut(2000);
+        return false;
+    }
+    pc_id = pc_id.substring(0,(pc_id.length-1));
+    if(confirm("确定要删除吗？此操作可能无法还原")){
+        $.post('{:U("Admin/PrepaidCard/deleteCard")}',{pc_id:pc_id},function(dataMsg){
+            if(dataMsg.status){
+                $("#J_ajax_loading").removeClass('ajax_error').addClass('ajax_success').html(dataMsg.info).show().fadeOut(2000);
+                location.href = "{:U('/Admin/PrepaidCard/pageList')}";
+            }else{
+                $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html(dataMsg.info).show().fadeOut(2000);
+            }
+        },'json');
+    };
+    
+    
+});
+/* *
+$('.ico_explort').click(function(){
+    var pc_id = new Array();
+    $(".checkSon:checked").each(function(){
+        pc_id.push(this.value);
+    });
+    if(pc_id == ''){
+        $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html('请选择要导出的充值卡号').show().fadeOut(2000);
+        return false;
+    }
+    pc_id = pc_id.join(',');
+    $.ajax({
+        url:'{:U("Admin/PrepaidCard/doExcel")}',
+        cache:false,
+        dataType:'json',
+        data:{'pc_id':pc_id},
+        type:'POST',
+        beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+        },
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                var url = "{:U('Admin/BalanceInfo/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+                $("#J_ajax_loading").removeClass('ajax_error').addClass('ajax_success').html(msgObj.info).show().fadeOut(2000);
+                window.location.href = url;
+                return false;
+            }else{
+                $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html(msgObj.info).show().fadeOut(2000);
+            }
+        },
+        error:function(){
+            $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(2000);
+        },
+    });
+});
+*/
+
+//导出Excel yangkewei
+$('.ico_explort').click(function(){
+    //弹出对话框，确认导出成员对象
+    $.ajax({
+        url      : '{:U('Admin/PrepaidCard/getExcelDialog')}',
+        cache    : false,
+        dataType : 'HTML',
+        data     : {},
+        type     : 'POST',
+        success  : function(msgObj){
+            $('#excel_dialog').html(msgObj);
+            $('#excel_dialog').dialog({
+                height : '205',
+                width  : '300',
+                resizable:false,
+                title:'导出',
+                buttons:{
+                    '确认' : function(){
+                        $('#excel_dialog').dialog('destroy');               //先关闭对话框
+                        var pc_ids = setPcids();                            //通过单选获取m_ids的值
+                        if(pc_ids == ''){
+                            $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html('请选择要导出的充值卡号').show().fadeOut(2000);
+                            return false;
+                        }else{
+                            explor(pc_ids);                                 //将成员值以Excel格式导出
+                        }
+                    },
+                    '取消' : function(){
+                        $('#excel_dialog').dialog('destroy');
+                    }
+                },
+                close:function(){
+                    $('#excel_dialog').dialog('destroy');
+                }
+            });
+        }
+    });  
+});
+//将成员值以Excel格式导出
+function explor(pc_ids){
+    $.ajax({
+        url      : '{:U("Admin/PrepaidCard/doExcel")}',
+        cache    : false,
+        dataType : 'json',
+        data     : {pc_id:pc_ids},
+        type     : 'POST',
+        beforeSend:function(){
+            $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+        },
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                var url = "{:U('Admin/BalanceInfo/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+                $("#J_ajax_loading").removeClass('ajax_error').addClass('ajax_success').html(msgObj.info).show().fadeOut(2000);
+                window.location.href = url;
+                return false;
+            }else{
+                $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html(msgObj.info).show().fadeOut(2000);
+            }
+        },
+        error:function(){
+            $("#J_ajax_loading").removeClass('ajax_success').addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(2000);
+        },
+    });    
+}
+//通过对话框选中对象获取相应的类型
+function setPcids(){
+    //获取Radio的值
+    var select_type = $('.tbForm input[type="radio"]:checked').val();
+    //初始化m_ids的值为选中成员
+    var pc_ids = new Array();;
+    $(".tbList input:checked[class='checkSon']").each(function(){
+        pc_ids.push(this.value);
+    });
+    pc_ids = pc_ids.join(',');
+    switch(parseInt(select_type)){
+        case 1 : return pc_ids;break;
+        case 2 : return 'ALL';break;
+        case 3 : return $('input[name="filterExcel"]').val();break;
+        default: return pc_ids;
+    }
+}
+
+
+
+
+ var tableWidth=document.getElementById('con_tabListP_1');
+ if(tableWidth.parentNode.parentNode.offsetWidth < 1400){
+    var demo = tableWidth.parentNode.parentNode.offsetWidth+60;
+     tableWidth.style.width=demo+'px';
+ }
+</script>
+

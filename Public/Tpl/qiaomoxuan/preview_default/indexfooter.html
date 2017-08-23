@@ -1,0 +1,32 @@
+<div class="warp">
+    <div class="indexThree">
+        <notempty name="Think.session.Members.m_name">
+        <span>{$Think.session.Members.m_name}</span>
+        <a href="{:U('Wap/User/doLogout')}" class="goout">[退出]</a>
+        </notempty>
+        <empty name="Think.session.Members.m_name">
+        <a href="{:U('Wap/User/login')}?jumpUrl=http://{$Think.server.SERVER_NAME}{$Think.server.REQUEST_URI}" class="goout">[登录]</a>
+        <a href="{:U('Wap/User/pageRegister')}?jumpUrl=http://{$Think.server.SERVER_NAME}{$Think.server.REQUEST_URI}" class="goout">[注册]</a>
+        </empty>
+        <a href="#top" class="gotop">Top</a>
+    </div>
+    <div class="bot">
+    	Wap版<br>版权所有 @ 2015 {$commonInfo['GY_SHOP_TITLE']} {$commonInfo['GY_SHOP_ICP']}
+    </div>
+</div>
+<script type="text/javascript">
+    /*这是一段有问题的JS代码*/
+$(function() {
+      $('#focus').slidesjs({
+        width: 642,
+        height: 205,
+        navigation: false,
+        play: {
+            active: false,
+            auto: true,
+            interval: 3000,
+            swap: true
+        }
+      });
+    });
+</script>

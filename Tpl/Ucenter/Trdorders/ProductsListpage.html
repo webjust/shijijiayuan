@@ -1,0 +1,94 @@
+{__NOLAYOUT__}
+<p class="record">总共找到<b class="yellow">{$nums}</b>条记录</p>
+<div class="chooseProTTwo"><!--chooseProTTwo  start--->
+    <form action="#" method="post" id="productSelectForm" name="productSelectForm">
+        <volist name="lists" id="list">
+            <div class="pageQuickDTwo"><!--pageQuickDTwo  start-->
+                <p class="p01"><a href="#">{$list.g_name}</a><span>商品编号:{$list.g_sn}</span></p>
+                <div class="pQuickDTwoCon" style="width:730px"><!--pQuickDTwoCon  start-->
+                    <div class="pQuickDTwoConLeft" style="width:52px"><!--pQuickDTwoConLeft  start-->
+                        <div class="prodctPic" style="width:50px; height:50px;">
+							<a href="#" class="proPic">
+							<img src='{$Think.config.DOMAIN_HOST}{$list.g_picture|showImage=###,68,68|default="Ucenter/images/pdtDefault.jpg"}' width="50" height="50">
+							</a>
+						</div>
+                        <a href="#" class="checkDetails">查看详情</a>
+                        <a href="#" class="collect" style="float:left">加入收藏</a>
+                    </div><!--pQuickDTwoConLeft  end-->
+                    <div class="pQuickDTwoConRight" style="width:670px"><!--pQuickDTwoConRight  start-->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td width="150">商品编码</td>
+                                    <td width="103">规格</td>
+                                    <td width="53">重量/g</td>
+                                    <td width="62">库存（件）</td>
+                                    <td width="86">订购数量</td>
+                                    <td width="67">价格（元）</td>
+                                    <td width="80">代理价（元）</td>
+                                    <td>备注</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="list['products']" id="product" key="pdtKey">
+                                <tr <eq name="pdtKey" value="1">class="first"</eq> <gt name="pdtKey" value="4">style="display:none;"</gt> >
+                                <td width="150" title="{$product.pdt_sn}">{$product.pdt_sn|substr=0,15}</td>
+                                <td width="103">
+                                    <div class="standard" onMouseOver="this.className='standard01'" onMouseOut="this.className='standard'"><!--standard  start-->
+                                        <span>{$product.specName}</span>
+                                        <div class="standardCon"><!--standardCon  start-->
+                                            <ul>
+                                                <li>{$product.specName}</li>
+                                            </ul>
+                                        </div><!--standardCon  end-->
+                                    </div><!--standard  end-->
+                                </td>
+                                <td width="53">{$product.pdt_weight}</td>
+                                <td width="62">{$product.pdt_stock}</td>
+                                <td width="86" class="products_class">
+                                    <a href="javascript:void(0);" class="reduce" id="p_reduce"></a>
+                                    <input type="text" class="inputNum" value="0" 
+                                            stock="{$product.pdt_stock}"
+                                            name="nums" 
+                                            id="pdt_order_num_{$product.pdt_id}"
+                                            g_name="{$list.g_name}"
+                                            g_id ="{$list.g_id}"
+                                            pdt_spec_value = "{$product.specName}"
+                                            pdt_sn="{$product.pdt_sn}"  
+                                            pdt_id ="{$product.pdt_id}"
+                                            pdt_sale_price ="{$product.pdt_sale_price}"
+                                            g_picture ="{$list.g_picture}"
+                                            pdt_price ="{$product.gPrice}"
+                                            pdt_weight="{$product.pdt_weight}"
+                                            validate="{ number:true,digits:true,range:[0,{$product.pdt_stock}],messages:{ number:'{$Think.lang.FOMART_ERROR}',digits:'{$Think.lang.FOMART_ERROR}',range:'{$Think.lang.STOCK_ERROR}'}}" />
+                                    <a href="javascript:void(0);" class="add" id="p_add"></a>
+                                </td>
+                                <td width="67">{$product.pdt_sale_price}</td>
+                                <td width="80">{$product.gPrice}</td>
+                                <td><i title="{$product.pdt_memo}">{$product.pdt_memo|substr=0,5}</i></td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                            <gt name="pdtKey" value="4">
+                            <tfoot>
+                                <tr class="pdtSwitch">
+                                    <td colspan="9"><span class="open" title="{$Think.lang.MORE}"></span></td>
+                                </tr>
+                            </tfoot>
+                            </gt>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </volist>
+    </form>
+    <div class="fenye" style="text-align:center;"><!--fenye  start-->
+        {$page}
+    </div><!--fenye  end-->
+
+    <p class="cartP02" style="padding:15px 0px 20px">
+        <input type="hidden" name="order_id" id="order_id" value="{$search.order_to_id}" tt_id_class="{$search.order_tt_id}" tt_id="{$search.tt_id}" num_iid="{$search.num_iid}">
+        <a href="javascript:void(0);" class="sure" id="productMatch">提 交</a>
+        <a href="#" class="cancel">取 消</a>
+    </p>
+</div><!--chooseProTTwo  end--->

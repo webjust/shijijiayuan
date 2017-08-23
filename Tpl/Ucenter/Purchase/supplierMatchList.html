@@ -1,0 +1,109 @@
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/Ucenter/js/jeditable.js" rel="stylesheet" type="text/css">
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div class="title" style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        供应商商品识别列表
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Purchase/supplierMatchList")}' >
+        <div style="width:948px;padding-left:10px;height:30px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+            品牌英文名：
+                <input type="text" id="brand" name="brand" style="border:1px solid #cccccc;" value="{$brand}">
+                <input type="button" id="searchOrderSubmit" value="查询" style="width: 65px;height:25px;background:#ff3366;color:white;margin-left:10px;margin-right: 5px;">
+                <a href="javascript:void(0);" style="display:inline-block;width: 65px;height:25px;line-height: 25px;text-align: center;background:#ff3366;color: white;" onclick="export_now();">导出当前</a>
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 650px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>供应商自编商品名称</th>
+                <th>平台网址一</th>
+                <th>平台网址二</th>
+                <th>品牌属国</th>
+                <th>进口</th>
+                <th>国产</th>
+                <th>中文品牌</th>
+                <th>外国品牌</th>
+                <th>主功效</th>
+                <th>功效一</th>
+                <th>功效二</th>
+                <th>功效三</th>
+                <th>颜色</th>
+                <th>材料</th>
+                <th>自命名</th>
+                <th>主分类</th>
+                <th>分类一</th>
+                <th>分类二</th>
+                <th>分类三</th>
+                <th>单位</th>
+                <th>包装</th>
+                <th>规格</th>
+                <th>使用部位</th>
+                <th>条形码</th>
+                <th>供应商当前库存</th>
+                <th>基本库存</th>
+                <th>供应商名称</th>
+                <th>品牌官网URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="List" id="item" key="k">
+                <tr>
+                    <td>{$item.id}</td>
+                    <td>{$item.name_cn}</td>
+                    <td>{$item.tmall_url}</td>
+                    <td>{$item.jumei_url}</td>
+                    <td>{$item.language_country}</td>
+                    <td>{$item.importation}</td>
+                    <td>{$item.home_made}</td>
+                    <td>{$item.brand_cn}</td>
+                    <td>{$item.brand_en}</td>
+                    <td>{$item.main_fun}</td>
+                    <td>{$item.fun1}</td>
+                    <td>{$item.fun2}</td>
+                    <td>{$item.fun3}</td>
+                    <td>{$item.color}</td>
+                    <td>{$item.material}</td>
+                    <td>{$item.nomenclature}</td>
+                    <td>{$item.main_class}</td>
+                    <td>{$item.class1}</td>
+                    <td>{$item.class2}</td>
+                    <td>{$item.class3}</td>
+                    <td>{$item.unit}</td>
+                    <td>{$item.package}</td>
+                    <td>{$item.spec}</td>
+                    <td>{$item.part_used}</td>
+                    <td>{$item.bar_code}</td>
+                    <td>{$item.all_stock}</td>
+                    <td>{$item.base_stock}</td>
+                    <td>{$item.supplier}</td>
+                    <td>{$item.website}</td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#searchOrderSubmit").click(function(){
+        $('#orders_form').submit();       
+    });
+    
+});
+</script>

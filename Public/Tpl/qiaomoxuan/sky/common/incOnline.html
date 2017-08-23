@@ -1,0 +1,76 @@
+
+<div class="buyCar">
+    <!--<div class="xiaoao"><img src="__IMAGES__xiaoao.png"></div>-->
+    <div class="sky_online" id="online">
+        <a href="#" class="toTop"></a>
+        <ul>
+            <li class="">
+                <a href="javascript:void(0);" class="person triggerBtn"></a>
+                <div class="ToContact detail">
+                    <h1>在线客服</h1>
+                    <b style="width:35px;">&nbsp;</b>
+                    <b class="closeContact">&nbsp;</b>
+                    <volist name="ary_online" id="online">
+                        <volist name="online.server" id="server">
+                            {$server.o_code}<span>{$server.o_name}</span>
+                        </volist>
+                    </volist>
+                    <span>在线时间：{$online_start_time|default='9:00'}-{$online_end_time|default='18:00'}</span>
+                    <span class="sign">◆</span>
+                </div>
+            </li>
+            <li id="shopping_cart_list">
+            </li>
+            <li class="">
+                <a href="javascript:void(0);" class="contact triggerBtn"></a>
+                <div class="ToPerson detail">
+                    <a href="{:U('Ucenter/Index/index')}">个人中心</a>
+                    <span class="sign">◆</span>
+                </div>
+            </li>
+            <li class="">
+                <a href="javascript:;" class="couponX triggerBtn"></a>
+                <div class="MyCoupon detail" id="cou">
+                </div>
+            </li>
+            <li class="red">
+                <a href="javascript:void(0);" class="QRcode triggerBtn"></a>
+                <div class="ToCode detail">
+                    <img  src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_QC_LOGO']}" style="margin-top:5px;margin-left:5px;" height="105" width="110">
+                    <span class="sign">◆</span></div>
+            </li>
+        </ul>
+        <a href="javascript:;" class="toBottom"></a>
+    </div>
+</div>
+<script>
+    $("#online").fixedBox({
+        'setEvent': 'auto',
+        'id': 4,
+        'right': '0',
+        'top': 'center',
+        zIndex: 99
+    });
+    $('#online').find('.toBottom').off().on('click',function(){
+        $(document).scrollTop($(document).height());
+    });
+    $('.ToContact').find('.contactQQ').attr('href', $('.ToContact').find('.contactQQ').prev('p').children('a').attr('href'));
+    $('.ToContact').find('.contactWW').attr('href', $('.ToContact').find('.contactWW').prev('p').children('a').attr('href'));
+
+    $(function(){
+        // qq ww 样式调整
+        $(".ToContact").find("a").each(function(){
+            var _this = jQuery(this);
+            if(_this.attr("href").indexOf('wpa.qq.com') >1 ){
+                _this.addClass("contactQQ");
+            }else if(_this.attr("href").indexOf('amos.alicdn.com')>1){
+                _this.addClass("contactWW");
+            }
+            _this.html(_this.next().html());
+            _this.next().remove();
+        });
+
+    });
+
+
+</script>

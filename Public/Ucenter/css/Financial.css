@@ -1,0 +1,152 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*预存款充值  开始*/
+.deposit { width:100%;}
+.deposit p.p01 { width:958px; border:1px solid #d7d7d7; background:url(../images/myDatepbj.jpg) repeat-x; height:53px; line-height:53px; color:#333; margin:20px 0px 10px;}
+.deposit p.p01 strong { color:#1790cb;}
+.deposit p.p01 b { color:#F37511;}
+.deposit span.span01 { margin-left:10px;}
+.deposit span.span02 { margin-left:68px;}
+
+.depositCon { border:1px solid #d7d7d7; background:#f2f2f2;}
+.depositCon p.depositConP { background:url(../images/choosePropbj.jpg) repeat-x; height:39px; line-height:31px; font-size:14px; color:#333;}
+.depositCon p.depositConP span { cursor:pointer; float:left; text-align:center; cursor:pointer; width:142px; background:url(../images/depositPbj.jpg) no-repeat right top; font-weight:bold; height:39px;}
+.depositCon p.depositConP span.onHover { background:url(../images/depositSpanbj.jpg) no-repeat; color:white;}
+
+.depositLine { width:100%; padding:10px 0px;}
+.depositLine table.online { color:#333; width:100%;}
+.depositLine table.online td { padding:5px 0px;}
+.depositLine table.online td input.input01 { border:1px solid #d7d7d7; width:160px; height:23px; padding-left:5px; line-height:23px;color:#999;}
+.depositLine table.online td input.input02 { position:relative; top:2px; margin-right:3px;}
+
+.OffLine01 { width:938px; padding:0px 10px;}
+.OffLine01 table { border:1px solid #d7d7d7; background:white; width:100%;}
+.OffLine01 table td { padding:10px 0px; border-bottom:1px dashed #d7d7d7; color:#333;}
+.OffLine01 table td span { display:block; margin-bottom:5px;}
+.OffLine01 p { width:100%; padding-top:10px;}
+.OffLine01 p span { color:#333; margin-right:20px;}
+
+.OffLine02 { width:100%; padding:10px 0px;}
+.OffLine02 table { width:100%;}
+.OffLine02 table td { padding:5px 0px; color:#333;}
+.OffLine02 table td input.input01 { border:1px solid #d7d7d7; width:160px; height:23px; padding-left:5px; line-height:23px;color:#999;}
+.OffLine02 table td span { color:#999;}
+.OffLine02 table td span.limit { margin-left:10px;}
+.OffLine02 table td textarea { border:1px solid #d7d7d7; width:263px; height:123px; padding-left:5px; color:#999; line-height:20px;}
+.OffLine02 table td i.red { color:red; position:relative; top:3px; font-style:normal;}
+/*预存款充值  结束*/
+
+/*预存款充值审核   开始*/
+.verifyDeposit { width:100%; padding:10px 0px;}
+.verifyDeposit p.verifyDp01 { padding:10px 0px;}
+.verifyDeposit p.verifyDp01 select { border:1px solid #d7d7d7;}
+.verifyDeposit .fenye { padding:10px 0px;}
+/*预存款充值审核   结束*/
+
+/*帮助列表页   开始*/
+.helpList { width:100%; overflow:hidden; padding:20px 0px;}
+.helpListCon { width:958px; border:1px solid #d7d7d7; margin-bottom:10px; display:inline-block;}
+.helpListCon ul { margin-top:-1px;}
+.helpListCon ul li { width:938px; background:url(../images/chooseShow.jpg) no-repeat 10px center; border-top:1px dashed #d7d7d7; padding:8px 0px 8px 20px; float:left;}
+.helpListCon ul li a { color:#333; float:left;}
+.helpListCon ul li span.time { float:right; margin-right:10px; font-family:Arial; color:#333;}
+/*帮助列表页   结束*/
+
+/*帮助详情页   开始*/
+.helpView { width:100%; display:inline-block;}
+.helpView h2 { font-size:18px;color:#636363; width:100%; text-align:center; padding:20px 0px 10px; text-shadow:0px 0px 2px #DFDFDF;}
+.helpView h2 span { display:block; font-size:12px; font-weight:normal; text-shadow:none;}
+.helpView p { width:938px; line-height:24px; color:#333; padding:10px;}
+.helpView .blue { float:right; margin:10px 0px;}
+/*帮助详情页   结束*/
+
+/*合伙人样式*/
+.helpListCon ul li.partner_content_title {background:none; padding: 8px 10px;}
+.helpListCon ul li.partner_content_title i{ background:url(../images/chooseShow.jpg) no-repeat;display:inline-block;width:3px;height:5px;transform:rotate(90deg);  -ms-transform:rotate(90deg); 	/* IE 9 */  -moz-transform:rotate(90deg); 	/* Firefox */  -webkit-transform:rotate(90deg); /* Safari 和 Chrome */  -o-transform:rotate(90deg); 	/* Opera */ margin-right: 7px;  }
+.helpListCon ul li.partner_content_title span{margin-right: 7px;}
+.myPartner{
+    width:100%;
+    overflow: hidden;
+    margin-top:36px;
+}
+.myPartner_button{
+    width: 100%;
+    height: 43px;
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    z-index: 0;
+    margin-left: -61px;
+}
+.myPartner_button a{
+    display: inline-block;
+    width:184px ;
+    height: 41px;
+    line-height: 41px;
+    text-align: center;
+    border: 1px solid #cfcfcf;
+    background: #ebebeb;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    margin-left: -41px;
+    font-size: 12px;
+}
+.myPartner_button a.btn1{
+    position: relative;
+    z-index: 3;
+}
+.myPartner_button a.btn2{
+    position: relative;
+    z-index: 2;
+}
+.myPartner_button a.btn3{
+    position: absolute;
+    z-index: 1;
+}
+.myPartner_button a.active{
+    border-color:#d3604b;
+    background: #fa8b11;
+    color: #ffffff;
+    z-index: 4;
+}
+.partner_content{
+    width: 100%;
+    height:585px;
+    position: relative;
+}
+.partner_content>div{
+    width: 100%;
+    position:absolute;
+    top: 0;
+    left: 0;
+}
+.fadeout{opacity:0; transition:opacity .5s linear}
+.in{opacity:1}
+.partner_content .partner_content_img{
+    width: 100%;
+    height: 298px;
+    overflow: hidden;
+    text-align: center;
+    line-height: 268px;
+    border: 1px solid transparent;
+}
+.partner_content_btn{
+    display: block;
+    width: 100%;
+    height: 31px;
+    text-align: center;
+}
+.partner_content_btn .partner_content_btn_a{
+    display: inline-block;
+    width: 151px;
+    height: 31px;
+    background: #ff3c78;
+    color: #ffffff;
+    text-align: center;
+    line-height:31px;
+}
+
+
+

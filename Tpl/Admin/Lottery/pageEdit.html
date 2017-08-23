@@ -1,0 +1,121 @@
+<div class="rightInner">
+    <form id="coupon_edit" name="coupon_edit" method="post" action="{:U('Admin/Lottery/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改抽奖活动</th>
+                </tr>
+            </thead>
+
+            <tbody>
+				<tr>
+                    <td class="first">* 抽奖名称</td>
+                    <td>
+                        <input type="text" value="{$info.l_name}" name="l_name" class="medium" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				<!--
+				<tr>
+                    <td class="first">已发放红包数量</td>
+                    <td>
+                       
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				
+				<tr>
+                    <td class="first">中奖数量</td>
+                    <td>
+                        
+                    </td>
+                    <td class="last"></td>
+                </tr>	
+				-->				
+                <tr>
+                    <td class="first">* 每日限抽奖次数</td>
+                    <td>
+                        <input type="text" value="{$info.l_number}" name="l_number" class="medium" validate="{ required:true,number:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">消耗积分</td>
+                    <td>
+						启用:<input type="checkbox" <eq name="info.is_consume_pont" value="1">checked</eq> value="1" name="is_consume_pont" />
+                        积分：<input type="text" name="consume_point" value="{$info.consume_point}" class="medium" validate="{number:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>				
+                <tr>
+                    <td class="first">生效时间</td>
+                    <td>
+                        <input type="text"  value="{$info.l_start_time}" name="l_start_time" id="l_start_time" class="medium timer" validate="{ required:true}"/> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">失效时间</td>
+                    <td>
+                        <input type="text" value="{$info.l_end_time}" name="l_end_time" id="l_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+
+                <tr>
+                    <td class="first">抽奖描述(活动规则)</td>
+                    <td>
+                        <textarea name="l_desc" class="mediumBox" validate="{ maxlength:300}">{$info.l_desc}</textarea>
+                    </td>
+                    <td class="last">不超过300字</td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        启用：<input type="checkbox" <eq name="info.l_status" value="1">checked</eq> value="1" name="l_status" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" name="l_id" value="{$info.l_id}" />
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();">&nbsp;
+                        <!--<input type="reset" value="重 置" class="btnA" >&nbsp;-->
+                        <input type="button" value="取 消" class="btnA back" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $("document").ready(function(){
+        $("#l_start_time").datepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        $("#l_end_time").datepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        $('#coupon_edit').validate();
+    });
+    
+    /**提交表单
+     * @author wangguibin <wanguibin@guanyisoft.com>
+     * @date 2014-07-14
+     */
+    function save(){
+        var startTime=$("#l_start_time").val(); 
+        var endTime=$("#l_end_time").val(); 
+        var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+        var end=new Date(endTime.replace("-", "/").replace("-", "/")); 
+        if(start > end){
+            showAlert(false,'出错了','生效时间大于失效时间！');
+            return false;
+        }
+        var res = $('#coupon_edit').valid();
+        if(res){
+            document.coupon_edit.submit();
+        }
+    }
+</script>

@@ -1,0 +1,64 @@
+<!--中间内容 开始-->
+<php>$cate_name = '';</php>
+<volist name="article_category" id="art">
+    <if condition="$ary_request['cid'] eq $art[cat_id] or($ary_request['pid'] eq $art[cat_id])">
+    <php>$cate_name = $art['cat_name'];</php>
+    </if>
+    <if condition="$ary_request['cid'] eq $art[cat_id] or($ary_request['pid'] eq $art[cat_id])">
+    <php>$cate_name = $art['cat_name'];</php>
+    </if>
+    <volist name="art['sub']" id="artinfo">
+    <if condition="$artinfo.cat_id eq $ary_request['cid']">
+    <php>$cate_name = $artinfo['cat_name'];</php>
+    </if>
+    </volist>
+</volist>
+<div class="wrap">
+	<div class="content">
+    	<div class="proList"><!--proList 开始-->
+        	<div class="proLTop clearfix">
+                <p class="fleft"><a href="{:U('Home/Index/index')}">首页</a><i>></i><a href="{:U('Article/articlelist')}">帮助中心</a><i>></i><a href="#" id="showName"></a></p>
+            </div>
+            <Gyfx:article name="page3" cid="$ary_request['cid']" num="10">
+            <div class="newList">
+                <h3 id="newName">{$cate_name|default="新闻列表"}</h3>
+                <ul>
+                    <volist name="page3" id="article">
+                    <li>
+						<div style="width:13px;height:13px;float:left" <if condition="$article.hot eq '1'">class="hot"</if>></div>
+						<a href="{$article.aurl}">{$article.atitle}</a>
+						<span>{$article.atime}</span>
+					</li>
+                    </volist>
+                </ul>
+            </div>
+            <div class="fenye">
+                <notempty name="pagearr.page3.upPage">{$pagearr.page3.upPage}</notempty>&nbsp;&nbsp; 
+                {$pagearr.page3.linkPage}
+                <notempty name="pagearr.page3.downPage">{$pagearr.page3.downPage}</notempty>
+                <php>if($pagearr['page3']['totalPage'] != 1){</php>
+                    <label>共{$pagearr.page3.totalPage}页 ，到第</label><span><input type="text" id="p" value="{$ary_request.p|default=1}" class="txt" /></span><label>页</label><span class="span02"><input type="submit" id="skip" class="sub" value="确认"/></span>
+                <php>}else{</php>
+                    <label>共{$pagearr.page3.totalPage}页</label>
+                <php>}</php>
+            </div>
+            </Gyfx:article>
+        </div><!--proList 结束-->
+    </div>
+</div><!--中间内容 结束-->
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#showName").html($("#newName").html());
+
+    $("#skip").click(function(){
+        var totalPage = "{$pagearr.page3.totalPage}";
+        var cid = "{$ary_request.cid}";
+        var pid = "{$ary_request.pid}";
+        var p = parseInt($("#p").val());
+        if(p > totalPage){
+            p = totalPage;
+        }
+        window.location.href = "{:U('/Article/articleList')}"+"?cid="+cid+"&pid="+pid+"&p="+p;
+    });
+});
+</script>

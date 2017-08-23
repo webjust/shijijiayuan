@@ -1,0 +1,55 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="">发货单列表</th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Orders/pageOrdersDeliverList')}">
+                        订单号：<input type="text" name="o_id" class="large" value="{$filter.o_id}" style="width: 145px;">
+						 创建时间从：<input type="text" name="o_create_time_1" class="large timer" value="{$filter.o_create_time_1}" style="width: 145px;">
+						 到 <input type="text" name="o_create_time_2" class="large timer" value="{$filter.o_create_time_2}" style="width: 145px;">	
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                </th>
+        </tr>
+        <tr>
+            <th><input type="checkbox" class="checkAll" /></th>
+            <th>发货单号</th>
+            <th>订单号</th>
+            <th>单据创建时间</th>
+            <th>用户名</th>
+            <th>物流费用</th>
+            <th>是否保价</th>
+            <th>收货人</th>
+            <th>物流公司</th>
+            <th>物流单号</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="order">
+            <tr>
+                <td><input type="checkbox" class="checkSon"/></td>
+                <td>{$order.od_id}</td>
+                <td>{$order.o_id}</td>
+                <td>{$order.od_created}</td>
+                <td>{$order.m_name}</td>
+                <td>{$order.od_money|sprintf='%.3f',###}</td>
+                <td><eq name="order.od_is_protect" value="false"><span class="red">否</span><else /><span class="green">是</span></eq></td>
+                <td>{$order.od_receiver_name}</td>
+              
+                <td>{$order.od_logi_name}</td>
+                <td>{$order.od_logi_no}</td>
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,12 @@
+{__NOLAYOUT__}
+<empty name="Think.session.Members.m_name">
+    <li class="li1"><a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}">注册</a></li>
+    <li class="li1"><a href="{:U( URL_PREFIX . '/Home/User/login')}">登录</a></li>
+</empty>
+<notempty name="Think.session.Members.m_name">
+    <li class="li1" style="width:auto;"><a href="{:U('Ucenter/Index/index')}">{$Think.session.Members.m_name}</a>&nbsp;&nbsp;&nbsp;</li>
+    <li class="li1"><a href="{:U('Home/User/doLogout')}">[{$Think.lang.TOP_LOGOUT}]</a></li>
+</notempty>
+<input type="hidden" name="no_login"  id='no_login' value="{$Think.lang.NO_LOGIN}">
+
+

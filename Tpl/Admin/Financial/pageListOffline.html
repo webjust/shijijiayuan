@@ -1,0 +1,64 @@
+<div class="rightInner">
+    <form id="coupon_del" method="get" action="{:U('Admin/Financial/doDelOffline')}" >
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        <a class="btnB" href="{:U('Admin/Financial/pageListOffline')}">线下支付列表</a>
+                        <a class="btnB" href="{:U('Admin/Financial/pageAddOffline')}">新增线下支付</a>
+                    </th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>操作</th>
+                    <th>状态</th>
+                    <th>帐号类型</th>
+                    <th>开户行/收款平台</th>
+                    <th>户主</th>
+                    <th>帐号</th>
+                    <th>默认</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="ac">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="a_id[]" value="{$ac.a_id}" /></td>
+                    <td>
+                        <a href='{:U("Admin/Financial/pageEditOffline?a_id=$ac[a_id]")}'>修改</a>&nbsp;
+                        <a href='{:U("Admin/Financial/doDelOffline?a_id=$ac[a_id]")}' >删除</a>
+                    </td>
+                    <td>
+                        <eq name="ac.a_status" value="1"><span class="green">启用</span><else/><span class="red">停用</span></eq>
+                    </td>
+                    <td><eq name="ac.a_type" value="0">银行<else/>在线平台</eq></td>
+                    <td><span class="blue">{$ac.a_apply_bank}</span></td>
+                    <td>{$ac.a_apply_name}</td>
+                    <td>{$ac.a_account_number}</td>
+                    <td><input type="radio" name="a_default" class="a_default" value="{$ac.a_id}" <eq name="ac.a_default" value="1">checked="checked"</eq> /></td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99"><input type="submit" value="删除选中" class="btnA" id="delAll" /><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+        
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $(".a_default").click(function(){
+            var url = "{:U('Admin/Financial/doSetOnline')}";
+            var aid = $(this).val();
+            $.get(url,{ 'aid':aid});
+        });
+
+    });
+</script>

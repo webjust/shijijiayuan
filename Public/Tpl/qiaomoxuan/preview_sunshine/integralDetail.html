@@ -1,0 +1,178 @@
+<link href="__CSS__Integral.css" rel="stylesheet">
+<script src="__JS__fixBox.js"></script>
+<script src="__JS__integraldetail.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<Gyfx:goodsinfo name="detail" gid="$data[g_id]" erpguid="$data[g_id]"></Gyfx:goodsinfo>
+<input type="hidden" value="{$data.g_id}" id="gid">
+<input type="hidden" value="{$valid_point}" id="valid_point"/>
+<input type="hidden" value="{$data.integral_need}" id="integral_need"/>
+<div class="wrap wrapD" style="z-index:0">
+<div class="pro_content w1180 bgfa" style="width:950px;margin:0 auto;">
+<div class="path">
+    <a href="{:U('Home/Index/Index')}">首页</a>&gt;
+    <a href="{:U('Home/Integral/Index')}">所有产品</a>&gt;
+    <a href="javascript:void(0)">{$data.integral_title}</a>
+</div>
+<div class="proDetail bgfff clearfix" style="margin-top: 20px;"><!--proDetail 开始-->
+    <div class="proDO"><!--proDO 开始-->
+        <div class="proDOLs"><!--proDOL 开始-->
+            <div class="proDOLL"><!--proDOLL 开始-->
+                <div class="proDOLLT">
+                    <!-- 放大镜开始 -->
+                    <div class="promotionPics">
+                        <div id="examples">
+                            <ul id="example3">
+                                <li>
+                                    <img class="etalage_thumb_image" src="{$data.integral_picture}" />
+                                    <img class="etalage_source_image" src="{$data.integral_picture}" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 放大镜结束 -->
+                </div>
+            </div>
+            <!--proDOLL 结束-->
+            <div class="proDOLRs" ><!--proDOLR 开始-->
+                <h2>{$data.integral_title}</h2>
+                <notempty name="detail.gremark">
+                    <p class="p01">{$detail.gremark} </p>
+                </notempty>
+                <div class="activityA activityA1">
+                    <p style="margin-left: 15px">此商品正在参加积分兑换活动，
+                            <span>
+                            <label id="day{$data.integral_id}"></label>天
+                            <label id="hours{$data.integral_id}"></label>小时
+                            <label id="minutes{$data.integral_id}"></label>分
+                            <label id="seconds{$data.integral_id}"></label>秒
+                            </span>后结束，请尽快购买！
+                    </p>
+                    <script>setTuanGouTime('{$data.integral_end_time}','day{$data.integral_id}','hours{$data.integral_id}','minutes{$data.integral_id}','seconds{$data.integral_id}',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                </div>
+                <div class="proPrice">
+                    <div class="proPriceTs">
+                        <span class="fleft">兑换积分:</span>
+                        <p class="p02">
+                            <strong>{$data.integral_need}</strong>
+                        </p>
+                        <span class="fleft">兑换金额:</span>
+                        <p class="p02" id="showPrice">
+                            <strong><i>¥</i>{$data.money_need_to_pay|sprintf='%.2f',###}</strong>
+                            <input type="hidden" value="{$data.money_need_to_pay}" id="integral_price">
+                        </p>
+                        <p class="p03">
+                            <span class="mleft">市场价:</span>
+                            <span id="showMarketPrice"><del><i>¥</i>{$detail.gprice|sprintf='%.2f',###} </del></span>
+                            <php>
+                                $discount = round($data['money_need_to_pay']/$detail['gprice'] * 10 ,1);
+                                $money = round(($detail['gprice']- $data['money_need_to_pay']),2);
+                            </php>
+                            <span>折扣 :<em id="discountPrice">{$discount}</em> 折</span>
+                            <span class="sale clr0653b0">优惠:<i>¥</i> <em id="savePrice">{$money}</em></span>
+                        </p>
+                    </div>
+                    <script>
+                        var goods_url = new Array();
+                        <volist name="detail.goods_url" id="da" key="k">
+                                goods_url['{$key}'] = "{$da}";
+                        </volist>
+                    </script>
+                    <ul>
+
+                        <li id="showDetailSkus">规格加载中。。。
+                            <script type="text/javascript">
+                                getDetailSkus('{$data.integral_id}', 11);
+                            </script>
+                        </li>
+                        <li class="service">
+                            <dl>
+                                <dt>温馨提示：</dt>
+                                <dd>{$detail.field1|default="$warm_prompt"}</dd>
+                            </dl>
+                        </li>
+                        <li>
+                            <!--<a href="#" class="j_gwc tg_btn">购物车</a>-->
+                            <php>$time = date("Y-m-d H:i:s");</php>
+                            <php>if($time <= $data['integral_start_time'] && $time <= $data['integral_end_time']){</php>
+                            <a href="javascript:void(0);" class="goTobuy tg_btn tg_btn1" style="margin-top: 50px;margin-left: 100px">立即兑换</a>
+                            <php>}else{</php>
+                            <a href="javascript:void(0);" id="addToOrder" class="goTobuy tg_btn tg_btn1" style="margin-left: 100px">立即兑换</a>
+                            <php>}</php>
+
+                        </li>
+                    </ul>
+                </div>
+                <!--proDOLR 结束-->
+            </div>
+        </div>
+        <!--proDOL 结束-->
+    </div>
+    <!--proDO 结束-->
+</div>
+<!--proDetail 结束-->
+<div class="proconR" id="procon" style="margin-bottom: 20px;width:1100px;margin-top: 20px;">
+    <div class="tagarea-wrap">
+        <div class="tagarea clearfix" style="width: 1100px;">
+            <ul id="left_menus">
+                <eq name="data.integral_goods_desc_status" value="1">
+                    <li class="on"><a href="#procon">商品介绍</a></li>
+                </eq>
+                <li class="on">兑换说明</a></li>
+                <li>商品评价<span id="show_comment_num">(0)</span></li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="tagCon">
+        <eq name="data.integral_goods_desc_status" value="1">
+            <div class="ever"><!--商品详情-->
+                {$detail.gdesc}
+            </div>
+        </eq>
+        <!--评价开始-->
+        <div class="ever">
+            {$data.integral_desc}
+        </div>
+        <!--评价结束-->
+        <!--真品评价开始-->
+        <div class="ever"><!--用户评论-->
+            <div id="recomment" class="rv-wrap clearfix mt10">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<input hidden="hidden" value="{$detail.delivery}" id="delivery"/>
+
+<input type="hidden" name="stock_error_1"  id='stock_error_1' value="{$Think.lang.STOCK_ERROR_1}">
+<input type="hidden" name="stock_error_2"  id='stock_error_2' value="{$Think.lang.STOCK_ERROR_2}">
+<input type="hidden" name="stock_error_3"  id='stock_error_3' value="{$Think.lang.STOCK_ERROR_3}">
+<input type="hidden" name="stock_error_4"  id='stock_error_4' value="{$Think.lang.STOCK_ERROR_4}">
+<input type="hidden" name="no_login"  id='no_login' value="{$Think.lang.NO_LOGIN}">
+<input type="hidden" name="member"  id='member' value="{$Think.session.Members.m_name}">
+
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script type="text/javascript">
+    var arr = new Object();
+    //将商品库存信息存在js数组里
+
+</script>
+<script>
+    <if condition="$common['comments_switch'] eq 1">
+            CommentPage('{$data.g_id}',1,1);
+    </if>
+    getBuyRecordPage('{$data.g_id}',20,1);
+</script>
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>

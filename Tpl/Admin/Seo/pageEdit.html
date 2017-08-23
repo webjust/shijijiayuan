@@ -1,0 +1,39 @@
+<div class="rightInner">
+    <form id="seo_edit" name="seo_edit" method="post" action="{:U('Admin/Seo/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改SEO设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">SEO项</td>
+                    <td>
+                        {$info.sc_value_desc}
+                        <input type="hidden" name="sc_key" value="{$info.sc_key}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">SEO值</td>
+                    <td>
+                        <textarea class="largeBox" name="sc_value">{$info.sc_value}</textarea>
+                    </td>
+                    <td class="last">SEO值在具体页面中可能会拼接一些页面数据，如商品详情页会拼接上商品名称等。多个关键词请使用英文半角逗号分隔。</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                        <input type="button" value="取 消" class="btnA back" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

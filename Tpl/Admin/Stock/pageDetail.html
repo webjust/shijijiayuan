@@ -1,0 +1,79 @@
+<style type="text/css">
+.tbForm tbody{ margin-top:5px;}
+.tbForm tbody td{border:1px solid gray;}
+.tbForm tbody td input,.tbForm tbody td select{width:95%;}
+</style>
+<div class="rightInner">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">库存调整单明细</th>
+    </tr>
+</thead>
+<tbody id="detail_tbody">
+	<tr>
+		<td style="text-align:right;">库存调整单备注：</td>
+		<td colspan="5">{$receipt_info.srr_desc}</td>
+	</tr>
+	<tr>
+		<td style="text-align:right;">制单人：</td>
+		<td colspan="5">{$receipt_info.srr_create_name}</td>
+	</tr>
+	<tr>
+		<td style="text-align:right;">制单时间：</td>
+		<td colspan="5">{$receipt_info.srr_create_time}</td>
+	</tr>
+	<tr>
+		<td style="text-align:right;">单据状态：</td>
+		<td colspan="5">
+			<switch name="receipt_info.srr_verify">
+				<case value="0">未审核</case>
+				<case value="1">审核通过</case>
+				<case value="2">已作废</case>
+			</switch>
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:right;">审单人：</td>
+		<td colspan="5">{$receipt_info.srr_create_name}</td>
+	</tr>
+	<tr>
+		<td style="text-align:right;">审单时间：</td>
+		<td colspan="5">{$receipt_info.srr_verify_time}</td>
+	</tr>
+	<tr style="text-align:center;">
+		<td width="150">商品编码</td>
+		<td width="80">变更类型</td>
+		<td width="60">调整数量</td>
+		<td width="150">商品名称</td>
+		<td width="120">商品编号</td>
+	</tr>
+	<volist name="array_products" id="pdt">
+	<tr class="stock_revise_receipt_detail">
+		<td>{$pdt.pdt_sn}</td>
+		<td>
+			<switch name="pdt.srrd_type">
+				<case value="0">增加</case>
+				<case value="1">扣减</case>
+			</switch>
+		</td>
+		<td>{$pdt.srrd_num}</td>
+		<td class="g_content">{$pdt.g_name}</td>
+		<td class="g_content">{$pdt.g_sn}</td>
+	</tr>
+	</volist>
+</tbody>
+<if condition="$receipt_info.srr_verify eq 0">
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <a href='{:U("Admin/Stock/pageVerify","id=$receipt_info[srr_id]")}' onclick="return confirm('确定要审核通过此库存调整单吗？此操作会影响商品库存！');" class="btnA verify">审核</a>
+			<a href='{:U("Admin/Stock/pageInvalid","id=$receipt_info[srr_id]")}' class="btnA verify">作废</a>
+        </td>
+    </tr>
+</tfoot>
+</if>
+</table>
+<div class="clear"></div>
+</div>

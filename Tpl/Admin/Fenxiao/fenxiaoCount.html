@@ -1,0 +1,40 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="5">供销平台铺货统计</th>
+            </tr>
+            <tr>
+				<th width="100">ID</th>
+				<th width="150">商品编码</th>
+				<th width="150">分销方式</th>
+				<th width="120">上架时间</th>
+				<th width="120">铺货次数</th>
+            </tr>
+        </thead>
+        <tbody>
+			<empty name="datalist">
+				<tr>
+					<td colspan="5" style="text-align:left;font-size:18px;">
+						没有任何数据可以显示！
+					</td>
+				</tr>
+			<else />
+				<volist name="datalist" id="vo">
+				  <tr>
+					<td width="60">{$vo.cooperate_id}</td>
+					<td width="150">{$vo.distributor_nick}</td>
+					<td width="150">{$vo.trade_type}</td>
+					<td width="120">{$vo.auth_payway}</td>
+					<td width="120">{$vo.start_date}</td>
+				  </tr>
+				  </volist>
+			  </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

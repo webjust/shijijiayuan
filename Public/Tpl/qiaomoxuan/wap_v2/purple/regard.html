@@ -1,0 +1,19 @@
+<script type="text/javascript">
+	$(function(){
+	$.divselect("#divselect","#inputselect");
+	});
+</script>
+<div class="container regard">
+	<div style="margin-top:10px">
+		<a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+	<div>
+    <p class="detailT">
+		<a href="{:U('Wap/Index/index')}">首页</a>/<a href="">关于必迈</a>
+	</p>
+    <div class="detailCenter">
+		<input name="" type="hidden" value="" id="inputselect"/>
+    </div>
+    <div class="regardDetail">
+          {$articleinfo.a_content}
+	</div>
+</div>

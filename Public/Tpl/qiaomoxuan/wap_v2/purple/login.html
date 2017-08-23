@@ -1,0 +1,124 @@
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+<div class="container"><!--container-->
+    <div class="loginRegBox">
+		<div class="login-reg">
+			<a href="{:U('Wap/User/pageRegister')}">注册</a>
+			<a href="#" class="on">登录</a>
+		</div>
+		<form  id="loginforms">
+		<div class="loginBox">
+			<h1>会员登录</h1>
+			<h2>已是会员，请登录</h2>
+			<div class="input_text">
+				<span>用户名：</span>
+				<input name="m_name" type="text"/>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="input_text">
+				<span>密&nbsp;&nbsp;&nbsp;&nbsp;码：</span>
+				<input type="password" name="m_password" />
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="input_text">
+				<span>验证码：</span>
+				<input type="text" class="verify_input" name='verify' validate="{ required:true}" id='verify'>
+				<span class="yazm">
+					<a href="javascript:void(0);" >
+					<img id="loginverify" alt="换一张" title="换一张" src="__APP__/Wap/User/verify/" width="60" height="30" style="margin-left:5px" onClick="this.src='__APP__/Wap/User/verify/'+Math.random()">
+					</a>
+                </span>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="btn_text">
+				<span></span><input type="submit" value="登 录" id="tologin" class="login_btn"><a href="{:U('Wap/User/pageFoget')}"  class="forget">忘记密码？</a>
+			</div>
+			<input name="savelogin" type="hidden" value="0"/>
+			<input name="jumpUrl" type="hidden" value="{$jumpUrl}"/>
+		</div>
+		</form>
+    </div>
+</div>
+<!--/container-->
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script type="text/javascript">
+    function changeverify(){      
+        $('#loginverifys').attr('src','{:U("Wap/User/verify")}'+'?r='+Math.random());   	
+    }
+    $(document).ready(function(){
+        $("#loginforms").validate({
+			errorPlacement: function(error, element) {
+				var error_td = element.parent().next();
+				if (element.is(':text') || element.is(':password')) {  
+					var eid = element.attr('name');
+					error_td.append(error);
+				}
+            },
+			submitHandler:function(form){
+			    var data = $('#loginforms').serialize();
+				var ti;
+				if(data != ' '){
+					$.ajax({
+						url:"{:U('Wap/User/doLogin')}",
+						data:data,
+						dataType:"json",
+						type:"post",
+						success:function(dataMsg){
+						var isreset = dataMsg.url.indexOf("synReset");
+						if(isreset !== -1){dataMsg.url = "/Wap/Index/index"};
+							if(dataMsg.status == 1){
+								$.ThinkBox.success(dataMsg.msg);
+								if(dataMsg.url.match('Orders') && dataMsg.url.match('addOrderPage')){
+									var skipdata = $.cookie('skipdata');
+									dataMsg.url +="?"+skipdata;
+								}
+								ti =  setTimeout(function(){window.location.href= dataMsg.url;},2000);
+							}else{
+								$.ThinkBox.error(dataMsg.msg);
+								ti =  setTimeout(function(){window.location.href= dataMsg.url;},2000);
+							}
+						}
+					});
+				}
+			},
+			rules : {
+				m_name : {
+					required:true,
+					minlength:4,
+					isCheck:true
+				},
+				m_password : {
+					required : true,
+					minlength: 6,
+					maxlength: 20
+				},
+				verify : {
+					required:true,
+					digits:true,
+					remote:'/Wap/User/checkVerify',
+					rangelength:[4,4]
+				}
+			},
+			messages : {
+				m_name : {
+					required : '用户名不能为空',
+					minlength : '用户名不能少于4位',
+					isCheck: '用户名不能包含敏感字符'
+				},
+				m_password  : {
+					required : '密码不能为空',
+					minlength: '密码长度应在6-20个字符之间',
+					maxlength: '密码长度应在6-20个字符之间'
+				},
+				verify : {
+					required:'请输入验证码',
+					digits:'对不起，请输入正确的验证码',
+					rangelength:'验证码长度为4',
+					remote: '对不起，请输入正确的验证码'
+				}
+			}
+        });
+    });
+</script>
+

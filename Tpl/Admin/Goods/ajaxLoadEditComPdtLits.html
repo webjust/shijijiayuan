@@ -1,0 +1,23 @@
+{__NOLAYOUT__}
+<foreach name="data.product" item="list">
+<tr style='border:1px solid gray;text-align:center;' class='searchGoods'>
+    <td style='border:1px solid gray;'>{$list.g_name}</td>
+    <td style='border:1px solid gray;' class='pdt_sn_search'>{$list.releted_pdt_sn}
+        <input type='hidden' class='pro_pdt_sn' name='pro_pdt_sn' value="{$list.releted_pdt_sn}">
+        <input type='hidden' name='pro_pdt_id' value="{$list.releted_pdt_id}">
+        <input type='hidden' name='pro_g_id' value="{$list.g_id}">
+        <input type='hidden' name='com_id' value="{$list.com_id}">
+    </td>
+    <td style='border:1px solid gray;'>
+        <input type='text' class='small not_null input_number' onblur='blurMouseNums(this)' value='{$list.com_nums}' />
+    </td>
+    <td style='border:1px solid gray;'>{$list.pdt_stock}</td>
+    <td style='border:1px solid gray;'>{$list.pdt_sale_price}</td>
+    <td style='border:1px solid gray;'><if condition="$list.specName neq ''">{$list.specName}<else />无规格</if></td>
+    <td style='border:1px solid gray;'>
+        <input type='text' class='small not_null input_number' onblur='blurMousePrice(this)'  value='{$list.com_price}' />
+    </td>
+    <td style='border:1px solid gray;'>{$list.coupon_price}</td>
+    <td style='border:1px solid gray;'><a href='javascript:void(0);' onclick='deleteProduct(this);'>删除</a></td>
+</tr>
+</foreach>

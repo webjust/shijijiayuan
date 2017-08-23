@@ -1,0 +1,65 @@
+
+<!-- 
+     * 测试商品类型
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-04-01
+     * @param 
+     * 返回数据变量名	name
+	 * 类型ID   gtid
+     * @return array
+	 * 文章ID	aid
+	 * 类型ID	gtid
+	 * 商品类型名称	gtname
+	 * 类型简称	gtsname
+	 * 类型创建时间	gt_create_time
+     示例：
+	array(3) {
+	  [0] => array(12) {
+	    ["gt_id"] => string(1) "1"
+	    ["gt_name"] => string(6) "上衣"
+	    ["gt_simple_name"] => string(0) ""
+	    ["gt_flag"] => string(1) "1"
+	    ["gt_is_virtual"] => string(1) "2"
+	    ["gt_link_brand"] => string(1) "1"
+	    ["gt_has_extend_attr"] => string(1) "0"
+	    ["gt_has_params"] => string(1) "0"
+	    ["gt_has_necessary_info"] => string(1) "0"
+	    ["gt_status"] => string(1) "1"
+	    ["gt_create_time"] => string(19) "0000-00-00 00:00:00"
+	    ["gt_update_time"] => string(19) "0000-00-00 00:00:00"
+	  }
+	  [1] => array(12) {
+	    ["gt_id"] => string(1) "2"
+	    ["gt_name"] => string(6) "裤子"
+	    ["gt_simple_name"] => string(0) ""
+	    ["gt_flag"] => string(1) "1"
+	    ["gt_is_virtual"] => string(1) "2"
+	    ["gt_link_brand"] => string(1) "1"
+	    ["gt_has_extend_attr"] => string(1) "0"
+	    ["gt_has_params"] => string(1) "0"
+	    ["gt_has_necessary_info"] => string(1) "0"
+	    ["gt_status"] => string(1) "1"
+	    ["gt_create_time"] => string(19) "0000-00-00 00:00:00"
+	    ["gt_update_time"] => string(19) "0000-00-00 00:00:00"
+	  }
+	  [2] => array(12) {
+	    ["gt_id"] => string(1) "3"
+	    ["gt_name"] => string(6) "鞋子"
+	    ["gt_simple_name"] => string(0) ""
+	    ["gt_flag"] => string(1) "1"
+	    ["gt_is_virtual"] => string(1) "2"
+	    ["gt_link_brand"] => string(1) "1"
+	    ["gt_has_extend_attr"] => string(1) "0"
+	    ["gt_has_params"] => string(1) "0"
+	    ["gt_has_necessary_info"] => string(1) "0"
+	    ["gt_status"] => string(1) "1"
+	    ["gt_create_time"] => string(19) "0000-00-00 00:00:00"
+	    ["gt_update_time"] => string(19) "0000-00-00 00:00:00"
+	  }
+	}
+ -->
+<h3>{$title}</h3>
+<Gyfx:goodstype name="type" >
+    <li>{$type.gtid} - {$type.gtname} - {$type.gtsname}</li>
+</Gyfx:goodstype>
+<HR />

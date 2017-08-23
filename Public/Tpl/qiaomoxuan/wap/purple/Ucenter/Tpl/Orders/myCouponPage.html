@@ -1,0 +1,21 @@
+{__NOLAYOUT__}
+<if condition="!empty($ary_coupon)">
+<div>
+	<volist name="ary_coupon" id="coupon" >
+		<dd>
+		<input class="checkCoupon" onclick="javascript:checkCoupon('{$coupon.c_sn}','{$coupon.c_money}');"  id="" value="{$coupon.c_id}" name="c_id"  type="radio"  />
+		<label class="checkCoupon" >{$coupon.c_name}</label>
+		<!-- <label class="checkCoupon" >{$coupon.c_sn}</label>  -->
+		<if condition="$coupon['c_type']==1">
+			<label >{$coupon.c_money}折</label> 
+		<else />
+			<label >￥{$coupon.c_money}</label> 
+		</if>
+		</dd>
+	</volist>
+</div>
+<else />
+	<div style="color:#000000;font-size:18px;margin-top:30px;">对不起，您的账户中没有可以使用的优惠券。<br />
+		或者，订单中商品不满足使用优惠券的条件。
+	</div>
+</if>

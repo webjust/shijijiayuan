@@ -1,0 +1,218 @@
+<style>
+    .rebates_report{        
+		position:absolute;  
+		width:300px;  
+		height:125px;  
+		left:50%;  
+		top:50%;  
+		margin-left:-300px;  
+		margin-top:-100px;  
+		border:1px solid #e4e4e4;
+        background-color: #EBEBEB;
+    }
+
+	.loading{
+		position:relative; 
+    	left:50px;
+    	top:50px; 
+		height:25px;
+	}
+</style>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/salepromotion.css" type="text/css">
+<div class="rebates_report" style="display:none ; z-index:100">
+	<!-- 
+	<ul class="pmr-ul-0302-left">
+        <li class="pmr-li-030201">
+        	<a href="javascript:void(0);" id="orders_explort" onClick="jsvascript:void(0);">导出返利报表</a>
+        </li>
+    </ul>
+	<div class="graph" style="display:none;"> 
+		<strong id="bar" style="width:0%;"></strong> 
+	</div>
+	
+     -->
+     <div class="loading"> 
+		<img src="/modules/admin/statics/images/loading.gif" />数据生成中，请稍后......
+	</div>
+
+</div>
+<div class="p-m-r-div-01">
+    <ul class="p-m-r-ul-01">
+        <div class="pmr-01-0-s">
+            <ul>
+                <div class="pmr-010s-01"><a href="javascript:void(0);">后台首页</a></div>
+                <div class="pmr-010s-02"><a href="javascript:void(0);"></a></div>
+            </ul>
+        </div>
+        <!--<div class="pmr-01-0">
+      <ul>
+        <div class="pmr-010s-01"><a href="javascript:void(0);">后台首页</a></div>
+        <div class="pmr-010s-02"><a href="javascript:void(0);"></a></div>
+      </ul>
+    </div>
+    <div class="pmr-01-0">
+      <ul>
+        <div class="pmr-01-0-01"><a href="#">站点优化</a></div>
+        <div class="pmr-01-0-02"><a href="#2"></a></div>
+      </ul>
+    </div>
+    <div class="pmr-01-0">
+      <ul>
+        <div class="pmr-01-0-01"><a href="#">用户管理</a></div>
+        <div class="pmr-01-0-02"><a href="#2"></a></div>
+      </ul>
+    </div>-->
+    </ul>
+</div>
+
+<div class="p-m-r-div-02"><ul><li> 您的位置： <a href="#">桌面</a><span>></span>分销商管理<span><span>></span>推广销售<span>></span><span class="title_cls"> 差价返利报表</span> </li></ul></div>
+
+<div class="p-m-r-div-03">
+    <div class="p-m-r-div-0302">
+        <ul class="pmr-ul-0302-left">
+        	<li class="pmr-li-030201">
+                <a href="javascript:void(0);" id="orders_explort" onClick="jsvascript:exportRebatesReport();">导出返利报表</a>
+            </li>
+        </ul>
+        <ul class="pmr-ul-0302-right search_boxrt">
+            <table cellspacing="0" cellpadding="0">
+                <script type="text/javascript" src="{!$WEBROOT!}modules/admin/statics/js/search.js"></script>
+                <script type="text/javascript" src="{!$WEBROOT!}modules/admin/statics/js/public.js"></script>
+                <tr>
+                    <td style=" color:#666666;">推荐人 :</td>
+                    <td>
+                    	<input type="text" {!if $filter.mdprr_pm_name neq ''!}disabled='disabled'{!/if!} value="{!$filter.mdprr_pm_name!}" name="mdprr_pm_name" id="mdprr_pm_name" />
+                    </td>
+                    <td style="color:#666666;">下级分销商 :</td>
+                    <td>
+                    	<input type="text" {!if $filter.m_name neq ''!}disabled='disabled'{!/if!} value="{!$filter.m_name!}" name="m_name" id="m_name" />
+                    </td>
+                    <td>订单号: </td>
+                    <td><input type="text" value="{!$filter.o_id!}" name="o_id" id="o_id"/></td>
+                    <td>货号 : </td>
+                    <td><input type="text" value="{!$filter.g_sn!}" name="g_sn" id="g_sn"/></td>
+                    <td>货品 : </td>
+                    <td>
+                    	<input type="text" value="{!$filter.pdt_sn!}" name="pdt_sn" id="pdt_sn"/>
+                    </td>
+                    <td>时间</td>
+                    <td>
+                        <input type="text" name="mdprr_start_time" readonly="readonly" class="Wdate" onFocus="
+	                    	var timeStart=$dp.$('mdprr_start_time');
+	                    	WdatePicker({
+	                    		onpicked:function(){timeStart.focus();},
+	                    		dateFmt:'yyyy-MM-dd'})" id="mdprr_start_time" value="{!$filter.mdprr_start_time!}" style="width: 100px"/> - <input type="text" name="mdprr_end_time" readonly="readonly" id="mdprr_end_time" value="{!$filter.mdprr_end_time!}" class="Wdate" onFocus="
+	                    	var timeEnd=$dp.$('mdprr_end_time');
+	                    	WdatePicker({
+	                    		onpicked:function(){timeEnd.focus();},
+	                    		dateFmt:'yyyy-MM-dd'})" style="width: 100px"/>
+                      </td>
+                    <td><button name="button" id="button" onclick="javascript:searchRebatesReport();" value="查询" class="but-type-022">查询</button></td>
+                </tr>
+            </table>
+        </ul>
+    </div>
+    <div class="p-m-r-div-0303 list-head-div" style="border:1px solid #E4E4E4; border-top:none;">
+            <table cellspacing="0" cellpadding="0" class="list-head-table">
+                <tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;">
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">货号</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">货品编码</td>
+                    <td style="width: 120px; padding-left:5px; border-left:1px solid #e4e4e4;">订单号</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">上级分销商价</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">下级分销商价</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">下级分销商</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">差价</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">应返利金额</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">实际返利金额</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">生成时间</td>
+                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">是否有异常</td>
+                    <!-- <td style="width: 50px; padding-left:5px; border-left:1px solid #e4e4e4;">操作</td> -->
+                    <td style="padding-left:5px; border-left:1px solid #e4e4e4;">备注</td>
+                </tr>
+            </table>
+    </div>
+    <div class="p-m-r-div-0304 list-content-div" style="border:1px solid #E4E4E4; border-top:none;">
+            <table cellspacing="0" cellpadding="0" class="list-content-table">
+                {!foreach  from=$ary_rebates_reports item=ary_rebates name=rebates!} 
+                	{!if $smarty.foreach.rebates.first!}
+                		<tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;">
+                			<td colspan="7" style="padding-left:5px; border-left:1px solid #e4e4e4;"></td>
+                			<td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;"><span style="color:red">{!$rebeats.theory_rebates_total_amount!}元</span>(合计)</td>
+                			<td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;"><span style="color:red">{!$rebeats.actual_rebates_total_amount!}元</span>(合计)</td>
+                			<td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;"></td>
+                			<td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;"><span style="color:red">{!$rebeats.unusual_num!}</span>(合计)</td>
+                			<td colspan="1" style="padding-left:5px; border-left:1px solid #e4e4e4;"></td>
+                		</tr>
+                	{!/if!}
+	                <tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;">
+	                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.g_sn!}</td>
+	                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.pdt_sn!}</td>
+	                    <td style="width: 120px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.o_id!}</td>
+                    	<td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.mdprr_pm_price!}</td>
+                    	<td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.oi_price!}</td>
+                    	<td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.m_name!}</td>
+	                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.mdprr_differ_price!}</td>
+	                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.mdprr_theory_rebates_amount!}</td>
+	                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.mdprr_actual_rebates_amount!}</td>
+	                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.mdprr_create_time!}</td>
+	                    <td style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;">{!if $ary_rebates.mdprr_is_unusual eq 20!}<span style="color:red">是</span>{!else!}否{!/if!}</td>
+	                    <!-- <td style="width: 50px; padding-left:5px; border-left:1px solid #e4e4e4;">详情</td> -->
+	                    <td style="padding-left:5px; border-left:1px solid #e4e4e4;">{!$ary_rebates.mdprr_memo!}</td>
+	                </tr>
+                {!foreachelse!}
+	                <tr colspan="12">
+	                    <td>{!if $str_err_msg != ''!}{!$str_err_msg!}{!else!}无搜索结果！{!/if!}</td>
+	                </tr>
+                {!/foreach!}
+            </table>
+    </div>
+</div>
+<script>
+	function searchRebatesReport() {
+		var g_sn = $("#g_sn").val();
+		var pdt_sn = $("#pdt_sn").val();
+		var mdprr_pm_name = $("#mdprr_pm_name").val();
+		var mdprr_start_time	= $("#mdprr_start_time").val();
+		var mdprr_end_time	= $("#mdprr_end_time").val();
+		var o_id = $("#o_id").val();
+		var m_name	= $("#m_name").val();
+		if(mdprr_pm_name.length > 0 && mdprr_start_time != '' && mdprr_end_time != '') {
+			search_data	= {'g_sn':g_sn,'pdt_sn':pdt_sn,'mdprr_pm_name':mdprr_pm_name,'m_name':m_name,'o_id':o_id,'mdprr_start_time':mdprr_start_time,'mdprr_end_time':mdprr_end_time};
+			doAjax("{!$WEBENTRY!}/admin/promotings/payback/PBStatements/", search_data, totarget);
+		} else {
+			popupGlobalTipDiv(false,"请填写推荐人和返利时间段！");
+		}
+	}
+	function exportRebatesReport() {
+		var g_sn = $("#g_sn").val();
+		var pdt_sn = $("#pdt_sn").val();
+		var mdprr_pm_name = $("#mdprr_pm_name").val();
+		var mdprr_start_time	= $("#mdprr_start_time").val();
+		var mdprr_end_time	= $("#mdprr_end_time").val();
+		var o_id = $("#o_id").val();
+		var m_name	= $("#m_name").val();
+		if(mdprr_pm_name.length > 0 && mdprr_start_time != '' && mdprr_end_time != '') {
+			search_data	= {'g_sn':g_sn,'pdt_sn':pdt_sn,'mdprr_pm_name':mdprr_pm_name,'m_name':m_name,'o_id':o_id,'mdprr_start_time':mdprr_start_time,'mdprr_end_time':mdprr_end_time};
+			$.ajax({
+				url:"{!$WEBENTRY!}/admin/promotings/payback/exportDifferPriceRebatesReport/",
+				type:"POST",
+				cache:false,
+				data:search_data,
+				dataType:'json',
+				beforeSend: function() {
+					$(".rebates_report").show(1500);
+				},
+				success: function(json) {
+					$(".rebates_report").hide(3000);
+					window.open('{!$WEBENTRY!}'+json.excel);
+				},
+				error: function() {
+					
+				}
+			});
+		} else {
+			popupGlobalTipDiv(false,"请填写推荐人和返利时间段！");
+		}
+	}
+	
+</script>

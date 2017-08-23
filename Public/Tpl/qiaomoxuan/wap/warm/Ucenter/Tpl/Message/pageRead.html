@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a  href="javascript:void(0);" onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">我的站内信</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javascript:void(0)">-->
+                <!--<span class="headmore"></span>-->
+            <!--</a>-->
+        <!--</div>-->
+    </div>
+</div>
+
+<div class="container">
+    <div class="msgBox">
+        <div class="msgCnt">
+            <h1>{$messageInfo.sl_title}</h1>
+            <p>{$messageInfo.sl_content}</p>
+        </div>
+    </div>
+</div>
+<div id="shop-nav">
+    <div class="js-navmenu js-footer-auto-ele shop-nav nav-menu nav-menu-1 has-menu-3">
+        <div class="nav-special-item nav-item">
+            <a href="{:U('Wap/Index/Index')}" class="home">主页</a>
+        </div>
+        <div class="nav-item">
+            <a class="mainmenu js-mainmenu" href="{:U('Wap/Products/Index')}">
+                <span class="mainmenu-txt">所有商品</span>
+            </a>
+            <!-- 子菜单 -->
+        </div>
+        <div class="nav-item">
+            <a class="mainmenu js-mainmenu"  href="{:U('Wap/Coupon/couponList')}">
+                <span class="mainmenu-txt">优惠券</span>
+            </a>
+            <!-- 子菜单 -->
+        </div>
+        <div class="nav-item">
+            <a class="mainmenu js-mainmenu" href="javascript:void(0)">
+                <i class="arrow-weixin"></i>
+                <span class="mainmenu-txt">会员中心</span>
+            </a>
+            <!-- 子菜单 -->
+            <div class="submenu js-submenu">
+                <span class="arrow before-arrow"></span>
+                <span class="arrow after-arrow"></span>
+                <ul>
+                    <li> <a href="{:U('Wap/Cart/pageCartList')}"> 购物车 </a> </li>
+                    <li class="line-divide"></li>
+                    <li> <a href="{:U('Wap/Ucenter/Index')}"> 会员主页 </a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

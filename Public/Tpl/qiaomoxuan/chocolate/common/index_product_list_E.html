@@ -1,0 +1,25 @@
+<ul class="prodlist" style="height:200px;">
+    <Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+        <php>if($key<2){</php>
+        <li class="border-bot product-price" data-sku="106948892|1|2|0070072456">
+            <if condition="$showlist['show_name'] eq 1">
+            <p class="name">
+                <a href="{$showlist.gurl}" target="_blank">
+                    {$showlist.gname}
+                </a>
+            </p>
+             </if>
+            <p class="hot"><span>{$showlist.field1}</php><i class="icon-arrow2"></i></span></p>
+            <if condition="$showlist['sale_price'] neq ''">
+            <p class="price ptPrice" textstyle-editable="true" style-num="6"><i>¥</i><span>{$showlist.gprice|sprintf='%.2f',###}</span></p>
+            </if>
+            <if condition="$showlist['show_pic'] eq 1">
+            <div class="prod-img">
+                <a target="_blank" name="hwg_none_lc02_tp04" href="{$showlist.gurl}">
+                    <img src="{$showlist.gpic}" width="120px" height="120px" alt="{$showlist.gname}" class="err-product"></a>
+            </div>
+            </if>
+        </li>
+        <php>}</php>
+    </Gyfx:goodslist>
+</ul>

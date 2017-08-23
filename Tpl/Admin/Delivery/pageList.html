@@ -1,0 +1,46 @@
+<div class="rightInner">
+    <form id="deliveryCorp_del" method="get" action="{:U('Admin/Delivery/doDel')}">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">全部物流公司列表</th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>操作</th>
+                    <th>状态</th>
+                    <th>物流公司</th>
+                    <th>配送区域</th>
+                    <th>{$pay_name|default='货到付款'}？</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="dc">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="lc_id[]" value="{$dc.lc_id}" /></td>
+                    <td>
+                        <a href='{:U("Admin/Delivery/pageEdit?lc_id=$dc[lc_id]")}'>修改</a>&nbsp;
+                        <a href='{:U("Admin/Delivery/doDel?lc_id=$dc[lc_id]")}' class="confirm">删除</a>
+                    </td>
+                    <td><eq name="dc.lc_is_enable" value="1"><span class="green">启用</span><else /><span class="red">禁用</span></eq></td>
+                    <td>{$dc.lc_name}</td>
+                    <td>
+                        <a href='{:U("Admin/Delivery/pageListArea?lc_id=$dc[lc_id]")}'>查看详细</a>&nbsp;
+                        <a href='{:U("Admin/Delivery/pageAddArea?lc_id=$dc[lc_id]")}'>添加</a>
+                    </td>
+                    <td><eq name="dc.lc_cash_on_delivery" value="1"><span class="green">是</span><else /><span class="red">否</span></eq></td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99"><input type="submit" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

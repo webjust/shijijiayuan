@@ -1,0 +1,377 @@
+<!--中间内容 开始-->
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<link href="__CSS__presale.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<div class="HXwarp" id="main">
+	<div>
+    	<div class="content960"><!--content960  start-->
+        	<div class="goodList_navtitle block">
+            	<a href="javascript:void(0);">首页</a><span>></span><a href="javascript:void(0);">预售商品</a><span>
+            </div>
+            <div style="display:inline-block; width:100%">                
+                <!--orderBuy开始--> 
+                <div class="orderBuy">
+                	<!--orderCon开始--> 
+                	<div class="orderCon">
+                    	<!--orderConL开始--> 
+                    	<div class="orderConL">
+                        	 <div class="promotionPic">
+                                <div id="examples">
+                                    <ul id="example3">
+                                        <li>
+											<img class="etalage_thumb_image" src="{$p_picture|showImage=###,328,328}" />
+                                            <img class="etalage_source_image" src="{$p_picture|showImage=###,328,328}" />
+                                            <!--<img class="etalage_thumb_image" src="{$Think.config.DOMAIN_HOST}<php>$p_picture = '/'.ltrim($p_picture,'/');echo $p_picture;</php>" />
+                                            <img class="etalage_source_image" src="{$Think.config.DOMAIN_HOST}<php>$p_picture = '/'.ltrim($p_picture,'/');echo $p_picture;</php>" />-->
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div><!-- 放大镜结束 -->
+                            <!--分享 开始-->
+                            <div class="fenxiang">
+                            	<div class="ckepopBox">
+                                    <!-- Baidu Button BEGIN -->
+                                    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                                    <span class="bds_more">分享到：</span>
+                                    <a class="bds_qzone"></a>
+                                    <a class="bds_tsina"></a>
+                                    <a class="bds_tqq"></a>
+                                    <a class="bds_renren"></a>
+                                    <a class="bds_t163"></a>
+                                    <a class="shareCount"></a>
+                                    </div>
+                                    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=0" ></script>
+                                    <script type="text/javascript" id="bdshell_js"></script>
+                                    <script type="text/javascript">
+                                    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+                                    </script>
+                                    <!-- Baidu Button END -->
+                                </div>
+                            </div><!--分享 结束-->
+                        </div><!--orderConL结束-->
+                        <!--orderConR开始--> 
+                        <div class="orderConR">
+                        	<h3 title="{$p_title}">{$p_title|substrs=###,26,'.......'}</h3>
+                            <p>原&nbsp;&nbsp;&nbsp;价：<del><i>&yen;</i><label id='showMarketPrice'>{$pdt_set_sale_price|sprintf='%.2f',###}</label></del></p>
+                            <p>预售价：<i>&yen;</i><strong id="showPrice">{$p_price|sprintf='%.2f',###}</strong><span>预付保证金：<i>&yen;</i><strong>{$p_deposit_price|sprintf='%.2f',###}</strong></span></p>
+                            <ul>
+                                <!--<li class="first">-->
+                                    <!--<volist name="ary_range_price" id="arp">-->
+                                    <!--<span>满<label>{$arp.rgp_num}人</label><br/><i>&yen;</i><label><del>{$arp.rgp_price|sprintf='%.2f',###}</del></label></span>-->
+                                    <!--</volist>-->
+                                    <!--<span class="on"><strong>{$p_now_number}</strong>人已预定<br/><i>&yen;</i><label>{$p_price|sprintf='%.2f',###}</label></span>-->
+                                <!--</li>-->
+                                <li id="showDetailSkus">
+                                    商品规格正在加载......
+                                    <script type="text/javascript">
+                                        getDetailSkus('{$p_id}', 7);
+                                    </script>
+                                </li>
+                                <li>
+                                	<p class="lastTime">
+                                        <php>$now_time = date('Y-m-d H:i:s');</php>
+                                        <php>if($status_time == 1){</php>
+                                        <strong>距离开始时间：</strong>
+                                        <span><strong id="day">0</strong><strong>天</strong><strong id="hours">0</strong><strong>小时</strong><strong id="minutes">0</strong><strong>分钟</strong><strong id="seconds">0</strong><strong>秒</strong></span>
+                                        <script>setTuanGouTime('{$p_start_time}','day','hours','minutes','seconds',"{$now_time}","<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                        <php>}elseif($status_time ==2){</php>
+                                        <span><strong>此预售已结束：</strong></span>
+                                        <span><strong id="day">0</strong><strong>天</strong><strong id="hours">0</strong><strong>小时</strong><strong id="minutes">0</strong><strong>分钟</strong><strong id="seconds">0</strong><strong>秒</strong></span>
+                                        <php>}else{</php>
+                                        <span><strong>剩余时间：</strong></span>
+                                        <span id="showGroupTime{$p_id}"><strong id="day" class="day">0</strong><strong>天</strong><strong id="hours" class="hours">0</strong><strong>小时</strong><strong id="minutes" class="minutes">0</strong><strong>分钟</strong><strong id="seconds" class="seconds">0</strong><strong>秒</strong></span>
+                                        <script>setGroupbuyTime('{$p_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'presale',2,'',"{$p_id}","{$g_id}");</script>
+                                        <php>}</php>
+
+                                    </p>
+                                </li>
+                                <li id="showGrouupbuy{$p_id}">
+                                    <!--<if condition="$buy_status eq 0">-->
+                                        <!--<a class="pastbuy" title="您的购买数已用完" href="javascript:void(0);" >您的购买数已用完</a>-->
+                                        <!--<elseif condition="$buy_status eq 1" />-->
+                                        <!--<if condition="$is_deposit eq 1">-->
+                                            <!--&lt;!&ndash;启用定金支付&ndash;&gt;-->
+                                            <!--<a class="pay" title="立即付定金" onclick="addToOrder(2);" href="javascript:void(0);">立即付定金</a>-->
+                                            <!--<else/>-->
+                                            <!--&lt;!&ndash;未启用定金支付&ndash;&gt;-->
+                                            <!--<a class="buy" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);">立刻购买</a>-->
+                                        <!--</if>-->
+                                        <!--<elseif condition="$buy_status eq 2" />-->
+                                        <!--<assign name="curUrl" value="__SELF__" />-->
+                                        <!--<a class="pastbuy" title="请先登录" href="{:U('Home/User/Login')}?rquestUrl={$curUrl|urlencode}">请先登录</a>-->
+                                        <!--<elseif condition="$buy_status eq 3" />-->
+                                        <!--<a class="pastbuy" title="预售活动尚未开始" href="javascript:void(0);">预售活动尚未开始</a>-->
+                                        <!--<elseif condition="$buy_status eq 4"/>-->
+                                        <!--<a class="pastbuy" title="预售活动已结束" href="javascript:void(0);">预售活动已结束</a>-->
+                                        <!--<elseif condition="$buy_status eq 5"/>-->
+                                        <!--<a class="pastbuy" title="预售商品已售完" href="javascript:void(0);" >预售商品已售完</a>-->
+                                    <!--</if>-->
+
+                                    <if condition="$buy_status eq 0">
+                                        <a class="pastbuy" title="您已购买过" href="javascript:void(0);" >您已购买过</a>
+                                        <elseif condition="$buy_status eq 1" />
+                                        <if condition="$is_deposit eq 1">
+                                            <!--启用定金支付-->
+                                            <a class="pay" title="立即付定金" onclick="addToOrder(2);" href="javascript:void(0);"></a>
+                                            <else/>
+                                            <!--未启用定金支付-->
+                                            <a class="buy" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);"></a>
+                                        </if>
+                                        <elseif condition="$buy_status eq 2" />
+                                        <assign name="curUrl" value="__SELF__" />
+                                        <a class="pastbuy" title="请先登录" href="{:U('Home/User/Login')}?rquestUrl={$curUrl|urlencode}"></a>
+                                        <elseif condition="$buy_status eq 3" />
+                                        <a class="pastbuy" title="预售活动尚未开始" href="javascript:void(0);"></a>
+                                        <elseif condition="$buy_status eq 4"/>
+                                        <a class="pastbuy" title="预售活动已结束" href="javascript:void(0);"></a>
+                                        <elseif condition="$buy_status eq 5"/>
+                                        <a class="pastbuy" title="预售商品已售完" href="javascript:void(0);" ></a>
+                                    </if>
+                                </li>
+                            </ul>
+                            <div class="tuanDailsTime">
+                                尾款支付时间
+                                <span>{$p_overdue_start_time}至{$p_overdue_end_time}</span>
+                            </div>
+                        </div><!--orderConR结束-->
+                    </div><!--orderCon结束-->
+                </div>  <!--orderBuy结束-->   
+                <!--tuanExplain start-->
+                <div class="tuanExplain">
+                    <div class="tuanExplainTag">
+                        <p>
+                            <strong>预购说明</strong>
+                        </p>
+                    </div>
+                    <div class="tuanExplain_con">
+                       	{$p_desc}
+                     </div> 
+                </div>
+                <!--tuanExplain end-->
+                <!--tuanIntro start-->
+				<if condition="$p_goodshow_status eq 1">
+                <div class="tuanIntro">
+                    <div class="tuanIntroTag">
+                        <p>
+                            <strong>商品介绍</strong>
+                        </p>
+                    </div>
+                    <div class="tuanIntro_con">
+                        {$good_info.gdesc}
+                    </div>
+                </div>
+				</if>
+                <!--tuanIntro end-->                                      
+            </div>
+        </div><!--content960  start-->
+    </div>
+</div>
+<!--中间内容 结束-->
+<script type="text/javascript">
+  //商品详情页商品图片展示
+$('#example3').etalage({
+    thumb_image_width: 450,
+    thumb_image_height: 450,
+    source_image_width: 900,
+    source_image_height: 900,
+    zoom_area_width: 500,
+    zoom_area_height: 500,
+    zoom_area_distance: 5,
+    small_thumbs: 5,
+    smallthumb_inactive_opacity: 0.5,
+    smallthumbs_position: 'top',
+    show_icon: true,
+    icon_offset: 20,
+    autoplay: false,
+    keyboard: false,
+    zoom_easing: false
+});
+var arr = new Object();
+//将商品库存信息存在js数组里
+<foreach name = 'good_info.skus' item = 'vosku'>
+    arr["{$vosku.skuName}"] = "{$vosku.pdt_id}|{$p_number}|{$vosku.pdt_sale_price}|{$vosku.pdt_market_price}";
+</foreach>
+//更改数量
+function countNum(i){
+    var _this = $("#item_num");
+    var num=parseInt(_this.val()),max=parseInt(_this.attr('max'));
+    num=num+i;
+    if((num<=0)||(num>max)||(num>999)){return false;}
+    _this.val(num);
+}
+//选择商品规格
+function showSelect(obj){
+    var _this = $(obj);
+    var item_id = "{$ary_request.p_id}";
+    var name = '';
+    var yprice = "{$gp_price}";
+    var _item_id = jQuery('#' + item_id);
+    if (_this.hasClass('on')){
+        _this.removeClass("on");
+        $("#pdt_stock").val("");
+        $("#pdt_id").val("");
+        $("#showNum").html = "";
+        $.ThinkBox.error("请勾选您要的商品信息");
+    } else{
+        _this.siblings().removeClass("on");
+        _this.addClass("on");
+        var rsize = "";
+        var showvalue = "";
+        var _parent_color = jQuery("#sku" + item_id + '_1').find('a.on');
+        console.log(jQuery("#sku" + item_id + '_1'));
+        var _parent_size = jQuery("#sku" + item_id + '_2').find('a.on');
+        var color_len = _parent_color.length;
+        var size_len = _parent_size.length;
+    }
+    if (size_len > 0 && color_len > 0){
+        $("#propError").html("");
+            var color = "", size = "";
+            color = _parent_color.attr('name');
+            size = _parent_size.attr('name');
+            if (color != '' && size != ''){
+                var info = size + ";" + color;
+                showvalue = arr[info]?arr[info]:"";
+                var vale = showvalue.split("|");
+                if (vale.length > 0){
+                    if (vale[0]){
+                        $("#pdt_id").val(vale[0]);
+                    }
+                    if (vale[1]){
+
+                        $("#pdt_stock").val(vale[1]);
+                        $("#showNum").html("件（库存" + vale[1] + "件）");
+                    } else{
+                        $("#showNum").html("库存已不足0件");
+                    }
+                    if (vale[2]){
+                        $("#showPrice").html(parseFloat(vale[2]).toFixed(2));
+                        $("#showMarketPirice").html(parseFloat(vale[3]).toFixed(2));
+                        $("#savePrice").html(parseFloat(vale[3] - vale[2]).toFixed(2));
+                        $("#discountPrice").html(parseFloat(((vale[2]/vale[3])*10).toFixed(2)));
+                    }
+                }
+            }
+
+    }else{
+        var _parent_li = _this.parent().parent().find('a.on');
+        rsize = _parent_li.attr('name');
+
+        if (rsize != ""){
+            var info = rsize;
+            showvalue = arr[info];
+        }
+        if (showvalue != undefined){
+            var vale = showvalue.split("|");
+            if (vale.length > 0){
+                if (vale[0]){
+                    $("#pdt_id").val(vale[0]);
+                }
+                if (vale[1]){
+                    $("#pdt_stock").val(vale[1]);
+                    $("#showNum").html("库存还剩" + vale[1] + "件");
+                } else{
+                    $("#showNum").html("库存已不足0件");
+                }
+                if (vale[2]){
+                    $("#showPrice").html(parseFloat(vale[2]).toFixed(2));
+                    $("#showMarketPirice").html(parseFloat(vale[3]).toFixed(2));
+                    $("#savePrice").html(parseFloat(vale[3] - vale[2]).toFixed(2));
+                    $("#discountPrice").html(parseFloat(((vale[2]/vale[3])*10).toFixed(2)));
+                }
+            }
+        }
+
+    }
+}
+function blurSelectNum(){
+    var _this = $("#item_num");
+    var max = parseInt(_this.attr('max'));
+    var ereg_rule=/^\+?[1-9][0-9]*$/;
+    if(!ereg_rule.test(_this.val())){
+        _this.val(1);
+    }else{
+        if(_this.val()>max){
+             _this.val(max);
+        }
+    }
+}
+
+function addToOrder(i){
+    var res = allSpecSelectedCheck('on');
+    if(res[0] == false) {
+        $.ThinkBox.error('请选择要购买的商品规格！');return false;
+    }
+    var pdt_id = $('#pdt_id').val();
+    var p_id = "{$p_id}";
+    var num = parseInt($('#item_num').val());
+    var max = parseInt($('#item_num').attr('max'));
+    if(pdt_id == ''){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");return false;
+    }
+    if (isNaN(num)){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");return false;
+    }
+    if (num < 1){
+        $.ThinkBox.error("购买数量不能小于1");return false;
+    }
+    if(num > max){
+        $.ThinkBox.error("您最多还能预售"+max+"件");return false;
+    }
+    var data = new Object();
+    data['cart'] = {};
+    data['cart']['pdt_id'] = pdt_id;
+    data['cart']['p_id'] = p_id;
+    data['cart']['num'] = num;
+    data['type'] = 'presale';
+    if(i==2){
+        data['cart']['is_deposit'] = 1;
+    }
+    if("{$Think.session.Members}" == ''){
+        $.post('/Home/User/doBulkLogin/',{},function(htmlMsg){
+            $.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+        },'html');
+        return false;
+    }
+    $.post('/Home/Cart/doAdd',data,function(dataMsg){
+        if(dataMsg.status == 1){
+            location.href = dataMsg.url;
+        }else{
+            $.ThinkBox.error('您不能预售该商品或商品已下架');
+        }
+    },'json');
+}
+</script>
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

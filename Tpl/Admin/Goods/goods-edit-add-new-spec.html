@@ -1,0 +1,31 @@
+<table width="100%" style="background-color: #F8F8F8;border: 1px solid #ECECEC;">
+	<tbody>
+		<volist name="array_sale_spec" id="vo">
+		<tr>
+			<td style="width:100px;text-align:right;" valign="top" class="add-sku-spec-name" pname="{$vo.gs_name}">{$vo.gs_name}：</td>
+			<td>
+				<ul class="sku-box" style="text-align:left;">
+					<volist name="vo[spec_detail]" id="spec">
+					<li>
+						<input type="checkbox" name="add_spec_vid[]" class="checkbox add-spec-pid-vid-checkbox" id="add-spec_{$spec.gs_id}_{$spec.gsd_id}" value="{$spec.gs_id}:{$spec.gsd_id};" />
+						<label for="add-spec_{$spec.gs_id}_{$spec.gsd_id}" style="cursor:pointer;">
+						<if condition="$spec.gs_id eq 888">
+						<span style="background-color:#{$spec.gsd_rgb_value};color:#{$spec.gsd_rgb_value};width:14px;height:14px;border:1px solid #000000;">&nbsp;&nbsp;&nbsp;</span>
+						</if>
+						<span>{$spec.gsd_value}</span>
+						</label>
+					</li>
+					</volist>
+				</ul>
+			</td>
+		</tr>
+		</volist>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2" style="text-align:left;margin-left:20px;color:#ff0000;border:1px solid #FEC3A8;display:none;">
+				<b id="show-add-new-spec-message-box"></b>
+			</td>
+		</tr>
+	</tfoot>
+</table>

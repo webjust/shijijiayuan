@@ -1,0 +1,68 @@
+{__NOLAYOUT__}
+<if condition="count($ary_relate_goods) neq 0">
+<div class="freeCombination"><!--关联商品   开始-->
+    <div class="tabAbp_coll"><!--tabAbp_coll  start-->
+        <p><span class="onHover">相关商品</span><a href="javascript:void(0);"  onclick="checkTebRelate(this,'next')" nowPage="1" class="xnext pageRelateGood">下一页</a><a href="javascript:void(0);" onclick="checkTebRelate(this,'prev')" nowPage="1" class="spre pageRelateGood">上一页</a></p>
+    </div><!--tabAbp_coll  end-->
+    
+    <div class="freeComCon"><!--freeComCon  start-->
+
+        <ul class="xggoods">
+       		<volist name="ary_relate_goods" id="this_coll">
+            <switch name="key">
+            <case value="0|1|2|3|4">
+            <li class="onHoverCollGoods foreachRelateGoods relate" fuck="1">
+	                <a href="/Home/Products/detail/gid/{$this_coll.g_id}" class="proPic"><img src="{$this_coll['g_picture']}" width="110" height="110"></a>
+	                <a href="/Home/Products/detail/gid/{$this_coll.g_id}" class="proN">{$this_coll.g_name}</a>
+	                <p><strong id="collPrice_{$this_coll.g_id}">&yen;{$this_coll.g_price|sprintf='%.2f',###}</strong></p>
+            </li>
+            </case>
+            <case value="5|6|7|8|9">
+            <li  class="onHoverCollGoods foreachRelateGoods relate" fuck="2" style="display:none">
+	                <a href="/Home/Products/detail/gid/{$this_coll.g_id}" class="proPic"><img src="{$this_coll['g_picture']}" width="110" height="110"></a>
+	                <a href="/Home/Products/detail/gid/{$this_coll.g_id}" class="proN">{$this_coll.g_name}</a>
+	                <p><strong id="collPrice_{$this_coll.g_id}">&yen;{$this_coll.g_price|sprintf='%.2f',###}</strong></p>
+            </li>
+            </case>
+            <case value="10|11|12|13|14">
+            <li  class="onHoverCollGoods foreachRelateGoods relate" fuck="3" style="display:none">
+	                <a href="/Home/Products/detail/gid/{$this_coll.g_id}" class="proPic"><img src="{$this_coll['g_picture']}" width="110" height="110"></a>
+	                <a href="/Home/Products/detail/gid/{$this_coll.g_id}" class="proN">{$this_coll.g_name}</a>
+	                <p><strong id="collPrice_{$this_coll.g_id}">&yen;{$this_coll.g_price|sprintf='%.2f',###}</strong></p>
+            </li>
+            </case>
+            </switch>
+            </volist>
+        </ul>
+    </div><!--freeComCon  end-->
+</div><!--关联商品   结束-->
+</if>
+<script>
+var count_teb = "<php>echo count($ary_relate_goods);</php>";
+var min_orders = parseInt(Math.ceil(count_teb/5));
+function checkTebRelate(obj,tab){
+    $(".foreachRelateGoods").hide();
+    var nowPage = parseInt($(obj).attr('nowPage'));
+
+    if(tab == 'next' && nowPage != min_orders){
+        nowPage = parseInt(nowPage+1);
+    }else if(tab == 'next' && nowPage == min_orders){
+        nowPage=1;
+    }
+    if(tab == 'prev' && nowPage == min_orders && nowPage!=1){
+        nowPage = parseInt(nowPage-1);
+    }else if(tab == 'prev' && nowPage<min_orders && nowPage!=1){
+         nowPage = parseInt(nowPage-1);
+    }else if(tab == 'prev' && nowPage==1){
+        nowPage = min_orders;
+    }
+    $(".foreachRelateGoods[fuck='"+nowPage+"']").slideDown();
+    $(".pageRelateGood").each(function(){
+        $(this).attr('nowPage',nowPage);
+    
+    });
+    
+}
+
+</script>
+</if>

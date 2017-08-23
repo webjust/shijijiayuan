@@ -1,0 +1,39 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="4">绑定淘宝分销授权</th>
+            </tr>
+            <tr>
+				<th width="120">供应商ID</th>
+				<th>供应商nick</th>
+				<th width="200">授权日期</th>
+				<th width="120">授权到期时间</th>
+            </tr>
+        </thead>
+        <tbody>
+			<empty name="bind_shop">
+				<tr>
+					<td colspan="4" style="text-align:left;font-size:18px;">
+						您还未授权！
+						<a href="{:U('Admin/Fenxiao/topOauth')}" class="button" style="background-color:#F27B04;color:#ffffff;font-size:24px;height:34px;wdith:150px;">立即授权</a>
+					</td>
+				</tr>
+			<else />
+				<volist name="bind_shop" id="vo">
+				  <tr>
+					<td width="120">{$vo.top_supplier_id}</td>
+					<td>{$vo.top_supplier_nick}</td>
+					<td width="200">{$vo.top_oauth_time}</td>
+					<td width="120">{$vo.top_expires_in}</td><!-- 授权到期时间就是token的过期时间 -->
+				  </tr>
+				  </volist>
+			  </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,250 @@
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.form.js"></script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>我的资料</span></h2>
+    <div class="deliverList myDa">
+        <p class="myDate">
+            <!--<span class="span01">账户余额：</span><b>{$m_balance}</b>元-->
+            <span class="span02">当前代理级别：</span><b>{$meml.ml_name}</b>
+            <span class="span02">晋升金额：</span><b>{$next_level}</b>
+            <span class="span03">代理享受的折扣：</span><b>{$meml.ml_discount}</b>%
+            <if condition="$member.subcompany_name neq ''">
+                <span class="span03">关联子公司：</span><b>{$member.subcompany_name}</b>
+            </if>
+        </p>
+        <form id="my_doedit" method="post" action="{:U('Ucenter/My/doEdit')}" enctype="multipart/form-data">
+            <table class="deliverTable">
+                <tr><td colspan="2"></td></tr>
+                <volist name="ary_extend_data" id="data">
+                    <if condition="($data['fields_content'] neq 'm_password') and ($data['fields_content'] neq 'm_password_1')">
+                    <tr>
+                        <td class="right"><if condition="($data.is_need eq 1)"><span class="red">*</span></if>{$data.field_name}：</td>
+                        <td>
+                            <if condition="$data.fields_type eq 'radio'">
+                                <volist name="data.fields_content" id="field_content">
+                                    <input name="extend_field_{$data.id}" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'checkbox'">
+                                <volist name="data.fields_content" id="field_content" >
+                                    <input name="extend_field_{$data.id}[]" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'select'">
+                                <if condition="$data.id eq 14 ">
+                                    <include file="Address:addressPage" />
+                                <else />
+                                <select class="medium" name="extend_field_{$data.id}" >
+                                    <volist name="data.fields_content" id="field_content" >
+                                        <option value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">selected="selected"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>> {$field_content}</option>
+                                    </volist>
+                                </select>
+                                </if>
+                            </if>
+                            <if condition="$data.fields_type eq 'text'">
+                                <input <if condition="($data.fields_content eq 'm_mobile' and $is_mobile_validate eq 1)">readonly="readonly" </if><if condition="($data.type eq 1 )">name="{$data.fields_content}" id="{$data.fields_content}" <else /> name="extend_field_{$data.id}"</if> type="text"  <if condition="($data.fields_content neq 'm_password')">value="{$data.content}"</if> class="input01" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> <php>if($data['fields_content'] == 'm_name' || $data['is_edit'] == '0'){</php>disabled="disabled"<php>}</php> />
+                                <if condition="($data.fields_content eq 'm_name')">
+                                    <input name="m_name" type="hidden"  value="{$data.content}" class="medium" />
+                                </if>
+                                <if condition="($data.fields_content eq 'm_email')">
+                                    <php>if(!empty($check_status) && !empty($is_email_validate)){</php>
+										<input type="button" id="btnValidateEmail" class="blue" style="color:#fff;" title="验证邮箱" value="验证邮箱" />
+									<php>}</php>  
+									<if condition="$is_checked_email eq 1"><a style="color:rgb(23, 144, 203);">已验证</a></if>
+                                </if>								
+                            </if>
+                            <if condition="$data.fields_type eq 'file'">
+                                <if condition="$data.content neq ''"><img src="{$data.content}" width="100px";height="100px"/></if>
+                                <input name="extend_field_{$data.id}" type="file"  value="{$data.content}" class="medium" <if condition="($data.is_need eq 1 && empty($data[content]))"> validate="{ required:true}"</if> />
+                                <input name="extend_field_{$data.id}" type="hidden"  value="{$data.content}" class="medium" />
+                            </if>
+                        </td>
+                        <td width="236px"><span class="spanWrong"></span></td>
+                    </tr> 
+					<!--更换手机-->
+					<if condition="($data.fields_content eq 'm_mobile' and $is_mobile_validate eq 1)">
+                    <tr>
+					<td align="right">更换手机号：</td>
+                    <td><input type="text" class="input01" id="r_m_mobile" name="r_m_mobile"></td>
+                    <td width="236px"><span class="spanWrong"></span></td>		
+					</tr>
+                    <tr>
+					<td align="right">更换手机验证码</td>
+                    <td>
+					<input type="text" style="width:105px" class="input01" id="m_mobile_code" name="m_mobile_code">
+					<input type="button" id="btnGetCode" class="blue" style="color:#fff;" title="获取验证码" value="获取验证码" />
+					</td>
+                    <td width="236px"><span class="spanWrong"></span></td>		
+					</tr>					
+					</if>
+                    </if>
+                </volist>
+                <tr>
+                    <td align="right">出生日期：</td>
+                    <td><input type="text" class="input01" name="m_birthday" readonly="readonly" value="{$member.m_birthday}" id="m_birthday" validate="{ isCheck:true,messages:{isCheck:'您输入的参数非法，请重新输入'}}"></td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td align="right">性别：</td>
+                    <td>
+                        <input type="radio" name="sex" value="1" id="sex01" class="radio" <if condition="$member['m_sex'] eq '1'">checked="checked"</if>><label for="sex01" class="boy">男</label>
+                        <input type="radio" name="sex" value="0" id="sex02" class="radio" <if condition="$member['m_sex'] eq '0'">checked="checked"</if>><label for="sex02" class="boy">女</label>
+                        <input type="radio" name="sex" value="2" id="sex01" class="radio" <if condition="$member['m_sex'] eq '2'">checked="checked"</if>><label for="sex01">保密</label>
+                    </td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                <notempty name="member.m_card_no">
+                <tr>
+                    <td align="right">长益卡号：</td>
+                    <td><input type="text" class="input01" name="m_card_no" readonly="readonly" value="{$member.m_card_no}" id="m_card_no" ></td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                </notempty>
+                <notempty name="member.m_ali_card_no">
+                <tr>
+                    <td align="right">阿里卡号：</td>
+                    <td><input type="text" class="input01" name="m_ali_card_no" readonly="readonly" value="{$member.m_ali_card_no}" id="m_card_no" ></td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                </notempty>
+                <if condition="$MEMBER_EDIT_STATUS.sc_value eq '1'">
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="hidden" class="input01" name="m_id" value="{$member.m_id}" id="m_id" >
+                        <if condition="$member.m_verify eq 4">
+                            <button class="blue" type="submit" disabled="disabled">待审核</button>
+                        <else />
+                            <button class="blue" type="submit" >保 存</button>
+                        </if>
+                    </td>
+                </tr>
+                </if>
+                <tr><td colspan="2"></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var btnGetCode_info = ($("#btnGetCode").val() == undefined)?"-1":$("#btnGetCode").val();
+    var wait=90;
+    if(btnGetCode_info != '-1'){
+        document.getElementById("btnGetCode").disabled = false;
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.value="获取验证码";
+                wait = 90;
+            } else {
+                o.setAttribute("disabled", true);
+                o.value="重新发送(" + wait + ")";
+                wait--;
+                setTimeout(function() {
+                            time(o)
+                        },
+                        1000)
+            }
+        }
+        document.getElementById("btnGetCode").onclick=function(){
+            document.getElementById("btnGetCode").disabled = true;
+            //调用发送验证码接口
+            var formdata = $("#my_doedit").serialize();
+            $.ajax({
+                url:"{:U('Ucenter/My/sendMobileCode')}",
+                data:formdata,
+                dataType:"json",
+                type:"post",
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+                        time(document.getElementById("btnGetCode"));
+                    }else{
+                        document.getElementById("btnGetCode").removeAttribute("disabled");
+                        alert(msgObj.msg);
+                    }
+                },
+                error:function(){
+                    document.getElementById("btnGetCode").removeAttribute("disabled");
+                }
+            });
+        }
+    }
+</script> 
+<script type="text/javascript">
+    $("document").ready(function(){
+		$("#btnValidateEmail").click(function(){
+			var formdata = $("#my_doedit").serialize();
+			$.ajax({
+			url:"{:U('Ucenter/My/sendEmailCode')}",
+			data:formdata,
+			dataType:"json",
+			type:"post",
+			success:function(msgObj){
+				if(msgObj.status == 1){
+					showAlert(false,msgObj.msg);
+				}else{
+					showAlert(false,msgObj.msg);
+				}
+			},
+			error:function(){
+				showAlert(false,'未知错误验证失败');
+			}
+			});	
+		})
+        $("#m_birthday").datepicker({
+            showButtonPanel: true,
+            changeMonth: true,
+            autoSize: true,
+            minDate: new Date(1940, 1 - 1, 1),
+            yearRange: '1940:+5',
+            changeYear: true
+        });
+        $(".dater").datepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        $(".timer").datetimepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+    $("#my_doedit").validate({
+        errorPlacement: function(error, element) {
+            var error_td = element.parent("td").next("td");
+            if (element.is(':radio') || element.is(':checkbox') ) {  //如果是radio或checkbox
+                error.appendTo(element.parent());    //将错误信息添加当前元素的父结点后面
+            } else {
+                error_td.append(error);
+            }
+        },
+        submitHandler:function(form){
+            $("#my_doedit").ajaxSubmit({
+                url:"{:U('Ucenter/My/doEdit')}",
+                dataType:"json",
+                type:"post",
+				success:function(msgObj){
+					if(msgObj.status == 1){
+						if($('#r_m_mobile').val() != ''){
+							$('#m_mobile').val($('#r_m_mobile').val());
+							$('#r_m_mobile').val();
+							$('#m_mobile_code').val();						
+						}
+                        showAlert(true,'会员信息修改成功');
+                        location.replace(location)
+                    }else{
+					   showAlert(false,msgObj.info);
+					   return false;
+					}
+				}
+            });
+        },
+        rules : {
+            r_m_mobile : {
+                remote : '/Ucenter/My/checkMobile'
+            },
+            m_email : {
+                //required:true,
+                email:true,
+                remote : '/Ucenter/My/checkEmail'
+            },
+			m_mobile_code : {
+				remote : '/Ucenter/My/checkMobileCode'
+			}		
+        }
+	});
+});
+</script>

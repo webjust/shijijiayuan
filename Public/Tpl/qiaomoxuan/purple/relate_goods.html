@@ -1,0 +1,35 @@
+			{__NOLAYOUT__}
+			<div class="botCon">
+
+                <if condition="count($ary_relate_goods) neq 0">
+                    <h1>购买此商品的顾客也同时购买</h1>
+                    <ul>
+                        <volist name="ary_relate_goods" id="this_coll">
+                        <li>
+                            <a href="/Home/Products/detail/gid/{$this_coll.g_id}"><img src="{$this_coll['g_picture']}" width="188" height="188" /></a>
+                            <p><a title="{$this_coll.g_name}" href="/Home/Products/detail/gid/{$this_coll.g_id}">
+                                {$this_coll.g_name}</a><i>{$this_coll.g_price}元</i></p>
+                            <p class="price">
+                                <php>
+                                    if(!empty($this_coll['comment_statistics'])) {
+                                        $ary_gcs = $this_coll['comment_statistics'];
+                                        $ary_gcs['average_score'] =  $ary_gcs['average_score'] ? int($ary_gcs['average_score']) : 0;
+                                        $stars = round($ary_gcs['average_score']/10);
+                                    }else {
+                                        $stars=0;
+                                    }
+                                    $gray_stars = 5 - $stars;
+                                    for($i=0; $i< $stars; $i++){
+                                    echo "<i></i>";
+                                    }
+                                    for($j=0; $j < $gray_stars; $j++) {
+                                    echo '<i class="bad"></i>';
+                                    }
+                                </php>
+                                <b>({$this_coll.comment_statistics.total_count|default=0}评论)</b>
+                            </p>
+                        </li>
+                        </volist>
+                    </ul>
+                </if>
+            </div>

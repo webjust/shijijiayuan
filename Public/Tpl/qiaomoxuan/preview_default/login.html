@@ -1,0 +1,131 @@
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+<div class="warp">
+    <div class="head">
+    	<p>登陆</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/User/pageRegister')}" class="regi">注册</a>
+    </div>
+    <!--<form action="{:U('Wap/User/doLogin')}"  onsubmit="checkSubmit()" method="Post" id="loginform">-->
+    <form  id="loginforms">
+    <div class="login">
+    	<div class="loginCon">
+        	<dl class="clearfix">
+            	<dt>用户名：</dt>
+                <dd><input name="m_name" type="text"/><a href="{:U('Wap/User/pageFoget')}">忘记密码</a></dd>
+				<i style="width:auto;float:right"></i>
+                <dt>密&nbsp;&nbsp; 码：</dt>
+                <dd><input type="password" name="m_password" /></dd>
+				<i style="width:auto;float:right"></i>
+                <dt>验证码：</dt>
+                <dd><input type="text" name="verify" class="yaz" />
+                    <span class="yazm">
+                        <a href="javascript:void(0);" onclick="changeverify()">
+                            <img id="loginverify" alt="换一张" title="换一张" src="__APP__/Wap/User/verify/" width="60" onClick="this.src='__APP__/Wap/User/verify/'+Math.random()" />
+                        </a>
+                    </span>
+                </dd>
+				<i style="width:auto;float:right"></i>
+            </dl>
+        </div>
+        <input name="savelogin" type="hidden" value="0"/>
+        <input name="jumpUrl" type="hidden" value="{$jumpUrl}"/>
+        <input type="submit" value="登陆" id="tologin" class="loginbtn">
+    </div>
+    </form>
+    <p class="repeat_x"></p>
+    <div class="otherL">
+    	<p>使用社交帐号登录</p>
+        <div class="olA box">
+            <if condition="$sina eq '1'">
+            <a href="{:U('Wap/User/thdLoginUr/')}?type=Sina"><img src="__IMAGES__lg01.png">微博登陆</a>
+            </if>
+            <if condition="$qq eq '1'">
+            <a href="{:U('Wap/User/thdLoginUr/')}?type=QQ" class="a02"><img src="__IMAGES__lg02.png">QQ登录</a>
+            </if>
+            <if condition="$wangwang eq '1'">
+            <a href="{:U('Wap/User/thdLoginUr/')}?type=wangwang" class="a03"><img src="__IMAGES__lg03.png">旺旺登录</a>
+            </if>
+        </div>
+    </div>
+</div>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script type="text/javascript">
+    function changeverify(){      
+        $('#loginverify').attr('src','{:U("Wap/User/verify")}'+'?r='+Math.random());        	
+    }
+    $(document).ready(function(){
+        $("#loginforms").validate({
+			errorPlacement: function(error, element) {
+				var error_td = element.parent().next();
+				if (element.is(':text') || element.is(':password')) {  
+					var eid = element.attr('name');
+					error_td.append(error);
+				}
+            },
+			submitHandler:function(form){
+				var data = $('#loginforms').serialize();
+				var ti;
+				if(data != ' '){
+					$.ajax({
+						url:"{:U('Wap/User/doLogin')}",
+						data:data,
+						dataType:"json",
+						type:"post",
+						success:function(dataMsg){
+							if(dataMsg.status == 1){
+								$.ThinkBox.success(dataMsg.msg);
+								if(dataMsg.url.match('Orders') && dataMsg.url.match('addOrderPage')){
+									var skipdata = $.cookie('skipdata');
+									dataMsg.url +="?"+skipdata;
+								}
+								ti =  setTimeout(function(){window.location.href= dataMsg.url;},3000);
+							}else{
+								$.ThinkBox.error(dataMsg.msg);
+								ti =  setTimeout(function(){window.location.href= dataMsg.url;},3000);
+							}
+						}
+					});
+				}
+			},
+			rules : {
+				m_name : {
+					required:true,
+					minlength:4,
+					isCheck:true
+				},
+				m_password : {
+					required : true,
+					minlength: 6,
+					maxlength: 20
+				},
+				verify : {
+					required:true,
+					digits:true,
+					remote:'/Wap/User/checkVerify',
+					rangelength:[4,4]
+				}
+			},
+			messages : {
+				m_name : {
+					required : '用户名不能为空',
+					minlength : '用户名不能少于4位',
+					isCheck: '用户名不能包含敏感字符'
+				},
+				m_password  : {
+					required : '密码不能为空',
+					minlength: '密码长度应在6-20个字符之间',
+					maxlength: '密码长度应在6-20个字符之间'
+				},
+				verify : {
+					required:'请输入验证码',
+					digits:'对不起，请输入正确的验证码',
+					rangelength:'验证码长度为4',
+					remote: '对不起，请输入正确的验证码'
+				}
+			}
+		});
+	});
+</script>
+

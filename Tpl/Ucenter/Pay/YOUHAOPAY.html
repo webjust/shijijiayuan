@@ -1,0 +1,15 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>友好宝在线支付接口</title>
+    </head>
+    <body onLoad="javascript:document.E_FORM.submit();">
+		<form action="https://pay.astpay.com:8443/gateway"  method="get" name="E_FORM">
+			<volist name="params" id="value">
+			<input type="hidden" name="<?php echo $key?>" value="<?php echo $value?>"/>
+			</volist>
+		</form>
+    </body>
+</html>

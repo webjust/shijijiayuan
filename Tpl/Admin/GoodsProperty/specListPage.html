@@ -1,0 +1,145 @@
+<div class="rightInner tableColor">
+    <form action="{:U('Admin/GoodsProperty/doDelSpec')}" method="POST" onsubmit="return beforeDeleteConfirm();">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    商品属性列表
+					<span style="margin-left:30px;">
+						<select name="gt_id" class="medium" id="goods-spec-list-type-change">
+							<option value="0">显示全部属性</option>
+							<volist name="array_type_info" id="type">
+							<option value="{$type['gt_id']}" <if condition="$int_type_id eq $type['gt_id']">selected</if>>{$type['gt_name']}</option>
+							</volist>
+						</select>
+					</span>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" id="checkbox_check_all" class="checkbox " /></th>
+                <th>操作</th>
+                <th>属性名称</th>
+                <th>系统属性</th>
+                <th>销售属性</th>
+                <th>排序</th>
+                <th>商品类型</th>
+                <th>是否搜索</th>
+                <th>属性值的录入方式</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_spec" id="spec">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="gs_id[]" <if condition="$spec.gs_is_system_spec eq 1">disabled="disabled"</if> value="{$spec.gs_id}" /></td>
+                <td>
+					<if condition="$spec.gs_is_system_spec neq 1">
+                    <a href='{:U("Admin/GoodsProperty/specEditPage?gsid=$spec[gs_id]&gt_type=$spec[gt_type]")}'>编辑</a> 
+                    <a href='{:U("Admin/GoodsProperty/doDelSpec?gsid=$spec[gs_id]&gt_type=$spec[gt_type]")}' class="confirm">删除</a>
+					<a href='{:U("Admin/GoodsProperty/addSpecPage?gt_id=$spec[gt_id]&gt_type=$spec[gt_type]")}'>添加同类属性</a>
+					<else />
+					<a href="javascript:void(0);" style="color:gray;" title="系统属性，不允许编辑。">编辑</a>
+					<a href="javascript:void(0);" style="color:gray;" title="系统属性，不允许删除。">删除</a>
+					</if>
+                </td>
+                <td>{$spec.gs_name}</td>
+                <td><eq name="spec.gs_is_system_spec" value="0">否 <else /> 是</eq></td> 
+                <td><eq name="spec.gs_is_sale_spec" value="0">否 <else /> 是</eq></td> 
+				<td>{$spec.gs_order}</td>
+				<td><if condition="$spec.gs_is_system_spec neq 1">{$spec.gt_name}<else /><span style="color:#ff0000;">所有类型共用</span></if></td>
+                <td><input type="checkbox" id="list_{$spec.gs_id}" class="is_search" gsid = "{$spec.gs_id}" value="{$list.gs_is_search}" <if condition="$spec.gs_is_search eq '1'">checked="checked"</if>/></td>
+                <td>
+					<if condition="$spec.gs_input_type eq 1">
+					文本输入框
+					<elseif condition="$spec.gs_input_type eq 2" />
+					下拉选框
+					<elseif condition="$spec.gs_input_type eq 3" />
+					文本域输入：textarea
+					</if>
+				</td>
+            </tr>
+            </volist>
+            <empty name="ary_spec">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+					<input type="submit" value="删除选中" class="btnA confirm" />
+					<span class="right page">{$page}</span>
+				</td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#checkbox_check_all").click(function(){
+		var bool_is_checked = this.checked;
+		$(".checkSon").each(function(){
+			$(this).attr('checked',bool_is_checked);
+		})
+	});
+	$("#goods-spec-list-type-change").change(function(){
+		var selected_goods_type_id = parseInt($(this).val());
+		var gt_type = $(this).attr('title');
+		if( selected_goods_type_id > 0){
+			var request_uri = "{:U('Admin/GoodsProperty/specListPage')}/gt_id/" + $(this).val();
+			window.location.href = request_uri;
+		}else{
+			window.location.href = "{:U('Admin/GoodsProperty/specListPage')}";
+		}
+		return false;
+	});
+});
+function beforeDeleteConfirm(){
+	//验证是否选择要删除的数据
+	var is_checked = false;
+	$(".checkSon").each(function(){
+		if(this.checked){
+			is_checked = true;
+		}
+	});
+	if(!is_checked){
+		alert("请选择您要删除的商品属性！");
+		return false;
+	}
+}
+
+$(document).ready(function(){
+    //切换
+    $('.is_search').click(function(){
+        var gsid = $(this).attr("gsid");
+        if($(this).attr('checked') == 'checked'){
+            var gs_is_search = 1;
+        }else{
+            var gs_is_search = 0;
+        }
+        var url = "{:U('Admin/GoodsProperty/doPropertyIsSearch')}";
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:'json',
+            type:'POST',
+            data:{gs_id:gsid,gs_is_search:gs_is_search},
+            error:function(){
+                $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+            },
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    if(gs_is_search){
+                        $("#list_"+gsid).attr("checked",true);
+                    }else{
+                        $("#list_"+gsid).attr("checked",false);
+                    }
+                    $('<div id="resultMessage" />').addClass("msgSuccess").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                }else{
+                    $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                }
+            }
+        });
+    });
+});
+</script>

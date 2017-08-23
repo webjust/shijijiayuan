@@ -1,0 +1,39 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99"><a href="{:U('Admin/Article/pageAddCate')}" class="first add btnG ico_add">新增文章分类</a></th>
+            </tr>
+            <tr>
+                <th width="120">操作</th>
+                <th width="300">文章分类名称</th>
+                <th width="120">排序</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="cateinfo" id="category">
+               <tr>
+                   <td width="120">
+                    <a href='{:U("Admin/Article/pageEditCate","catid=$category[cat_id]")}'>编辑</a>|
+					<a href='{:U("Admin/Article/doDelCate","catid=$category[cat_id]")}'>删除</a>
+					</td>
+					<td style="text-align:left" width="300">{$category.cat_name}</td>
+					<td width="120">{$category.sort_order}</td>
+					<td>{$category.cat_desc}</td>
+               </tr>
+				<volist name="category['sub']" id="sub">
+               	<tr>
+                   <td width="120">
+                    <a href='{:U("Admin/Article/pageEditCate","catid=$sub[cat_id]")}'>编辑</a>|
+					<a href='{:U("Admin/Article/doDelCate","catid=$sub[cat_id]")}'>删除</a>
+					</td>
+					<td style="text-align:left" width="300">└{$sub.cat_name}</td>
+					<td width="120">{$sub.sort_order}</td>
+					<td>{$sub.cat_desc}</td>
+               	</tr>
+				</volist>
+			</volist>
+        </tbody>
+    </table>
+</div>

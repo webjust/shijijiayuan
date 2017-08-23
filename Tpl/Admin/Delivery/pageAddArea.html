@@ -1,0 +1,152 @@
+<script src="__PUBLIC__/Admin/js/order.js"></script>
+<div class="rightInner">
+    <form id="delivery_area" method="post" action="{:U('Admin/Delivery/doAddArea')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">{$info.lc_name} 添加配送区域</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">* 配送区域名称</td>
+                    <td><input type="text" name="lt_name" class="medium" validate="{ required:true}" /></td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">配送区域描述</td>
+                    <td>
+                        <textarea name="lt_detail" validate="{ maxlength:200}" class="mediumBox" ></textarea>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 费用计算方式</td>
+                    <td>
+                        <input type="radio" name="lt_config" value="1" checked="checked" /> 按重量计算
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 首重</td>
+                    <td>
+                        <input type="text" name="logistics_first_weight" class="small" validate="{ required:true,number:true}" />
+<!--                        <select name="logistics_first_weight" validate="{ selected:true}" class="small">
+                            <option value="">请选择</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                            <option value="1500">1500</option>
+                            <option value="2000">2000</option>
+                        </select>-->
+                    </td>
+                    <td class="last">单位：克</td>
+                </tr>
+                <tr>
+                    <td class="first">* 首重费用</td>
+                    <td><input type="text" name="logistics_first_money" id="logistics_first_money" class="small" validate="{ required:true,number:true,min:0}" /></td>
+                    <td class="last">单位：元</td>
+                </tr>
+                <tr>
+                    <td class="first">续重</td>
+                    <td>
+                        <input type="text" name="logistics_add_weight" class="small" validate="{ required:true,number:true}" />
+<!--                        <select name="logistics_add_weight" validate="{ selected:true}" class="small">
+                            <option value="">请选择</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
+                            <option value="600">600</option>
+                            <option value="700">700</option>
+                            <option value="800">800</option>
+                            <option value="900">900</option>
+                            <option value="1000">1000</option>
+                        </select>-->
+                    </td>
+                    <td class="last">单位：克</td>
+                </tr>
+                <tr>
+                    <td class="first">续重费用</td>
+                    <td><input type="text" name="logistics_add_money" id="logistics_add_money" class="small" validate="{ number:true,min:0}" /></td>
+                    <td class="last">单位：元</td>
+                </tr>
+                <tr>
+                    <td class="first">包邮额度</td>
+                    <td><input type="text" name="logistics_configure" id="logistics_configure" class="small" validate="{ number:true,min:0}" /></td>
+                    <td class="last">单位：元</td>
+                </tr>
+                <tr>
+                    <td class="first">选择地区</td>
+                    <td>
+                        <include file="Address:addressPage" />
+                        <a href="javascript:void(0);" id="addCityRegion" onclick="addDeliveryRegions();">添加</a>&nbsp;
+                        <a href="javascript:void(0);" id="addCityRegionAll">添加全国</a>
+                    </td>
+                    <td class="last">重复添加不会被计入</td>
+                </tr>
+                <tr>
+                    <td class="first">已选地区</td>
+                    <td id="cityRegions">
+
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="{$info.lc_id}" name="lc_id" >
+                        <input type="submit" value="提 交" class="btnA" >&nbsp;
+                        <input type="button" value="返回配送公司" class="btnA" onclick='javascript:location.href="{:U('Admin/Delivery/pageList')}";' />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#delivery_area').validate();
+
+        /* 添加全国 */
+        $('#addCityRegionAll').click(function(){
+            var crHtml = '<input type="checkbox" value="1" name="cr_id[]" checked="checked" />&nbsp;全国&nbsp;';
+            $("#cityRegions").append(crHtml);
+        });
+    });
+	function addDeliveryRegions(){
+		if($("#region1").val() != '' && $("#region1").val() != -1 && $("#region1").val() != 0 && null != $("#region1").val()){
+			var obj = $("#region1");
+		}else if($("#city").val() != '' && $("#city").val() != -1 && $("#city").val() != 0 && null != $("#city").val()){
+			var obj = $("#city");
+		}else if($("#province").val() != '' && $("#province").val() != -1 && $("#province").val() != 0 && null != $("#province").val()){
+			var obj = $("#province");
+		}else{
+			alert("请选择省/直辖市/特别行政区。");
+			return;
+		}
+
+		var cr_id = obj.val();
+		var _input = $("#cityRegions").find('input:checkbox:checked');
+		//过滤重复数据
+		var flag = true;
+		if(_input.length>0){
+			_input.each(function(){
+				var _this = $(this);
+				if(_this.val() == cr_id) {
+					flag = false;
+					return false;
+				}
+			
+			});
+		}
+		if(flag) {
+			var cr_name = obj.find('option[value='+cr_id+']').html();
+			var crHtml = '<input type="checkbox" value="'+cr_id+'" name="cr_id[]" checked="checked" />&nbsp;'+cr_name+'&nbsp;';
+			$("#cityRegions").append(crHtml);
+		}
+	}
+</script>

@@ -1,0 +1,94 @@
+<div class="rightInner">
+	<table width="100%" class="tbList">
+		<thead>
+			<tr class="title">
+				<th colspan="99">
+				 <form method="post" >
+                   <p class="conOneP" style="float: left;">
+                       <a href="{:U('Admin/Salespromotion/addSalesSet')}" class="btnG ico_add">添加</a>
+                       <a href="javascript:void(0);" onclick="return getCheckedSales(this);" class="btnG Set">批量删除</a>
+                   </p>
+					<span style="float: right;">
+						分销商:<input type="text" name="m_name" class="large search_cond" id="m_name" value="{$m_name}" style="width: 145px;"/>
+						<a href="javascript:void(0);" class="btnA" id="searchButton">搜索</a>				
+					</span>
+				</form>
+				</th>
+			</tr>
+			<tr>
+				<th style="width:50px;"><input type="checkbox" class="checkAll" /></th>
+                <th style="width: 120px; padding-left:5px; border-left:1px solid #e4e4e4; font-weight:lighter;" class="aligncenter">操作</th>
+                <th style="width: 100px; padding-left:5px; border-left:1px solid #e4e4e4;" class="aligncenter">分销商</th>
+                <th style="width: 140px; padding-left:5px; border-left:1px solid #e4e4e4;" class="aligncenter">起始年月</th>
+                <th style="width: 140px; padding-left:5px; border-left:1px solid #e4e4e4;" class="aligncenter">结束年月</th>
+                <th style="width: 140px; padding-left:5px; border-left:1px solid #e4e4e4;" class="aligncenter">目标销售额（元）</th>
+                <th style="width: 140px; padding-left:5px; border-left:1px solid #e4e4e4;" class="aligncenter">实际销售额（元）</th>
+			</tr>
+		</thead>
+    		<tbody>
+    				<volist name="ary_data" id="item">
+        			<tr>
+         				<td>
+                            <input type="checkbox" class="checkSon" name="mssids[]" value="{$item.mss_id}" />
+                        </td>
+	                    <td style="width: 120px; line-height:18px; padding:5px 0px 5px 0px; text-align:center; padding-left:5px;" class="aligncenter">
+	       					<a href="{:U('Admin/Salespromotion/addSalesSet')}?mssids={$item.mss_id}">编辑</a>
+	       					<a onclick="deleteOne({$item.mss_id})" href="javascript:void(0);">删除</a>
+	                    </td>
+	                    <td style="width: 100px; padding-left:5px;" class="aligncenter">{$item.m_name}</td>
+	                    <td style="width: 140px; padding-left:5px;" class="aligncenter">{$item.mss_time_begin}</td>
+	                    <td style="width: 140px; padding-left:5px;" class="aligncenter">{$item.mss_time_end}</td>
+	                    <td style="width: 140px; padding-left:5px;" class="aligncenter">{$item.mss_sales}</td>
+	                    <td style="width: 140px; padding-left:5px;color:red;font-weight: bold;" class="aligncenter">{$item.m_amount}</td>       			
+        			</tr>
+        			</volist>
+        		<php>if(empty($ary_data)){</php>
+        			<tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        		<php>}</php>
+    		</tbody>
+    		<tfoot>
+    			<tr>
+    				<td colspan="99">
+                        <span class="right page">{$page}</span>
+                    </td>
+    			</tr>
+    		</tfoot>
+	</table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#searchButton").click(function(){
+		var m_name	= $("#m_name").val();
+		var redirect_url = "{:U('Admin/Salespromotion/showSalesSetList')}" + "?search=1&m_name="+m_name;
+		location.href= redirect_url;
+	});
+});
+//单个删除
+function deleteOne(mssids){
+	if(mssids){
+		deleteCombiantionGoods(mssids);
+	}
+}
+//批量删除
+function getCheckedSales(){
+    var mssids = '';
+    $("input[class='checkSon']:checked").each(function(){
+    	mssids += this.value+',';
+    });
+    mssids = mssids.substring(0,mssids.length-1);
+    deleteCombiantionGoods(mssids);
+}
+function deleteCombiantionGoods(mssids){
+    if(confirm('确定要删除吗？删除后不可恢复')){
+        $.post("{:U('Admin/Salespromotion/delSalesSetMore')}",{'mssids':mssids},
+			function(msg){
+				if(msg.status=='1'){
+					showAlert(true,'删除成功','',{'成功':'/Admin/Salespromotion/showSalesSetList'});return false;
+				}else{
+					showAlert(false,'删除失败');return false;
+				}
+		},'json');
+    }
+}
+</script>

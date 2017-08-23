@@ -1,0 +1,112 @@
+<div class="rightInner" style="height:auto">
+    <table width="100%" class="tbList" >
+        <thead>
+            <tr class="title">
+                <th colspan="22">
+                <p class="conOneP" style="float: left;">
+                        <a href="javascript:void(0);" class="btnG Set" id="setAutoPurchases">批量审核采购单</a>
+                    </p>
+                <span style="text-align:right;font-size: 12px;float: left;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Orders/purchaseList')}" style='width:55%;'>
+                        选择采购单生成时间：
+                        <select name="op_time" class="medium">
+                            <option value="0">--请选择时间--</option>
+                            <volist name="timeList" id="vo">
+                            <option value="{$vo.op_time}">{$vo.op_time}</option>                            
+                            </volist>
+                        </select>
+                                <input type="submit" name="search" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                    
+                </span>
+                </th>
+        </tr>
+        <tr>
+        <th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>
+                <th>状态</th>
+                <th>下单时间</th>
+                <th>订单编码</th>
+                <th>商品详细名字</th>
+                <th>系统商品编码（乙方编制）</th>
+                <th>商品识别码（生产商编制）</th>
+                <th>产地</th>
+                <th>颜色</th>
+                <th>规格</th>
+                <th>单位含量（g）</th>
+                <th>单位包装数量</th>
+                <th>官网零售价（韩币）</th>
+                <th>采购折价率（%）</th>
+                <th>商品采购价（韩币）</th>
+                <th>采购数量</th>
+                <th>官网URL地址</th>
+
+        </tr>
+        </thead>
+        <tbody>
+            <volist name="goodsList" id="good">
+            <!-- 会员id -->
+                <tr id="list_{$good.op_id|intval}">
+                <td><input type="checkbox" class="checkSon" data-xid="checkSon_x" name="op_id[]" value="{$good.op_id|intval}" /></td>
+                    <td><if condition="$good['op_status'] eq 1 "> 通过 </if><if condition="$good['op_status'] eq 0 "> 未审核 </if></td>
+                    <th>{$good.op_create_time}</th>
+                    <th>{$good.o_id}</th>
+                    <td>{$good.g_name}</td>
+                    <td>{$good.pdt_sn}</td>
+                    <td>{$good.pdt_bar_code}</td>
+                    <td>{$good.place.gsd_aliases}</td>
+                    <td>{$good.Spec.gsd_aliases}</td>
+                    <td>{$good.guige.gsd_aliases}</td>
+                    <td>{$good.content.gsd_aliases}</td>
+                    <td>{$good.g_unit}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{$good.op_nums}</td>
+                    <td>{$good.website_url}</td>
+                </tr>
+            </volist>
+        <empty name="goodsList">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="left page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("#setAutoPurchases").click(function(){
+        var op_id = '';
+        $(".checkSon:checked").each(function(){
+            op_id += this.value+',';
+        });
+        op_id = op_id.substring(0,op_id.length-1);
+        if(op_id == ''){
+            showAlert(false,'请选择要审核的记录');return false;
+        }
+        $.ajax({
+           url:'{:U("Admin/Orders/checkPurchase")}', 
+            cache:false,
+            dataType:"json",
+            data:{op_id:op_id},
+            type:"POST",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    showAlert(true,'采购单审核成功');
+                    $(".checkSon:checked").each(function(){
+                        $("#hide_audit_"+this.value).css("display","none");
+                        $("#check_audit_"+this.value).css("display","");
+                    });
+                    window.location.reload();
+                    
+                }else{
+                    showAlert(false,msgObj.info);
+                }
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,30 @@
+{__NOLAYOUT__}
+<a href="{:U('Ucenter/Cart/pagelist')}" style="position:absolute; left:0px; top:0px; z-index:1"><img src="__IMAGES__transparent.gif" alt="" class="cart"/></a>
+<div class="cartCon"><!--cartCon  start-->
+    <dl>
+        <volist name="cart_data" id="data">
+        <php>if($data[0]['pdt_rule_name']=='自由搭配'){</php>
+        <volist name="data" id="da">
+            <dd>
+                <img src="<php>$da['g_picture'] = '/'.ltrim($da['g_picture'],'/');echo $da['g_picture'];</php>" width="78" height="78">
+                <a href="Home/Products/detail/gid/{$da.g_id}" class="proN">{$da.g_name} {$da.pdt_spec}</a>
+                <span><i class="price">&yen;</i> <b class="red">{$da.f_price|sprintf='%.2f',###}</b> &nbsp;× <abbr>{$da.pdt_nums}</abbr></span>
+                <a href="javascript:void(0);" onclick="deleteFromMyCart('{$da.pdtId}',{$da.type});" class="cancel"></a>
+            </dd>
+        </volist>
+        <php>}else{</php>
+        <dd>
+            <img src="<php>$data['g_picture'] = '/'.ltrim($data['g_picture'],'/');echo $data['g_picture'];</php>" width="78" height="78">
+            <a href="Home/Products/detail/gid/{$data.g_id}" class="proN">{$data.g_name} {$data.pdt_spec}</a>
+            <span><i class="price">&yen;</i> <b class="red">{$data.f_price|sprintf='%.2f',###}</b> &nbsp;× <abbr>{$data.pdt_nums}</abbr></span>
+            <a href="javascript:void(0);" onclick="deleteFromMyCart({$data.pdt_id},{$da.type|default='0'});" class="cancel"></a>
+        </dd>
+        <php>}</php>
+        </volist>
+    </dl>
+    <p class="bop">
+        共 <b class="red">{$price_data.all_nums|default='0'}</b> 件商品 <br>
+        总计：<i class="price">&yen;</i> <strong class="red">{$price_data.all_price|default="0.00"}</strong>
+        <a href="{:U('Ucenter/Cart/pageList')}" class="check"></a>
+    </p>
+</div><!--cartCon  end-->

@@ -1,0 +1,50 @@
+<div class="rightInner tableColor">
+    <table width="100%" class="tbList" >
+        <thead>
+            <tr class="title">
+                <th style="text-align:right;font-size: 12px;" colspan="99">
+                    <form id="searchForm" method="post" href='{:U("Admin/Recources/pageList")}'>
+                        运输公司名称：
+                        <input type="text" value="" name="rc_name" class="large">
+                        <input class="btnHeader inpButton" type="submit" value="搜 索">
+                    </form>
+                </th>
+            </tr>
+            <tr>
+                <th>公司编号</th>
+                <th>公司名称</th>
+                <th>类型</th>
+                <th>联系电话</th>
+                <th>负责人</th>
+                <th>开户银行</th>     
+                <th>银行账号</th>     
+                <th>状态</th>     
+                <th>备注</th>     
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_data" id="rc">
+            <tr> 
+                <td>{$rc.cc_sn}</td>
+                <td>{$rc.cc_name}</td>
+                <td>{$rc.cc_type}</td>
+                <td>{$rc.cc_phone}</td>
+                <td>{$rc.cc_person}</td>
+                <td>{$rc.cc_bank}</td>
+                <td>{$rc.cc_bank_no}</td>
+                <td>{$rc.cc_status}</td>
+                <td>{$rc.cc_remark}</td>
+            </tr>
+            </volist>
+            <empty name="ary_brand">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

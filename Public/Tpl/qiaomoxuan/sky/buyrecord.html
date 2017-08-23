@@ -1,0 +1,62 @@
+{__NOLAYOUT__}
+<div class="cjjl">
+	<p>本商品累计售出<strong>{$buynums|default=0}</strong>件</p>
+	<table>
+		<tr class="head">
+			<th>买家</th><th>宝贝名称</th><eq name="buy_price" value="1"><th>购买价</th></eq><th>购买数量</th><th width="200">成交时间</th>
+		</tr>
+		<volist name="data" id="list">
+			<tr>
+				<td><span>{$list.m_name}</span></td>
+				<td><div class="pName"><a>{$list.oi_g_name}</a></div></td>
+                <eq name="buy_price" value="1">
+				<td><span>{$list.oi_price|sprintf='%.2f',###}</span></td>
+                </eq>
+				<td><span>{$list.oi_nums}</span></td>
+				<td><span>{$list.oi_create_time}</span></td>
+			</tr>			
+         </volist>
+	</table>
+
+	<div class="fenye" style="float: right;">
+<if condition="$page['nowPage'] eq 1">
+<a><<上一页</a>
+<else />
+<a onclick="getBuyRecordPage('{$list[g_id]}','{$page[nowPage]-1}')"><<上一页</a>
+</if>
+<php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+<if condition="$a eq $page['nowPage']">
+<a href="javascript:void(0);" class="on">{$a}</a>
+<else/>
+<a onclick="getBuyRecordPage('{$list[g_id]}',20,'{$a}')">{$a}</a>
+</if>
+<php>}</php>
+<if condition="$page['nowPage'] eq $page['totalPage']">
+<a>下一页>></a>
+<else />
+<a onclick="getBuyRecordPage('{$list[g_id]}',20,'{$page[nowPage]+1}')">下一页>></a>
+</if>
+</div>
+</div>
+<script>
+$(function(){
+    if("{$buynums}"){
+        $('#show_sale_num').html("(" + "{$buynums|default=0}"+")");
+    }
+})
+//function getBuyRecordPage(gid,num){
+//    $.ajax({
+//        url:'/Home/Products/getBuyRecordPage',
+//        dataType:'HTML',
+//        type:'POST',
+//        data:{
+//            gid:gid,
+//            p:num
+//        },
+//        success:function(msgObj){
+//            $("#con_tabs_3").html(msgObj);
+//            return false;
+//        }
+//    });
+//}
+</script>

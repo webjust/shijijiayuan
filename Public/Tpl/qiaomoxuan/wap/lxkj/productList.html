@@ -1,0 +1,386 @@
+
+    <link rel="stylesheet" href="__TPL__/css/base.css">
+    <link rel="stylesheet" href="__TPL__/css/swiper.css">
+    <script src="__TPL__/js/TouchSlide.1.1.js"></script>
+    <script src="__TPL__/js/swiper.jquery.js"></script>
+    <div class="alltop"><img src="__TPL__/images/top.png" alt=""></div>
+    <script src="__TPL__/js/jquery.SuperSlide.2.1.1.js"></script>
+    <div class="mg ov">
+        <div class="headerTop">
+            <div class="header_in">
+                <div class="home"><a href="/Wap/"><img src="__TPL__/images/home.png" alt=""></a></div>
+                <div class="logo"><a href="/Wap/" title=""><img src="__TPL__/images/logo.png"></a></div>
+                <div class="search"><a href="/Wap/Index/search"><img src="__TPL__/images/search.png" alt=""></a></div>
+            </div>
+        </div>
+        <div id="nav">
+            <div class="nav">
+                <ul>
+                    <li class="spe"><a href="/Wap/">首页</a></li>
+                    <Gyfx:goodscate name="cate" k="k">
+                        <li><a href="/Wap/Products/index?cid={$cate.cid}">{$cate.cname}</a></li>
+                    </Gyfx:goodscate>
+                </ul>
+            </div> 
+        </div>      
+        <div id="focus" class="focus">
+            <div class="hd">
+                <ul></ul>
+            </div>
+            <div class="bd">
+                <ul>
+                    <gyfx:adwaptising name='nav'  position="banner">
+                        <li><a href="{$nav.naurl}" target="{$nav.ntarget}" ><img _src="{$nav.nimgurl}" src="{$nav.nimgurl}" /></a></li>
+                    </gyfx:adwaptising>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+            TouchSlide({ 
+                slideCell:"#focus",
+                titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:".bd ul", 
+                effect:"left", 
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+            });
+        </script>
+        <div class="return">
+            <div class="title" onclick="window.history.back();"><a href="javascript:void(0);"><img src="__TPL__/images/return.jpg" alt=""></a>返回</div>
+            <input type="hidden" id="startNum" value="3" />
+        </div>
+        <div class="xqy zhss">
+            <div class="tabBox">
+                <div class="hd1">
+                  <ul>
+                    <li <if condition="($ary_request.order eq '_hot') OR ($ary_request.order eq 'hot')">class="on {$ary_request._order.hot}"</if>><span><a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order={$ary_request._order.hot}">销量</a></span></li>
+                    <li <if condition="($ary_request.order eq '_price') OR ($ary_request.order eq 'price')">class="on {$ary_request._order.price}"</if>><span><a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order={$ary_request._order.price}">价格</a></span></li>
+                    <li <if condition="($ary_request.order eq '_new') OR ($ary_request.order eq 'new')">class="on {$ary_request._order.new}"</if>><span><a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order={$ary_request._order.new}">新品</a></span></li>
+                    <li class="shaixuan"><span class="shuaixuan"><a href="###">筛选</a></span></li>
+                  </ul>
+                </div>
+                <div class="bd" style="position: relative;">
+                    <div class="slide">
+                        <div class="cz_gdrx">
+                            <ul id="productList">
+                                <Gyfx:goodslist wap="1" name='showlist' bid="$ary_request['bid']" cid="$ary_request['cid']" pagesize="12" start="$ary_request[start]" gname="$ary_request[keyword]" order="$ary_request[order]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" >
+                                    <li><a href="{$showlist.gurl}" title="{$showlist.gname}">
+                                        <div class="lh_wrap">
+                                            <div class="p-img"><img alt="" src="{$Think.config.DOMAIN_HOST}{$showlist.g_picture|showImage=###,300,300}"></div>
+                                            <div class="p-name">{$showlist.gname}</div>
+                                            <div class="p-price"><span class="price">￥<strong>{$showlist.gprice|sprintf='%.2f',###}</strong></span><span class="extra">销量<strong>{$showlist.gsales}</strong>件</span></div>
+                                        </div>
+                                    </a></li>
+                                </Gyfx:goodslist>
+                            </ul>  
+                            <div id="loading" class=" clearfix" style="display: none;padding-bottom: 10px;text-align: center;line-height: 30px;font-size: 15px;">正在加载...</div> 
+                        </div>                 
+                    </div>
+                    <style type="text/css">
+                    .slide{}
+                    .slide .bd ul{}
+                    </style>
+                    <!--筛选 开始-->
+                    <div class="slide" id="filter_items" style="display:none;z-index: 10;position: fixed;top: 0px;left: 0px;width: 100%;background-color: #FFF;">
+                        <form method="get" action="{:U('Wap/Products/index')}" id="proFilter">
+                            <input type="hidden" name="bid" value="{$ary_request.bid}">
+                            <input type="hidden" name="cid" value="{$ary_request.cid}">
+                            <input type="hidden" name="startPrice" value="{$ary_request.startPrice}">
+                            <input type="hidden" name="endPrice" value="{$ary_request.endPrice}">
+                            <div class="sx2">
+                                <div class="sx_top">
+                                    <p class="sx_top_bid" item="bid">
+                                    <Gyfx:goodsbrand name="brand" cid="$ary_request.cid" mod='3'>
+                                        <if condition="$brand[bid] eq $ary_request[bid]">
+                                            <span>{$brand.bname}<em>x</em></span>
+                                        </if>
+                                    </Gyfx:goodsbrand>
+                                    </p>
+                                    <p class="sx_top_cid" item="cid">
+                                        <Gyfx:goodscate name="cate" mod="3">
+                                            <if condition="$cate[cid] eq $ary_request[cid]">
+                                                <span>{$cate.cname}<em>x</em></span>
+                                            </if>
+                                        </Gyfx:goodscate>
+                                    </p>
+                                    <p class="sx_top_Price" item="Price">
+                                        <if condition="$ary_request.endPrice eq 50" >
+                                            <span>50以下<em>x</em></span>
+                                        </if>
+                                        <if condition="$ary_request.endPrice eq 100" >
+                                            <span>50-100元<em>x</em></span>
+                                        </if>
+                                        <if condition="$ary_request.endPrice eq 200" >
+                                            <span>100-200元<em>x</em></span>
+                                        </if>
+                                        <if condition="$ary_request.endPrice eq 300" >
+                                            <span>200-300元<em>x</em></span>
+                                        </if>
+                                        <if condition="$ary_request.endPrice eq 500" >
+                                            <span>300-500元<em>x</em></span>
+                                        </if>
+                                        <if condition="$ary_request.startPrice eq 500" >
+                                            <span>500元以上<em>x</em></span>
+                                        </if>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="slideTxtBox">
+                                <div class="hd">
+                                    <ul>
+                                        <li>品牌</li>
+                                        <li>分类</li>
+                                        <li>价格</li>
+                                    </ul>
+                                </div>
+                                <div class="bd">
+                                    <ul class="one bidzsrq" style="overflow-y:auto;">
+                                        <li class="one_auto">
+                                            <p item="goodsbrand" bid="" <if condition="$ary_request.bid eq ''"> class="on" </if>>全部</p>
+                                            <Gyfx:goodsbrand name="brand" cid="$ary_request.cid" mod='3'>
+                                                <div class="a <if condition="$brand[bid] eq $ary_request[bid]"> on</if>" item="goodsbrand"  bid="{$brand.bid}" ><a href="javascript:void(0);">{$brand.bname}</a></div>
+                                            </Gyfx:goodsbrand>
+                                        </li>
+                                    </ul>
+                                    <ul class="two cidzsrq" style="overflow-y:auto;">
+                                        <li cid="" item="goodscate" <if condition="$ary_request.cid eq ''">class="on" </if>>全部</li>
+                                        <Gyfx:goodscate name="cate" mod="3">
+                                            <li cid="{$cate.cid}" item="goodscate" <if condition="$cate[cid] eq $ary_request[cid]">class="on"</if>>{$cate.cname}</li>
+                                            <php>
+                                                if($cate['cid'] == $ary_tmp_cate[0]){
+                                                    $cname = $cate['cname'];
+                                                    $cid = $cate['cid'];
+                                                    $ary_cate = $cate['sub'];
+                                                }
+                                            </php>
+                                        </Gyfx:goodscate>
+                                    </ul>
+                                   <ul class="two Pricezsrq" style="overflow-y:auto;">
+                                        <li item='goodspRank' startPrice="" endPrice="" <if condition="($ary_request.startPrice eq '') and  ($ary_request.endPrice eq '')"> class="on" </if>>不限</li>
+                                        <li item='goodspRank' startPrice="0" endPrice="50" <if condition="$ary_request.endPrice eq 50" >class="on"</if> >50以下</li>
+                                        <li item='goodspRank' startPrice="50" endPrice="100" <if condition="$ary_request.endPrice eq 100" >class="on"</if> >50-100元</li>
+                                        <li item='goodspRank' startPrice="100" endPrice="200" <if condition="$ary_request.endPrice eq 200" >class="on"</if> >100-200元</li>
+                                        <li item='goodspRank' startPrice="200" endPrice="300" <if condition="$ary_request.endPrice eq 300" >class="on"</if> >200-300元</li>
+                                        <li item='goodspRank' startPrice="300" endPrice="500" <if condition="$ary_request.endPrice eq 500" >class="on"</if> >300-500元</li>
+                                        <li item='goodspRank' startPrice="500" endPrice="" <if condition="$ary_request.startPrice eq 500" >class="on"</if> >500元以上</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <script type="text/javascript">jQuery(".slideTxtBox").slide();</script>     
+                            <div class="news">
+                                <div class="footadd" style="width:100%;display:block;"></div>
+                                <div class="footer1">
+                                    <ul>
+                                        <li class="fl quxiao"><a href="javascript:void(0);">取消</a></li>          
+                                        <li class="fr" onclick="$('#proFilter').submit();"><a href="javascript:void(0);">确定</a></li>           
+                                        <div style="clear:both;"></div>
+                                    </ul>               
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!--筛选 结束-->
+
+                </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            //wimb = $(".footer li").eq(1).find('a').find('img').attr("src");
+            wimw = $(".footer li").eq(1).find('a').find('img').attr("_src");
+            $(".footer li").eq(1).find('a').addClass("on");
+            //$(".footer li").eq(1).find('a').find('img').attr('_src',wimb);
+            $(".footer li").eq(1).find('a').find('img').attr('src',wimw);
+        });
+        </script>
+
+<script type="text/javascript">
+    $.extend({
+        //获取所有的url参数
+        getUrlVars: function(){
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        },
+        //获取某个url参数
+        getUrlVar: function(name){
+            return $.getUrlVars()[name];
+        }
+    });
+    $(document).ready(function(){ 
+        $(".footadd").height($(".footer1").height());
+        var headerTop_h = $(".headerTop").height();
+        $(".menu").css("top",headerTop_h);
+        var li_width = $(".cz_pp li").width();
+        $(".cz_pp li").height(li_width);
+        var window_width = $(window).height();
+        $(".shadowbox").height(window_width);
+        // one_auto
+
+    });
+    $('.sx_top em,.sx_top_bid,.sx_top_cid,.sx_top_Price').bind('click', function() {
+        var item = $(this).parent().parent().attr('item');
+        if(!item){item = $(this).attr('item');}
+        if(item=='bid'){
+            $('.bidzsrq .on').removeClass('on');
+            $(':hidden[name="bid"]').val('');
+            $('.sx_top_bid').html('');
+        }else if(item=='cid'){
+            $('.cidzsrq .on').removeClass('on');
+            $(':hidden[name="cid"]').val('');
+            $('.sx_top_cid').html('');
+        }else if(item=='Price'){
+            $('.Pricezsrq .on').removeClass('on');
+            $(':hidden[name="startPrice"]').val('');
+            $(':hidden[name="endPrice"]').val('');
+            $('.sx_top_Price').html('');
+        }
+    });
+    $(function(){
+        //点击显示/隐藏搜索框
+        $(".sch").click(function(){
+            $(".plSch").toggle();
+        });
+        //点击填出筛选项
+        $(".shaixuan").click(function(){
+            $("#filter_items").show();
+            var window_width = $(window).height();
+            $(".slideTxtBox .bd ul").height(window_width - $(".sx2").height() - 20);
+            $(".slideTxtBox .bd ul").css('padding-bottom',$(".footer1").height()+1);
+            $('body,html').css('overflow','hidden');
+        });
+        //取消筛选
+        $(".quxiao").click(function(){
+            $('body,html').css('overflow','auto');
+            $("#filter_items").hide();
+        });
+
+        //产品品牌筛选
+        $('[item="goodsbrand"]').click(function(){
+            if($(this).hasClass('on')){
+                $(this).removeClass('on');
+                $(':hidden[name="bid"]').val('');
+                $('.sx_top_bid').html('');
+            }else{
+                $('[item="goodsbrand"]').removeClass('on');
+                $(this).addClass('on');
+                $(':hidden[name="bid"]').val($(this).attr('bid'));
+                if($(this).html()=='全部'){
+                    $('.sx_top_bid').html('');
+                }else{
+                    $('.sx_top_bid').html('<span>'+$(this).children("a").html()+'<em>x</em></span>');
+                }
+
+            }
+            return false;
+        });
+
+        //产品分类筛选
+        $('[item="goodscate"]').click(function(){
+            if($(this).hasClass('on')){
+                $(this).removeClass('on');
+                $(':hidden[name="cid"]').val('');
+                $('.sx_top_cid').html('');
+            }else{
+                $('[item="goodscate"]').removeClass('on');
+                $(this).addClass('on');
+                $(':hidden[name="cid"]').val($(this).attr('cid'));
+                if($(this).html()=='全部'){
+                    $('.sx_top_cid').html('');
+                }else{
+                    $('.sx_top_cid').html('<span>'+$(this).html()+'<em>x</em></span>');
+                }
+            }
+            return false;
+        });
+
+        //价格区间筛选
+        $("[item='goodspRank']").click(function(){
+            if($(this).hasClass('on')){
+                $(this).removeClass('on');
+                $(':hidden[name="startPrice"]').val('');
+                $(':hidden[name="endPrice"]').val('');
+                $('.sx_top_Price').html('');
+            }else{
+                $("[item='goodspRank']").removeClass('on');
+                $(this).addClass('on');
+                $(':hidden[name="startPrice"]').val($(this).attr('startPrice'));
+                $(':hidden[name="endPrice"]').val($(this).attr('endPrice'));
+                
+                if($(this).html()=='不限'){
+                    $('.sx_top_Price').html('');
+                }else{
+                    $('.sx_top_Price').html('<span>'+$(this).html()+'<em>x</em></span>');
+                }
+            }
+            return false;
+        });
+        
+        //监听滚动条
+        var range = 150;             //距下边界长度/单位px
+        var can_ajax = true;
+        var end_product_list = false;
+        $(window).scroll(function(){
+            if(end_product_list){
+                return ;
+            }
+            var windowHeight=$(window).height();//浏览器窗口高度
+            var scrollTopHeight=$(window).scrollTop();//滚动条顶部距离窗口顶部的高度（页面超出窗口的高度）
+            var winAndScrollHeight=windowHeight+scrollTopHeight;//浏览器窗口高度加上滚动条顶部高度    
+            var contentHeight=$("body").height();//内容高度
+            if(winAndScrollHeight >= (contentHeight - range)) { //当相等时代表已经到了页面最底部
+                
+                loadproducts();
+            }
+        
+        });
+        
+        function loadproducts(){
+            if(!can_ajax){
+                return ;
+            }
+            if((window.location.href.indexOf('?') + 1) == 0){
+                var query_string = 'r='+(Math.floor(Math.random()*10000)+1);
+            }else{
+                var query_string = window.location.href.slice(window.location.href.indexOf('?') + 1);
+            }
+            
+            var startNum = parseInt($("#startNum").val());
+            $.ajax({
+                url: "/Wap/Products/ajaxProductList",
+                type : 'GET',
+                data: query_string+"&start="+startNum,
+                beforeSend: function(){
+                    can_ajax = false;
+                    $("#loading").show();
+                    // Handle the beforeSend event
+                },
+                complete : function(Jdata){
+                    can_ajax = true;
+                    $("#loading").hide();
+//                    console.log(jQuery.parseJSON(Jdata.responseText).data.html);return;
+                    if(Jdata.status){
+                        if(jQuery.parseJSON(Jdata.responseText).data.html){
+                            $("#productList").append(jQuery.parseJSON(Jdata.responseText).data.html);
+                            $("#startNum").val(startNum += 1);
+                        }else{
+                            end_product_list = true;
+                        }
+                    }else{
+                        
+                    }
+                },
+                dataType : "json"
+            });
+        }
+    });
+    
+</script>

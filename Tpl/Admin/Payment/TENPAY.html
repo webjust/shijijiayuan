@@ -1,0 +1,57 @@
+<div class="rightInner">
+    <form id="online_config" method="post" action="{:U('Admin/Financial/doConfigOnline')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        配置您的财付通线上收款账户
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">* 财付通商户号</td>
+                    <td>
+                        <input type="text" name="tenpay_account" class="large" value="{$info.config.tenpay_account}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 交易安全校验码</td>
+                    <td>
+                        <input type="text" name="pay_safe_code" class="large" value="{$info.config.pay_safe_code}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">支付手续费</td>
+                    <td>
+                        <input type="text" name="pc_fee" class="small" value="{$info.pc_fee}"  validate="{ number:true, min:0}" />
+                    </td>
+                    <td class="last">通常第三方平台会向您收取支付手续费。您可以为每笔订单设置固定的支付手续费。默认为0</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="TENPAY" name="code" />
+                        <input type="submit" value="保 存" class="btnA" />&nbsp;
+                        <input type="button" value="返 回" class="btnA back" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#online_config').validate();
+    });
+</script>

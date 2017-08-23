@@ -1,0 +1,49 @@
+<div class="rightInner">
+    <form id="point_set" name="point_set" method="post" action="{:U('Admin/Coupon/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">优惠券获取节点</th>
+                </tr>
+            </thead>
+
+            <tbody>
+			    <tr>
+                    <th colspan="99">优惠券获取节点</th>
+                </tr>
+                <tr>
+                    <td class="first">获得优惠券节点：</td>
+                    <td>
+                        <input type="radio" name="GET_COUPON_SET" value="0" <eq name="GET_COUPON_SET" value="0">checked="checked"</eq> /> 付款后
+                        <input type="radio" name="GET_COUPON_SET" value="1" <eq name="GET_COUPON_SET" value="1">checked="checked"</eq> /> 发货后
+                        <input type="radio" name="GET_COUPON_SET" value="2" <eq name="GET_COUPON_SET" value="2">checked="checked"</eq> /> 确认收货后
+                        <input type="radio" name="GET_COUPON_SET" value="3" <eq name="GET_COUPON_SET" value="3">checked="checked"</eq> /> 订单完成后
+                    </td>
+                </tr>
+            </tbody>
+			<tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+  $("input[name='is_consumed']").click(function(){
+        
+         if($(this).val() == 0){
+		  
+                $('#ratio_tr').hide();
+            }
+			else{
+			    $('#ratio_tr').show();
+            }
+   });
+   $('#point_set').validate();
+});
+</script>

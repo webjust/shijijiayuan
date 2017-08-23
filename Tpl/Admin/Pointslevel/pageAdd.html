@@ -1,0 +1,67 @@
+<script src="__PUBLIC__/Addmin/js/member.js"></script>
+<div class="rightInner">
+    <form id="points_form" name="points_form" method="post" action="{:U('Admin/Pointslevel/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">积分等级添加</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">等级名称：</td>
+                    <td>
+                        <input type="text" name="pl_name" id="pl_name" class="medium" value="" validate='{ required:true,username:true,remote:"{:U("Admin/Pointslevel/checkMemberLevelEdit","pl_id=$level[pl_id]&type=add&filed=pl_name&msg=等级名称")}"}' /> <br> 
+                    </td>
+                    <td class="last">请输入等级名称</td>
+                </tr>
+                <tr>
+                    <td class="first">积分倍数：</td>
+                    <td>
+                        <input type="text" name="pl_discount" id="pl_discount" class="medium" value="" validate='{ required:true,range:[1,9]}' /><br> 
+                    </td>
+                    <td class="last">填入1-9的数,不同等级获取的积分倍数不一样</td>
+                </tr>
+                 <tr>
+                    <td class="first">等级代码：</td>
+                    <td>
+                        <input type="text" name="pl_code" id="pl_code" class="medium" value="" validate='{ required:true,remote:"{:U("Admin/Pointslevel/checkMemberLevelEdit","pl_id=$level[pl_id]&type=add&filed=pl_code&msg=等级代码")}"}' /> <br> 
+                    </td>
+                    <td class="last">请输入等级代码</td>
+                </tr> 
+                <tr>
+                    <td class="first">等级晋升：</td>
+                    <td>
+                        <input type="text" name="pl_up_fee" id="pl_up_fee" class="medium" value="" validate='{ required:true,number:true}' /> <br> 
+                    </td>
+                    <td class="last">上个等级升到本等级条件(本等级金额必须大于上个等级积分)</td>
+                </tr> 
+                <tr>
+                    <td class="first">是否默认：</td>
+                    <td>
+                        <input type="radio" value="0" checked="checked"  name="pl_default" id="pl_default_0" /> 
+                        <label for="pl_default_0">否</label> 
+                        <input type="radio" value="1"  name="pl_default" id="pl_default_1" />
+                        <label for="pl_default_1">是</label>
+                    </td>
+                <td class="last">说明文字</td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Pointslevel/pageList')}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验积分等级-->
+<script>
+    $(document).ready(function(){   
+        $("#points_form").validate();   
+    });
+</script>

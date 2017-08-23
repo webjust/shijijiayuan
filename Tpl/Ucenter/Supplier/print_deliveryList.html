@@ -1,0 +1,108 @@
+{__NOLAYOUT__}
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    td,th{text-align: center;font-size: 10px;}
+    .page_btn{width: 100%;  height: 35px;line-height: 35px;}
+    .page_btn>div{float:left;}
+    .print_btn{width: 65px;text-align: center;height:30px;line-height: 30px;background: #f01d64;color: white;text-decoration: none;display: block;margin-left: 20px;border-radius: 5px;}
+</style>
+<div class="contentRightBox">
+    <div style="overflow: hidden;width: 100%">
+        <form method="get" action="{:U('Admin/Members/doDel')}" id="members_del">
+            <!--startprint-->
+            <table  width="100%" class="tbList" align="center" border="1" cellspacing="0" cellpadding="0">
+                <caption>商品送货单<img src="http://www.caizhuangguoji.com/barcodegen/html/image.php?filetype=PNG&dpi=72&scale=1&rotation=0&font_family=Arial.ttf&font_size=12&text={$odb_id}&thickness=30&checksum=&code=BCGcode39"></caption>
+                <thead>
+                <tr>
+                    <th>下单时间</th>
+                    <th>订单编码</th>
+                    <th>商品详细名字</th>
+                    <th>系统商品编码（乙方编制）</th>
+                    <th>商品识别码（生产商编制）</th>
+                    <th>产地</th>
+                    <th>颜色</th>
+                    <th>规格</th>
+                    <th>单位含量（g）</th>
+                    <th>单位包装数量</th>
+                    <th>官网零售价（韩币）</th>
+                    <th>采购折价率（%）</th>
+                    <th>商品采购价（韩币）</th>
+                    <th>采购数量</th>
+                    <th>已送数量</th>
+                    <th>送货数量</th>
+                    <th>差额数量</th>
+                    <th>官网URL地址</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="goodsList" id="good">
+                    <!-- 会员id -->
+                    <tr id="list_{$good.op_id|intval}">
+                        <th>{$good.op_create_time}</th>
+                        <th>{$good.o_id}</th>
+                        <td>{$good.g_name}</td>
+                        <td>{$good.pdt_sn}</td>
+                        <td>{$good.pdt_bar_code}</td>
+                        <td>{$good.place.gsd_aliases}</td>
+                        <td>{$good.Spec.gsd_aliases}</td>
+                        <td>{$good.guige.gsd_aliases}</td>
+                        <td>{$good.content.gsd_aliases}</td>
+                        <td>{$good.g_unit}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{$good.op_nums}</td>
+                        <td id='finish_{$good.op_id}' class="finish">{$good.finish_nums}</td>
+                        <if condition="$odb_status neq '1'">
+                            <td><input type="text" id="left_{$good.op_id}" value="{$good.left_nums}" class="left" onchange="getValue('{$good.op_id}')"/></td>
+                            <else />
+                            <td>{$good.left_nums}</td>
+                        </if>
+                        <td id="difference_{$good.op_id}" class="difference">{$good.difference}</td>
+                        <td>{$good.website_url}</td>
+                    </tr>
+                </volist>
+                <!--   <empty name="ary_supplier">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> -->
+                </tbody>
+            </table>
+            <!--endprint-->
+        </form>
+    </div>
+    <div class="page_btn">
+        <div><span class="right page">{$page}</span></div>
+        <div><a href="/Ucenter/Supplier/purchaseList/print/1" target="_blank" class="print_btn" onclick="preview()">打印</a></div>
+        <!--<div><a href="/Ucenter/Supplier/purchaseList/print/1" target="_blank" class="print_btn" onclick="javascript:printpreview()">打印预览</a></div>-->
+    </div>
+</div>
+<include file="advance-search" />
+<script type="text/javascript">
+    function preview()
+    {
+        bdhtml=window.document.body.innerHTML;
+        sprnstr="<!--startprint-->";
+        eprnstr="<!--endprint-->";
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML=prnhtml;
+        window.print();
+    }
+//    function printpreview(){   // 打印页面预览
+//        wb.execwb(7,1);
+//    }
+function check(m_id,s_status){
+        var url ="{:U('Admin/Members/doSupplierCheck')}";
+        $.post(url,{'m_id':m_id,'s_status':s_status},function(data){
+            if(data){ 
+                // alert(data);
+                window.location.reload();
+            }
+        });
+}
+</script>

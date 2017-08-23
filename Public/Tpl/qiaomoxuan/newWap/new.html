@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/base.css"/>
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/TouchSlide.1.1.js"></script>
+    <script src="js/jquery.SuperSlide.2.1.1.js"></script>
+</head>
+<body>
+<!--header-->
+<div class="header_float">
+    <div class="headerTop">
+        <div class="header_in">
+            <div class="logo"><a href="index.html" title=""><img src="images/logo.png"></a></div>
+            <div class="header_Search"><input type="text"/><a href="#"><img src="images/top_search.png" alt=""/></a></div>
+            <div class="header_Share"><a href="#"><img src="images/shareBonus.png" alt=""/></a></div>
+            <div class="header_Talk"><a href="#"><img src="images/talk_ico.png" alt=""/></a></div>
+        </div>
+        <div id="nav">
+            <div class="nav">
+                <div class="nav_box">
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="brand.html">品牌中心</a></li>
+                        <li><a href="special.html">特惠专区</a></li>
+                        <li><a href="hot.html">热销专区</a></li>
+                        <li><a href="new.html">新品专区</a></li>
+                        <li><a href="global.html">全球精品</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--body-->
+<div class="mg ov">
+    <div id="focus" class="focus">
+        <div class="hd">
+            <ul></ul>
+        </div>
+        <div class="bd">
+            <ul>
+                <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        TouchSlide({
+            slideCell:"#focus",
+            titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+            mainCell:".bd ul",
+            effect:"left",
+            autoPlay:true,//自动播放
+            autoPage:true, //自动分页
+            switchLoad:"_src" //切换加载，真实图片路径为"_src"
+        });
+    </script>
+    <div class="new">
+        <div class="new_center">
+            <a href="" class="special_center_bl"><img src="images/special_ico1.png" alt=""/><span>国家</span></a>
+            <a href="" class="special_center_bm"><img src="images/special_ico2.png" alt=""/><span>品牌</span></a>
+            <a href="" class="special_center_br"><img src="images/special_ico3.png" alt=""/><span>分类</span></a>
+        </div>
+    </div>
+    <!--海报-->
+    <div class="new_center_poster">
+        <a href="">
+            <img src="images/hot_haibao1.png" alt=""/>
+        </a>
+    </div>
+
+    <div class="new_center_products">
+        <div id="nwpd">
+            <ul>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--海报-->
+    <div class="new_center_poster">
+        <a href="">
+            <img src="images/hot_haibao1.png" alt=""/>
+        </a>
+    </div>
+
+    <div class="new_center_products">
+        <div id="nwpd">
+            <ul>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="new_center_product">
+                        <div class="new_center_product_left">
+                            <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                            <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                            <div class="p-price"><span class="price">￥<strong>368</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                        </div>
+                        <div class="new_center_product_right">
+                            <img src="images/hot_product_bg1.png" alt=""/>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="new_center_productList">
+        <div class="brand_center_title new_center_title">
+            <div>热销品牌</div>
+            <div></div>
+        </div>
+        <div id="gdrx">
+            <ul>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="lh_wrap">
+                        <div class="p-img"><a href=""><img src="images/hot_sell_text1.png"/></a></div>
+                        <div class="p-name"><a href="">雪花秀 100ML</a></div>
+                        <div class="p-price"><span class="price">￥<strong>360</strong></span><span class="extra">￥<strong>200</strong></span><a href="" class="add_cart_large btnCart">立即抢购</a></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--footer-->
+<div class="news news_footer" >
+    <div class="footer">
+        <ul>
+            <li>
+                <div class="pic"><a href="index.html"><img src="images/home1.png" alt="" _src="images/home1_hover.png"><p>首页</p></a></div>
+            </li>
+            <li>
+                <div class="pic"><a href="productList.html"><img src="images/classifiy.png" alt="" _src="images/classifiy_hover.png"><p>分类</p></a></div>
+            </li>
+            <li>
+                <div class="pic"><a href="beauty.html"><img src="images/class.png" alt="" _src="images/class_hover.png"><p>美妆课堂</p></a></div>
+            </li>
+            <li>
+                <div class="pic">
+                    <a href="shoppingCar.html">
+                        <img src="images/cart.png" alt="" _src="images/cart_hover.png">
+                        <p>购物车</p>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="pic"><a href="me.html"><img src="images/me.png" alt="" _src="images/me_hover.png"><p>我的</p></a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#nwpd ul li:nth-of-type(2n) div.new_center_product_right img").attr("src","images/hot_product_bg2.png");
+    })
+</script>
+    <script type="text/javascript">
+    TouchSlide( { slideCell:"specialTabBox",
+        endFun:function(i){ //高度自适应
+            var bd = document.getElementById("specialTabBox-bd");
+            bd.parentNode.style.height = bd.children[i].children[0].offsetHeight+"px";
+            if(i>0)bd.parentNode.style.transition="200ms";//添加动画效果
+        }
+    } );
+</script>
+<script>
+    $(document).ready(function(){
+        $(".footadd").height($(".footer").height());
+        var headerTop_h = $(".headerTop").height();
+        $(".menu").css("top",headerTop_h);
+        var li_width = $(".index_pp li").width();
+        $(".index_pp li").height(li_width);
+    })
+</script>
+<script src="js/index.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".gdspea").height($(".gdspea").prev().height());
+        $(".gdspeb").height($(".gdspeb").prev().height());
+        //wimb = $(".footer li").eq(0).find('a').find('img').attr("src");
+        wimw = $(".footer li").eq(0).find('a').find('img').attr("_src");
+        $(".footer li").eq(0).find('a').addClass("on");
+        //$(".footer li").eq(0).find('a').find('img').attr('_src',wimb);
+        $(".footer li").eq(0).find('a').find('img').attr('src',wimw);
+    });
+</script>
+</body>
+</html>

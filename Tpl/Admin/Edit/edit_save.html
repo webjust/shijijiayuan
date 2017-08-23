@@ -1,0 +1,186 @@
+<script>
+    function gy_mod_save(){
+        //alert('TODO：保存当前模块的操作');
+        //根据每个block的GUID依次修改，后添加的模块需要生成GUID
+        var str = $('body').html();
+        var loading;
+        
+        $.ThinkBox.confirm('确定要保存首页吗？',{
+            'ok':function(){
+				$('.add').remove();
+                this.hide();
+                $.ajax({
+                    'url':'/Admin/Edit/save/',
+                    cache:false,
+                    dataType:"json",
+                    type:'POST',
+                    data:{content:str,dir:dir},
+                    beforeSend:function(){
+                        loading = $.ThinkBox.loading('正在玩命保存首页模板中！~~~请稍后。。。');
+                    },
+                    error:function(){
+                        loading.hide();
+                        $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">没有权限</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                    },
+                    success:function(msgObj){
+                        if(msgObj){
+                            loading.hide();
+                            $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">恭喜您~ 保存首页成功！。。。。</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                        }else{
+                            loading.hide();
+                            $.ThinkBox.error('保存失败！');
+                        }
+                    }
+                });
+            },
+            'cancel':function(){this.hide();}
+        });
+        
+    }
+
+    function gy_mod_zancun(){
+        //alert('TODO：保存当前模块的操作');
+        //根据每个block的GUID依次修改，后添加的模块需要生成GUID
+        var str = $('body').html();
+        //alert(str);
+        var loading;
+        
+        $.ThinkBox.confirm('确定要暂存首页吗？',{
+            'ok':function(){
+                this.hide();
+                $.ajax({
+                    'url':'/Admin/Edit/zancun/',
+                    cache:false,
+                    dataType:"json",
+                    type:'POST',
+                    data:{content:str,dir:dir},
+                    beforeSend:function(){
+                        loading = $.ThinkBox.loading('正在玩命保存临时模板中！~~~请稍后。。。');
+                    },
+                    error:function(){
+                        loading.hide();
+                        $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">没有权限</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                    },
+                    success:function(msgObj){
+                        if(msgObj){
+                            loading.hide();
+                            $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">恭喜您~ 暂存首页成功！。。。。</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                        }
+                    }
+                });
+            },
+            'cancel':function(){this.hide();}
+        });
+        
+    }
+    
+    function gy_mod_huifu(){
+        $.ThinkBox.confirm('确定要初始化首页吗？初始化后您的历史编辑将清空！',{
+            'ok':function(){
+                this.hide();
+                $.ajax({
+                    url:'/Admin/Edit/huifu/',
+                    cache:false,
+                    dataType:'json',
+                    type:'POST',
+                    data:{'dir':dir},
+                    beforeSend:function(){
+                        loading = $.ThinkBox.loading('正在初始化首页中，请稍后。。。。');
+                    },
+                    error:function(MSG){
+                        loading.hide();
+                        $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">没有权限</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                    },
+                    success:function(msgObj){
+                        if(msgObj){
+                            loading.hide();
+                            $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">恭喜您~ 初始化首页成功！3秒后自动刷新。。。。</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                            var interval = setInterval(function(){
+                                window.location.reload(true);
+                            }, 3000);
+                         
+                            
+                            
+                        }
+                    }
+                    
+                });
+            },
+            'cancel':function(){this.hide();}
+        });
+                
+        
+    }
+    
+    function gy_mod_huanyuan(){
+        $.ThinkBox.confirm('确定要还原上次编辑吗？？',{
+            'ok':function(){
+                this.hide();
+                $.ajax({
+                    url:'/Admin/Edit/huanyuan/',
+                    cache:false,
+                    dataType:'json',
+                    type:'POST',
+                    data:{'dir':dir},
+                    beforeSend:function(){
+                        loading = $.ThinkBox.loading('正在还原首页中，请稍后。。。。');
+                    },
+                    error:function(MSG){
+                        loading.hide();
+                        $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">没有权限</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                    },
+                    success:function(msgObj){
+                        if(msgObj){
+                            loading.hide();
+                            $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">还原成功！3秒后自动刷新。。。。</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+                            var interval = setInterval(function(){
+                                window.location.reload(true);
+                            }, 3000);
+                           
+                        }
+                    }
+                    
+                });
+            },
+            'cancel':function(){this.hide();}
+        });
+    }
+
+    /*生成一个全局唯一的标识符*/
+    function genGuid(){
+        var guid = '';
+        var rnd = (new Date()).getTime() + parseInt(Math.random() *100000);
+        guid = 'GUID' + rnd.toString(16).toUpperCase();
+        //alert(guid);
+        return guid;
+    }
+    
+    var diaplogEdit;
+    function searchEditLog(){
+        $.ajax({
+            url:'/Admin/Edit/searchEditLog/',
+            cache:false,
+            dataType:'HTML',
+            type:'POST',
+            beforeSend:function(){
+                loading = $.ThinkBox.loading('正在打开日志，请稍后......');
+            },
+            error:function(MSG){
+                loading.hide();
+                $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">没有权限</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); 
+            },
+            success:function(msgObj){
+                loading.hide();
+                if(msgObj == '没有权限'){
+                    $.ThinkBox.msg('<div style="padding:10px; width:250px; height:50px">没有权限</div>', {'locate' : ['right', 'bottom'], 'delayClose' : 2000}); return false;
+                }
+                $("#EditLog").html(msgObj);
+                diaplogEdit = $.ThinkBox($("#EditLog").html(), {'title' : '编辑日志','width':'auto','drag' : true,'unload':true});
+            }
+        });
+        
+    }
+    
+    
+</script>
+<script src="__PUBLIC__/Admin/js/loading.js"></script>

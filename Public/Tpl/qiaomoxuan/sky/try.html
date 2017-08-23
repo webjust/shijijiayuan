@@ -1,0 +1,135 @@
+<style>
+    .guide-bd li {
+        display: inline;
+        width: 380px;
+        margin: 10px 0 0 10px;
+        position: relative;
+        height: 480px;
+    }
+</style>
+<div class="wrapT">
+<div class="content">
+<div class="tgList"><!--tgList-->
+<div class="prtad Prte">
+    <div class="axuSlider">
+        <!--banner图图片控制开始-->
+        <div class="bd">
+            <ul>
+                <volist name="ary_ads" id="ads">
+                    <notin name="ads['sort_order']" value="1,5">
+                    <li><a href="{$ads.ad_url}" target="_blank"><img src="{$ads.ad_pic_url}" width="990" height="298"></a></li>
+                    </notin>
+                </volist>
+            </ul>
+        </div>
+        <!--banner图图片控制结束-->
+        <!--banner图图片按钮开始-->
+        <div class="hd">
+            <ul>
+                <li></li>
+            </ul>
+        </div>
+        <!--banner图图片按钮结束-->
+    </div>
+</div>
+<!--prtad end-->
+<div class="pr-right"><a href="<php>echo $ary_ads[1][ad_url];</php>"><img src="{$Think.config.DOMAIN_HOST}<php>echo $ary_ads[1][ad_pic_url];</php>" style="width:170px;height:170px"></a><p>已发放试用<b>{$filter.total}</b>件</p></div>
+<div class="tgOne tgTwo"><!--tgTwo-->
+<!--<div class="tg-tl"><a href="" class="cur">免费试用</a><a href="fy.html">付邮试用</a></div>-->
+
+<div class="tgL">
+    <notempty name="data">
+    <div class="tgL_t">
+        <h2>正在进行</h2>
+    </div>
+    </notempty>
+    <div class="tgL">
+        <div class="guide-bd">
+            <ul class="clearfix">
+
+                <volist name="data" id="detail">
+                    <li class="fl rel w485">
+                        <p class="tgL_img">
+                            <a href="{:U('Home/Try/detail')}/tryid/{$detail.try_id}" target="_blank">
+                                <img src="{$Think.config.DOMAIN_HOST}{$detail.try_picture}" width="380" height="380" >
+                            </a>
+                        </p>
+                        <div class="tgL_title">
+                            <p class="tgL_name"><span class="tg-title">{$detail.try_title}</span><em>限量<i>{$detail.try_num}</i>份</em><span class="firicon"></span></p>
+                            <p class="tgL_price"><span class="mf">¥<em>{$detail.g_price|sprintf='%.2f',###}</em></span><i class="apply">申请：<b>{$detail.try_now_num}</b>人</i></p>
+                            <div class="tgL_btn"> <a href="{:U('Home/Try/detail')}/tryid/{$detail.try_id}" target="_blank" class="tgL_btn" starthref=" "> <b>立即申请</b></a> </div>
+                        </div>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+    <!--正在进行结束-->
+    <div class="tgL">
+        <notempty name="data_future">
+        <div class="tgL_t">
+            <h2>即将开始</h2>
+        </div>
+        </notempty>
+        <div class="guide-bd">
+            <ul class="clearfix cle-fix">
+                <volist name="data_future" id="future_detail">
+                <li class="fl rel w485">
+                    <p class="tgL_img">
+                        <a href="{:U('Home/Try/detail')}/tryid/{$future_detail.try_id}" target="_blank">
+                            <img src="{$Think.config.DOMAIN_HOST}{$future_detail.try_picture}" width="380" height="380">
+                        </a>
+                    </p>
+                    <div class="tgL_title abs">
+                        <p class="tgL_name"><span class="tg-title">{$future_detail.try_title}</span><em>限量<i>{$future_detail.try_num}</i>份</em><span class="firicon"></span></p>
+                        <p class="tgL_price"><span class="mf">¥<em>{$future_detail.g_price|sprintf='%0.2f',###}</em></span>
+                        <div class="tgL_btn"> <a href="javascript:;" class="tgL_btn">敬请期待</a> </div>
+                    </div>
+                </li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--即将结束结束-->
+
+    <div class="tgL">
+        <notempty name="data_over">
+        <div class="tgL_t">
+            <h2>已经结束</h2>
+        </div>
+        </notempty>
+        <div class="guide-bd">
+            <ul class="clearfix cle-fix">
+
+                <volist name="data_over" id="over_detail">
+                <li class="fl rel w485">
+                    <p class="tgL_img">
+                        <a href="{:U('Home/Try/ReportDetail')}/tryid/{$over_detail.try_id}" target="_blank">
+                            <img src="{$Think.config.DOMAIN_HOST}{$over_detail.try_picture}" width="380" height="380">
+                        </a>
+                    </p>
+                    <div class="tgL_title abs">
+                        <p class="tgL_name"><span class="tg-title">{$over_detail.try_title}</span><em>限量<i>{$over_detail.try_num}</i>份</em><span class="firicon"></span></p>
+                        <p class="tgL_price"><span class="mf">¥<em>{$over_detail.g_price|sprintf='%0.2f',###}</em></span><!--<i class="apply">申请：<b>220</b>人</i>--></p>
+                        <div class="tgL_btn"> <a href="javascript:void(0)" class="tgL_btn finished" starthref=" "> <b>已售完</b></a> </div>
+                    </div>
+                </li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+
+    <include file="$commonIncOnline" />
+<!--/tgThree-->
+<div class="fenye">
+    <!--<a href="javascript:void(0);" class="prev no">首页</a>-->
+    <!--<a href="javascript:void(0);" class="prev no">上一页</a>-->
+    <!--<a href="javascript:void(0);" class="prev no">下一页</a>-->
+    <!--<a href="javascript:void(0);" class="prev no">尾页</a> &nbsp;&nbsp;&nbsp;-->
+</div>
+</div>
+<!--/tgList-->
+</div>
+</div>
+</div>

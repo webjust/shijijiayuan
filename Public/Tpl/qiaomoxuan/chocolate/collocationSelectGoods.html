@@ -1,0 +1,135 @@
+{__NOLAYOUT__}
+
+<form id="goodsCartForm" name="goodsForm" method="post" action="#">
+    <div class="jifcon"><!--jifcon  start-->
+        <ul>
+            <li>
+                <volist name="page_detail.ary_goods_spec_list" id="goods_spec" key="k">
+                    <dl class="spec_list">
+                        <dt class="dd">{$goods_spec.gs_name}：</dt>
+                        <dd id="sku{$goods_spec.gs_id}_{$k}" class="sku_products dd">
+                            <volist name="goods_spec.gs_details" id="gs_detail" key="gskk">
+                                <php>
+                                    $gsd_type = 'text';
+                                    $va = strpos($gs_detail['gsd_value'],'|');
+                                    if($va){
+                                    $gsdinfos = explode('|', $gs_detail['gsd_value']);
+                                    $gsd_value = $gsdinfos[0];
+                                    $gsd_info = $gsdinfos[1];
+                                    $gsd_type = 'img';
+                                    }else{
+                                    $gsd_value = $gs_detail['gsd_value'];
+                                    }
+                                </php>
+                                <a href="javascript:void (0);" onclick="specSelect(this, 'on');" name="{$gsd_value}" title="{$gsd_value}" data-value="{$gs_detail.gsd_id}"
+                                <if condition="$gsd_type eq 'img'"> style="height:30px;"</if>
+                                >
+                                <if condition="$gsd_type eq 'img'">
+                                    <img src="{$Think.config.DOMAIN_HOST}{$gsd_info}" width="40" height="40" title="{$gsd_value}"/>
+                                    <else/>
+                                    {$gsd_value}
+                                </if>
+                                <i></i>
+                                </a>
+                            </volist>
+                        </dd>
+                    </dl>
+                </volist>
+                <dl>
+                    <dt style="">数量：</dt>
+                    <dd class="amount" style="width:358px;">
+                        <span id="showCollNum" style="font-weight: normal;position: relative;top: 3px;">1件
+                            <input type="hidden" id="cartNums" value="1"/>
+						<php>if (!GLOBAL_STOCK) {</php>
+                            <if condition="$stock_data['OPEN_STOCK'] EQ 1 and $stock_data['level'] neq '' ">
+                                <if condition="$page_detail['gstock'] ELT 0" >
+                                    （库存:缺货）
+                                    <elseif condition="$page_detail['gstock'] gt 0 && $page_detail['gstock'] elt $stock_data['STOCK_NUM']" />
+                                    （库存:紧张）
+                                    <elseif condition="$page_detail['gstock'] GT $stock_data['STOCK_NUM']" />
+                                    （库存:充足）
+                                </if>
+                                <else/>
+                                （库存：{$page_detail.gstock}）
+                            </if>
+                            <input type="hidden" value="0" id="is_global_stock" />
+                        <php>}</php>
+						</span>
+
+                    </dd>
+                    <dt style="">售价：</dt>
+                    <dd style="width:358px;">
+                        <i class="price">&yen; </i> <strong id="showPrice" style="color: #ac0000;height: 30px;line-height: 30px;font-size: 16px;">0.00</strong>
+                        <span id="savePrice" style="display: none;">0.00</span>
+                    </dd>
+                    <dd class="buy">
+                        <input type="button" value="确认" class="blue" onclick="addGoodsCarts();">&nbsp;&nbsp;
+                        <input type="button" class="brown" value="取消" onclick="closeDio();"></dd>
+                </dl>
+            </li>
+        </ul>
+    </div><!--jifcon  end-->
+</form>
+<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+
+<input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_id}" name="pdt_id" id="pdt_id" />
+<input type="hidden" value="{$page_detail.ary_goods_default_pdt.pdt_stock}" name="pdt_stock" id="pdt_stock" />
+<input type="hidden" value="{$max_buy_number|default=0}" name="max_buy_number" id="max_buy_number" />
+<input type="hidden" value="{$page_detail.gid}" id="gid" />
+
+<script type="text/javascript">
+    var fuzzy_stock_open = parseInt('{$stock_data.OPEN_STOCK}');
+    var fuzzy_stock_level = parseInt('{$stock_data.level}');
+
+    var warning_stock_num = parseInt("{$stock_data['STOCK_NUM']}");
+    var json_goods_pdts = JSON.parse('{$page_detail.json_goods_pdts|json_encode}');
+    //console.log(json_goods_pdts);
+    //页面初始化操作
+    getPdtBySpecSelect('on');
+
+</script>
+
+<script type="text/javascript">
+    function addGoodsCarts(){
+        var pdt_stock = $("#pdt_stock").val();
+        var fr_id = "{$fr_id}";
+        if(0 >= pdt_stock){
+            $.ThinkBox.error("该货品库存不足！");
+            return false;
+        }
+        var pdt_id = $('#pdt_id').val();
+        var nums = parseInt($('#cartNums').val());
+        var pdt_price = parseFloat($('#showPrice').text());
+        var save_price = parseFloat($('#savePrice').text());
+        var dapei = "搭配省"+((save_price)*nums).toFixed(2)+"元";
+        if (pdt_id == ""){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+            return false;
+        }
+        $('#collPdt_{$page_detail.gid}').show().html(pdt_price);
+        $('#collPrice_{$page_detail.gid}').html(parseFloat(pdt_price).toFixed(2));
+        $('#selectColl_{$page_detail.gid}').hide();
+        $('#saveColl_{$page_detail.gid}').show().html(dapei);
+
+        $('.ThinkBox-wrapper').remove();
+        $('.ThinkBox-modal-blackout-default').remove();
+
+        $('#coll_goods_{$page_detail.gid}').attr('checked',true);
+        $('#coll_products_{$page_detail.gid}').val(pdt_id);
+        $('#coll_products_{$page_detail.gid}').attr('price',parseFloat(pdt_price).toFixed(2));
+        $('#coll_products_{$page_detail.gid}').attr('save',(save_price).toFixed(2));
+//        setRemmendPrice();
+        $('#onHoverCollGoods{$page_detail.gid}').attr('ohgg',1);
+        addColl(fr_id,pdt_id);
+        closeDio();
+        return false;
+    }
+
+    function closeDio(){
+        $('.ThinkBox-wrapper').remove();
+        $('.ThinkBox-modal-blackout-default').remove();
+    }
+
+</script>

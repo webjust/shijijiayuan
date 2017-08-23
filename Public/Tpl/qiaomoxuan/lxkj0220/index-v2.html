@@ -1,0 +1,693 @@
+<!--banner-->
+<!--轮播图-->
+<div class="bannerBox">
+    <div class="slideBoxNav">
+        <gyfx:advertising name='nav'  position="banner">
+          <a href="javascript:void(0)"></a>
+        </gyfx:advertising>
+    </div>
+    <div class="slideBox">
+        <ul>
+          <gyfx:advertising name='nav'  position="banner">
+            <li style="background: url({$nav.nimgurl}) no-repeat center top;background-size:auto 480px;">
+              <a href="{$nav.naurl}" target="{$nav.ntarget}" ><p></p></a>
+            </li>
+          </gyfx:advertising>
+          <div style="clear:both;"></div>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".bannerBox div.slideBox ul li").on("click","a",function(){
+        var details=$(this).attr("href");
+        var arr=details.split("gid");
+        var newUrl="/Home/Products/detail/v/2/"+"gid"+arr[1];
+        $(this).attr("href",newUrl);
+    });
+</script>
+<!--产品轮播-->
+<div class="news" id="news">
+    <div id="busniss">
+        <div class="ladyScroll">
+            <a class="prev" href="javascript:void(0)"></a>
+            <div class="scrollWrap">
+                <div class="dlList">
+                    <gyfx:advertising name='nav'  position="rcde" row="6">
+                        <dl>
+                            <a href="{$nav.naurl}" target="{$nav.ntarget}" >
+                                <dd>
+                                    <div class="img-con">
+                                         <img alt="{$nav.nname}" src="{$nav.nimgurl}">
+                                    </div>
+                                </dd>
+                                <dt><div class="item-title">{$nav.nname}</div></dt>
+                                <dd><div class="item-sub-title">{$nav.price}</div></dd>
+                            </a>
+                        </dl>
+                    </gyfx:advertising>
+                </div>
+            </div>
+            <a class="next" href="javascript:void(0)"></a>
+        </div>
+    <script type="text/javascript">
+        $(".dlList dl").on("click","a",function(){
+            var details=$(this).attr("href");
+            var arr=details.split("gid");
+            var newUrl="/Home/Products/detail/v/2/"+"gid"+arr[1];
+            $(this).attr("href",newUrl);
+        });
+      jQuery(".ladyScroll").slide({ mainCell:".dlList", effect:"leftLoop",vis:4, autoPlay:true});
+    </script>
+    </div>    
+</div>
+<!--活动中心-->
+<div class="clear"></div>
+<div class="action_center">
+    <div class="action_center_content">
+        <div class="action_center_left">
+            <a href="#"><img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/test1.jpg" alt=""/></a>
+        </div>
+        <div class="action_center_right">
+            <a href="#"><img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/test2.jpg" alt=""/></a>
+        </div>
+    </div>
+</div>
+<!--品牌中心-->
+<div class="f1_box">
+    <div class="little_banner_box">
+        <a href="{:U('/Home/Brand/index/v/2')}" class="little_banner" id="ppzx">
+            <div class="little_banner_tp">
+                <div>
+                    <div>
+                        品牌<span>中心</span>
+                    </div>
+                </div>
+            </div>
+            <div class="little_banner_md"></div>
+            <div class="little_banner_bt">
+                <div class="little_banner_btl">B</div>
+                <div class="little_banner_btm">R&nbsp;A&nbsp;N&nbsp;D&nbsp;&nbsp;C&nbsp;E&nbsp;N&nbsp;T&nbsp;E</div>
+                <div class="little_banner_btr">R</div>
+            </div>
+        </a>
+    </div>
+    <div class="brand_search_box">
+        <div class="brand_search">
+            <div>
+                <div class="brand_search_more">
+                    <a href="{:U('/Home/Brand/index/v/2')}" target="_blank">更多&nbsp;></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="f1">
+        <div class="slideTxtBox">
+            <div class="bd">
+                <ul class="big_ul">
+                    <li class="left">
+                        <gyfx:goodsbrand name="nav" limit="0,1" >
+                          <div class="pic"><a href="{$nav.burl}" target="_blank"><img src="{$nav.bpic}" alt="{$nav.bname}"></a></div>
+                          <div class="word">
+                              <div>
+                                  {$nav.gbdetail}
+                              </div>
+                          </div>
+                        </gyfx:goodsbrand>
+                    </li>
+                    <li class="right">
+                        <ul>
+                          <gyfx:goodsbrand name="nav" limit="0,27" >
+                            <li class="brand-item brand-item-in" data-word="{$nav.gbdetail}" data-src="{$nav.bpic}" alt="{$nav.bname}">
+                                <div class="brand-img">
+                                  <img src="{$nav.bpic}" alt="{$nav.bname}">
+                                </div>
+                                <div class="brand-mask">
+                                  <div class="enter">
+                                    <a href="{$nav.burl}" target="_blank">进入品牌</a>
+                                  </div>
+                                </div>
+                            </li>
+                          </gyfx:goodsbrand>
+                            <li class="brand-item more">
+                                <a href="{:U('/Home/Brand/index/v/2')}" target="_blank">更多品牌</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".bd ul li.right ul li.brand-item-in").on("click","a",function(){
+        var details=$(this).attr("href");
+        var arr=details.split("bid");
+        var newUrl="/Home/Products/index/v/2/"+"bid"+arr[1];
+        $(this).attr("href",newUrl);
+    });
+jQuery(".slideTxtBox").slide();
+</script>
+<!--特惠专区-->
+<div  class="f2_box">
+    <div class="little_banner_box">
+        <a href="/Home/PrivilegeList/index/v/2" class="little_banner little_banner_mg"  id="thzq">
+            <div class="little_banner_tp">
+                <div>
+                    <div>
+                        特惠<span>专区</span>
+                    </div>
+                </div>
+            </div>
+            <div class="little_banner_md"></div>
+            <div class="little_banner_bt">
+                <div class="little_banner_btl">S</div>
+                <div class="little_banner_btm">P&nbsp;E&nbsp;C&nbsp;I&nbsp;A&nbsp;L&nbsp;&nbsp;O&nbsp;F&nbsp;F&nbsp;E&nbsp;R</div>
+                <div class="little_banner_btr">S</div>
+            </div>
+        </a>
+    </div>
+    <div class="brand_search_box">
+        <div class="brand_search">
+            <div>
+                <div class="brand_search_more">
+                    <a href="#">更多&nbsp;></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="jrfq">
+        <div class="tabBox">
+            <div class="hd">
+                <ul>
+                    <li class="on"><a href="javascript:void(0);">今日疯抢</a></li>
+                    <li><a href="javascript:void(0);">明日预告</a></li>
+                </ul>
+            </div>
+            <div class="bd">
+                <div class="slide">
+                    <gyfx:spikelist name="nav" start="0" >
+                        <div class="bigbox">
+                            <div class="big_products">
+                                <div class="left">
+                                    <a href="{$nav.sp_url}" target="_blank"><img src="{$nav.sp_picture}" alt="{$nav.sp_title}"></a>
+                                    <div class="right">
+                                        <div class="title">{$nav.sp_title}</div>
+                                        <div class="timeSale">距离特卖结束:
+                                            <span id="day_show_{$nav.sp_id}"></span>
+                                            <span id="hour_show_{$nav.sp_id}"></span>
+                                            <span id="minute_show_{$nav.sp_id}"></span>
+                                            <span id="second_show_{$nav.sp_id}"></span>
+                                            <span id="day_time_{$nav.sp_id}"></span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                timer({$nav.sp_end_djs},'{$nav.sp_id}',0);
+                                            });
+                                        </script>
+                                        <div class="right_dl">
+                                            ￥<span>{$nav.sp_price}</span>
+                                        </div>
+                                        <div class="word">{$nav.sp_desc}</div>
+                                        <div class="ljqg">
+                                            <div class="qg"><a href="{$nav.sp_url}" target="_blank">立即抢购</a></div>
+                                            <div class="rd"><span style="width:{$nav.sp_syljdt}%;"></span></div>
+                                            <div class="sy"><notempty name="nav.sp_syjs">仅剩<span>{$nav.sp_syjs}</span>件</notempty></div>
+                                        </div>
+                                        <div class="right_icon">
+                                            <span class="fkrx">疯狂热销</span>
+                                        <span class="kbpj">口碑评价
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </gyfx:spikelist>
+                </div>
+                <div class="slide">
+                    <gyfx:spikelist name="nav" start="1" >
+                        <div class="bigbox">
+                            <div class="big_products">
+                                <div class="left">
+                                    <a href="{$nav.sp_url}"><img src="{$nav.sp_picture}" alt="{$nav.sp_title}"></a>
+                                    <div class="right">
+                                        <div class="title">{$nav.sp_title}</div>
+                                        <div class="timeSale">距离特卖开始:
+                                            <span id="day_show_{$nav.sp_id}"></span>
+                                            <span id="hour_show_{$nav.sp_id}"></span>
+                                            <span id="minute_show_{$nav.sp_id}"></span>
+                                            <span id="second_show_{$nav.sp_id}"></span>
+                                            <span id="day_time_{$nav.sp_id}"></span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                timer({$nav.sp_start_djs},'{$nav.sp_id}',1);
+                                            });
+                                        </script>
+                                        <div class="right_dl">
+                                            ￥<span>{$nav.sp_price}</span>
+                                        </div>
+                                        <div class="word">{$nav.sp_desc}</div>
+                                        <div class="ljqg">
+                                            <div class="qg"><a href="{$nav.sp_url}">立即抢购</a></div>
+                                            <div class="rd"><span style="width:{$nav.sp_syljdt}%;"></span></div>
+                                            <div class="sy">仅剩<span>{$nav.sp_syjs}</span>件</div>
+                                        </div>
+                                        <div class="right_icon">
+                                            <span class="fkrx">疯狂热销</span>
+                                        <span class="kbpj">口碑评价
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                            <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/star.png" alt="">
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </gyfx:spikelist>
+                </div>
+            </div>
+        </div>
+        <div class="more_box">
+            <div class="more_content">
+                 <a href="/Home/PrivilegeList/index/v/2">更多特惠&nbsp;></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".big_products div.left").on("click","a",function(){
+        var details=$(this).attr("href");
+        var arr=details.split("sp_id");
+        var newUrl="/Home/Spike/detail/v/2/"+"sp_id"+arr[1];
+        $(this).attr("href",newUrl);
+    });
+</script>
+<!--热销专区-->
+<div class="f3_box">
+    <div class="little_banner_box">
+        <a href="/Home/HotList/index/v/2" class="little_banner little_banner_mg" id="rxzq">
+            <div class="little_banner_tp">
+                <div>
+                    <div>
+                        热销<span>专区</span>
+                    </div>
+                </div>
+            </div>
+            <div class="little_banner_md"></div>
+            <div class="little_banner_bt">
+                <div class="little_banner_btl">N</div>
+                <div class="little_banner_btm">E&nbsp;W&nbsp;&nbsp;P&nbsp;R&nbsp;O&nbsp;D&nbsp;U&nbsp;C&nbsp;T</div>
+                <div class="little_banner_btr">S</div>
+            </div>
+        </a>
+    </div>
+    <div class="brand_search_box">
+        <div class="brand_search">
+            <div>
+                <div class="brand_search_more">
+                    <a href="/Home/HotList/index/v/2">更多&nbsp;></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main2">
+        <span id="newshop"></span>
+        <div id="plist">
+            <ul>
+                <gyfx:goodslist name='nav' hot='1' mod='3' num="18">
+                    <li <eq name="mod" value="2"> class="last"</eq> >
+                        <div class="lh_wrap lh_wrap2">
+                            <div class="p-img"><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></div>
+                            <div class="p-name">{$nav.gname}</div>
+                            <div class="p-intro">产品功能</div>
+                            <div class="btns">
+                                <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><!--<span class="extra">(已有<strong>{$nav.comment_nums}</strong>人评论)</span>--></div>
+                                <div class="scj"><em>￥{$nav.maprice|sprintf='%.2f',###}</em></div>
+                                <a href="javascript:void(0);" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCart('{$nav.authorize}','{$nav.gid}',1);"<else />onClick='addGoodsCart("{$nav.gid}","{$nav.authorize}",1);'</if> class="add_cart_large">立即抢购 <b></b></a>
+                                <!--<a href="javascript:void(0)" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$nav.authorize}','{$nav.gid}');"<else />onClick='addGoodsCartElse("{$nav.gid}","{$nav.authorize}");'</if> class="add_cart_small btnCart" _src="{$nav.gpic}">放入购物车</a>-->
+                            </div>
+                            <if condition="$nav['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                                <input type="hidden" name="type" value="item" id="item_type_{$nav.gid}" />
+                                <input type="hidden" value="{$nav.pdt_id}" name="pdt_id" id="pdt_id_{$nav.gid}" />
+                                <input type="hidden" value="{$nav.pdt_stock}" name="pdt_stock" id="pdt_stock_{$nav.gid}" />
+                                <input type="hidden" value="1" id="item_num_{$nav.gid}" name="num" />
+                            </if>
+                        </div>
+                    </li>
+                </gyfx:goodslist>
+            </ul>
+        </div>
+        <div id="flyItem" class="fly_item" style="z-index: 99999;"><img _src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/item-pic.jpg" width="40" height="40"></div>
+    </div>
+    <div class="more_box">
+        <div class="more_content">
+            <a href="/Home/HotList/index/v/2" target="_blank">更多热销&nbsp;></a>
+        </div>
+    </div>
+</div>
+<!--新品专区-->
+<div class="f4_box">
+    <div class="little_banner_box">
+        <a href="/Home/NewList/index/v/2" class="little_banner little_banner_mg" id="xpzq">
+            <div class="little_banner_tp">
+                <div>
+                    <div>
+                        新品<span>专区</span>
+                    </div>
+                </div>
+            </div>
+            <div class="little_banner_md"></div>
+            <div class="little_banner_bt">
+                <div class="little_banner_btl">P</div>
+                <div class="little_banner_btm">U&nbsp;N&nbsp;I&nbsp;S&nbsp;H&nbsp;M&nbsp;E&nbsp;N</div>
+                <div class="little_banner_btr">T</div>
+            </div>
+        </a>
+    </div>
+    <div class="brand_search_box">
+        <div class="brand_search">
+            <div>
+                <div class="brand_search_more">
+                    <a href="/Home/NewList/index/v/2">更多&nbsp;></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__JS__productslist.js"></script>
+    <link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+    <script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+    <div class="main">
+        <div id="plist">
+            <ul>
+                <li class="new_product_slide_box">
+                    <a class="new_btn_left prev"></a>
+                    <div class="slider_new_box">
+                         <ul>
+                             <li>
+                                 <a href="#">
+                                     <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/test3.jpg" alt=""/>
+                                 </a>
+                             </li>
+                             <li>
+                                 <a href="#">
+                                     <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/test3.jpg" alt=""/>
+                                 </a>
+                             </li>
+                             <li>
+                                 <a href="#">
+                                     <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/test3.jpg" alt=""/>
+                                 </a>
+                             </li>
+                             <li>
+                                 <a href="#">
+                                     <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/test3.jpg" alt=""/>
+                                 </a>
+                             </li>
+                         </ul>
+                    </div>
+                    <a class="new_btn_right next"></a>
+                </li>
+                <li class="new_product_mid_box">
+                    <ul>
+                        <gyfx:goodslist name='nav' new='1' mod='3' num="6">
+                            <li <eq name="mod" value="2"> class="last"</eq> >
+                            <div class="lh_wrap lh_wrap2">
+                                <div class="p-img"><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></div>
+                                <div class="p-name">{$nav.gname}</div>
+                                <div class="p-intro">产品功能</div>
+                                <div class="btns">
+                                    <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><!--<span class="extra">(已有<strong>{$nav.comment_nums}</strong>人评论)</span>--></div>
+                                    <div class="scj"><em>￥{$nav.maprice|sprintf='%.2f',###}</em></div>
+                                    <a href="javascript:void(0);" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCart('{$nav.authorize}','{$nav.gid}',1);"<else />onClick='addGoodsCart("{$nav.gid}","{$nav.authorize}",1);'</if> class="add_cart_large">立即购买</a>
+                                    <!--<a href="javascript:void(0)" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$nav.authorize}','{$nav.gid}');"<else />onClick='addGoodsCartElse("{$nav.gid}","{$nav.authorize}");'</if> class="add_cart_small btnCart" _src="{$nav.gpic}">放入购物车</a>-->
+                                </div>
+                                <if condition="$nav['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                                    <input type="hidden" name="type" value="item" id="item_type_{$nav.gid}" />
+                                    <input type="hidden" value="{$nav.pdt_id}" name="pdt_id" id="pdt_id_{$nav.gid}" />
+                                    <input type="hidden" value="{$nav.pdt_stock}" name="pdt_stock" id="pdt_stock_{$nav.gid}" />
+                                    <input type="hidden" value="1" id="item_num_{$nav.gid}" name="num" />
+                                </if>
+                            </div>
+                            </li>
+                        </gyfx:goodslist>
+                    </ul>
+                </li>
+                <li class="new_product_las_box">
+                    <ul>
+                        <gyfx:goodslist name='nav' start='6' mod='4' num="16">
+                            <li <eq name="mod" value="3"> class="last"</eq> >
+                            <div class="lh_wrap lh_wrap2">
+                                <div class="p-img"><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></div>
+                                <div class="p-name"><a href="{$nav.gurl}" target="_blank">{$nav.gname}</a></div>
+                                <div class="p-intro">产品功能</div>
+                                <div class="btns">
+                                    <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><!--<span class="extra">(已有<strong>{$nav.comment_nums}</strong>人评论)</span>--></div>
+                                    <div class="scj"><em>￥{$nav.maprice|sprintf='%.2f',###}</em></div>
+                                    <a href="javascript:void(0);" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCart('{$nav.authorize}','{$nav.gid}',1);"<else />onClick='addGoodsCart("{$nav.gid}","{$nav.authorize}",1);'</if> class="add_cart_large">立即购买</a>
+                                    <!--<a href="javascript:void(0)" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$nav.authorize}','{$nav.gid}');"<else />onClick='addGoodsCartElse("{$nav.gid}","{$nav.authorize}");'</if> class="add_cart_large btnCart" _src="{$nav.gpic}">放入购物车</a>-->
+                                    <!--<a href="javascript:addToInterests('{$nav.gid}');" class="add_cart_small"><img src="__TPL__images/gray_love.png" alt="">收藏</a>-->
+                                </div>
+                                <if condition="$nav['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                                    <input type="hidden" name="type" value="item" id="item_type_{$nav.gid}" />
+                                    <input type="hidden" value="{$nav.pdt_id}" name="pdt_id" id="pdt_id_{$nav.gid}" />
+                                    <input type="hidden" value="{$nav.pdt_stock}" name="pdt_stock" id="pdt_stock_{$nav.gid}" />
+                                    <input type="hidden" value="1" id="item_num_{$nav.gid}" name="num" />
+                                </if>
+                            </div>
+                            </li>
+                        </gyfx:goodslist>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="more_box">
+        <div class="more_content">
+            <a href="/Home/NewList/index/v/2">更多新品&nbsp;></a>
+        </div>
+    </div>
+</div>
+<!--全球精选-->
+<div class="f5_box">
+    <div class="f5_box_shadow">
+        <div class="little_banner_box">
+            <a href="/Home/Global/index" class="little_banner little_banner_mg" id="xyzq">
+                <div class="little_banner_tp">
+                    <div>
+                        <div>
+                            全球<span>精选</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="little_banner_md"></div>
+                <div class="little_banner_bt">
+                    <div class="little_banner_btl">S</div>
+                    <div class="little_banner_btm">E&nbsp;L&nbsp;L&nbsp;I&nbsp;N&nbsp;&nbsp;A&nbsp;R&nbsp;E</div>
+                    <div class="little_banner_btr">A</div>
+                </div>
+            </a>
+        </div>
+        <div class="brand_search_box">
+            <div class="brand_search">
+                <div>
+                    <div class="brand_search_more">
+                        <a href="/Home/Global/index">更多&nbsp;></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="global_banner">
+            <div class="global_banner_box">
+                <a href="#">
+                    <img src="http://www.caizhuangguoji.com/Public/Tpl/qiaomoxuan/lxkj0220/images/test4.jpg" alt=""/>
+                </a>
+            </div>
+        </div>
+        <div class="main3">
+            <div id="plist">
+                <ul>
+                    <gyfx:goodslist name='nav' start='0' mod='4' num="24">
+                        <li <eq name="mod" value="3"> class="last"</eq> >
+                        <div class="lh_wrap lh_wrap2">
+                            <div class="p-img"><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></div>
+                            <div class="p-name"><a href="{$nav.gurl}" target="_blank">{$nav.gname}</a></div>
+                            <div class="p-intro">产品功能</div>
+                            <div class="btns">
+                                <div class="p-price"><span class="price">￥<strong>{$nav.gprice|sprintf='%.2f',###}</strong></span><!--<span class="extra">(已有<strong>{$nav.comment_nums}</strong>人评论)</span>--></div>
+                                <div class="scj"><em>￥{$nav.maprice|sprintf='%.2f',###}</em></div>
+                                <a href="javascript:void(0);" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCart('{$nav.authorize}','{$nav.gid}',1);"<else />onClick='addGoodsCart("{$nav.gid}","{$nav.authorize}",1);'</if> class="add_cart_large">立即购买</a>
+                                <!--<a href="javascript:void(0)" <if condition="$nav['products']['specName'] eq ''">onClick="addGoodsProductsCartElse('{$nav.authorize}','{$nav.gid}');"<else />onClick='addGoodsCartElse("{$nav.gid}","{$nav.authorize}");'</if> class="add_cart_large btnCart" _src="{$nav.gpic}">放入购物车</a>-->
+                                <!--<a href="javascript:addToInterests('{$nav.gid}');" class="add_cart_small"><img src="__TPL__images/gray_love.png" alt="">收藏</a>-->
+                            </div>
+                            <if condition="$nav['products']['specName'] eq ''"><!-- 点击购买时判断是否有销售属性 -->
+                                <input type="hidden" name="type" value="item" id="item_type_{$nav.gid}" />
+                                <input type="hidden" value="{$nav.pdt_id}" name="pdt_id" id="pdt_id_{$nav.gid}" />
+                                <input type="hidden" value="{$nav.pdt_stock}" name="pdt_stock" id="pdt_stock_{$nav.gid}" />
+                                <input type="hidden" value="1" id="item_num_{$nav.gid}" name="num" />
+                            </if>
+                        </div>
+                        </li>
+                    </gyfx:goodslist>
+                </ul>
+            </div>
+        </div>
+        <div class="more_box">
+            <div class="more_content">
+                <a href="/Home/Global/index">更多精选&nbsp;></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".lh_wrap2 div").on("click","a",function(){
+        var details=$(this).attr("href");
+        var arr=details.split("gid");
+        var newUrl="/Home/Products/detail/v/2/"+"gid"+arr[1];
+        $(this).attr("href",newUrl);
+    });
+</script>
+<!--猜你喜欢-->
+<div class="f6_box">
+    <div class="guess_you_like">
+        <div class="guess_you_title">
+            <div>
+                猜你喜欢
+            </div>
+        </div>
+        <div class="guess_you_content">
+            <div class="guess_you_btn">
+                <a class="guess_you_left prev"></a>
+                <a class="guess_you_right next"></a>
+            </div>
+            <div class="guess_you_list_box">
+                <ul class="guess_you_list">
+                <gyfx:goodslist name='nav' guess='1' mod='3' num="6">
+                    <li>
+                        <div class="guess_picture"><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></div>
+                        <div class="guess_title"><a href="{$nav.gurl}" target="_blank">{$nav.gname}</a></div>
+                        <div class="guess_price"><span>￥</span>{$nav.gprice|sprintf='%.2f',###}</div>
+                    </li>
+                </gyfx:goodslist>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".guess_you_list_box ul li").on("click","a",function(){
+        var details=$(this).attr("href");
+        re=new RegExp("/Home/Products/detail/","g");
+        var newStart=details.replace(re,"/Home/Products/detail/v/2/");
+        $(this).attr("href",newStart);
+    });
+</script>
+<!-- 侧边栏浮动 -->
+<div class="leftfloat">
+    <div class="leftfloat_logo" id="leftfloat_logo"></div>
+    <div class="leftfloat_content">
+        <ul>
+            <li><a href="#ppzx" class="smooth">品牌中心</a></li>
+            <li><a href="#thzq" class="smooth">特惠专区</a></li>
+            <li><a href="#rxzq" class="smooth">热销专区</a></li>
+            <li><a href="#xpzq" class="smooth">新品专区</a></li>
+            <li><a href="#xyzq" class="smooth">全球精选</a></li>
+        </ul>
+        <a href="javascript:void(0);" class="gotop"></a>
+    </div>
+</div>
+<script>
+    (function(){
+        var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?fb50cb3f17cb4f91d1ce3c1b7ecab15b":"https://jspassport.ssl.qhimg.com/11.0.1.js?fb50cb3f17cb4f91d1ce3c1b7ecab15b";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+    })();
+</script>
+<script type="text/javascript">
+//    特惠专区
+    jQuery(".tabBox").slide({ delayTime:0, switchLoad:"_src", trigger:"click" });
+</script>
+<script type="text/javascript">
+//    首页楼层效果
+    $(function () {
+        $(window).scroll(function () {
+            var clientH = $(window).height();
+            var $scroll = $(window).scrollTop();
+            if($(".f1_box").offset().top-$scroll<clientH){
+                $(".leftfloat").fadeIn();
+            }else{
+                $(".leftfloat").fadeOut();
+            }
+            $(".little_banner_box").each(function (index,elem) {
+                var $off =$(this).offset().top;
+                if ($off - $scroll < clientH/2) {
+                    $(".leftfloat_content>ul>li").eq(index).addClass("floor_info").siblings().removeClass("floor_info");
+                } else {
+                    $(".leftfloat_content>ul>li").eq(index).removeClass("floor_info");
+                }
+
+            })
+
+        });
+        $(".smooth").on("click", function () {
+            var href = $(this).attr("href");
+            var $step = $(href).offset().top;
+            $("body").animate({"scrollTop": $step}, 500);
+            return false;
+        });
+        $('.gotop').click(function(e) {
+            $('html,body').animate({scrollTop:0})
+        });
+    });
+/*加入收藏*/
+function addToInterests(gid){
+    if(parseInt(gid) <= 0){
+        alert("商品不存在或者已经被下架");return false;
+    }
+    $.ajax({
+        url:"/Home/Products/doAddGoodsCollect",
+        cache:false,
+        dataType:"json",
+        data:{gid:gid},
+        type:"post",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success("加入收藏成功");
+            }else{
+                $.ThinkBox.error(msgObj.info);
+            }
+        }
+    });
+}
+
+/*左浮动的js定位控制*/
+$(document).ready(function(){
+    var window_w = $(window).width()/2-694;
+    var window_q = $(window).width()/2-600;
+     if(window_w>0){
+        $(".leftfloat").css({"left":window_w});
+        $(".aside").css({"right":window_q});
+     }else{
+        $(".leftfloat").css({"left":"0"})
+     }
+});
+//    $(".leftfloat_content>div>a").click(function(){
+//        $(this).addClass("float_first").siblings().removeClass("float_first");
+//    });
+$('.main #plist ul>li.new_product_slide_box').mouseenter(function(){
+   $('.main #plist ul>li.new_product_slide_box>a') .show();
+});
+$('.main #plist ul>li.new_product_slide_box').mouseleave(function(){
+   $('.main #plist ul>li.new_product_slide_box>a') .hide();
+});
+jQuery(".new_product_slide_box").slide( { mainCell:".slider_new_box ul",effect:"leftLoop",autoPlay:true});
+jQuery(".guess_you_content").slide({titCell:".guess_you_btn ul",mainCell:".guess_you_list_box ul",autoPage:true,effect:"leftLoop",autoPlay:true,vis:5});
+</script>

@@ -1,0 +1,27 @@
+<div class="footer footer1">
+    <div class="indexThree">
+        <notempty name="Think.session.Members.m_name">
+            <a href="{:U('Wap/Ucenter/index')}" class="goout">{$Think.session.Members.m_name}</a>
+            <a href="{:U('Wap/User/doLogout')}" class="goout">[退出]</a>
+            <else/>
+            <a href="/Wap/User/login?jumpUrl=%2FWap%2FIndex%2Findex" class="goout">[登录]</a>
+            <a href="/Wap/User/pageRegister?jumpUrl=%2FWap%2FIndex%2Findex" class="goout">[注册]</a>
+        </notempty>
+        <a href="#top" class="gotop">Top<b></b></a>
+    </div>
+
+    <div class="copyright">
+        <div class="ft-links">
+            <a href="{:U('Wap/Index/index')}" >店铺主页</a>
+            <a href="{:U('Wap/Ucenter/index')}" >会员中心</a>
+            <a href="{:U('Wap/Message/pageMailBox')}" class="js-open-follow">站内信</a>
+            <a href="{:U('Wap/Collect/pageList')}">我的收藏</a>
+        </div>
+        <div class="ft-copyright">
+            <a href="http://www.guanyisoft.com" target="_blank">管易软件提供技术支持</a>
+        </div>
+    </div>
+    <div class="footerThree">
+        <p>Wap版<br>版权所有 @ 2015 {$commonInfo['GY_SHOP_TITLE']} {$commonInfo['GY_SHOP_ICP']}</p>
+    </div>
+</div>

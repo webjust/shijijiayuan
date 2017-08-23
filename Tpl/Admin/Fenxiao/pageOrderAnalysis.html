@@ -1,0 +1,124 @@
+<div class="rightInner">
+    <table class="tbForm" width="100%">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    <a class="btnG ico_refresh" href="{:U('Admin/Fenxiao/pageOrderAnalysis')}" >分析采购单</a>
+                    <a class="btnG ico_msg" href="{:U('Admin/Fenxiao/pagePriceDaixiao')}" >代销乱价采购单</a>
+                    <a class="btnG ico_msg" href="{:U('Admin/Fenxiao/pagePriceJingxiao')}" >经销乱价采购单</a>
+                    <a class="btnG ico_msg" href="{:U('Admin/Fenxiao/pagePriceCuanhuo')}" >窜货采购单</a>
+                    <a class="btnG ico_print" href="{:U('Admin/Fenxiao/pagePriceChart')}" >乱价统计</a>
+                </th>
+            </tr>
+            <tr>
+                <th></th>
+                <th class="left">分析进度</th>
+                <th class="left">说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="first">代销乱价分析：</td>
+                <td>
+                    <span class="loadingBar"><div class="loadingInner" id="daixiaoBar"></div></span>
+                </td>
+                <td class="last">代销子采购单内商品最终零售价不在商品零售价格区间即认为乱价</td>
+            </tr>
+            <tr>
+                <td class="first">经销乱价分析：</td>
+                <td>
+                    <span class="loadingBar"><div class="loadingInner" id="jingxiaoBar"></div></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">经销窜货分析：</td>
+                <td>
+                    <span class="loadingBar"><div class="loadingInner" id="cuanhuoBar"></div></span>
+                </td>
+                <td class="last">子采购单状态为关闭而淘宝真正交易单状态为成功即认为窜货</td>
+            </tr>
+            <tr>
+                <td class="first">分析结果：</td>
+                <td><span id="analysisResult"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var url = [
+        '/Admin/Fenxiao/doAnalysisPriceDaixiao/',
+        '/Admin/Fenxiao/doAnalysisPriceJingxiao/',
+        '/Admin/Fenxiao/doAnalysisCuanhuo/'
+    ];
+    var dones = 0;
+
+    $(document).ready(function(){
+        doAnalysisPriceDaixiao(1);
+        doAnalysisPriceJingxiao(1);
+        doAnalysisCuanhuo(1);
+    });
+
+    function doAnalysisPriceDaixiao(start){
+        $.get(url[0],{'start':start},function(result){
+            if(result){
+                if(start<result.total){
+                    var percent = parseFloat((start/result.total)*100).toFixed(2);
+                    $('#daixiaoBar').css('width',percent+'%');
+                    start++;
+                    doAnalysisPriceDaixiao(start);
+                }else{
+                    //检查完成
+                    $('#daixiaoBar').css('width','100%');
+                    dones++;
+                }
+            }else{
+                alert('请求出错了,可能没有数据');
+            }
+        },'json');
+    }
+
+    function doAnalysisPriceJingxiao(start){
+        $.get(url[1],{'start':start},function(result){
+            if(result){
+                if(start<result.total){
+                    var percent = parseFloat((start/result.total)*100).toFixed(2);
+                    $('#daixiaoBar').css('width',percent+'%');
+                    start++;
+                    doAnalysisPriceDaixiao(start);
+                }else{
+                    //检查完成
+                    $('#jingxiaoBar').css('width','100%');
+                    dones++;
+                }
+            }else{
+                alert('请求出错了,可能没有数据');
+            }
+        },'json');
+    }
+
+    function doAnalysisCuanhuo(start){
+        $.get(url[1],{'start':start},function(result){
+            if(result){
+                if(start<result.total){
+                    var percent = parseFloat((start/result.total)*100).toFixed(2);
+                    $('#daixiaoBar').css('width',percent+'%');
+                    start++;
+                    doAnalysisPriceDaixiao(start);
+                }else{
+                    //检查完成
+                    $('#cuanhuoBar').css('width','100%');
+                    dones++;
+                }
+            }else{
+                alert('请求出错了,可能没有数据');
+            }
+        },'json');
+    }
+
+    function done(){
+        if(dones==3){
+            $('#analysisResult').html('分析已完成');
+        }
+    }
+</script>

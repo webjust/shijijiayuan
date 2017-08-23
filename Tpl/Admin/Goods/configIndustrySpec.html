@@ -1,0 +1,60 @@
+<div class="rightInner">
+    <form id="configIndustrySpec" name="configIndustrySpec" method="post" action="{:U('Admin/Goods/configIndustrySpec')}">
+        <table class="tbList" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">行业属性配置</th>
+                </tr>
+            </thead>
+            <tbody>
+				<tr>
+					<td>启用</td>
+					<td>行业</td>
+					<td>别名</td>
+					<td>字段名</td>
+					<td>是否必填</td>
+					<td>表单类型</td>
+					<td>示例</td>
+				</tr>
+				<volist name="industry_fields" id="field" key="sc_key">
+                <tr>
+                    <td>
+						<input type="checkbox" name="GOODS_INDUSTRY_SPEC[{$key}]" value="1" <if condition="$field.checked eq 1">checked="checked"</if> />
+					</td>
+                    <td>{$field.industry}</td>
+                    <td>{$field.label}</td>
+                    <td>{$key}</td>
+                    <td><if condition="$field.required eq 1">是<else />否</if></td>
+                    <td>{$field.type}
+					</td>
+                    <td>
+						<switch name="field.type">
+							<case value="input"><input type="text" value="请输入" readonly="readonly" style="width:100px;" /></case>
+							<case value="select"><select readonly="readonly"><option value="0">请选择</option></select></case>
+							<case value="textarea"><textarea readonly="readonly" style="width:100px;height:50px;"></textarea></case>
+							<case value="radio">
+<!--								<span>-->
+								<input type="radio" value="1" id="6666" />
+								<label for="6666">是</label>
+<!--								<span style="margin-left:15px;">-->
+								<input type="radio" value="0" id="7777" />
+								<label for="7777">否</label>
+							</case>
+						</switch>
+					</td>
+                </tr>
+				</volist>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="dosubmit" value="1" />
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,9 @@
+<div class="index_news_list_title" edit-name="模块标题" textstyle-editable="true" style-num="1" textcontent-editable="true" content-num="1">新闻分类标题</div>
+<div class="index_news_list_content">
+    <gyfx:article name="art" cid="$cid" num="$num">
+        <volist name="art" id="artinfo">
+            · <a href="{$artinfo.aurl}" edit-name="超链接列表" textstyle-editable="true" style-num="2" >{$artinfo.atitle}</a><br/>
+        </volist>
+    </gyfx:article>
+</div>
+<div class="clear"></div>

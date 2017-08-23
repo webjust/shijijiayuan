@@ -1,0 +1,4 @@
+{__NOLAYOUT__}
+<volist name="ary_goods" id="showlist">
+	<span class="removeHover" id="addHover{$showlist['gid']}" <if condition="$key eq 0">class="onHover"</if>><a href="###" onclick="ajaxLoadGoodsInfo({$showlist.gid})" title="{$showlist.gname}" ><img  title="{$showlist.gname}" src="{$Think.config.DOMAIN_HOST}{$showlist.g_picture|showImage=###,65,65}" width="65" height="65" ></a><i></i></span>
+</volist>

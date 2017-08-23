@@ -1,0 +1,118 @@
+
+<link rel="stylesheet" href="__UCSS__ucenter.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+<div class="container">
+    <!--container-->
+    <div class="titleTop"> <!--titleTop-->
+        <p class="detailT"><a href="{:U('Wap/Index/index')}">首页</a>/<a href="{:U('Wap/Ucenter/index')}">个人中心</a></p>
+        <h1><span>站内信</span></h1>
+    </div>
+    <div class="Ucenter">
+        <div class="userInfo" id="userInfo">
+        </div>
+        <div class="ucenter_S">
+            <div class="selector"><span  class="select" ><input id="inputselect" value="站内消息"/></span>
+                <ul  id="list" style="display: none;">
+                    <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                    <li><a  href="{:U('Wap/Orders/orderList')}" selectid="2">我的订单</a></li>
+                    <li><a  href="{:U('Wap/My/pageDeliver')}"  selectid="4">我的地址</a></li>
+                    <li><a  href="{:U('Wap/Message/pageMailBox')}"  selectid="5">站内消息</a></li>
+                    <li><a  href="{:U('Wap/Collect/pagelist')}"  selectid="6">收藏列表</a></li>
+                    <li><a   href="{:U('Wap/PointLog/pagelist')}"  selectid="8">我的积分</a></li>
+                    <li><a   href="{:U('Wap/Coupon/couponList')}"  selectid="9">我的优惠券</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--ucenter_S-->
+        <!--Message-->
+        <div class=" Message">
+            <h1>消息列表<a href="javascript:void(0)" onclick="window.history.back()" class="write">返回</a></h1>
+            <form id="replysendForm" method="post" action='{:U("Wap/Message/doReply")}' >
+                <div class="msg_Add">
+                    <div class="msgL"> <span class="msgl">收件人*</span>
+                        <div class="msgr">
+                            <!--<input  name="to_name" type="text" class="input_text"   />-->
+                            {$messageInfo.to_name}
+                        </div>
+                        <i style="width:auto;float:right"></i>
+                    </div>
+                    <div class="msgL">
+                        <span class="msgl">标题*</span>
+                        <div class="msgr">
+                            <input name="title" type="text" class="input_text"   value="{$messageInfo.reply_title}" required="required"/>
+                            <i style="width:auto;float:left"></i>
+                        </div>
+
+                    </div>
+                    <div class="msgL">
+                        <span class="msgl">内容*</span>
+                        <div class="msgr">
+                            <textarea name="content" class="input_textarea" required="required">{$messageInfo.reply_content}</textarea>
+                            <i style="width:auto;float:left"></i>
+                        </div>
+                    </div>
+                    <div class="msgL">
+                        <span class="msgl">&nbsp;</span>
+                        <div class="msgr">
+                            <input type="hidden" name="sl_id" value="{$messageInfo.sl_id}"/>
+                            <a  onclick="submit();" href="javascript:void(0)" class="send">发送</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--Message-->
+    </div>
+</div>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script>
+    $("#replysendForm").validate({
+        errorPlacement: function(error, element) {
+            var error_td = element.next();
+            error_td.append(error);
+        },
+        rules : {
+            title : {
+                required:true
+            },
+            content : {
+                required : true
+            }
+        },
+        messages : {
+            title  : {
+                required : '标题不能为空'
+            },
+            content : {
+                required:'发信内容不能为空'
+            }
+        }
+    });
+</script>
+
+<script>
+    function submit(){
+        var url = "{:U('Wap/Message/doReply')}";
+        var sendForm = $('#replysendForm').serialize();
+        $.ajax({
+            url : url,
+            data : sendForm,
+            dataType:"json",
+            type:"post",
+            success:function(msgObj){
+                if(msgObj.status == 1){
+                    $.ThinkBox.success(msgObj.info);
+                    window.location.href = msgObj.url;
+                }else{
+                    $.ThinkBox.error(msgObj.info);
+                    return false;
+                }
+            }
+        })
+    }
+</script>
+<script>
+    getcommoninfo();
+</script>

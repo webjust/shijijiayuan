@@ -1,0 +1,39 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99"><a href="{:U('Admin/Online/pageAddCate')}" class="first add btnG ico_add">新增在线客服分类</a></th>
+            </tr>
+            <tr>
+                <th width="120">操作</th>
+                <th width="300">分类名称</th>
+                <th width="120">排序</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="cateinfo" id="category">
+               <tr>
+                   <td width="120">
+                    <a href='{:U("Admin/Online/pageEditCate","ocid=$category[oc_id]")}'>编辑</a>|
+					<a href='{:U("Admin/Online/doDelCate","ocid=$category[oc_id]")}'>删除</a>
+					</td>
+					<td style="text-align:left" width="300">{$category.oc_name}</td>
+					<td width="120">{$category.oc_order}</td>
+					<td>{$category.oc_desc}</td>
+               </tr>
+				<volist name="category['sub']" id="sub">
+               	<tr>
+                   <td width="120">
+                    <a href='{:U("Admin/Online/pageEditCate","ocid=$sub[oc_id]")}'>编辑</a>|
+					<a href='{:U("Admin/Online/doDelCate","ocid=$sub[oc_id]")}'>删除</a>
+					</td>
+					<td style="text-align:left" width="300">└{$sub.oc_name}</td>
+					<td width="120">{$sub.oc_order}</td>
+					<td>{$sub.oc_desc}</td>
+               	</tr>
+				</volist>
+			</volist>
+        </tbody>
+    </table>
+</div>

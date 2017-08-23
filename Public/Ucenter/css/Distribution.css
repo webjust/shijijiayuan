@@ -1,0 +1,88 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*店铺管理  开始*/
+.shopManage p.Ptop { width:100%; padding:18px 0px 10px; color:#333;}
+.shopManage p.Ptop select { border:1px solid #d7d7d7;}
+.shopManage p.Ptop a { padding:3px 15px; margin-left:10px;}
+
+.choosePro table.tableTop b.yellow { color:#e87900; margin-right:25px;}
+.choosePro table.tableTop input.input01 { margin-right:30px;}
+
+.chooseProCon { width:958px; border:1px solid #d7d7d7; background:#F2F2F2; margin-top:5px;}
+.chooseProCon p.choosePtop { width:100%; background:url(../images/choosePropbj.jpg) repeat-x; height:39px;}
+.chooseProCon p.choosePtop a { float:left; height:39px; font-weight:bold; font-size:14px; color:#333; width:112px; text-align:center; line-height:31px; cursor:pointer; background:url(../images/depositPbj.jpg) no-repeat right top;}
+.chooseProCon p.choosePtop a.onHover { color:white; background:url(../images/chooseProspanbj.jpg) no-repeat;}
+
+.chooseDiv { width:942px; padding:0px 8px 20px;}
+.chooseDiv table.tableCon { background:white;}
+.chooseDiv p.choosePcenter { text-align:center; padding-top:15px;}
+.chooseDiv p.choosePcenter a { padding:5px 15px;}
+
+.chooseDiv p.show { padding:8px 0px 3px;}
+.chooseDiv p.show b { color:#333; margin-right:13px; margin-left:8px;}
+.chooseDiv p.show span { color:#EA7901;}
+.chooseDiv ul { display:inline-block; margin-left:8px; width:927px;}
+.chooseDiv ul li { background:url(../images/chooseShow.jpg) no-repeat left 16px; width:917px; padding:8px 0px 0px 10px; color:#333;}
+
+.myOderBotRight { text-align:right;}
+.myOderBotRight span.spanW { margin-left:20px; color:#333;}
+.myOderBotRight select { border:1px solid #d7d7d7;}
+/*店铺管理  结束*/
+
+/*商品铺货  开始*/
+.proDistri { width:100%; min-height:400px;}
+.proDistri table { width:600px; margin:0 auto; margin-top:10px;}
+.proDistri table td { padding:8px 0px; color:#333;}
+.proDistri table td select { border:1px solid #d7d7d7;}
+.proDistri p { padding:30px 0px 10px; text-align:center;}
+.proDistri a.blue { margin-right:23px;}
+
+/*商品铺货  结束*/
+
+/*站内信    开始*/
+.mailBox { padding-top:20px;}
+.myOderBotLeft input.che { margin-left:14px;}
+.myOderBotLeft label { color:#333;}
+
+.mailBox span.state01 { background:url(../images/mailLetter.jpg) no-repeat; width:16px; height:15px; display:inline-block;}
+.mailBox span.state02 { background:url(../images/mailLetter.jpg) no-repeat bottom; width:16px; height:15px; display:inline-block;}
+
+.mialCon02 { width:100%;}
+.mialCon02 table { width:100%; border:1px solid #d7d7d7; background:white;}
+.mialCon02 table td { padding:10px 0px; border-bottom:1px dashed #d7d7d7; padding-left:10px; color:#333;}
+.mialCon02 table td h2 { font-size:14px; padding-bottom:7px;}
+.mialCon02 table td span.span01,.mialCon02 table td span.span02 { margin-right:37px;}
+.mialCon02 table td span.attachDownload { display:block; margin-top:7px;}
+.mialCon02 table td p { padding-bottom:10px;}
+.mialCon02 P.mialCon02Pbot { padding:10px 0px; text-align:right;}
+.mialCon02 P.mialCon02Pbot .wordBlue { margin-left:10px; position:relative; top:5px;}
+
+.mialCon04 { width:100%;}
+.mialCon04 table { width:100%; border:1px solid #d7d7d7; background:white;}
+.mialCon04 table td { padding:10px 0px; border-bottom:1px dashed #d7d7d7; padding-left:10px; color:#333;}
+.mialCon04 table td h2 { font-size:14px; padding-bottom:7px;}
+.mialCon04 table td span.span01,.mialCon02 table td span.span02 { margin-right:37px;}
+.mialCon04 table td p { padding-bottom:10px;}
+.mialCon04 P.mialCon02Pbot { padding:10px 0px; text-align:right;}
+
+.mialConBot { width:940px; border:1px solid #d7d7d7; background:white; padding:10px 0px 20px;}
+
+/*站内信    结束*/
+
+/*我的预存款   开始*/
+.myDepositOne { width:948px; border:1px solid #d7d7d7; background:url(../images/myDepositOnebj.jpg) repeat-x; height:104px; margin:20px 0px 15px; padding-left:10px;}
+.myDepositOne table td { padding:8px 0px !important;}
+.myDepositOne table td span.marginLeft { margin-left:21px;}
+.myDepositOne table td .brown { padding:3px 15px; margin:0px 10px 0px 20px;}
+.myDepositOne table td input.dep { position:relative; top:2px;}
+.myDepositOne table td label { margin:0px 10px 0px 2px;}
+
+/*我的预存款   结束*/
+
+
+.dis_hide table.deliverTable {background: none repeat scroll 0 0 #F2F2F2;border: 1px solid #D7D7D7;width: 100%;margin-top: 20px;}
+.dis_hide table.deliverTable td {color: #333333;font-family: Arial;padding: 5px 0;}
+.dis_hide table.deliverTable td input.input01 {border: 1px solid #D7D7D7;height: 23px;line-height: 23px;margin-right: 20px;padding-left: 5px;width: 210px;}
+
+

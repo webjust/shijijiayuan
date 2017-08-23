@@ -1,0 +1,89 @@
+<div class="rightInner">
+    <form name="authorize_list" id="authorize_list" method="get" action="{:U('Admin/Authorize/doDel')}">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">授权线列表</th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>操作</th>
+                    <th>状态</th>
+                    <th>授权线名称</th>
+                    <th>授权商品分类</th>
+                    <th>授权商品品牌</th>
+                    <th>授权商品分组</th>
+                    <th>更新时间</th>
+                    <th>默认</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="authorize" >
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="aid[]" /></td>
+                    <td>
+                        <a href='{:U("Admin/Authorize/pageEdit?aid=$authorize[al_id]")}'>编辑</a>&nbsp;
+                        <a href='{:U("Admin/Authorize/doDel?aid=$authorize[al_id]")}' class="confirm">删除</a>
+                    </td>
+                    <td><eq name="authorize.al_valid" value="1"><span class="green">已启用</span><else /><span class="red">已停用</span></eq></td>
+                <td class="left">{$authorize.al_name}</td>
+                <td class="left">
+                <volist name="authorize.cates" id="cate" mod="4"><span class="blue">{$cate.gc_name}</span>&nbsp;&nbsp;<eq name="mod" value="3"><br></eq></volist>
+                </td>
+                <td class="left">
+                <volist name="authorize.brands" id="brand" mod="4"><span class="blue">{$brand.gb_name}</span>&nbsp;&nbsp;<eq name="mod" value="3"><br></eq></volist>
+                </td>
+                <td class="left">
+                <volist name="authorize.groups" id="group" mod="4"><span class="blue">{$group.gg_name}</span>&nbsp;&nbsp;<eq name="mod" value="3"><br></eq></volist>
+                </td>
+                <td>{$authorize.al_create_time}</td>
+                <td>
+                    <input type="radio" name="al_default" class="al_default" value="{$authorize.al_id}" <eq name="authorize.al_default" value="1">checked="checked"</eq> />
+                </td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="删除选中" class="btnA confirm" id="delAll" />&nbsp;
+                       <!-- 
+                        <select class="small" id="authorize_config" title="全局关闭情况下，任何授权线均不起作用，会员拥有任意采购权。反之会员只能采购授权线所设置商品">
+                            <option value="1" <eq name="config.GLOBAL" value="1">selected="selected"</eq> >全局开启</option>
+                            <option value="0" <eq name="config.GLOBAL" value="0">selected="selected"</eq> >全局关闭</option>
+                        </select>
+                         -->
+                        <span class="right page">{$page}</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        /* 设置默认授权线 */
+        $('.al_default').click(function(){
+            var url = "{:U('Admin/Authorize/doDefault')}";
+            var aid = $(this).val();
+            $.get(url,{aid:aid},function(info){
+                if(info.status==false){
+                    showAlert(false,'错误提示',info.info);
+                }else{
+                 	showAlert(true,'提示',info.info);
+                }
+            },'json');
+        });
+        /* 设置全局开关 */
+        $('#authorize_config').change(function(){
+            var GLOBAL = $(this).val();
+            var url = "{:U('Admin/Authorize/doSetCfg')}";
+            ajaxReturn(url,{ 'GLOBAL':GLOBAL});
+        });
+    });
+</script>

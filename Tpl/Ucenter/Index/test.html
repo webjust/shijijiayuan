@@ -1,0 +1,53 @@
+<h1>这里是测试正文</h1>
+<input type="button" id="aa" value="点击弹框" />
+<input type="button" id="bb" value="点击发送ajax请求" onclick="javascript:ajaxReturn('{:U("Ucenter/Products/doCollect?id=10")}');" />
+<script>
+    $(document).ready(function(){
+        $.metadata.setType("attr","validate");
+
+        $("#aa").click(function(){
+            showAlert(false,'执行出错了','原因为你大爷',{'我的资料':'/Ucenter/My/pageProfile','百度':'http://www.baidu.com/','关闭':''});
+        });
+
+        //$('#reg').validate();
+
+
+        $('#reg').validate({
+            errorPlacement:function(error, element) {
+            },
+            showErrors: function(errors){
+                msg = '';
+                for ( var name in errors ) {
+                    msg = msg + name + ':' + errors[name] + '<br>';
+                }
+                showAlert(false,msg);
+                return false;
+            },
+            onkeyup: false,
+            onfocusout:false
+        });
+
+
+
+
+        $('#jjj').click(function(){
+            $('#reg').valid();
+
+        });
+
+    });
+</script>
+
+<div>
+    <form id="reg" action="{:U('Ucenter/Index/doTest')}" method="post">
+        用户名 <input type="text" name="username" value="" validate="{ required:true}"  /><br>
+        数字项测试 <input type="text" name="password" value="" validate="{ number:true,digits:true}"  /><br>
+        邮箱 <input type="text" name="email" value="" validate="{ email:true,remote:'__APP__/Ucenter/Index/getCheck'}"  /><br>
+
+        密码 <input type="password" name="password" value="" validate="{ required:true,rangelength:[1,6],messages:{rangelength:'密码输入格式有误'}}" /><br>
+        性别 <input type="radio" value="1" name="sex" validate="{ required:true}" />男 <input type="radio" value="0" name="sex" validate="{ required:true}" />女<br>
+        <br>
+        <input type="submit" />
+        <a id="jjj" href="javascript:void(0);">提交</a>
+    </form>
+</div>

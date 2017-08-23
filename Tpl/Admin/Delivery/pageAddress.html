@@ -1,0 +1,224 @@
+<div class="rightInner">
+    <table class="tbForm" width="100%">
+        <thead>
+            <tr class="title">
+                <th colspan="99">地址库管理</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="first">选择地区</td>
+                <td>
+                    <select id="province" name="province" onchange="selectCityRegion($(this),'1');CityName($(this));" class="medium">
+                        <option value="-1" selected="selected">请选择</option>
+                        <volist name="cityRegion" id="cr">
+                            <option value="{$cr.cr_id}">{$cr.cr_name}</option>
+                        </volist>
+                    </select >
+                    <select id="city"  name="city" onchange="selectCityRegion($(this),'2');CityName($(this));" class="medium">
+                        <option value="-1" selected="selected">请选择</option>
+                    </select>
+                    <select id="region" name="cr_id" class="medium" onchange="CityName($(this));">
+                        <option value="-1" selected="selected">请选择</option>
+                    </select>
+                </td>
+                <td class="last">
+                    请不要随意改变地址库信息，会导致订单地址错误货品将无法发送到正确地址
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99" style="text-align: center;">
+                    <input type="button" value="删 除" id="delCity" class="btnA"  />&nbsp;
+                    <input type="button" value="添 加" id="addCity" class="btnA" cr_path="" />&nbsp;
+                    <input type="button" value="修 改" id="editCity" class="btnA" />&nbsp;
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div id="pro_diglog" style="display: none;">
+        <div id="addCityname">
+            <table class="tbForm" width="100%">
+                <tr>
+                    <td class="first">* 名称</td>
+                    <td><input name="cityname" type="text" value="" /></td>
+                    <td class="last">请输入需要添加的城市名称</td>
+                </tr>
+            </table>
+        </div>
+        <div id="editCityname">
+            <table class="tbForm" width="100%">
+                <tr>
+                    <td class="first">* 名称</td>
+                    <td><input name="editname" type="text" value="" id="editName" cr_id="" /></td>
+                    <td class="last">请输入需要添加的城市名称</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+</div>
+<script>
+    function CityName(obj){
+        var cr_id = obj.val();
+        var name = obj.find("option:selected").html();
+        $("#editName").val(name);
+        $("#editName").attr("cr_id",cr_id);
+    }
+    function selectCityRegion(obj,pcth){
+        var cr_id = obj.val();
+        var cr_type = obj.attr('id');
+        var url = "{:U('Admin/Address/getSelectHtml')}";
+        $.get(url,{'cr_id':cr_id},function(info){
+            if(cr_type == 'province'){
+                $('#city').html(info);
+                $('#region').html('<option value="-1" selected="selected">请选择</option>');
+            }else if(cr_type == 'city'){
+                $('#region').html(info);
+            }
+        });
+    }
+    
+    //删除城市
+    $("#delCity").click(function(){
+        //选择省
+        var province = $("#province").find("option:selected").val();
+        var city = $("#city").find("option:selected").val();
+        var region = $("#region").find("option:selected").val();
+        var cr_id = 0;
+        if(province != '-1' && province != ''){
+            cr_id = province;
+        }
+        if(city != '-1' && city != ''){
+            cr_id = city;
+        }
+        if(region != '-1' && region != ''){
+            cr_id = region;
+        }
+        if(province == '-1' && city == '-1' && region == '-1'){
+            showAlert(false,'出错了','请选择省/市/区');
+            return false;
+        }
+        var url = "{:U('Admin/Delivery/delCityAddress')}";
+        if(confirm("确认删除")){
+            $.post(url, {'cr_id':cr_id}, function(msgObj){
+                if(msgObj.success == '1'){
+                    showAlert(true,'成功','删除成功');
+                    return false;
+                }else{
+                    showAlert(false,'出错了',msgObj.msg);
+                    return false;
+                }
+                
+            }, 'json');
+        }
+    });
+    
+    //添加省市区
+    $("#addCity").click(function(){
+        //选择省
+        var province = $("#province").find("option:selected").val();
+        var city = $("#city").find("option:selected").val();
+        var region = $("#region").find("option:selected").val();
+        var cr_id = 0;
+        if(province != '-1' && province != ''){
+            cr_id = province;
+        }else{
+            cr_id = '1';
+        }
+        if(city != '-1' && city != ''){
+            cr_id = city;
+        }
+        if(region != '-1' && region != ''){
+            cr_id = region;
+        }
+        
+        $("#addCityname").dialog({
+            width:500,
+            height:'auto',
+            modal:true,
+            title:'提示：添加城市',
+            closeOnEscape:'false',
+            close:function (){
+                $("#addCityname").dialog('destroy');
+                $('#pro_diglog').append($('#addCityname'));
+            },
+            buttons:{
+                '确定':function(){
+                    $("#addCityname").dialog('destroy');
+                    $('#pro_diglog').append($('#addCityname'));
+                    addCity(cr_id);
+                },
+                "取消": function() {
+                    $("#addCityname").dialog('destroy');
+                    $('#pro_diglog').append($('#addCityname'));
+                }
+            }
+        });
+        
+    });
+    
+    $("#editCity").click(function(){
+        var cr_id = $("#editName").attr("cr_id");
+        var cityname = $("#editName").val();
+        if(cr_id == '' || cr_id == '-1'){
+            showAlert(false,'出错了','请选择省/市/区');
+            return false;
+        }
+        $("#editCityname").dialog({
+            width:500,
+            height:'auto',
+            modal:true,
+            title:'提示：添加城市',
+            closeOnEscape:'false',
+            close:function (){
+                $("#editCityname").dialog('destroy');
+                $('#pro_diglog').append($('#editCityname'));
+            },
+            buttons:{
+                '确定':function(){
+                    $("#editCityname").dialog('destroy');
+                    $('#pro_diglog').append($('#editCityname'));
+                    editCity(cr_id,cityname);
+                },
+                "取消": function() {
+                    $("#editCityname").dialog('destroy');
+                    $('#pro_diglog').append($('#editCityname'));
+                }
+            }
+        });
+        
+    });
+
+    function editCity(cr_id,cityname){
+        var cityname = $("#editName").val();
+        var url = "{:U('Admin/Delivery/editCityAddress')}";
+        $.post(url, {'cr_id':cr_id,'cityname':cityname}, function(msgObj){
+            if(msgObj.success == '1'){
+                showAlert(true,'成功',msgObj.msg);
+                return false;
+            }else{
+                showAlert(false,'出错了',msgObj.msg);
+                return false;
+            }
+                
+        }, 'json');
+    }
+
+    function addCity(cr_id){
+        var cityname = $("#addCityname input").val();
+        var url = "{:U('Admin/Delivery/addCityAddress')}";
+        $.post(url, {'cr_id':cr_id,'cityname':cityname}, function(msgObj){
+            if(msgObj.success == '1'){
+                showAlert(true,'成功','添加成功');
+                return false;
+            }else{
+                showAlert(false,'出错了',msgObj.msg);
+                return false;
+            }
+                
+        }, 'json');
+    }
+</script>

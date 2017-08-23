@@ -1,0 +1,112 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*浏览货品页   开始*/
+.pageList { width:100%;}
+.pageList table { width:100%; margin-top:10px;}
+.pageList table tr td { padding:8px 0px; line-height:20px; color:#5f5f5f;}
+.pageList table tr td i { font-style:normal; margin-left:135px;}
+.pageList table tr td input { width:180px; height:20px; border:1px solid #d0d0d0; padding-left:6px; line-height:20px;}
+
+.pageList a.newMore { font-size:14px; margin:10px 0px 20px 135px;  color:#ff3e79; line-height: 200%;}
+/*color:#1790CB;*/
+.pageList p { width:100%; text-align:center; padding-bottom:45px;}
+.pageList p .reset { margin-left:23px;}
+/*浏览货品页   结束*/
+
+/*快速订货  开始*/
+.quickOrderBox {width:980px; float:right; display:inline; background:#fff; -moz-box-shadow:0px 0px 5px #b3b3b3; -webkit-box-shadow:0px 0px 5px #b3b3b3; box-shadow:0px 0px 5px #b3b3b3;}
+.quickOrderCon { width:960px; padding:10px 10px 0px;}
+
+.pageQuick { width:100%; overflow:hidden; margin-top:15px;}
+.pageQuick table { width:100%; color:#333;}
+.pageQuick table thead a { display:inline-block; padding:0px 7px; height:22px; line-height:22px; border:1px solid #ff9b2e; color:#333; margin-right:10px;}
+.pageQuick table thead a b { display:inline-block; background:url('../images/choosed.jpg') no-repeat; width:9px; height:9px; overflow:hidden;}
+.pageQuick table thead a:hover { text-decoration:none;}
+.pageQuick table thead a b:hover { background-position:0px -9px}
+.pageQuick table tbody td { padding:10px 0px; border-bottom:1px dashed #d1d1d1;}
+.pageQuick table tbody td a.all { float:left; padding:0px 7px; height:22px; line-height:22px;}
+.pageQuick table tbody td p.p01 { float:left; margin-left:9px; width:802px;}
+.pageQuick table tbody td p.p01 a { display:inline-block; height:22px; line-height:22px; padding:0px 7px; margin-right:10px;}
+.pageQuick table tbody td a.on {color:white; background:#ff3e79; text-decoration:none;} /*background:#1790CB;*/
+.pageQuick table tbody td span.jia,.pageQuick table tbody td span.jian { display:inline; float:right; background:url('../images/jiajian.jpg') no-repeat; width:14px; height:14px; cursor:pointer;}
+.pageQuick table tbody td span.jia { background-position:0px 0px;}
+.pageQuick table tbody td span.jian { background-position:0px -14px;}
+.pageQuick table tbody td p.p02 {width:803px; margin-top:10px; padding:7px 15px; clear:both; margin-left:52px; background:#f1f1f1; border:1px solid #e6e6e6; display:inline-block;}
+.pageQuick table tbody td p.p02 a { margin-right:15px;}
+
+.flex { width:100%; display:block; height:31px; text-align:center; padding-top:5px; background:#f1f1f1; position:relative; margin-top:-1px;}
+.flex span { cursor:pointer;}
+.flex span b { display:block; background:url('../images/flex.jpg') no-repeat; width:14px; height:8px; margin:0 auto; cursor:pointer}
+.flex span b.flex01 { background-position:0px -8px;}
+.flex span b.flex02 { background-position:0px -31px;}
+
+
+.pageQuickDetails { margin-top:15px;width:980px; float:right; display:inline; background:#fff; -moz-box-shadow:0px 0px 5px #b3b3b3; -webkit-box-shadow:0px 0px 5px #b3b3b3; box-shadow:0px 0px 5px #b3b3b3;}
+.pageQuickDOne { width:100%; background:url('../images/quickOrderRepeatx.jpg') repeat-x; height:96px;}
+.pageQuickDOne p.p01 { width:100%; line-height:25px; color:#333; padding:14px 0px;}
+.pageQuickDOne p.p01 span.span01 { margin-left:10px;}
+.pageQuickDOne p.p01 span.span02 { margin-left:20px;}
+.pageQuickDOne p.p01 select { width:144px; border:1px solid #cacaca;}
+.pageQuickDOne p.p01 input.input01 { width:135px; height:23px; line-height:23px; border:1px solid #cacaca; padding-left:5px;}
+.pageQuickDOne p.p01 input.input02 { width:36px; height:23px; line-height:23px; text-align:center; border:1px solid #cacaca;}
+.pageQuickDOne p.p01 i { font-style:normal; margin:0px 4px;}
+.pageQuickDOne p.p01 em { font-style:normal;}
+.pageQuickDOne p.p01 input.inputBtn { display:inline-block;  background:#ff3e79; height:25px; line-height:25px; width:75px; font-weight:bold; color:white; text-shadow:1px 1px 2px #a7cce6; border:none; font-size:14px; position:relative; top:2px; margin-left:31px; cursor:pointer;}
+/*background:#1790CB;*/
+.pageQuickDOne p.p02 { width:100%; line-height:25px; color:#333;}
+.pageQuickDOne p.p02 a { height:23px; padding:0px 11px; line-height:23px; border:1px solid #cacaca; display:inline-block; background-color:white; margin-right:11px; text-decoration:none;}
+.pageQuickDOne p.p02 a.up { background:url('../images/topbottom.png') no-repeat right top #ff9b2e; color:white; padding-right:20px;}
+.pageQuickDOne p.p02 a.down { background:url('../images/topbottom.png') no-repeat right -25px #ff9b2e; color:white; padding-right:20px;}
+.pageQuickDOne p.p02 input.input01 { margin-left:19px; margin-right:3px; position:relative; top:2px;}
+.pageQuickDOne p.p02 span.span01 { margin-left:10px;}
+.pageQuickDOne p.p02 span.span02 { margin-left:30px;}
+.pageQuickDOne p.p02 input.input02 { width:135px; height:23px; line-height:23px; border:1px solid #cacaca; padding-left:5px;}
+
+.pageQuickDTwo { width:100%;}
+.pageQuickDTwo p.p01 { width:970px; height:30px; line-height:30px; padding-left:10px; background:#e6edf0;}
+.pageQuickDTwo p.p01 a { font-size:14px; font-weight:bold; color:#333; margin-right:20px;}
+
+.pQuickDTwoCon { width:960px; display:inline-block; padding:15px 10px 10px;}
+.pQuickDTwoConLeft { float:left; width:130px;}
+.prodctPic { display:block; width:130px; height:130px;}
+.prodctPic a img { border:1px solid white; -moz-box-shadow:0px 0px 5px #b3b3b3; -webkit-box-shadow:0px 0px 5px #b3b3b3; box-shadow:0px 0px 5px #b3b3b3;}
+.pQuickDTwoConLeft a.checkDetails { float:left; color:#ff3e79; margin-top:5px} /*color:#1790CB;*/
+.pQuickDTwoConLeft a.collect { float:right; color:#ff3e79; margin-top:5px} /*color:#1790CB;*/
+.pQuickDTwoConRight { width:820px; float:right;}
+.pQuickDTwoConRight table { width:818px; border:1px solid #D7D7D7; position:relative; z-index:1}
+.pQuickDTwoConRight table td { text-align:center;}
+.pQuickDTwoConRight table thead td { height:30px; background:#EEEEEE; color:#333;}
+.pQuickDTwoConRight table tbody td { padding:7px 0px; color:#333; border-top:1px dashed #d1d1d1;}
+.pQuickDTwoConRight table tbody td input.input01 { float:left; width:31px; height:18px; line-height:18px; border:1px solid #B2B1B1; text-align:center;}
+.pQuickDTwoConRight table tbody td a.add,.pQuickDTwoConRight table tbody td a.reduce { float:left; background:url('../images/jiajian.jpg') no-repeat; width:14px; height:14px;}
+.pQuickDTwoConRight table tbody td a.add { background-position:0px 0px; margin:4px 0px 0px 4px}
+.pQuickDTwoConRight table tbody td a.reduce { background-position:0px -14px; margin:4px 4px 0px 10px}
+.pQuickDTwoConRight table tbody tr.first td { border-top:none;}
+
+.pQuickDTwoConRight table tfoot td { height:23px; background:#F1F1F1; color:#333;}
+.pQuickDTwoConRight table tfoot td span { padding-right:16px; display:inline-block; height:16px; line-height:23px; cursor:pointer;background:url('../images/flex.jpg') no-repeat}
+.pQuickDTwoConRight table tfoot td span.open { background-position:right 0px;}
+.pQuickDTwoConRight table tfoot td span.close { background-position:right -23px;}
+
+.standard,.standard01 { display:block; position:relative;}
+.standard01 span { color:#ff3e79;} /*.standard01 span { color:#1790CB;}*/
+.standardCon { position:absolute; padding:9px 16px 9px 9px; background:#E6EDF0; border: 1px solid #ccc; top:-15px; left:48px; display:none; z-index:2}
+.standardCon ul {width:196px; display:block; text-align:left}
+.standardCon ul li { width:100%; display:block; text-align:left; white-space: normal}
+.standard01 div.standardCon { display:block;}
+.standard div.standardCon { display:none;}
+
+.bottomP { width:100%; text-align:center; padding:25px 0px 15px;}
+.bottomP a { margin:0px 11px;}
+/*快速订货  结束*/
+
+
+
+
+
+
+
+
+
+

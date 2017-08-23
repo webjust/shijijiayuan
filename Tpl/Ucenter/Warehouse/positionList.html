@@ -1,0 +1,45 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+        <table class="tbList">
+            <thead>
+            <tr class="title">
+                <th colspan="99">仓位列表</th>
+            </tr>
+            <tr>
+                <th>仓位号</th>
+                <th>商品名</th>
+                <th>商品数量</th>
+                <th>条形码</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="positionList" id="position">
+                <tr id="list_{$position.p_id}">
+                    <td>{$position.p_code}</td>
+                    <td><if condition="$position.pdt_id neq 0">{$position.g_name}</if></td>
+                    <td><if condition="$position.pdt_id neq 0">{$position.pdt_nums}</if></td>
+                    <td><if condition="$position.pdt_id neq 0">{$position.pdt_bar_code}</if></td>
+                </tr>
+            </volist>
+            <empty name="positionList">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

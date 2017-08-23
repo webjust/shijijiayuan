@@ -1,0 +1,112 @@
+<div class="rightInner">
+    <!--<form name="membergroup_set" id="membergroup_set" method="get" action="{:U('Admin/Membergroup/doDelSet')}">-->
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                <!-- 
+                    <p class="conOneP" style="float: left;">
+                        <a href='{:U("Admin/Membergroup/groupingPage")}' class="btnG ico_add">新增分组</a>
+                    </p>
+                     -->
+                    <ul class="conOneUl" style="width:360px;">
+                <form method="get" action="{:U('Admin/Membergroup/groupingPage')}" style="float: none;">
+                    <li>
+                        <select name="ml_id" class="small" style="width: auto">
+                            <option value="0" selected="selected">会员等级</option>
+                            <volist name="mlevel" id="ml">
+                                <option value="{$ml.ml_id}" <if condition="$ml['ml_id'] eq $filter['ml_id']">selected="selected"</if>>{$ml.ml_name}</option>
+                            </volist>
+                        </select>
+                    </li>
+                    <li>会员名：<input type="text" name="m_name" class="large medium" value="{$filter.m_name}"  style="width: 145px;float: none;"></li>
+                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                </form>
+            </ul>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>会员名称</th>
+                <th>所属分组</th>
+                <th>添加所属分组</th>
+            </tr>
+        </thead>
+        <form name="membergroup_set" id="membergroup_set" method="get" action="{:U('Admin/Membergroup/doDelSet')}">
+        <tbody>
+            <volist name="ary_members" id="member" >
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="mid[]" value="{$member.m_id}" /></td>
+                <td>{$member.m_name}</td>
+                <td class="group left" style="width:330px;">
+                    
+                        <volist name="member.group" id="mGroup">
+                            <notempty name="mGroup.mg_id">
+                                <span class="blue">{$mGroup.mg_name}<a href="javascript:void(0);" class="delete" onclick="deleteGroup($(this),{$mGroup.mg_id});"></a></span>
+                            </notempty>
+                            
+                        </volist>
+                    
+                </td>
+                <td>
+                    <select class="medium">
+                        <option value="0">-请选择分组-</option>
+                        <volist name="ary_group" id="group">
+                            <option value="{$group.mg_id}">{$group.mg_name}</option>
+                        </volist>
+                    </select>
+                    <a href="javascript:void(0);" class="group_add" mid="{$member.m_id}" >添加</a>
+                </td>
+            </tr>
+            </volist>
+            <empty name="ary_members">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+                    <input type="hidden" name="mgid" value="-1" />
+                    <input type="submit" value="清空选中会员的分组" class="btnA confirm" id="delAll" />&nbsp;
+                    <span class="right page">{$page}</span>
+                </td>
+            </tr>
+        </tfoot>
+        </form>
+    </table>
+    <!--</form>-->
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        /* 给会员分组 */
+        $('.group_add').click(function(){
+            var obj = $(this);
+            var mid = obj.attr('mid');
+            var mgid = obj.parent().find("select").val();
+
+            if(mgid!=0){
+                var url = "{:U('Admin/Membergroup/doSet')}";
+                $.get(url,{ 'mid':mid,'mgid':mgid},function(info){
+                    if(info=='false'){
+                        showAlert(false,'添加错误','添加错误或者已经添加过了！');
+                    }else{
+                        obj.parents('tr').find("td.group").append(info);
+                    }
+                },'text');
+            }
+        });
+    });
+    function deleteGroup(obj,mgid){
+        var mid = obj.parents('tr').find('.checkSon').val();
+        var url = "{:U('Admin/Membergroup/doDelSet')}";
+        $.get(url,{ 'mid':mid,'mgid':mgid},function(info){
+            if(info.status){
+                obj.parent('span').remove();
+            }else{
+                showAlert(false,'删除错误');
+            }
+        },'json');
+    }
+</script>

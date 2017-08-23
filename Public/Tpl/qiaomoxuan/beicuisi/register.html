@@ -1,0 +1,356 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="__CSS__style.css">
+    <link rel="stylesheet" href="__CSS__sunshine.css">
+    <!--[if lt IE 9]>
+      <script>
+          document.execCommand("BackgroundImageCache", false, true);
+      </script>
+      <![endif]-->
+    <!--[if IE 6]>
+      <script type="text/javascript" src="js/fix_png.js" ></script>
+      <script type="text/javascript">   DD_belatedPNG.fix('.png,.dd-top');   </script>
+    <![endif]--> 
+  </head>
+  <body>
+    <div class="s-card">
+      <div class="s-card-container">
+        <div class="s-logo-box"><a href="{:U('Home/Index/index')}" class="s-logo png"></a></div>
+
+        <div class="s-card-content">
+          <div class="s-dark-border png"></div>
+          <h4 class="s-field-title">用户注册
+            <div class="login-entrance">
+              <span>已拥有贝脆思账号？</span>
+              <a href="{:U('Home/User/Login')}">立即登录</a>
+            </div>
+          </h4>
+          
+          <div class="s-field-whole">
+            <form action="{:U('Home/User/doRegister')}" class="form-horizontal" id="reg_form">
+              <div class="control-group">
+                <label for="m_name" class="control-label">用户名</label>
+                <div class="controls" style="position:relative">
+                  <input type="text" id="m_name" name="m_name">
+                  <div class="reg" style="display:none">
+                    <p class="p01"></p>
+                    <p class="pContent"><span></span><em></em></p>
+                    <p class="p02"></p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="control-group">
+                <label for="m_email" class="control-label">邮箱</label>
+                <div class="controls" style="position:relative">
+                  <input type="text" id="m_email" name="m_email">
+                  <div class="reg" style="display:none">
+                    <p class="p01"></p>
+                    <p class="pContent"><span></span><em></em></p>
+                    <p class="p02"></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label for="m_password" class="control-label">登录密码</label>
+                <div class="controls" style="position:relative">
+                  <input type="password" id="m_password" placeholder="" name="m_password">
+                  <div class="reg" style="display:none">
+                    <p class="p01"></p>
+                    <p class="pContent"><span></span><em></em></p>
+                    <p class="p02"></p>
+                  </div>
+                  <!--<span class="s-note s-hide" id="user-name-input-error">
+                    <span class="sunshine-icon-small sunshine-icon-error png"></span>
+                  </span>-->
+                  <!--<dl class="s-status">
+                    <dt class="s-status-option active">弱</dt>
+                    <dt class="s-status-option">中</dt>
+                    <dt class="s-status-option">强</dt>
+                  </dl>-->
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label for="confirm_password" class="control-label">确认密码</label>
+                <div class="controls" style="position:relative">
+                  <input type="password" id="confirm_password" placeholder="">
+                  <div class="reg" style="display:none">
+                    <p class="p01"></p>
+                    <p class="pContent"><span></span><em></em></p>
+                    <p class="p02"></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label for="verify" class="control-label">验证码</label>
+                <div class="controls" style="position:relative">
+                  <input type="text" id="verify" placeholder="" class="small-input" name="verify">
+                  <div class="reg" style="display:none">
+                    <p class="p01"></p>
+                    <p class="pContent"><span></span><em></em></p>
+                    <p class="p02"></p>
+                  </div>
+                  <div class="s-note">
+                    <img id="changeVerify" onclick="this.src='/Home/User/verify/'+Math.random()" src="/Home/User/verify/'+Math.random()" alt="">
+                    <a href="javascript:void(0);" class="changeVerify">换一张</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label for="" class="control-label"></label>
+                <div class="controls" style="position:relative">
+                    <input type="checkbox" class="small" checked="checked" id="agreement">
+                    <div class="reg" style="display:none">
+                        <p class="p01"></p>
+                        <p class="pContent"><span></span><em></em></p>
+                        <p class="p02"></p>
+                    </div>
+                    <div class="s-note">
+                      <span class="s-note-content">我已阅读并接受<a href="javascript:void(0);" class="s-note-link no-offset">《贝脆思用户协议》</a></span>
+                    </div>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label for="register-btn" class="control-label"></label>
+                <div class="controls" style="position:relative">
+                  <button type="submit" class="btn btn-success btn-large" id="register-btn">注册</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="navbar s-navbar-bright">
+        <div class="navbar-inner">
+          <div class="s-container">
+            <ul class="nav">
+              <li><a href="">关于贝脆思</a></li>
+              <li><a href="">帮助中心</a></li>
+              <li><a href="">网站地图</a></li>
+              <li><a href="">法律申明</a></li>
+              <li class="nav-last"><a href="">联系我们</a></li>
+            </ul>
+
+            <span class="nav-board"> Powered by EmporioAsia</span>
+            <span class="nav-board"> Copyright@2011 All Rights 津ICP备 </span>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="__JS__sunshine.js"></script>
+    <script type="text/javascript" src="__JS__bootstrap-tooltip.js"></script>
+    <script type="text/javascript" src="__JS__bootstrap-popover.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        sunshine.setHeight('.s-card-content', 'body', 318);
+        $('#register-btn').bind('click', function(e){
+          e.preventDefault();
+          sunshine.verifyInput('#input-new-password', '#user-name-input-error');
+        });
+        //点击切换验证码
+        $(".changeVerify").bind('click',function(){           
+            $('#changeVerify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());
+            return false;
+        });
+        //验证邮箱
+       $("#m_email").blur(function(){
+            var m_email = $("#m_email").val();
+            var _this = $(this);
+            if(m_email != "") {
+                var reg=/^[a-zA-Z0-9_\-]{1,}@[a-zA-Z0-9_\-]{1,}\.[a-zA-Z0-9\.]{1,}[a-zA-Z]$/;
+                if(!reg.test(m_email)) {
+                    $("#m_email").next(".reg").css({display:"block"});
+                    $(this).next().children().next().children('span').html("请输入合法的邮箱！").css({color:"red"});
+                    return false;
+                }
+                $.ajax({
+                    url:"{:U('/Home/User/checkEmail')}",
+                    dataType:"json",
+                    type:"get",
+                    data:{m_email:m_email},
+                    success:function(msgObj) {
+                        var e_mail_msgObj = msgObj;
+                        if(msgObj != true) {
+                            $("#m_email").next(".reg").show();
+                            _this.next().children().next().children('span').html(msgObj).css({color:"red"});
+                            return false;
+                        }
+                    }
+                });
+            }  
+        });
+        $("#m_email").focus(function(){
+            $("#m_email").next(".reg").css({display:"none"});
+            return false;
+        });
+        //验证用户名
+        $("#m_name").blur(function(){
+            var m_name = $("#m_name").val();
+            var _this = $(this);
+            if(m_name != "") {
+                var reg = /^[0-9a-z_A-Z\u4e00-\u9fa5]+$/;
+                if(!reg.test(m_name)){
+                    $("#m_name").next(".reg").show();
+                    $(this).next().children().next().children('span').html("用户名由字母、数字、下划线组成！").css({color:"red"});
+                    return false;
+                }
+                $.ajax({
+                    url:"{:U('/Home/User/checkName')}",
+                    dataType:"json",
+                    data:{m_name:m_name},
+                    type:"get",
+                    success:function(msgObj) {
+                        if(msgObj != true) {
+                            $("#m_name").next(".reg").css({display:"block"});
+                            _this.next().children().next().children('span').html(msgObj).css({color:"red"});
+                            return false;
+                        }
+                    }
+                });
+            }
+        });
+        $("#m_name").focus(function(){
+            $("#m_name").next(".reg").css({display:"none"});
+            return false;
+        });
+        //验证密码
+        $("#m_password").blur(function(){
+            var m_password = $("#m_password").val();
+            if(m_password != "") {
+                var reg =/[a-zA-Z_0-9\.]{6,}/;
+                if(!reg.test(m_password)){
+                    $("#m_password").next(".reg").show();
+                    $(this).next().children().next().children('span').html('密码不能少于6位！').css({color:"red"});
+                    return false;
+                }
+            }
+        });
+        $("#m_password").focus(function(){
+            $("#m_password").next(".reg").css({display:"none"});
+            return false;
+        });
+        //确认密码
+        $("#confirm_password").blur(function(){
+            var confirm_password = $("#confirm_password").val();
+            if(confirm_password != "") {
+                var m_password = $("#m_password").val();
+                if(m_password != confirm_password) {
+                    $("#confirm_password").next(".reg").css({display:"block"});
+                    $(this).next().children().next().children('span').html('两次输入的密码不相同！').css({color:"red"});
+                    return false;
+                }
+            }
+        });
+        $("#confirm_password").focus(function(){
+            $("#confirm_password").next(".reg").css({display:"none"});
+            return false;
+        });
+        //验证码 判断
+        $("#verify").blur(function(){
+            var verify = $("#verify").val();
+            var _this = $(this);
+            if(verify != "") {
+                $.ajax({
+                    url:"{:U('/Home/User/checkVerify')}",
+                    dataType:"json",
+                    data:{verify:verify},
+                    type:"get",
+                    success:function(msgObj) {
+                        if(msgObj != true) {
+                            $("#verify").next(".reg").show();
+                            _this.next().children().next().children('span').html(msgObj).css({color:"red"});
+                            $('#changeVerify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());
+                            return false;
+                        }
+                    }
+                });
+            }
+        });
+        $("#verify").focus(function(){
+            $("#verify").next(".reg").css({display:"none"});
+            return false;
+        });
+        //提交注册 再次过滤 注册项是否有空
+        $("#register-btn").click(function(){
+            var m_email = $("#m_email").val();
+            var m_name = $("#m_name").val();
+            var m_password = $("#m_password").val();
+            var confirm_password = $("#confirm_password").val();
+            var verify = $("#verify").val();
+            if(m_name == "") {
+                $("#m_name").next(".reg").show();
+                $("#m_name").next().children().next().children('span').html('用户名不能为空！').css({color:"red"});        
+                return false;
+            }
+            if(m_email == "") {
+                $("#m_email").next(".reg").show();
+                $("#m_email").next().children().next().children('span').html('请输入邮箱！').css({color:"red"});  
+                return false;
+            }else{
+                var confirm_m_email = $("#m_email").next().children().next().children('span').html();
+                if(confirm_m_email == "该邮箱已被注册，请重新输入！"){
+                    window.location.reload(true);
+                    return false;
+                }
+            }
+            if(m_password == "") {
+                $("#m_password").next(".reg").show();
+                $("#m_password").next().children().next().children('span').html('密码不能少于6位！').css({color:"red"});
+                return false;
+            }else{
+                var confirm_m_password = $("#m_password").next().children().next().children('span').html();
+                if(confirm_m_password == "密码不能少于6位！"){
+                    window.location.reload(true);
+                    return false;
+                }
+            }
+            if(confirm_password == "") {
+                $("#confirm_password").next(".reg").show();
+                $("#confirm_password").next().children().next().children('span').html('请确认密码！').css({color:"red"});
+                return false;
+            }else{
+                var confirm_m_password = $("#confirm_password").next().children().next().children('span').html();
+                if(confirm_m_password == "两次输入的密码不相同！"){
+                    window.location.reload(true);
+                    return false;
+                }
+            }
+            if(verify == "") {
+                $("#verify").next(".reg").show();
+                $("#verify").next().children().next().children('span').html('请输入验证码！').css({color:"red"});
+                return false;
+            }
+            if($("#agreement").attr("checked") != "checked") {
+                $("#agreement").next(".reg").show();
+                $("#agreement").next().children().next().children('span').html('请阅读贝脆思协议！').css({color:"red"});
+                return false;
+            }
+            //序列化表单 提交表单内容
+            var data = $("#reg_form").serialize();
+            $.post("/Home/User/doRegister", data, function(json) {
+                if (json.status) {
+                    window.location.href = "/Home/User/registerSuccess";
+                    return false;
+                } else {
+                    alert(json.info);return false;
+                }
+            }, 'json');
+
+        });
+       
+      });
+    </script>
+  </body>
+</html>

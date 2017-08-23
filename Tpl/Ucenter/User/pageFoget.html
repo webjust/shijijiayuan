@@ -1,0 +1,50 @@
+{__NOLAYOUT__}
+<include file="User:header" />
+<!--用户中心忘记密码页   开始-->
+<div class="uLogin">
+
+    <div class="content960">
+        <div><img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Ucenter/images/uLogo.jpg" width="201" height="53" /></div>
+        <div class="managementCenter">分销平台管理中心</div>
+    </div>
+
+    <form id="foget_form" method="post" action="{:U('Ucenter/User/synReset')}">
+        <div class="uLoginCon"><!--uLoginCon  start-->
+            <div class="content960"><!--uRegister content960  start-->
+                <div class="uRegister"><!--uRegister  start-->
+                    <div class="uRegisterLeft"></div>
+
+                    <div class="uForgetpass"><!--uForgetpass  start-->
+                        <div class="uRegiRepeaty"><!--uRegiRepeaty  start-->
+
+                            <table>
+                                <tr>
+                                    <td widtd="88px" class="td01">用 户 名：</td>
+                                    <td width="162px" class="td02"><input type="text" name="username" validate="{ required:true}" /></td>
+                                    <td width="236px"><span class="spanWrong" for="username"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">注册邮箱：</td>
+                                    <td class="td02"><input type="text" name="email" validate="{ required:true,email:true}" /></td>
+                                    <td><span class="spanWrong" for="email"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">验 证 码：</td>
+                                    <td class="td02"><input type="text" name="verify" class="text02" validate="{ required:true,digits:true,rangelength:[4,4],remote:'__APP__/User/checkVerify',messages:{rangelength:'验证码长度为4',digits:'对不起，请输入正确的验证码',required:'请输入验证码'}}" /><span class="check"><img src="__APP__/User/verify/" onClick="this.src='__APP__/User/verify/'+Math.random()" id="verificationcode" /></span>
+                                        <a href="javascript:void(0);" onclick="replaceVerificationCode()" class="change">换一张</a></td>
+                                    <td><span class="spanWrong" for="verify"></span></td>
+                                </tr>
+                            </table>
+                            <span class="tablebjbottm"></span>
+                            <p></p>
+                            <input type="submit" class="uForgetButton" value="找回密码" />
+                            <a href="{:U('Ucenter/User/pageLogin')}"><span style="margin-left:455px;">返回登录</span></a>
+                        </div><!--uRegiRepeaty  start-->
+                        <span class="spanbo"></span>
+                    </div><!--uForgetpass  end-->
+
+                </div><!--uRegister  end-->
+            </div><!--content960  end-->
+        </div><!--uLoginCon  end-->
+    </form>
+    <include file="Common:incFooter" />

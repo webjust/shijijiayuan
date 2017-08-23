@@ -1,0 +1,39 @@
+<div class="floor-cont">
+	<div class="col1">
+		<p>
+			<a target="_blank" name="hwg_none_lc02_ggw01" href="#" edit-name="广告图链接" linkcontent-editable="true" content-num="46">
+				<img src="__TPL__images/pic01.jpg" width="235px" height="401px" class="err-product" edit-name="广告图" imagecontent-editable="true" content-num="47" imagestyle-editable="true" style-num="1">
+			</a>
+		</p>
+	</div>
+	<div class="col5">
+		<div>
+			<ul class="prodlist" style="height:200px;">
+			<Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead" no_paged="1">
+			<php>if($key<10){</php>
+				<li class="border-rt product-price" data-sku="106948892|1|2|0070072456">
+					<if condition="$showlist['show_name'] eq 1">
+					<p class="name">
+						<a href="{$showlist.gurl}" target="_blank" title="{$showlist.gname}">
+							{$showlist.gname}
+						</a>
+					</p>
+					 </if>
+					<if condition="$showlist['sale_price'] neq ''">
+						<p class="price ptPrice"><i>¥</i>
+						<span>{$showlist.gprice|sprintf='%.2f',###}</span></p>
+					</if>
+					<if condition="$showlist['show_pic'] eq 1">
+					<div class="prod-img">
+						<a target="_blank" name="hwg_none_lc02_tp04" href="{$showlist.gurl}">
+							<img src="{$showlist.gpic|showImage=###,120,120}" width="120px" height="120px" class="err-product">
+						</a>
+					</div>
+					</if>
+				</li>
+				<php>}</php>
+				</Gyfx:goodslist>
+			</ul>
+		</div>
+	</div>
+</div>

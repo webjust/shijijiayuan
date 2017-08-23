@@ -1,0 +1,49 @@
+/*spike 列表页 样式调整 start*/
+.listAll ul li p a {
+    width: auto;
+}
+.listAll ul li p i{
+    float: none;
+    margin-left: 30px;
+}
+/*spike 列表页 样式调整 end*/
+
+/*spike 详情页 样式调整 start*/
+.Choice .Number a{
+    padding: 0;
+    height: 40px;
+}
+.Choice .Number .text_input{
+    float: left;
+    margin-top: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.proDetail p.time{
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  background: #C88CDA;
+  margin-top: 5px;
+}
+.proDetail i{
+  float: left;
+  background: url(../images/icon/icon.png) no-repeat -178px -56px;
+  width: 22px;
+  height: 24px;
+  margin: 4px 5px 0 5px;
+}
+.listAll ul li {
+    width: 46%;
+}
+.proList .listAll ul li span{
+    display: block;
+    clear: both;
+}
+.proList .listAll ul li span i{
+    font-style: normal;
+    float: none;
+    color: #5f1785;
+}
+
+/*spike 详情页 样式调整 end*/

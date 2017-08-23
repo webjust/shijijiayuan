@@ -1,0 +1,157 @@
+<!---中间内容部分  开始-->
+<link href="__CSS__Integral.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery.colorbox-min.js"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<div class="wrap wrapT" style="padding-top: 61px;">
+    <div class="content">
+        <div class="tgList"><!--tgList-->
+            <div class="prtad">
+                <php>
+                    $catepic = '';
+                    foreach($integral_cat as $key =>$value){
+                    if($value['gc_id'] == $get['scid']){
+                    $catepic = $value['gc_pic'];
+                    }
+                    }
+                </php>
+				<if condition="($catepic) neq ''">
+                <img src="{$Think.config.DOMAIN_HOST}{$catepic}" width="1180px" height="300px"/>
+				</if>
+            </div>
+            <!--prtad end-->
+            <div class="tgOnes"><!--tgTwo-->
+                <div class="tg_Nav">
+                    <p><a href="javascript:void(0)">积分商城</a></p>
+                    <ul>
+                        <li  <if condition="($get['scid']) eq ''">class="cur"</if> >
+                        <a href="{:U('Home/Integral/index')}">全部</a>
+                        </li>
+                        <volist name="integral_cat" id="cate">
+                            <li <if condition="($cate['gc_id'] eq $get['scid'])">class="cur"</if> >
+                            <a href="{:U('Home/Integral/index',"scid=$cate[gc_id]")}"">{$cate.gc_name}</a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+                <div class="tgL">
+                    <div class="tgL_t">
+                        <h2>积分商城</h2>
+                    </div>
+                    <div class="guide-bd">
+                        <ul class="clearfix">
+                            <volist name="data" id="showlist">
+                                <li class="fl rel w485" style="width: 360px;">
+                                    <p class="tgL_img">
+                                        <a href="{:U('Home/Integral/detail',array('integral_id'=>$showlist['integral_id']))}"  target="_blank">
+                                            <img src="{$showlist.integral_picture|showImage=###,360,360}" width="360" height="360" alt="{$showlist.integral_title}">
+                                        </a>
+                                    </p>
+                                    <div class="tgL_title" >
+                                        <p class="tgL_name"><span>{$showlist.integral_title}</span><em>¥<php>echo $showlist['detail']['gprice']</php></em></p>
+                                        <p class="tgL_price" style="margin-bottom: 20px">
+                                            <em>{$showlist.integral_need}积分</em><b style="color:#333; padding:0px 10px; font-size:14px; font-weight:normal;">还需支付:¥{$showlist.money_need_to_pay}</b>
+                                        </p>
+                                        <div class="tgL_btn" style="margin-bottom: 20px">
+                                            <a href="{:U('Home/Integral/detail',array('integral_id'=>$showlist['integral_id']))}" target="_blank" class="tgL_btn" starthref="">立即兑换</a>
+                                        </div>
+                                    </div>
+                                    <div class="tgL_tip abs">
+                                    </div>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fenyes">
+                <a href="javascript:void(0);" class="prev no">首页</a>
+                <notempty name="pagearr.showlist.upPage">
+                    <a href="{$pagearr.showlist.upUrl}" class="prev no">上一页</a>
+                    <else/>
+                    <a href="javascript:void(0);" class="prev no">上一页</a>
+                </notempty>
+                <notempty name="pagearr.showlist.downPage">
+                    <a href="{$pagearr.showlist.downUrl}" class="prev no">下一页</a>
+                    <else/>
+                    <a href="javascript:void(0);" class="prev no">下一页</a>
+                </notempty>
+                <a href="javascript:void(0);" class="prev no">尾页</a> &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <!--/tgList-->
+    </div>
+</div>
+<!---中间内容部分  结束-->
+<!--弹窗-积分兑换   开始-->
+<div style="display:none;" id="pdt_div">
+    <div id="yDhu" class="CPM" style="height:300px"></div>
+</div>
+<!--弹窗-积分兑换   结束-->
+
+<script type="text/javascript">
+    $(".borderPadd ul li").hover(function(){
+        $(".navUL ul li").children("dl").hide();
+        $(this).children("dl").show();
+    },function(){
+        $(this).children("dl").hide();
+    });
+    /** 积分商城页面**/
+//商品数量更改
+    function countNum(i){
+        var _this = $("#point_goods_num");
+        var num=parseInt(_this.val());
+        num=num+i;
+        if((num<=0)||(num>999)){return false;}
+        else{_this.val(num);}
+    }
+    //是否登录
+    function isLogin(){
+        var flag = true;
+        if("{$Think.session.Members}" == ''){
+            $.post('/Home/User/doBulkLogin/',{},function(htmlMsg){
+                $.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+            },'html');
+            return false;
+        }
+        return flag;
+    }
+
+    function yDh(obj) {
+        if(isLogin()){
+            var _this = $(obj);
+            var     g_id = _this.attr('data-id');
+            var    url = _this.attr('data-uri');
+            $.post(url,{'g_id':g_id},function(data){
+                $('#yDhu').html(data);
+            },'TEXT');
+            $.colorbox({ inline: true, href: "#yDhu", width: "402px", height: "302px"});
+        }
+    }
+    /** 积分商城end**/
+</script>
+<script>
+    $(function(){
+        var wrap=$(".wrap");
+        wrap.css({"padding-top":0});
+    })
+</script>
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>
+<script type="text/javascript">
+    $('.classiCon').css('display','none');
+    $('.allSpan').mouseover(function(){
+        $('.classiCon').css('display','block');
+    });
+    $('.allClassi').mouseleave(function(){
+        $('.classiCon').css('display','none');
+    });
+</script>

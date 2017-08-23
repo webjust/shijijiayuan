@@ -1,0 +1,223 @@
+<style type="text/css">
+.member-search span{height:18px;}
+.member-search label{cursor:pointer;vertical-align:middle;}
+.member-search input[type='checkbox']{cursor:pointer;vertical-align:middle;}
+.first-td{width:90px;text-align:right;}
+.member-advance-search td{line-height: 100%;padding:3px;}
+</style>
+<div id="member-advance-search-dialog" style="width:700px;display:none;" class="member-search">
+<form action="{:U('Admin/Members/pageList')}" method="GET" id="admin-member-advance-search-form">
+	<table class="member-advance-search" style="width:100%">
+		<tr>
+			<td class="first-td">会员帐号：</td>
+			<td>
+				<input type="text" name="advance_search[m_name]" value="{$filter.m_name|default=''}" class="large" />
+			</td>
+		</tr>
+		<tr>
+			<td class="first-td">真实姓名：</td>
+			<td>
+				<input type="text" name="advance_search[m_real_name]" value="{$filter.m_real_name|default=''}" class="large" />
+			</td>
+		</tr>
+		<tr>
+			<td class="first-td">状态：</td>
+			<td>
+				<table>
+					<tr>
+						<td>
+							<input type="checkbox" name="advance_search[m_verify][]" value="0" id="advance_search_m_verify_0" />
+							<label for="advance_search_m_verify_0">未审核</label>
+						</td>
+						<td>
+							<input type="checkbox" name="advance_search[m_verify][]" value="1" id="advance_search_m_verify_1" />
+							<label for="advance_search_m_verify_1">审核中</label>
+						</td>
+						<td>
+							<input type="checkbox" name="advance_search[m_verify][]" value="2" id="advance_search_m_verify_2" />
+							<label for="advance_search_m_verify_2">审核通过</label>
+						</td>
+						<td>
+							<input type="checkbox" name="advance_search[m_verify][]" value="3" id="advance_search_m_verify_3" />
+							<label for="advance_search_m_verify_3">审核不通过</label>
+						</td>
+						<td>
+							<input type="checkbox" name="advance_search[m_status]" value="1" id="advance_search_m_status" />
+							<label for="advance_search_m_status">已冻结</label>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<!-- 会员高级搜索 会员等级搜索开始 -->
+		<php>
+		$array_member_levels = D('MembersLevel')->where(array("ml_status"=>1))->order(array('ml_order'=>'desc'))->select();
+		if(is_array($array_member_levels) && !empty($array_member_levels)){
+		</php>
+		<tr>
+			<td class="first-td">会员等级：</td>
+			<td>
+				<table>
+				<php>
+				foreach($array_member_levels as $key=>$val){
+				if($key != 1 && ($key == 0 || $key%4 == 1)){echo '<tr>';}
+				</php>
+				<td>
+					<input type="checkbox" name="advance_search[ml_id][]" value="<php>echo $val['ml_id'];</php>" id="advance_search_ml_id_<php>echo $val['ml_id'];</php>" />
+					<label for="advance_search_ml_id_<php>echo $val['ml_id'];</php>"><php>echo $val['ml_name'];</php></label>
+				</td>
+				<php>
+				if($key > 0 && $key%4 == 0){echo '</tr>';}
+				}
+				</php>
+				</table>
+			</td>
+		</tr>
+		<php>
+		}
+		</php>
+		<!-- 会员高级搜索 会员等级搜索结束 -->
+		
+		<!-- 会员高级搜索 会员所属平台搜索开始 -->
+		<php>
+		$source_platform = D('SourcePlatform')->where(array("sp_stauts"=>1))->order(array('sp_id'=>'asc'))->select();
+		if(is_array($source_platform) && !empty($source_platform)){
+		</php>
+		<tr>
+			<td class="first-td">来源平台：</td>
+			<td>
+				<table>
+				<php>
+				foreach($source_platform as $key=>$val){
+				if($key != 1 && ($key == 0 || $key%4 == 1)){echo '<tr>';}
+				</php>
+				<td>
+					<input type="checkbox" name="advance_search[sp_id][]" value="<php>echo $val['sp_id'];</php>" id="advance_search_sp_id_<php>echo $val['sp_id'];</php>" />
+					<label for="advance_search_sp_id_<php>echo $val['sp_id'];</php>"><php>echo $val['sp_name'];</php></label>
+				</td>
+				<php>
+				if($key > 0 && $key%4 == 0){echo '</tr>';}
+				}
+				</php>
+				</table>
+			</td>
+		</tr>
+		<php>
+		}
+		</php>
+		<!-- 会员高级搜索 会员所属平台搜索结束 -->
+		
+		<!-- 会员高级搜索 会员组搜索开始 -->
+		<php>
+		$array_member_groups = D('MembersGroup')->where(array("mg_status"=>1))->order(array('mg_id'=>'asc'))->select();
+		if(is_array($array_member_groups) && !empty($array_member_groups)){
+		</php>
+		<tr>
+			<td class="first-td">所属组：</td>
+			<td>
+				<table>
+				<php>
+				foreach($array_member_groups as $key=>$val){
+				if($key != 1 && ($key == 0 || $key%4 == 1)){echo '<tr>';}
+				</php>
+				<td>
+					<input type="checkbox" name="advance_search[mg_id][]" value="<php>echo $val['mg_id'];</php>" id="advance_search_mg_id_<php>echo $val['mg_id'];</php>" />
+					<label for="advance_search_mg_id_<php>echo $val['mg_id'];</php>"><php>echo $val['mg_name'];</php></label>
+				</td>
+				<php>
+				if($key > 0 && $key%4 == 0){echo '</tr>';}
+				}
+				</php>
+				</table>
+			</td>
+		</tr>
+		<php>
+		}
+		</php>
+		<!-- 会员高级搜索 会员组搜索结束 -->
+		<tr>
+			<td class="first-td">结余款：</td>
+			<td>
+				<input type="text" name="advance_search[m_balance_min]" value="" class="input40" />
+				-
+				<input type="text" name="advance_search[m_balance_max]" value="" class="input40" />
+			</td>
+		</tr>
+		<tr>
+			<td class="first-td">积分：</td>
+			<td>
+				<input type="text" name="advance_search[total_point_min]" value="" class="input40" />
+				-
+				<input type="text" name="advance_search[total_point_max]" value="" class="input40" />
+			</td>
+		</tr>
+		<tr>
+			<td class="first-td">性别：</td>
+			<td>
+				<table>
+					<tr>
+						<td>
+							<input type="checkbox" name="advance_search[m_sex][]" value="0" id="advance_search_m_sex_0" />
+							<label for="advance_search_m_sex_0">女</label>
+						</td>
+						<td>
+							<input type="checkbox" name="advance_search[m_sex][]" value="1" id="advance_search_m_sex_1" />
+							<label for="advance_search_m_sex_1">男</label>
+						</td>
+						<td>
+							<input type="checkbox" name="advance_search[m_sex][]" value="2" id="advance_search_m_sex_2" />
+							<label for="advance_search_m_sex_2">保密</label>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="first-td">注册时间：</td>
+			<td>
+				<input type="text" name="advance_search[m_create_time_start]" value="" class="medium timer" />
+				-
+				<input type="text" name="advance_search[m_create_time_end]" value="" class="medium timer" />
+			</td>
+		</tr>
+		<!--
+		<tr>
+			<td class="first-td">最后登录时间：</td>
+			<td>
+				<input type="text" name="advance_search[total_point_min]" value="" class="input40" />
+				-
+				<input type="text" name="advance_search[total_point_max]" value="" class="input40" />
+			</td>
+		</tr>
+		-->
+		<input type="hidden" id="filter" name="filter" value="" />
+	</table>
+</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#admin-member-advance-search-button").click(function(){
+		$("#member-advance-search-dialog").dialog({
+			title:'会员资料高级搜索',
+			width:'720',
+			height:'auto',
+			modal: true,
+			buttons:{
+				'搜索':function(){
+					var data = $("#admin-member-advance-search-form").serializeArray();
+					data = JSON.stringify(data);
+					$('#filter').val(data);
+					$("#admin-member-advance-search-form").submit();
+				},
+				'重置':function(){
+					$("#admin-member-advance-search-form").find("input[type='text']").val("");
+					$("#admin-member-advance-search-form").find("input[type='checkbox']").attr({"checked":false});
+				},
+				'取消':function(){
+					$(this).dialog("close");
+				}
+			}
+		});
+	});
+});
+</script>

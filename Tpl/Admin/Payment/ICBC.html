@@ -1,0 +1,99 @@
+<div class="rightInner">
+    <form id="online_config" method="post" action="{:U('Admin/Financial/doConfigOnline')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        配置您的中国工商在线支付收款账户
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">* 商城代码</td>
+                    <td>
+                        <input type="text" class="large" name="icbc_account" value="{$info.config.icbc_account}"/>
+                    </td>
+                    <td class="last">此处填写您的支付帐号、客户号或客户id等，此帐号在支付服务提供商处取得；</td>
+                </tr>
+                <tr>
+                    <td class="first">* 工行帐号</td>
+                    <td>
+                        <input type="text" class="large" name="icbc_zh" value="{$info.config.icbc_zh}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>	
+                <tr>
+                    <td class="first">* 私钥保护密码</td>
+                    <td>
+                        <input type="text" class="large" name="icbc_sykey" value="{$info.config.icbc_sykey}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>					
+                <tr>
+                    <td class="first">* 工行公钥文件(ebb2cpublic.crt)</td>
+                    <td>
+                        <input type="file" class="large" name="icbcFile"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        文件路径: {$info.config.icbcFile.upload_path}&nbsp;&nbsp;&nbsp;上传时间：{$info.config.icbcFile.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 商户公钥文件(.cer)</td>
+                    <td>
+                        <input type="file" class="large" name="certFile"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        文件路径: {$info.config.certFile.upload_path}&nbsp;&nbsp;&nbsp;上传时间：{$info.config.certFile.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 商户私钥文件(.key)</td>
+                    <td>
+                        <input type="file" class="large" name="keyFile"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        文件路径: {$info.config.keyFile.upload_path}&nbsp;&nbsp;&nbsp;上传时间：{$info.config.keyFile.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="ICBC" name="code" />
+                        <input type="submit" value="保 存" class="btnA" />&nbsp;
+                        <input type="button" value="返 回" class="btnA back" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#online_config').validate();
+    });
+</script>

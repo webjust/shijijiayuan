@@ -1,0 +1,773 @@
+<!--中间内容 开始-->
+<div class="warp">
+	<div class="content">
+        <Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"  ></Gyfx:goodsinfo>
+        <input type="hidden" value="{$ary_request.gid}" id="gid">
+    	<div class="proDetail"><!--proDetail 开始-->
+            <div class="proLTop clearfix">
+                
+                <p class="fleft"><a href="{:U('Home/Index')}">首页</a><i>></i><a href="{:U('Home/Groupbuy/Index')}">团购</a><i>></i><a href="{:U('Home/Groupbuy/lists')}/gid/{$gp_id}">{$gc_name}</a><i>></i>{$gp_title}
+                </p>
+            </div>
+        	<div class="proDO"><!--proDO 开始-->
+                <form id="goodsForm" name="goodsForm" method="post" action="#">
+            	<div class="proDOL"><!--proDOL 开始-->
+                	<div class="proDOLL"><!--proDOLL 开始-->
+                    	<div class="proDOLLT">
+                        	<!-- 放大镜开始 -->
+                            <div class="promotionPic">
+                                <ul id="example3">
+                                    <volist name="detail.gpics" id="pic">
+                                    <li>
+									<img class="etalage_thumb_image" src="{$pic['gp_picture']}" />
+								   <img class="etalage_source_image" src="{$pic['gp_picture']}" />
+								   <!--
+                                        <img class="etalage_thumb_image" src="{$Think.config.DOMAIN_HOST}<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');echo $pic['gp_picture'];</php>" />
+                                        <img class="etalage_source_image" src="{$Think.config.DOMAIN_HOST}<php>$pic['gp_picture'] = '/'.ltrim($pic['gp_picture'],'/');echo $pic['gp_picture'];</php>" />-->
+                                    </li>
+                                    </volist>
+                                </ul>
+                            </div><!-- 放大镜结束 -->
+                        </div>
+                        <div class="proDOLLB">
+                        	<!-- JiaThis Button BEGIN -->
+                            <div id="ckepop">
+                                <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                                <span class="jiathis_txt" style="font-family:\5b8b\4f53;">分享到：</span>
+                                <a class="jiathis_button_qzone"></a>
+                                <a class="jiathis_button_tsina"></a>
+                                <a class="jiathis_button_tqq"></a>
+                                <a class="jiathis_button_renren"></a>
+                                <a class="jiathis_button_kaixin001"></a>
+                            </div>
+                            <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+                            <!-- JiaThis Button END -->
+                            <a href="javascript:addToInterests('{$ary_request[gid]}');" class="colpro shouc">收藏商品</a>
+                        </div>
+                    </div><!--proDOLL 结束-->
+
+                    <div class="proDOLR"><!--proDOLR 开始-->
+                        <h2>{$gp_title}</h2>
+                        <p class="p01"></p>
+                        <div class="proPrice">
+                        	<div class="proPriceT qproPriceT">
+                            	<b class="tuangou">团</b>
+                            	<span class="fleft">团购价</span>
+                                <p class="p02">
+                                    <strong ><i>&yen;</i><c id="showPrice">{$gp_price|sprintf='%.2f',###}</c></strong>
+                                    <span>原价：<i>&yen;</i><del id="showMarketPrice">{$pdt_set_sale_price|sprintf='%.2f',###}</del></span>
+                                    <span >折扣： <c id="discountPrice"><php>echo sprintf('%.1f',$gp_price/$pdt_set_sale_price*10)</php></c>折</span>
+                                    <!--<span><em>上海</em>至<em class="add">上海</em></span>-->
+                                            <php>if (!GLOBAL_STOCK) {</php>
+                                            <input type="hidden" value="0" id="is_global_stock" />
+                                            <php>}</php>
+                                            <php>if (GLOBAL_STOCK) {</php>
+                                            <input type="hidden" value="1" id="is_global_stock" />
+                                            <li class="position">快递配送：至
+                                                <span class="province">请选择配送区域</span> &nbsp;&nbsp;<i id="showNum"></i>
+                                                <input type="hidden" value="" name="cr_ids" id="cr_ids">
+                                                <!--EMS：10元  &nbsp;&nbsp;&nbsp; 快递：5元-->
+                                                <div class="proCity" style="display: none;">
+                                                    <p>
+                                                        <span name="city" style="display: none;" onClick="setTabs('proCity', 1, 4,'{$citys.country.cr_parent_id}')" id="proCity1">{$citys.country.cr_name}</span>
+                                                        <span name="city" onClick="setTabs('proCity', 2, 4,'{$citys.province.cr_parent_id}')" id="proCity2" class="onHover">{$citys.province.cr_name}</span>
+                                                        <span name="city" onClick="setTabs('proCity', 3, 4,'{$citys.city.cr_parent_id}')" id="proCity3">{$citys.city.cr_name}</span>
+                                                        <span name="city" onClick="setTabs('proCity', 4, 4,'{$citys.city.cr_parent_id}')" id="proCity4">{$citys.region.0.cr_name}</span>
+                                                        <a href="javascript:void(0);" id="cityClose"></a>
+                                                    </p>
+                                                    <div class="proCCon" id="con_proCity_1" style="display: none;">
+                                                        
+                                                    </div>
+
+                                                    <div class="proCCon" id="con_proCity_2">
+                                                        <volist name="country" id="cy">
+                                                            <span cr_id="{$cy.cr_id}" class="country" tabs="1" onClick="selectCitys('{$cy.cr_id}','{$cy.cr_name}','{$cy.cr_type}');">{$cy.cr_name}</span>
+                                                        </volist>
+                                                    </div>
+
+                                                    <div class="proCCon" id="con_proCity_3" style="display:none;">
+                                                        <volist name="city" id="cys">
+                                                            <span cr_id="{$cys.cr_id}" class="country" tabs="1" onClick="selectCitys('{$cys.cr_id}','{$cys.cr_name}','{$cys.cr_type}');">{$cys.cr_name}</span>
+                                                        </volist>
+                                                    </div>
+                                                    <div class="proCCon" id="con_proCity_4" style="display:none;">
+                                                        <volist name="citys[region]" id="crg">
+                                                            <span cr_id="{$crg.cr_id}" class="country" tabs="1" onClick="selectCitys('{$crg.cr_id}','{$crg.cr_name}','{$crg.cr_type}');">{$crg.cr_name}</span>
+                                                        </volist>
+                                                    </div>
+
+                                                </div>
+                                            </li>
+                                            <php>}</php>
+                                </p>
+                            </div>
+                            <php>if($buy_status == 3){</php>
+                            <div class="proPriceB qproPriceB" id="showGroupTime"><span><abbr>剩余开始时间：</abbr></span><label id="day">0</label>天<label id="hours">0</label>小时<label id="minutes">0</label>分钟<label id="seconds">0</label>秒</div>
+                            <script>setTuanGouTime('{$gp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'tuan',1,'{$gp_end_time}');</script>
+                            <php>}elseif($buy_status ==4){</php>
+                            <div class="proPriceB qproPriceB" id="showGroupTime"><span><abbr>此团购已结束</abbr></span></div>
+                            <php>}else{</php>
+                            <div class="proPriceB qproPriceB" id="showGroupTime"><span><abbr>剩余时间：</abbr></span><label id="day">0</label>天<label id="hours">0</label>小时<label id="minutes">0</label>分钟<label id="seconds">0</label>秒</div>
+                            <script>setTuanGouTime('{$gp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'tuan',2);</script>
+                            <php>}</php>
+                        </div>
+                        <ul>
+                            <li class="first"><span><label class="liblue">{$gp_now_number+$gp_pre_number}</label>销量</span><span><label class="red" id="show_comment_num">{$detail.comment_nums}</label>累计评价</span></li>
+
+                            <script>
+                            var goods_url = new Array();
+                            <volist name="detail.goods_url" id="da" key="k">
+                                goods_url['{$key}'] = "{$da}";
+                            </volist>
+                            </script>
+                                <li id="showDetailSkus">
+                                    商品规格加载中......
+                                    <script type="text/javascript">
+                                        getDetailSkus('{$gp_id}', 5);
+                                    </script>
+                                </li>
+
+                            <li id="showGrouupbuy">
+                                <if condition="$buy_status eq 0">
+                                    <a class="pastbuy goTobuy" title="您的购买数已用完" href="javascript:void(0);" >您的购买数已用完</a>
+                                    <elseif condition="$buy_status eq 1" />
+                                    <if condition="$is_deposit eq 1">
+                                        <!--启用定金支付-->
+                                        <a class="goTobuy" title="立即付定金" onclick="addToOrder(2);" href="javascript:void(0);">立即付定金</a>
+                                        <else/>
+                                        <!--未启用定金支付-->
+                                        <a class="goTobuy" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);">立刻购买</a>
+                                    </if>
+                                    <elseif condition="$buy_status eq 2" />
+                                    <assign name="curUrl" value="__SELF__" />
+                                    <a class="pastbuy goTobuy" title="请先登录" href="{:U('Home/User/Login')}?rquestUrl={$curUrl|urlencode}">请先登录</a>
+                                    <elseif condition="$buy_status eq 3" />
+                                    <a class="pastbuy goTobuy" title="团购活动尚未开始" href="javascript:void(0);">团购活动尚未开始</a>
+                                    <elseif condition="$buy_status eq 4"/>
+                                    <a class="pastbuy goTobuy" title="团购活动已结束" href="javascript:void(0);">团购活动已结束</a>
+                                    <elseif condition="$buy_status eq 5"/>
+                                    <a class="pastbuy goTobuy" title="团购商品已售完" href="javascript:void(0);" >团购商品已售完</a>
+                                </if>
+
+                            </li>
+                        </ul>
+                    </div><!--proDOLR 结束-->
+                </div>
+            </form>
+                </Gyfx:goodsinfo>
+                <div class="proDOR"><!--proDOR 开始-->
+                	<h4><span>猜你喜欢</span></h4>
+                    <div class="proDORC">
+                        <div class="topdcon">
+                            <ul>
+                                <volist name="likeglist" id="glist">
+									<li>
+										<dl>
+											<volist name="glist" id="list">
+												<if condition="$list.gp_id neq ''" >
+													<dd><a href="{:U('Home/Groupbuy/detail')}/gpid/{$list.gp_id}"><img src="{$Think.config.DOMAIN_HOST}{$list.gp_picture|showImage=###,220,220}" width="140" height="140" /></a></dd>
+												</if>
+											</volist>
+										</dl>
+									</li>
+                                </volist>
+                            </ul>
+                        </div>
+                        <div class="preNext">
+                            <a href="javascript:void(0)" class="pre">上一页</a>
+                            <a href="javascript:void(0)" class="next">下一页</a>
+                        </div>
+                    </div>
+                </div><!--proDOR 结束-->      
+            </div><!--proDO 结束-->
+            <div id="coll_goods"></div>
+            <div class="proDTh"><!--proDTh 开始-->
+            	<div class="proDThL"><!--proDThL 开始-->
+                	<h3>宝贝排行榜</h3>
+                    <div class="proDThLC"><!--proDThLC 开始-->
+                    	<p><span class="onHover" id="tab1" onclick="setTab('tab',1,2)">销售量</span><span id="tab2" onclick="setTab('tab',2,2)">收藏数</span></p>
+                        <div class="proDThLCon" id="con_tab_1" style="display:block;"><!--proDThLCon 开始-->
+                        	<ul>
+                               <gyfx:sales name='sale'  limit="10" titlelen='32'>
+                            	<li>
+                                <strong>{$key+1}</strong>
+                                	<dl>
+                                        <dt><a href="{$sale.gurl}"><img src="{$Think.config.DOMAIN_HOST}{$sale.gpicture|showImage=###,60,60}" width="60px" height="60px"/></a></dt>
+                                        <dd>
+                                        <a href="{$sale.gurl}">{$sale.lgname}</a>
+                                        <p><i>&yen;</i>{$sale.gprice}</p>
+                                        <span>已售出 <label>{$sale.gsales}</label>件</span>
+                                        </dd>
+                                    </dl>
+                                </li>
+                                </gyfx:sales>
+                            </ul>
+                        </div><!--proDThLCon 结束-->
+                        <div class="proDThLCon" id="con_tab_2" style="display:none;"><!--proDThLCon 开始-->
+                        	<ul>
+                               <gyfx:collectgoods name='cogs'  num="10" >
+                            	<li>
+                                <strong>{$key+1}</strong>
+                                	<dl>
+                                        <dt><a href="{:U('Home/Product/Index')}?gid={$cogs.g_id}"><img src="{$Think.config.DOMAIN_HOST}{$cogs.g_picture|showImage=###,60,60}" width="60" height="60"/></a></dt>
+                                        <dd>
+                                        <a href="{$cogs.gurl}">{$cogs.g_name}</a>
+                                        <p><i>&yen;</i>{$cogs.g_price}</p>
+                                        <span>收藏次数 <label>{$cogs.nums}</label>次</span>
+                                        </dd>
+                                    </dl>
+                                </li>
+                                </gyfx:collectgoods>
+                            </ul>
+                        </div><!--proDThLCon 结束-->
+                    </div><!--proDThLC 结束-->
+                </div><!--proDThL 结束-->
+                <div class="proDThR"><!--proDThR 开始-->
+                	<p class="header">
+                    	<span class="onHover" id="tabs1" onclick="setTab('tabs',1,3)">商品详情</span>
+                        <span id="tabs2" onclick="setTab('tabs',2,3)">累计评价<strong>{$detail.comment_nums}</strong></span>
+                        <span id="tabs3" onclick="setTab('tabs',3,3)">成交记录<strong id="show_sale_num">{$detail.sale_nums}</strong>件</span>
+                    </p>
+                    <div class="proDThRC" id="con_tabs_1" style="display:block;"><!--proDThRC 开始-->
+                        <div class="proBrand"><span>品牌名称：</span><a href="{:U('Home/Groupbuy/Index')}?gbid={$gbb_id}" class="name">{$gbb_name}</a><!--<a href="#" class="guanzhu"></a>--></div>
+                        <div class="proCans">
+                        	<h4>产品参数：</h4>
+                        	<ul>
+                                <volist name="array_unsale_spec" id="spec">
+                                <li>{$spec.gs_name}: {$spec.gsd_aliases}</li>
+                                </volist>
+                            </ul>
+                        </div>
+                        <div class="proPic">
+							{$gp_desc}<br />
+	                        {$detail.gdesc}
+                        </div>
+                    </div><!--proDThRC 结束-->
+                    <div class="proDThRC" id="con_tabs_2" style="display:none;"><!--proDThRC 开始-->
+                    <img src="__IMAGES__waiting.gif" />
+					</div><!--proDThRC 结束-->
+                    <div class="proDThRC" id="con_tabs_3" style="display:none;"><!--proDThRC 开始-->
+                    <img src="__IMAGES__waiting.gif" />
+					</div><!--proDThRC 结束-->
+                </div><!--proDThR 结束-->
+            </div><!--proDTh 结束-->
+        </div><!--proDetail 结束-->
+    </div>
+</div><!--中间内容 结束-->
+
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Ucenter/Orders/pageAdd">
+<input type="hidden" name="pid[]" id="submitSkipItemPid" value="" />
+<input type="hidden" name="type[]" id="submitSkipItemtype" value=""/>
+</form>
+<script type="text/javascript">
+//低于MixPdtStock库存显示无货
+var MixPdtStock = 0;
+var gp_tmp_price = "{$gp_price|sprintf='%.2f',###}";
+function showSelect(obj){
+    var _this = jQuery(obj);
+    var item_id = "{$detail.gid}";
+    var yprice = "{$gp_price}";
+    var name = '';
+    var cr_id = jQuery('#cr_ids').val();
+    if(parseInt(cr_id) <= 0){
+        $("#pdt_stock").val("");
+        $("#pdt_id").val("");
+        $("#showNum").html = "";
+        $("#showError").html = "请勾选您要的商品信息";
+    }
+    if (_this && typeof _this == 'object'){
+        name = _this.attr('name');
+        $("#pdt_stock").val("");
+        $("#pdt_id").val("");
+        $("#showNum").html = "";
+        $("#showError").html = "请勾选您要的商品信息";
+    }
+    var _item_id = jQuery('#' + item_id);
+    if (_this.hasClass('on')){
+        _this.removeClass("on");
+        $("#pdt_stock").val("");
+        $("#pdt_id").val("");
+        $("#showNum").html = "";
+        $.ThinkBox.error("请勾选您要的商品信息");
+    } else{
+        _this.siblings().removeClass("on");
+        _this.addClass("on");
+        var rsize = "";
+        var showvalue = "";
+        var _parent_color = jQuery("#sku" + item_id + '_1').find('a.on');
+        var _parent_size = jQuery("#sku" + item_id + '_2').find('a.on');
+        var color_len = _parent_color.length;
+        var size_len = _parent_size.length;
+        
+        if (size_len > 0 && color_len > 0){
+            $("#propError").html("");
+            var color = "", size = "";
+            color = _parent_color.attr('name');
+            size = _parent_size.attr('name');
+            if (color != '' && size != ''){
+                var info = size + ";" + color;
+                showvalue = arr[info]?arr[info]:"";
+                var vale = showvalue.split("|");
+                if (vale.length > 0){
+                    if (vale[0]){
+                        $("#pdt_id").val(vale[0]);
+                    }
+                    if(parseInt(vale[1]) < 30 && parseInt(vale[1])>0){
+                        $("#pdt_stock").val(vale[1]);
+                        if($("#item_num").val() <= 0){
+                            $("#item_num").val(1);
+                        }						
+                        $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，仅剩余"+vale[1]+"件，下单后立即发货");
+					}else if(parseInt(vale[1]) > 30){
+                        $("#pdt_stock").val(vale[1]);
+	                    if($("#item_num").val() <= 0){
+                            $("#item_num").val(1);
+                        }					
+                        $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，下单后立即发货");
+					}else if(parseInt(vale[1])-MixPdtStock <= 0){
+                        $("#pdt_stock").val(0);
+                        $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+					}
+                    if (vale[2]){
+                        //$("#showPrice").html(parseFloat(vale[2]).toFixed(2));
+                       // alert(vale);
+                        $("#showMarketPirice").html(parseFloat(vale[2]).toFixed(2));
+                        $("#savePrice").html(parseFloat(vale[2] - gp_tmp_price).toFixed(2));
+                        $("#discountPrice").html("折扣："+parseFloat(((vale[2]/vale[3])*10).toFixed(2))+"折");
+                    }
+                }
+            }
+        } else{
+            var _parent_li = _this.parent().parent().find('a.on');
+            rsize = _parent_li.attr('name');
+            
+            if (rsize != ""){
+                var info = rsize;
+                
+                showvalue = arr[info];
+                if (showvalue != undefined){
+                    var vale = showvalue.split("|");
+                    if (vale.length > 0){
+                        if (vale[0]){
+                            $("#pdt_id").val(vale[0]);
+                        }
+                        if(parseInt(vale[1]) < 30 && parseInt(vale[1])>0){
+                            $("#pdt_stock").val(vale[1]);
+					        if($("#item_num").val() <= 0){
+								$("#item_num").val(1);
+							}	
+                            $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，仅剩余"+vale[1]+"件，下单后立即发货");
+                        }else if(parseInt(vale[1]) > 30){
+                            $("#pdt_stock").val(vale[1]);
+							if($("#item_num").val() <= 0){
+								$("#item_num").val(1);
+							}
+                            $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，下单后立即发货");
+                        }else if(parseInt(vale[1])-MixPdtStock <= 0){
+                            $("#pdt_stock").val(0);
+							$("#item_num").val(0);
+                            $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                        }
+                        if($("#item_num").val() > vale[1]){
+                            $("#item_num").val(vale[1])
+                        }
+                        if (vale[2]){
+                            //$("#showPrice").html(parseFloat(vale[2]).toFixed(2));
+                            $("#showMarketPirice").html(parseFloat(vale[3]).toFixed(2));
+                            $("#savePrice").html(parseFloat(vale[3] - vale[2]).toFixed(2));
+                            $("#discountPrice").html("折扣："+parseFloat(((vale[2]/vale[3])*10).toFixed(2))+"折");
+                        }
+                    }else{
+                        $("#pdt_stock").val(0);
+                        $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                    }
+                }else{
+                    $("#pdt_stock").val(0);
+                    $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                }
+            }
+        }
+    }
+}
+
+//提交到购物车
+</script>
+<style>
+#example3{z-index: 100;}
+</style>
+<script type="text/javascript">
+<php>if (GLOBAL_STOCK) {</php>
+function selectCitys(id,name,tab){
+    if(id <= 0){
+        alert("配送区域不能为空");return false;
+    }
+    var item_id = "{$detail.gid}";
+    $.ajax({
+        url:'{:U("/Home/Products/selectCitys")}',
+        cache:false,
+        dataType:"HTML",
+        data:{cr_id:id,tab:tab,g_id:item_id},
+        type:"POST",
+        success:function(msgObj){
+            var itab = parseInt(tab) + 1;
+            var str = '';
+            var itabs = parseInt(itab) + 1;
+            var tabs = parseInt(itabs) + 1;
+            $("#proCity"+itab).html("请选择");
+            $("#proCity"+itabs).html("请选择");
+            $("#proCity"+tabs).html("请选择");
+            $("#proCity"+tab).html(name);
+            $("#cr_ids").val(id);
+            $("#con_proCity_"+itab).html(msgObj);
+            if(tab == '4'){
+                var proCity2 = $("#proCity2").html();
+                var proCity3 = $("#proCity3").html();
+                var proCity4 = $("#proCity4").html();
+                $(".province").css("borderBottom","1px solid #D7D7D7");
+                $(".province").html(proCity2+" "+proCity3+" "+proCity4);
+                $(".proCity").hide();
+            }else{
+                 if(!isNaN(msgObj)){
+                    var proCity2 = $("#proCity2").html();
+	                var proCity3 = $("#proCity3").html();
+	                var proCity4 = $("#proCity4").hide();
+	                $(".province").css("borderBottom","1px solid #D7D7D7");
+	                $(".province").html(proCity2+proCity3);
+	                $(".proCity").hide();      
+                }else{
+                   $("#proCity"+tab).removeClass("onHover");
+	                $("#proCity"+itab).addClass("onHover");
+	                $("#con_proCity_"+tab).hide();
+	                $("#con_proCity_"+itab).show();
+                }
+            }
+            
+            <notempty name="detail.skuNames">
+                var reg = /\{/;
+                if(reg.test(msgObj)) {
+                    eval("var json ="+msgObj);
+                    arr = json;
+                    console.log(json);
+                }
+                if($('.sku_products a').length == 1 && $('.sku_products a').hasClass('on')){
+                    if(parseInt(msgObj) <= 0){
+                        $("#item_num").val(parseInt(msgObj));
+                    }
+                    $("#pdt_stock").val(msgObj);
+                    $("#item_num").attr("max",msgObj);
+                    if(parseInt(msgObj) <=2){
+                        $("#pdt_stock").val(0);
+                        $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                    }else{
+                        var pdt_stock_tmp = parseInt(msgObj);
+                        if(pdt_stock_tmp < 30 && pdt_stock_tmp-2>0){
+                            $("#pdt_stock").val(pdt_stock_tmp);
+                            $("#item_num").val(1);
+                            $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，仅剩余"+pdt_stock_tmp+"件，下单后立即发货");
+                        }else if(pdt_stock_tmp > 30){
+                            $("#pdt_stock").val(pdt_stock_tmp);
+                            $("#item_num").val(1);
+                            $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，下单后立即发货");
+                        }else if(pdt_stock_tmp-2 <= 0){
+                            $("#pdt_stock").val(0);
+                            $("#item_num").val(0);
+                            $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                        }
+                    }
+                }else{
+                    $('#proHover li dl dd a').removeClass("on");
+                    $("#pdt_id").val("");
+                    $("#pdt_stock").val(0);
+                    if(!isNaN(msgObj)){
+                        $("#item_num").val('0');
+                        $("#item_num").attr("max",0);
+                        $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                        arr = {};
+                    }else{
+                        $("#item_num").val('1');
+                        $("#showNum").html("<strong style='font-size:14px;'>有货</strong>");
+                    }
+                }
+                
+            <else/>
+                if(parseInt(msgObj) <= 0){
+                    $("#item_num").val(parseInt(msgObj));
+                }
+                $("#pdt_stock").val(msgObj);
+                $("#item_num").attr("max",msgObj);
+                if(parseInt(msgObj) <=2){
+                	$("#pdt_stock").val(0);
+                    $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                }else{
+                    var pdt_stock_tmp = parseInt(msgObj);
+                    if(pdt_stock_tmp < 30 && pdt_stock_tmp-2>0){
+                        $("#pdt_stock").val(pdt_stock_tmp);
+                        $("#item_num").val(1);
+                        $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，仅剩余"+pdt_stock_tmp+"件，下单后立即发货");
+                    }else if(pdt_stock_tmp > 30){
+                        $("#pdt_stock").val(pdt_stock_tmp);
+                        $("#item_num").val(1);
+                        $("#showNum").html("<strong style='font-size:14px;'>有货</strong>，下单后立即发货");
+                    }else if(pdt_stock_tmp-2 <= 0){
+                        $("#pdt_stock").val(0);
+                        $("#item_num").val(0);
+                        $("#showNum").html("<strong style='font-size:14px;'>无货</strong>，此商品暂时售完");
+                    }
+                }
+            </notempty>
+            
+        }
+    });
+        
+}
+<php>}</php>
+function setTabs(name, cursel, n){
+    for (i = 1; i <= n; i++){
+        var tab = document.getElementById(name + i);
+        var con = document.getElementById("con_" + name + "_" + i);
+        tab.className = i == cursel?"onHover":"";
+        con.style.display = i == cursel?"block":"none";
+    }
+};
+</script>
+
+<!---中间内容部分  结束-->
+<input type="hidden" value="{$detail.gid}" id="gid">
+
+<script type="text/javascript">
+//获得评论
+function getCommentPage(gid){
+	$.ajax({
+		url:'/Home/Comment/getCommentPage',
+		dataType:'HTML',
+		type:'POST',
+		data:{
+			gid:gid
+		},
+		success:function(msgObj){
+			$("#con_tabs_2").html(msgObj);
+			return false;
+		}
+	}); 
+}	
+//获得购买记录
+function getBuyRecordPage(gid,num){
+	$.ajax({
+		url:'/Home/Products/getBuyRecordPage',
+		dataType:'HTML',
+		type:'GET',
+		data:{
+			gid:gid,
+			num:num
+		},
+		success:function(msgObj){
+			$("#con_tabs_3").html(msgObj);
+			return false;
+		}
+	}); 
+}
+getCommentPage('{$detail.gid}');
+
+getBuyRecordPage('{$detail.gid}',20);
+//提交到购物车
+</script>
+<script type="text/javascript">
+function replaceVerificationCode() {
+    $("#verificationcode").attr('src', '/Home/Groupbuy/verify/' + Math.random());
+}
+function addToOrder(i){
+    var res = allSpecSelectedCheck('on');
+    if(res[0] == false) {
+        $.ThinkBox.error('请选择要购买的商品规格！');return false;
+    }
+	<php>if($gp_start_code == '1' && $buy_status == '1'){</php>
+	var verify_code = ($('#verify_code').val() == undefined)?"":$('#verify_code').val();
+	if(verify_code !=""){
+		var code_data = new Object();
+		code_data['verify'] = verify_code;
+		$.post('/Home/Groupbuy/checkVerify',code_data,function(dataMsg){
+			if(dataMsg.status == 1){
+				addToOrderInfo(i,code_data);
+			}else{
+				//replaceVerificationCode();
+				//showAlert(false,'验证码错误,请输入正确的验证码');return false;
+				$.ThinkBox.error('验证码错误,请输入正确的验证码');return false;
+			}
+		},'json');
+	}else{
+		//showAlert(false,'验证码不能为空');return false;
+		$.ThinkBox.error('验证码不能为空');return false;
+	}
+	<php>}else{</php>
+	addToOrderInfo(i);
+	<php>}</php>
+}
+function addToOrderInfo(i,code_data){
+    var pdt_id = $('#pdt_id').val();
+    var gp_id = "{$gp_id}";
+    var num = parseInt($('#item_num').val());
+    var max = parseInt($('#item_num').attr('max'));
+    if(pdt_id == ''){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");return false;
+    }
+    if (isNaN(num)){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_1}");return false;
+    }
+    if (num < 1){
+        $.ThinkBox.error("购买数量不能小于1");return false;
+    }
+    if(num > max){
+        $.ThinkBox.error("您最多还能团购"+max+"件");return false;
+    }   
+    var data = new Object();
+    data['cart'] = {};
+    data['cart']['pdt_id'] = pdt_id;
+    data['cart']['gp_id'] = gp_id;
+    data['cart']['num'] = num;
+    data['type'] = 'bulk';
+	if(code_data !=''){
+		data['cart']['code_data'] = code_data;
+	}
+    if(i==2){
+        data['cart']['is_deposit'] = 1;
+    }
+    if("{$Think.session.Members}" == ''){
+		/**
+        $.post('/Home/User/login/',{},function(htmlMsg){
+            $.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+        },'html');
+		**/
+		
+       // return false;
+    }
+    $.post('/Home/Cart/doAdd',data,function(dataMsg){
+        if(dataMsg.status == 1){
+            location.href = dataMsg.url;
+        }else{
+            $.ThinkBox.error(dataMsg.msg);
+        }
+    },'json');
+}
+
+
+/*加入收藏*/
+function addToInterests(gid){
+    if(parseInt(gid) <= 0){
+        alert("商品不存在或者已经被下架");return false;
+    }
+    $.ajax({
+        url:"/Ucenter/Collect/doAddGoodsCollect",
+        cache:false,
+        dataType:"json",
+        data:{gid:gid},
+        type:"post",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success("加入收藏成功");
+            }else{
+                $.ThinkBox.error(msgObj.info);
+            }
+        }
+    });
+}
+
+//商品数量更改
+function countNum(i){
+    var _this = $("#item_num");
+    var num=parseInt(_this.val());
+    var max = $("#pdt_stock").val();
+    var min = $("#pdt_min_stock").val();
+    if(max ==''){
+        return false;
+    }
+    var htmlstr = "<strong style='font-size:14px;'>最少需要购买"+min+"</strong>";
+    max = parseInt(max);
+    min = parseInt(min);
+    num=num+i;
+    if(num<min && min!=0){ $("#showNum").html(htmlstr); return false; }
+    if((num<=0)||(num>max)||(num>999) || max==0 || max ==null){return false;}
+    _this.val(num);
+}
+$("#item_num").blur(function(){
+    var max = $("#pdt_stock").val();
+    if(max ==''){
+        $(this).val(0);
+        return false;
+    }max = parseInt(max);
+    var num = this.value;
+    if(isNaN(num) && max>0){
+        $(this).val(1);
+    }else if(max<=0){
+        $(this).val(0);
+    }else if(!isNaN(num) && num>0 && num<max){
+        $(this).val(num);
+    }else if(!isNaN(num) && num>0 && num>max){
+        $(this).val(max);
+    }else if(!isNaN(num) && num<0){
+        $(this).val(1);
+    }
+});
+$(document).ready(function(){
+    $(".province").hover(function(){
+        $(this).css({"border-bottom":"none"});
+        $(".proCity").show();
+    });
+    $(".proCity").hover(function(){
+        $(this).css({"border-bottom":"none"});
+        $(".proCity").show();
+    },function(){
+        $(".province").css("borderBottom","1px solid #D7D7D7");
+        $(".proCity").hide();
+    });
+    $("#cityClose").click(function(){
+        $(".province").css("borderBottom","1px solid #D7D7D7");
+        $(".proCity").hide();
+    });
+});
+
+//选择组合商品规格
+function selectGoods(obj){
+    var color = $(obj).attr('name');
+    var _thisclass = $(obj).attr('class');
+    var _this = jQuery(obj);
+    if(_this.hasClass("on")){
+        return false;
+    }
+    _this.siblings().removeClass("on");
+    _this.addClass("on");
+    var slips = $(obj).parent().attr('slip');
+    var this_spec_name = '';
+    $("dd[slip='"+slips+"']").find('a').each(function(){
+        if($(this).hasClass('on')){
+            this_spec_name += $(this).parent().attr('slip')+":"+$(this).attr('name')+';';
+        }
+    });
+    this_spec_name = this_spec_name.substring(0,(this_spec_name.length-1));
+    if(goods_url[this_spec_name] != null){
+        location.href = goods_url[this_spec_name];
+    }
+}
+//商品详情页商品图片展示
+$('#example3').etalage({
+    thumb_image_width: 440,
+    thumb_image_height: 440,
+    source_image_width: 900,
+    source_image_height: 900,
+    zoom_area_width: 500,
+    zoom_area_height: 500,
+    zoom_area_distance: 5,
+    small_thumbs: 5,
+    smallthumb_inactive_opacity: 0.5,
+    smallthumbs_position: 'top',
+    show_icon: true,
+    icon_offset: 20,
+    autoplay: false,
+    keyboard: false,
+    zoom_easing: false
+});
+/*
+//团购倒计时
+$('#gpendtime').countdown("{$data.sp_end_time}",function(event){
+    $(this).html(event.strftime('<label>%D</label> 天 <label>%H</label> 时 <label>%M</label> 分 <label>%S</label> 秒'));
+});*/
+</script>

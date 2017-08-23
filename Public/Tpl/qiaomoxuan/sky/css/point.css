@@ -1,0 +1,232 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, tt, var, dd, dl, dt, li, ol, ul, fieldset, form, label, legend, input, select, textarea, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+}
+.wrapT {
+    background: url(../images/bg2.png) 0 0 repeat;
+}
+.wrap {
+    z-index: 2;
+}
+.tgList {
+    overflow: hidden;
+}
+.prtad {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+.tgOne {
+    padding-top: 30px;
+}
+.tg_Nav {
+    padding: 8px 0px;
+    background-color: #FFF;
+    overflow: hidden;
+    border-bottom: 2px solid #dcdcdc;
+}
+.tg_Nav p {
+    float: left;
+    width: 70px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 22px;
+    margin-left: 5px;
+    margin-top: 0px;
+    text-indent:0px;
+}
+.tg_Nav p a {
+  color: #F61D4B;
+}
+p.tgL_img{
+    text-indent:0px;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+ul, ol {
+  list-style: none;
+}
+.tg_Nav ul {
+  margin-left: 20px;
+  padding-left: 10px;
+  font-size: 14px;
+  border-left: 1px solid #DCDCDC;
+  float: left;
+}
+.tg_Nav ul li {
+  float: left;
+}
+.tg_Nav ul li.cur a, .tg_Nav ul li a:hover {
+  background-color: #ff658e;
+  color: #FFF;
+}
+.tg_Nav ul li a {
+  display: block;
+  position: relative;
+  padding: 2px 9px;
+  text-align: center;
+  color: #666;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+.tgL {
+  margin-top: 15px;
+}
+.tgL .tgL_t {
+  background: transparent url(../images/title_bg1.png) no-repeat scroll 0 0;
+  height: 45px;
+  width: 210px;
+}
+
+.tgL .tgL_t h2 {
+  color: #ffffff;
+  padding-left: 62px;
+  line-height: 45px;
+}
+.guide-bd {
+  /* margin-left: -20px; */
+    overflow: hidden;
+}
+.abs {
+    position: absolute;
+}
+.guide-bd li {
+    display: inline;
+    width: 380px;
+    margin: 10px 0 0 10px;
+    position: relative;
+    height: 380px;
+}
+.tgL_title {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+    color: #fff;
+    background-color: #fff;
+}
+.tgL_name {
+    padding: 9px 12px;
+    border-bottom: 1px dashed #eee;
+    line-height: 22px;
+}
+.tgL_name span {
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+    line-height: 24px;
+    width: 260px;
+    display: inline-block;
+    float: left;
+    max-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tgL_name em {
+    color: #666;
+    font-size: 14px;
+    position: absolute;
+    right: 12px;
+    font-style: normal;
+}
+.tgL_price {
+    color: #db2342;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 9px 12px;
+    left: 0px;
+    bottom: 0px;
+    position: absolute;
+    white-space: nowrap;
+    width: 228px;
+    overflow: hidden;
+}
+.tgL_price em {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+}
+.tgL_btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-block;
+    background: url(../images/bg4.png) no-repeat center center;
+    background-size: 120px 40px;
+    width: 100px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    height: 32px;
+    color: #fff;
+    font-size: 16px;
+    padding-right: 20px;
+    text-align: center;
+    float: left;
+    margin-right: 1px;
+}
+.tgL_btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.fl {
+    float: left !important;
+}
+.tgL_tip {
+    top: 0;
+    left: 0;
+    font-size: 14px;
+    color: #fff;
+}
+.fenye {
+    height: 40px;
+    font-size: 0;
+    text-align: center;
+    margin: 25px 0;
+}
+.fenye a {
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    margin-left: -1px;
+    padding: 0 14px;
+    background: #fff;
+    border: 1px solid #E5E5E5;
+    color: #333;
+    font-size: 14px;
+}
+/*弹出窗样式*/
+.jifen { padding:10px;background:white;}
+.jifen p.nof { font-size:14px; text-align:center; margin-top:85px;}
+.jifen table { width:100%}
+.jifen table td { padding:10px 0px;}
+.jifen table td a.cho { border:1px solid #d7d7d7; white-space: nowrap; float:left; height:20px; line-height:20px; color:#333; padding:0px 5px; margin:0px 10px 10px 0px; position:relative; text-decoration:none;}
+.jifen table td a.he32 { float:left; position:relative; white-space: nowrap;border:1px solid #d7d7d7; margin:0px 10px 10px 0px;}
+.jifen table td a.on,.jifen table td a:hover.cho,.jifen table td a:hover.he32 { border:1px solid #C53F4C;}
+.jifen table td a.on i { background:url(../images/ico.gif) no-repeat; width:10px; height:10px; position:absolute; bottom:0px; right:0px;}
+.jifen table td input[type="button"] { float:left; background:url(../images/yg.png) no-repeat 0px -238px; height:32px; width:102px; margin-right:10px; border:none; text-align:left; overflow:hidden; text-indent:-999px; border:none;}
+.jifen table td input:hover.addC { background-position:0px -270px;}
+.jifen table td input.jie { background-position:0px -302px;}
+.jifen table td input:hover.jie { background-position:0px -334px;}
+/*弹出窗样式结束*/
+
+p.width67 { width:67px;}
+p.width67 a { float:left; background:url(../images/loginRegisterbutton.png) no-repeat 0px -459px; width:14px; height:14px; margin-top:4px;}
+p.width67 a.add { background-position:0px -483px;}
+p.width67 span { float:left; width:31px; height:19px; border:1px solid #d7d7d7; margin:0px 3px;}
+p.width67 span input { width:28px; margin-top:2px; text-align:center; float:left; border:none;}
+
+.CPM { position:absolute; top:0px; width:400px; height:280px; border:1px solid #319036}
+h2.CPMTitle { width:100%; height:32px; line-height:32px; background:#319036; border-bottom:1px solid #d7d7d7;}
+h2.CPMTitle span { float:left; font-size:14px; color:white; margin-left:10px;}
+#cboxOverlay { position:fixed; left:0px; top:0px; background:#000; opacity:0.5; width:100%; height:100%;filter:alpha(opacity=50);-moz-opacity:0.5;-khtml-opacity: 0.5;}
+#colorbox { display:block; background:#F1F1F1;-webkit-box-shadow:0px 0px 17px #000;-moz-box-shadow:0px 0px 17px #000;box-shadow:0px 0px 17px #000; z-index:30}
+#cboxClose { float:right; background:url(../images/loginCancel.png) no-repeat; width:16px; height:16px; text-indent:-9999px; overflow:hidden; position:absolute; cursor:pointer; top:9px; right:10px;}
+.guide-bd li {
+    display: inline;
+    width: 380px;
+    margin: 10px 0 0 10px;
+    position: relative;
+    height: 480px;
+}

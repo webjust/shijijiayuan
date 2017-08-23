@@ -1,0 +1,50 @@
+<div class="rightInner">
+    <form id="get_execl_coupon" method="post" action="{:U('Admin/Coupon/getExeclCoupon')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">execl导出优惠券</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">优惠券编码前缀</td>
+                    <td><input type="text" name="c_sn_prefix" class="medium" validate="{ path:true}" /></td>
+                    <td class="last">可以不填</td>
+                </tr>
+                <tr>
+                    <td class="first">优惠券编码后缀</td>
+                    <td><input type="text" name="c_sn_suffix" class="medium" validate="{ path:true}" /></td>
+                    <td class="last">可以不填</td>
+                </tr>
+                
+                <tr>
+                    <td class="first">* 优惠券面额或折扣</td>
+                    <td><input type="text" name="c_money" class="medium" validate="{ required:true,number:true}" /></td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">生效时间</td>
+                    <td><input type="text" name="c_start_time" id="c_start_time" class="medium timer" /> </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">失效时间</td>
+                    <td><input type="text" name="c_end_time" id="c_end_time" class="medium timer" /></td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="导 出" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+     $('#get_execl_coupon').validate();
+</script>

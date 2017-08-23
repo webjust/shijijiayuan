@@ -1,0 +1,58 @@
+{__NOLAYOUT__}
+
+    <script src="__PUBLIC__/Ucenter/js/common.js"></script>
+
+    <script src="/Public/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+<table class="tbForm" width="100%;">
+	<tbody>
+		<tr>
+			<td class="first">订单号：</td>
+			<td align="left">{$o_id}</td>
+		</tr>
+         <tr class="type0" class="first">
+             <td class="first">汇款人：</td>
+             <td align="left">
+                 <input type="text"  value="" class="large medium" name="sr_remitter" id="sr_remitter"  style="width: 145px;float: none;"/>
+             </td>
+         </tr>
+         <tr class="type0" class="first">
+             <td class="first">开户行：</td>
+             <td align="left">
+                 <input type="text"  value="" class="large medium" name="sr_bank" id="sr_bank"  style="width: 145px;float: none;"/>
+             </td>
+         </tr>
+        <tr class="type0 type1" class="first">
+             <td class="first">汇款金额：</td>
+             <td align="left">
+                 <input type="text" validate="{required:true}"  value="" class="large medium" name="to_post_balance" id="to_post_balance" style="width: 145px;float: none;" />
+             </td>
+         </tr>
+         <tr class="type0" class="first">
+             <td class="first">流水号：</td>
+             <td align="left">
+                 <input type="text"  value="" class="large medium" name="sr_bank_sn" id="sr_bank_sn"  style="width: 145px;float: none;"/>
+             </td>
+         </tr> 
+         <tr class="type0" style="display: none;">
+             <td class="first">汇款时间：</td>
+             <td>
+                 <input type="text" name="sr_remit_time" class="large medium timer" value="{$filter.starttime}"  style="width: 145px;float: none;">
+             </td>
+         </tr>
+         <tr class="type0 type1" >
+             <td class="first">备注：</td>
+             <td>
+             	<textarea class="large medium" validate="{required:true}" name="sr_remark" id="sr_remark" maxlength="200" style="width: 150px;height:80px;float: none;"> </textarea>
+             </td>
+         </tr>       
+	</tbody>
+</table>
+<style>
+tr td{
+    line-height: 150%;
+    padding: 5px;
+    vertical-align: middle;
+    word-break: break-all;
+}
+</style>

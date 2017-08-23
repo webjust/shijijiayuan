@@ -1,0 +1,89 @@
+<include file="Home:tabsTem" />
+<div class="rightInner" id="con_tabListP_5"><!--rightInner  start-->
+    <include file="Home:titleTpl" />
+    <div class="templates" id="con_template_3"><!--templates  start -->
+        <form action="{:U('Admin/Home/pageEditTplTemm')}" method="post" style="float: none;">
+            <table width="100%" class="tbForm">
+                <tbody>
+                <volist name="data" id="tpl">
+                    <tr>
+                        <td><label class="cssfile"><input type="radio" name="diypage" css="{$tpl.filename}" value='{:U("Admin/Home/doEditTpl","tabs=$filter[tabs]&options=$filter[options]&dir=$filter[dir]&tid=$filter[tid]&file=$tpl[filename]&type=css")}' <if condition="$tpl.filename eq $file">checked="checked"</if>
+                                onclick="if (this.checked){if(confirm('确认离开？')){window.location=this.value}else{return false;}}"> {$tpl.filename}
+								<if condition="$tpl.filename eq 'customer.css'">
+								<span style="color:red;">(可编辑,样式相同，优先级最高)</span>
+								</if>
+								</label></td>
+                    </tr>
+                </volist>
+                <empty name="data">
+                    <tr><td colspan="1" class="left">暂时没有数据</td></tr>
+                </empty>
+                </tbody>
+            </table>
+            <notempty name="data">
+                <div class="editbox">
+                    <table width="100%" class="tbForm">
+
+                        <tr>
+                            <td><textarea id="content"  name="content"  validate="required:true, minlength:4" >{$content}</textarea></td>
+                        </tr>
+                        <tr>
+                            <td>
+                        <input type="hidden" id="file" class="btnHeader" <if condition="$filter.file eq ''">value="{$file}"<else />value="{$filter.file}"</if> name="file" />
+                        <input type="hidden" id="dir" class="btnHeader" value="{$filter.dir}" name="dir" />
+                        <input type="hidden" id="type" class="btnHeader" value="{$filter.type}" name="type" />
+                        <input type="hidden" id="tabs" class="btnHeader" value="{$filter.tabs}" name="tabs" />
+						<if condition="$filter.file eq 'customer.css' or $filter.showType eq 1">
+                        <input type="submit" name="submit" class="btnHeader" value="保 存" />
+						<!--
+                        <input type="button" class="btnHeader" value="撤 消" />
+                        <input type="button" id="template" class="btnHeader" <if condition="$filter.file eq ''">uri='{:U("Home/Index/index","file=$file&dir=$filter[dir]&type=$filter[options]&view=preview")}'<else />uri='{:U("Home/Index/index","file=$filter[file]&dir=$filter[dir]&type=$filter[options]&&view=preview")}'</if> value="预 览" />
+                        <!--                                    <a href="window.open('','JavaScript'); "  class="btnHeader">预 览</a>-->
+						<!--
+                        <input type="submit" class="btnHeader" name="temporary" value="放入草稿箱" />
+						-->
+						<input type="submit" class="btnHeader" name="backup" value="备份" />
+						</if>
+                        </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </notempty>
+        </form>
+    </div><!--templates  end -->
+</div>
+<script>
+    $(document).ready(function(){
+        $("#template").click(function(){
+            var uri = $(this).attr("uri");
+            var css = $(".cssfile input[name='diypage']:checked").attr("css");
+            var file = $("#file").val();
+            var type = $("#type").val();
+            var dir = $("#dir").val();
+            var content = $("#content").val();
+            $.ajax({
+                url:'{:U("Admin/Home/pageEditTplTemm")}',
+                cache:false,
+                dataTpye:'json',
+                type:'POST',
+                data:{'content':content,'file':file,dir:dir,type:type,"temporary":'1'},
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        window.open(uri, "预览", "status=yes,toolbar=no,menubar=no,scrollbars=yes,location=no");
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+
+    });
+</script>

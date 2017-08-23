@@ -1,0 +1,113 @@
+<script type="text/javascript" src="__PUBLIC__/Admin/js/order.js"></script>
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th>待审核订单列表</th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Orders/pageToAuditOrderList')}">
+                        订单号：<input type="text" name="o_id" class="large" value="{$filter.o_id}" style="width: 145px;">
+						下单时间从：<input type="text" name="o_create_time_1" class="large timer" value="{$filter.o_create_time_1}" style="width: 145px;">
+						 到 <input type="text" name="o_create_time_2" class="large timer" value="{$filter.o_create_time_2}" style="width: 145px;">		
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                </th>
+        </tr>
+        <tr>
+            <th>订单号</th>
+            <th>数量</th>
+            <th>订单状态</th>
+			<th>订单金额</th>
+			<th>支付方式</th>
+            <th width="100">收货人</th>
+            <th>会员名</th>
+            <th>下单时间</th>
+            <th>客服</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="order">
+            <tr id="o_id_{$order.o_id}">
+                <td id="oid_{$order.o_id}">
+					<a href="{:U('Admin/Orders/pageDetails')}?o_id={$order.o_id}">{$order.o_id}</a>
+				</td>
+                <td>{$order.oi_nums}</td>
+                <td>
+                    <if condition="$order.str_status eq '作废'">
+                        <span>{$order.str_status}</span>
+                    <else />        	
+                        <if condition="$order.o_pay_status eq '1'">
+                            <span style="margin-left:10px;">已支付</span>
+                        <else />
+                            <span style="margin-left:10px;">未支付</span>
+                        </if>
+                        <if condition="$order.deliver_status neq '已发货'">
+                            <span style="margin-left:10px;">{$order.deliver_status}</span>
+                            <php>if($order['o_audit'] == 0){</php>
+                                <span style="margin-left:10px;color:blue;cursor:pointer;" class="check_audit" id="hide_audit_{$order.o_id}" o_id="{$order.o_id}" title="审核通过">未审核</span>
+                                <span style="margin-left:10px;display:none;" id="check_audit_{$order.o_id}">已审核</span>
+                            <php>}else{</php>
+                                <span style="margin-left:10px;">已审核</span>
+                            <php>}</php>
+                        <else />
+                            <span style="margin-left:10px;">{$order.deliver_status}</span>
+                            <php>if($order['o_audit'] == 0){</php>
+                                <span style="margin-left:10px;">未审核</span>
+                            <php>}else{</php>
+                                <span style="margin-left:10px;">已审核</span>
+                            <php>}</php>
+                        </if>
+                        
+                    </if>
+				</td>
+				<td>{$order.o_all_price}</td>
+                <td>{$order.pc_name}</td>
+                <td>{$order.o_receiver_name}</td>
+                <td>{$order.m_name}</td>
+                <td>{$order.o_create_time}</td>
+                <td>{$order.admin_name}</td>
+                <td><span href="javascript:void(0);" title="<php>echo ltrim($order['o_seller_comments'],'/')</php>" style="width:80px;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;"><php>echo ltrim($order['o_seller_comments'],'/')</php></span></td>
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display:none;">
+        <div id="ajax_loading">
+            <div id="ajaxsenddiv_loading"><img src="__PUBLIC__/images/loading.gif" title="正在加载中..." style="margin-top:30px;"/></div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+//订单审核
+$(".check_audit").click(function(){
+    var o_id = $(this).attr("o_id");
+    $.ajax({
+       url:'{:U("Admin/Orders/checkAudit")}', 
+        cache:false,
+        dataType:"json",
+        data:{o_id:o_id},
+        type:"POST",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                showAlert(true,'订单审核成功');
+                $("#hide_audit_"+o_id).css("display","none");
+                $("#check_audit_"+o_id).css("display","");
+            }else{
+                showAlert(false,msgObj.info);
+            }
+        }
+    });
+}); 
+</script>

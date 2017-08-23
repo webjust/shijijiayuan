@@ -1,0 +1,78 @@
+<div class="rightInner" data-uri='{:U("Admin/Role/doEditStatus")}'>
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    结余款类型
+                </th>
+            </tr>
+            <tr>
+                <th>类型名称</th>
+                <th>是否停用</th>
+                <th>备注</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="list">
+            <tr>    
+                <td>{$list.bt_name}</td>
+                <td><input type="checkbox" id="list_{$bt_code}" bt_code="{$list.bt_code}" class="bt_status" value="{$list.bt_status}" <if condition="$list.bt_status eq '1'">checked="checked"</if>/></td>
+                <td>
+                    {$list.bt_desc}
+                </td>
+
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display: none;">
+        <div id="tip_div"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        //切换
+        $('.bt_status').click(function(){
+            var bt_code = $(this).attr("bt_code");
+            if($(this).attr('checked') == 'checked'){
+                var bt_status = 1;
+            }else{
+                var bt_status = 0;
+            }
+            var url = "{:U('Admin/BalanceType/doStatusBalanceType')}";
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:'json',
+                type:'POST',
+                data:{bt_code:bt_code,bt_status:bt_status},
+                error:function(){
+                    $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        if(bt_status){
+                            $("#list_"+bt_code).attr("checked",true);
+                        }else{
+                            $("#list_"+bt_code).attr("checked",false);
+                        }
+                        $('<div id="resultMessage" />').addClass("msgSuccess").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                    }else{
+                        $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                    }
+                }
+            });
+        });
+    });
+    
+    
+</script>

@@ -1,0 +1,109 @@
+<div class="rightInner">
+    <form id="category_form" name="category_form" method="post" enctype="multipart/form-data" action="{:U('Admin/Groupbuy/doBrandEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">团购品牌编辑</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">品牌名称：</td>
+                    <td>
+                        <input type="text" name="gbb_name" id="gbb_name" size="25" maxlength="20" class="medium" value="{$brand.gbb_name}" validate="{required:true}" /> <span style="color:red;">*</span></span><br>
+                        <input type="hidden" value="{$brand.gbb_id}"  name="gbb_id" id="gbb_id" /> 
+                        <input type="hidden" value="{$brand.gbb_name}"  name="gcname" id="gcname" /> 
+                    </td>      
+                    <td class="last">限制20个文字</td>              
+                </tr>
+                <tr>
+                    <td class="first">品牌图片：</td>
+                    <td>
+                       <input class="large" type="file" name="gbb_pic" id="gbb_pic" value="{$brand.gbb_pic}"> <br> 
+                    </td>     
+                   <td class="last">
+                   <if condition="$brand.gbb_pic neq '' " >
+                   <span id="logo_pic">
+                   <a href="{$brand.gbb_pic}" target="_blank"><img src="{$brand.gbb_pic}" width="40px" height="40px" title="{$brand.gbb_pic}"/></a>
+                   <a id="delPic" url="{:U('Admin/Groupbuy/delBrandPic')}?gbb_id={$brand.gbb_id}" >删除</a>
+                   </span>
+                   </if>
+                   </td>
+                </tr>
+                <tr>
+                    <td class="first">排序：</td>
+                    <td>
+                        <input name="gbb_order" class="medium" type="text" id="gbb_order" size="25" maxlength="10" value="{$brand.gbb_order}"> <br> 
+                    </td>
+                    <td class="last">数字越小越靠前</td>
+                </tr>
+                <tr>
+                    <td class="first">是否热门：</td>
+                    <td>
+	                    <input type="radio" name="gbb_is_hot" value="1" <if condition="$brand.gbb_is_hot eq 1">checked</if> id="gbb_is_hot_true" />
+	                    <label for="gbb_is_hot_true">是</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gbb_is_hot" value="0" <if condition="($brand.gbb_is_hot eq 0) or ($brand.gbb_is_hot eq '')">checked</if> value="0" id="gbb_is_hot_false" />
+	                    <label for="gbb_is_hot_false">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">前台是否显示：</td>
+                    <td>
+	                    <input type="radio" name="gbb_is_display" value="1" <if condition="$brand.gbb_is_display eq 1">checked</if> id="gbb_is_display_true" />
+	                    <label for="gbb_is_display_true">是</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gbb_is_display" value="0" <if condition="($brand.gbb_is_display eq 0) or ($brand.gbb_is_display eq '')">checked</if> value="0" id="gbb_is_display_false" />
+	                    <label for="gbb_is_display_false">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">关键字：</td>
+                    <td>
+                        <input name="gbb_keyword" class="medium" type="text" value="{$brand.gbb_keyword}" id="gbb_keyword" size="25" > <br> 
+                    </td>
+                    <td class="last">数字越小越靠前</td>
+                </tr>
+				<tr>
+                   <td class="first">分类描述：</td>
+                    <td>
+                        <textarea class="mediumBox"  name="gbb_description" id="gbb_description" >{$brand.gbb_description}</textarea>
+                    </td>
+                    <td class="last"></td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Groupbuy/pageBrandList')}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+	</form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#category_form").validate();   
+    });
+    $("#delPic").click(function(){
+	    var url = $(this).attr("url");
+	   $.ajax({
+	       url:url,
+	       cache:false,
+	       dataType:'json',
+	       type:'POST',
+	       success:function(msgObj){
+			$("#logo_pic").css("display","none");			
+	       },
+	       error:function(msgObj){
+	   		alert('删除失败');		
+	       }
+	       });
+	});
+</script>

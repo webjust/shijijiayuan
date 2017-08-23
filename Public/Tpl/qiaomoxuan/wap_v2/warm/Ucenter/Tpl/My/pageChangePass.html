@@ -1,0 +1,112 @@
+
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a  onclick="window.history.back();"><span class="goback"></span></a>
+        </div>
+        <span class="nav-title">修改密码</span>
+        <!--<div class="navbar-home">-->
+            <!--<a href="javascript:void(0)"><span class="headmore"></span></a>-->
+        <!--</div>-->
+    </div>
+</div>
+<form method="post"   action="{:U('Wap/My/doChange')}" id="edit_changePass">
+<div class="container">
+    <!--<div class="member_editpass" id="member_editpass" style="display: none;">-->
+        <!--<b>原密码不正确！</b>-->
+    <!--</div>-->
+    <div class="userEdit">
+        <div class="infoL">
+            <div class="orderD orderE"><span class="old_pwd">旧密码</span>
+                <input type="password" class="input_order" name="m_password" id="m_password" validate="{ required:true,rangelength:[4,16],messages:{required:'密码不能为空',rangelength:'密码至少4位且不能多于16位'}}">
+            </div>
+            <p></p>
+            <div class="orderD orderE"><span class="new_pwd">新密码</span>
+                <input type="password" class="input_order"  id="new_m_password" name="new_m_password" validate="{ required:true,rangelength:[4,16],messages:{required:'新密码不能为空',rangelength:'密码至少4位'}}">
+            </div>
+            <p></p>
+            <div class="orderD orderE"><span class="new_pwd" >密码确认</span>
+                <input type="password" class="input_order"id="confirmPassword" name="confirmPassword" validate="{ required:true,rangelength:[4,16],equalTo:new_m_password,messages:{required:'确认密码不能为空',rangelength:'密码至少4位',equalTo:'两次密码不一致'}}">
+            </div>
+            <p></p>
+            <div class="orderD orderE">
+                <span class="addr_edit"></span>
+                <input type="hidden" name="m_id" value="{$member.m_id}" id="m_id">
+                <input type="hidden" name="m_name" value="{$member.m_name}" id="m_name">
+                <button   id="ajax_changePass" class="confirm_save">保存</button>
+                <span class="addr_edit"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<script>
+    /****START***处理修改密码************/
+    $(document).ready(function(){
+        $("#edit_changePass").validate({
+            errorPlacement: function(error, element) {
+                var error_td = element.parent().next();
+                if (element.is(':text') || element.is(':password')) {
+                    var eid = element.attr('name');
+                    error_td.append(error);
+                }
+            },
+            submitHandler:function(form){
+                var data = $('#edit_changePass').serialize();
+                var ti;
+                if(data != ' '){
+                    $.ajax({
+                        url:"{:U('Wap/My/doChange')}",
+                        data:data,
+                        dataType:"json",
+                        type:"post",
+                        success:function(msgObj){
+                                if(msgObj.success == '1'){
+                                    $.ThinkBox.success(msgObj.msg+',请重新登陆');
+                                    ti = setTimeout(function(){location.href = '/Wap/User/doLogout';},2000)
+                                }else{
+                                    $.ThinkBox.error(msgObj.msg);
+                                }
+                        }
+                    });
+                }
+            },
+            rules : {
+                m_password : {
+                    required:true,
+                },
+                new_m_password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                confirmPassword : {
+                    required:true,
+                    equalTo  : '#new_m_password'
+                }
+            },
+            messages : {
+                m_password : {
+                    required : '原密码不能为空',
+                },
+                new_m_password  : {
+                    required : '新密码不能为空',
+                    minlength: '密码长度应在6-20个字符之间',
+                    maxlength: '密码长度应在6-20个字符之间'
+                },
+                confirmPassword : {
+                    required : '请再次输入您的密码',
+                    equalTo  : '两次输入的密码不一致'
+                }
+            }
+        });
+    });
+
+</script>

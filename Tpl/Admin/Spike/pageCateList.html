@@ -1,0 +1,118 @@
+<div class="rightInner tableColor">
+    <!--<form method="post" action="{:U('Admin/Spike/doDelBrands')}" id="">-->
+    <table width="100%" class="tbList" data-uri='{:U("Admin/Spike/doStatus")}'>
+        <thead>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>操作</th>
+                <th>分类名称</th>
+                <th>浏览秒杀商品</th>
+                <th>排序</th>
+                <th>是否显示</th>      
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_cates" id="cate">
+            <tr id="list_{$cate.gc_id}">
+                <td><input type="checkbox" class="checkSon" name="gc_id[]" value="{$cate.gc_id}" /></td>
+                <td>
+                    <a href='{:U("Admin/Spike/pageCateEdit?gcid=$cate[gc_id]")}'>编辑</a> 
+                    <a href='{:U("Admin/Spike/doDelCate?gcid=$cate[gc_id]")}' class="confirm">删除</a>
+                </td>
+                <td>{$cate.gc_name}</td>
+				<td><a href='{:U("Admin/Spike/pageList?gcid=$cate[gc_id]")}'>浏览秒杀商品</a></td>
+                <td>{$cate.gc_order}</td>
+                <td>
+                    <img class="pointer" data-id="{$cate[gc_id]}" style="cursor: pointer;" data-field="gc_is_display" data-value="{$cate.gc_is_display}"
+                        <if condition="($cate.gc_is_display eq 1) ">
+                            src='__PUBLIC__/Admin/images/span-true.jpg' alt="显示" title="显示"
+                        <else />
+                            src='__PUBLIC__/Admin/images/span-false.jpg' alt="不显示" title="不显示"
+                        </if>/></td>
+            </tr>
+            </volist>
+            <empty name="ary_cates">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+                <input type="button" data-uri='{:U("Admin/Spike/doDelCate")}'  value="删除选中" class="btnA confirm" id="delAll" />
+                <a href="{:U("Admin/Spike/addCategory")}" class="btnA">新增分类</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <!--</form>-->
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+    //切换
+        $('.pointer').live('click', function() {
+            var url = $(".tbList").attr("data-uri");
+            var img    = this,
+            s_val  = ($(img).attr('data-value'))== 0 ? 1 : 0,
+            s_name = $(img).attr('data-field'),
+            s_id   = $(img).attr('data-id'),
+            s_src  = $(img).attr('src');
+            s_msg = ($(img).attr('data-value'))== 0 ? '显示' : '不显示';
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {id:s_id, field:s_name, val:s_val},
+                type:"POST",
+                error:function(){
+                    $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        $('<div id="resultMessage" />').addClass("msgSuccess").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                        if(s_src.indexOf('false')>-1) {
+                                $(img).attr({'src':s_src.replace('false','true'),'data-value':s_val,'title':s_msg,'alt':s_msg});
+                        } else {
+                                $(img).attr({'src':s_src.replace('true','false'),'data-value':s_val,'title':s_msg,'alt':s_msg});
+                        }
+                    }else{
+                        $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                    }
+                }
+            });
+        });
+    $("#delAll").live("click",function(){
+	        var gc_ids = new Array();;
+            $(".tbList input:checked[class='checkSon']").each(function(){
+                gc_ids.push(this.value);
+            });
+            gc_id = gc_ids;
+            gc_ids = gc_ids.join(",");
+            if(gc_ids == ''){
+				alert("请选择需要删除的分类！");
+                return false;
+            }
+            var url = $(this).attr("data-uri");
+            var field = $(this).attr('data-field');
+            $.ajax({
+                url:url,
+                cache:false,
+                dateType:'json',
+                type:'POST',
+                data:{gc_ids:gc_ids},
+                error:function(){
+                },
+                success:function(msgObj){
+                    
+                    if(msgObj.status == '1'){
+                        $.each(gc_id,function(index,value){
+                            $("#list_"+value).remove();
+                        });
+                       
+                    }
+                }
+            });
+        });
+});
+
+</script>

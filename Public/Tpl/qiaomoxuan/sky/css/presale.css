@@ -1,0 +1,20 @@
+.tgOne{padding-top:0}
+.goodList_navtitle{font-size:14px;padding:10px;height:15px;line-height:15px;display:inline-block}
+.proDOLR ul li a.tg_btn2{background-color:#B2AEB3;color:#fff;border:1px solid #B2AEB3}
+.presale_bot li:first-child {clear: both}
+.presale_bot li{width:166px;float:left;background:#ebdfd6;line-height:25px;color:#836851;font-size:16px;text-align:center;padding:17px 0}
+.presale_bot li.presale_botcur{background:#e5d6c9;border-bottom:3px solid #c00}
+.content .procon{padding-top:20px}
+.wrapD.pro_content.path a{cursor:pointer}
+.finished { background:url(../images/bg41.png) no-repeat center center; }
+.tgL_img a img{ vertical-align:top;}
+.guide-bd li {
+    display: inline;
+    width: 380px;
+    margin: 10px 0 0 10px;
+    position: relative;
+    height: 480px;
+}
+.proDOL{
+    top: 0px;
+}

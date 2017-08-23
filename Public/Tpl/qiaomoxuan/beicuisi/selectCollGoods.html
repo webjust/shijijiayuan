@@ -1,0 +1,159 @@
+{__NOLAYOUT__}
+
+<form id="goodsCartForm" name="goodsForm" method="post" action="#">
+    <div class="jifcon"><!--jifcon  start-->
+        <ul>
+            <li>
+                <dl>
+                    <volist name="data.skuNames" id="sku" key="k">
+                        <dt style="width:90px; text-align:right">{$key}：</dt>
+                        <dd id="skus{$data.gid}_{$k}" style="width:358px;">
+                            <volist name="sku" id="sku_info">
+                                <a href="javascript:void(0);" name="{$sku_info}" <eq name="data['skus'][1]['pdt_id']" value=""> class="on" </eq>  onclick="return showCollSelect(this);" >{$sku_info}</a>
+                            </volist>
+                        </dd>
+                    </volist>
+                    <dt style="width:90px; text-align:right">数量：</dt>
+                    <dd class="amount" style="width:358px;">
+                        <span id="showCollNum" style="font-weight: normal;margin-left: 10px;position: relative;top: 3px;">1件（库存{$data.gstock}件）</span>
+                        <input type="hidden" id="pdt_coll_id" />
+                    </dd>
+                    <dt style="width:90px; text-align:right">售价：</dt>
+                    <dd style="width:358px;">
+                        <i class="price">&yen;</i><strong id="showCollPrice" style="color: #ac0000;height: 30px;line-height: 30px;font-size: 16px;">{$data.gprice|sprintf='%.2f',###}</strong>
+                    </dd>
+                    <dd class="buy"><input type="button" value="确认" class="blue" onclick="addGoodsCarts();">&nbsp;&nbsp;<input type="button" class="brown" value="取消" onclick="closeDio();"></dd>
+                </dl>
+            </li>
+        </ul>
+    </div><!--jifcon  end-->
+</form>
+<input type="hidden" value="{$data.gid}" id="gid">
+<script>
+var arr = new Object();
+//将商品库存信息存在js数组里
+<foreach name = 'data.skus' item = 'vosku'>
+//alert("{$vosku.skuName}");
+arr["{$vosku.skuName}"] = "{$vosku.pdt_id}|{$vosku.pdt_stock}|{$vosku.pdt_sale_price}|{$vosku.pdt_market_price}|{$vosku.pdt_collocation_price}";
+</foreach>
+var specColl = '';
+var pirceColl = '';
+var price = '';
+function showCollSelect(obj){
+    
+    var _this = jQuery(obj);
+    
+    var item_id = "{$data.gid}";
+    var name = '';
+    var _item_id = $('#' + item_id);
+
+    if (_this.hasClass('on')){
+        _this.removeClass("on");
+        $("#pdt_coll_stock").val("");
+        $("#pdt_coll_id").val("");
+        $.ThinkBox.error("请勾选您要的商品信息");
+    } else{
+        _this.siblings().removeClass("on");
+        _this.addClass("on");
+        var rsize = "";
+        var showvalue = "";
+        var _parent_color = $("#skus" + item_id + '_1').find('a.on');
+        var _parent_size = $("#skus" + item_id + '_2').find('a.on');
+        var color_len = _parent_color.length;
+        var size_len = _parent_size.length;
+        
+        if (size_len > 0 && color_len > 0){
+            $("#propError").html("");
+            var color = "", size = "";
+            color = _parent_color.attr('name');
+            size = _parent_size.attr('name');
+            if (color != '' && size != ''){
+                var info = size + ";" + color;
+                showvalue = arr[info]?arr[info]:"";
+                specColl = color+"/"+size;
+                var vale = showvalue.split("|");
+                if (vale.length > 0){
+                    if (vale[0]){
+                        $("#pdt_coll_id").val(vale[0]);
+                    }
+                    if (vale[1]){
+                        $("#showCollNum").html("1件（库存" + vale[1] + "件）");
+                    } else{
+                        $("#showCollNum").html("库存已不足0件");
+                    }
+                    if (vale[4]){
+                        $("#showCollPrice").html(vale[4]);
+                        pirceColl = vale[4];
+                        price = vale[2];
+                    }
+                }
+            }
+        } else{
+            var _parent_li = _this.parent().parent().find('a.on');
+            rsize = _parent_li.attr('name');
+            
+            if (rsize != ""){
+                var info = rsize;
+                
+                showvalue = arr[info];
+                specColl = rsize;
+                if (showvalue != undefined){
+                    var vale = showvalue.split("|");
+                    if (vale.length > 0){
+                        if (vale[0]){
+                            $("#pdt_coll_id").val(vale[0]);
+                        }
+                        if (vale[1]){
+                            $("#pdt_coll_stock").val(vale[1]);
+                            $("#showCollNum").html("库存还剩" + vale[1] + "件");
+                        } else{
+                            $("#showCollNum").html("库存已不足0件");
+                        }
+                        if (vale[4]){
+                            $("#showCollPrice").html(vale[4]);
+                            pirceColl = vale[4];
+                            price = vale[2];
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+function addGoodsCarts(){
+    var pdt_id = $('#pdt_coll_id').val();
+    var nums = parseInt($('#cartNums').val());
+    var dapei = "搭配省"+((price-pirceColl)*nums).toFixed(2)+"元";
+    if (pdt_id == ""){
+        $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+        return false;
+    }
+    $("#collPdt_"+{$data.gid}).show().html(specColl);
+    $("#collPrice_"+{$data.gid}).html(parseFloat(pirceColl).toFixed(2));
+    $("#selectColl_"+{$data.gid}).hide();
+    $("#saveColl_"+{$data.gid}).show().html(dapei);
+    
+    $(".ThinkBox-wrapper").remove();
+    $(".ThinkBox-modal-blackout-default").remove();
+    
+    $("#coll_goods_"+{$data.gid}).attr('checked',true);
+    $("#coll_products_"+{$data.gid}).val(pdt_id);
+    $("#coll_goods_"+{$data.gid}).attr('price',parseFloat(pirceColl).toFixed(2));
+    $("#coll_goods_"+{$data.gid}).attr('save',(price-pirceColl).toFixed(2));
+    all_price = (parseFloat(pirceColl)+parseFloat(all_price)).toFixed(2);
+    save_price = (parseFloat(price-pirceColl)+parseFloat(save_price)).toFixed(2);
+    $("#all_coll_price").html("￥"+all_price);
+    
+    $("#all_save_price").html("搭配买共省"+save_price+"元");
+    $("#onHoverCollGoods"+{$data.gid}).attr('ohgg',1);
+    return false;
+    
+    
+}
+
+function closeDio(){
+    $(".ThinkBox-wrapper").remove();
+    $(".ThinkBox-modal-blackout-default").remove();
+}
+</script>

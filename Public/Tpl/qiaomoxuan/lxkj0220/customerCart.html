@@ -1,0 +1,84 @@
+{__NOLAYOUT__}
+<div class="ibar_plugin_content">
+	<div class="ibar_cart_group ibar_cart_product">
+		<div class="ibar_cart_group_header">
+			<span class="ibar_cart_group_title">彩妆国际</span>
+			<a href="{:U('Ucenter/Cart/pageList')}">我的购物车</a>
+		</div>
+		<ul class="cart_go_list">
+			<volist name="cart_data" id="data">
+				<php>if($data[0]['pdt_rule_name']=='自由推荐'){</php>
+					<volist name="data" id="da">
+						<li class="cart_item">
+							<div class="cart_item_pic">
+								<a href="/Home/Products/detail/gid/{$da.g_id}">
+									<img src="{$da['g_picture']}" />
+								</a>
+							</div>
+							<div class="cart_item_desc">
+								<a href="/Home/Products/detail/gid/{$da.g_id}" class="cart_item_name">{$da.g_name}|{$da.g_sn} {$da.pdt_spec}</a>
+								<div class="cart_item_sku">
+									<notempty name="da.pdt_spec">
+										<span>{$Think.lang.GOODS_SPEC}：{$da.pdt_spec}</span>
+									</notempty>
+								</div>
+								<div class="cart_item_price">
+									<span class="cart_price">￥{$da.f_price|sprintf='%.2f',###}*{$da.pdt_nums}</span>
+								</div>
+							</div>
+						</li>
+					</volist>
+				<php>}elseif($data[0]['type'] == '6'){</php>
+					<volist name="data" id="da">
+						<li class="cart_item">
+							<div class="cart_item_pic">
+								<a href="/Home/Products/detail/gid/{$da.g_id}">
+									<img src="{$da['g_picture']}" />
+								</a>
+							</div>
+							<div class="cart_item_desc">
+								<a href="/Home/Products/detail/gid/{$da.g_id}" class="cart_item_name">{$da.g_name}|{$da.g_sn} {$da.pdt_spec}</a>
+								<div class="cart_item_sku">
+									<notempty name="da.pdt_spec">
+										<span>{$Think.lang.GOODS_SPEC}：{$da.pdt_spec}</span>
+									</notempty>
+								</div>
+								<div class="cart_item_price">
+									<span class="cart_price">￥{$da.f_price|sprintf='%.2f',###}*{$da.pdt_nums}</span>
+								</div>
+							</div>
+						</li>
+					</volist>
+				<php>}else{</php>
+					<li class="cart_item">
+						<div class="cart_item_pic">
+							<a href="/Home/Products/detail/gid/{$data.g_id}">
+								<img src="{$data['g_picture']}" />
+							</a>
+						</div>
+						<div class="cart_item_desc">
+							<a href="/Home/Products/detail/gid/{$data.g_id}" class="cart_item_name">{$data.g_name}|{$data.g_sn} {$data.pdt_spec}</a>
+							<div class="cart_item_sku">
+								<notempty name="data.pdt_spec">
+									<span>{$Think.lang.GOODS_SPEC}：{$data.pdt_spec}</span>
+								</notempty>
+							</div>
+							<div class="cart_item_price">
+								<span class="cart_price">￥{$data.f_price|sprintf='%.2f',###}*{$data.pdt_nums}</span>
+							</div>
+						</div>
+					</li>
+				<php>}</php>
+			</volist>
+		</ul>
+	</div>
+	<div class="cart_handler">
+		<div class="cart_handler_header">
+			<span class="cart_handler_left">
+				共<span class="cart_price" id="cart_price">{$price_data.all_nums|default='0'}</span>件商品
+			</span>
+			<span class="cart_handler_right">￥{$price_data.all_price|default="0.00"}</span>
+		</div>
+		<a href="{:U('Ucenter/Cart/pageList')}" class="cart_go_btn" target="_blank">去购物车结算</a>
+	</div>
+</div>

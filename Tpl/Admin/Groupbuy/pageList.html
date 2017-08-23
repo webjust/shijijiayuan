@@ -1,0 +1,144 @@
+<div class="rightInner">
+	<table width="100%" class="tbList">
+		<thead>
+			<tr class="title">
+				<th colspan="99">
+				 <form method="post" action="{:U('Admin/Groupbuy/pageList')}">
+                   <p class="conOneP" style="float: left;">
+                       <a href="{:U('Admin/Groupbuy/pageAdd')}" class="btnG ico_add">添加团购</a>
+                       <a href="javascript:void(0);" onclick="return getCheckedProducts(this);" class="btnG Set">批量删除</a>
+                   </p>
+					<span style="float: right;">
+					有效期：<input type="text" class="width_100 timer search_cond" name="gp_start_time" value="{$filter.gp_start_time}" />
+					- 
+					<input type="text" class="width_100 timer search_cond" name="gp_end_time" value="{$filter.gp_end_time}" />
+                    <select name="gcid" class="small search_cond" style="width: auto">
+                             <option value="0"  >选择团购类目</option>
+                             <volist name="cates" id="cate">
+                             	<option value="{$cate['gc_id']}" <if condition="($gcid eq $cate['gc_id'])">selected=selected</if> >{$cate['gc_name']}</option>
+                             </volist>
+							 <notempty name="cate.sub">
+								<volist name="cate.sub" id="sub_cate">
+									<option value="{$sub_cate['gc_id']}" <if condition="($gcid eq $sub_cate['gc_id'])">selected=selected</if> >----{$sub_cate['gc_name']}</option>
+								</volist>
+							 </notempty>
+                    </select>	
+					<select name="gbbid" class="small search_cond" style="width: auto">
+                             <option value="0"  >选择团购品牌</option>
+                             <volist name="brands" id="brand">
+                             	<option value="{$brand['gbb_id']}" <if condition="($gbbid eq $brand['gbb_id'])">selected=selected</if> >{$brand['gbb_name']}</option>
+                             </volist>
+                    </select>	
+					<select name="field" class="small search_cond" style="width: auto">
+                             <option value="1" <if condition="($filter.field eq 1)">selected=selected</if> >团购标题</option>
+                             <option value="2" <if condition="($filter.field eq 2)">selected=selected</if> >商品标题</option>
+                             <option value="3" <if condition="($filter.field eq 3)">selected=selected</if> >商品编码</option>
+                    </select>
+                     <input type="text" name="val" class="large search_cond" value="{$filter.val}" style="width: 145px;">
+					<a href="javascript:void(0);" class="btnA" id="searchButton">搜索</a>					
+					</span>
+				</form>
+				</th>
+			</tr>
+			<tr>
+				<th><input type="checkbox" class="checkAll" /></th>
+				<th>操作</th>
+				<th>团购标题</th>
+				<th>团购商品名称</th>
+				<th>状态</th>
+				<th>起止时间</th>
+				<th>实际销售</th>
+				<th>虚拟购买</th>
+				<th>限购</th>
+				<th>每人限购</th>
+			</tr>
+		</thead>
+    		<tbody>
+        		<volist name="list" id="cp">
+        			<tr>
+        				<td>
+                            <input type="checkbox" class="checkSon" name="gp_id" value="{$cp.gp_id}" />
+                        </td>
+        				<td>
+        					<span style="display:block;width:80px;">
+							<php> if($is_bulk == 1){
+							</php>
+							<a class="blue" href="{:U('Home/Groupbuy/detail')}/gpid/{$cp[gp_id]}/gid/{$cp[g_id]}" title="预览" target="_blank" >[预览]</a>
+							<php>}else{</php>
+							<a class="blue" href="{:U('Home/Bulk/detail')}/gp_id/{$cp[gp_id]}/gid/{$cp[g_id]}" title="预览" target="_blank" >[预览]</a>
+							<php>}</php>
+        					<a href='{:U("Admin/Groupbuy/pageEdit?gp_id=$cp[gp_id]")}' class="edit"></a> | <a href='{:U("Admin/Groupbuy/doDel?gp_id=$cp[gp_id]")}' class="confirm delete"></a>
+                            </span>
+                        </td>
+        				<td>{$cp.gp_title}</td>
+        				<td><span class="blue">{$cp.g_name}</span></td>
+        				<td>
+        				    <eq name="cp.is_active" value="1">
+                                <span class="green">启用</span>
+                            <else/>
+                                <span class="red">停用</span>
+                            </eq>
+        				</td>
+        				<td>{$cp.gp_start_time} - {$cp.gp_end_time}</td>
+        				<td>{$cp.gp_now_number}</td>
+        				<td>
+						{$cp.gp_pre_number}
+        				</td>
+        				<td>{$cp.gp_number}</td>
+        				<td>{$cp.gp_per_number}</td>
+        			</tr>
+        		</volist>
+        		<empty name="list">
+        			<tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        		</empty>
+    		</tbody>
+    		<tfoot>
+    			<tr>
+    				<td colspan="99">
+                        <span class="right page">{$page}</span>
+                    </td>
+    			</tr>
+    		</tfoot>
+	</table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#searchButton").click(function(){
+		var redirect_url = "{:U('Admin/Groupbuy/pageList')}" + "?";
+		$(".search_cond").each(function(){
+			redirect_url += $(this).attr("name") + "=" + encodeURIComponent($(this).val()) + '&';
+		});
+		location.href= redirect_url;
+	});
+});
+function getCheckedProducts(){
+    var gp_id = '';
+    $("input[class='checkSon']:checked").each(function(){
+    	gp_id += this.value+',';
+    });
+    gp_id = gp_id.substring(0,gp_id.length-1);
+    deleteCombiantionGoods(gp_id);
+}
+function deleteCombiantionGoods(gp_id){
+    if(confirm('确定要删除吗？删除后不可恢复')){
+        $.ajax({
+            url:"{:U('Admin/Groupbuy/doDel')}",
+            data:{'gp_id':gp_id},
+            dateType:'json',
+            type:'POST',
+            success:function(DataMsg){
+                if(DataMsg.status=='1'){
+                    showAlert(true,DataMsg.info,'',{'成功':'/Admin/Groupbuy/pageList'});return false;
+                }else{
+                    showAlert(false,DataMsg.info);return false;
+                }
+            },
+            error:function(){
+            
+            }
+            
+        });
+    }
+}
+</script>

@@ -1,0 +1,36 @@
+<div class="rightInner">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">查看站内信</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+	    <td class="first">发信人：</td>
+	    <td>{$messageInfo['from_name']}</td>
+	</tr>
+	<tr>
+	    <td class="first">收信人：</td>
+	    <td>{$messageInfo['to_name']}</td>
+	</tr>
+	<tr>
+		<td class="first">站内信标题：</td>
+		<td>{$messageInfo['sl_title']}</td>
+	</tr>
+	<tr>
+	    <td class="first">内容：</td>
+		<td>{$messageInfo['sl_content']}</td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="button" onclick="window.history.go(-1);" value="返 回" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+<div class="clear"></div>
+</div>

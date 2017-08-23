@@ -1,0 +1,189 @@
+<div id="content">
+    <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+						<p class="conOneP" style="float: left;">
+							<a href='{:U("Admin/Voucher/addVoucher")}' class="btnG ico_add">新增</a>
+							<a href="javascript:void(0);" class="btnG ico_explort">导出Excel</a>
+						</p>
+						<ul class="conOneUl" style="width:815px;">
+							<form method="get" action="{:U('Admin/Voucher/pageList')}" >
+								<li>
+									<select name="sr_type" class="small" style="width: auto">
+										<option value="select">选择销货类型</option>
+										<option value="0" <if condition="$filter['sr_type'] eq '0'">selected="selected"</if>>线下支付</option>
+										<option value="1" <if condition="$filter['sr_type'] eq '1'">selected="selected"</if> >货到付款</option>
+									</select>
+								</li>
+								<li>
+									<select name="sr_verify_status" class="small" style="width: auto">
+										<option value="select">确认状态</option>
+										<option value="0" <if condition="$filter['sr_verify_status'] eq '0'">selected="selected"</if> >未确认</option>
+										<option value="1" <if condition="$filter['sr_verify_status'] eq '1'">selected="selected"</if> >已确认</option>
+										<option value="2" <if condition="$filter['sr_verify_status'] eq '2'">selected="selected"</if> >已作废</option>
+									</select>
+								</li>
+                    
+								<li>制单时间：<input type="text" name="starttime" class="small medium timer" value="{$filter.starttime}"  style="width: 100px;float: none;"></li>
+								<li>至<input type="text" name="endtime" class="small medium timer" value="{$filter.endtime}"  style="width: 100px;float: none;"></li>
+								<li>
+									<select name="field" class="small" style="width: auto">
+									   <option value="m_name" <if condition="$filter['field'] eq 'm_name'">selected="selected"</if>>会员名</option> 
+									   <option value="o_id" <if condition="$filter['field'] eq 'o_id'">selected="selected"</if>>订单号</option>
+									   <option value="sr_id" <if condition="$filter['field'] eq 'sr_id'">selected="selected"</if>>单据编号</option>
+										<option value="sr_bank_sn" <if condition="$filter['field'] eq 'sr_bank_sn'">selected="selected"</if>>流水号</option>
+										<option value="sr_logistics_sn" <if condition="$filter['field'] eq 'sr_logistics_sn'">selected="selected"</if>>物流单</option>
+									</select>
+								</li>
+								<li><input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+								<li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+							</form>
+						</ul>
+					</th>
+                </tr>
+				<tr>
+					<th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>
+					<th width="60px">操作</th>
+					<th>单据编号</th>
+					<th>单据状态</th>
+					<th>销货类型</th>
+					<th>会员名称</th>
+					<th>调整金额</th>
+					<th>制单人</th>
+					<th>制单日期</th>
+					<th>订单号</th>
+					<th>流水号</th>
+					<th>汇款时间</th>
+					<th>物流单</th>
+					<th width="50px">备注</th>
+				</tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="datas">
+                <tr>
+                  <td><input type="checkbox" class="checkSon" data-xid="checkSon_x" name="sr_id[]" value="{$datas.sr_id}" bi_sn="{$datas.sr_id}" /></td>
+                  <td>
+                      <if condition="($datas.sr_verify_status eq '0') AND ($datas.sr_status neq '0')">
+                           <span style="font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#0000FF;">
+                           	<a href="{:U('Admin/Voucher/pageEdit')}?sr_id={$datas.sr_id}">编辑</a>
+                           </span>
+                           <span style="font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#000000;">
+                           	<a class="doStatus" data-id="{$datas.sr_id}" data-type="conf">确认</a>
+                           </span>
+						   <if condition="($datas.sr_verify_status eq '0') AND ($datas.status eq '2')">
+						   <span style="font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#000000;">
+                           	<a class="doStatus" data-id="{$datas.sr_id}" data-type="del">作废</a>
+                           </span>
+						   </if>
+                      <else />
+                          <span style="font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#999999;">编辑</span>
+                          <span style="font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#000000;">确认</span>    
+                      </if>
+                  </td>
+                  <td>
+                      <a title="查看详情" href="{:U('Admin/Voucher/detailVoucher')}?sr_id={$datas.sr_id}">{$datas.sr_id}</a>
+                  </td>
+                  <td width="100px">
+                      <if condition="$datas.sr_verify_status eq '0'">
+                      	
+	                     <if condition="$datas.sr_status eq '0'">
+	 							已作废
+	 					<else/>
+	 					未确认
+	                      </if>
+                      </if>
+                      <if condition="$datas.sr_verify_status eq '1'">
+                      	已确认
+                      </if>
+
+                </td>
+                <td>
+                    <if condition="$datas.sr_type eq '0'">
+                   	线下支付
+                   	</if>
+                   <if condition="$datas.sr_type eq '1'">
+                      {$pay_name|default='货到付款'}
+                   </if>               
+                </td>
+                <td>{$datas.m_name}</td>
+                <td>{$datas.to_post_balance}</td>
+                <td>{$datas.u_name}</td>
+                <td>{$datas.sr_create_time|default='0000-00-00 00:00:00'}</td>
+                <td>{$datas.o_id|default='暂无'}</td>
+                <td>{$datas.sr_bank_sn|default='暂无'}</td>
+                <td>{$datas.sr_create_time}</td>
+                <td>{$datas.sr_logistics_sn}</td>
+                <td><span style="overflow:hidden;">{$datas.sr_remark|default="暂无"}</span></td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div><!--rightInner  end-->
+</div>
+    <script>
+    $(document).ready(function(){
+        $(".ico_explort").click(function(){
+            var bi_sns = new Array();;
+            $(".tbList input:checked[class='checkSon']").each(function(){
+                bi_sns.push($(this).attr("bi_sn"));
+            });
+            var bi_id = bi_sns;
+            bi_sns = bi_sns.join(",");
+            if(bi_sns == ''){
+                alert("请选择需要导出的单据编号");
+                return false;
+            }
+            $.ajax({
+                url:'{:U("Admin/Voucher/explortVoucher")}',
+                cache:false,
+                dataType:'json',
+                data:{bi_sns:bi_sns},
+                type:'POST',
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        var url = "{:U('Admin/Voucher/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+                        window.location.href = url;
+                        return false;
+                    }else{
+                        alert(msgObj.info);return false;
+                    }
+                }
+            });
+        });
+        $(".doStatus").click(function(){
+            var id = $(this).attr("data-id");
+			var type = $(this).attr("data-type");
+            $.ajax({
+                url:'{:U("Admin/Voucher/doStatus")}',
+                cache:false,
+                dataType:'json',
+                type:'POST',
+                data:{'tid':id,'type':type},
+                success:function(msgObj){
+                    if(msgObj.status == '0'){
+                    	showAlert(false,msgObj.info); 
+                    	return false;
+                    }else{
+                    	showAlert(true,msgObj.info); 
+                    	location.href='{:U("Admin/Voucher/pageList")}';
+                    }
+                },
+                error:function(msgObj){
+                    showAlert('',msgObj.info); 
+                }
+            });
+        });
+    });
+    </script>
+

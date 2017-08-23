@@ -1,0 +1,103 @@
+<link href="__PUBLIC__/Ucenter/css/Aftersale.css" rel="stylesheet">
+<!-- 中间内容开始 -->
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+<h2 class="publicH2"><span>售后列表</span></h2>
+
+<div class="myOrder afterSale"><!--afterSale  start-->
+<form id="orders_form" method="post"
+	action='{:U("Ucenter/Aftersale/pageList")}'>
+<table class="tableTop">
+	<tr>
+		<td>订 单 号： <input type="text" id="oid" name="oid"
+			class="input01" value="{$o_id}"> 退款/退货单号： <input type="text"
+			id="or_return_sn" name="or_return_sn" class="input01" value="{$chose['or_return_sn']}">
+		&nbsp;售后状态： <select name="or_processing_status"  >
+			<option value="All" <if condition="$chose['or_processing_status'] eq 'All' "> selected="selected" </if> >全部</option>
+			<option value="0" <if condition="$chose['or_processing_status'] eq '0' "> selected="selected" </if>>退款中</option>
+			<option value="1" <if condition="$chose['or_processing_status'] eq '1' "> selected="selected" </if>>退款/货成功</option>
+			<option value="2" <if condition="$chose['or_processing_status'] eq '2' "> selected="selected" </if>>退款/货被作废</option>
+		</select>&nbsp;售后类型： <select name="or_refund_type" >
+			<option value="All">全部</option>
+			<option value="1" <if condition="$chose['or_refund_type'] eq 1 "> selected="selected" </if>>退款</option>
+			<option value="2" <if condition="$chose['or_refund_type'] eq 2 "> selected="selected" </if>>退货</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+        <td>
+            来源单号： <input type="text" id="our_source_sn" name="our_source_sn" class="input01" value="{$chose['our_source_sn']}">
+            物流单号： <input type="text" id="or_return_logic_sn" name="or_return_logic_sn" class="input01" value="{$chose['or_return_logic_sn']}">
+            申请时间从： <input type="text" name="from" id="from" class="input02 searchtime"
+		    value="{$chose['from_time']}"> 从 <input
+			type="text" name="end" id="end" class="input02 searchtime"
+			value="{$chose['end_time']}">
+		<button type="submit" class="blue">查 询</button>
+	</tr>
+</table>
+</form>
+<table class="tableCon">
+	<thead>
+		<tr>
+			<td>订单号</td>
+			<td>来源单号</td>
+			<td>退款/退货单号</td>
+			<td>申请时间</td>
+			<td>退款/退货数量</td>
+			<td>退款/退货金额</td>
+			<td>物流单号</td>
+			<td>处理状态</td>
+			<td style="width:100px;">备注</td>
+		</tr>
+	</thead>
+	<tbody>
+		<volist name="ary_afersale" id="afersale">
+		<tr>
+			<td><span class="wordBlue"><a
+				href='{:U("Ucenter/Orders/pageShow" ,"oid=$afersale[o_id]")}'>{$afersale.o_id}</a></span></td>
+			<td>
+			<notempty name="afersale.o_source_id">
+			{$afersale.o_source_id}
+			</notempty>
+			</td>
+			<td>{$afersale.or_return_sn}</td>
+			<td>{$afersale.or_create_time}</td>
+			<td>{$afersale.refund_unms}</td>
+			<td>{$afersale.or_money}</td>
+			<td>{$afersale.or_return_logic_sn}</td>
+			<td>{$afersale.refund_status} {$afersale.refund_goods_status}</td>
+			<td>{$afersale.or_refuse_reason}</td>
+		</tr>
+		</volist>
+	</tbody>
+</table>
+</div>
+<!--afterSale  end-->
+<div class="fenye afterSaleFen"><!--fenye  start--> {$page}</div>
+<!--fenye  end--></div>
+<!--contentRightBox  end-->
+<!-- 右侧主题内容结束 -->
+<script type="text/javascript">
+     $(document).ready(function() {
+    $(".searchtime").datepicker({
+        showButtonPanel: true,
+        changeMonth: true,
+        autoSize: true,
+        minDate: new Date(1940, 1 - 1, 1),
+        yearRange: '1940:+5',
+        changeYear: true
+    });
+});
+    $(function(){
+        $(".blue").hover(function(){
+            $(this).css({"color":"white","background-color":"#0F89C4","text-decoration":"none"})
+        },function(){
+            $(this).css({"color":"white","background-color":"#ff3e79","text-decoration":"none"})
+        })
+        $(".brown").hover(function(){
+            $(this).css({"color":"white","background-color":"#EF8D22","text-decoration":"none"})
+        },function(){
+            $(this).css({"color":"white","background-color":"#ff9b2e"})
+        })
+    })
+</script>

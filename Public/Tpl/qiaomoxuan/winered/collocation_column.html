@@ -1,0 +1,80 @@
+{__NOLAYOUT__}
+<div class="titD"><h2><span class="dps">搭配栏</span><a href="javascript:void(0);" onclick="hidenCollColumn();" class="cancel">隐藏</a></h2></div>
+<div class="dap"><!--dap  start-->
+    <div class="dapC"><!--dapC  start-->
+        <div class="dapContent"><!--dapContent  start-->
+            <table>
+                <tr>
+                    <volist name="data" id="list" key="k">
+                        <td class="collGoods">
+                            <if condition="$k eq '1'">
+                        <span>
+                            <a href="{:U('Home/Products/detail')}?gid={$list.fr_goods_id}" class="proP"><img src="{$list.fr_goods_picture}" width="118" height="118"></a>
+                            <a href="{:U('Home/Products/detail')}?gid={$list.fr_goods_id}" class="proN">{$list.fr_name}</a>
+                            <label>&yen;{$list.fr_price|sprintf='%.2f',###}</label>
+                            <p>{$list.spec_name}<a href="javascript:void(0);" onclick="removeColl('{$list.fr_id}')" class="delet">[删除]</a></p>
+                        </span>
+                                <else/>
+                                <td>
+                                    <div>
+                                        <i></i>
+                                <span>
+                                    <a href="{:U('Home/Products/detail')}?gid={$list.fr_goods_id}" class="proP"><img src="{$list.fr_goods_picture}" width="118" height="118"></a>
+                                    <a href="{:U('Home/Products/detail')}?gid={$list.fr_goods_id}" class="proN">{$list.fr_name}</a>
+                                    <label>&yen;{$list.fr_price|sprintf='%.2f',###}</label>
+                                    <p>{$list.spec_name}<a href="javascript:void(0);" onclick="removeColl('{$list.fr_id}')" class="delet">[删除]</a></p>
+                                </span>
+                                    </div>
+                                </td>
+                            </if>
+                        </td>
+                    </volist>
+
+                </tr>
+            </table>
+
+        </div><!--dapContent  end-->
+        <p class="dpP">
+            <span>搭 配 价：</span>
+            <strong>&yen;{$fr_all_price|sprintf='%.2f',###}</strong>
+            <span>获得优惠：</span>
+            <span class="ls">&yen;{$save_price|sprintf='%.2f',###}</span>
+            <a href="javascript:void(0);" onclick="addFreeCollCart();">加入购物车</a>
+        </p>
+    </div><!--dapC  end-->
+</div><!--dap  end-->
+<script>
+    function hidenCollColumn(){
+        $.post("{:U('/Products/hidenCollColumn/')}",{},function(dataMsg){
+            $("#collocationColumn").html('');
+        },'json');
+    }
+
+    function addFreeCollCart(){
+        if($('.collGoods').length  == '1'){
+            $.ThinkBox.error('搭配数量不得低于1件商品');return false;
+        }
+        $.ajax({
+            url:"{:U('/Products/addFreeCollCart/')}",
+            type:'POST',
+            typeData:'JSON',
+            data:{},
+            success:function(dataMsg){
+                if(dataMsg.status){
+                    $.ThinkBox.success(dataMsg.msg);
+                    $(".addDP02").each(function(){
+                        $(this).removeClass('addDP02').addClass('addDP');
+                    });
+                    $("#collocationColumn").html('');
+                    ajaxLoadShoppingCart(1);
+                }else{
+                    $.ThinkBox.error(dataMsg.msg);
+                }
+            },
+            error:function(){
+                $.ThinkBox.error('服务器中断');
+            }
+
+        });
+    }
+</script>

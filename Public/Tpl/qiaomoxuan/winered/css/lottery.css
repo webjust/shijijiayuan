@@ -1,0 +1,48 @@
+/*抽奖  开始*/
+.lotteryBt { padding:20px 0 20px}
+
+.lottery { height:636px; position:relative; height:636px; background:url(../images/lotteryBj.png) no-repeat center;}
+.ly-plate{
+	position:relative;
+	width:330px;
+	height:330px; top:135px; left:50%; margin-left:-412px;
+}
+.rotate-bg a{
+	width:154px;
+	height:138px;
+	background:url(../images/lotbtn.png) no-repeat;
+	position:absolute;
+	top:97px;
+	left:98px;
+	z-index:8;
+	cursor:pointer;
+}
+.rotate-bg a:hover{;}
+.ly-plate div.lottery-star{
+	width:330px;
+	height:330px;
+	position:absolute;
+	/*text-indent:-999em;
+	overflow:hidden;
+	background:url(rotate-static.png);
+	-webkit-transform:rotate(0deg);*/
+	outline:none
+	
+}
+.ly-plate div.lottery-star #lotteryBtn{
+	position: absolute;
+	top:0;
+	left:0;
+	*left:-107px
+}
+
+.activityTime { position:absolute; left:50%; top:0; margin:135px 0 0 102px; color:#d22b3f; font-size:14px;}
+.lotList { position:absolute; width:340px; left:50%; top:230px; margin-left:100px;}
+.lotList table { width:100%}
+.lotList table td { text-align:center; padding:5px 0; vertical-align:middle;}
+.lotList table td span,.lotList table td code { font-size:14px;}
+.lotList table thead td { color:#76090e;}
+.lotList table td span { color:#00fcff;}
+.lotList table td code { color:#fcf306}
+.lotList table td label { color:white;}
+/*抽奖  结束*/

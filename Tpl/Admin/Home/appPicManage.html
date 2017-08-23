@@ -1,0 +1,101 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="top_ad_set" name="top_ad_set" method="post" action="{:U('Admin/Home/doAppPic')}" >
+        <table class="tbForm" width="100%">
+            <thead>
+            <tr class="title">
+                <th colspan="99">App图片设置</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="first">App注册页面图片：</td>
+                <td>
+                    <a href="javascript:upImage(1);" class="btnG ico_upload">上传图片</a>
+                    <img src="{$APP_REGISTER_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_1" style="width:50px;height:50px;" />
+                    &nbsp;
+                    <input type="hidden" id="GY_SHOP_TOP_AD_1" name="GY_SHOP_TOP_AD_1" value="{$APP_REGISTER_PIC}"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">App登录页面图片：</td>
+                <td>
+                    <a href="javascript:upImage(2);" class="btnG ico_upload">上传图片</a>
+                    <img src="{$APP_LOGIN_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_2" style="width:50px;height:50px;" />
+                    &nbsp;
+                    <input type="hidden" id="GY_SHOP_TOP_AD_2" name="GY_SHOP_TOP_AD_2" value="{$APP_LOGIN_PIC}"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">App引导图片：</td>
+                <td>
+                    <a href="javascript:upImage(3);" class="btnG ico_upload">上传图片</a>
+                    <img src="{$APP_ICO_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_3" style="width:50px;height:50px;" />
+                    &nbsp;
+                    <input type="hidden" id="GY_SHOP_TOP_AD_3" name="GY_SHOP_TOP_AD_3" value="{$APP_ICO_PIC}"/>
+                </td>
+            </tr>
+            <!--<tr>-->
+                <!--<td class="first">App的LOGO：</td>-->
+                <!--<td>-->
+                    <!--<a href="javascript:upImage(4);" class="btnG ico_upload">上传图片</a>-->
+                    <!--<img src="{$APP_LOGO_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_4" style="width:50px;height:50px;" />-->
+                    <!--&nbsp;-->
+                    <!--<input type="hidden" id="GY_SHOP_TOP_AD_4" name="GY_SHOP_TOP_AD_4" value="{$APP_LOGO_PIC}"/>-->
+                <!--</td>-->
+            <!--</tr>-->
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="99">
+                    <input type="submit" value="保 存" class="btnA" >
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#top_ad_set").validate();
+    });
+    var dialog;
+    var image_input_id;
+    var image_input_id_s;
+    var editor = new UE.ui.Editor({
+        imageRealPath:"editor"
+    });
+    editor.render("myEditor");
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            image_input_id = image_input_id-1;
+            for(index in arg){
+                if(typeof arg[index]['src']=='undefined')  continue;
+                image_input_id = image_input_id + 1;
+                if($("#GY_SHOP_TOP_AD_" + image_input_id)){
+                    var image_path = arg[index]['src'];
+                    $("#GY_SHOP_TOP_AD_" + image_input_id).val(image_path);
+                    $("#SHOW_TOP_AD_" + image_input_id).attr({src:image_path});
+                }
+            }
+        });
+
+    });
+    /**
+     * 图片上传方法集成
+     */
+    function upImage(imageId) {
+        if(imageId && typeof(imageId) == 'number'){
+            image_input_id = imageId;
+            image_input_id_s = imageId;
+            dialog.open();
+        }
+    }
+</script>

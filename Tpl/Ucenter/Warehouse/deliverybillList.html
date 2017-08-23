@@ -1,0 +1,458 @@
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<style>
+    .receipt_box{width:1020px;overflow: hidden;padding:10px;background:#f2f2f2;}
+    .receipt_box form{padding: 0;margin:0;}
+
+    .receipt_content{width: 1020px;overflow: hidden;}
+    .receipt_content_left{width: 576px;float:left;margin-right: 80px;overflow: hidden;}
+    .receipt_content_bar{overflow: hidden;margin-bottom:5px;}
+    .receipt_content_bar>span{width: 65px;line-height: 30px;float: left;margin-right:10px; padding-left: 15px;}
+    .receipt_content_bar>input{width:473px;height:30px;line-height:30px;border:1px solid #464646;float:left;padding-left: 10px;}
+    .receipt_content_bar>div{width:485px;overflow: hidden;float:left;}
+    .receipt_content_bar>div>div{width:485px;height:30px;line-height:30px;overflow: hidden;margin-bottom: 5px;float: left;}
+    .receipt_content_bar>div>div>span{width: 65px;line-height: 30px;float: left;margin-right:10px; padding-left: 15px;}
+    .receipt_content_bar>div>div>div{width: 192px;line-height: 30px;float: left;margin-right:10px; }
+    .receipt_content_bar>div>div>div>span:first-child{width: 65px;line-height: 30px;float: left;margin-right:10px; padding-left: 15px;}
+    .receipt_content_bar>div>div>div>span:last-child{width: 102px;line-height: 30px;float: left;}
+    .receipt_content_bar>div>div>div>span:last-child input{width: 100px;line-height: 26px;border: 1px solid black;}
+    .receipt_content_bar>div>div>div:last-child{margin-right:0; }
+
+
+    .receipt_content_content{overflow: hidden;padding: 0;margin: 0;}
+    .receipt_content_content>ul{overflow: hidden;padding: 0;margin: 0;}
+    .receipt_content_content>ul>li{width: 185px;float:left;height:30px;line-height:30px;margin-right:10px;overflow: hidden;list-style: none;margin-bottom: 5px;}
+    .receipt_content_content>ul>li:nth-of-type(2n){margin-right:0px;}
+    .receipt_content_content>ul>li>span{width:65px;float:left;height:30px;line-height:30px;margin-right:10px;overflow: hidden;padding-left: 15px;}
+    .receipt_content_content>ul>li>span:last-child{width:101px;float:left;height:30px;line-height:30px;margin-right:10px;overflow: hidden;padding-left: 15px;}
+    .receipt_content_content>ul>li input{width: 57px;padding-left:5px;float:left;height:28px;line-height:28px;border:1px solid #464646;}
+    .receipt_content_content>ul>li a{float:left;width: 30px;height:28px;text-align: center;line-height: 28px;color: black;background:#efeded;border:1px solid black;text-decoration: none;border-left: none;}
+
+
+    .receipt_content_btn{width: 1020px;overflow: hidden;padding-top: 10px;}
+    .receipt_content_btn div{margin:0 auto;overflow: hidden;width: 180px;}
+    .receipt_content_btn div a{float: left;width: 82px;height:24px;line-height: 24px;list-style:none;overflow:hidden;text-align: center;text-decoration:none;color: black;background:white;border:1px solid #000000;margin-right: 10px;}
+    .receipt_content_btn div a:last-child{margin-right:0;}
+    .receipt_content_right{width: 360px;height:298px;border:1px solid #464646;float:left;overflow: hidden;}
+    .receipt_content_right img{display: block;margin: 0 auto;}
+    .a-upload {
+        padding: 4px 10px;
+        height: 20px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #888;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        text-decoration: none;;
+        *display: inline;
+        *zoom: 1
+    }
+
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+
+    .a-upload:hover {
+        color: #444;
+        background: #eee;
+        border-color: #ccc;
+        text-decoration: none
+    }
+</style>
+<div class="contentRightBox">
+    <div class="title" style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        送货单列表
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Warehouse/deliveryBillList")}' >
+        <div style="width:948px;padding-left:10px;height:65px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+                单号：<input type="text" id="sn" name="sn" style="border:1px solid #cccccc;" value="{$sn}">
+                供应商：<input type="text" id="supplier" name="supplier" style="border:1px solid #cccccc;" value="{$supplier}">
+                状态：<select name="o_status" id="removeGroupGoodsIn">
+                      <option value="0" selected="selected">请选择</option>
+                      <option value="2">待送货</option>
+                      <option value="4">待结算</option>
+                      <option value="6">已结算</option>
+                      </select>   <br>
+                下单时间从：<input type="text" name="o_create_time_1" class="large timer" value="2017-07-17 00:00:00" style="width: 100px;">
+                         到 <input type="text" name="o_create_time_2" class="large timer" value="" style="width: 100px;">
+                回复时间从：<input type="text" name="o_reply_time_1" class="large timer" value="2017-07-17 00:00:00" style="width: 100px;">
+                         到 <input type="text" name="o_reply_time_2" class="large timer" value="" style="width: 100px;">                 
+                <input type="button" id="searchOrderSubmit" value="查询" style="width: 65px;height:25px;background:#ff3366;color:white;margin-left:10px;margin-right: 5px;">
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 300px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+                <thead>
+                <tr>
+                <th>单号</th>
+                <th>时间</th>
+                <th>送货数量</th>
+                <th>金额</th>
+                <th>状态</th>
+                <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+            <volist name="List" id="item">
+            
+                <tr>
+                <th>{$item.d_sn}</th>
+                <th>{$item.o_reply_time}</th>
+                <th>{$item.supplySkuNums}</th>
+                <th>{$item.supplySkuMoney}</th>
+                <th><if condition="$item.o_status eq 0">待处理<elseif condition="$item.o_status eq 2"/>待送货<elseif condition="$item.o_status eq 4"/>待结算<elseif condition="$item.o_status eq 6"/>已结算</if></th>
+                <th><a onclick="javascript:loadCheck({$item.id});">去清点</a></th>            
+                </tr>
+            
+            </volist>
+                   <empty name="List">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> 
+                </tbody>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+    <div id="receiptList" style="display:none;">
+    <div style="overflow-x:auto;height: 300px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+                <thead>
+                <tr>
+                <th>商品名</th>
+                <th>条形码</th>
+                <th>送货数量</th>
+                <th>收货数量</th>
+                <th>周转箱</th>
+                </tr>
+                </thead>
+                <tbody id="scanList">
+                </tbody>
+        </table>
+    </div>
+    </div>
+    <div id="receiptScan" style="display:none;">
+        <div class="receipt_box">
+            <div class="receipt_content">
+                <div class="receipt_content_left">
+                    <div class="receipt_content_bar">
+                        <span>条形码</span>
+                        <input type="text" id="bar_code" name="bar_code"/>
+                    </div>
+                    <div class="receipt_content_bar">
+                        <span class="">生产批次</span>
+                        <div id="batchHtml">
+                        </div>
+                    </div>
+                    <div class="receipt_content_content">
+                        <ul>
+                            <li>
+                                <span>品名:</span>
+                                <span id='g_name'></span>
+                            </li>
+                            <li>
+                                <span>条形码</span>
+                                <span id='bar_code2'></span>
+                            </li>
+                            <li>
+                                <span>送货数量</span>
+                                <span id='supply_nums'></span>
+                            </li>
+                            <li id="receiptLi" style="display:none;">
+                                <span>收货数量</span>
+                                <input type="text" id="receipt_nums" name="receipt_nums"/>
+                            </li>
+                            <li>
+                                <span>周转箱号</span>
+                                <input type="text" id="Tbox_sn" name="Tbox_sn" disabled="true"/>
+                                <a id="addT">选择</a>
+                            </li>
+                            <input type="hidden" name="o_id" id="o_id">
+                            <input type="hidden" name="scanType" id="scanType">
+                        </ul>
+                    </div>
+                </div>
+                <div class="receipt_content_right">
+                <img src="/Public/Tpl/qiaomoxuan/lxkj0220/images/houtai_test_ico.jpg" id="goodPic" width="400" height="300">
+                </div>
+            </div>
+        <div class="receipt_content_btn">
+            <div>
+                <a href="">提交</a>
+                <a id="receiptInit">初始化</a>
+            </div>
+        </div>
+        <div id="addT_dialog" style="display:none;">
+            <span>周转箱号</span>
+            <input type="text" id="N_Tbox_sn" name="N_Tbox_sn"/>
+        </div>
+        <div id="3D_dialog" style="display:none;">
+            <span>长</span>
+            <input type="text" id="length" name="length"/><br>
+            <span>宽</span>
+            <input type="text" id="width" name="width"/><br>
+            <span>高</span>
+            <input type="text" id="height" name="height"/>
+        </div>
+</div>
+    </div>
+</div>
+<script src="/Public/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+<script src="/Public/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#bar_code').keypress(function(event){  
+        var keycode = (event.keyCode ? event.keyCode : event.which);  
+        if(keycode == '13'){  
+            var bar_code = $('#bar_code').val();
+            $('#bar_code').val('');
+            var url = '/Minapp/PdaApi/getReceiptSku';
+            var o_id = $('#o_id').val();
+            if(!o_id){
+                alert('没有选择送货单');
+                return;
+            }
+
+            var Tbox_sn = $('#Tbox_sn').val();
+            if(!Tbox_sn){
+                alert('没有选择周转箱');
+                return;
+            }
+
+            $.getJSON(url,{'o_id':o_id,'bar_code':bar_code},function(responseText) {
+                if(responseText.status=='10001'){
+                    alert('没有选择周转箱');
+                    return;
+                }
+                $('#goodPic').attr('src',responseText.rs.g_picture);
+                $('#g_name').html(responseText.rs.g_name);
+                $('#bar_code2').html(bar_code);
+                $('#supply_nums').html(responseText.rs.supply_nums);
+                $('#receipt_nums').val(responseText.rs.supply_nums);
+                var batchHtml = '';
+                for(i=0; i<responseText.rs.batchList.length;i++){
+                    batchHtml = batchHtml+'<div><span>'+responseText.rs.batchList[i]['batch']+'</span><div><span>送货数量</span><span>'+responseText.rs.batchList[i]['nums']+'</span></div><div><span>收货数量</span><span><input type="text" id="receipt_nums" name="receipt_nums"/></span></div></div>';
+                }
+                $('#batchHtml').html(batchHtml);
+
+                // if(responseText.rs.g_length=='0.0'||responseText.rs.g_width=='0.0'||responseText.rs.g_height=='0.0'){
+                //     alert('请填写长宽高');
+                //     $("#3D_dialog").dialog({
+                //         width:330,
+                //         height:170,
+                //         modal:true,
+                //         title:'提示信息',
+                //         buttons:{
+                //             '确定':function(){
+                //                 var length = $('#length').val();
+                //                 var width = $('#width').val();
+                //                 var height = $('#height').val();
+                //                 if(!length||!width||!height){
+                //                     alert('请输入有效的长宽高');
+                //                     return;
+                //                 }
+                //                 var url = '/Minapp/PdaApi/UpdateGoodsLWH';
+                //                 $.getJSON(url,{'bar_code':bar_code,'g_length':length,'g_width':width,'g_height':height},function(responseText) {
+                //                     if(responseText.status=='10000'){
+                //                         alert(responseText.info);
+                //                         $('#3D_dialog').dialog('destroy');
+                //                     }
+                //                     else{
+                //                         alert(responseText.info);
+                //                     }
+                //                 }); 
+                //             },
+                //             "取消": function() {
+                //                 $("#3D_dialog").dialog('destroy');
+                //             }
+                //         }
+                //     });
+                // }
+
+                var url = '/Minapp/PdaApi/ConfirmSupplyOrderItem';
+                var scanType = $('#scanType').val();
+
+                if(scanType=='huo'){
+                    var nums = 1;
+                }
+                else if(scanType=='sku'){
+                    var nums = responseText.rs.supply_nums;
+                }
+                $.getJSON(url,{'o_id':o_id,'bar_code':bar_code,'Tbox_sn':Tbox_sn,'nums':nums},function(responseText) { 
+                    if(responseText.status=='10001'){
+                        alert('参数错误');
+                        return;
+                    }
+                    if(responseText.status=='10004'){
+                        alert('无此周转箱');
+                        return;
+                    }
+                    if(responseText.status=='10002'){
+                        alert('清点数量不对');
+                        return;
+                    }
+                    if(responseText.status=='10003'){
+                        alert('清点失败');
+                        return;
+                    }
+                    var url = '/Minapp/PdaApi/GetReceiptItem';
+                    $.getJSON(url,{'o_id':o_id},function(responseText) {
+                        var scanList = '';
+                        for(i=0; i<responseText.items.length;i++){
+                            scanList = scanList+'<tr><th>'+responseText.items[i]['g_name']+'</th><th>'+responseText.items[i]['bar_code']+'</th><th>'+responseText.items[i]['supply_nums']+'</th><th>'+responseText.items[i]['nums']+'</th><th>'+responseText.items[i]['Tbox_sn']+'</th></tr>';
+                        }
+                        $('#scanList').html(scanList);
+                    });    
+                }); 
+            });
+        }  
+    });
+    $('#addT').click(function(){
+        $('#addT_dialog').dialog({
+            height : '100',
+            width  : '250',
+            resizable:false,
+            title:'选择周转箱',
+            close:function(){
+                $('#addT_dialog').dialog('destroy');
+            }
+        }); 
+    });
+    $('#N_Tbox_sn').keypress(function(event){  
+        var keycode = (event.keyCode ? event.keyCode : event.which);  
+        if(keycode == '13'){  
+            var N_Tbox_sn = $('#N_Tbox_sn').val();
+            var url = '/Minapp/PdaApi/ValidTboxIsEnabled';
+            var o_id = $('#o_id').val();
+            $.getJSON(url,{'Tbox_sn':N_Tbox_sn,'o_id':o_id},function(responseText) {
+                if(responseText.status=='10000'){
+                    $('#Tbox_sn').val(N_Tbox_sn);
+                    $('#N_Tbox_sn').val('');
+                    $('#bar_code').focus();
+                    $('#addT_dialog').dialog('destroy');
+                }
+                else{
+                    $('#N_Tbox_sn').val('');
+                    alert('不可用');
+                }
+            });    
+        }  
+    });
+
+    $('#receipt_nums').keypress(function(event){  
+        var keycode = (event.keyCode ? event.keyCode : event.which);  
+        if(keycode == '13'){  
+            var bar_code = $('#bar_code2').html();
+            var o_id = $('#o_id').val();
+            if(!o_id){
+                alert('没有选择送货单');
+                return;
+            }
+
+            var Tbox_sn = $('#Tbox_sn').val();
+            if(!Tbox_sn){
+                alert('没有选择周转箱');
+                return;
+            } 
+
+            var url = '/Minapp/PdaApi/ConfirmSupplyOrderItem';
+
+            var nums = $('#receipt_nums').val()-$('#supply_nums').html();
+
+            $.getJSON(url,{'o_id':o_id,'bar_code':bar_code,'Tbox_sn':Tbox_sn,'nums':nums},function(responseText) { 
+                if(responseText.status=='10001'){
+                    alert('参数错误');
+                    return;
+                }
+                if(responseText.status=='10004'){
+                    alert('无此周转箱');
+                    return;
+                }
+                if(responseText.status=='10002'){
+                    alert('清点数量不对');
+                    return;
+                }
+                if(responseText.status=='10003'){
+                    alert('清点失败');
+                    return;
+                }
+                var url = '/Minapp/PdaApi/GetReceiptItem';
+                $.getJSON(url,{'o_id':o_id},function(responseText) {
+                    var scanList = '';
+                    for(i=0; i<responseText.items.length;i++){
+                        scanList = scanList+'<tr><th>'+responseText.items[i]['g_name']+'</th><th>'+responseText.items[i]['bar_code']+'</th><th>'+responseText.items[i]['supply_nums']+'</th><th>'+responseText.items[i]['nums']+'</th><th>'+responseText.items[i]['Tbox_sn']+'</th></tr>';
+                    }
+                    $('#scanList').html(scanList);
+                });    
+            });  
+        }  
+    });
+    $('#receiptInit').click(function(){
+        var r=confirm("初始化操作，将把这送货单的清单数据清空，是否确定？"); 
+        if(r==true){
+            var o_id = $('#o_id').val();
+            if(!o_id){
+                alert('没有选择送货单');
+                return;
+            }
+            var url = '/Minapp/PdaApi/receiptInit';
+            $.getJSON(url,{'o_id':o_id},function(responseText) {
+                if(responseText.status!='10000'){
+                    alert(responseText.info);
+                    return;
+                }
+                alert(responseText.info);
+                window.location.reload();
+            });
+        }
+    });
+});
+function loadCheck(id){
+    //var r=confirm("按货清点(确定)；按sku清点(取消)");
+    var type;
+    //if (r==true){
+    //    type = 'huo';
+    //    $('#receiptLi').hide();
+    //}
+    //else{
+    //    type = 'sku';
+        $('#receiptLi').show();
+    //}
+    $('#scanType').val(type);
+    $('#o_id').val(id);
+    $('#receiptList').show();
+    $('#receiptScan').show();
+    $('#bar_code').focus();
+    $('#Tbox_sn').val('');
+    $('#receipt_nums').val('');
+    var url = '/Minapp/PdaApi/GetReceiptItem';
+    $.getJSON(url,{'o_id':id},function(responseText) {
+        var scanList = '';
+        for(i=0; i<responseText.items.length;i++){
+            scanList = scanList+'<tr><th>'+responseText.items[i]['g_name']+'</th><th>'+responseText.items[i]['bar_code']+'</th><th>'+responseText.items[i]['supply_nums']+'</th><th>'+responseText.items[i]['nums']+'</th><th>'+responseText.items[i]['Tbox_sn']+'</th></tr>';
+        }
+        $('#scanList').html(scanList);
+        $('#Tbox_sn').val(responseText.defaultBox);
+    });
+}
+</script>

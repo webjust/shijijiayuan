@@ -1,0 +1,42 @@
+{__NOLAYOUT__}
+<div class="rightInner">
+        <table width="100%" class="tbList">
+            <thead>
+                
+                <tr>
+                    <th>是否同步</th>
+                    <th>分类名称</th>
+                    <th>产看商品</th>
+                    <th>是否显示</th>
+                </tr>
+            </thead>
+           
+            
+            <tbody>
+            <volist name="childern_list" id="category">
+                <tr>
+                    
+                    <td>
+                        <if condition="$category[erp_code] eq ''" >
+                            <span style="color:red">未同步</span>
+                            <else/><span>同步</span>
+                        </if>
+                    </td>
+                    <td >{$category.gc_name}</td>
+                    <td ><a href="javascript:void(0);" >查看商品</a></td>
+                    <td ></td>   
+                </tr>    
+            </volist>
+            <empty name="childern_list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            
+            <tfoot>
+                <tr>
+                    <span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,155 @@
+<div id="tip_dialog">
+    <div id="member_dialog" style="display:none">
+        <table style="margin-bottom: 10px;">
+            <tr>
+                <td>
+                    会员名称：<input type="text" id="m_name" class="large" value="{$filter.val}" style="width: 244px;">
+                    <input type="button" name="search" value="搜索" id="searchMember" style="border: 1px solid #cecece;padding: 3px 10px;cursor: pointer;"/>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" class="tbList">
+            <thead>
+            <tr>
+                <th width="80px">选择</th>
+                <th style="text-align: left;">会员名称</th>
+            </tr>
+            </thead>
+            <tbody id="memberList">
+
+            </tbody>
+    </table>
+    
+        
+    </div>
+</div>
+<div id="content">
+    <div class="rightInner">
+        <form id="cards_add" name="cards_add" method="post" action="{:U('Admin/CardsInfo/doAddCardsInfo')}">
+            <table class="tbForm" width="100%">
+                <thead>
+                    <tr class="title">
+                        <th colspan="99">新增储值卡调整单 </th>
+                    </tr>
+                </thead>
+
+                <tbody class="tab">
+                    <tr>
+                        <td class="first"><font color="red">*</font> 调整类型</td>
+                        <td>
+                            <select name="ct_id" class="small" id="cardstype" style="width: auto" onchange="cardsType(this.value);" validate="{ selected:true}">
+                                <option value="0">选择调整单类型</option>
+                                <volist name="type" id="ty">
+                                    <if condition="$ty['ct_id'] eq 1">
+										<option value="{$ty.ct_id}" id="{$ty.ct_id}" <if condition="$ty['ct_id'] eq $filter['ct_id']">selected="selected"</if>>{$ty.ct_name}</option>
+                                    </if>
+                                </volist>
+                            </select>
+                        </td>
+                        <td class="last">请先选择调整类型,然后选择对应的客户</td>
+                    </tr>
+                    <tr>
+                        <td colspan="99" id="addHtml"></td>
+                    </tr>
+                    
+                    <tr class="last">
+                        <td colspan="99">
+                            <input type="submit" value="确 定" class="btnA" />&nbsp;
+                            <input type="button" value="取 消" class="btnA back" />
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            
+        </form>
+        <div class="clear"></div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    $("#cards_add").validate();   
+    $(".showSelectedMember").live("click",function(){
+        $("#member_dialog").dialog({
+                    height:'400',
+                    width:'auto',
+                    resizable:false,
+                    modal:true,
+                    title:'选择会员添加',
+                    buttons: {
+                        '确认': function() {
+                            selectMembers();
+                            //$(this).dialog( "close" );
+                        },
+                        '关闭': function() {
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                    close:function(){
+                        $("#member_dialog").dialog('destroy');
+                        $('#tip_dialog').append($('#member_dialog'));
+                    },
+                    open:function(){
+                        $(this).find('.ui-dialog-content').css("max-height","300px");
+                        $(this).find('.ui-dialog-content').css("overflow-y","auto");
+                        $(this).find('.ui-dialog-content').css("overflow-x","hidden");
+                    }
+                });
+    });
+    
+    function selectMembers(){
+            var m_id = $("#memberList input:radio[name='mid']:checked").val();
+            if(m_id == null ){
+                alert("请选中一个");
+            }else{
+                var m_name = $("#memberList input:radio[name='mid']:checked").attr("m_name");
+                var m_bce = $("#memberList input:radio[name='mid']:checked").attr("m_bce");
+                $("#members").html("[ "+m_name+" ]");
+                $("#m_id").val(m_id);
+                $("#bi_balance_money").attr("validate",'{ required:true,min:0,remote:"/Admin/CardsInfo/checkCardsMoney?id='+m_id+'",messages:{min:"金额不能为负数"}}');
+                $(".bi_moneys").attr("validate",'{ required:true,min:0,messages:{min:"金额不能为负数"}}');
+                $("#balance").html(m_bce);
+                $("#memberBalan").show();
+                $("#member_dialog").dialog('destroy');
+                $('#tip_dialog').append($('#member_dialog'));
+            }
+            
+    
+    }
+    
+    $("#searchMember").click(function(){
+           var m_name = $("#m_name").val();
+           if(m_name == ''){
+               alert("请输入会员名称");return false;
+           }
+           $.ajax({
+               url:'{:U("Admin/CardsInfo/selectMembers")}',
+               cache:false,
+               dataType:'TEXT',
+               type:'POST',
+               data:{m_name:m_name},
+               success:function(msgObj){
+                   $("#memberList").html(msgObj);
+               }
+           });
+       });
+});    
+function cardsType(val){
+    if(val == '0'){
+        $("#addHtml").html('');
+        return false;
+    }else{
+        $.ajax({
+            url:'{:U("Admin/CardsInfo/addHtml")}',
+            cache:false,
+            dataType:'HTML',
+            data:{val:val},
+            type:'POST',
+            success:function(msgObj){
+                $("#addHtml").html(msgObj);
+            }
+        });
+    }
+    
+}
+</script>

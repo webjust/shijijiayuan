@@ -1,0 +1,122 @@
+<div class="rightInner">
+    <form id="member_form" name="member_form" method="post" action="{:U('Admin/Members/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">会员设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">是否自动审核：</td>
+                    <td>
+                        <input type="radio" value="1" name="MEMBER" <if condition="$MEMBER_STATUS.sc_value eq 1">checked="checked"</if>> 是
+                        <input type="radio" value="0" name="MEMBER" <if condition="$MEMBER_STATUS.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>             
+            </tbody>
+            <tbody>
+                <tr>
+                    <td class="first">登录是否验证验证码：</td>
+                    <td>
+                        <input  type="radio" value="1" name="VERIFICATION" <if condition="$VERIFICATION_STATUS.sc_value eq 1">checked="checked"</if>> 是
+                        <input  type="radio" value="0" name="VERIFICATION" <if condition="$VERIFICATION_STATUS.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>             
+            </tbody>
+            <tbody>
+                <tr>
+                    <td class="first">是否开启手机验证：</td>
+                    <td>
+                        <input  type="radio" value="1" name="VERIFIPHONE" <if condition="$VERIFIPHONE_STATUS.sc_value eq 1">checked="checked"</if>> 是
+                        <input  type="radio" value="0" name="VERIFIPHONE" <if condition="$VERIFIPHONE_STATUS.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>             
+            </tbody>
+			<tbody>
+                <tr>
+                    <td class="first">是否开启邮箱验证：</td>
+                    <td>
+                        <input  type="radio" value="1" name="VERIFYEMAIL" <if condition="$VERIFYEMAIL_STATUS.sc_value eq 1">checked="checked"</if>> 是
+                        <input  type="radio" value="0" name="VERIFYEMAIL" <if condition="$VERIFYEMAIL_STATUS.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>             
+            </tbody>
+            <tbody>
+                <tr>
+                    <td class="first">是否开启会员编辑功能：</td>
+                    <td>
+                        <input  type="radio" value="1" name="MEMBER_EDIT_STATUS" <if condition="$MEMBER_EDIT_STATUS.sc_value eq 1">checked="checked"</if>> 是
+                        <input  type="radio" value="0" name="MEMBER_EDIT_STATUS" <if condition="$MEMBER_EDIT_STATUS.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>             
+            </tbody>
+            <tbody>
+                <tr>
+                    <td class="first">是否自动晋升会员等级：</td>
+                    <td>
+                        <input  type="radio" value="1" name="MEMBERSUPGRADE" <if condition="$upgrade.MEMBERSUPGRADE_STATUS eq 1">checked="checked"</if>> 是
+                        <input  type="radio" value="0" name="MEMBERSUPGRADE" <if condition="$upgrade.MEMBERSUPGRADE_STATUS eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass"></label></td>
+                </tr>             
+            </tbody>
+            <tbody>
+                <tr>
+                    <td class="first">是否默认为普通B2C会员：</td>
+                    <td>
+                        <input  type="radio" value="1" name="MEMBER_TYPE" <if condition="$MEMBER_TYPE.sc_value eq 1">checked="checked"</if>> 是
+                        <input  type="radio" value="0" name="MEMBER_TYPE" <if condition="$MEMBER_TYPE.sc_value eq 0">checked="checked"</if>> 否
+                    </td>                    
+                    <td><label class="msgClass">会员设置分为普通B2C会员和分销商会员。默认为分销商会员，选择了是的话则全站系统默认生成的会员为普通B2C会员</label></td>
+                </tr>             
+            </tbody>
+            <tbody>
+                <tr>
+                    <td class="first">会员登陆失效时间设置：</td>
+                    <td>
+                        <input  type="text" class="input40" value="{$EXPIRED_TIME.sc_value}" name="EXPIRED_TIME" > 
+                    </td>                    
+                    <td><label class="msgClass">网站SESSION控制会员登陆状态的时间。(单位:分钟)</label></td>
+                </tr>             
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){   
+        $("#member_form").validate({
+                errorPlacement: function(error, element) {
+                    var error_td = element.parent('td').next();
+                    error_td.find('label').hide();
+                    error_td.append(error);
+                },
+                submitHandler:function(form){
+                    ajaxpost('member_form', '', '', 'onerror') 
+                },
+                rules : {
+                    STATUS : {
+                        required:true
+                    }
+                },
+                messages : {
+                    STATUS : {
+                        required : '请选择'
+                    }
+                }
+            });
+    });
+</script>

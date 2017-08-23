@@ -1,0 +1,38 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, minimum-scale=1,initial-scale=1, maximum-scale=1, user-scalable=1;" id="viewport" name="viewport" />
+<title>首页</title>
+<link href="__CSS__global.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="__CSS__swiper.min.css">
+<script type="text/javascript" src="__JS__jquery.touchslider.min.js"></script>
+<script src="__JS__swiper.min.js"></script>
+<script src="__JS__lm.js"></script>
+<script src="__JS__zepto.js"></script>
+<script  src="__JS__base.js"></script>
+<script  src="__JS__base1.js"></script>
+<script src="__JS__tag.js"></script>
+<div class="header" id="header">
+    <div class="navBar">
+        <div class="hbtn">
+            <div class="logo">
+                <a href="">
+                    <img src="__IMAGES__yqmx.png">
+                </a>
+            </div>
+            <div class="search">
+                <form method="get" action="{:U('Wap/Products/index')}" >
+                    <input placeholder="搜索商品/店铺" name="keyword" value="" class="search-input" type="text">
+                    <button type="submit" class="custom-search-button">搜索</button>
+                </form>
+            </div>
+            <div class="info">
+                <notempty name="Think.session.Members.m_name">
+                    <a href="{:U('Wap/User/doLogout')}">[退出]</a>
+                    <else/>
+                    <a href="{:U('Wap/User/login')}">登录</a>
+                </notempty>
+            </div>
+        </div>
+    </div>
+</div>
+

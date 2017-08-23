@@ -1,0 +1,228 @@
+
+<div class="header" id="header">
+    <div class="navBar">
+        <div class="hbtn">
+            <div class="logo">
+                <a href="">
+                    <img src="__IMAGES__logo.png">
+                </a>
+            </div>
+            <div class="search">
+                <form method="get" action="{:U('Wap/Products/index')}" >
+                    <input  style="padding: 0px" placeholder="搜索商品/店铺" name="keyword" value="" class="search-input" type="text">
+                    <button type="submit" class="custom-search-button">搜索</button>
+                </form>
+            </div>
+            <div class="info">
+                <notempty name="Think.session.Members.m_name">
+                    <a href="{:U('Wap/User/doLogout')}">[退出]</a>
+                    <else/>
+                    <a href="{:U('Wap/User/login')}">登录</a>
+                </notempty>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container"><!--container-->
+    <div class="filterbar-container">
+        <div class="filter-bar">
+            <a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order={$ary_request._order.hot}" <if condition="($ary_request.order eq '_hot') OR ($ary_request.order eq 'hot')"> class="droplist-trigger selected" </if>>销量<span class="bar"></span></a>
+            <a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order={$ary_request._order.price}" <if condition="($ary_request.order eq '_price') OR ($ary_request.order eq 'price')">class="droplist-trigger selected"</if>>价格<span class="bar"></span></a>
+            <a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order={$ary_request._order.new}" <if condition="($ary_request.order eq '_new') OR ($ary_request.order eq 'new')">class="droplist-trigger selected"</if>>新品<span class="bar"></span></a>
+            <a><span id="shaixuan" class="shaixuan">筛选</span></a>
+        </div>
+    </div>
+
+    <div class="listAll">
+        <ul>
+            <Gyfx:goodslist wap="1" name='showlist' bid="$ary_request['bid']" cid="$ary_request['cid']" pagesize="6" start="$ary_request[start]" gname="$ary_request[keyword]" order="$ary_request[order]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" >
+            <li>
+                <a href="{$showlist.gurl}">
+                    <img src="{$Think.config.DOMAIN_HOST}{$showlist.g_picture|showImage=###,280,280}">
+                    <p>{$showlist.gname|mb_substr=###,0,20,'utf-8'}</p>
+                    <p class="price"><i>{$showlist.gprice|sprintf='%.2f',###}元</i>({$showlist.comment_nums}条评论)</p>
+                </a>
+            </li>
+            </Gyfx:goodslist>
+            <!--<li>-->
+                <!--<a href=""><img src="__IMAGES__pro1.jpg">-->
+                    <!--<p>Mil4001蓝色跑鞋</p>-->
+                    <!--<p class="price"><i>239元</i>(122人付款)</p>-->
+                <!--</a>-->
+            <!--</li>-->
+        </ul>
+    </div>
+</div>
+<div class="fenye">
+    <php>if($pagearr['showlist']['nowPage'] == 1){</php>
+    <a class="prev prev-disable" href="javascript:void(0)">上一页</a>
+    <php>}else{</php>
+    <a href="<php>echo rtrim(substr($pagearr['showlist']['upUrl'],0,-8),'/').'/';</php>" class="change">首页</a>
+    <a href="{$pagearr.showlist.upUrl}" class="prev01">上一页</a>
+    <php>}</php>
+
+    <php>
+        $int_i = 1;
+        $totalPage = 0;
+        if($pagearr['showlist']['nowPage']<4 && $pagearr['showlist']['totalPage']>4){
+        $totalPage = 4;
+        }else if($pagearr['showlist']['nowPage']<4 && $pagearr['showlist']['totalPage']<=4){
+        $totalPage = $pagearr['showlist']['totalPage'];
+        }
+        if($pagearr['showlist']['nowPage'] >=2){
+        $minPage = $pagearr['showlist']['totalPage'] - $pagearr['showlist']['nowPage'];
+
+        if($minPage <3){
+        $totalPage = $pagearr['showlist']['totalPage'];
+        $int_i = $pagearr['showlist']['totalPage']-3;
+        }else{
+        $totalPage = $pagearr['showlist']['nowPage']+1;
+        $int_i = $pagearr['showlist']['nowPage']-1;
+        }
+        if($int_i <= 0){
+        $int_i = 1;
+        }
+        }
+        for($i=$int_i;$i<=$totalPage;$i++){
+        if($i>0){
+        if($i == $pagearr['showlist']['nowPage']){
+        echo "<a class='cur'>".$i."</a>";
+        }else{
+        if($i > $pagearr['showlist']['nowPage']){
+        $url = rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/'.'start/'.$i;
+        echo "<a href=".$url.">".$i."</a>";
+        }else{
+        $url = rtrim(substr($pagearr['showlist']['upUrl'],0,-8),'/').'/'.'start/'.$i;
+        echo "<a href=".$url.">".$i."</a>";
+        }
+        }
+        }
+        }
+    </php>
+    <php>if($pagearr['showlist']['nowPage'] == $pagearr['showlist']['totalPage']){</php>
+    <a class="next next-disable" href="javascript:void(0)">下一页<i class="icon"></i></a>
+    <php>}</php>
+    <php>if($pagearr['showlist']['nowPage'] < $pagearr['showlist']['totalPage']){</php>
+    <a href="{$pagearr.showlist.downUrl}" class="next">下一页</a>
+    <a href="<php>echo rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['showlist']['totalPage']}" class="change">尾页</a>
+    <php>}</php>
+</div>
+
+<div class="hide2" id="filter_items" style="display:none;z-index: 10;">
+    <form method="get" action="{:U('Wap/Products/index')}" id="proFilter">
+        <input type="hidden" name="bid" value="{$ary_request.bid}">
+        <input type="hidden" name="cid" value="{$ary_request.cid}">
+        <input type="hidden" name="startPrice" value="{$ary_request.startPrice}">
+        <input type="hidden" name="endPrice" value="{$ary_request.endPrice}">
+        <div class="shaixuan">
+            <p>筛选
+                <a href="javascript:void(0);" class="fleft quxiao">取消</a>
+                <a href="javascript:void(0);" onclick="$('#proFilter').submit();" class="fright queding">确定</a>
+            </p>
+            <div class="sxCon">
+                <h2>分类</h2>
+                <ul>
+                    <li class="clearfix">
+                        <a href='#' cid="" item="goodscate" <if condition="$ary_request.cid eq ''">class="on" </if>>全部</a>
+                        <Gyfx:goodscate name="cate" mod="3">
+                            <a href="#" cid="{$cate.cid}" item="goodscate" <if condition="$cate[cid] eq $ary_request[cid]">class="on"</if> >{$cate.cname}</a>
+                            <php>
+                                if($cate['cid'] == $ary_tmp_cate[0]){
+                                $cname = $cate['cname'];
+                                $cid = $cate['cid'];
+                                $ary_cate = $cate['sub'];
+                                }
+                            </php>
+                            <eq name="mod" value="1"></li><li class="clearfix"></eq>
+                    </Gyfx:goodscate>
+                </li>
+                </ul>
+            </div>
+            <div class="sxCon">
+                <h2>品牌</h2>
+                <ul>
+                    <li class="clearfix">
+                        <a href='#' item="goodsbrand" bid="" <if condition="$ary_request.bid eq ''"> class="on" </if>>全部</a>
+                        <Gyfx:goodsbrand name="brand" cid="$ary_request.cid" mod='3'>
+                            <a href="#" item="goodsbrand"  bid="{$brand.bid}" <if condition="$brand[bid] eq $ary_request[bid]"> class="on"</if> >{$brand.bname}</a>
+                            <eq name="mod" value="1"></li><li class="clearfix"></eq>
+                    </Gyfx:goodsbrand>
+
+                </li>
+
+                </ul>
+            </div>
+            <div class="sxCon">
+                <h2>价格区间</h2>
+                <ul class="clearfix">
+                    <li class="clearfix">
+                        <a href="#" item='goodspRank' startPrice="" endPrice="" <if condition="($ary_request.startPrice eq '') and  ($ary_request.endPrice eq '')"> class="on" </if>>不限</a>
+                        <a href="#" item='goodspRank' startPrice="0" endPrice="50" <if condition="$ary_request.endPrice eq 50" >class="on"</if> >50以下</a>
+                        <a href="#" item='goodspRank' startPrice="50" endPrice="100" <if condition="$ary_request.endPrice eq 100" >class="on"</if> >50-100元</a>
+                    </li>
+                    <li class="clearfix">
+                        <a href="#" item='goodspRank' startPrice="100" endPrice="200" <if condition="$ary_request.endPrice eq 200" >class="on"</if> >100-200元</a>
+                        <a href="#" item='goodspRank' startPrice="200" endPrice="300" <if condition="$ary_request.endPrice eq 300" >class="on"</if> >200-300元</a>
+                        <a href="#" item='goodspRank' startPrice="300" endPrice="500" <if condition="$ary_request.endPrice eq 500" >class="on"</if> >300-500元</a>
+                    </li>
+                    <li class="clearfix">
+                        <a href="#" item='goodspRank' startPrice="500" endPrice="" <if condition="$ary_request.startPrice eq 500" >class="on"</if> >500元以上</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+
+ <script>
+     $(function(){
+         console.log('11111111111');
+         //点击填出筛选项
+         $("span.shaixuan").click(function(){
+             console.log($("#filter_items"));
+             $("#filter_items").css('display','block');
+         });
+         //取消筛选
+         $(".quxiao").click(function(){
+             $("#filter_items").hide();
+         });
+         //产品分类筛选
+         $('[item="goodscate"]').click(function(){
+             if($(this).hasClass('on')){
+                 $(this).removeClass('on');
+                 $(':hidden[name="cid"]').val('');
+             }else{
+                 $('[item="goodscate"]').removeClass('on');
+                 $(this).addClass('on');
+                 $(':hidden[name="cid"]').val($(this).attr('cid'));
+             }
+             return false;
+         });
+         //产品品牌筛选
+         $('[item="goodsbrand"]').click(function(){
+             if($(this).hasClass('on')){
+                 $(this).removeClass('on');
+                 $(':hidden[name="bid"]').val('');
+             }else{
+                 $('[item="goodsbrand"]').removeClass('on');
+                 $(this).addClass('on');
+                 $(':hidden[name="bid"]').val($(this).attr('bid'));
+             }
+             return false;
+         });
+         //价格区间筛选
+         $("[item='goodspRank']").click(function(){
+             if($(this).hasClass('on')){
+                 $(this).removeClass('on');
+                 $(':hidden[name="startPrice"]').val('');
+                 $(':hidden[name="endPrice"]').val('');
+             }else{
+                 $("[item='goodspRank']").removeClass('on');
+                 $(this).addClass('on');
+                 $(':hidden[name="startPrice"]').val($(this).attr('startPrice'));
+                 $(':hidden[name="endPrice"]').val($(this).attr('endPrice'));
+             }
+             return false;
+         });
+     });
+ </script>

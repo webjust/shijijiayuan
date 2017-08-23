@@ -1,0 +1,35 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99"></th>
+            </tr>
+            <tr>
+				<th width="120">操作</th>
+				<th>客服名称</th>
+				<th width="120">客服类型</th>
+				<th width="120">客服分类</th>
+				<th width="120">是否启用</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="onlineservice">
+              <tr>
+                  <td width="120">
+                   <a href='{:U("Admin/Online/pageEdit","oid=$onlineservice[o_id]")}'>编辑</a>|
+				<a href='{:U("Admin/Online/doDel","oid=$onlineservice[o_id]")}'>删除</a>
+				</td>
+				<td>{$onlineservice.o_name}</td>
+				<td width="120">{$onlineservice[o_type]==1?'QQ客服':'旺旺客服'}</td>
+				<td width="120">{$onlineservice.oc_name}</td>
+				<td width="120">{$onlineservice['o_status']?'已启用':'未启用'}</td>
+              </tr>
+              </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

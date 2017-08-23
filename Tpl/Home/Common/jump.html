@@ -1,0 +1,37 @@
+<!--中间内容 开始-->
+<div class="HXwarp" id="main">
+	<div class="area">
+    	<div class="content960"><!--content960 col  start-->
+            <present name="error">
+        	<div class="wright"><!--wright  start-->
+            	<!--<strong>用户名或密码错误！</strong>
+                <p>页面自动 跳转 等待时间： <span>1</span> 秒</p>-->
+                
+                <strong><?php echo($error); ?><br>页面自动 <a id="href" href="<?php echo($jumpUrl); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></strong>
+            </div><!--wright  end-->
+            <else/>
+            <div class="wright ri"><!--wright  start-->
+            	<!--<strong>用户名或密码错误！</strong>
+                <p>页面自动 跳转 等待时间： <span>1</span> 秒</p>-->
+                
+                <strong><?php echo($message); ?><br>页面自动 <a id="href" href="<?php echo($jumpUrl); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></strong>
+            </div><!--wright  end-->
+            </present>
+        </div><!--content960 col  start-->
+    </div>
+</div>
+<!--中间内容 结束-->
+<script type="text/javascript">
+(function(){
+var wait = $('#wait'),href = $('#href').attr('href');
+var interval = setInterval(function(){
+	var time = wait.html();
+	time = parseInt(time) - 1;
+	wait.html(time);
+	if(time == 0 || isNaN(time)) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 1000);
+})();
+</script>

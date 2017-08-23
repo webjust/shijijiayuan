@@ -1,0 +1,32 @@
+<div class="titD"><h2><span>对比</span><a href="javascript:void(0);" class="cancel" exp="Expand"  id="clearToCompare">隐藏</a></h2></div>
+<div class="contC"><!--contC  start-->
+    <div>
+        <ul>
+            <volist name="data" id="vo">
+            <li id="compare_li_{$vo[g_id]}" class="compare_li">
+                <dl>
+                    <dt><a href="{:U('Home/Products/detail')}?gid={$vo.g_id}"><img src="<php>$vo['g_picture'] = '/'.ltrim($vo['g_picture'],'/');</php>{$vo.g_picture|showImage=###,50,50}" width="50" height="50"></a></dt>
+                    <dd>
+                        <a href="{:U('Home/Products/detail')}?gid={$vo.g_id}" class="proN">{$vo.g_name}</a>
+                        <p><strong>&yen;{$vo.g_price}</strong><a href="javascript:void(0);" class='delTo' val='single' gid='{$vo[g_id]}' onclick="javascript:delCompare({$vo[g_id]});">删除</a></p>
+                    </dd>
+                </dl>
+            </li>
+            </volist>
+            <li>
+
+            </li>
+        </ul>
+        <p class="gray"><a <php>if(count($_SESSION['Compare'])>0){</php>href="javascript:void(0);" onclick="javascript:openUrl();"<php>}else{</php>href="javascript:void(0);" style="background:#c7c7c7;"<php>}</php> class="contrA brown">对比</a><a href="javascript:void(0);" class="delTo" val="all" gid="0" onclick="javascript:delCompare(0);">清空对比栏</a></p>
+    </div>
+</div><!--contC  end-->
+<script type="text/javascript">
+    function openUrl() {
+        if($('.contC li dl').length > 1) {
+            window.open("{:U('Home/Products/getToCompareList')}");
+        } else {
+            $.ThinkBox.error("请至少选择两件商品对比！");
+            return false;
+        }
+    }
+</script>

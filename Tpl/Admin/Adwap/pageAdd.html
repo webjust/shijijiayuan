@@ -1,0 +1,188 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+<form id="adForm" method="post" action="{$adwap?U('Admin/Adwap/doEdit'):U('Admin/Adwap/doAdd')}" enctype="multipart/form-data">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">{$adwap?'修改自定义广告':'添加自定义广告'}</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="first">* 广告位：</td>
+		<td>
+		    <input class="large" type="text" name="n_name" value="{$adwap.n_name}" id="n_name" validate="{required:true}">
+		</td>
+	</tr>
+	<tr>
+		<td class="first">* 自定义广告地址：</td>
+		<td>
+		    <input class="large" type="text" name="n_aurl" value="{$adwap.n_aurl}" id="n_aurl" ><!-- validate="{required:true,url:true}" -->
+		</td>
+	</tr>
+	<tr>
+		<td class="first">* 图片：</td>
+		<td>
+		    <a href="javascript:upImage(0);" class="btnG ico_upload">上传图片</a>
+            <img src="{$adwap.n_imgurl|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_0" style="width:50px;height:50px;" />
+            <input type="hidden" id="GY_SHOP_TOP_AD_0" name="n_imgurl" value="{$adwap.n_imgurl}"/>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">广告类型：</td>
+		<td>
+			<select name="n_type" id="n_type">
+				<option value="good" <if condition="$adwap.n_type eq 'good'"> selected="selected"</if>>商品</option>
+				<option value="brand" <if condition="$adwap.n_type eq 'brand'"> selected="selected"</if>>品牌</option>
+				<option value="coupon" <if condition="$adwap.n_type eq 'coupon'"> selected="selected"</if>>优惠券</option>
+				<option value="activity" <if condition="$adwap.n_type eq 'activity'"> selected="selected"</if>>活动</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="first">图片长度：</td>
+		<td>
+		    <!-- <input class="large" type="text" name="n_length" value="{$adwap.n_length}"> -->
+		    <input class="large" type="text" name="n_length" value="1080">
+		</td>
+	</tr>
+	<tr>
+		<td class="first">图片宽度：</td>
+		<td>
+		    <!-- <input class="large" type="text" name="n_height" value="{$adwap.n_height}"> -->
+		    <input class="large" type="text" name="n_height" value="636">
+
+		</td>
+	</tr>	
+	<tr>
+	    <td class="first">是否显示：</td>
+		<td>
+			<input type="radio" name="n_status" value="1"{$adwap['n_status']?' checked="checked"':''}>是
+	        <input type="radio" name="n_status" value="0"{$adwap['n_status']?'':' checked="checked"'}>否
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">是否新窗口：</td>
+		<td>
+            <input type="radio" name="n_target" value="_blank" <if condition="$adwap['n_target'] eq '_blank'">checked="checked"</if>>是
+	        <input type="radio" name="n_target" value="_self" <if condition="$adwap['n_target'] eq '_self'">checked="checked"</if>>否
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">标注关键：</td>
+		<td>
+			<input type="radio" name="n_key" value="1"{$adwap['n_key']?' checked="checked"':''}>是
+	        <input type="radio" name="n_key" value="0"{$adwap['n_key']?'':' checked="checked"'}>否
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">位置：</td>
+		<td>
+			<select name="n_position" id="n_position">
+				<option value="banner" <if condition="$adwap.n_position eq 'banner'"> selected="selected"</if>>banner图</option>
+				<option value="nav" <if condition="$adwap.n_position eq 'nav'"> selected="selected"</if>>导航</option>
+				<option value="ppzq" <if condition="$adwap.n_position eq 'ppzq'"> selected="selected"</if>>品牌专区-横幅</option>
+				<option value="tmzq" <if condition="$adwap.n_position eq 'tmzq'"> selected="selected"</if>>特卖专区-横幅</option>
+				<option value="rxzq" <if condition="$adwap.n_position eq 'rxzq'"> selected="selected"</if>>热销专区-横幅</option>
+				<option value="xpzq" <if condition="$adwap.n_position eq 'xpzq'"> selected="selected"</if>>新品专区-横幅</option>
+				<option value="qwbl" <if condition="$adwap.n_position eq 'qwbl'"> selected="selected"</if>>趣味部落-横幅</option>
+				<option value="tribe" <if condition="$adwap.n_position eq 'tribe'"> selected="selected"</if>>趣味部落</option>
+			</select>
+		</td>
+	</tr>
+	<script type="text/javascript">	
+	$("#n_position").change(function(){
+		if($(this).val()=='tribe'){
+			$('.tribe_price').show();
+		}else{
+			$('.tribe_price').hide();
+		}
+	});
+	</script>
+	<tr class="tribe_price" <if condition="$adwap.n_position neq 'tribe'"> style="display: none;"</if>>
+	    <td class="first">商城价：</td>
+		<td>
+			<input class="small" type="text" name="s_price" value="{$adwap.s_price}" id="s_price">
+		</td>
+	</tr>
+	<tr style="display: none;">
+	    <td class="first">原价：</td>
+		<td>
+			<input class="small" type="text" name="y_price" value="{$adwap.y_price}" id="y_price">
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">排序：</td>
+		<td>
+			<input class="small" type="text" name="n_order" value="{$adwap.n_order}" id="n_order">
+			<span class="last">	值越小，排序越靠前</span>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">简要说明：</td>
+		<td>
+			<input class="large" type="text" name="description" value="{$adwap.description}" id="description">
+		</td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" >
+            <input type="button" onclick="window.history.go(-1);" value="取 消" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+<input name="n_id" type="hidden" value="{$adwap.n_id}"/>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#adForm').validate();
+    });
+
+$(document).ready(function(){   
+	$("#top_ad_set").validate();   
+});
+var dialog;
+var image_input_id;
+var image_input_id_s;
+var editor = new UE.ui.Editor({
+	imageRealPath:"editor"
+});
+editor.render("myEditor");
+editor.ready(function(){
+	editor.hide();
+	imgManager : true;
+	dialog = editor.getDialog("insertimage");
+	editor.addListener('beforeInsertImage',function(t, arg){
+		image_input_id = image_input_id-1;
+		for(index in arg){
+		    if(typeof arg[index]['src']=='undefined')  continue;
+			image_input_id = image_input_id + 1;
+			if($("#GY_SHOP_TOP_AD_" + image_input_id)){
+			   var image_path = arg[index]['src'];
+				$("#GY_SHOP_TOP_AD_" + image_input_id).val(image_path);
+				$("#SHOW_TOP_AD_" + image_input_id).attr({src:image_path});
+			}
+		}
+	});
+	
+});
+/**
+ * 图片上传方法集成
+ */
+function upImage(imageId) {
+	//editor.options.imageRealPath = 'desc';
+	image_input_id = imageId;
+	image_input_id_s = imageId;
+	dialog.open();
+}
+</script>

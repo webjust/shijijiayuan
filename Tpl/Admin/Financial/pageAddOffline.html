@@ -1,0 +1,76 @@
+<div class="rightInner">
+    <form id="offline_add" method="post" action="{:U('Admin/Financial/doAddOffline')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        <a class="btnB" href="{:U('Admin/Financial/pageListOffline')}">线下支付列表</a>
+                        <a class="btnB" href="{:U('Admin/Financial/pageAddOffline')}">新增线下支付</a>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99">新增线下支付表单</th>
+                </tr>
+                <tr>
+                    <td class="first">* 账户类型</td>
+                    <td>
+                        <select class="medium" name="a_type">
+                            <option value="0" selected="selected">银行汇款</option>
+                            <option value="1">在线平台</option>
+                        </select>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 开户行/在线平台</td>
+                    <td><input type="text" name="a_apply_bank" class="medium" validate="{ required:true}" /></td>
+                    <td class="last">如果是银行汇款请填写收款行，例如：中国人民建设银行XXXX分行。如果是其他平台请填写平台名称，如：支付宝</td>
+                </tr>
+                <tr>
+                    <td class="first">开户人</td>
+                    <td><input type="text" name="a_apply_name" class="medium"  /></td>
+                    <td class="last">此处填写开户人姓名，如：张三</td>
+                </tr>
+                <tr>
+                    <td class="first">* 帐号</td>
+                    <td><input type="text" name="a_account_number"  class="medium" validate="{ required:true}" /> </td>
+                    <td class="last">此处填写收款帐号</td>
+                </tr>
+                <tr>
+                    <td class="first">是否立即启用</td>
+                    <td>
+                        <input type="radio" name="a_status" value="1" checked="checked" /> 是
+                        <input type="radio" name="a_status" value="0" /> 否
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否为默认收款帐号</td>
+                    <td>
+                        <input type="radio" name="a_default" value="1" /> 是
+                        <input type="radio" name="a_default" value="0" checked="checked" /> 否
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#offline_add').validate();
+    });
+</script>

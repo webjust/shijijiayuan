@@ -1,0 +1,126 @@
+<!-- 中间内容开始 -->
+   <!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+<style>
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div class="title" style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        商品管理列表C6
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Purchase/C6List")}' >
+        <div style="width:948px;padding-left:10px;height:30px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+            品牌英文名：
+                <input type="text" id="brand" name="brand" style="border:1px solid #cccccc;" value="{$brand}">
+                <input type="button" id="searchOrderSubmit" value="查询" style="width: 65px;height:25px;background:#ff3366;color:white;margin-left:10px;margin-right: 5px;">
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 650px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>供应商自编商品名称</th>
+                <th>是否可以采购(Y/N）</th>
+                <th>品牌属国</th>
+                <th>进口</th>
+                <th>国产</th>
+                <th>中文品牌</th>
+                <th>外国品牌</th>
+                <th>颜色</th>
+                <th>材料</th>
+                <th>自命名</th>
+                <th>主分类</th>
+                <th>分类一</th>
+                <th>分类二</th>
+                <th>分类三</th>
+                <th>单位</th>
+                <th>包装</th>
+                <th>规格</th>
+                <th>使用部位</th>
+                <th>条形码</th>
+                <th>批发采购价</th>
+                <th>批发供应价</th>
+                <th>零售价</th>
+                <th>优惠折头</th>
+                <th>平台一价格</th>
+                <th>平台二价格</th>
+                <th>销售价格</th>
+                <th>个人直邮税率</th>
+                <th>BC直邮税率</th>
+                <th>利润率</th>
+                <th>利润率要求</th>
+                <th>供应商当前库存</th>
+                <th>基本库存</th>
+                <th>供应商名称</th>
+                <th>是否为新零售供应商(Y/N）</th>
+                <th>平台一url</th>
+                <th>平台二url</th>
+                <th>品牌官网URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="List" id="item" key="k">
+                <tr>
+                <td>{$item.id}</td>
+                <td>{$item.name_cn}</td>
+                <td><div class="edit" id="mayPurchase-{$item.id}">{$item.mayPurchase}</div></td>
+                <td>{$item.language_country}</td>
+                <td>{$item.importation}</td>
+                <td>{$item.home_made}</td>
+                <td>{$item.brand_cn}</td>
+                <td>{$item.brand_en}</td>
+                <td>{$item.color}</td>
+                <td>{$item.material}</td>
+                <td>{$item.nomenclature}</td>
+                <td>{$item.main_class}</td>
+                <td>{$item.class1}</td>
+                <td>{$item.class2}</td>
+                <td>{$item.class3}</td>
+                <td>{$item.unit}</td>
+                <td>{$item.package}</td>
+                <td>{$item.spec}</td>
+                <td>{$item.partused}</td>
+                <td>{$item.bar_code}</td>
+                <td>{$item.purchase_price_cn}</td>
+                <td>{$item.supply_price_cn}</td>
+                <td>{$item.retail_price_cn}</td>
+                <td>{$item.discount_cn}</td>
+                <td>{$item.tmall_price}</td>
+                <td>{$item.jumei_price}</td>
+                <td>{$item.sale_price}</td>
+                <td>''</td>
+                <td>''</td>
+                <td>{$item.profit}</td>
+                <td>{$item.profit_base}</td>
+                <td>{$item.all_stock}</td>
+                <td>{$item.base_stock}</td>
+                <td>{$item.supplier}</td>
+                <td>{$item.newRetail}</td>
+                <td>{$item.tmall_url}</td>
+                <td>{$item.jumei_url}</td>
+                <td>{$item.website}</td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#searchOrderSubmit").click(function(){
+        $('#orders_form').submit();       
+    });
+    $('.edit').editable('/Ucenter/Purchase/TableEdit/table/in_goods_supplier');
+});
+</script>

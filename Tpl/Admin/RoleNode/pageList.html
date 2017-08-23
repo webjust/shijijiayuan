@@ -1,0 +1,112 @@
+<div class="rightInner" data-uri='{:U("Admin/RoleNode/doEditStatus")}'>
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    <p class="conOneP" style="float: left;">
+                        <a href='{:U("Admin/RoleNode/pageAdd")}' class="btnG ico_add">新增节点</a>
+                    </p>
+                    <ul class="conOneUl" style="width:690px;">
+                        <form method="get" action="{:U('Admin/RoleNode/pageList')}" style="float: none;">
+                            <li>
+                                <select name="auth_type" class="small" style="width: auto">
+                                    <option value="-1" selected="selected">模块类型</option>
+                                    <option value="0" <if condition="$filter.auth_type eq '0'">selected="selected"</if>>节点授权</option>
+                                    <option value="2" <if condition="$filter.auth_type eq '2'">selected="selected"</if>>操作授权</option>
+                                    <option value="1" <if condition="$filter.auth_type eq '1'">selected="selected"</if>>模块授权</option>
+                                </select>
+                            </li>
+                            <li>操作名称：<input type="text" name="action_name" class="large" value="{$filter.action_name}" style="width: 145px;"></li>
+                            <li>模块名称：<input type="text" name="module_name" class="large" value="{$filter.module_name}" style="width: 145px;"></li>
+                            <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                        </form>
+                    </ul>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>编号</th>
+                <th style="text-align: left;">操作</th>
+                <th>操作名称</th>
+                <th>模块</th>
+                <th>模块名称</th>
+                <th>授权类型</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="list">
+            <tr>
+                <td><input type="checkbox" name="id" value="" /></td>
+                <td>{$list.id}</td>
+                <td style="text-align: left;">{$list.action}</td>
+                <td>{$list.action_name}</td>
+                <td>{$list.module}</td>
+                <td>{$list.module_name}</td>
+                <td><if condition="$list.auth_type eq '1'">模块授权<elseif condition="$list.auth_type eq '2'" />操作授权<else />节点授权</if></td>
+                <td>
+                    <img data-id="{$list[id]}" data-field="status" data-value="{$list.status}" src="__PUBLIC__/Admin/images/status-{$list.status}.gif"<if condition="$list.status eq '1'"> title="启用"<else /> title="停用"</if> class="pointer" />
+                </td>
+                <td>
+                    <a href='{:U("Admin/RoleNode/pageEdit?id=$list[id]")}'>修改</a>&nbsp;
+                    <a href='javascript:;' class="confirmurl" data-uri='{:U("Admin/RoleNode/doDelete","id=$list[id]")}' data-msg="确定要删除“{$list.name}”吗？" data-acttype="ajax">删除</a>
+                </td>
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><input type="submit" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display: none;">
+        <div id="tip_div"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        //切换
+        $('.pointer').live('click', function() {
+            var url = $(".rightInner").attr("data-uri");
+            var img    = this,
+            s_val  = ($(img).attr('data-value'))== 0 ? 1 : 0,
+            s_name = $(img).attr('data-field'),
+            s_id   = $(img).attr('data-id'),
+            s_src  = $(img).attr('src');
+            s_msg = ($(img).attr('data-value'))== 0 ? '启用' : '停用';
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {id:s_id, field:s_name, val:s_val},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        if(s_src.indexOf('0')>-1) {
+                                $(img).attr({'src':s_src.replace('0','1'),'data-value':s_val,'title':s_msg});
+                        } else {
+                                $(img).attr({'src':s_src.replace('1','0'),'data-value':s_val,'title':s_msg});
+                        }
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+    });
+    
+    
+</script>

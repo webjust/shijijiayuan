@@ -1,0 +1,67 @@
+﻿@charset "utf-8";
+/* CSS Document */
+a{ color:#ffffff; text-decoration:none; }
+/* Clear Fix */
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-block;}
+/* Hide from IE Mac */
+.clearfix{display:block;width: 1200px;}
+/*图片放大镜样式*/
+.jqzoom{
+    border:1px solid #BBB;
+    float:left;
+    position:relative;
+    padding:0px;
+    cursor:pointer;
+}
+div.zoomdiv {
+    z-index:    999;
+    position                : absolute;
+    top:0 !important;
+    left:500px !important;
+    width                   : 200px;
+    height                  : 200px;
+    background: #ffffff;
+    border:1px solid #CCCCCC;
+    display:none;
+    text-align: center;
+    overflow: hidden;
+}
+div.zoomdiv>img {
+    width                   : 800px;
+    height                  : 800px;
+}
+div.jqZoomPup {
+    z-index                 : 999;
+    visibility              : hidden;
+    position                : absolute;
+    top:0px;
+    left:0px;
+    width                   : 50px;
+    height                  : 50px;
+    border: 1px solid #aaa;
+    background: #ffffff url(/images/shopping/zoomlens.gif) 50% top  no-repeat;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    filter: alpha(Opacity=50);
+}
+/*图片小图预览列表*/
+.spec-preview{width:340px;height:340px;border:1px solid #DFDFDF;}
+.spec-scroll{clear:both;margin-top:5px;width:340px;}
+.spec-scroll .prev{float:left;margin-right:4px;}
+.spec-scroll .next{float:right;}
+.spec-scroll .prev,.spec-scroll .next{display:block;font-family:"宋体";text-align:center;width:10px;height:65px; line-height:65px;border:1px solid #CCC;background:#EBEBEB;cursor:pointer;text-decoration:none;}
+.spec-scroll .items{float:left;position:relative;width:310px;height:70px;overflow:hidden;}
+.spec-scroll .items ul{position:absolute;width:999999px;height:65px;}
+.spec-scroll .items ul li{float:left;width:64px;text-align:center;margin: 2px 2px 2px 10px;}
+.spec-scroll .items ul li img{border:1px solid #CCC;padding:2px;width:60px;height:60px;}
+.spec-scroll .items ul li img:hover{border:2px solid #FF6600;padding:1px;}
+.spec-scroll .items ul li img:hover{
+    border:2px solid #f35c79;
+}
+/*
+本代码由js代码网收集并编辑整理;
+尊重他人劳动成果;
+转载请保留js代码网链接 - http://www.jsdaima.com
+*/

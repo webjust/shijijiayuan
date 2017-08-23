@@ -1,0 +1,47 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<!--<script src="__PUBLIC__/Ucenter/js/passport.js"></script>-->
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>试用申请管理</span></h2>
+    <div class="member_editpass" style="display: none;">
+        <b></b>
+    </div>
+    <div class="deliverList myOrder"><!--deliverList  start-->
+        <table class="tableCon">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td width="">试用标题</td>
+                    <td width="">申请状态</td>
+                    <td width="">提交日期</td>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="apply_info" id="dev">
+                <tr id="list_{$dev.tar_id}">
+                    <td width="82" valign="top">
+                        <div class="cartProPic">
+                            <a href="javascript:void(0);">
+                                <img src="{$Think.config.DOMAIN_HOST}{$dev.try_picture|showImage=###,68,68}" width="68" height="68">
+                            </a>
+                        </div>
+                    </td>
+                    <td width="">{$dev.try_title}</td>
+                    <td width="">
+                        <if condition="$dev.try_status eq 1">
+                            审核通过
+                            <if condition="$dev.o_status eq 5">
+                                <a href="{:U('Ucenter/Try/pageAdd',array('oid'=>$dev['try_oid']))}" style="color:red;">填写报告</a>
+                            </if>
+                        <elseif condition="$dev.try_status eq 2" />
+                            拒绝
+                        <else />
+                            未审核
+                        </if>
+                    </td>
+                    <td width="">{$dev.tar_create_time}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>

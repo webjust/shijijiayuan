@@ -1,0 +1,236 @@
+/*公共样式*/
+body{
+    background: #f6f6f4;
+}
+
+#clio_top,#clio_nav,#clio_banner,#clio_customer,#clio_hot,#clio_tab{
+    width: 100%;
+}
+.clio_top_box,.clio_nav_box,.clio_banner_box,.clio_customer_title_content,.clio_tab_btn,.clio_tab_content{
+    width: 1200px;
+    margin: 0 auto;
+}
+/*clio头部*/
+#clio_top{
+    height: 150px;
+    background: #ffffff;
+}
+.clio_top_box{
+    background: #ffffff;
+}
+.clio_top_box>img{
+    margin-left: 35px;
+    margin-top: 35px;
+}
+.clio_top_right{
+    float: right;
+    width: 380px;
+    height:140px;
+    padding: 5px 0;
+    position: relative;
+}
+.clio_top_right_img{
+    width: 193px;
+    height:140px;
+    overflow: hidden;
+    float: left;
+}
+.clio_top_right_title{
+    overflow: hidden;
+    width: 207px;
+    position: absolute;
+    top: 33px;
+    left:120px;
+}
+.clio_top_right_title>p{
+    display: block;
+    width:207px;
+    height: 28px;
+    line-height:28px;
+    font-size: 20px;
+    text-align: center;
+    overflow: hidden;
+    color: black;
+}
+/*clio导航*/
+#clio_nav{
+    background: #000;
+    height: 30px;
+}
+.clio_nav_box ul{
+    float: left;
+}
+.clio_nav_box ul li{
+    width: 134px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+    text-align: center;
+}
+.clio_nav_box ul li a{
+    color: #ffffff;
+    font-size: 12px;
+}
+.clio_nav_box div{
+    float: right;
+    width: 154px;
+    height: 30px;
+}
+/*banner图片*/
+#clio_banner{
+    background: url("../images/clio_banner_bg.png") repeat-x;
+    height: 500px;
+}
+/*口碑单品，热销传奇*/
+#clio_customer{
+    margin-top: 28px;
+    height: 1413px;
+    overflow: hidden;
+}
+/*人气热卖推荐*/
+#clio_hot{
+    height: 1500px;
+    overflow: hidden;
+}
+/*口碑、人气公共样式*/
+.clio_customer_title,.clio_hot_title{
+    width: 100%;
+    height:104px;
+    background: #000;
+}
+.clio_customer_title>div,.clio_hot_title>div{
+    width: 1200px;
+    height: 104px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.clio_customer_content,.clio_hot_content{
+    width: 100%;
+    overflow: hidden;
+}
+.clio_customer_content>div,.clio_hot_content>div{
+    width: 1295px;
+    margin: 0 auto;
+}
+/*切换盒子*/
+#clio_tab{
+    margin-top: 28px;
+    overflow: hidden;
+}
+.clio_tab_btn{
+    overflow: hidden;
+}
+.clio_tab_btn ul li{
+    float: left;
+    width:387px;
+    height: 100px;
+    margin-right: 19px;
+    overflow: hidden;
+}
+.clio_tab_btn ul li.clio_tab_btn_1{
+    background: url("../images/clio_tab_btn_1.png");
+    background-position: -387px 0;
+}
+.clio_tab_btn ul li.clio_tab_btn_2{
+    background: url("../images/clio_tab_btn_2.png");
+    background-position:0 0;
+}
+.clio_tab_btn ul li.clio_tab_btn_3{
+    background: url("../images/clio_tab_btn_3.png");
+    background-position:0 0;
+}
+.clio_tab_btn ul li:last-child{
+    margin-right: 0;
+}
+.clio_tab_content{
+    margin-top: 28px;
+}
+.clio_tab_content{
+    width: 1200px;
+    height: 1664px;
+    position: relative;
+    overflow: hidden;
+}
+.clio_tab_content>div{
+    width: 1200px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.clio_tab_content_img{
+    width: 1200px;
+    height: 410px;
+    overflow: hidden;
+}
+.hide{
+    display: none;
+}
+.clio_tab_content_product{
+    width: 1156px;
+    padding: 44px 0 44px 44px;
+    background: #ffffff;
+    text-align: center;
+    overflow: hidden;
+}
+.clio_tab_content_product dl{
+    padding-top: 15px;
+    border: 1px solid transparent;
+    width: 355px;
+    height: 530px;
+    margin-right: 20px;
+    margin-top: 20px;
+    float: left;
+}
+.clio_tab_content_product dl:hover{
+    border: 1px solid #c9c9c9;
+    box-shadow:0 0 4px #c9c9c9;
+    width: 355px;
+    height: 530px;
+    margin-right: 20px;
+    margin-top: 20px;
+    float: left;
+}
+.clio_tab_content_product dl dt{
+    width: 355px;
+    height: 333px;
+    overflow: hidden;
+}
+.clio_tab_content_product dl dd{
+    color: #000000;
+}
+.clio_tab_content_product dl dd.dd_1{
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+}
+.clio_tab_content_product dl dd.dd_2{
+    margin-top: 10px;
+    font-size: 22px;
+}
+.clio_tab_content_product dl dd.dd_3{
+    width: 62px;
+    border-top: solid 1px #000000;
+    margin: 10px auto;
+}
+.clio_tab_content_product dl dd.dd_4{
+    font-size: 12px;
+}
+.clio_tab_content_product dl dd.dd_5{
+    font-size: 22px;
+}
+.clio_tab_content_product dl dd.dd_6{
+    margin-top: 10px;
+}
+.clio_tab_content_product dl dd.dd_6 a{
+    display: block;
+    font-size: 14px;
+    text-align: center;
+    width: 90px;
+    height: 27px;
+    line-height: 27px;
+    background: #333333;
+    color: #ffffff;
+    margin: 0 auto;
+    border-radius: 5px;
+}

@@ -1,0 +1,92 @@
+<div class="rightInner">
+<form id="settingForm" method="post" action="{:U('Admin/Guestbook/doPageProductsSetting')}">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">商品评论设置</th>
+    </tr>
+</thead>
+<tbody>
+    <tr class="title">
+        <th colspan="99">显示条数设置（商品评论/购买咨询共用此设置）</th>
+    </tr>
+	<tr style="display:none;">
+		<td class="first">商品评论页共显示：</td>
+		<td><input class="small" type="text" name="show_nums" value="{$cfg.show_nums}" validate="{required:true,number:true}">条</td>
+	</tr>
+	<tr>
+		<td class="first">评论/咨询页显示：</td>
+		<td><input class="small" type="text" name="list_page_size" value="{$cfg.list_page_size}" validate="{required:true,number:true}">条</td>
+	</tr>
+    <tr class="title">
+        <th colspan="99">其他设置</th>
+    </tr>
+	<tr>
+	    <td class="first">是否开启评论功能：</td>
+	    <td>
+	        <input type="radio" name="comments_switch" value="1" {$cfg['comments_switch']?' checked="checked"':''}>开启
+	        <input type="radio" name="comments_switch" value="0" {$cfg['comments_switch']?'':' checked="checked"'}>关闭
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">是否开启追加评论：</td>
+	    <td>
+	        <input type="radio" name="again_comments_switch" value="1" {$cfg['again_comments_switch']?' checked="checked"':''}>开启
+	        <input type="radio" name="again_comments_switch" value="0" {$cfg['again_comments_switch']?'':' checked="checked"'}>关闭
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">是否开启晒单：</td>
+	    <td>
+	        <input type="radio" name="comments_showpic_switch" value="1" {$cfg['comments_showpic_switch']?' checked="checked"':''}>开启
+	        <input type="radio" name="comments_showpic_switch" value="0" {$cfg['comments_showpic_switch']?'':' checked="checked"'}>关闭
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">发表评论权限：	</td>
+	    <td>
+	        <input type="radio" name="comments_revok" value="1"{$cfg['comments_revok']==1?' checked="checked"':''}>非会员可发表评论
+	        <input type="radio" name="comments_revok" value="2"{$cfg['comments_revok']==2?' checked="checked"':''}>注册会员可发表评论
+			<input type="radio" name="comments_revok" value="3"{$cfg['comments_revok']==3?' checked="checked"':''}>只有购买过此商品的会员才可发表评论（并且订单状态为已支付状态）
+		</td>
+	</tr>
+	<tr>
+		<td class="first">无评论时缺省文字：</td>
+		<td><input class="large" type="text" name="comments_default_content" value="{$cfg.comments_default_content}" validate="{required:true}"></td>
+	</tr>
+	<tr style="display:none;">
+	    <td class="first">发表时需输入验证码：</td>
+		<td>
+			<input type="radio" name="comment_need_verify_code" value="1"{$cfg['comment_need_verify_code']?' checked="checked"':''}>开启
+	        <input type="radio" name="comment_need_verify_code" value="0"{$cfg['comment_need_verify_code']?'':' checked="checked"'}>关闭
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">显示条件：</td>
+		<td>
+			<input type="radio" name="comment_show_condition_radio" value="0"{$cfg['comment_show_condition'][0]==0?' checked="checked"':''}>管理员审核后显示
+			<input type="radio" name="comment_show_condition_radio" value="1"{$cfg['comment_show_condition'][0]==1?' checked="checked"':''}>用户发表后立即显示
+		</td>
+	</tr>
+	<tr>
+	    <td class="first"></td>
+		<td>发表成功提示文字<input class="large" type="text" name="comment_show_condition_text" value="{$cfg['comment_show_condition'][1]}" validate="{required:true}"></td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#settingForm').validate();
+    });   	
+</script>

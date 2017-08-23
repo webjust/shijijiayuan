@@ -1,0 +1,23 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>银联在线支付接口PHP版</title>
+    </head>
+    <body onLoad="javascript:document.E_FORM.submit();">
+        <form method="POST" name="E_FORM" action="https://payment.Chinapay.com/pay/TransGet">
+            <input type="hidden" name="MerId" value="{$v_MerId}" />
+            <input type="hidden" name="OrdId" value="{$v_OrdId}" />
+            <input type="hidden" name="TransAmt" value="{$v_TransAmt}" />
+            <input type="hidden" name="CuryId" value="{$v_CuryId}" />
+            <input type="hidden" name="TransDate" value="{$v_TransDate}" />
+            <input type="hidden" name="TransType" value="{$v_TransType}" />
+            <input type="hidden" name="Version" value="{$v_Version}" />
+            <input type="hidden" name="BgRetUrl" value="{$v_BgRetUrll}" />
+            <input type="hidden" name="PageRetUrl" value="{$v_PageRetUrl}" />
+            <input type="hidden" name="Priv1" value="{$v_priv1}" />
+            <input type="hidden" name="ChkValue" value="{$v_ChkValue}" />
+        </form>
+    </body>
+</html>

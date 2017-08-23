@@ -1,0 +1,222 @@
+<p class="tabListP">
+	<span value_id="1" class="form_add_products_labels onHover">
+		<a href="javascript:void(0);" style="text-decoration: none;">阿里服务器</a>
+	</span>
+	<span value_id="3" class="form_add_products_labels">
+		<a href="javascript:void(0);" style="text-decoration: none;">七牛服务器</a>
+	</span>
+	<span value_id="2" class="form_add_products_labels">
+		<a href="javascript:void(0);" style="text-decoration: none;">其他服务器</a>
+	</span>
+</p>
+<div class="rightInner">
+    <form id="toposs_set" name="toposs_set" method="post" action="{:U('Admin/TopOss/doSetSms')}">
+        <table class="tbForm" width="100%">
+            <tbody id="con_addGoods_1">
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">是否开启OSS上传</td>
+                    <td>						
+                        <input id="GY_OSS_ON" type="radio" value="1" name="GY_OSS_ON" <if condition="$GY_OSS_ON eq '1' " >checked="checked"</if>>
+                        <label>是</label>
+                        <input id="GY_OSS_ON" type="radio" value="0" name="GY_OSS_ON" <if condition="$GY_OSS_ON eq '0' " >checked="checked"</if>>
+                        <label>否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                
+                <tr style="display:none;">
+                    <td class="first">是否上传缩略图</td>
+                    <td>
+                        <input id="GY_OSS_THUMB_ON" type="radio" value="1" name="GY_OSS_THUMB_ON" <if condition="$GY_OSS_THUMB_ON eq '1' " >checked="checked"</if>>
+                        <label>是</label>
+                        <input id="GY_OSS_THUMB_ON" type="radio" value="0" name="GY_OSS_THUMB_ON" <if condition="$GY_OSS_THUMB_ON eq '0' " >checked="checked"</if>>
+                        <label>否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否开启自动上传</td>
+                    <td>
+                        <input id="GY_OSS_AUTO_ON" type="radio" value="1" name="GY_OSS_AUTO_ON" <if condition="$GY_OSS_AUTO_ON eq '1' " >checked="checked"</if>>
+                        <label>是</label>
+                        <input id="GY_OSS_AUTO_ON" type="radio" value="0" name="GY_OSS_AUTO_ON" <if condition="$GY_OSS_AUTO_ON eq '0' " >checked="checked"</if>>
+                        <label>否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>                
+                <tr>
+                    <td class="first"><font class="red">*</font>OSS的Bucket名称</td>
+                    <td>
+                        <input type="text" name="GY_OSS_BUCKET_NAME"　id="GY_OSS_BUCKET_NAME"  class="medium" value="{$GY_OSS_BUCKET_NAME}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"><font class="red">*</font>OSS的Access ID</td>
+                    <td>
+                        <input type="text" name="GY_OSS_ACCESS_ID" id="GY_OSS_ACCESS_ID"  class="medium" value="{$GY_OSS_ACCESS_ID}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"><font class="red">*</font>OSS的Access Key</td>
+                    <td>
+                        <input type="password" name="GY_OSS_ACCESS_KEY" id="GY_OSS_ACCESS_KEY"  class="medium" value="{$GY_OSS_ACCESS_KEY}"  />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">负载均衡指定图片服务器</td>
+                    <td>
+                        <input type="text" name="GY_OSS_PIC_URL" id="GY_OSS_PIC_URL"  class="medium" value="{$GY_OSS_PIC_URL}"  />
+                    </td>
+                    <td class="last"></td>
+                </tr>   
+                <tr>
+                    <td class="first">静态资源域名(CNAME)</td>
+                    <td>
+                        <input type="text" name="GY_OSS_CNAME_URL" id="GY_OSS_CNAME_URL"  class="medium" value="{$GY_OSS_CNAME_URL}"  />
+                    </td>
+                    <td class="last"></td>
+                </tr>   				
+            </tbody>
+			
+			<tbody id="con_addGoods_3" style="display:none;">
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">是否开启七牛上传</td>
+                    <td>						
+                        <input id="GY_QN_ON" type="radio" value="1" name="GY_QN_ON" <if condition="$GY_QN_ON eq '1' " >checked="checked"</if>>
+                        <label>是</label>
+                        <input id="GY_QN_ON" type="radio" value="0" name="GY_QN_ON" <if condition="$GY_QN_ON eq '0' " >checked="checked"</if>>
+                        <label>否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                
+                <tr>
+                    <td class="first"><font class="red">*</font>bucket</td>
+                    <td>
+                        <input type="text" name="GY_QN_BUCKET_NAME"　id="GY_QN_BUCKET_NAME"  class="medium" value="{$GY_QN_BUCKET_NAME}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"><font class="red">*</font>access Key</td>
+                    <td>
+                        <input type="text" name="GY_QN_ACCESS_KEY" id="GY_QN_ACCESS_KEY"  class="medium" value="{$GY_QN_ACCESS_KEY}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+				<tr>
+                    <td class="first"><font class="red">*</font>secrect Key</td>
+                    <td>
+                        <input type="text" name="GY_QN_SECRECT_KEY" id="GY_QN_SECRECT_KEY"  class="medium" value="{$GY_QN_SECRECT_KEY}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first"><font class="red">*</font>domain</td>
+                    <td>
+                        <input type="text" name="GY_QN_DOMAIN" id="GY_QN_DOMAIN"  class="medium" value="{$GY_QN_DOMAIN}"  />
+                    </td>
+                    <td class="last"></td>
+                </tr> 				
+            </tbody>
+
+            <tbody id="con_addGoods_2" style="display:none;">
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                
+                <tr>
+                    <td class="first">是否开启上传</td>
+                    <td>						
+                        <input id="GY_OTHER_ON" type="radio" value="1" name="GY_OTHER_ON" <if condition="$GY_OTHER_ON eq '1' " >checked="checked"</if>>
+                        <label>是</label>
+                        <input id="GY_OTHER_ON" type="radio" value="0" name="GY_OTHER_ON" <if condition="$GY_OTHER_ON eq '0' " >checked="checked"</if>>
+                        <label>否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                
+                <tr>
+                    <td class="first"><font class="red">*</font>服务器IP</td>
+                    <td>
+                        <input type="text" name="GY_OTHER_IP" id="GY_OTHER_IP"  class="medium" value="{$GY_OTHER_IP}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                
+                <tr>
+                    <td class="first"><font class="red">*</font>服务器域名</td>
+                    <td>
+                        <input type="text" name="GY_OTHER_DOMAIN" id="GY_OTHER_DOMAIN"  class="medium" value="{$GY_OTHER_DOMAIN}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                
+                <tr>
+                    <td class="first"><font class="red">*</font>模板地址</td>
+                    <td>
+                        <input type="text" name="GY_TPL_IP" id="GY_TPL_IP"  class="medium" value="{$GY_TPL_IP}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+	            <tr>
+                    <td class="first"><font class="red"></font>静态资源域名1</td>
+                    <td>
+                        <input type="text" name="GY_STATE_URL1" id="GY_STATE_URL1"  class="medium" value="{$GY_STATE_URL1}" />
+                    </td>
+                    <td class="last">如果设置多个静态资源域名，前台显示则随机读取一个静态域名</td>
+                </tr>
+                <tr>
+                    <td class="first"><font class="red"></font>静态资源域名2</td>
+                    <td>
+                        <input type="text" name="GY_STATE_URL2" id="GY_STATE_URL2"  class="medium" value="{$GY_STATE_URL2}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>	
+                <tr>
+                    <td class="first"><font class="red"></font>静态资源域名3</td>
+                    <td>
+                        <input type="text" name="GY_STATE_URL3" id="GY_STATE_URL3"  class="medium" value="{$GY_STATE_URL3}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>					
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="button" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.btnA').click(function(){ 
+            var url = "{:U('Admin/TopOss/doSet')}";
+            var data = $('#toposs_set').serialize();
+            ajaxReturn(url,data);
+        });
+        
+        $(".form_add_products_labels").click(function(){
+            //所有隐藏
+            $("#con_addGoods_1,#con_addGoods_2,#con_addGoods_3").hide();
+            $(".form_add_products_labels").removeClass("onHover");
+            //获取当前页签的ID
+            $("#con_addGoods_" + $(this).attr("value_id")).show();
+            $(this).addClass("onHover");
+            return true;
+        });
+    });
+</script>

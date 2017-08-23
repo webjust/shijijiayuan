@@ -1,0 +1,18 @@
+set names utf8;
+ALTER TABLE `fx_orders` ADD COLUMN `o_ip`  varchar(50) NULL DEFAULT NULL;
+ALTER TABLE `fx_groupbuy` ADD COLUMN `gp_start_code` tinyint(1) NULL DEFAULT '0' COMMENT '是否启用验证码';
+ALTER TABLE `fx_payment_serial` ADD KEY `o_id` (`o_id`);
+ALTER TABLE `fx_payment_serial` ADD KEY `ps_type` (`ps_type`);
+ALTER TABLE `fx_payment_serial` ADD KEY `ps_gateway_sn` (`ps_gateway_sn`);
+ALTER TABLE `fx_payment_serial` ADD KEY `ps_status` (`ps_status`);
+ALTER TABLE `fx_payment_serial` ADD KEY `ps_update_time` (`ps_update_time`);
+ALTER TABLE `fx_orders` ADD COLUMN `o_confirm_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '确认收货时间';
+INSERT INTO `fx_payment_cfg` (`pc_id`,`pc_custom_name`,`pc_pay_type`,`pc_abbreviation`,`pc_memo`,`pc_status`,`pc_trd`,`pc_position`) VALUES ('9','全世达网银支付','youhaopay','YOUHAOPAY','全世达网银支付','0','1','9');
+INSERT INTO `fx_payment_cfg` (`pc_id`,`pc_custom_name`,`pc_pay_type`,`pc_abbreviation`,`pc_memo`,`pc_status`,`pc_trd`,`pc_position`) VALUES ('10','全世达预付卡支付','yufuka','YUFUKA','全世达预付卡支付','0','1','9');
+alter table `fx_article` add `a_startime`  TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '开始时间';
+alter table `fx_article` add `a_endtime`  TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '结束时间';
+ALTER TABLE `fx_orders_items` ADD COLUMN `promotion_price` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '优惠金额';
+ALTER TABLE `fx_members_fields` ADD COLUMN `fields_point` int(4) NOT NULL DEFAULT '0' COMMENT '赠送积分数';
+INSERT INTO `fx_payment_cfg` (`pc_id`,`pc_custom_name`,`pc_pay_type`,`pc_abbreviation`,`pc_memo`,`pc_status`,`pc_trd`,`pc_position`) VALUES ('11','工商银行(1.0.0.11)','icbc','ICBC','此支付方式为工行接口1.0.0.11版本使用，<br />需要提供商户公钥文件、商户私钥文件、工行公钥钥文件','0','1','11');
+INSERT INTO `fx_sys_config` (`sc_id`, `sc_module`, `sc_key`, `sc_value`, `sc_value_desc`, `sc_create_time`, `sc_update_time`) VALUES (161, 'GY_TEMPLATE_DEFAULT', 'GY_TEMPLATE_WAP_DEFAULT', 'default', '设置默认wap模板', '2015-01-07 15:41:15', '2015-01-05 17:51:58');
+ALTER TABLE `fx_members` ADD COLUMN `m_head_img` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '会员头像';

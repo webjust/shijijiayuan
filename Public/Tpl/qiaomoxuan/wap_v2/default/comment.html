@@ -1,0 +1,62 @@
+
+<div class="warp">
+	<div class="head">
+    	<p>商品评价</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <!-- <a href="javascript:void(0);" class="jia"></a> -->
+    </div>
+    
+    <div class="pingjia"><!--pingjia 开始-->
+    	<div class="pjT clearfix">
+            <p><strong>全部评价</strong><span>{$all_count}</span></p>
+            <p><strong>好评</strong><span>{$good_count}</span></p>
+            <p><strong>中评</strong><span>{$normal_count}</span></p>
+            <p><strong>差评</strong><span>{$bad_count}</span></p>
+        </div>
+        <div class="pjM clearfix">
+        	<div class="pjMleft">
+            	<strong>{$score_g|round=2}%</strong>
+                <span>好评度</span>
+            </div>
+            <div class="pjMright">
+            	<p class="clearfix"><strong>好评</strong><span><i style="width:{$score_g}%;"></i></span></p>
+                <p class="clearfix"><strong>中评</strong><span><i style="width:{$score_n}%;"></i></span></p>
+                <p class="clearfix"><strong>差评</strong><span><i style="width:{$score_b}%;"></i></span></p>
+            </div>
+        </div>
+        <div class="pingjiaC">
+        	<ul>
+                    <volist name="data" id="comm" >
+                    <li>
+                        <p class="p01 clearfix">
+                            <span class="fleft">
+                                <switch name="comm.gcom_star_score">
+                                    <case value="20"><i></i></case>
+                                    <case value="40"><i></i><i></i></case>
+                                    <case value="60"><i></i><i></i><i></i></case>
+                                    <case value="80"><i></i><i></i><i></i><i></i></case>
+                                    <case value="100"><i></i><i></i><i></i><i></i><i></i></case>
+                                </switch>
+                            </span>
+                            <strong class="fright">{$comm.m_name} {$comm.gcom_create_time}</strong>
+                        </p>
+                        <p>标题：{$comm.gcom_title}</p>
+                        <p>内容：{$comm.gcom_content}</p>
+						<if condition="$comm['recomment'] neq ''">
+						<php>foreach($comm['recomment'] as $recomment){</php>
+                        <p>[追加评论]：{$recomment['gcom_content']}</p>
+                        <p>{$recomment['gcom_create_time']}</p>
+						<if condition="$recomment[reply] neq ''">
+						<p>客服回复：{$recomment[reply][gcom_content]}</p>
+						</if>
+						<php>}</php>
+						</if>
+                    </li>
+                    </volist>
+                
+            </ul>
+        </div>
+    </div><!--pingjia 结束-->
+	
+</div>
+

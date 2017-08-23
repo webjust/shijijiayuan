@@ -1,0 +1,235 @@
+<div class="rightInner"> 
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    
+                    <th colspan="99" >
+                        <a href='{:U("Admin/Sourceplatform/pageAdd")}' class="btnG ico_add">添加平台</a>
+                    </th>
+                </tr>
+                 <form method="get" action="{:U('Admin/Sourceplatform/doDel')}" id="members_del">
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>操作</th>
+                    <th>会员所属平台名称</th>
+                    
+                    <th>类型</th> 
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="platfrom" id="plf">
+                <tr id="list_{$plf[sp_id]}">
+                    <td><if condition="$plf[sp_default] eq 0"><input type="checkbox" class="checkSon" name="sp_id[]" value="{$plf.sp_id}" /></if></td>
+                    <td>  
+                    	<if condition="$plf[sp_default] eq 1">
+                        <span style="font-family:Arial;font-weight:normal;font-style:normal;text-decoration:none;color:#666666;">编辑&nbsp;删除</span>
+                    	<elseif condition="$plf[sp_default] eq 0" />
+                         <a href='<if condition="$plf[sp_default] neq 1">{:U("Admin/Sourceplatform/pageEdit?sp_id=$plf[sp_id]")}<else/>javascript:void(0)</if>' >编辑</a> 
+                        <a href='<if condition="$plf[sp_default] neq 1">{:U("Admin/Sourceplatform/doDel?sp_id=$plf[sp_id]")}<else/>javascript:void(0)</if>' class="confirm">删除</a>                   	
+                    	</if>
+ 
+                    </td>
+                    <td>{$plf.sp_name}</td>
+                    <!--  <td class="left">{$members.m_balance}</td>-->
+                    <td><if condition="$plf[sp_default] eq 1">系统<elseif condition="$plf[sp_default] eq 0" />自定义</if></td>
+                </tr>
+            </volist>
+            <empty name="platfrom">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99"><input type="button" data-uri='{:U("Admin/Sourceplatform/doBatDelPlat")}' data-field="m_id" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+    
+      
+</div>
+<script>
+    function doBatch(){
+        var batecVal = $("#batch").val();
+        var m_ids = new Array();;
+        $(".tbList input:checked[class='checkSon']").each(function(){
+            m_ids.push(this.value);
+        });
+        m_id = m_ids;
+        m_ids = m_ids.join(",");
+        if(m_ids == ''){
+            alert("请选择需要操作的平台！");
+            //$("#J_ajax_loading").addClass('ajax_error').html("请选择需要操作的会员！").show().fadeOut(5000);
+            return false;
+        }
+        //alert(batecVal);return false;
+        //批量分组
+        if(batecVal == 1){
+                 $("#batch_group").dialog({
+                    height:200,
+                    width:300,
+                    resizable:false,
+                    modal:true,
+                    title:'批量会员分组',
+                    close:function(){
+                        $("#batch_group").dialog('destroy');
+                    },
+                    buttons: {
+                    '添加': function() {
+                        
+                        var data = { 'mg_id':$("#batch_group_val").val(),'m_id':m_ids};
+                       // alert(data);return false;
+                        var url = "{:U('Admin/Membergroup/doBacthGroup')}";
+                        $.post(url,data,function(info){
+                            if(info=="false"){
+                                showAlert(false,'出错了','归组失败');
+                            }else{
+                                showAlert(true,'成功');
+                            }
+                        });
+                                $( this ).dialog( "close" );
+                            },
+                    '取消': function() {
+                        $( this ).dialog( "close" );
+                    }
+                    }
+                });
+        }
+        //批量设置等级
+        if(batecVal == 2){
+            $("#batch_level").dialog({
+                    height:200,
+                    width:300,
+                    resizable:false,
+                    modal:true,
+                    title:'批量设置等级',
+                    close:function(){
+                        $("#batch_level").dialog('destroy');
+                    },
+                    buttons: {
+                    '添加': function() {
+                        
+                        var data = { 'ml_id':$("#batch_level_val").val(),'m_id':m_ids};
+                       // alert(data);return false;
+                        var url = "{:U('Admin/Memberlevel/doBacthLevel')}";
+                        $.post(url,data,function(info){
+                            if(info=="false"){
+                                showAlert(false,'设置失败');
+                            }else{
+                                showAlert(true,'成功');
+                            }
+                        });
+                                $( this ).dialog( "close" );
+                            },
+                    '取消': function() {
+                        $( this ).dialog( "close" );
+                    }
+                    }
+                });
+        }
+        //批量审核
+        if(batecVal == 3){
+           
+            if(!confirm('你确定要批量审核吗？')){
+                return false;
+            }
+            var url = "{:U('Admin/Members/doBacthMembers')}";
+            $.post(url,{'m_id':m_ids,'type':'verify'},function(data){
+                if(data==true){
+                    showAlert(true,'成功');
+                }else {
+                    showAlert(false,'失败');
+                }
+            });
+        }
+        //批量审核
+        if(batecVal == 4){
+           
+            if(!confirm('你确定要批量冻结吗？')){
+                return false;
+            }
+            var url = "{:U('Admin/Members/doBacthMembers')}";
+            $.post(url,{'m_id':m_ids,'type':'freeze'},function(data){
+                if(data==true){
+                    showAlert(true,'成功');
+                }else {
+                    showAlert(false,'失败');
+                }
+            });
+        }
+   
+    }
+    $(document).ready(function(){
+        $(".synMembers").live('click',function(){
+            var url = $(this).attr("data-uri");
+            var field = $(this).attr('data-field');
+            var val   = $(this).attr('data-id');
+            var name = $(this).attr("data-name");
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {id:val, field:field,'name':name},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                        var strHtml = '';
+                        strHtml += '<span style="color:green;">已同步</span>';
+                        $("#syn_"+val).html(strHtml);
+                    }else{
+                        $("#J_ajax_loading").removeClass("ajax_success").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+        
+        $("#delAll").live("click",function(){
+            var m_ids = new Array();;
+            $(".tbList input:checked[class='checkSon']").each(function(){
+                m_ids.push(this.value);
+            });
+            m_id = m_ids;
+            m_ids = m_ids.join(",");
+            if(m_ids == ''){
+                $("#J_ajax_loading").addClass('ajax_error').html("请选择需要删除的平台！").show().fadeOut(5000);
+                return false;
+            }
+            var url = $(this).attr("data-uri");
+            var field = $(this).attr('data-field');
+            $.ajax({
+                url:url,
+                cache:false,
+                dateType:'json',
+                type:'POST',
+                data:{field:field,sp_ids:m_ids},
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        $.each(m_id,function(index,value){
+                            $("#list_"+value).remove();
+                        });
+                        $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+    });
+   
+</script>

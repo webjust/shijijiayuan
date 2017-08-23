@@ -1,0 +1,27 @@
+<a href="#" class="adverPic" edit-name="广告图片链接" linkcontent-editable="true" content-num="21" textstyle-editable="true" style-num="1"><img src="__TPL__images/pic.png" edit-name="广告图片" imagestyle-editable="true" style-num="4" imagecontent-editable="true" content-num="22" width="530" height="449"></a>
+<div class="goods">
+	<ul>
+		<Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead" no_paged="1">
+		<php>if($key<4){</php>
+		<li>
+
+			<p>
+                <if condition="$showlist['show_name'] eq 1">
+				<a href="{$showlist.gurl}" title="{$showlist.gname}">{$showlist.gname}</a>
+                </if>
+                <if condition="$showlist['sale_price'] neq ''">
+				 {$showlist.sale_price}<span>¥{$showlist.gprice|sprintf='%.2f',###}</span>
+                 </if>
+                <if condition="$showlist['market_price'] neq ''">
+                <del>{$showlist.market_price}{$showlist.maprice|sprintf='%.2f',###}</del>
+                 </if>
+			</p>
+
+            <if condition="$showlist['show_pic'] eq 1">
+			<a href="{$showlist.gurl}" class="proPic" title="{$showlist.gname}"><img src="{$showlist.gpic|showImage=###,170,170}" width="170px" height="170px"></a>
+            </if>
+		</li>		
+		<php>}</php>
+		</Gyfx:goodslist>	
+	</ul>
+</div>

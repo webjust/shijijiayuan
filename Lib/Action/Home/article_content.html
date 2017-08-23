@@ -1,0 +1,61 @@
+<div class="warp">
+    <div class="path1 songT">
+        <Gyfx:articleinfo name="artinfo" aid="$aid" >
+        <div class="w1200">
+            <p><a href="{:U('Home/Index/index')}" class="idx">首页</a><img src="__IMAGES__ab_ico_1.gif" width="12" height="13">
+            <span>
+                <php>if(!empty($artinfo['cname'])){</php>
+                <a href="{:U('Home/Article/articlelist',array('cid'=>$artinfo['cid']))}">{$artinfo.cname}</a> <img src="__IMAGES__ab_ico_1.gif" width="12" height="13"> 
+                <php>}</php>
+            </span>
+            <span>{$artinfo.atitle}</span>
+            </p>
+        </div>
+        </Gyfx:articleinfo>
+    </div>
+
+    <div class="w1200 clearfix">
+        <div class="ab-main clearfix">
+            <div class="col songT"><!--col 开始-->
+                <h2 class="prtTit  pl20 clr0091d2"><strong class="ft14">帮助中心</strong></h2>
+                <dl>
+                    <volist name="ary_article_category" id="art">
+                    <dt><img src="__IMAGES__ab_ico_2.gif" width="11" height="11">{$art.cat_name}</dt>
+                        <volist name="art" id="list">
+                            <volist name="list" id="info">
+                            <dd><a href="{$info.aurl}">{$info.atitle}</a></dd>
+                            </volist>
+                        </volist>
+                    </volist>
+                </dl>
+            </div><!--col 结束-->
+            <Gyfx:articleinfo name="artinfo" aid="$aid" >
+             <div class="instr-con">
+                <p class="tit prtTit">{$artinfo.atitle}</p>
+                <div class="txt-con">{$artinfo.acontent}</div>
+            </div>
+            </Gyfx:articleinfo>
+        </div>
+
+    </div><!--w1200 结束-->
+</div><!--warp 结束-->
+<script type="text/javascript">
+	$(function(){
+		//导航
+		$(".mainNav li").each(function(index, element) {
+            $(this).hover(function(){
+				$(this).addClass("hover");
+			},function(){
+				$(this).removeClass("hover");
+		})
+        });
+		
+		//shopping_cart_list
+		$(".shopping_cart_list").hover(function(){
+			$(this).find(".shopcartHide").show();
+		},function(){
+			$(this).find(".shopcartHide").hide();
+		})
+		
+	})
+</script>

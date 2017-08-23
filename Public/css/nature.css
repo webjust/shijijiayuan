@@ -1,0 +1,467 @@
+body{
+    background: #ffffff;
+}
+#nature_top,#nature_nav,#nature_banner,#nature_product_list_1,#nature_product_list2,#nature_republic_1,#nature_republic_2,#nature_product_list_3,#nature_republic_3,#nature_title_2,#nature_title_3{
+    width: 100%;
+    height: 20px;
+}
+.nature_republic_content_1,.nature_banner_content,.nature_top_content,.nature_nav_content,.nature_product_content_1,.nature_product_content_2,.nature_product_content_3{
+    width: 1200px;
+    margin: 0 auto;
+}
+.nature_title_content_2,.nature_republic_content_2,.nature_title_content_3,.nature_republic_content_3{
+    width: 100%;
+    margin: 0 auto;
+}
+/*头部样式*/
+#nature_top{
+    height: 150px;
+    overflow: hidden;
+    background: url("../images/nature_top_bg.jpg") no-repeat center top;
+}
+.nature_top_content{
+    height:150px;
+    overflow: hidden;
+}
+.nature_top_content>img{
+    margin-left: 35px;
+}
+.nature_top_content>div{
+    padding: 58px 0;
+    margin-right: 70px;
+    float: right;
+    width: 221px;
+    height: 34px;
+}
+.nature_top_content>div input{
+    outline: none;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    float: left;
+    width: 190px;
+    padding-left: 5px;
+    line-height: 34px;
+    height:32px;
+}
+.nature_top_content>div a{
+    width: 24px;
+    height: 34px;
+    float: left;
+    background: url("../images/nature_search_ico.png");
+    overflow: hidden;
+}
+/*导航样式*/
+#nature_nav{
+    height:37px;
+    background: #82903b;
+    overflow: hidden;
+}
+.nature_nav_content{
+    height: 37px;
+    line-height: 37px;
+    overflow: hidden;
+}
+.nature_nav_content span{
+    display: inline-block;
+    width: 153px;
+    height: 37px;
+    background: white;
+    overflow: hidden;
+    float: left;
+    background: url("../images/nature_all_ico.png");
+}
+.nature_nav_content ul{
+    float: left;
+}
+.nature_nav_content ul li{
+    width: 90px;
+    height: 37px;
+    line-height: 37px;
+    text-align: center;
+    float: left;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+/*banner样式*/
+#nature_banner{
+    height: 513px;
+    overflow: hidden;
+    background: url("../images/nature_bander.jpg") no-repeat center top;
+}
+.nature_banner_content {
+    height: 513px;
+    overflow: hidden;
+}
+/*nature产品列表1*/
+#nature_product_list_1{
+    height: 1190px;
+    overflow: hidden;
+    background: url("../images/nature_product_bg_1.jpg") no-repeat center top;
+}
+.nature_product_content_1{
+    margin-top: 30px;
+    overflow: hidden;
+}
+.nature_product_content_1 ul li{
+    float: left;
+    width: 400px;
+    height: 557px;
+    overflow: hidden;
+}
+/*nature标题2*/
+#nature_title_2{
+    height: 368px;
+    overflow: hidden;
+    background: url("../images/nature_title_2.jpg") no-repeat center top;
+}
+/*nature产品列表2*/
+#nature_product_list2{
+    height: 1036px;
+    background: url("../images/nature_product_bg_2.jpg") no-repeat center top;
+    overflow: hidden;
+}
+.nature_product_content_2{
+
+    overflow: hidden;
+}
+/*nature——大banner*/
+#nature_republic_1{
+    height: 675px;
+    background:#ffffff;
+    overflow: hidden;
+}
+.nature_republic_content_1{
+    height: 675px;
+    overflow: hidden;
+}
+#nature_republic_2{
+    height: 550px;
+    background:#ffffff;
+    overflow: hidden;
+    background: url("../images/nature_republic_2.jpg") no-repeat center top;
+}
+.nature_republic_content_2{
+    height: 550px;
+    overflow: hidden;
+}
+.nature_republic_content_2 a{
+    display: block;
+    width: 100%;
+    height: 550px;
+}
+/*nature标题3*/
+#nature_title_3{
+    height: 215px;
+    background:url("../images/nature_title_3.jpg") no-repeat center top;
+    overflow: hidden;
+}
+/*nature产品列表三*/
+#nature_product_list_3{
+    height: 950px;
+    background: url("../images/nature_product_bg_3.jpg") no-repeat center top;
+}
+.nature_product_content_3{
+    height: 950px;
+    overflow: hidden;
+}
+.nature_product_content_3 p{
+    text-align: center;
+}
+.nature_product_content_3 p a{
+    margin-right: 10px;
+}
+/*nature——大banner3*/
+#nature_republic_3{
+    height: 631px;
+    overflow: hidden;
+    background: url("../images/nature_republic_3.jpg") no-repeat center top;
+}
+.nature_republic_content_3{
+    height: 631px;
+    overflow: hidden;
+}
+.nature_republic_content_3>a{
+    width: 100%;
+    height: 631px;
+    overflow: hidden;
+    display: block;
+}
+/************************************/
+/*产品选择和产品*/
+#nature_product_choose{
+    width: 1200px;
+    margin:28px auto;
+    overflow: hidden;
+}
+.nature_add_icon{
+    float: left;
+    width: 12px;
+    height: 12px;
+    margin: 16px 10px 0 10px;
+    background: url("../images/nature_add_btn_ico.png") no-repeat;
+}
+.nature_product_choose_list{
+    float: left;
+    width: 284px;
+    overflow: hidden;
+}
+.self_search,.baby_classify,.efficacy_choose{
+    width: 284px;
+    overflow: hidden;
+}
+.self_search_title,.baby_classify_title,.efficacy_choose_title{
+    width: 282px;
+    height:44px;
+    line-height: 44px;
+    color: red;
+    font-size: 12px;
+    border: 1px solid #dcdcdc;
+    overflow: hidden;
+    background:#f2f2f2;
+}
+.self_search_content{
+    width: 262px;
+    height: 30px;
+    padding: 21px 0 21px 20px;
+    border: 1px solid #dcdcdc;
+    border-top: none;
+    line-height: 30px;
+}
+.self_search_content>input{
+    outline: none;
+    border: 1px solid #dcdcdc;
+    width: 115px;
+    height: 28px;
+    margin-left:5px;
+    padding-left:5px;
+}
+.self_search_content>a{
+    display: block;
+    float: right;
+    margin-right: 10px;
+    border: 1px solid #af1d41;
+    width: 50px;
+    height: 28px;
+    border-radius: 5px;
+    background: url("../images/nature_search_btn_ico.png") no-repeat;
+
+}
+/*宝贝分类*/
+.baby_classify,.efficacy_choose{
+    margin-top: 10px;
+}
+.baby_classify_title{
+    background:#ffffff;
+}
+.baby_classify_content{
+    width: 282px;
+    overflow: hidden;
+    border: 1px solid #dcdcdc;
+    border-top: none;
+}
+.baby_classify_content_1{
+    width: 282px;
+    overflow: hidden;
+}
+.baby_classify_title_1{
+    width: 270px;
+    padding-left: 12px;
+    border-bottom: 1px solid #dcdcdc;
+    height: 30px;
+    line-height: 30px;
+}
+.outt{
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 2px solid #af2547;
+    margin-right: 10px;
+}
+.baby_classify_title_content1{
+    width: 262px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 22px;
+    border-bottom: 1px solid #dcdcdc;
+}
+.baby_classify_title_content1 span{
+    margin-left: 8px;
+    height: 30px;
+    line-height: 30px;
+    color: #666666;
+}
+/**********************************/
+.baby_classify_content2{
+    width: 282px;
+    overflow: hidden;
+}
+.baby_classify_content2_title{
+    width: 256px;
+    height: 40px;
+    padding-left: 26px;
+}
+.baby_classify_content2_title div{
+    width: 135px;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px dotted #dcdcdc;
+}
+.down_ico{
+    float: left;
+    margin-top: 17px;
+    border: 5px solid transparent;
+    border-top: 5px solid #ee155c;
+    margin-right: 10px;
+}
+.baby_classify_content2 ul,.efficacy_choose_content ul{
+    width: 282px;
+    overflow: hidden;
+}
+.baby_classify_content2 ul li,.efficacy_choose_content ul li{
+    width:232px;
+    padding-left: 50px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+}
+.baby_classify_content2 ul li:hover,.efficacy_choose_content ul li:hover{
+    background: #f2f2f2;
+}
+.efficacy_choose_content ul{
+    border: 1px solid #dcdcdc;
+    border-top: none;
+}
+/*产品摆放区*/
+.nature_product_choose_content{
+    width: 916px;
+    float: left;
+}
+.nature_product_choose_content>div{
+    width: 290px;
+    height: 395px;
+    float: left;
+    margin-bottom: 16px;
+    margin-left: 13px;
+    border: 1px solid #c9c9c9;
+    overflow: hidden;
+}
+.nature_product_choose_content>div:hover{
+    box-shadow:0 0 8px #c9c9c9;
+}
+.nature_product_img{
+    width: 290px;
+    height:285px;
+    overflow: hidden;
+}
+.nature_product_name{
+    width: 270px;
+    padding: 0 10px;
+    overflow: hidden;
+}
+.nature_product_name div{
+    width: 270px;
+    padding-top: 10px;
+    height: 44px;
+    text-align: left;
+    border-bottom: 1px dotted #c7c7c7;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.nature_product_name div span{
+    color: red;
+}
+.nature_product_message{
+    width: 290px;
+    height: 55px;
+    overflow: hidden;
+}
+.nature_product_message>div{
+    float: left;
+}
+.nature_product_price{
+    width: 100px;
+    height: 55px;
+    line-height: 55px;
+    text-align: center;
+    font-size: 32px;
+    color: red;
+}
+.nature_product_favorable{
+    width: 60px;
+    height: 35px;
+    padding: 10px 0;
+    text-align: center;
+    overflow: hidden;
+}
+.nature_product_favorable>div{
+    width: 60px;
+    height: 16px;
+    color: #ffffff;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 5px;
+    background: #caa149;
+    overflow: hidden;
+    visibility: hidden;
+}
+.nature_product_favorable>s{
+    margin-top: 5px;
+    color: #a0a0a0;
+}
+.nature_product_people_Purchased{
+    width: 120px;
+    padding-right: 10px;
+    height: 55px;
+    line-height: 55px;
+    text-align: right;
+    color: #9f9f9f;
+}
+.nature_product_people_Purchased>span{
+    color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

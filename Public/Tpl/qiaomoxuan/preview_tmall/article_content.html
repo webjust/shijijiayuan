@@ -1,0 +1,23 @@
+<!--中间内容 开始-->
+<div class="wrap">
+	<div class="content">
+    	<div class="proList"><!--proList 开始-->
+        <Gyfx:articleinfo name="artinfo" aid="$aid" >
+        	<div class="proLTop clearfix">
+                <p class="fleft"><a href="{:U('Home/Index/index')}">首页</a><i>></i><a href="{:U('Home/Article/articlelist')}">帮助中心</a><i>></i>
+                <php>if(!empty($artinfo['cname'])){</php>
+                <a href="{:U('Home/Article/articlelist',array('cid'=>$artinfo['cid']))}">{$artinfo.cname}</a><i>></i>
+                <php>}</php>
+                <span>{$artinfo.atitle}</span></p>
+            </div>
+            <div class="newList newDetails">
+                <h3>{$artinfo.atitle}</h3>
+                <p class="time">发布时间：{$artinfo.atime}</p>
+                <div class="newCon">
+                    {$artinfo.acontent}
+                </div>
+            </div>
+        </Gyfx:articleinfo>
+        </div><!--proList 结束-->
+    </div>
+</div><!--中间内容 结束-->

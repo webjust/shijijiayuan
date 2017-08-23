@@ -1,0 +1,179 @@
+{__NOLAYOUT__}
+<td colspan="3" >
+    <div style="margin-left:75px; width:887px" class='ajax_show_area'><!--rightInner  start-->
+        <table width="100%" class="tbNew">
+            <tbody>
+                <tr>
+                    <td class="first" style="width:74px"><span class="red">*</span> 选择商品：</td>
+                    <td>
+                        <input class="goodsSelecter" type="hidden" value="1" id="cfg_goods_part" name="cfg_goods_area" checked="checked">
+                        <input type="button" <eq name="config:cfg_goods_area" value="-1">style="display:none;"</eq> class="btnA" id="add_goods" value="添加商品" onClick="javascript:add_pmn_goods();">
+                        <div id="goodsSelect" style="display: none;" title="请选择商品">
+                            <include file="Products:getGoodsSelecter" />
+                        </div>
+                    </td>
+                </tr>
+                <tr id="add_goods_tr" <eq name="config:cfg_goods_area" value="-1">style="display:none"</eq>>
+                    <td colspan="2">
+                        <table id="raGoodsId" class="tbList" width="100%">
+                            <thead>
+                                <tr>
+                                    <!--<th style="text-align:center;">
+                                        <input type="checkbox" onclick="checkAll()" class="checkAll_tr">
+                                    </th>-->
+                                    <th style="text-align:center;">商品名称</th>
+                                    <th style="text-align:center;">商品编号</th>
+                                    <th style="text-align:center;">销售价（元）</th>
+                                    <if condition="$filter.type neq 'add'">
+                                        <th style="text-align:center;">一口价（元）</th>
+                                    </if>
+                                    
+                                    <th style="text-align:center;">操作</th>
+                                </tr>
+                            </thead>
+                            <include file="Promotions:getGoodsTr"/>    
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        {$page}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+                <if condition="$filter.type neq 'add'">
+                <tr>
+                    <table style="width:100%">
+                        <tr>
+                            <td width="75px">设置一口价：</td>
+                            <td id="discounts_all" style="display:block">
+                                <input type="text" class="small" id="cfg_discounts_all" name="cfg_discounts_all" value="{$config['cfg_discount_all']}" validate="{ number:true}" >
+                                <a href="javascript:void(0);" id="cfg_discounts_setAll" >快速批量设置</a>&nbsp;&nbsp;
+                            <!--</td>
+                            <td id="discounts_system_all">-->
+                                <input type="text" class="small" style="display:none" id="cfg_discounts_system_all" name="cfg_discounts_system_all" validate="{ required:true,number:true,min:0.01}" value="{$config['cfg_discounts_system_all']}"/>
+                            <span>折上折：<input class="checkSon_tr" type="checkbox" name="cfg_use_again_discount" id="cfg_use_again_discount" value="1" <if condition="$config['cfg_use_again_discount'] eq 1">checked</if> >(是否再次参与订单促销)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                    <table >
+                </tr>
+                </if>
+            </tbody>
+        </table>
+    </div></td>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var types=$("input:radio[name='cfg_goods_area']:checked").val();
+        if(types == -1){
+            //如果是全部商品则隐藏商品
+            $("#add_goods_tr").hide();
+            $('#add_goods').hide();
+            $("#raGoodsId tbody").remove();
+            $("#discounts_system_all").css("display","block");  
+        }
+         
+    });
+
+    $('#goodsSelect').dialog({
+        resizable:false,
+        autoOpen: false,
+        modal: true,
+        width: 'auto',
+        height:500,
+        open:function(){
+            $('.ui-widget-content').css('overflow-x','hidden');
+        },
+        buttons: {
+            '确认': function() {
+                var dio = $( this );
+                //将弹框内已经选择好的数据发送的母页面的元素
+                //此处不用js拼接html元素，直接把数据发送给控制器，利用控制器生成页面返回替换
+                var data = {};
+                $("input[name='gs_gid[]']").each(function(){
+                    var g_id = $(this).val();
+                    if($(".selected_goods_tr_" +g_id).length > 0){
+                        $(this).attr("checked",false);
+                    }
+                });
+                var data = $("input[name='gs_gid[]']").serialize();
+                    data+=',PYIKOUJIA';
+                    var type = "{$filter.type}";
+                    if(type == 'add'){
+                        var url = "{:U('Admin/Promotions/getGoodsTr','type=add')}";
+                    }else{
+                        var url = "{:U('Admin/Promotions/getGoodsTr')}";
+                    }
+                
+                $.post(url,data,function(info){
+                    var html= $('#raGoodsId thead').after($(info));
+                    var num=$("input[name='ra_gid[]']").length;
+                    if(num==0){
+                        $("#cfg_discounts_setAll").css('display','none');
+                    }else{
+                        $("#cfg_discounts_setAll").css('display','');
+                    }
+                },'text');
+                dio.dialog( "close" );
+            },
+            '关闭': function() {
+                var num=$("input[name='ra_gid[]']").length;
+                if(num==0){
+                    $("#cfg_discounts_setAll").css('display','none');
+                }else{
+                    $("#cfg_discounts_setAll").css('display','');
+                }
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    $('.goodsSelecter').click(function(){
+        var types=$("input:radio[name='cfg_goods_area']:checked").val();
+        //1:部分商品，-1：全部商品
+        if(types==1){
+            $("#add_goods_tr").hide();
+            $('#add_goods').hide();
+            $("#raGoodsId tbody").remove();
+            $("#discounts_system_all").css("display","block");  
+            $("#discounts_all").css("display","none"); 
+            $("#add_goods_tr").addClass('tbList');
+            $('#add_goods').css("display","");
+            $("#add_goods_tr").css("display","");
+            //$('#goodsSelect').dialog('open');
+            $("#discounts_all").css("display","block");  
+            $("#discounts_system_all").css("display","none");  
+        }else{
+            //如果是全部商品则隐藏商品
+            $("#add_goods_tr").hide();
+            $('#add_goods').hide();
+        }
+    });
+    /*
+     * 设置价格
+     */
+    function shortcut(gid){
+        $(".shortcut_pro_"+gid).val($("#shortcut_goods_"+gid).val());
+    }
+    /*批量设置商品折扣*/
+    $(function(){
+        $('#cfg_discounts_setAll').click(function(){
+            //$("#cfg_discounts_system_all").show();
+            $('.cfg_discounts').val($('#cfg_discounts_all').val());
+        });
+        
+    });
+    //显示商品选择框
+    function add_pmn_goods() {
+		$("#gifts").hide();
+		$("#g_gifts").val("0");
+		if($("#goodsSelect").attr('g_gifts') != '0'){
+			$("#goodsSelecterList").html("");
+		}
+		
+		//$("#goodsSelecterList").html("");
+        $('#goodsSelect').dialog('open');
+    }
+</script>

@@ -1,0 +1,77 @@
+{__NOLAYOUT__}
+
+<div class="login">
+    <div class="right" style=" height: auto; padding-bottom: 10px;">
+        <div class="loginBord">
+            <div class="loginTit">
+                <div class="tosignup"><a href="javascript:;" onclick="javascript:location.href='/Home/User/pageRegister'">立即免费注册>></a></div>
+                <h1><strong>登陆芥茉帐号</strong></h1>
+            </div>
+            <form method="post" action="#" style="display: block;">
+                <div class="textbox_ui user">
+                    <input type="text" placeholder="已验证手机/邮箱/用户名" id="m_name" autofocus="" autocomplete="off" value="">
+                    <span style="color:red;display:none;">用户名不能为空。</span>
+                </div>
+                <div class="textbox_ui pass">
+                    <input type="password" placeholder="密码" id="m_password" autocomplete="off">
+                    <span style="color:red;display:none;">密码不能为空。</span>
+                </div>
+                <input class="loginbtn submit_btn" type="button" value="登 录" onclick="nowLogin();" style=" display: block;width: 100%;cursor:pointer;">
+                <!-- <input class="loginbtn submit_btn1" type="button" value="免登陆购买" style=" display: block;width: 100%;"> -->
+            </form>
+        </div>
+        <div class="iconAccout">
+            <div>第三方帐号登陆:</div>
+            <p>
+                <if condition="$sina eq '1'">
+                    <a href="{:U('Home/User/thdLoginUr/')}?type=Sina" class="a3" title="新浪微博"><img src="__TPL__images/sina.png" alt=""></a><!-- 使用新浪微博登录 -->
+                </if>
+                <if condition="$qq eq '1'">
+                    <a href="{:U('Home/User/thdLoginUr/')}?type=QQ" class="a1" title="QQ"><img src="__TPL__images/qq.png" alt=""></a><!-- 使用腾讯QQ登录 -->
+                </if>
+                <if condition="$renren eq '1'">
+                    <a href="{:U('Home/User/thdLoginUr/')}?type=RenRen" class="last"><i class="i04"></i>人人</a><!-- 使用使用人人网登录 -->
+                </if>
+                <if condition="$wx eq '1'">
+                <div id="wx_login" class="t_center">
+                    <img src="__IMAGES__ewm_wx.jpg" />
+                    <span class="f12 gray3" style="margin-top:10px;">使用微信扫描上方二维码登陆</span>
+                </div>
+                </if>
+            </p>
+        </div>       
+    </div>
+</div>
+
+
+
+<script>
+function nowLogin(){
+    var m_name = $("#m_name").val();
+    var m_password = $("#m_password").val();
+    if(m_name == ''){
+        $("#m_name").next().show();
+        return false;
+    }else{
+        $("#m_name").next().hide();
+    }
+    if(m_password == ''){
+        $("#m_password").next().show();return false;
+    }else{
+        $("#m_password").next().hide();
+    }
+    $.post('/Home/User/doUserLogin/',{m_name:m_name,m_password:m_password},function(msg){
+        if(msg.status == 1){
+            $.ThinkBox.success("登录成功！");
+            window.top.location.reload();
+        }else{
+            $.ThinkBox.error('登录失败！');
+        }
+       
+    },'json');
+}
+function closeForm(){
+    $(".ThinkBox-wrapper").remove();
+    $(".ThinkBox-modal-blackout-default").remove();
+}
+</script>

@@ -1,0 +1,444 @@
+<script src="__PUBLIC__/Ucenter/js/cart.js"></script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>{$Think.lang.MY_CART}</span></h2>
+	<div class="myCart"><!--myCart   start-->
+    	<p class="topPic"></p>
+        <div class="Ucatop"><!--Ucatop  start--->
+        	<p id="cart_full" class="tishiP" <if condition="$num EGT '40' "> style="display:block;" <else/> style="display:none;" </if> >{$Think.lang.CART_FULL}
+                <a href="#" class="close"></a>
+                <i></i>
+            </p>
+            <!--<form action="#" method="post" id="cartForm" name="cartForm">-->
+            <form action="/Ucenter/Cart/Fastcart" method="post" id="Fastcart" name="Fastcart">
+                <ul>
+                	<li>{$Think.lang.CART_STATUS}：
+                        <span class="jin" id="allerp">
+                           
+                        </span> 
+                        <span id="new_current_num" >{$num}</span>/50<i style='margin-right: 10px;'></i>
+                    </li>
+                    <li></li>
+                    
+<!--                    <li>
+                        <p style="border: 1px solid #D7D7D7;">
+                           &nbsp; <input style="width:215px;font-size:14px;border:medium none;margin-top:4px;height:20px;" type="text" name="pdt_sn" id="pdt_sn" value="">
+                        </p>
+                    </li>
+                    <li>
+                    	<p class="numP">
+                        	<a href="javascript:void(0);" class="reduce" id="f_down"></a>
+                            <input type="text" class="inputFastCartNum" id="fast_num" name="fast_num" value="0">
+                            <a href="javascript:void(0);" class="fadd" id="f_up"></a>
+                        </p>
+                    </li>-->
+                    <li style='margin-right: 10px;'>
+                    	<!--<input type="button" value="{$Think.lang.ADD_CART}" class="blue" id="FastSubmit" disabled="true">-->
+                        {$Think.lang.GOODS_PRICE_TOTAL}({$Think.lang.WITHOUT_FREIGHT})
+                        <span class="red">
+                            <I class="price">￥</I>
+                            <if condition="$price_data['all_pdt_price'] NEQ ''">
+                                <strong id="top_all_price">{$price_data['all_pdt_price']}</strong>
+                            <else />
+                                <strong id="top_all_price">0.00</strong>
+                            </if>
+                        </span>
+                        <a <if condition="$cart_data NEQ ''"> href="{:U('Ucenter/Orders/pageAdd/')}" <else /> href="#"</if> class="brown">
+                            {$Think.lang.CHECKOUT}
+                        </a>
+                    </li>
+                    <!--<li><h2 style="color: #F37511;font-size: 18px;padding:0px;" id="promition_rule_name" >{$promition_rule_name} </h2></li>-->
+                </ul>
+            </form>
+            
+        </div><!--Ucatop  end--->
+        <table>
+        	<thead>
+            	<tr>
+                	<td width="40">
+                        <input type="checkbox" name="select_all" id="select_all1">
+                    </td>
+                    <td width="82">{$Think.lang.GOODS_PIC}</td>
+                    <td width="332">{$Think.lang.GOODS_NAME}</td>
+                    <td width="81">{$Think.lang.MEMBER_PRICE}</td>
+                    <td width="122">{$Think.lang.BUY_NUM}</td>
+                    <td width="108">{$Think.lang.PREFERENTIAL}</td>
+                    <td width="97">{$Think.lang.COUNT}</td>
+                    <td>{$Think.lang.OPERATION}</td>
+                </tr>
+            </thead>
+            <tbody id="cart_tbody">
+                <form action="#" method="post" id="cartForm" name="cartForm">
+                <if condition="$cart_data NEQ ''">
+                    <volist name="cart_data"  id="vo">
+						
+	                    	<tr class="cartPdt{$vo.pdt_id}">
+	                        	<td width="40">
+		                        	<if condition="$vo[0]['type'] neq 4">
+		                               <input type="checkbox" value="{$vo.pdt_id}" name="pid[]">
+		                               <input type="hidden" value="{$vo.type}" name="type[]">
+		                            <else />
+		                               <input type="checkbox" value="{$vo[0][pdtId]}" name="pid[]">
+		                               <input type="hidden" value="{$vo[0][type]}" name="type[]">		                            
+		                            </if>
+	                            </td>
+	                            <td width="82" valign="top">	                         
+	                            <if condition="$vo[0]['type'] neq 4">
+	                            	<div class="cartProPic">
+	                                    <a href='{:U("Home/Products/detail","gid=$vo[g_id]")}'>
+	                                        <img src='{$vo.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+	                                        <input type="hidden" id="pdt_price{$vo.pdt_id}" value="{$vo.pdt_sale_price}" />
+	                                    </a>
+	                                </div>
+	                            <else />
+	                            	<!--自由推荐商品-->
+	                            	<volist name="vo"  id="subvo">
+		                            	<div class="cartProPic" style="height:100px;padding-top:3px;">
+		                                    <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}'>
+		                                        <img src='{$subvo.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+		                                        <input type="hidden" id="pdt_price{$subvo.pdt_id}" value="{$subvo.pdt_sale_price}" />
+		                                    </a>
+		                                </div>	                       	
+	                            	</volist>
+	                            </if>   
+	                            </td>
+	                            <td width="332" align="left">
+		                            <if condition="$vo[0]['type'] neq 4">
+		                            	<div class="cartProName">
+		                                    <!--<a href="{:U('Home/Products/detail')}/gid/{$vo.g_id}" target="_blank">{$vo.g_name}</a>-->
+		                                    <a href='{:U("Home/Products/detail","gid=$vo[g_id]")}' target="_blank">{$vo.g_name}</a>
+		                                    <eq name="vo.g_pre_sale_status" value="1">[预售商品]</eq>
+		                                    <span>{$Think.lang.PRODUCT_SN}：{$vo.pdt_sn}</span>
+		                                    <span>{$Think.lang.GOODS_SPEC}：{$vo.pdt_spec}</span>
+			                                <if condition="$vo.authorize neq 1">
+			                                <span style="color:red;">商品已不允许购买</span>
+			                                </if>
+		                                </div>
+		                            <else />
+		                            	<!--自由推荐商品-->
+		                            	<volist name="vo"  id="subvo">
+			                            	<div class="cartProName" style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+			                                    <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}' target="_blank">{$subvo.g_name}</a>
+			                                    <span>{$Think.lang.PRODUCT_SN}：{$subvo.pdt_sn}</span>
+			                                    <span>{$Think.lang.GOODS_SPEC}：{$subvo.pdt_spec}</span>
+				                                <if condition="$subvo.authorize neq 1">
+				                                <span style="color:red;">商品已不允许购买</span>
+				                                </if>
+			                                </div>                            	
+		                            	</volist>
+		                            </if>   
+	                            </td>
+	                            <if condition="$vo.type EQ 1 ">
+							      <!--积分商品 -->
+							       <td width="81">
+								    <span id="single_point_{$vo.pdt_id}_{$vo.type}">{$vo.pdt_sale_price}</span>积分
+		                           </td>
+							       <td width="122">
+	                                  <p>
+	                                  <a href="javascript:void(0);" class="reduce cartRed add" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}" pdt_sale_price="{$vo.pdt_sale_price}" type="1"></a>
+	                                  <input type="text" class="inputNum" value="{$vo.pdt_nums}" types="3" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}"  good_type="{$vo.type}" id="nums_{$vo.pdt_id}_{$vo.type}"/>
+	                                  <input type="hidden" value="{$vo.pdt_nums}" id="old_nums_{$vo.pdt_id}_{$vo.type}"/>
+	                                  <a href="javascript:void(0);" class="add" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}" pdt_sale_price="{$vo.pdt_sale_price}" type="2"></a>
+	                                  <span class="brownblock marTop5" style="display: none;" id="jf_msg">积分不足</span>
+	                                  </p>
+	                              </td>
+	                              <td width="108">
+	                                 	 无优惠
+	                              </td>
+								  <td width="97" id="xiao_price{$vo.pdt_id}">
+	                                   <i class="price"></i> <span id="totalpoint_{$vo.pdt_id}_{$vo.type}">{$vo.pdt_momery}</span>积分
+	                              </td>
+							  <else />
+							  <td width="81"  value="{$vo.f_price}">
+							  <if condition="$vo[0]['type'] neq 4">
+		                                <if condition="$vo.f_price EQ $vo.pdt_sale_price ">
+		                                    <i class="price">￥</i>{$vo.pdt_sale_price} <br>
+		                                <else />
+		                                    <i class="price">￥</i>{$vo.pdt_sale_price} <br>
+		                        	        <label class="lineT">
+		                                        <i class="price">￥</i>{$vo.f_price}
+		                                    </label><br>
+		                                    <span class="blueBlock">降{$vo.pdt_preferential}</span>
+		                                </if> 
+							  <else />
+							  	<volist name="vo"  id="subvo">
+									<div style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+	                                <if condition="$subvo.f_price EQ $subvo.pdt_sale_price ">
+	                                    <i class="price">￥</i>{$subvo.pdt_sale_price} <br>
+	                                <else />
+	                                    <i class="price">￥</i>{$subvo.pdt_sale_price} <br>
+	                        	        <label class="lineT">
+	                                        <i class="price">￥</i>{$subvo.f_price}
+	                                    </label><br>
+	                                    <span class="blueBlock">降{$subvo.pdt_preferential}</span>
+	                                </if>
+					  				</div>
+					  		 	</volist>	
+							  </if>
+							  </td>
+	                            <td width="122">
+		                            <if condition="$vo[0]['type'] neq 4">
+		                            	<p>
+		                                <a href="javascript:void(0);" class="reduce cartRed add" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}" pdt_sale_price="{$vo.pdt_sale_price}" type="1"></a>
+		                                <input type="text" class="inputNum" value="{$vo.pdt_nums}" types="3" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}" good_type="{$vo.type}" />
+		                                <input type="hidden" value="{$vo.pdt_nums}" />
+		                                <a href="javascript:void(0);" class="add" pdt_id="{$vo.pdt_id}" stock="{$vo.pdt_stock}" pdt_sale_price="{$vo.pdt_sale_price}" type="2"></a>
+		                                <br>
+		                                </p>	                            
+		                            <else />
+										<volist name="vo"  id="subvo">
+			                            	<p style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+			                            	{$subvo.pdt_nums}
+			                                <br>
+			                                </p>	
+		                                </volist>	                           
+		                            </if>  
+	                            	<!--<if condition="$stock_data.OPEN_STOCK EQ 1 and $stock_data.level NEQ ''">
+	                                      <if condition="$vo.pdt_stock ELT 0 ">
+	                                            <span class="brownblock marTop5">缺货</span>
+	                                      </if>
+	                                      <if condition="$vo.pdt_stock GT 0 and $vo.pdt_stock LT $stock_data.STOCK_NUM ">
+	                                        <span class="brownblock marTop5">供货紧张</span>
+	                                      </if>
+	                                      <if condition="$vo.pdt_stock EGT $stock_data.STOCK_NUM ">
+	                                            <span class="brownblock marTop5">库存充足</span>
+	                                      </if>
+	                                <else/>
+	                                     <span class="brownblock marTop5">库存{$vo.pdt_stock}</span>
+	                                </if>-->
+	                            </td>
+	                            <!--<td width="108">{$vo.pdt_stock}</td>-->
+	                            <td width="108">
+	                             <if condition="$vo[0]['type'] neq 4">
+                                         <php>if(!empty($pro_data[$vo['g_id']]['pmn_name'])){</php>
+	                                    <p style="width: 65px; background: #FA890F; margin: 0px auto; color: white; font-style: normal;">
+	                                        <php>echo $pro_data[$vo['g_id']]['pmn_name'];</php>
+	                                    </p>
+
+                                            <php>}else{</php>
+	                                    	无优惠
+                                                <php>}</php>	                             
+	                             <else /> 
+                                	<volist name="vo"  id="subvo">
+                                		<div style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+	 	 	                                <if condition="$subvo.pdt_rule_name NEQ '' ">
+			                                    <p style="width: 65px; margin: 0px auto; color: white; font-style: normal;">
+			                                        <span style="background: #FA890F;">{$subvo.pdt_rule_name}</span>
+			                                    </p>
+			                                <else />
+			                                	无优惠
+			                                </if>	                               		
+                                		</div>                               	
+	                                </volist>                            
+	                             </if>
+	                            </td>
+	                            <td width="97" id="xiao_price{$vo.pdt_id}" value="{$vo.f_price}" >
+		                            <if condition="$vo[0]['type'] neq 4">
+		                                <i class="price">￥</i> {$vo.pdt_momery}
+		                            <else />
+	                                	<volist name="vo"  id="subvo">
+	                                		<div style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+                               					 <i class="price">￥</i> {$subvo.pdt_momery}
+	                                		</div>                               	
+		                                </volist>  		                            
+		                            </if>   
+	                            </td>
+	                           </if>
+<!--                                    <td><php>echo $pro_data[$vo['g_id']]['pmn_name'];</php></td>-->
+	                            <td>
+	                             <if condition="$vo[0]['type'] neq 4">
+	                                <a href="javascript:void(0);" class="favorite" onclick="javascript:ajaxReturn('{:U("Ucenter/Collect/doAddCollect","pid=$vo[pdt_id]")}');" >
+	                                    {$Think.lang.ADD_COLLECT}
+	                                </a>
+	                                <a href="javascript:void(0);" class="delete" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Ucenter/Cart/doDel",array('pid'=>$vo[pdt_id],'type'=>$vo[type]))}');}" pdt_id ="{$vo.pdt_id}">
+	                                    {$Think.lang.DELETE}
+	                                </a>
+	                              <else />
+	                                <a href="javascript:void(0);" class="delete" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Ucenter/Cart/doDel",array('pid'=>$vo[0][pdtId],'type'=>$vo[0][type]))}');}" pdt_id ="{$vo[0]['pdtId']}">
+	                                    {$Think.lang.DELETE}
+	                                </a>	                              
+	                              </if>
+	                            </td>
+	                        </tr>						
+						
+   
+                    </volist>
+                <else />
+                    <tr><td colspan="8">{$Think.lang.EMPTY_CART}</td></tr>
+                </if>
+                
+                
+                <if condition="$gifts_data NEQ ''">
+                    <volist name="gifts_data"  id="gifts">
+                        <tr class="giftscartPdt">
+                        	<td width="40">
+                               <!--<input type="checkbox" value="{$gifts.pdt_id}" name="pid[]">-->
+                               <input type="hidden" value="{$gifts.type}" name="type[]">
+                            </td>
+                            <td width="82" valign="top">
+                            	<div class="cartProPic">
+                                    <a href="#">
+                                        <img src='{$gifts.g_picture|default="Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+                                        <input type="hidden" id="pdt_price{$gifts.pdt_id}" value="{$vo.pdt_sale_price}" />
+                                    </a>
+                                </div>
+                            </td>
+                            <td width="332" align="left">
+                            	<div class="cartProName">
+                                    <a href="javascript:void(1)">{$gifts.g_name}</a>
+                                    <span>{$Think.lang.PRODUCT_SN}：{$gifts.pdt_sn}</span>
+                                    <span>{$Think.lang.GOODS_SPEC}：{$gifts.pdt_spec}</span>
+                                </div>
+                            </td>
+
+                            <td width="81"  value="{$gifts.f_price}">
+                                <i class="price">￥</i>{$gifts.pdt_sale_price} <br>
+                            </td>
+                            <td width="122">
+                            	<p>
+                                    <if condition="$stock_data.OPEN_STOCK EQ 1 and $stock_data.level NEQ ''">
+                                          <if condition="$gifts.pdt_stock ELT 0 ">
+                                                <span class="brownblock marTop5">缺货</span>
+                                          </if>
+                                          <if condition="$gifts.pdt_stock GT 0 and $vo.pdt_stock LT $stock_data.STOCK_NUM ">
+                                            <span class="brownblock marTop5">供货紧张</span>
+                                          </if>
+                                          <if condition="$gifts.pdt_stock EGT $stock_data.STOCK_NUM ">
+                                                <span class="brownblock marTop5">库存充足</span>
+                                          </if>
+                                    <else/>
+                                         <span class="brownblock marTop5">库存{$gifts.pdt_stock}</span>
+                                    </if>
+                                </p>
+                            </td>
+                            <td width="108">
+                                赠品
+                            </td>
+                            <td width="97" id="xiao_price{$gifts.pdt_id}" value="{$gifts.f_price}" >
+                                <i class="price">￥</i> {$gifts.pdt_sale_price}
+                            </td>
+                            
+                            <td>
+                                <!--<a href="javascript:void(0);" class="favorite" onclick="javascript:ajaxReturn('{:U("Ucenter/Collect/doAddCollect","pid=$vo[pdt_id]")}');" >
+                                    {$Think.lang.ADD_COLLECT}
+                                </a>
+                                <a href="javascript:void(0);" class="delete" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Ucenter/Cart/doDel",array('pid'=>$gifts[pdt_id],'type'=>$gifts[type]))}');}" pdt_id ="{$gifts.pdt_id}">
+                                    {$Think.lang.DELETE}
+                                </a>-->
+                            </td>
+                        </tr>
+                    </volist>
+                </if>
+                
+                </form>
+            </tbody>
+        </table>
+        <p class="p02">
+            <input type="checkbox" name="select_all" id="select_all2">
+            <label>{$Think.lang.SELECT_ALL}</label>
+            <a href="javascript:void(0);" id="delSelected" <if condition="$cart_data NEQ ''"> onclick="javascript:if(!confirm('{$Think.lang.CONFIRM_DELETE_CART}')){return false;}else{ ajaxReturn('{:U("Ucenter/Cart/doDel")}', $('#cartForm').serialize());}" </if>>
+                {$Think.lang.DELETE_SELECTED}
+            </a>
+            <a href="javascript:void(0);" id="delAll" <if condition="$cart_data NEQ ''"> onclick="javascript:if(!confirm('{$Think.lang.CONFIRM_CLEAR_CART}')){return false;}else{ ajaxReturn('{:U('Ucenter/Cart/doDelAll')}', $('#cartForm').serialize());}" </if>>
+                {$Think.lang.CLEAR_CART}
+            </a>
+            <a href="javascript:void(0);" <if condition="$cart_data NEQ ''"> onclick="javascript:ajaxReturn('{:U("Ucenter/Collect/doAddAllCollect")}', $('#cartForm').serialize());"</if> >
+                {$Think.lang.ADD_COLLECT_SELECTED}
+            </a>
+        </p>
+        
+        <ul class="ulNC01">
+            <li>
+                {$Think.lang.GOODS_PRICE_TOTAL}：
+                <label id="pdt_price">
+                    <i class="price">&yen;</i>
+                    <if condition="$price_data['all_pdt_price'] neq ''">
+                        {$price_data['all_pdt_price']}
+                    <else />
+                        0.00
+                    </if>
+                </label>
+            </li>
+            <li>
+                {$Think.lang.GOODS_CUTOFF_TOTAL}：
+                <label id="label_pre_price">
+                    <i class="price">&yen;</i>
+                    <if condition="$price_data['pre_price'] neq ''">
+                        {$price_data['pre_price']}
+                    <else />
+                        0.00
+                    </if>
+                </label>
+            </li>
+            <li>{$Think.lang.GET_POINTS}：<span id="li_i_reward_point">{$price_data['reward_point']}</span>分</li>
+            <li>{$Think.lang.CONSUME_POINTS}：<span id="li_i_consume_point">{$price_data['consume_point']|default="0"}</span>分</li>
+            <li>
+                <b>{$Think.lang.TOTAL}</b>（{$Think.lang.WITHOUT_FREIGHT}）：
+                <strong class="yellow" id="strong_all_price">
+                    <i class="price">&yen;</i> 
+                    <if condition="$price_data['all_price'] neq ''"> 
+                        {$price_data['all_price']}
+                    <else />
+                        0.00
+                    </if>
+                </strong>
+            </li>
+            <input type="hidden" value="{$price_data['consumed_ratio']}" id="consumed_ratio">
+            <input type="hidden" value="{$price_data['pre_price']}" id="pre_price">
+            <input type="hidden" value="{$price_data['all_pdt_price']}" pdt_price="{$price_data['all_pdt_price']}" id="all_pdt_price">
+            <input type="hidden" value="{$price_data['all_price']}" id="all_price_dis">
+            <input type="hidden" value="{$num}" id="current_num">
+            <input type="hidden" value="{:U('Ucenter/Orders/pageAdd/')}" id="post_url">
+            <li>
+                <a class="blue" href="{:U('Home/Products/Index')}">
+					{$Think.lang.CONTINUE_BUY}
+                </a>
+                 <!-- href="{:U('Ucenter/Orders/pageAdd/')}"  -->
+                &nbsp;&nbsp;
+               <a class="brown" <if condition="$cart_data NEQ ''"> onclick="AddOrder();"<else /> href="#"</if>>
+                    	{$Think.lang.CHECKOUT}
+                </a>
+            </li>
+        </ul>
+    </div><!--myCart   end-->
+</div><!--contentRightBox  end-->
+
+
+<script>
+function AddOrder(){
+	var postUrl = $('#post_url').val();
+	$.ajax({
+		url: "{:U('Ucenter/Orders/ajaxCheckOrder/')}",
+		cache:false,
+		dataType:'json',
+		data:{},
+		type:"POST",
+		success:function(msgObj){
+			if(msgObj.status == '1'){
+				window.location.href=postUrl;
+			}else{
+				showAlert(false,msgObj.info);
+			}
+		}
+	});
+
+
+	
+}
+
+</script>
+<script type="text/javascript">
+var _mvq = _mvq || [];
+_mvq.push(['$setAccount', 'm-24416-0']);
+
+_mvq.push(['$setGeneral', 'cartview', '', /*用户名*/ '{$Think.session.Members.m_name}', /*用户id*/ '{$Think.session.Members.m_id}']);
+_mvq.push(['$logConversion']);
+<volist name="cart_data" id="cart">
+_mvq.push(['$addItem', '', '', '',/*商品ID*/'{$cart.pdt_id}']);
+</volist>
+<volist name="gifts_data" id="carts">
+_mvq.push(['$addItem', '', '', '',/*商品ID*/'{$carts.pdt_id}']);
+</volist>
+
+_mvq.push(['$logData']);
+</script>

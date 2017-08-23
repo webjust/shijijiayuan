@@ -1,0 +1,83 @@
+{__NOLAYOUT__}
+<form action="" id="" method="post">
+<table class="tbForm" width="100%" >
+    <tr>
+        <td class="first">会员ID：</td>
+        <td>{$examine.m_id}</td>
+    </tr>
+    <tr>
+        <td class="first">汇款人:</td>
+        <td>{$examine.re_name}</td>
+    </tr>
+    <tr>
+        <td class="first">开户行：</td>
+        <td>{$examine.a_apply_bank}</td>
+    </tr>
+    <tr>
+        <td class="first">充值金额：</td>
+        <td>{$examine.re_money}</td>
+    </tr>
+    <tr>
+        <td class="first">尾数：</td>
+        <td>{$examine.re_money_end}</td>
+    </tr>
+    <tr>
+        <td class="first">会员汇款日期：</td>
+        <td>{$examine.re_time}</td>
+    </tr>
+    <tr>
+        <td class="first">会员留言：</td>
+        <td>{$examine.re_message}</td>
+    </tr>
+    <tr>
+        <td class="first">管理员id：</td>
+        <td>{$examine.re_user_id}</td>
+    </tr>
+    <tr>
+        <td class="first">记录生成时间：：</td>
+        <td>{$examine.re_create_time}</td>
+    </tr>
+    <tr>
+        <td class="first">后台操作时间：</td>
+        <td>{$examine.re_update_time}</td>
+    </tr>
+     <tr>
+        <td class="first">驳回理由：</td>
+        <td><textarea class="mediumBox" name="re_user_message" id="re_user_message" validate="{required:true}">{$examine.re_user_message}</textarea></td>
+    </tr>
+    <tr>
+        <td class="first">状态：</td>
+        <td>
+            <if condition="$examine[re_verify] eq 1" ><span class="green">审核通过</span><elseif condition="$examine[re_verify] eq 0"/><span class="red">未审核</span><else/><span class="red">审核不通过</span></if>
+        </td>
+    </tr>
+    <if condition="$examine[re_verify] neq 1">
+     <tfoot>
+        <tr>
+            <td colspan="99">
+                <input type="hidden" id="re_id" name="re_id" value="{$examine.re_id}">
+                <input type="button" onclick="ajaxDoVerify(this)" isVerify="1" value="审核通过" class="btnA" >
+                <input type="button" onclick="ajaxDoVerify(this)" isVerify="2" value="审核驳回" class="btnA" >
+            </td>
+        </tr>
+    </tfoot>
+    </if>
+</form>    
+</table>
+<script>
+    function ajaxDoVerify(obj){
+        var url = '/Admin/Financial/doVerify';
+        var verify = $(obj).attr('isVerify');
+        var re_id = $("#re_id").val();
+        var message = $("#re_user_message").val();
+        $.post(url,{'verify':verify,'message':message,'re_id':re_id},function(data){
+             if(data==false){
+                showAlert(false,'审核失败');
+            }else{
+                showAlert(true,'审核通过');
+                $( '#examine' ).dialog( "close" );
+                $('#examine').hide();
+            }
+        })
+    }
+</script>

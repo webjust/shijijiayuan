@@ -1,0 +1,183 @@
+<style>
+.table {clear: both;width: 95%;margin-top: 8px;margin: 0px auto;margin-top: 10px;} 
+.tb-type2 th {line-height: 21px;font-size: 12px;}
+.table th, .table td {padding: 6px !important;height: 26px;text-align: left;}
+.w24 {width: 24px;}
+.table tr.space{margin-top: 10px;}
+.space th {font-weight: 600;color: #9f9f9f;background-color: #F3FBFE; }
+.normal {font-weight: 400;}
+input[type="checkbox"] {margin: 6px 3px 3px 4px;}
+fieldset.w {background: none repeat scroll 0 0 #FEFEFE;padding: 0.5em;border: 1px dashed #E7E7E7;}
+fieldset legend {color: #666;background-color: transparent;padding-left: 10px;}
+fieldset legend span {padding-right: 10px;}
+fieldset .formelement {line-height: 20px;color: #555;float: left;margin: 0 0.5em;}
+fieldset.d {background: none repeat scroll 0 0 #FFFAE3;padding: 0.5em;border: 1px dashed #F1E38B;}
+fieldset.d legend {color: #C8712A;}
+</style>
+<div id="content">
+    <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+            <p class="conOneP" style="float: left;">
+                咨询列表
+            </p>
+            <ul class="conOneUl">
+                <form method="get" action="{:U('Admin/Consultation/pageList')}" style="float: none;">
+                    <li>咨询时间：<input type="text" name="starttime" class="large medium timer" value="{$filter.starttime}"  style="width: 145px;float: none;"></li>
+                    <li>至<input type="text" name="endtime" class="large medium timer" value="{$filter.endtime}"  style="width: 145px;float: none;"></li>
+					<li>
+						<select class="large"  name="is_reply" style="width:100px">
+							<option value="0" select="selected">请选择</option>
+							<option value="1">已回复</option>
+							<option value="2">未回复</option>
+						</select>
+					</li>
+                    <!-- <li>标题：<input type="text" name="title" class="large" value="{$filter.title}" style="width: 100px;"></li> -->
+                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                </form>
+            </ul>
+            </th>
+            </tr>
+            </thead>
+        </table>
+        <table class="table tb-type2">
+            <tbody>
+                <foreach name="data" item="vo" key="k">
+                    <tr class="space pc_{$vo.pc_id}">
+                        <th class="w24"><input type="checkbox" class="checkitem" name="consult_id[]" value="28"></th>
+                        <th>
+                            <strong>咨询对象：</strong>
+                            <span><a href="javascript:void(0);" title="{$vo.g_name}" onclick="javascript:openProductDetail({$vo.g_id});">{$vo.g_name|substrs=###,30}</a></span>
+                        </th>
+                        <th><strong>咨询标题：</strong>&nbsp;<a href="javascript:void(0);" title="{$vo.pc_question_title}" target="_blank" class="normal">{$vo.pc_question_title|substrs=###,15}</a></th>
+                        <th><strong>操作：</strong>
+                            <a href='{:U("Admin/Consultation/pageDetail","id=$vo[pc_id]")}' class="normal" data-id="{$vo.pc_id}">回复</a>
+                            &nbsp;
+                            <a href="javascript:void(0);" class="normal doDel" data-id="{$vo.pc_id}">删除</a></th>
+                    </tr>
+                    <tr style="background-color: rgb(251, 251, 251);" class="pc_{$vo.pc_id}">
+                        <td colspan="12">
+                            <fieldset class="w mtn">
+                                <legend>
+                                    <span><strong>咨询人:</strong>&nbsp;{$vo.m_name|substrs=###,15}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span><strong>咨询时间:</strong>&nbsp;{$vo.pc_create_time}</span>
+                                </legend>
+                                <div class="formelement" id="list_{$k}">
+                                    {$vo.pc_question_content}
+                                </div>
+                            </fieldset>
+                            <if condition="$vo.pc_is_reply eq '1'">
+                                <fieldset class="d mtm mbw">
+                                    <legend><strong>管理员 {$vo.u_name} 回复:</strong></legend>
+                                    <div class="formelement" id="list_2_{$k}">
+                                        {$vo.pc_answer}
+                                    </div>
+                                </fieldset>
+                            </if>
+                        </td>
+                    </tr>
+                    <if condition="$k neq '9'">
+                        <tr style="padding:0px;height: 0px;">
+                            <td colspan="4" style="padding:0px;height: 0px;">
+                                <div style="margin-bottom: 0px;height: 0px;width: 90%;"></div>
+                            </td>
+                        </tr>
+                    </if>
+                </foreach>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+    <script>
+        $(document).ready(function(){
+            
+
+            $('.w').each(function(i){
+                var o = document.getElementById("list_"+i);
+                var s = o.innerHTML;
+                var p = document.createElement("span");
+                var n = document.createElement("a");
+                p.innerHTML = s.substring(0,140);
+                n.innerHTML = s.length > 140 ? "【展开】" : "";
+                n.href = "###";
+                n.onclick = function(){
+                    if (n.innerHTML == "【展开】"){
+                        n.innerHTML = " 【收起】";
+                        p.innerHTML = s;
+                    }else{
+                      n.innerHTML = "【展开】";
+                      p.innerHTML = s.substring(0,140);
+                    }
+                }
+                o.innerHTML = "";
+                o.appendChild(p);
+                o.appendChild(n);
+            });
+
+           /* $(".d").each(function(i){
+                var o = document.getElementById("list_2_"+i);
+                var s = o.innerHTML;
+                var p = document.createElement("span");
+                var n = document.createElement("a");
+                p.innerHTML = s.substring(0,140);
+                n.innerHTML = s.length > 140 ? "【展开】" : "";
+                n.href = "###";
+                n.onclick = function(){
+                  if (n.innerHTML == "【展开】"){
+                    n.innerHTML = " 【收起】";
+                    p.innerHTML = s;
+                  }else{
+                    n.innerHTML = "【展开】";
+                    p.innerHTML = s.substring(0,140);
+                  }
+                }
+                o.innerHTML = "";
+                o.appendChild(p);
+                o.appendChild(n);
+            });*/
+
+        });
+        
+        //打开商品详情页
+        function openProductDetail(oid) {
+            window.open("{:U('Home/Products/detail')}?gid="+oid);
+            return false;
+        }
+        $(".doDel").click(function(){
+                var id = $(this).attr("data-id");
+                if(confirm("删除后不可恢复，确认此操作？")){
+                    $.ajax({
+                        url:'{:U("Admin/Consultation/doDel")}',
+                        cache:false,
+                        dataType:"json",
+                        type:'POST',
+                        data:{id:id},
+                        error:function(){
+                            $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                        },
+                        success:function(msgObj){
+                            if(msgObj.status == '1'){
+                                $(".pc_"+id).remove().fadeOut(2000);
+                                return false;
+                            }else{
+                                $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                                return false;
+                            }
+                        }
+                    });
+                }
+            });
+  </script>
+
+  

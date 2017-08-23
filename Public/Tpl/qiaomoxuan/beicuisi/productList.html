@@ -1,0 +1,258 @@
+<div class="centent pdt30">
+    <div class="m-tabs-a1 icon1">
+        <div class="crumbs">
+            <a href='{:U("Home/Index/index")}'>首页</a>
+            <Gyfx:catebreadcrumb name="catebreadcrumb" cid="{$ary_request.cid}">
+                <if condition="$catebreadcrumb.gcname neq ''">
+                    <span>></span><a href="javascript:void(0);">{$catebreadcrumb.gcname}</a>
+                </if>
+            </Gyfx:catebreadcrumb>
+        </div>
+        <div class="dd-top">
+            <ul>
+                <li><a href="javascript:;" tags="0" onclick="change(this)""><i class="a1"></i><span>全部</span></a></li>
+                <li><a href="javascript:;" tags="1" onclick="change(this)"><i class="a2"></i><span>最热</span></a></li>
+                <li><a href="javascript:;" tags="2" onclick="change(this)"><i class="a3"></i><span>品类</span></a></li>
+                <li><a href="javascript:;" tags="3" onclick="change(this)"><i class="a4"></i><span>售价</span></a></li>
+                <li><a href="javascript:;" tags="4" onclick="change(this)"><i class="a5"></i><span>包装</span></a></li>
+            </ul>
+        </div>
+       <form id="goodsForm" class='goodsForm' name="goodsForm" method="post" action="#">
+            <div class="dd-cmt height-auto" list_tag="0"><!--gcUl  start-->
+                <div class="ff-sort"><a href="javascript:void(0);" tag="0" onclick="clickthisTab(this)" c="hot">从大到小</a><a href="javascript:void(0);" tag="0" onclick="clickthisTab(this)" c="_hot">从小到大</a></div>
+                <ul style="display:inline-block; width:1100px;">
+                    <Gyfx:goodslist name='showlist' pagesize="15" start="$ary_request['start']" bid="$ary_request['bid']" cid="$ary_request['cid']" order="$ary_request['order']" gname="$ary_request['name']" keyword="$ary_request[keyword]">
+                    <li>
+                        <a href="{$showlist.gurl}" class="proP" target="_blank"><img class="pdts" src="<php>$showlist['g_picture'] = '/'.ltrim($showlist['g_picture'],'/');</php>{$showlist.g_picture|showImage=###,210,210}"><div title="{$showlist.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$showlist.gname}</div><em></em></a>     
+                    </li>
+                    </Gyfx:goodslist>
+                </ul>
+                <div class="newpage">     
+                    <div class="fenye block"><!--paging  start-->
+                        <php>if($pagearr['showlist']['nowPage'] == 1){</php>
+                            <a href="javascript:void(0);" class="prev on">首页</a>
+                            <a href="javascript:void(0);" class="prev on">上一页</a>
+                        <php>}</php>
+                        <php>if($pagearr['showlist']['nowPage'] != 1){</php>
+                            <a href="<php>echo rtrim(substr($pagearr['showlist']['upUrl'],0,-8),'/').'/';</php>" class="prev">首页</a>
+                            <a href="{$pagearr.showlist.upUrl}" class="prev">上一页</a>
+                        <php>}</php>
+                          {$pagearr.showlist.linkPage}
+                        <php>if($pagearr['showlist']['nowPage'] == $pagearr['showlist']['totalPage']){</php>
+                            <a href="javascript:void(0);" class="prev on">下一页</a>
+                            <a href="javascript:void(0);" class="prev on">尾页</a>
+                        <php>}</php>
+                        <php>if($pagearr['showlist']['nowPage'] < $pagearr['showlist']['totalPage']){</php>
+                            <a href="{$pagearr.showlist.downUrl}" class="next">下一页</a>
+                            <a href="<php>echo rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['showlist']['totalPage']}" class="next">尾页</a>
+                        <php>}</php>
+                    </div><!--paging  end-->
+                </div>
+            </div><!--gcUl  end-->
+            <div class="dd-cmt height-auto" list_tag="1"><!--gcUl  start-->
+                <div class="ff-sort"><a href="javascript:void(0);" tag="1" onclick="clickthisTab(this)" c="hot">从大到小</a><a href="javascript:void(0);" tag="1" onclick="clickthisTab(this)" c="_hot">从小到大</a></div>
+                <ul style="display:inline-block; width:1100px;">
+                    <Gyfx:goodslist name='newgoods' hot="1" pagesize="15" start="$ary_request['start']" order="$ary_request['order']" keyword="$ary_request[keyword]">                    
+                    <li>
+                        <a href="{$newgoods.gurl}" class="proP" target="_blank"><img class="pdts" src="<php>$newgoods['g_picture'] = '/'.ltrim($newgoods['g_picture'],'/');</php>{$newgoods.g_picture|showImage=###,210,210}"><div title="{$newgoods.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$newgoods.gname}</div><em></em></a> 
+                    </li>
+                    </Gyfx:goodslist>
+                </ul>
+                <div class="newpage">     
+                    <div class="fenye block"><!--paging  start-->
+                            <php>if($pagearr['newgoods']['nowPage'] == 1){</php>
+                                <a href="javascript:void(0);" class="prev on">首页</a>
+                                <a href="javascript:void(0);" class="prev on">上一页</a>
+                            <php>}</php>
+                            <php>if($pagearr['newgoods']['nowPage'] != 1){</php>
+                                <a href="<php>echo rtrim(substr($pagearr['newgoods']['upUrl'],0,-8),'/');</php>" class="prev">首页</a>
+                                <a href="{$pagearr.newgoods.upUrl} class="prev">上一页</a>
+                            <php>}</php>
+                            {$pagearr.newgoods.linkPage}
+                            <php>if($pagearr['newgoods']['nowPage'] == $pagearr['newgoods']['totalPage']){</php>
+                                <a href="javascript:void(0);" class="prev on">下一页</a>
+                                <a href="javascript:void(0);" class="prev on">尾页</a>
+                            <php>}</php>
+                            <php>if($pagearr['newgoods']['nowPage'] < $pagearr['newgoods']['totalPage']){</php>
+                                <a href="{$pagearr.newgoods.downUrl}" class="next">下一页</a>
+                                <a href="<php>echo rtrim(substr($pagearr['newgoods']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['newgoods']['totalPage']} class="next">尾页</a>
+                            <php>}</php>
+                    </div><!--paging  end-->
+                </div>
+            </div><!--gcUl  end-->
+            <div class="dd-cmt height-auto" list_tag="2"><!--gcUl  start-->
+                <div class="ff-sort"><a href="javascript:void(0);" tag="2" onclick="clickthisTab(this)" c="hot">从大到小</a><a href="javascript:void(0);" tag="2" onclick="clickthisTab(this)" c="_hot">从小到大</a></div>
+                <ul style="display:inline-block; width:1100px;">
+                    <Gyfx:goodslist name='cate' cid="22" pagesize="15" start="$ary_request['start']" order="$ary_request['order']" keyword="$ary_request[keyword]">                    
+                    <li>
+                        <a href="{$cate.gurl}" class="proP" target="_blank"><img class="pdts" src="<php>$cate['g_picture'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.g_picture|showImage=###,210,210}"><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a>
+                    </li>
+                    </Gyfx:goodslist>
+                </ul>
+                <div class="newpage">     
+                    <div class="fenye block"><!--paging  start-->
+                        <php>if($pagearr['cate']['nowPage'] == 1){</php>
+                            <a href="javascript:void(0);" class="prev on">首页</a>
+                            <a href="javascript:void(0);" class="prev on">上一页</a>
+                        <php>}</php>
+                        <php>if($pagearr['cate']['nowPage'] != 1){</php>
+                            <a href="<php>echo rtrim(substr($pagearr['cate']['upUrl'],0,-8),'/');</php>" class="prev">首页</a>
+                            <a href="{$pagearr.cate.upUrl}" class="prev">上一页</a>
+                        <php>}</php>
+                        {$pagearr.cate.linkPage}
+                        <php>if($pagearr['cate']['nowPage'] == $pagearr['cate']['totalPage']){</php>
+                            <a href="javascript:void(0);" class="prev on">下一页</a>
+                            <a href="javascript:void(0);" class="prev on">尾页</a>
+                        <php>}</php>
+                        <php>if($pagearr['cate']['nowPage'] < $pagearr['cate']['totalPage']){</php>
+                            <a href="{$pagearr.cate.downUrl}" class="next">下一页</a>
+                            <a href="<php>echo rtrim(substr($pagearr['cate']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['cate']['totalPage']}" class="next">尾页</a>
+                        <php>}</php>
+                    </div><!--paging  end-->
+                </div>
+            </div><!--gcUl  end-->
+            <div class="dd-cmt height-auto" list_tag="3"><!--gcUl  start-->
+                <div class="ff-sort"><a href="javascript:void(0);" tag="3" onclick="clickthisTab(this)" c="hot">从大到小</a><a href="javascript:void(0);" tag="3" onclick="clickthisTab(this)" c="_hot">从小到大</a></div>
+                <ul style="display:inline-block; width:1100px;">
+                    <Gyfx:goodslist name='cate' cid="4" pagesize="15" start="$ary_request['start']" order="$ary_request['order']" keyword="$ary_request[keyword]">                    
+                    <li>
+                        <a href="{$cate.gurl}" class="proP" target="_blank"><img class="pdts" src="<php>$cate['g_picture'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.g_picture|showImage=###,210,210}"><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a>                      
+                    </li>
+                    </Gyfx:goodslist>
+                </ul>
+                <div class="newpage">     
+                    <div class="fenye block"><!--paging  start-->
+                        <php>if($pagearr['cate']['nowPage'] == 1){</php>
+                            <a href="javascript:void(0);" class="prev on">首页</a>
+                            <a href="javascript:void(0);" class="prev on">上一页</a>
+                        <php>}</php>
+                        <php>if($pagearr['cate']['nowPage'] != 1){</php>
+                            <a href="<php>echo rtrim(substr($pagearr['cate']['upUrl'],0,-8),'/');</php>" class="prev">首页</a>
+                            <a href="{$pagearr.cate.upUrl}" class="prev">上一页</a>
+                        <php>}</php>
+                        {$pagearr.cate.linkPage}
+                        <php>if($pagearr['cate']['nowPage'] == $pagearr['cate']['totalPage']){</php>
+                            <a href="javascript:void(0);" class="prev on">下一页</a>
+                            <a href="javascript:void(0);" class="prev on">尾页</a>
+                        <php>}</php>
+                        <php>if($pagearr['cate']['nowPage'] < $pagearr['cate']['totalPage']){</php>
+                            <a href="{$pagearr.cate.downUrl}" class="next">下一页</a>
+                            <a href="<php>echo rtrim(substr($pagearr['cate']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['cate']['totalPage']}" class="next">尾页</a>
+                        <php>}</php>
+                    </div><!--paging  end-->
+                </div>
+            </div><!--gcUl  end-->
+            <div class="dd-cmt height-auto" list_tag="4"><!--gcUl  start-->
+                <div class="ff-sort"><a href="javascript:void(0);" tag="4" onclick="clickthisTab(this)" c="hot">从大到小</a><a href="javascript:void(0);" tag="4" onclick="clickthisTab(this)" c="_hot">从小到大</a></div>
+                <ul style="display:inline-block; width:1100px;">
+                    <Gyfx:goodslist name='cate' cid="29" pagesize="15" start="$ary_request['start']" order="$ary_request['order']" keyword="$ary_request[keyword]">
+                    <li>
+                        <a href="{$cate.gurl}" class="proP" target="_blank"><img class="pdts" src="<php>$cate['g_picture'] = '/'.ltrim($cate['g_picture'],'/');</php>{$cate.g_picture|showImage=###,210,210}"><div title="{$cate.gname}" class="dd-tit" style="text-overflow:ellipsis; -o-text-overflow:ellipsis;">{$cate.gname}</div><em></em></a>                
+                    </li>
+                    </Gyfx:goodslist>
+                </ul>
+                <div class="newpage">     
+                    <div class="fenye block"><!--paging  start-->
+                        <php>if($pagearr['cate']['nowPage'] == 1){</php>
+                            <a href="javascript:void(0);" class="prev on">首页</a>
+                            <a href="javascript:void(0);" class="prev on">上一页</a>
+                        <php>}</php>
+                        <php>if($pagearr['cate']['nowPage'] != 1){</php>
+                            <a href="<php>echo rtrim(substr($pagearr['cate']['upUrl'],0,-8),'/');</php>" class="prev">首页</a>
+                            <a href="{$pagearr.cate.upUrl}" class="prev">上一页</a>
+                        <php>}</php>
+                        
+                        <php>if($pagearr['cate']['nowPage'] == $pagearr['cate']['totalPage']){</php>
+                            <a href="javascript:void(0);" class="prev on">下一页</a>
+                            <a href="javascript:void(0);" class="prev on">尾页</a>
+                        <php>}</php>
+                        <php>if($pagearr['cate']['nowPage'] < $pagearr['cate']['totalPage']){</php>
+                            <a href="{$pagearr.cate.downUrl}" class="next">下一页</a>
+                            <a href="<php>echo rtrim(substr($pagearr['cate']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['cate']['totalPage']}" class="next">尾页</a>
+                        <php>}</php>
+                    </div><!--paging  end-->
+                </div>
+            </div><!--gcUl  end-->
+            
+        </form>
+    </div>
+</div>
+<!-- body end -->	
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1354599447780628" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var order = "{$ary_request['order']}";
+        if(order == "hot"){
+            $(".ff-sort a").prev("a").addClass("selected");
+        }
+        if(order == "_hot"){
+            $(".ff-sort a").next("a").addClass("selected");
+        }
+    });
+    function clickthisTab(obj){
+        var gname = "{$ary_request['name']}";
+        var tag = $(obj).attr("tag");
+        var c = $(obj).attr("c");
+        if(c == "hot"){
+            if(gname != "" ){
+                var url = "{:U('Home/Products/index')}?order="+ c +"&tags="+tag +"&name="+gname;
+                location.href=url;
+                $(obj).addClass("selected").siblings().removeClass("selected");
+            }else{
+                var url = "{:U('Home/Products/index')}?order="+ c +"&tags="+tag;
+                location.href=url;
+                $(obj).addClass("selected").siblings().removeClass("selected");
+            }
+        }else{
+            if(gname != "" ){
+                var url = "{:U('Home/Products/index')}?order="+ c +"&tags="+tag +"&name="+gname;
+                location.href=url;
+                $(obj).addClass("selected").siblings().removeClass("selected");
+            }else{
+                var url = "{:U('Home/Products/index')}?order="+ c +"&tags="+tag;
+                location.href=url;
+                $(obj).addClass("selected").siblings().removeClass("selected");
+            }
+        }    
+    }
+    
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var tag_content = $("div .dd-cmt").attr("list_tag");
+        var tag_content = "{$ary_request['tags']}" == 0 ? 0 : "{$ary_request['tags']}";
+        $('.m-tabs-a1').each(function(){
+            var $this = $(this);
+            $this.tabs($this.find(".dd-cmt"),{tabs:'.dd-top a',initialIndex:tag_content,event:"dbclick"});
+        });
+    });
+    
+    function change(obj){
+        var tags = $(obj).attr("tags");      
+        var url = "/Home/Products/index"+"?tags="+tags;
+        location.href = url;
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,41 @@
+{__NOLAYOUT__}
+<if condition="count($ary_relate_goods) neq 0">
+<div class="topdcon">
+	<ul>
+		<volist name="ary_relate_goods" id="this_coll">
+		<li>
+			<dl>
+				<dd><a title="{$this_coll.g_name}" href="/Home/Products/detail/gid/{$this_coll.g_id}""><img src="{$this_coll['g_picture']}" width="140" height="140" /></a></dd>
+			</dl>
+		</li>
+		</volist>
+	</ul>
+</div>
+<div class="preNext">
+	<a href="javascript:void(0)" class="pre">上一页</a>
+	<a href="javascript:void(0)" class="next">下一页</a>
+</div>
+</if>
+<script>
+	//商品详情页  右边切换效果
+	var numLi =0;
+	var liLen =$(".topdcon ul li").length;
+	
+	$(".preNext a.next").click(function(){
+		numLi +=1;
+		if(numLi==liLen){ numLi=0};
+		showli(numLi);
+	})
+	$(".preNext a.pre").click(function(){
+		numLi -=1;
+		if(numLi==-1){ numLi=liLen -1};
+		showli(numLi);
+	})
+	
+	function showli(numLi){
+		var nowTop=-numLi*474;
+		$(".topdcon ul").css("height",474*liLen).animate({
+			"top":nowTop
+		},300);
+	}
+</script>

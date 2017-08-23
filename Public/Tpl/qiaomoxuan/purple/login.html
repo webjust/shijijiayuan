@@ -1,0 +1,483 @@
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<div class="warp logreg">
+  <div class="loginReg">
+    <div class="loginBox">
+      <h1>会员登录</h1>
+      <h2>已是会员，请登录</h2>
+	  <form action="{:U('Home/User/doLogin')}"  method="post" id="loginForm">
+      <ul>
+        <li><span>登&nbsp;录&nbsp;名</span>
+          <input class="iptTxt"  type="text" name="m_name" id="m_name"/>
+            <p class="notice"></p>
+        </li>
+        <li> <span>登录密码</span>
+          <input class="iptTxt" type="password" name="m_password" id="m_password_log" autocomplete="off" />
+            <p class="notice"></p>
+        </li>
+        <li>
+            <span>验证码</span>
+            <input class="iptTxt yzTxt"  type="text" name="verify" id="verify" autocomplete="off">
+            <img class="chkImg" id="verifyImg1" src="{:U('Home/User/verify')}" height="40">
+            <a href="javascript: changeverify1();" class="blue">换一张</a>
+            <p class="notice"></p>
+        </li>
+        <li class="chooseBtn">
+
+			<a href="{:U('Home/User/pageFoget')}" class="forget">忘记密码?</a> </li>
+			<input name="requsetUrl" id="requsetUrl" type="hidden" value="{$requset_url}"/>
+        <li class="chooseBtn"> <input type="submit" value="登录" class="login_btn"> </li>
+      </ul>
+	  </form>
+	  <p class="bot">
+			<label>使用合作网站账号登录：</label>
+			<span>
+				<p class="lgBot">
+				<if condition="$sina eq '1'">
+				<a href="{:U('Home/User/thdLoginUr/')}?type=Sina" class="first"><i></i>新浪微博</a><!-- 使用新浪微博登录 -->
+				</if>
+				<if condition="$qq eq '1'">
+				<a href="{:U('Home/User/thdLoginUr/')}?type=QQ"><i class="i03"></i>QQ</a><!-- 使用腾讯QQ登录 -->
+				</if>
+				<if condition="$renren eq '1'">
+				<a href="{:U('Home/User/thdLoginUr/')}?type=RenRen" class="last"><i class="i04"></i>人人</a><!-- 使用使用人人网登录 -->
+				</if>
+					<if condition="$wx eq '1'">
+					<div id="wx_login" class="t_center">
+						<img src="__IMAGES__ewm_wx.jpg" />
+						<span class="f12 gray3" style="margin-top:10px;">使用微信扫描上方二维码登陆</span>
+					</div>
+					</if>
+				</p>
+			</span>
+		</p>
+    </div>
+    <div class="regBox">
+      <h1>新会员注册</h1>
+      <h2>还不是会员？快速注册会员</h2>
+	  <form method="post" action="{:U('Home/User/doRegister')}" id="regForm"  enctype="multipart/form-data">
+      <ul>
+          <volist name="ary_extend_data" id="data">
+              <li>
+                  <span><if condition="($data.is_need eq 1)">*</if>{$data.field_name}：</span>
+                    <if condition="$data.fields_type eq 'radio'">
+                      <volist name="data.fields_content" id="field_content">
+                          <input  class="iptTxt" name="extend_field_{$data.id}" id="extend_field_{$data.id}" type="{$data.fields_type}"  value="{$field_content}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                      </volist>
+                    </if>
+                      <if condition="$data.fields_type eq 'checkbox'">
+                          <volist name="data.fields_content" id="field_content" >
+                              <input class="iptTxt" name="extend_field_{$data.id}[]" id="extend_field_{$data.id}[]" type="{$data.fields_type}"  value="{$field_content}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                          </volist>
+                      </if>
+                      <if condition="$data.fields_type eq 'select'">
+                          <if condition="$data.id eq 14 ">
+                              <select id="province" name="province" class="iptTxt city_region_select" style="border: 1px solid #999999;margin: 3px 3px 3px 0;padding: 3px;width: 100px;float:left;" child_id="city" val="{$region['province']}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>>
+                              <option value="0" selected="selected">请选择省份</option>
+                              </select>
+                              <select id="city" name="city" child_id="region1" class="iptTxt city_region_select" style="border: 1px solid #999999;margin: 3px 3px 3px 0;padding: 3px;width: 100px;float:left;" val="{$region['city']}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>>
+                              <option value="0" selected="selected">请选择城市</option>
+                              </select>
+                              <select id="region1" name="region1" child_id="" class="iptTxt city_region_select" style="border: 1px solid #999999;margin: 3px 3px 3px 0;padding: 3px;width: 100px;float:left;" val="{$region['region']}" >
+                                  <option value="0" selected="selected">请选择地区</option>
+                              </select>
+                              <else />
+                              <select class="iptTxt" name="extend_field_{$data.id}" >
+                                  <volist name="data.fields_content" id="field_content" >
+                                      <option value="{$field_content}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>> {$field_content}</option>
+                                  </volist>
+                              </select>
+                          </if>
+                      </if>
+                      <if condition="$data.fields_type eq 'text'">
+                            <input
+                              <if condition="($data.type eq 1 )">
+                                  name="{$data.fields_content}" id="{$data.fields_content}"
+                               <else />
+                                  name="extend_field_{$data.id}" id="extend_field_{$data.id}"
+                              </if>
+                              <if condition="($data.fields_content eq 'm_password' or $data.fields_content eq 'm_password_1')">
+                                  type="password"
+                              <else />
+                                  type="text"
+                              </if>class="iptTxt"
+                              <if condition="($data.is_need eq 1)">
+                                  validate="{ required:true}"
+                              </if> validate="{ isCheck:true}"
+                              <if condition="($data.fields_content eq 'm_recommended' )">
+                                  value="{$data.content}"
+                                  <if condition="($data.is_edit eq 0)">
+                                      readonly="false"
+                                  </if>
+                                  <if condition="($data.is_edit eq 1)">
+                                      readonly="true"
+                                  </if>
+                              </if>
+                            />
+                            <!--<p class="notice"></p>-->
+                      </if>
+                  <if condition="$data.fields_type eq 'file'">
+                      <input name="extend_field_{$data.id}" type="file"  value="{$data.content}" class="iptTxt" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> />
+                      <input name="extend_field_{$data.id}" type="hidden"  value="{$data.content}" class="iptTxt" />
+                  </if>
+                  <p class="notice"></p>
+              </li>
+			  <if condition="$data.fields_type eq 'text'">
+			  <if condition="$data.fields_content eq 'm_mobile'">
+			  <if condition="$is_mobile_validate eq '1'">
+			  <li>
+				<span>手机验证码：</span>
+				<input type="text" style="width:115px" class="iptTxt" id="m_mobile_code" name="m_mobile_code"/>
+				<input type="button" id="btnGetCode" class="pink" style="width:90px;height:36px;margin-left: 5px;" title="获取验证码" value="获取验证码" />
+				<p class="notice"></p>
+			  </li>
+			  </if>
+			  </if>
+			  </if>
+          </volist>
+		  
+          <li>
+             <span>*验证码:</span>
+              <input class="iptTxt yzTxt"  type="text" name="verify" id="verify" autocomplete="off">
+              <img class="chkImg" id="verifyImg2" src="{:U('Home/User/verify')}" height="40">
+              <a href="javascript: changeverify2();" class="blue">换一张</a>
+              <p class="notice"></p>
+          </li>
+        <li class="chooseBtn">
+            <input value="注册" type="submit" class="login_btn"/>
+        </li>
+             <li class="chooseBtn">
+          <label>
+            <input type="checkbox" value="1" name="reg_agreement"/>
+            我同意<a href="{:U('Home/User/agreement')}" target="_blank" >注册会员条款</a> </label>
+         </li>
+      </ul>
+	  <input name="requsetUrl" id="regRequsetUrl" type="hidden" value="{$requset_url}"/>
+	  </form>
+    </div>
+  </div>
+</div>
+<div id="box" style="display:none;">
+    <div class="mainlist" style="overflow:scroll;width:800px;height:430px;">
+        {$content}
+    </div>
+</div>
+<script type="text/javascript" src="__JS__base.js"></script>
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script type="text/javascript">
+var regAgreement = $.ThinkBox(
+	$('#box').html(),
+	{'title' : '注册协议', 'dataEle':this, 'display': false, 'modal': true}
+); 	
+function changeverify1(){
+    $('#verifyImg1').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());
+}
+function changeverify2(){
+    $('#verifyImg2').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());
+}
+	var btnGetCode_info = ($("#btnGetCode").val() == undefined)?"-1":$("#btnGetCode").val();
+	//alert(btnGetCode_info);die;
+    var wait=90;
+	if(btnGetCode_info != '-1'){
+        document.getElementById("btnGetCode").disabled = false;
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.value="获取验证码";
+                wait = 90;
+            } else {
+                o.setAttribute("disabled", true);
+                o.value="重新发送(" + wait + ")";
+                wait--;
+                setTimeout(function() {
+                            time(o)
+                        },
+                        1000)
+            }
+        }
+        document.getElementById("btnGetCode").onclick=function(){
+            document.getElementById("btnGetCode").disabled = true;
+            //调用发送验证码接口
+            var formdata = $("#regForm").serialize();
+            $.ajax({
+                url:"{:U('Home/User/sendMobileCode')}",
+                data:formdata,
+                dataType:"json",
+                type:"post",
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+                        time(document.getElementById("btnGetCode"));
+                    }else{
+                        document.getElementById("btnGetCode").removeAttribute("disabled");
+                        alert(msgObj.msg);
+                    }
+                },
+                error:function(){
+                    document.getElementById("btnGetCode").removeAttribute("disabled");
+                }
+            });
+        }
+    }
+$(document).ready(function(){
+    //文档载入完成以后自动加载一级省市区
+    loadChildCityRegion(1,'province',$('#province'));
+    $(".city_region_select").change(function(){
+        $(".city_region_select").attr({'val':''});
+        var parent_id = $(this).val();
+        var selectDomId = $(this).attr("child_id");
+        loadChildCityRegion(parent_id,selectDomId,this);
+    });
+    $("#loginForm").validate({
+        errorPlacement: function(error, element) {
+            var error_td = element.siblings('p.notice');
+            error_td.append(error);
+//            error_td.text(error.text())
+        },
+        submitHandler:function(form){
+            var rand = '{$Think.session.rand}'.toString();
+            var m_password = $("#m_password").val().toString();
+            var new_password = encode64(m_password+rand);
+//            $("#m_password").val(new_password);
+            var formdata = $("#loginForm").serialize();
+            $.ajax({
+                url:"{:U('Home/User/doLogin')}",
+                data:formdata,
+                dataType:"json",
+                type:"post",
+
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+						var url = $("#requsetUrl").val();
+						if(msgObj.url){
+							url = msgObj.url;
+						}
+
+                    	$.ThinkBox.success('登录成功,等待跳转……');
+                        window.location.href = url;
+                    }else{
+						$("#m_password").val(m_password);
+						$.ThinkBox.tips(msgObj.info,0);
+						return false;
+                    }
+                }
+            });
+        },
+        rules : {
+            m_name : {
+                required:true                
+            },
+			m_password : {
+                required:true                
+            },
+            verify:{
+                required:true,
+                digits:true,
+                remote:'/Home/User/checkVerify',
+                rangelength:[4,4]
+            }
+        },
+        messages : {
+            m_name : {
+                required:'请输入登录名'
+            },
+			m_password : {
+                required: '请输入密码'                
+            },
+            verify : {
+                required:'请输入验证码',
+                rangelength:'验证码长度为4',
+                digits:'对不起，请输入正确的验证码'
+            }
+        }
+    });
+
+	$("#regForm").validate({
+            errorPlacement: function(error, element) {
+                //console.log(error);
+                var error_td = element.siblings('p.notice');
+                error_td.append(error);
+//                error_td.text(error.text());
+            },
+            submitHandler:function(form){
+				var rand = '{$Think.session.rand}'.toString();
+				var m_password = $("#m_password").val().toString();
+				var new_password = encode64(m_password+rand);
+//				$("#m_password").val(new_password);
+				var m_password_confirm = $("#m_password_1").val().toString();
+				var new_password_confirm = encode64(m_password_confirm+rand);
+				$("#m_password_1").val(new_password_confirm);
+                var formdata = $("#regForm").serialize();
+                var ischeck = $("input[type='checkbox']").is(':checked');
+                if(ischeck == true){
+                    $.ajax({
+                        url:"{:U('Home/User/doRegister')}",
+                        dataType:"json",
+                        data: formdata,
+                        type:"post",
+                        success:function(msgObj){
+                            if(msgObj.status == 1){
+                                $.ThinkBox.success("注册成功,等待跳转……");
+                                window.location.href = "{$requset_url}";
+                            }else{
+                                $("#m_password").val(m_password);
+                                $("#m_password_1").val(m_password_confirm);
+                                $.ThinkBox.error(msgObj.msg);
+                                return false;
+                            }
+                        },
+                        error: function(msg) {
+                            $("#m_password").val(m_password);
+                            $("#m_password_1").val(m_password_confirm);
+                            $.ThinkBox.error(msg);
+                            return false;
+                        }
+                    });
+                }else{
+                    alert("请勾选注册协议！");return false;
+                }
+            },
+            rules : {
+                m_name : {
+                    required:true,
+                    minlength:4,
+                    isCheck:true,
+                    remote:'/Home/User/checkName'
+                },
+                m_email : {
+                    required:true,
+                    email:true,
+                    remote : '/Home/User/checkEmail'
+                },
+                m_mobile : {
+                    isMobile:true,
+                    remote : '/Home/User/checkMobile'
+                },
+				<php>if($is_mobile_validate == 1){</php>	
+					m_mobile_code : {
+						required:true,
+						remote : '/Home/User/checkMobileCode'
+					},
+				<php>}</php>
+                m_password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                m_password_1 : {
+                    required : true,
+                    equalTo  : '#m_password'
+                },
+                verify : {
+                    required:true,
+                    digits:true,
+                    remote:'/Home/User/checkVerify',
+                    rangelength:[4,4]
+                },
+                m_zipcode : {
+                    isZipCode:true
+                },
+                m_telphone : {
+                    isPhone:true
+                }
+            },
+            messages : {
+                m_name : {
+                    required : '用户名不能为空',
+                    minlength : '用户名不能少于4位',
+                    isCheck: '用户名不能包含敏感字符',
+                    remote:'该用户名已经存在'
+                },
+                m_email : {
+                    required:'邮箱不能为空'
+                },
+                m_mobile : {
+                    isMobile:'请输入正确的手机号格式'
+                },
+				<php>if($is_mobile_validate == 1){</php>	
+					m_mobile_code : {
+						required:'手机验证码不能为空'
+					},
+				<php>}</php>
+                m_password  : {
+                    required : '密码不能为空',
+                    minlength: '密码长度应在6-20个字符之间',
+                    maxlength: '密码长度应在6-20个字符之间'
+                },
+                m_password_1 : {
+                    required : '请再次输入您的密码',
+                    equalTo  : '两次输入的密码不一致'
+                },
+                verify : {
+                    required:'请输入验证码',
+                    rangelength:'验证码长度为4',
+                    digits:'对不起，请输入正确的验证码'
+                }
+            }
+        });
+	
+	 
+});
+function openLoadingBox(){
+    $(".loading-box").show();
+}
+function closeLoadingBox(){
+    $(".loading-box").hide();
+}
+function loadChildCityRegion(parent_id,selectDomId,clickObj){
+    //如果当前选中的行政区ID小于等于0，则表示选择的是“请选择”，将后面的行政区select清楚
+    $(clickObj).nextAll("select").hide().empty();
+    //如果选中了“请选择”，则不理会。
+    if(parent_id <= 0 || "region" == $(clickObj).attr("id")){
+        return false;
+    }
+    //定义异步加载行政区的url
+    var load_options_url = "{:U('Home/User/cityRegionOptions')}";
+    //ajax异步加载下一级行政区域数据
+    $.ajax({
+        url:load_options_url,
+        data:{parent_id:parent_id},
+        beforeSend:openLoadingBox(),
+        type:'POST',
+        success:function(jsonObj){
+            if(true === jsonObj.status && null !== jsonObj.data){
+                $(clickObj).next("select").show();
+                //select options 元素数据拼接
+                var html_options = '<option value="0" selected="selected">请选择</option>';
+                var next_child_parent = 0;
+                for(var index in jsonObj.data){
+                    html_options += '<option value="' + index + '" ';
+                    if(index == $(clickObj).attr('val')){
+                        html_options += 'selected="selected" ';
+                        next_child_parent = index;
+                    }
+                    html_options += '>' + jsonObj.data[index] + '</option>';
+                }
+                //将拼接的结果追加到DOM中
+                $("#" + selectDomId).html(html_options);
+                //递归加载数据，用于初始化的时候
+                if(next_child_parent > 0){
+                    var selectChildDomId = $("#" + selectDomId).attr("child_id");
+                    loadChildCityRegion(next_child_parent,selectChildDomId,$("#" + selectChildDomId));
+                }
+                //对空seletet元素进行隐藏操作
+                if($("#province").val() <= 0){
+                    $("#province").nextAll("select").hide().empty();
+                }else if($("#city").val() <= 0){
+                    $("#city").nextAll("select").hide().empty();
+                }
+            }else{
+                if("region" == $(clickObj).attr("id")){
+                    $(clickObj).empty().hide();
+                }else{
+                    $(clickObj).next("select").empty().hide();
+                }
+
+            }
+            closeLoadingBox();
+        },
+        dataType:'json'
+    });
+}
+</script>

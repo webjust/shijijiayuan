@@ -1,0 +1,296 @@
+<script src="__JS__jquery.countdown.min.js"></script>
+<div class="wrapD">
+<div class="pro_content w1180 bgfa">
+<div class="path">
+    <a href="{:U('Home/Index')}">首页</a><i>></i>
+    <a href="{:U('Home/Try')}">试用</a><i>></i>
+    {$data.try_title}
+</div>
+<div class="proDetail bgfff clearfix"><!--proDetail 开始-->
+    <div class="proDO"><!--proDO 开始-->
+        <div class="proDOL"><!--proDOL 开始-->
+            <div class="proDOLL"><!--proDOLL 开始-->
+                <div class="proDOLLT">
+                    <!-- 放大镜开始 -->
+
+                    <div class="promotionPic">
+                        <div id="pro_infor">
+                            <a href="javascript:void(0)"> <img src="{$data.try_picture}" width="417" height="417"> </a>
+                        </div>
+                    </div>
+                    <!-- 放大镜结束 -->
+
+                </div>
+            </div>
+            <!--proDOLL 结束-->
+            <div class="proDOLR"><!--proDOLR 开始-->
+                <h2>{$data.try_title}</h2>
+
+                <div class="activityA activityD">
+                    <p>此商品正在参加试用，<span class="tryendtime" endtime="{$data.try_end_time}"> </span>后结束，请尽快购买！</p>
+                </div>
+                <div class="proPrice" id="discountPrice">
+                    <div class="proPriceT"><span class="fleft">价格:</span>
+                        <p class="p02"><strong><i>&yen;</i>{$data.g_price|sprintf='%.2f',###}</strong></p>
+
+                        <p class="p03"><span class="mleft">免费提供:</span><span class="tgPrice"><strong>{$data.try_num}</strong>件</span> </p>
+                        <p class="p03"> <span class="mleft"><strong>{$data.apply_num}</strong> 人已申请，赶快去申请吧！</span></p>
+                    </div>
+                    <ul>
+
+                        <li>
+                            <if condition="$apply_info AND $apply_info['try_status'] eq 0">
+                                <h4 style="margin-left:20px;">您已提交申请，请耐心等待审核....</h4>
+                                <elseif condition="$apply_info['try_status'] eq 2" />
+                                <h4 style="margin-left:20px;">很遗憾!没有通过审核.其他试用同样给力!</h4>
+                                <elseif condition="$apply_info['try_status'] eq 1" />
+                                <h4 style="margin-left:20px;">恭喜你!已经审核通过.赶快去个人中心填写报告吧.</h4>
+                                <else />
+                            <a href="javascript:void(0)" class="j_gwc tg_btn ys_btn" id="free_apply">免费申请</a>
+                            <!--<a href="" class="goTobuy tg_btn tg_btn1">查看详情</a>-->
+                            </if>
+                        </li>
+                        <li class="service">
+                            <dl>
+                                <dt>发放条件：</dt>
+                                <dd><p>1. 所有会员都可以免费申请，申请成功无需支付邮费
+                                </p><p>
+                                    2. 申请成功需要提交真实原创的试用报告</p> </dd>
+                            </dl>
+                        </li>  </ul>
+
+                </div>
+                <!--proDOLR 结束-->
+
+            </div>
+        </div>
+
+        <!--proDOL 结束-->
+        <div class="proDOR"><!--proDOR 开始-->
+            <h4><span>猜你喜欢</span></h4>
+            <div class="proDORC">
+                <div class="x_lunbo">
+                    <!--  轮播动画开始  -->
+                    <div id="slider">
+                        <div class="bd">
+                            <div class="tempWrap" style="overflow:hidden; position:relative; height:406px">
+                                <ul style="height: 1218px; position: relative; padding: 0px; margin: 0px; top: -406px;">
+                                    <volist name="glist" id="glist">
+                                        <volist name="glist" id="list">
+                                    <li class="clone" style="height: 183px;">
+                                        <a href="{$list.gurl}" class="proImg">
+                                            <img src="{$Think.config.DOMAIN_HOST}{$list.g_picture}" width="150" height="50">
+                                        </a>
+                                        <a href="{$list.gurl}" class="proS">
+                                            {$list.gname}
+                                        </a>
+                                        <p class="p01">商城价：
+                                            <strong><i>¥{$list.gprice}</i></strong>
+                                        </p>
+                                    </li>
+                                         </volist>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 切换区域开始 -->
+
+                        <!-- 上下翻页切换按钮 -->
+
+                        <div class="hd"> <a href="javascript:void ('');" id="btn_prev" class="prev"></a> <a href="javascript:void ('');" id="btn_next" class="next"></a> </div>
+                    </div>
+                    <!--  轮播动画结束  -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--proDO 结束-->
+
+</div>
+<!--proDetail 结束-->
+<div class="content clear">
+<div class="fl procon" id="procon">
+<div class="tagarea-wrap">
+    <div class="tagarea clearfix">
+        <ul id="left_menus">
+            <notempty name="ads_info">
+            <li><a href="#procon">试用流程图</a></li>
+            </notempty>
+            <li class="on"><a href="#procon2">试用详情</a></li>
+            <li><a href="#procon3">申请成功记录({$data.success_num})</a></li>
+        </ul>
+    </div>
+</div>
+<div class="tagCon">
+    <notempty name="ads_info">
+    <div class="ever">
+        <div class="product-detail">
+            <img src="{$ads_info.ad_pic_url}">
+        </div>
+    </div>
+    </notempty>
+<div class="ever recomm">
+    {$data.try_desc}
+    <if condition="$data['try_is_show_detail'] eq 1">{$data.g_desc}</if>
+</div>
+<div class="ever cpcs">
+    <div class="cjjl1">
+        <p>已成功申请人数：<strong>{$data.success_num}</strong></p>
+
+        <table>
+            <tbody>
+            <tr>
+                <th>买家</th>
+                <th>宝贝名称</th>
+                <th>购买数量</th>
+                <th>成交时间</th>
+                <th>操作</th>
+            </tr>
+
+            <volist name="reportList" id="report">
+            <tr>
+                <td><span>{$report.m_name}</span></td>
+                <td><div class="pName"><a>{$report.try_title}</a></div></td>
+
+                <td><span>1</span></td>
+                <td><span>{$report.tar_create_time}</span></td>
+                <if condition="$report['try_oid'] neq 0">
+                <td><a href="{:U('Home/Try/ReportDetail',array('oid'=>$report['try_oid']))}">查看试用报告</a></td>
+                </if>
+            </tr>
+             </volist>
+            </tbody>
+        </table>
+        <!--<div class="fenyex"> <a>&lt;&lt;上一页</a> <a href="javascript:void(0);" class="on">1</a> <a>下一页&gt;&gt;</a> </div>-->
+    </div>
+</div>
+</div>
+</div>
+<div class="procon_r_wrap">
+    <div class="procon_r">
+        <ul>
+            <notempty name="ads_info">
+            <li><a href="#procon">试用流程图</a></li>
+            </notempty>
+            <li><a href="#procon2">试用详情</a></li>
+            <li><a href="#procon3">申请记录</a></li>
+            <li><a href="#top">回到顶部</a></li>
+        </ul>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<include file="$commonIncOnline" />
+</div>
+    <script type="text/javascript">
+
+
+        $("#slider").slide({
+            titCell: ".hd ul",
+            mainCell: ".bd ul",
+            autoPage: true,
+            effect: "topLoop",
+            autoPlay: true,
+            scroll: 2,
+            vis: 2,
+            interTime: 4000
+        });
+
+        $(".mobile-buy").hover(
+                function () {
+                    $(this).addClass('on');
+                }, function () {
+                    $(this).removeClass('on');
+                }
+        );
+
+        //商品详细标签切换
+        tagChange({
+            tagObj:$('.tagarea li'),
+            tagCon:$('.tagCon .ever'),
+            et:'click',
+            currentClass:'on'
+
+        });
+        tagChange({
+            tagObj:$('.procon_r li'),
+            tagCon:$('.tagCon .ever'),
+            et:'click',
+            currentClass:'cur'
+
+        });
+
+        tagChange({
+            tagObj: $('#recomm1 .rv-list li'),
+            tagCon: $('#recomm1 .rv-ever'),
+            et: 'click',
+            currentClass: 'on'
+        });
+
+        //商品详细标签导航
+        $(".tagarea").fixedBox({
+            'setEvent': 'scroll',
+            'id': 2,
+            'left': 0,
+            boxT: $(".procon").offset().top,
+            top: 0,
+            zIndex: 99999
+        });
+
+        $(".procon_r").fixedBox({
+            'setEvent': 'scroll',
+            'id': 2,
+            'left': 0,
+            boxT: $(".procon").offset().top,
+            top: 0,
+            zIndex: 99
+        });
+    </script>
+<script>
+    var g_id = "{$data.g_id}";
+    var try_id = "{$data.try_id}";
+    // 加入订单
+    function addOrders(){
+        if(g_id == ''){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");return false;
+        }
+        var member = "{$Think.session.Members}";
+        if(member == ''){
+            location.href = '/Home/User/login/?redirect_uri='+encodeURIComponent(window.location.href);
+            return false;
+            // $.post('/Home/User/login/',{tag:1},function(htmlMsg){
+            //     $.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+            // },'html');
+            // return false;
+        }
+
+        $.post('/Home/Try/getAddress',{g_id:g_id,try_id:try_id},function(html){
+            $('.ks-ext-mask').show();
+            // 获取窗口宽度
+            var width = parseInt($(window).width());
+            $('#dialog').css('left',(width-550)/2);
+            $('#dialog').html(html).show();
+        },'html');
+    }
+    $(function(){
+        // 倒计时代码
+        var obj = $('.tryendtime');
+        var endtime = obj.attr("endtime");
+        var strTime = obj.text();
+        obj.countdown(endtime,function(event){
+            $(this).html(event.strftime(strTime+'<label>%D</label> 天 <label>%H</label> 时 <label>%M</label> 分 <label>%S</label> 秒'));
+        });
+        // 免费申请
+        $('#free_apply').bind({'click':function(){
+            addOrders();
+        }});
+    })
+</script>
+<!-- dialog start -->
+<div class="ks-ext-mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 10001;display:none;"></div>
+<div style="left:399.5px;top:142px;z-index:10002;width:550px;visibility:visible;display:block;" class="try-mod-address try-dialog try-overlay try-ext-position" id="dialog"></div>
+<!-- dialog end -->
+
+

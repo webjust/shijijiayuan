@@ -1,0 +1,120 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*售后列表  开始*/
+.afterSale { display:inline-block; width:100%;}
+.afterSale table.tableTop td span。type { margin-left:30px;}
+
+.afterSaleFen { padding:10px 0px;}
+/*售后列表  结束*/
+
+/*售后申请表  开始*/
+.afterAppCon { width:938px; padding:10px; background:#E5EDF0; border:1px solid #D7D7D7; line-height:24px; color:#333;}
+.afterApplication p.tongyongP { margin-top:15px;}
+.afterApplication div.cartProName { width:302px;}
+
+
+.afAppDetail { display:inline-block; width:100%;}
+.afAppDetailLeft { float:left; width:506px;}
+.afAppDetailRight { float:right; width:441px;}
+
+.afAppDetailLeft div { border:1px solid #D7D7D7;  width:504px;  overflow:hidden;}
+.afAppDetailRight div { border:1px solid #D7D7D7; width:419px; height:auto; overflow:hidden; padding:0px 10px;}
+.afAppDetailRight ul { width:100%; margin-top:-1px;}
+.afAppDetailRight ul li { width:100%; float:left; color:#333; border-top:1px dashed #D7D7D7; padding:5px 0px;}
+.afAppDetailRight ul li span { display:block; line-height:30px;}
+.afAppDetailRight ul li b { color:#E67701; font-weight:normal;}
+.afAppDetailRight dl { width:177px; float:right;}
+.afAppDetailRight dl dd { float:left; padding:5px 0px; width:100%;}
+.afAppDetailRight dl dd label { float:left;}
+.afAppDetailRight dl dd strong { float:right; color:#E67701;}
+
+.afAppDetailLeft table { width:100%; margin-top:10px;}
+.afAppDetailLeft table td { padding:6px 0px; color:#333;}
+.afAppDetailLeft table td select { border:1px solid #D7D7D7; height:25px; line-height:25px;}
+.afAppDetailLeft table td input.inputText { width:160px; padding-left:5px; height:23px; line-height:23px; border:1px solid #D7D7D7; margin-right:10px;}
+.afAppDetailLeft table td input[type=radio] { position:relative; top:2px;}
+.afAppDetailLeft table td span { display:block; margin-top:3px;}
+.afAppDetailLeft table td textarea { width:220px; height:61px; border:1px solid #D7D7D7; padding:5px;}
+
+.afAppDetailLeft table td p.wordGray { float:left; margin-left:15px; width:290px}
+p.refund { padding:15px 0px;}
+
+/*售后申请表  结束*/
+/*一键发货  开始*/
+.oneKeyDel table.tableTop td a.wordBlue { margin-left:15px;}
+
+/*一键发货  结束*/
+
+/*快速订单下载  开始*/
+p.orderDownLP { width:100%; margin-top:15px;}
+p.orderDownLP input { position:relative; top:2px;}
+p.orderDownLP label { color:#333;}
+.orderTit { width:100%; margin-top:10px;}
+.orderTit table { width:100%; border:1px solid #d7d7d7;}
+.orderTit table td { text-align:center; font-size:14px; height:32px; background:url(../images/theadbj.jpg) repeat-x; line-height:31px;}
+
+
+.orderBody { width:958px; display:inline-block; border:1px solid #d7d7d7; border-top:none;}
+.orderBody ul { width:100%;}
+.orderBody ul li { float:left; width:100%; padding-bottom:10px;}
+.orderBody ul li p.orderPnei { width:100%; height:30px; line-height:30px; background:#E5EDF0;}
+.orderBody ul li p.orderPnei input { position:relative; top:2px; margin:0px 10px 0px 10px;}
+.orderBody ul li p.orderPnei strong { margin-right:21px;}
+.orderBody ul li p.orderPnei span.time { margin:0px 20px;}
+.orderBody ul li p.orderPnei a.ww { display:inline-block; background:url(../images/ww.jpg) no-repeat right center; padding-right:23px;}
+.orderBody ul li p.orderPnei a.gra { padding:0px 10px; height:19px; line-height:19px; text-align:center; color:white; margin-left:10px; background:#999999; display:inline-block;}
+.orderBody ul li p.orderPnei a:hover.gra { text-decoration:none; background:#666;}
+
+.orderBody ul li table.tableOut { width:100%;}
+.orderBody ul li table.tableOut td.message { padding:5px 0px; background:#EFEFEF; color:#333;}
+.orderBody ul li table.tableOut td.message p { float:left; width:45%;}
+.orderBody ul li table.tableOut td.message p span { margin-left:10px;}
+
+.orderBody ul li table.tableNei { width:100%; overflow:hidden;}
+.orderBody ul li table.tableNei tbody td { text-align:center; padding:5px 0px; color:#333;}
+.orderBody ul li table.tableNei tbody td a.reduce { margin:4px 4px 0px 47px}
+
+
+/*.orderBody { width:958px; display:inline-block; border:1px solid #d7d7d7; border-top:none;}
+.orderBody ul { width:100%;}
+.orderBody ul li { float:left; width:100%; padding-bottom:10px;}
+.orderBody ul li table { width:100%;}
+.orderBody ul li table thead td { height:30px; line-height:30px; background:#E5EDF0;}
+.orderBody ul li table thead td input { position:relative; top:2px; margin:0px 10px 0px 10px;}
+.orderBody ul li table thead td strong { margin-right:21px;}
+.orderBody ul li table thead td span.time { margin:0px 20px;}
+.orderBody ul li table thead td a.ww { display:inline-block; background:url(../images/ww.jpg) no-repeat right center; padding-right:0px;}
+.orderBody ul li table thead td a.gra { padding:0px 10px; height:19px; line-height:19px; text-align:center; color:white; margin-left:10px; background:#999999; display:inline-block;}
+.orderBody ul li table thead td a:hover.gra { text-decoration:none; background:#666;}
+.orderBody ul li table tbody td { text-align:center; padding:5px 0px; color:#333;}
+.orderBody ul li table tbody td a.reduce { margin:4px 4px 0px 47px}
+.orderBody ul li table tfoot td { padding:5px 0px; background:#EFEFEF; color:#333;}
+.orderBody ul li table tfoot td p { float:left; width:50%;}
+.orderBody ul li table tfoot td p span { margin-left:10px;}
+.orderBody div.cartProName {width:200px}*/
+
+/*快速订单下载  结束*/
+
+ .tableNei .pdtSwitchs td span {
+        background: url("../images/flex.jpg") no-repeat scroll 0 0 transparent;
+        cursor: pointer;
+        display: inline-block;
+        height: 16px;
+        line-height: 23px;
+        padding-right: 16px;
+    }
+
+.pdtSwitchs td span.open { background-position:right 0px;}
+.pdtSwitchs td span.close { background-position:right -23px;}
+
+
+
+
+
+
+
+
+
+
+

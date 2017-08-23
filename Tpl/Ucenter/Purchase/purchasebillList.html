@@ -1,0 +1,56 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+    .title>th{position: relative;}
+    .title>th>span{position:absolute;font-size: 12px;color: #666;right: 10px;}
+    .title>th>span>b{color: red;margin-right: 5px;float:left;margin-top:3px;}
+</style>
+<div class="contentRightBox">
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+            <table width="100%" class="tbList">
+                <thead>
+                <tr class="title">
+                    <th colspan="4">商品采购单 <span><b>*</b>一张商品采购单最多可生成五张商品送货单</span></th>
+                </tr>
+                <tr>
+                <th>采购单编码</th>
+                <th>生成时间</th>
+                <th>状态</th>
+                <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+            <volist name="billList" id="bill">
+                <tr id="list_{$bill.opb_id|intval}">
+                    <td><a href="/Ucenter/Supplier/purchaseList/opb_id/{$bill.opb_id}">{$bill.opb_id}</a></td>
+                    <td>{$bill.opb_time}</td>
+                    <td>
+                    <if condition="$bill.opb_status eq 0">未处理</if>
+                    <if condition="$bill.opb_status eq 1">送货单未完成</if>
+                    <if condition="$bill.opb_status eq 2">送货单已完成</if>
+                    </td>
+                    <td>
+                    <if condition="$bill.opb_status eq 0"><a href="/Ucenter/Supplier/pToD/opb_id/{$bill.opb_id}">生成送货单</a></if>
+                    <if condition="$bill.opb_status eq 1"><a href="/Ucenter/Supplier/pToD/opb_id/{$bill.opb_id}">继续生成送货单</a>　<a href="/Ucenter/Supplier/deliverybillList/opb_id/{$bill.opb_id}">查看送货单</a></if>
+                    <if condition="$bill.opb_status eq 2"><a href="/Ucenter/Supplier/deliverybillList/opb_id/{$bill.opb_id}">查看送货单</a></if>
+                    </td>
+                </tr>
+            </volist>
+                   <empty name="billList">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> 
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+                </tfoot>
+            </table>
+    </div>
+</div>

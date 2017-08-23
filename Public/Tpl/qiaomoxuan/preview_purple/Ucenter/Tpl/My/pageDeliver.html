@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="__UCSS__ucenter.css">
+<div class="container"><!--container-->
+    <div class="titleTop"> <!--detailTop-->
+        <p class="detailT"><a href="{:U('Wap/Index/index')}">首页</a>/<a href="{:U('Wap/Ucenter/index')}">个人中心</a></p>
+        <h1>
+			<span>我的收货地址</span>
+			<span style="float:right">
+				<if condition="$zt eq '1'">
+					<a href="{:U('Wap/ReceiveAddress/addAddressPage',array('pid'=>$pids,'zt'=>1))}">新增</a>
+				<else />
+					<a href="{:U('Wap/ReceiveAddress/addAddressPage',array('pid'=>$pids))}">新增</a>
+				</if>
+			</span>
+		</h1>
+    </div>
+    <div class="Ucenter">
+        <div class="userInfo" id="userInfo">
+        </div>
+        <div class="ucenter_S">
+            <div class="selector">
+                <span class="select">我的地址</span>
+            <ul style="display: none;">
+                <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                <li><a  href="{:U('Wap/Orders/orderList')}" selectid="2">我的订单</a></li>
+                <li><a  href="{:U('Wap/My/pageDeliver')}"  selectid="4">我的地址</a></li>
+                <li><a  href="{:U('Wap/Message/pageMailBox')}"  selectid="5">站内消息</a></li>
+                <li><a  href="{:U('Wap/Collect/pagelist')}"  selectid="6">收藏列表</a></li>
+                <li><a   href="{:U('Wap/PointLog/pagelist')}"  selectid="8">我的积分</a></li>
+                <li><a   href="{:U('Wap/Coupon/couponList')}"  selectid="9">我的优惠券</a></li>
+            </ul>
+        </div>
+        </div>
+        <!--userInfo-->
+        <div class="userEdit">
+            <div class="infoL">
+                <h1>已保存的地址</h1>
+                <div class="Address">
+                    <volist name="deliver" id="dev" empty="$empty">
+                    <div class="Addr" id="list_{$dev.ra_id}">
+                        <div class="addrUser">
+                            <span class="user" <if condition="$pids neq ''"> onclick="returnback({$dev.ra_id},'{$pids}')" <else/> onclick="returnback({$dev.ra_id})" </if>>{$dev.ra_name}</span>
+                            <span class="edit">
+                                <a href='{:U("Wap/My/editDeliver",array('raid'=>$dev[ra_id],'pids'=>$pids))}' class="wordBlue" ra_id="{$dev.ra_id}">修改</a>|
+                                <a  href="javascript:void(0);" class="wordBlue del_deliver" ra_id="{$dev.ra_id}" pids="{$pids}">删除</a>
+                            </span>
+                        </div>
+                        <div class="addr_Addr" <if condition="$pids neq ''"> onclick="returnback({$dev.ra_id},'{$pids}')" <else/> onclick="returnback({$dev.ra_id})" </if>>{$dev.address}</div>
+                        <div class="addr_Detail" <if condition="$pids neq ''"> onclick="returnback({$dev.ra_id},'{$pids}')" <else/> onclick="returnback({$dev.ra_id})" </if>>{$dev.ra_detail}</div>
+                        <div class="addr_Num" <if condition="$pids neq ''"> onclick="returnback({$dev.ra_id},'{$pids}')" <else/> onclick="returnback({$dev.ra_id})" </if>>
+                            <if condition="$dev['ra_mobile_phone'] neq ''">
+                                {$dev.ra_mobile_phone}
+                                <elseif condition="$dev['ra_phone'] neq ''">
+                                    {$dev.ra_phone}
+                                    <else/>{$dev.ra_mobile_phone}</if>
+                        </div>
+                    </div>
+                    </volist>
+                </div>
+            </div>
+            <form action="" id="regforms">
+            <div id="addAddress">
+            </div>
+           </form>
+        </div>
+    </div>
+</div>
+<div id="pro_diglog" style="display: none;">
+    <div id="tip_div">您确定要删除吗?</div>
+</div>
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+<script>
+	getcommoninfo();
+	function returnback(raid,pids){
+	
+		if(pids == '' || pids == undefined ){
+			window.location.href = "/Wap/My/pageDeliver";
+		}else{
+			var zt_url='';
+			if ( $("#is_zt").length > 0 ) {
+				zt_url ='/zt/1';
+			}
+			//秒杀
+			if(pids == 'spike'){
+				window.location.href = "/Wap/Orders/pageSpikeAdd/"+'/raid/'+raid + zt_url;
+			}else{
+				if(pids == 'bulk'){
+					window.location.href = "/Wap/Orders/pageBulkAdd/pid/" + pids+'/raid/'+raid + zt_url;
+				}else{
+					window.location.href = "/Wap/Orders/addOrderPage/pid/" + pids+'/raid/'+raid + zt_url;
+				}
+			}
+		}
+	}
+</script>
+
+

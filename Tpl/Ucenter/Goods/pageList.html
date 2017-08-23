@@ -1,0 +1,237 @@
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Ucenter/js/common.js"></script>
+<div class="contentRightBox">
+    <div id="tip_dialog">
+        <div id="good_dialog" style="display:none">
+        </div>
+    </div>
+    <p class="tabListP" id="tabs">
+        <span id="tabListP2">商品列表</span>
+    </p>
+    <div id="content">
+        <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+            <table width="960px;" class="tbList">
+                <thead>
+                    <tr class="title">
+                        <th colspan="99">
+                            <p class="conOneP" style="float:left;padding-top:4px;">
+                                <a href="{:U('Ucenter/Goods/goodsAdd')}" class="btnG ico_add">添加商品</a>
+                                <a data-uri="{:U('Ucenter/Goods/doGoodsisDel')}" class="btnG ico_del2" onclick="return isBatGoods(this);" href="javascript:void(0);">批量删除</a> 
+                            </p>
+                            <form method="get" action='{:U("Ucenter/Goods/pageList","tabs=$filter[tabs]")}' style="float: none;">
+                                <select class="small" style="width: 120px;" onchange="changeGoodsGroup(this);" name="gpid">
+                                    <option <if condition="$filter['gpid'] eq ''">selected="selected"</if> value="0">请选择分组信息</option>
+                                    <volist name="goodsgroups" id="gg">
+                                    <option <if condition="$filter['gpid'] eq $gg['gg_id']">selected="selected"</if> value="{$gg.gg_id}" >{$gg.gg_name}</option>
+                                    </volist>
+                                </select>
+                                <select name="field" class="small" style="width:80px;">
+                                    <option value="g_sn" <if condition="$filter.field eq 'g_sn'"></if>>商品编码</option>
+                                    <option value="g_name" <if condition="$filter.field eq 'g_name'">selected="selected"</if>>商品名称</option>
+                                </select>
+                                <select name="g_on_sale"  class="small" style="width:80px;">
+                                    <option value="1" <if condition="$filter.g_on_sale eq 1">selected="selected"</if>>上架商品</option>
+                                    <option value="2" <if condition="$filter.g_on_sale eq 2">selected="selected"</if>>下架商品</option>
+                                </select>
+                                <input type="hidden" value="easy" name="search" />
+                                <input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;">
+                                <input type="submit" value="搜 索" class="btnHeader"/>
+                            </form>
+                        </th>
+                    </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th style="width:80px;">操作</th>
+                    <th>新品</th>
+                    <th>热品</th>
+                    <!-- <th>销量</th> -->
+                    <th>商品编号</th>
+                    <th style="text-align: left;width:120px;">商品名称</th>
+                    <th>上/下架状态</th>
+                    <th width=62px>销售价</th>
+                    <th>所属分组</th>
+                    <th>更新时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="data" id="datas">
+                    <tr class="list" id="gid_{$datas.g_id}">
+                        <td><input type="checkbox" class="checkSon" name="gid[]" value="{$datas.g_id}" g_sn="{$datas.g_sn}" /></td>
+                        <td>
+                            <a style="color:#479df4;" class="green" href="{:U('Home/Products/detail')}/gid/{$datas[g_id]}" title="预览" target="_blank" >[预览]</a>
+                            <a class="green isDel delete" href="javascript:void(0);" title="删除商品" g_on_sale="{$datas.g_on_sale}" g_id="{$datas.g_id}" data-uri='{:U("Ucenter/Goods/doGoodsisDel")}' data-acttype="ajax"></a>
+                            
+                            <a class="green edit" href='{:U("Ucenter/Goods/goodsEdit","id=$datas[g_id]")}' title="编辑此商品" ></a>
+                            <!-- <a class="setPoint" style="color:#479DF4;"href="javascript:void(0);" g_id="{$datas.g_id}" data-uri='{:U("Admin/Products/setGoodPoint")}' data-acttype="ajax">积分设置</a>
+                            <div id="children_{$datas.g_id}"  style="display:none" title="积分设置"></div> -->
+                        </td>
+                        <td>
+                        <if condition="$datas.g_new eq 1">
+                            <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Admin/images/span-true.png" is_new="1"/>
+                            <else />
+                            <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Admin/images/span-false.png" is_new="0"/>
+                        </if>
+                        </td>
+                        <td>
+                        <if condition="$datas.g_hot eq 1">
+                            <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Admin/images/span-true.png" is_hot="1"/>
+                            <else />
+                            <img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Admin/images/span-false.png" is_hot="0"/>
+                        </if>
+                        </td>
+                        <!-- <td>
+                            <input type="text" name="g_salenum" value="{$datas.g_salenum}" class="input40 ajax-set-goods-salenum" int_goods_id="{$datas.g_id}" g_before_modify_salenum="{$datas.g_salenum}" />
+                        </td> -->
+                        <td style="text-align:left;">{$datas.g_sn}</td>
+                        <td  style="text-align: left;"><span style="width:200px;text-align:left; overflow: hidden;text-overflow: ellipsis;" class="green"><a style="color:#479df4;" href='{:U("Ucenter/Products/pageDetail","gid=$datas[g_id]")}' title="{$datas.g_name}" style="overflow: hidden;text-overflow: ellipsis;">{$datas.g_name}</a></span></td>
+                        <td>
+                        <if condition="$datas.g_on_sale eq '1'">
+                            <font>以上架</font>
+                        <else />
+                            <font>未上架</font>
+                        </if>
+                        </td>
+                        <td>￥{$datas.g_price|sprintf='%.3f',###}</td>
+                        <td>{$datas.group_name}</td>
+                        <td>{$datas.g_update_time}</td>
+                    </tr>
+                </volist>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="99">
+                            <span class="right page">
+                                {$page}
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div><!--rightInner  end-->
+    </div>
+</div>    
+<div id="allerp" name="" style="display:none" title="商品销量同步中"></div>
+<div id="fastGroup" style="display:none"></div>
+<script type="text/javascript">
+    
+    //删除商品
+    $(".isDel").click(function(){
+        var url = $(this).attr("data-uri");
+        var gid = $(this).attr("g_id");
+        var title = $(this).attr('title');
+        var g_on_sale = $(this).attr('g_on_sale');
+        //alert(g_on_sale);return false;
+        if(g_on_sale == 1){
+            alert('已上架的商品不能删除！');
+            return false;
+        }
+        if(gid == ''){
+            alert("商品编码不能为空！");
+            return false;
+        }
+        if(confirm("确定要"+title+"？")){
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {gid:gid},
+                type:"POST",
+                beforeSend:function(){
+                    alert("提交请求中，请稍候...");
+                },
+                error:function(){
+                    alert("AJAX请求发生错误！")
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        $("#gid_"+gid).remove();
+                        alert(msgObj.info);
+                    }else{
+                        alert(msgObj.info);
+                    }
+                }
+            });
+            
+        }
+        
+    });
+    
+  
+    function changeGoodsGroup(obj){
+        var gpid = $(obj).val();
+        if(gpid == 0){
+            return false;
+        }
+        var field = $("select[name='field']").val();
+        var val = $("input[name='val']").val();
+        var url = '/Ucenter/Goods/pageList';
+        if(val){
+            url += "?field="+field+"&search=easy&val="+val+"&gpid="+gpid;
+        }else{
+            url += "?search=easy&gpid="+gpid;
+        }
+        window.location.href = url;
+    }
+    
+    /**
+     * 执行批量操作
+     * author Joe
+     */
+    function isBatGoods(obj){
+        var val = $(obj).attr("val");
+        var url = $(obj).attr("data-uri");
+        var field = $(obj).attr("field");
+        var gids = new Array();
+        var spdm = new Array();
+        
+        if($(obj).hasClass('ico_del')){
+            if(!confirm("确定要删除吗？")){
+                return false;
+            }
+        }
+        $(".tbList input:checked[class='checkSon']").each(function(){
+            gids.push(this.value);
+            spdm.push($(this).attr("g_sn"));
+        });
+        spdms = spdm;
+        gid = gids;
+        gids = gids.join(",");
+        if(gids == ''){
+            alert("请选择需要操作的商品！");
+            return false;
+        }
+        $.ajax({
+            url:url,
+            cache:false,
+            dateType:'json',
+            type:'POST',
+            data:{gid:gids,val:val,field:field},
+            beforeSend:function(){
+               alert("提交请求中，请稍候...");
+            },
+            error:function(){
+                alert("AJAX请求发生错误！");
+            },
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    $.each(gid,function(index,value){
+                        $("#gid_"+value).remove();
+                    });
+                    alert(msgObj.info)
+                }else{
+                    alert(msgObj.info);
+                }
+            }
+        });
+        
+    }
+    
+ var tableWidth=document.getElementById('con_tabListP_1');
+ if(tableWidth.parentNode.parentNode.offsetWidth < 1400){
+    var demo = tableWidth.parentNode.parentNode.offsetWidth+60;
+ }else{
+    var demo = tableWidth.parentNode.parentNode.offsetWidth-100;
+ }
+ 
+ tableWidth.style.width=demo+'px';
+</script>
+

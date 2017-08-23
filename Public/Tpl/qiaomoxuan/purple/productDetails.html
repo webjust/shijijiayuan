@@ -1,0 +1,245 @@
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script src="__JS__comm.js" type="text/javascript"></script>
+<script type="text/javascript" src="__JS__jquery.jqzoom.js"></script>
+<script type="text/javascript" src="__JS__jqzoombase.js"></script>
+<link href="__CSS__jqzoom.css" rel="stylesheet">
+
+<script type="text/javascript">
+    $(function () {
+        //小图on的效果
+        $(document).ready(function () {
+            $('.imgbox li').click(function () {
+                $(".imgbox li").removeClass("on");//移除menu下全部select样式
+                $(this).addClass("on");//给被点击a添加select样式
+            });
+        });
+
+        // 点击小图更换大图
+        $('#image_list img:only-child').click(function () {
+            $('#current_img').attr('src', this.src);
+            // 大图的命名方式为 小图 + 下划线
+            $('#current_img').parent().attr('href', this.alt);
+        });
+    });
+</script>
+
+<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+<!-- warpDetails start-->
+<div class="warpDetails">
+      <!-- wContent start-->
+    <div class="wContent">
+        <h4>
+            <i><a href="">首页  /</a></i>
+            <gyfx:breadcrumbs name='breadcrumb'  gid="$ary_request[gid]" >
+                <i class="i1"><a href="{$breadcrumb.gcurl}">{$breadcrumb.cname} /</a></i>
+            </gyfx:breadcrumbs>
+            {$detail.gname}
+        </h4>
+        <php>
+            $gpicture = $detail['gpics'][0]['gp_picture'] ;
+        </php>
+        <!-- detailsT start-->
+        <div class="detailsT">
+            <div class="det_left">
+                <div class="imgB">
+                    <div class="promotionPic">
+                        <div class="T spec-preview"  id="preview">
+                                 <span class="jqzoom">
+                                    <img jqimg="{$gpicture|showImage=###,1000,1000}" bigWidth="1000"  bigHeight='1000' id="main_pic" src="{$gpicture|showImage=###,450,450}" width="450" height="450"/>
+                                 </span>
+                        </div>
+                        <!--缩图开始-->
+                        <div class="spec-scroll">
+                            <a class="prev">&lt;</a>
+                            <a class="next">&gt;</a>
+                            <div class="items">
+                                <ul>
+                                    <volist name="detail.gpics" id="pic">
+                                        <li>
+                                            <img alt="{$detail.gname}" bimg="{$pic['gp_picture']}" src="{$pic['gp_picture']|showImage=###,450,450}"width="79px" height="79px" onmousemove="preview(this);">
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <!-- det_left end-->
+                <!-- det_right start-->
+                <div class="det_right">
+                    <form id="goodsForm" name="goodsForm" method="post" action="#">
+                    <!-- 标题价格内容 start-->
+                    <h1>{$detail.gname}</h1>
+                    <div><em>款号：{$detail.gsn}</em></div>
+                    <span>
+                        <php>
+                            $comment_statics['average_score'] =  $comment_statics['average_score'] ? (int)$comment_statics['average_score'] : 0;
+                            $stars = round($comment_statics['average_score']/20);
+                            $gray_stars = 5 - $stars;
+                            for($i=0; $i< $stars; $i++){
+								echo "<i></i>";
+                            }
+                            for($j=0; $j < $gray_stars; $j++) {
+								echo '<i class="bad"></i>';
+                            }
+                        </php>({$comment_statics.positive_count|default=0}好评)
+                        <b><a href="javascript:void (0);" onclick="addToInterests('{$ary_request.gid}');">收藏</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销量{$detail.gsalenum|default=0}件
+                        <p><span id="showPrice">{$detail.gprice|sprintf='%.2f',###}</span><em>元</em></p>
+                    </span>
+                    <!-- 标题价格内容 end-->
+					<div class="Choice">
+						<div id="showDetailSkus">
+                            商品规格加载中......
+                        </div>
+                        <!-- 按钮 start-->
+                        <div class="btn_box">
+                            <input type="hidden" name="way_type" value="" id="way_type"/>
+                            <a href="javascript:void(0)" id="addToCart" class="add_cart">加入购物车</a>
+                            <a href="javascript:void(0)" id="addToOrder" class="buy_btn">立即购买</a>
+                        </div>
+                        <div class="fenxiang">
+                        <div class="fx jiathis_style">
+                            <span style="float: left;" class="jiathis_txt">分享到社交媒体&nbsp;&nbsp;</span>
+                            <!-- JiaThis Button BEGIN -->
+                            <a class="jiathis_button_tsina"></a>
+                            <a class="jiathis_button_weixin"></a>
+                            <script type="text/javascript" >
+                                var jiathis_config={
+                                    summary:"",
+                                    shortUrl:false,
+                                    hideMore:true
+                                }
+                            </script>
+                            <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                            <!-- JiaThis Button END -->
+                            </div>
+                        </div>
+                        <!-- 按钮 end-->
+                    </div>
+                    <!-- 分类选择 end-->
+                    </form>
+                </div>
+              <!-- det_right end-->
+        </div>
+        <!-- detailsT end-->
+    </div>
+      <!-- wContent end--> 
+      <!-- detailsB start-->
+
+    <div class="detailsB">
+        <div class="proDetailDR">
+            <!-- tab切换 start-->
+            <div class="tagarea">
+                <ul>
+                    <li class="on">商品详情</li>
+                    <if condition="$common['comments_switch'] eq 1">
+                    <li>用户评论</li>
+                    </if>
+                    <li>成交记录<span id="show_sale_num"></span></li>
+                    <li>商品咨询</li>
+                </ul>
+				<div id="qc_wrap" style="float:right;margin-right: 0px;">
+                    <div class="qc_trigger" style="position: relative;">客户端下单</div>
+                    <div class="qc_inner" style="position: absolute;  display: none; ">
+                        <img src="{$Think.config.DOMAIN_HOST}{$qc_img}">                    </div>
+                    <script type="text/javascript">
+                        $(function(){
+                           $('#qc_wrap').hover(function(){
+                              $('.qc_inner').toggle();
+                           })
+                        });
+                    </script>
+                </div>   
+            </div>
+            <!-- tab切换 end-->
+        </div>
+
+        <!-- tagCon start-->
+        <div class="tagCon">
+              <!--商品详情图片end-->
+              <div class="ever detailF">
+                  {$detail.gdesc}
+              </div>
+              <!--商品详情图片end-->
+              <!--商品评价 start-->
+              <div class="ever comment" id="con_tabs_2">
+
+              </div>
+              <!--用户评论 end-->
+
+              <div class="ever textC" id="con_tabs_3">
+
+              </div>
+              <!--尺码说明 end-->
+              <!--商品咨询 start-->
+              <div class="ever" id="purchase_consulting">
+
+              </div>
+              <!--商品咨询 end-->
+        </div>
+        <!-- tagCon end-->
+    </div>
+      <!-- detailsB end-->
+
+    <!--tagBot begin-->
+    <div class="tagBot" id="relate_goods">
+
+    </div>
+
+    <div id="coll_goods" class="recommend">
+
+    </div>
+    <!--tagBot end-->
+</div>
+<a href="#" onclick="gotoTop();return false;" class="totop"></a>
+<!-- detailsB start-->
+<!-- warpDetails start-->
+<input type="hidden" name="error_1" value="{$Think.lang.STOCK_ERROR_1}" id="error_1" />
+<input type="hidden" name="error_2" value="{$Think.lang.STOCK_ERROR_2}" id="error_2" />
+<input type="hidden" name="error_3" value="{$Think.lang.STOCK_ERROR_3}" id="error_3" />
+<input type="hidden" name="error_4" value="{$Think.lang.STOCK_ERROR_4}" id="error_4" />
+
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Ucenter/Orders/pageAdd">
+    <input type="hidden" name="pid[]" id="submitSkipItemPid" value="" />
+    <input type="hidden" name="type[]" id="submitSkipItemtype" value=""/>
+</form>
+<input type="hidden" value="{$detail.gid}" id="gid">
+<script type="text/javascript" src="__JS__productsdetail.js"></script>
+<script>
+    getDetailSkus('{$ary_request.gid}','0');
+//    var IS_ON_MULTIPLE = '{$is_on_mulitiple}';
+</script>
+<if condition="$common['comments_switch'] eq 1">
+</if>
+<script type="text/javascript">
+    //初始化金额
+    if($('.Choice a.on').length) {
+        initData();
+    }
+    //getCollGoodsPage('{$ary_request.gid}');
+    getRelateGoodsPage(4);
+    getGoodsAdvice('{$detail.gid}',1, 'purchase_consulting');
+    <if condition="$common['comments_switch'] eq 1">
+            getCommentPage('{$detail.gid}');
+    </if>
+    getCollGoodsPage('{$detail.gid}');
+    getBuyRecordPage('{$detail.gid}');
+</script>
+<script type="text/javascript">
+
+//商品详细标签切换
+    tagChange({
+        tagObj:$('.tagarea li'),
+        tagCon:$('.tagCon .ever'),
+        currentClass:'on'
+
+    });
+	tagChange({
+        tagObj:$('.evaluation li'),
+        tagCon:$('.CommentAll .Comment'),
+        currentClass:'cur'
+
+    });
+</script>

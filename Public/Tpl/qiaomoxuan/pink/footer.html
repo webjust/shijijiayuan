@@ -1,0 +1,52 @@
+<!--foot start-->
+<div class="footer">
+	<div class="ftOne"><!--ftOne-->
+		<!--<div class="ftOneTop">-->
+			<!--<span><img src="__IMAGES__service1.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service2.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service3.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service4.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service5.jpg"></span>-->
+		<!--</div>-->
+		<div class="ftOneBot"><!--ftOneBot-->
+			<ul>
+                <Gyfx:articlecate name="artcat"  num="5" recommend="1" is_show="1">
+                    <volist name="artcat" key="k" id="arts">
+                        <li>
+                            <strong>{$arts.cat_name}</strong>
+                            <volist name="arts.list" key="k" id="artinfo">
+                                <if condition="$k elt 4">
+									<div style="width:10px;height:10px;float:left;" <if condition="$artinfo.hot eq '1'">class="hot2"</if>></div>
+                                    <a href="{$artinfo.aurl}" target="_blank">{$artinfo.a_title}</a>
+                                </if>
+                            </volist>
+                        </li>
+                    </volist>
+                </Gyfx:articlecate>
+			</ul>
+			<div style="float:right;width:145px;margin:10px 25px 0 0">
+				<a style="width:145px;height:105px" href="{$Think.config.DOMAIN_HOST}{$ary_top_ads['bottom_pic_url']}" target="_blank">
+				<img src="{$ary_top_ads['bottom_pic']|default='__IMAGES__foot_logo.png'}" width="145" height="105">
+				</a>
+			</div>
+		</div>
+      <!--/ftOneBot--> 
+    </div>
+	<!--/ftOne-->
+	<div class="ftTwo"><!--ftTwo-->
+		<p>{$commonInfo['GY_SHOP_TITLE']|default='管易分销测试店铺'} </p>
+		<p>	{$commonInfo['GY_SHOP_ICP']|default='Copyright © 2009-2016 沪ICP备：12035449号-2'}</p>
+	</div>
+  <!--/ftTwo--> 
+</div>
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>

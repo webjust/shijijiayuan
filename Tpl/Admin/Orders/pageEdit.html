@@ -1,0 +1,358 @@
+<script src="__PUBLIC__/Admin/js/order.js"></script>
+<div class="content" style="width:990px; margin:0 auto;" >
+<form  id="orderForm" name="orderForm" action="/Admin/Orders/doEdit" method="post">
+	<div class="rightInner" style="border:none" id="getPageEdit">
+    	<div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">订单信息</h2>
+        	<table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">订单号：</td>
+                    <td width="290">{$ary_orders.o_id}
+                    <input type="hidden" name="o_id" id="o_id" value="{$ary_orders.o_id}"/>
+                    </td>
+                    <td width="90" align="right">订单状态：</td>
+                    <td><if condition="$ary_orders[str_status] neq ''" ><span class="orange">{$ary_orders.str_status}</span><else /><if condition="$ary_orders.str_pay_status neq ''" ><span class="orange">{$ary_orders.str_pay_status}</span>&nbsp;</if>
+                    <if condition="$ary_orders.refund_status neq ''" ><span class="orange">{$ary_orders.refund_status}</span>&nbsp;</if>
+                    <if condition="$ary_orders.refund_goods_status neq ''" ><span class="orange"> {$ary_orders.refund_goods_status}</span>&nbsp;</if>
+                    <if condition="$ary_orders.deliver_status neq ''" ><span class="orange">{$ary_orders.deliver_status}</span></if></if></td>
+                </tr>
+                <tr>
+                	<td align="right">会员名称：</td>
+                    <td>{$members['m_name']} &nbsp;&nbsp;&nbsp;<a href='{:U("Admin/Members/pageList")}?m_name_type=1&m_name={$members["m_name"]}' target="_blank">会员信息</a></td>
+                    <td align="right">下单时间：</td>
+                    <td>{$ary_orders.o_create_time}</td>
+                </tr>
+                <tr>
+                	<td align="right">支付方式：</td>
+                    <td colspan="3">
+                    	<select class="small" id="payment_list" name="o_payment" >
+                    	     <volist name="ary_paymentcfg" id="paymentcfg" key="key">
+                                    <option value="{$paymentcfg.pc_id}" pc_fee="{$paymentcfg.pc_fee}" <if condition="$paymentcfg['pc_id'] eq $ary_orders['o_payment']" >selected</if>>{$paymentcfg.pc_custom_name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit" ><!--orderEdit  start-->
+        	<h2 class="commonH2">收货人信息</h2>
+        	<table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">收货人：</td>
+                    <td width="290"><input type="text" name="o_receiver_name" value="{$ary_orders.o_receiver_name}" class="medium"></td>
+                    <td width="90" align="right">联系手机：</td>
+                    <td><input type="text" name="o_receiver_mobile" value="{$ary_orders.o_receiver_mobile}" class="medium"></td>
+                </tr>
+                <tr>
+                	<td align="right">联系电话：</td>
+                    <td><input type="text" value="{$ary_orders.o_receiver_telphone}" name="o_receiver_telphone" class="medium"></td>
+                    <td align="right">电子邮件：</td>
+                    <td><input type="text" value="{$ary_orders.o_receiver_email}" name="o_receiver_email" class="medium"></td>
+                </tr>
+                <tr>
+                	<td align="right">送货时间：</td>
+                    <td><input type="text" class="medium timer" name="o_receiver_time" readonly="readonly" value="{$ary_orders.o_receiver_time}"></td>
+                    <td align="right">邮政编码：</td>
+                    <td><input type="text" class="medium" name="o_receiver_zipcode" value="{$ary_orders.o_receiver_zipcode}"></td>
+                </tr>
+                <tr>
+                	<td align="right">收货地区：</td>
+                    <td colspan="3">
+                    <include file="Address:addressPage" />
+                    </td>
+                </tr>
+                <tr>
+                	<td width="120" align="right">收货地址：</td>
+                    <td width="290"><input type="text" value="{$ary_orders.o_receiver_address}" name="o_receiver_address" class="medium"></td>
+                    <neq name="ary_orders.o_receiver_idcard" value="">
+                	<td width="90" align="right">身份证号：</td>
+                    <td><input type="text" name="o_receiver_idcard" value="{$ary_orders.o_receiver_idcard}" class="medium"></td>
+                    </neq>
+                </tr>  
+            </table>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">配送方式</h2>
+           <dl class="dl02" id="logistic_dl" style="margin-left:10px;">
+			<if condition="$ary_logistic!=''">
+			    <volist name="ary_logistic" id="logistic" key="key">
+			        <dd>
+			            <input type="radio" onclick="checkLogistic({$logistic.lt_id})" class="aaa" id="lt_id" value="{$logistic.lt_id}" name="lt_id"  <if condition="$ary_orders[lt_id] eq $logistic[lt_id]"> checked </if>>
+			            <label  for="kuaidi">{$logistic.lc_name}</label>
+			            <span >运费 + <i id="logistic_price_{$logistic.lt_id}">{$logistic.logistic_price}</i>元</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			            <span >配送公司描述： {$logistic.lc_description}</span>
+			            <input type="hidden" id="o_cost_freight" name="o_cost_freight" value="{$logistic.logistic_price}">
+			        </dd>
+			    </volist>
+			<else />
+			    <dd>无配送方式</dd>
+			</if>   
+           </dl>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">商品信息</h2>
+            <div class="orderList">
+                <include file="Orders:ordersList" />
+				<if condition="$ary_orders_info[0]['oi_type'] neq 5">
+                <p class="textCenter" style="text-align:left;">
+                		添加商品货号：
+                        <input type="text"  id="pdt_sn" class="large" onkeypress="EnterPress(event)" />
+                        		直接按回车
+                        <button type="button" id="addGoods"  class="btnA submit-button">添加商品</button>
+                        &nbsp;&nbsp;<button type="button" id="getPrices"  class="btnA submit-button" >计算价格</button>
+                        	<span style="color:red;">（如需及时看下订单相关金额请点击计算价格）</span>
+                        <div id="goodsSelect" style="display: none;" title="请选择商品">
+                            <include file="Goods:getProductsInfo" />
+                        </div>
+                        
+                </p>				
+				</if>
+            </div>
+        </div><!--orderEdit  end-->
+        
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">商品信息</h2>
+            <table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">商品总金额：</td>
+                    <td width="290"><input type="text" class="medium" disabled id="o_goods_all_price" name="o_goods_all_price" value="{$ary_orders.o_goods_all_price}"></td>
+                    <td width="90" align="right">配送费用：</td>
+                    <td>
+                    <input type="text" class="medium"  id="old_cost_freight" name="old_cost_freight"  value="{$ary_orders.o_cost_freight}">
+                    <input type="hidden" class="medium"  id="cost_freight"  value="{$ary_orders.o_cost_freight}">
+					<input type="hidden" id="last_freight" value="{$ary_orders.o_cost_freight}" />
+                    </td>
+                </tr>
+                <tr>
+                	<!-- 
+                	<td align="right">发票税额：</td>
+                    <td><input type="text" class="medium"></td>
+                     -->
+                 	<td align="right">发票抬头：</td>
+                 	<if condition="$ary_orders['invoice_head'] eq '1'">
+                 	<td><input type="text" class="medium" value="{$ary_orders['invoice_people']}" name="old_invoice_head" ></td>   
+                 	<else />
+                 	<td><input type="text" class="medium" value="{$ary_orders['invoice_name']}" name="old_invoice_head" ></td>
+                 	</if>
+                        
+                    <td align="right">发票内容：</td>
+                    <td><input type="text" class="medium" value="{$ary_orders.invoice_content}" name="old_invoice_content"> &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void()" class="updateA btnA">修改</a></td>
+                </tr>
+                <tr>
+                	<td align="right">优惠金额：</td>
+                    <td><input type="text" class="medium" id="pre_price" disabled value="{$ary_orders.o_discount}"></td>
+                    <!-- 
+                    <td align="right">商品重量：</td>
+                    <td><input type="text" class="medium">g</td>
+                     -->
+                    <td align="right">支付手续费：</td>
+                    <td><input type="text" name="o_cost_payment" id="o_cost_payment" disabled value="{$ary_orders.o_cost_payment}" class="medium"></td>
+                </tr>
+                <if condition="$ary_orders['o_coupon_menoy'] eq '0.000'">
+                <if condition="$ary_orders_info[0]['oi_type'] neq 5">
+                <tr>
+					<td width="72" align="right" valign="top">使用优惠券：</td>
+					<td>
+					<input type="text" class="medium" id="coupon_input" name="coupon_input"
+											value="" class="input01" /> 
+											
+											<input class="btnA submit-button medium" type="button" id=""
+											name="" onclick="doCoupon();"  value="使用" /> 
+											
+					</td>
+				</tr>
+				</if>
+				<tr id="showPromotion" style="display:none;">
+				<td width="72" align="right" valign="top">享受促销信息：</td>
+				<td colspan="3">
+				<span id="sp_detail" class="orange">
+				
+				</span>
+				</td>
+				</tr>
+				</if>
+                    </td>
+                    <td align="right">订单总金额：</td>
+                    <td><strong> <span id="showAllPricce">{$ary_orders.o_all_price}</span></strong>
+                    <input type="hidden" id="old_all_price"  readonly value="{$ary_orders.o_all_price}"/>
+                    </td>
+                </tr>
+                <tr>
+                	<td align="right">使用优惠券：</td>
+                    <td colspan="3"><strong> {$ary_orders['o_coupon_menoy']?$ary_orders['o_coupon_menoy']:'0'}</strong></td>
+                </tr>
+                <tr>
+                	<td align="right">使用红包：</td>
+                    <td colspan="3"><strong> {$ary_orders['o_bonus_money']?$ary_orders['o_bonus_money']:'0'}</strong></td>
+                </tr>
+			</table>
+            <div class="updateDiv" style="display:none;left:755px;pading-left:3px;top:-95px; padding-top:0px;"><!--updateDiv  start-->
+            	 <if condition="$invoice_info['is_invoice'] eq 1 ">
+                    <div class="billInfo"><!--发票信息  开始-->
+                        <style>
+                        table.normalT01 td {
+						    color: #333333;
+						    padding: 5px 0;
+						}
+                        </style>
+                        
+                        <div class="billICon"  id="invoice_show"><!--billICon  start-->
+                            <h2 style="height:25px; background-color:#ccc; line-height:25px; font-size:14px; padding-left:10px">发票</h2>
+                            <table class="normalT01" style="margin-left:20px">
+                                <tr>
+                                    <td width="65">需要发票：</td>
+                                    <td>
+                                        <input type="radio"  name="is_invoice" value="1" <php>if($ary_orders['is_invoice'] =='1'){echo 'checked="checked"';}</php>> <label for="rada">需要</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" name="is_invoice" value="0"   <php>if($ary_orders['is_invoice'] ==0){echo 'checked="checked"';}</php>> <label for="rada02">不需要</label>
+                                    </td>
+                                </tr>                            
+                                <tr>
+                                    <td width="65">发票类型：</td>
+                                    <td>
+                                        <eq name="invoice_info.invoice_comom" value="1">
+                                        <input type="radio" id="rada" name="invoice_type" value="1" <php>if($ary_orders['invoice_type'] =='1'){echo 'checked';} </php>> <label for="rada">普通发票</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </eq>
+                                        <eq name="invoice_info.invoice_special" value="2">
+                                        <input type="radio" id="rada02" name="invoice_type" value="2" <php>if($ary_orders['invoice_type'] =='2'){echo 'checked';} </php>> <label for="rada02">增值税发票</label>
+                                        </eq>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <table class="hdT01">
+                                            <tr>
+                                                <td width="65">发票抬头：</td>
+                                                <td>
+                                                    <eq name="invoice_info.invoice_personal" value="1">
+                                                    <input type="radio" id="radp"  name="invoice_head" value="1" <php>if($ary_orders['invoice_head'] =='1'){echo 'checked';} </php> > <label for="radp">个人</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <eq>
+                                                    <eq name="invoice_info.invoice_unit" value="1">
+                                                    <input type="radio" id="radp02"  name="invoice_head" value="2" <php>if($ary_orders['invoice_head'] =='2'){echo 'checked';}</php> > <label for="radp02">单位 </label>
+                                                    </eq>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="personalT" <if condition="$ary_orders.invoice_head neq 1">style="display:none"</if>>
+                                                        <tr>
+                                                            <td width="65">个人姓名：</td>
+                                                            <td><span class="tex01"><input type="text" class="medium"  id="invoice_people" name="invoice_people" value="{$ary_orders['invoice_people']}"></span></td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="unitT" <if condition="$ary_orders.invoice_head neq 2">style="display:none"</if>>
+                                                        <tr>
+                                                            <td width="65">单位名称：</td>
+                                                            <td><span class="tex01"><input type="text" class="medium"  id="invoice_name" name="invoice_name1" value="{$ary_orders['invoice_name']}"></span></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                                <tr>
+                                                    <td>发票内容：</td>
+                                                    <td>
+                                                        <input type="text" class="medium" value="{$ary_orders['invoice_content']}" name='invoice_content1' id='invoice_content'>
+                                                    </td>
+                                                </tr>
+                                               <tr><td colspan="2" style="text-align:right;"><a class="delInvoice btnA" style="marin-left:10px;" vclass="hdT01">确定</a></td></tr>
+                                        </table>
+                                        <table class="hdT02" style="display:none;">
+                                            <tr>
+                                                <td colspan="2">增值税发票专用发票资质填写：</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="100" align="right">单位名称：</td>
+                                                <td><span class="tex01"><input type="text" value="{$ary_orders['invoice_name']}" name='invoice_name' id='invoice_names' validate="{ required:true}"></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">纳税人识别号：</td>
+                                                <td><span class="tex01"><input type="text" value="{$ary_orders['invoice_identification_number']}" name='invoice_identification_number' id='invoice_identification_number'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">注册地址：</td>
+                                                <td><span class="tex01"><input type="text" value="{$ary_orders['invoice_address']}"  name='invoice_address' id='invoice_address'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">注册电话：</td>
+                                                <td><span class="tex01"><input type="text" value="{$ary_orders['invoice_phone']}" name='invoice_phone' id='invoice_phone'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">开户银行：</td>
+                                                <td><span class="tex01"><input type="text" value="{$ary_orders['invoice_bank']}" name='invoice_bank' id='invoice_bank'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" valign="top">银行帐户：</td>
+                                                <td>
+                                                    <span class="tex01"><input type="text" value="{$ary_orders['invoice_account']}" name='invoice_account' id='invoice_account'></span> <span class="red">*</span>                
+                                                </td>
+                                            </tr>
+      
+                                             <tr>
+                                                 <td align="right">发票内容：</td>
+                                                 <td>
+													<input type="text" value="{$ary_orders['invoice_account']}" name='invoice_content' id='invoice_content'>
+                                            	 </td>
+                                             </tr>
+											<tr><td colspan="2" style="text-align:right;"><a class="delInvoice btnA" style="marin-left:10px;" vclass="hdT02">确定</a></td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div><!--billICon  end-->
+                    </div><!--发票信息  结束-->
+                    </if>
+                   
+            </div><!--updateDiv  end-->
+        </div><!--orderEdit  end-->
+        </div>
+        <div class="orderEdit"><!--orderEdit  start-->
+        	<h2 class="commonH2">订单备注</h2>
+            <table class="tbForm">
+            	<tr>
+                	<td width="120" align="right">订单买家留言：</td>
+                    <td>{$ary_orders['o_buyer_comments']}</td>
+                </tr>
+                <tr>
+                	<td align="right">标记：</td>
+                    <td>
+                    	<input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '1'){echo 'checked';}</php> value="1" > <label><img src="__PUBLIC__/Admin/images/colorPic.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '2'){echo 'checked';}</php> value="2"> <label><img src="__PUBLIC__/Admin/images/colorPic02.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '3'){echo 'checked';}</php> value="3"> <label><img src="__PUBLIC__/Admin/images/colorPic03.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '4'){echo 'checked';}</php> value="4"> <label><img src="__PUBLIC__/Admin/images/colorPic04.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '5'){echo 'checked';}</php> value="5"> <label><img src="__PUBLIC__/Admin/images/colorPic05.png" width="12" height="12"></label> &nbsp;&nbsp;
+                        <input type="radio" name="flag_type" <php>if($ary_orders['flag_type'] == '6'){echo 'checked';}</php> value="6"> <label><img src="__PUBLIC__/Admin/images/colorPic06.png" width="12" height="12"></label> &nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                	<td align="right" valign="top">订单卖家备注：</td>
+                    <td><textarea class="mediumBox" name="o_seller_comments">{$ary_orders['o_seller_comments']}</textarea></td>
+                </tr>
+            </table>
+        <!--orderEdit  end-->
+        <div>
+        <p class="textCenter">
+        <input type="hidden" value="{$ary_orders['m_id']}" id="m_id"  name="m_id"/>
+        <input type="hidden" value="" id="edit_html"  name="edit_html"/>
+        <input type="hidden" <if condition="$ary_orders_info[0]['oi_type'] eq '5'">value="1"<else/>value="0"</if> id="is_edit"/>
+        <input type="button" class="btnA" onclick="return submitFrom()" value="保存"> &nbsp;<a href="/Admin/Orders/pageList" class="btnA">关闭</a>
+    </div>
+</div>
+</form>
+<script src="__PUBLIC__/Admin/js/loading.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var pageEditHtml = $('#getPageEdit').html();
+	//把html信息存起来
+	$('#edit_html').val(pageEditHtml);
+	<php>if($invoice_info['invoice_special'] == '2'){ </php>
+    $(".hdT01").hide();
+    $(".hdT02").show();
+    <php>} </php>
+	<php>if($invoice_info['invoice_comom'] == '1'){ </php>
+    $(".hdT01").show();
+    $(".hdT02").hide();
+    <php>} </php>
+}) 
+</script>

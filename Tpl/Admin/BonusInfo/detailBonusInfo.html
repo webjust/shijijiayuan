@@ -1,0 +1,202 @@
+<div class="rightInner">
+    <table class="tbForm" width="100%">
+        <thead>
+            <tr class="title">
+                <th colspan="99">红包调整单详情</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="first">单据编号：</td>
+                <td>
+                    {$data.bn_sn}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">调整类型：</td>
+                <td>
+                    {$data.bt_name}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">会员名称：</td>
+                <td>
+                    {$data.m_name}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">调整金额：</td>
+                <td>
+                    {$data.bn_money}
+                </td>
+            </tr>
+            <tr>
+                <td class="first">收款银行：</td>
+                <td>
+                    {$data.bn_accounts_bank}
+                </td>
+            </tr>
+            <tr>
+                <td class="first">收款账号：</td>
+                <td>
+                    {$data.bn_accounts_receivable}
+                </td>
+            </tr>
+            <tr>
+                <td class="first">付款日期：</td>
+                <td>
+                    {$data.bn_payment_time}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">制单人：</td>
+                <td>
+                    {$data.u_name}
+                </td>
+            </tr>
+            <tr>
+                <td class="first">制单日期：</td>
+                <td>
+                    {$data.bn_create_time}
+                </td>
+            </tr>
+            <tr>
+                <td class="first">客审人：</td>
+                <td>
+                    {$data.pending}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">审核日期：</td>
+                <td>
+                    {$data.pending_time}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">财审人：</td>
+                <td>
+                    {$data.finance}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">审核日期：</td>
+                <td>
+                    {$data.finance_time}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">作废人：</td>
+                <td>
+                    {$data.invalid}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">作废日期：</td>
+                <td>
+                    {$data.invalid_time}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">备注：</td>
+                <td>
+                    {$data.bn_desc}
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">状态：</td>
+                <td>
+        <if condition="$data.bn_service_verify eq '1'">
+            <font  color="green" id="bn_service_verify_{$data.bn_id}_status">已客审</font>
+            <else />
+            <font  color="red" id="bn_service_verify_{$data.bn_id}_status"><b>未客审</b></font>
+        </if>
+        &nbsp;&nbsp;
+        <if condition="$data.bn_finance_verify eq '1'">
+            <font id="bn_finance_verify_{$data.bn_id}_status" color="green">已财审</font>
+            <else />
+            <font id="bn_finance_verify_{$data.bn_id}_status" color="red"><b>未财审</b></font>
+        </if>
+        </td>
+        </tr> 
+        </tbody>
+        <if condition="$filter.st neq ''">
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <if condition="($filter.st eq 'pending') && ($data.bn_service_verify eq '1') && ($data.bn_verify_status neq '2')">
+                            <input type="button" value="已审核" class="btnA" style="background-color: gray;">
+                            <input type="button" value="作 废" class="btnA ServiceVerify" id="bn_verify_status_{$data.bn_id}" data-id="{$data.bn_id}" data-field="bn_verify_status" data-value='2'>
+                        <elseif condition="($filter.st eq 'pending') && ($data.bn_service_verify eq '0') && ($data.bn_verify_status neq '2')" />    
+                            <input type="button" value="审 核" class="btnA ServiceVerify" data-field="bn_service_verify" id="bn_service_verify_{$data.bn_id}" data-id="{$data.bn_id}" data-value='1'/>
+                            <input type="button" value="作 废" class="btnA ServiceVerify" id="bn_verify_status_{$data.bn_id}" data-id="{$data.bn_id}" data-field="bn_verify_status" data-value='2'>
+                        <elseif condition="($filter.st eq 'finance') && ($data.bn_finance_verify eq '0') && ($data.bn_verify_status neq '2')" />    
+                            <input type="button" value="审 核" class="btnA ServiceVerify" data-field="bn_finance_verify" id="bn_finance_verify_{$data.bn_id}" data-id="{$data.bn_id}" data-value='1'/>
+                            <input type="button" value="作 废" class="btnA ServiceVerify" id="bn_verify_status_{$data.bn_id}" data-id="{$data.bn_id}" data-field="bn_verify_status" data-value='2'>
+                        <elseif condition="($filter.st eq 'finance') && ($data.bn_finance_verify eq '1') && ($data.bn_verify_status neq '2')"/>
+                            <input type="button" value="已审核" class="btnA" style="background-color: gray;">
+                            <input type="button" value="作 废" class="btnA ServiceVerify" id="bn_verify_status_{$data.bn_id}" data-id="{$data.bn_id}" data-field="bn_verify_status" data-value='2'>
+                        <else />
+                            <input type="button" value="已作废" class="btnA" style="background-color: gray;">
+                        </if>
+
+            </td>
+            </tr>
+            </tfoot>
+        </if>
+
+    </table>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".ServiceVerify").live("click",function(){
+            var field = $(this).attr("data-field");
+            var id = $(this).attr("data-id");
+            var val = $(this).attr("data-value");
+            if(field == 'bn_verify_status'){
+                var r=confirm("单据作废后不可恢复,确认操作?");
+                if(r == false){
+                    return false;
+                }
+            }
+            $.ajax({
+                url:'{:U("Admin/BalanceInfo/doStatus")}',
+                cache:false,
+                dataType:'json',
+                type:'POST',
+                data:{field:field,id:id,val:val},
+                error:function(){
+                    $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        $("#"+field+"_"+id).css({"background-color":"gray"});
+                        $("#"+field+"_"+id).removeClass("ServiceVerify");
+                        if(field == 'bn_service_verify'){
+                            $("#bn_service_verify_"+id+"_status").css({"color":"green"});
+                            $("#bn_service_verify_"+id+"_status").html("已客审");
+                        }else if(field == 'bn_finance_verify'){
+                            $("#bn_finance_verify_"+id+"_status").css({"color":"green"});
+                            $("#bn_finance_verify_"+id+"_status").html("已财审");
+                        }
+                    }else{
+                        $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                    }
+                }
+            });
+        });
+    
+    
+    });    
+</script>

@@ -1,0 +1,65 @@
+<div class="rightInner">
+<form id="categoryForm" method="post" action="{$category?U('Admin/Article/doEditCate'):U('Admin/Article/doAddCate')}">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">{$category?'修改文章分类':'添加文章分类'}</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="first">* 文章分类名称：</td>
+		<td><input class="medium" type="text" name="cat_name" value="{$category.cat_name}" id="cat_name" validate="{required:true}"></td>
+	</tr>
+	<tr>
+	    <td class="first">上级分类：</td>
+	    <td>
+	        <select class="medium" name="parent_id">
+	        	<option value="0">--作为一级分类--</option>
+	        	<volist name="cateList" id="cate">
+	        	<option value="{$cate.cat_id}"{$cate[cat_id]==$category[parent_id]?' selected="selected"':''}>{$cate.cat_name}</option>
+	        	</volist>
+	        </select>
+	        <samp style="font-style:italic;">支持二级类目</samp>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">排序：</td>
+		<td>
+			<input class="small" type="text" name="sort_order" value="{$category.sort_order}" id="sort_order">
+			<samp style="font-style:italic;">值越小，排序越靠前</samp>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">描述：</td>
+		<td>
+			<textarea class="mediumBox" name="cat_desc" id="cat_desc">{$category.cat_desc}</textarea>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">推荐显示：</td>
+		<td>
+			<input type="radio" value="1" name="is_recommend" <if condition="$category.is_recommend eq 1">checked</if>/>显示
+			<input type="radio" value="0" name="is_recommend" <if condition="$category.is_recommend eq 0">checked</if>/>不显示
+		</td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" >
+            <input type="button" onclick="window.history.go(-1);" value="取 消" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+<input name="cat_id" type="hidden" value="{$category.cat_id}"/>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#categoryForm').validate();
+    });
+</script>

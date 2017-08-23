@@ -1,0 +1,77 @@
+<div class="warp">
+	<div class="head">
+    	<p>收货地址</p>
+        <a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+        <a href="{:U('Wap/ReceiveAddress/addAddressPage')}" class="regi">添加</a>
+    </div>
+    
+    <div class="sAddress">
+        <form action="{:U('/Home/ReceiveAddress/doUseAddress')}" method="post">
+        <ul>
+            <empty name="address">
+                    <li>暂无收货地址！</li>
+            <else />
+            <volist name="address" id="list">
+            <li>
+            	<div class="address">
+                    <label>
+                    <input style="margin: 20px 10px;float:left;" type="radio" name="address" <if condition="$list.checked eq 1"> checked="checked" 
+                        <elseif condition="$list.ra_is_default eq 1" />checked="checked"</if> onclick="selectAddress({$list.ra_id})" value="{$list.ra_id}" />
+                    <p><strong>{$list.ra_name} &nbsp;&nbsp;&nbsp;</strong>{$list.ra_mobile_phone}</p>
+                    <p>{$list.address}&nbsp;{$list.ra_detail}&nbsp;{$list.ra_post_code}</p>
+                    </label> 
+                </div>
+                <if condition="$list.ra_is_default eq 1">
+                <a href="javascript:void(0);" class="moren changeDefault">默认地址</a>
+                <else />
+                <a href="javascript:void(0);" onclick="" ra_id="{$list.ra_id}" class="changeDefault">设为默认</a>
+                </if>
+            </li>
+            </volist>
+            </empty>
+            
+        </ul>
+        </form>
+        <i></i>
+    </div>
+
+    <script>
+        //选择收货地址
+	function selectAddress(addressId){
+		var url = "{:U('/Wap/Orders/setOrderConfirmInfo')}";
+		var data = {data:addressId,type:'address'};
+		$.post(url, data, function(result){
+			if(result.status == 1){
+				window.location.href = "{:U('/Wap/Orders/addOrderPage')}";
+			}else{
+				$.ThinkBox.error("系统繁忙请重试……");
+				return false;
+			}
+		});
+	}
+    //保存为默认地址
+    function saveAsDefault(domEl){
+        var ra_id = $(domEl).attr('ra_id');
+        var url = "/Wap/ReceiveAddress/saveAsDefault";
+        $.get(url,'ra_id='+ra_id,function(jsonData){
+            if(jsonData.status == 1){
+                $.ThinkBox.success("设置默认地址成功");
+                $(".moren").removeClass("moren").html("设为默认");
+                $(domEl).addClass("moren").html("默认地址");
+            }else{
+                $.ThinkBox.error(jsonData.data.info);
+            }
+        },"json");
+    }
+    
+    $(function(){
+        $(".changeDefault").click(function(){
+            if($(this).hasClass("moren")){
+                return false;
+            }
+            var domEl = $(this);
+            saveAsDefault(domEl[0]);
+        });
+    })
+    </script>
+</div>

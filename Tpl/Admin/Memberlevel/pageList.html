@@ -1,0 +1,213 @@
+<div class="rightInner tableColor">
+    <form method="get" action="{:U('Admin/Memberlevel/doDel')}" id="members_del">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    <if condition="$erp.SWITCH eq '1'">
+                        <div class="TtopLeft">
+                            <a class="btnB synMemberlevelAll add" href="javascript:;" data-type="ajax" data-uri='{:U("Admin/Memberlevel/showMemberLevelCount")}'>同步会员等级</a>
+                        </div>
+                    <else />    
+                        会员等级列表
+                    </if>
+                    
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkbox checkAll" /></th>
+                <th>操作</th>
+                <th>等级名称</th>
+                <th>等级晋升</th>
+                <th>等级折扣</th>
+				<!--
+                <th>等级返点</th>
+				-->
+                <th>是否包邮</th> 
+                <th>是否默认</th>     
+                <if condition="$erp.SWITCH eq '1'">
+                    <th>状态</th>
+                    <th>ERP数据状态</th>     
+                </if>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="members_level" id="level">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="ml_id[]" value="{$level.ml_id}" /></td>
+                <td>
+                    <a href='{:U("Admin/Memberlevel/pageEdit?mlid=$level[ml_id]")}'>编辑</a> 
+                    <a href='{:U("Admin/Memberlevel/doDel?ml_id=$level[ml_id]")}' class="confirm">删除</a>
+                  
+                </td>
+                
+                <td>{$level.ml_name}</td>
+                <td>{$level.ml_up_fee}</td>
+                <td >{$level.ml_discount}%</td>
+				<!--
+                <td >{$level.ml_rebate}%</td>
+				-->
+                <td>
+                    <if condition="$level.ml_free_shipping eq '1'">
+                        是
+                    <else />
+                        否
+                    </if>
+                </td>
+                <td><input type="radio" class="ml_default" id="ml_default_{$level.ml_id}" name="ml_default" data-uri='{:U("Admin/Memberlevel/doEditLevelDefault")}' data-id="{$level[ml_id]}" data-field="ml_default" data-value="{$level.ml_default}" <eq name="level.ml_default" value="0">value="0"<else />value="1"  checked="checked"</eq> /></td>
+            </tr>
+            </volist>
+            <empty name="members_level">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+<!--                    <input type="submit" value="删除选中" class="btnA confirm" id="delAll" />-->
+                    <span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+    <div id="tip_div"></div>
+</div>
+<script>
+var page_size = 1;
+var page_no = 0;
+var page_num = 0
+var total_memberLevel = 0;
+
+var succRows	= 0;
+var errRows		= 0;
+$(document).ready(function(){
+    $("input[name='ml_default']").click(function(){
+        var url = $(this).attr("data-uri");
+        var field = $(this).attr('data-field');
+        var id   = $(this).attr('data-id');
+        var val  = ($(this).attr('data-value'))== 0 ? 1 : 0;
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:"json",
+            data: {id:id, field:field, val:val},
+            type:"POST",
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                if(msgObj.status == '1'){
+                    $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                }else{
+                    $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                }
+            }
+        });
+    });
+    //同步单个会员等级
+    $(".synMemberlevelOne").live('click',function(){
+            var url = '{:U("Admin/Memberlevel/synMemberLevelOne")}';
+            var guid   = $(this).attr('data-guid');
+            var val = $(this).attr('data-id');
+            
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {guid:guid,page_size:1, page_no:1},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.success == '1'){
+                        $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                        var strHtml = '';
+                        strHtml += '<span style="color:green;">已同步</span>';
+                        $("#syn_"+val).html(strHtml);
+                    }else{
+                        $("#J_ajax_loading").removeClass("ajax_success").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+    
+    $(".synMemberlevelAll").live('click',function(){
+        $('#tip_div').html('');
+        var url = $(this).attr("data-uri");
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:'TEXT',
+            data:{},
+            success:function(msgObj){
+                var total = parseInt(msgObj);
+		total_memberLevel = total;
+		page_num = Math.ceil(total/page_size);
+                $("#tip_div").dialog({
+                    width:450,
+                    height:240,
+                    modal:true,
+                    title:'会员等级同步 [ 共有 <span style="font-weight:bold; color:#F00;">' + total + '</span> 条会员等级记录]',
+                    buttons:{
+                        '确定':function(){
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                page_no = 0;
+                saveAll();
+            }
+        });
+        
+    });
+    
+    
+    
+});
+
+function saveAll(){
+    page_no++;
+    if(page_no <= page_num){
+        var w = Math.ceil((page_no / page_num) * 400);
+        var p = Math.ceil((page_no / page_num) * 100);
+        var innerHtmls = '<p align="center"><img src="__PUBLIC__/Admin/images/ajaxloading.gif"/>';
+        innerHtmls += '<span>正在同步第' + page_no + '条数据，共' + page_num + '条，请稍后......'+p+'%</span></p>';
+        innerHtmls += '<p><div style="min-width:400px; width:auto; min-height:8px; height:auto; border:1px solid silver; padding:2px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"><div id="loading" style="height:8px; background-color:green; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;"></div></div></p>';
+        $('#tip_div').html(innerHtmls);
+        $("#loading").css("width",w+'px');
+        $.ajax({
+            url:'{:U("Admin/Memberlevel/synMemberLevelOne")}',
+            cache:false,
+            dataType:'json',
+            type:'POST',
+            data:{'page_size':page_size, 'page_no':page_no},
+            success:function(msgObj){
+                succRows = succRows+msgObj.succRows;
+                errRows	= errRows+msgObj.errRows;
+                if(page_no == page_num){
+                    var after_message = '<b>全部会员等级同步完成，共同步成功<span style="color:#f00;">' + succRows + '</span>条数据！</b>'+
+                    '<b>同步失败<span style="color:red;">' + errRows + '</span>条数据！</b>';
+                    $('#tip_div').html(after_message);
+                }
+                saveAll();
+            }
+        });
+    }else{
+        page_no = 0;
+        succRows	= 0;
+    	errRows		= 0;
+    }
+
+}
+</script>

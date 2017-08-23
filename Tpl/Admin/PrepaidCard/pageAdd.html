@@ -1,0 +1,131 @@
+<div class="rightInner">
+    <form id="PrepaidCard_add" name="PrepaidCard_add" method="post" action="{:U('Admin/PrepaidCard/doAdd')}" >
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">新增充值卡</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">* 充值卡名称</td>
+                    <td>
+                        <input type="text" name="pc_name" class="medium" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 充值卡卡号</td>
+                    <td>
+                        <input type="text" name="pc_card_number" class="medium" validate="{ required:true,remote:'__APP__/Admin/PrepaidCard/getCheck',path:true,minlength:6 }" />
+                    </td>
+                    <td class="last">数字与字母组合，至少6位</td>
+                </tr>
+                <tr>
+                    <td class="first">* 充值卡密码</td>
+                    <td>
+                        <input type="text" name="pc_password" class="medium" validate="{ required:true,path:true,minlength:6 }" />
+                    </td>
+                    <td class="last">数字与字母组合，至少6位</td>
+                </tr>
+                <tr>
+                    <td class="first">* 充值卡面额</td>
+                    <td>
+                        <input type="text" name="pc_money" class="medium" validate="{ required:true,number:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">有效期</td>
+                    <td>
+                        <input type="text" name="pc_start_time" id="pc_start_time" class="medium timer" validate="{ required:true}"/> 
+                        至&nbsp;&nbsp;<input type="text" name="pc_end_time" id="pc_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">指定会员组</td>
+                    <td>
+                        <div style="width:400px;" class="role_div">
+                            <ul>
+                                <li style=" float: left;height: 25px;line-height: 25px;overflow: hidden;">
+                                    <volist name="group" id="g">
+                                    <label>
+                                        <input type="checkbox" style="vertical-align:-2px;padding: 0px;margin-right: 1px;" value="{$g.mg_id}" name="pc_member_group[]" class="action-item">
+                                        <span>{$g.mg_name}</span>
+                                    </label>
+                                    </volist>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="last">不勾选代表任何人均可使用，勾选上则指定使用者</td>
+                </tr>
+                <tr>
+                    <td class="first">指定会员等级</td>
+                    <td>
+                        <div style="width:400px;" class="role_div">
+                            <ul>
+                                <li style=" float: left;height: 25px;line-height: 25px;overflow: hidden;">
+                                    <volist name="level" id="l">
+                                    <label>
+                                        <input type="checkbox" style="vertical-align:-2px;padding: 0px;margin-right: 1px;" value="{$l.ml_id}" name="pc_member_level[]" class="action-item">
+                                        <span>{$l.ml_name}</span>
+                                    </label>
+                                    </volist>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="last">不勾选代表任何人均可使用，勾选上则指定使用者</td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="checkbox" name="is_open" id="is_open" value="1" checked="checked" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+
+                <tr>
+                    <td class="first">充值卡备注</td>
+                    <td>
+                        <textarea name="pc_meno" class="mediumBox" validate="{ maxlength:200}"></textarea>
+                    </td>
+                    <td class="last">不超过200字</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#PrepaidCard_add').validate();
+    });
+    
+    function save(){
+        var startTime=$("#pc_start_time").val(); 
+        var endTime=$("#pc_end_time").val(); 
+        var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+        var end=new Date(endTime.replace("-", "/").replace("-", "/")); 
+        if(start > end){
+            showAlert(false,'出错了','生效时间大于失效时间！');
+            return false;
+        }
+        var res = $('#PrepaidCard_add').valid();
+        if(res){
+            document.PrepaidCard_add.submit();
+        }
+    }
+</script>

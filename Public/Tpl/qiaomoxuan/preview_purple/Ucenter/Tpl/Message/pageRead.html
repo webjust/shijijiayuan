@@ -1,0 +1,74 @@
+
+<link rel="stylesheet" href="__UCSS__ucenter.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+<div class="container">
+    <!--container-->
+    <div class="titleTop"> <!--titleTop-->
+        <p class="detailT"><a href="{:U('Wap/Index/index')}">首页</a>/<a href="{:U('Wap/Ucenter/index')}">个人中心</a></p>
+        <h1><span>站内信</span></h1>
+    </div>
+    <div class="Ucenter">
+        <div class="userInfo" id="userInfo">
+        </div>
+        <div class="ucenter_S">
+            <div class="selector"><span  class="select" ><input id="inputselect" value="站内消息"/></span>
+                <ul  id="list" style="display: none;">
+                    <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                    <li><a  href="{:U('Wap/Orders/orderList')}" selectid="2">我的订单</a></li>
+                    <li><a  href="{:U('Wap/My/pageDeliver')}"  selectid="4">我的地址</a></li>
+                    <li><a  href="{:U('Wap/Message/pageMailBox')}"  selectid="5">站内消息</a></li>
+                    <li><a  href="{:U('Wap/Collect/pagelist')}"  selectid="6">收藏列表</a></li>
+                    <li><a   href="{:U('Wap/PointLog/pagelist')}"  selectid="8">我的积分</a></li>
+                    <li><a   href="{:U('Wap/Coupon/couponList')}"  selectid="9">我的优惠券</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--ucenter_S-->
+        <!--Message-->
+        <div class=" Message">
+            <h1>消息列表
+                <!--<a href="{:U('Wap/Message/pageSend')}" class="write">写信</a>-->
+                <a href="javascript:void(0);" onclick="window.history.back();" class="write">返回</a>
+            </h1>
+            <div class="msg_Tb">
+                <table width="100%" border="0" class="msg_tb">
+                        <h3 style="border-bottom: 1px solid #ccc;width: 100%;">{$messageInfo.sl_title}</h3>
+                        <tr>
+                            <td width="100" align="right">发信人：</td>
+                            <td>{$messageInfo.from_name}</td>
+                        </tr>
+                        <tr>
+                            <td width="100" align="right">时&nbsp;&nbsp;间：</td>
+                            <td>{$messageInfo.sl_create_time}</td>
+                        </tr>
+                    <tr style="border-top: 1px solid #ccc;">
+                        <td align="right" valign="top">内&nbsp;&nbsp;容：</td>
+                        <td>{$messageInfo.sl_content}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <a href="javascrip:void(0);" class=" write J_del" slid="289">删除</a>
+                            <a class="write" href="/Wap/Message/pageReply/mid/289">回复</a>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <!--Message-->
+    </div>
+</div>
+<script type="text/javascript">
+    $('.J_del').click(function(){
+        if(confirm('是否删除站内信')){
+            var data = 'slid=' + $(".J_del").attr("slid") + "&type=0";
+            ajaxReturn('{:U("Wap/Message/doDelete")}',data,'post');
+            window.location.href="{:U('Wap/Message/pageMailBox')}";
+        }
+        return false;
+    });
+</script>
+<script>
+    getcommoninfo();
+</script>

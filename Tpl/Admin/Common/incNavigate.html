@@ -1,0 +1,12 @@
+<!--面包屑导航-->
+<a href="{$bread0.url}">{$bread0.name}</a>
+ &nbsp;>&nbsp;
+ <neq name="bread1.name" value="">
+<a href="{$bread1.url}">{$bread1.name}</a>
+ </neq>
+ <neq name="bread2.name" value="">
+&nbsp;>&nbsp;<a href="{$bread2.url}">{$bread2.name}</a>
+ </neq>
+ <neq name="bread3.name" value="">
+&nbsp;>&nbsp;{$bread3.name}
+ </neq>

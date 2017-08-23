@@ -1,0 +1,121 @@
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+	<h2 class="publicH2"><span>我收藏的商品</span></h2>
+	<div class="myCart"><!--myCart   start-->
+		<!--Ucatop  end-->
+	  <table>
+			<thead>
+			</thead>
+			<tbody>
+			<form action="#" method="post" id="collectForm" name="collectForm">
+				<if condition="$ary_goodinfo NEQ ''">
+					<volist name="ary_goodinfo"  id="list">
+						
+						<tr id="list_{$list.g_id}">
+							<td width="40">
+								<input type="checkbox" value="{$list.g_id}" name="gid[]">
+							</td>
+							<td width="82" valign="top">
+								<div class="cartProPic">
+									<a href="javascript:void(0);" onclick="javascript:openDetail({$list.g_id});">
+										<img src="{$Think.config.DOMAIN_HOST}{$list.g_picture|showImage=###,68,68|default="Ucenter/images/pdtDefault.jpg"}" width="68" height="68">
+									</a>
+								</div>
+							</td>
+							<td width="332" align="left">
+								<div class="cartProName">
+									<a href="javascript:void(0);" onclick="javascript:openDetail({$list.g_id});">{$list.g_name}</a>
+									<span>{$Think.lang.PRODUCT_SN}：{$list.g_sn}</span>
+									<span>收藏人气：{$list.nums}</span>
+								</div>
+							</td>
+							<td width="81">
+								<i class="price">￥</i>{$list.g_price|number_format=2}
+							</td>
+							<td>
+                                <a href='{:U("/Home/Products/detail","gid=$list[g_id]")}' class="favorite" target="_blank">
+                                    <span class="brown jie" style="cursor:pointer;">购买商品</span>
+                                </a>
+                                <a href="javascript:void(0);" class="delete" id="del_{$list.g_id}" gname="{$list.g_name}" onclick="delCollect('{$list.g_id}');">
+                                    {$Think.lang.DELETE}
+                                </a>
+							</td>
+						</tr>
+					</volist>
+					<p class="p02">
+						<input type="checkbox" name="select_all" id="select_all">
+						<label>{$Think.lang.SELECT_ALL}</label>
+						<a href="javascript:void(0);" id="delSelected" <if condition= "$ary_goodinfo NEQ ''"> onclick="javascript:if(!confirm('{$Think.lang.CONFIRM_DELETE_CART}')){return false;}else{ ajaxReturn('{:U("Ucenter/Collect/doDelCollect")}', $('#collectForm').serialize());}"</if>>
+							{$Think.lang.DELETE_SELECTED}
+						</a>
+					</p>
+				<else />
+                   <tr><td colspan="4">您的收藏夹是空的</td></tr>
+                </if>
+			</form>
+			</tbody>
+		</table>
+
+	  	<div class="myOderBot"><!--myOderBot  start-->
+			<div class="myOderBotRight"><!--myOderBotRight  start-->
+				<div class="fenye"><!--fenye  start-->
+					{$page}
+				</div><!--fenye  end-->
+			</div><!--myOderBotRight  end-->
+					
+		</div><!--myOderBot  end-->
+		
+	</div><!--myCart   end-->
+</div><!--contentRightBox  end-->
+<script>
+$(document).ready(function() {
+    //全选 取消全选
+    $('#select_all').click(function() {
+        if ($(this).attr('checked') == 'checked') {
+            $("input:checkbox[name='gid[]']").attr('checked', 'checked');
+            $('#select_all').attr('checked', 'checked');
+        } else {
+            $("input:checkbox[name='gid[]']").removeAttr('checked');
+            $('#select_all').removeAttr('checked');
+        }
+    });
+});
+    function delCollect(gid){
+        var gname = $("#del_"+gid).attr("gname");
+        if(gid <= 0){
+			$.ThinkBox.error('商品不存在或者已下架');
+			return false;
+		}	
+		var box = $.ThinkBox.confirm(
+			'确定取消对商品 ：<font color="red">'+gname+'</font>&nbsp;收藏吗？',
+			{
+				'title' : '取消商品收藏',
+				'ok' : function(){
+					box.hide();
+					$.post(
+						'{:U("Ucenter/Collect/doDelCollect")}',
+						{gid:gid},
+						function(msgObj){
+							if(msgObj.status){
+                                $("#list_"+gid).remove();
+								$.ThinkBox.success("取消收藏成功");
+							}else{
+								$.ThinkBox.error(msgObj.info);
+							}
+						},
+						'json'
+					);
+				},
+				'drag' : false,
+                'unload'	: true,
+				'cancel' : function(){box.hide();}
+			}
+		);
+    }
+
+    //打开商品的详情页
+    function openDetail(gid) {
+    	window.open("{:U('/Home/Products/detail')}?gid="+gid);
+    	return false;
+    }
+</script>

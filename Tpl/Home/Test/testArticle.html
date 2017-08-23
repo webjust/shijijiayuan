@@ -1,0 +1,65 @@
+
+<!-- 
+     * 资讯列表
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-04-01
+     * @param 
+     * 返回数据变量名	name
+	 * 文章分类	cid
+	 * 数量	num
+	 * 热门标记	hot
+	 * 文章标题  atitle
+	 * 文章ID   aid
+     * @return array
+	 * 文章ID	aid
+	 * 文章标题	atitle
+	 * 文章地址	aurl
+	 * 文章分类名称	cname
+	 * 文章分类ID	cid
+	 * 文章简介	adesc
+	 * 配图	apic
+	 * 热门标记	hot
+	 * 点击量	hits
+	 * 发布时间	atime
+     示例：
+	array(2) {
+	  ["pageinfo"] => string(30) " 3 条记录 1/1 页          "
+	  ["list"] => array(3) {
+		    [0] => array(10) {
+		      ["aid"] => string(1) "4"
+		      ["atitle"] => string(7) "test123"
+		      ["aurl"] => string(33) "/Home/Article/articleDetail/aid/4"
+		      ["cname"] => string(9) "分类二"
+		      ["cid"] => string(1) "2"
+		      ["adesc"] => string(12) "test12344556"
+		      ["apic"] => string(0) ""
+		      ["hot"] => string(1) "1"
+		      ["hits"] => string(1) "0"
+		      ["atime"] => string(19) "0000-00-00 00:00:00"
+		    }
+		    [1] => array(10) {
+		      ["aid"] => string(1) "1"
+		      ["atitle"] => string(6) "玩呀"
+		      ["aurl"] => string(33) "/Home/Article/articleDetail/aid/1"
+		      ["cname"] => string(12) "分类一二"
+		      ["cid"] => string(1) "4"
+		      ["adesc"] => NULL
+		      ["apic"] => string(0) ""
+		      ["hot"] => NULL
+		      ["hits"] => NULL
+		      ["atime"] => string(19) "0000-00-00 00:00:00"
+		    }
+	    }
+	  }
+	}
+ -->
+<h3>{$title}</h3>
+<Gyfx:article name="art" num="10" >
+    <li>{$art.aid} - {$art.atitle} - {$art.cname}</li>
+</Gyfx:article>
+<HR />
+<Gyfx:article name="art" aid="3" >
+    <li>{$art.aid} - {$art.atitle} - {$art.cname}</li>
+</Gyfx:article>
+<hr>
+<li>{$pageinfo.art}</li>

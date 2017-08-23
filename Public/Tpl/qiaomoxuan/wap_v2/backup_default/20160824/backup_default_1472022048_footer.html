@@ -1,0 +1,21 @@
+<div class="warp" style="z-index:1">
+    <div class="indexThree">
+    	<notempty name="Think.session.Members.m_name">
+        <span>{$Think.session.Members.m_name}</span>
+        <a href="{:U('Wap/User/doLogout')}" class="goout">[退出]</a>
+        </notempty>
+        <empty name="Think.session.Members.m_name">
+            <php>
+                $jumpUrl = urlencode($_SERVER['REQUEST_URI']);
+                if(__URL__ == '/Wap/User') 
+                $jumpUrl = urlencode(U("Wap/Index/index"));
+            </php>
+        <a href="{:U('Wap/User/login')}?jumpUrl={$jumpUrl}" class="goout">[登录]</a>
+        <a href="{:U('Wap/User/pageRegister')}?jumpUrl={$jumpUrl}" class="goout">[注册]</a>
+        </empty>
+        <a href="#top" class="gotop">Top</a>
+    </div>
+    <div class="bot">
+    	Wap版<br> 版权所有关注我们 @ 2015{$commonInfo['GY_SHOP_TITLE']} {$commonInfo['GY_SHOP_ICP']}
+    </div>
+</div>

@@ -1,0 +1,116 @@
+.content1192{width:1192px;margin:0 auto}
+.goodList_navtitle { height:42px; line-height:42px; color:#666;}
+.goodList_navtitle a {color:#666;}
+.goodList_navtitle span { margin:0px 8px;}
+
+.tuan ul li { width:285px; margin-right:5px; height:auto;}
+.tuan ul li a.proP { position:relative;}
+.tuan ul li a:hover.proP { text-decoration:none;}
+.tuan ul li a.proP h3 { height:35px; line-height:35px; bottom:0px; position:absolute; color:white; font-weight:normal; font-size:12px; width:285px;}
+.tuan ul li a.proP h3 span,.tuan ul li a.proP h3 label { position:relative; z-index:2}
+.tuan ul li a.proP h3  em {font-style:normal}
+.tuan ul li a.proP h3 span { float:left; margin-left:10px;}
+.tuan ul li a.proP h3 span.time { float:right; margin-right:10px;}
+.tuan ul li a.proP h3 i { position:absolute; height:35px; width:285px; background:black; opacity:0.5; filter:alpha(opacity=50); -moz-opacity:0.5; -khtml-opacity: 0.5; left:0px;}
+.tuan ul li a.proN { font-weight:bold; color:#383838}
+.tuan ul li strong { color:#ac0000; font-size:22px; font-family:Arial; font-weight:500; display:block; margin-top:5px;padding-left:8px}
+.tuan ul li strong i { font-size:14px; font-weight:normal; font-style:normal;}
+.tuan ul li p del { position:static;}
+.tuan ul li a.gotosee { position:absolute; bottom:5px; right:5px; text-align:left; text-indent:-999px; overflow:hidden; background:url(../images/tuan.png) no-repeat; width:106px; height:43px;}
+
+.tuanNav { border:1px solid #d7d7d7; border-bottom:none;}
+.tuanNav table { width:100%;}
+.tuanNav table tr td,.tuanNav table tr th { border-bottom:1px solid #d7d7d7; line-height:38px;}
+.tuanNav table th { background:url(../images/repeat-Y.png) repeat-y right top #f9f9f9;}
+.tuanNav table th h2 { font-size:12px; background:url(../images/tuanDtbj.png) no-repeat right top; min-height:38px;}
+.tuanNav table th span { display:inline-block; background:url(../images/tuan.png) no-repeat 0px -51px; padding-left:11px; color:#818181; font-weight:bold;}
+.tuanNav table th span.price { background-position:0px -88px;}
+.tuanNav table td p { padding-left:20px;}
+.tuanNav table td p a {display:inline-block; height:22px; line-height:22px; padding:0px 10px; margin-right:20px; text-decoration:none; margin-bottom:5px;}
+.tuanNav table td p a.on,.tuanNav table td p a:hover {background:#e5582b; color:white;}
+
+.gcUl { overflow:hidden;}
+.gcUl ul { width:1200px; margin:0 auto;display:inline-block;}
+.gcUl ul li { display:inline; float:left;  height:385px; border:1px solid white; position:relative; padding:3px; background:#f2f2f2; margin-top:15px;-webkit-box-shadow:2px 2px 5px #9c9a9a;-moz-box-shadow:2px 2px 5px #9c9a9a;box-shadow:2px 2px 5px #292929;}
+.gcUl ul li:hover { border:1px solid #e5582b;}
+.gcUl ul li a.proP,.gcUl ul li a.proP img { display:block;}
+.gcUl ul li a.proP { margin-bottom:5px;}
+.gcUl ul li a.proN { color:#383838; display:block; height:20px; overflow:hidden; line-height:18px;padding-left:8px}
+.gcUl ul li p { position:relative; margin-top:10px; height:24px;}
+.gcUl ul li p strong { position:absolute; left:0px; color:#ac0000; font-size:22px; font-family:Arial; font-weight:500}
+.gcUl ul li p i { font-style:normal; font-family:微软雅黑;}
+.gcUl ul li p strong i { font-size:14px; font-weight:normal;}
+.gcUl ul li p del { position:absolute; right:0px; color:#999999; bottom:-4px;}
+.gcUl ul li h2 { position:absolute; bottom:40px; height:43px; line-height:43px; background:white; width:230px; left:0px; font-weight:normal; font-size:12px;}
+.gcUl ul li h2 span { float:left; margin-left:10px;}
+.gcUl ul li h2 label { float:right; margin-right:10px;}
+
+/*秒杀 详情页 开始*/
+.inlineBlock { display:inline-block; width:100%; clear:both}
+.seckillDatils{ float:left;width:1192px; border:1px solid #e4e4e4;background:white;}
+.seckillDatilsL{ float:left; width:480px; text-align:center;padding-top:10px}
+.seckillDatilsL img{display:block; margin:0 auto;}
+.seckillDatilsR{float:right; width:680px;height:auto;padding-top:8px; padding-left:30px;border-left:1px solid #e4e4e4; padding-bottom:15px;}
+.seckillDatilsR h3{ font-size:20px; height:35px; overflow:hidden; width:400px;}
+.seckillParam{color:#666;margin-top:10px}
+.seckillParam:after,.seckillParam:before { content:""; display:block; clear:both; overflow:hidden;}
+.seckillParam ul li{line-height:40px;}
+.seckillParam ul li i{font-family:微软雅黑; font-style:normal;}
+.seckillParam ul li strong{color:#ac0000; font-size:24px;}
+.seckillParam ul li span{color:#ac0000; padding-left:5px;}
+.seckillParam ul li b.numb{color:#009ea1; padding:3px;}
+.seckillParam ul li a.area{background:url(../images/proDetails.png) no-repeat -110px 3px #bdd9da;padding:5px 25px 5px 5px; margin-right:5px; color:#009ea1;}
+.seckillParam ul li dl dt{ float:left;width:60px;}
+.seckillParam ul li dl dd{float:left; width:370px;}
+.seckillParam ul li dl dd a{ display:inline-block;margin-right:10px; height:20px; line-height:20px; padding:0 5px;text-decoration:none;border:1px solid #d7d7d7;}
+.seckillParam ul li dl dd a.on{ background:url(../images/ico.gif) no-repeat right bottom;border:1px solid #c53f4c;}
+.seckillParam ul li dl dd a:hover{border:1px solid #c53f4c;}
+.maySpike{ float:left; margin-top:8px;width:140px; height:45px; background:url(../images/seckillDetails.png) 0px 0px;text-indent: -9999px;border: 0px;cursor:pointer;}
+.notSpike{ float:left;width:140px; height:45px; background:url(../images/seckillDetails.png) 0px -74px;text-indent: -9999px;border: 0px;}
+.seckillParam ul li a.past{display:inline-block;background:url(../images/seckillDetails.png) no-repeat 0 -74px; width:148px; height:45px;}
+.seckillParam ul li p{display:inline;}
+.seckillParam ul li p label{color:#6bbfc1; font-size:36px; font-weight:bold; margin-left:8px;}
+.fenxiang{margin-top:20px}
+/*秒杀 详情页 结束*/
+
+.proPicker { margin-top:10px;}
+.proPicker ul { display:inline-block; width:100%;}
+.proPicker ul li { float:left; padding:5px; background:#eefcfc;}
+.proPicker ul li dl dt {width:84px; float:left; text-align:right; padding-top:10px;}
+.proPicker ul li dl dd {width:524px; float:left; font-weight:bold; color:#666; padding-top:5px;}
+/*.proPicker ul li dl dd a {display:inline-block; height:20px; overflow:hidden; padding:0px 5px; border:1px solid #ccc; line-height:20px; font-weight:normal; margin-right:5px; margin-top:5px;}*/
+.proPicker ul li dl dd a:hover {text-decoration:none; border-color:#C30008;}
+.proPicker ul li dl dd a.on {background:url(../images/ico.gif) #fff no-repeat bottom right; border-color:#C30008;}
+
+.proPicker ul li dl dd a.up {width:14px; height:14px; float:left; background:url(../images/proDetails.png) no-repeat right -32px; border:none; margin:7px 0px 0px; padding:0px;}
+.proPicker ul li dl dd a.down {width:14px; height:14px; float:left; display:inline; background:url(../images/proDetails.png) no-repeat left -32px; border:none; margin:7px 0px 0px; padding:0px;}
+.proPicker ul li dl dd input {width:34px; float:left; height:19px; overflow:hidden; text-align:center; margin:4px 5px 0px 5px; display:inline; line-height:19px; border:1px solid #ABADB3;}
+.proPicker ul li dl dd span { float:left; font-weight:normal; margin:5px 0px 0px 15px}
+.proPicker ul li dl dd.buy {width:390px;}
+.proPicker ul li dl dd.buy input.buy {width:148px; height:45px; float:left; text-indent:-9999px; text-align:left; overflow:hidden; border:none; background:url(../images/proDetails.png) no-repeat 0px -49px; margin-left:10px; cursor:pointer;}
+.proPicker ul li dl dd.buy input.sc {width:148px; height:45px; float:left; margin-left:10px; display:inline; text-indent:-9999px; overflow:hidden; display:block; border:none; padding:0px; background:url(../images/proDetails.png) no-repeat 0px -94px; cursor:pointer;}
+.proPicker ul li dl dd.buy a.cepro { float:left; margin:31px 0px 0px 10px; border:none; padding:0px;}
+
+.tuanExplain{float:left; margin-top:10px;width:1192px;border:1px solid #d7d7d7;}
+.tuanExplainTag{height:45px;}
+.tuanExplainTag p{height:45px; background:#ededed;}
+.tuanExplain p strong{ float:left;width:122px; height:43px; border-top:2px solid #e5582b; border-right:1px solid #dadada; background:white;text-align:center; color:#6b493a; font-size:14px; line-height:40px;}
+.tuanExplain_con{ float:left;width:1168px; padding:10px;background:white;font-size:15px}
+.tuanExplain span{display:block; padding-left:30px;line-height:30px; color:#7f7f7f;}
+
+.tuanIntro{float:left; margin-top:10px;width:1192px;border:1px solid #d7d7d7;}
+.tuanIntroTag{height:45px;}
+.tuanIntroTag p{height:45px; background:#ededed;}
+.tuanIntroTag p strong{ float:left;width:122px; height:43px; border-top:2px solid #e5582b; border-right:1px solid #dadada; background:white;text-align:center; color:#6b493a; font-size:14px; line-height:40px;}
+.tuanIntro_con{ float:left;width:1168px;padding:10px;background:white;}
+.proPicker ul li dl dd a {
+    display: inline-block;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    font-weight: normal;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 0px 5px;
+    line-height: 20px;
+}
+.proPicker ul li dl dd a img{ vertical-align:top;}

@@ -1,0 +1,4 @@
+7.8.9_global_install-version32107.sql   7.8.9完整安装包
+7.8.9_install-version32107.sql  saas升级包
+competence.sql  version32107 
+update.sql 升级包

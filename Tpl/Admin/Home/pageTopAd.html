@@ -1,0 +1,196 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="top_ad_set" name="top_ad_set" method="post" action="{:U('Admin/Home/doTopAdSet')}" >
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">官网广告图片设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">显示方式：</td>
+                    <td>
+						<span>
+							<input type="radio" name="GY_SHOP_TOP_AD_STATE" id="GY_SHOP_TOP_AD_STATE_0" value="0" <eq name="STATE" value="0">checked="checked"</eq> />
+							<label for="GY_SHOP_OPEN_0">不显示</label>
+						</span>
+						<span>
+							<input type="radio" name="GY_SHOP_TOP_AD_STATE" id="GY_SHOP_TOP_AD_STATE_1" value="1" <eq name="STATE" value="1">checked="checked"</eq> />
+							<label for="GY_SHOP_OPEN_1">大小两图</label>
+						</span>
+						<span style="margin-left:15px;">
+                        <input type="radio" name="GY_SHOP_TOP_AD_STATE" id="GY_SHOP_TOP_AD_STATE_2" value="2" <eq name="STATE" value="2">checked="checked"</eq> />
+						<label for="GY_SHOP_TOP_AD_STATE_2">小图</label>
+						<span style="margin-left:20px;color:#ff0000;">选择大小两图是大图显示一段时间后隐藏，小图显示。</span>
+						</span>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">大图图片：</td>
+					<td>
+                        <a href="javascript:upImage(0);" class="btnG ico_upload">上传图片</a>
+                        <img src="{$BIG_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_0" style="width:50px;height:50px;" />
+						&nbsp;
+						<if condition="$BIG_PIC neq '' " >
+							<a onClick="delPic('{:U('Admin/Home/doTopAdDel')}','BIG_PIC','GY_SHOP_TOP_AD_0','SHOW_TOP_AD_0','SHOW_TOP_AD_DEL_0');" id="SHOW_TOP_AD_DEL_0">删除</a>
+						</if>
+                        <input type="hidden" id="GY_SHOP_TOP_AD_0" name="GY_SHOP_TOP_AD_0" value="{$BIG_PIC}"/>
+                    </td>                 
+                    <td>
+                        <input type="text" name="GY_SHOP_TOP_AD_0_URL" id="GY_SHOP_TOP_AD_0_URL" class="medium" value="{$BIG_PIC_URL}" validate="{ url:true}" /> <br> 
+                    </td>
+                    <td class="last">请输入正确的网站地址，以“<span style="color:#ff0000;">http://</span>”或者“<span style="color:#ff0000;">https://</span>”开头。</td>
+                </tr>
+                <tr>
+                    <td class="first">小图图片：</td>
+					<td>
+                        <a href="javascript:upImage(1);" class="btnG ico_upload">上传图片</a>
+						<img src="{$SMALL_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_1" style="width:50px;height:50px;" />
+                        &nbsp;
+						<if condition="$SMALL_PIC neq '' " >
+							<a onClick="delPic('{:U('Admin/Home/doTopAdDel')}','SMALL_PIC','GY_SHOP_TOP_AD_1','SHOW_TOP_AD_1','SHOW_TOP_AD_DEL_1');" id="SHOW_TOP_AD_DEL_1">删除</a>
+						</if>
+                        <input type="hidden" id="GY_SHOP_TOP_AD_1" name="GY_SHOP_TOP_AD_1" value="{$SMALL_PIC}"/>
+                    </td>                 
+                    <td>
+                        <input type="text" name="GY_SHOP_TOP_AD_1_URL" id="GY_SHOP_TOP_AD_1_URL" class="medium" value="{$SMALL_PIC_URL}" validate="{ url:true}" /> <br> 
+                    </td>
+                    <td class="last">请输入正确的网站地址，以“<span style="color:#ff0000;">http://</span>”或者“<span style="color:#ff0000;">https://</span>”开头。</td>
+                </tr>
+                <tr>
+                    <td class="first">搜索右侧图片设置：</td>
+					<td>
+                        <a href="javascript:upImage(2);" class="btnG ico_upload">上传图片</a>
+						<img src="{$RIGHT_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_2" style="width:50px;height:50px;" />
+                        &nbsp;
+						<if condition="$RIGHT_PIC neq '' " >
+							<a onClick="delPic('{:U('Admin/Home/doTopAdDel')}','RIGHT_PIC','GY_SHOP_TOP_AD_2','SHOW_TOP_AD_2','SHOW_TOP_AD_DEL_2');" id="SHOW_TOP_AD_DEL_2">删除</a>
+						</if>
+                        <input type="hidden" id="GY_SHOP_TOP_AD_2" name="GY_SHOP_TOP_AD_2" value="{$RIGHT_PIC}"/>
+                    </td>                 
+                    <td>
+                        <input type="text" name="GY_SHOP_TOP_AD_2_URL" id="GY_SHOP_TOP_AD_2_URL" class="medium" value="{$RIGHT_PIC_URL}" validate="{ url:true}" /> <br> 
+                    </td>
+                    <td class="last">请输入正确的网站地址，以“<span style="color:#ff0000;">http://</span>”或者“<span style="color:#ff0000;">https://</span>”开头。</td>
+                </tr>				
+                <tr>
+                    <td class="first">登陆页广告设置：</td>
+					<td>
+                        <a href="javascript:upImage(3);" class="btnG ico_upload">上传图片</a>
+						<img src="{$LOGIN_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_3" style="width:50px;height:50px;" />
+                        &nbsp;
+						<if condition="$LOGIN_PIC neq '' " >
+							<a onClick="delPic('{:U('Admin/Home/doTopAdDel')}','LOGIN_PIC','GY_SHOP_TOP_AD_3','SHOW_TOP_AD_3','SHOW_TOP_AD_DEL_3');" id="SHOW_TOP_AD_DEL_3">删除</a>
+						</if>
+                        <input type="hidden" id="GY_SHOP_TOP_AD_3" name="GY_SHOP_TOP_AD_3" value="{$LOGIN_PIC}"/>
+                    </td>                 
+                    <td>
+                        <input type="text" name="GY_SHOP_TOP_AD_3_URL" id="GY_SHOP_TOP_AD_3_URL" class="medium" value="{$LOGIN_PIC_URL}" validate="{ url:true}" /> <br> 
+                    </td>
+                    <td class="last">请输入正确的网站地址，以“<span style="color:#ff0000;">http://</span>”或者“<span style="color:#ff0000;">https://</span>”开头。</td>
+                </tr>				
+                <tr>
+                    <td class="first">注册页广告设置：</td>
+					<td>
+                        <a href="javascript:upImage(4);" class="btnG ico_upload">上传图片</a>
+						<img src="{$REGISTER_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_4" style="width:50px;height:50px;" />
+                        &nbsp;
+						<if condition="$LOGIN_PIC neq '' " >
+							<a onClick="delPic('{:U('Admin/Home/doTopAdDel')}','REGISTER_PIC','GY_SHOP_TOP_AD_4','SHOW_TOP_AD_4','SHOW_TOP_AD_DEL_4');" id="SHOW_TOP_AD_DEL_4">删除</a>
+						</if>
+                        <input type="hidden" id="GY_SHOP_TOP_AD_4" name="GY_SHOP_TOP_AD_4" value="{$REGISTER_PIC}"/>
+                    </td>                 
+                    <td>
+                        <input type="text" name="GY_SHOP_TOP_AD_4_URL" id="GY_SHOP_TOP_AD_4_URL" class="medium" value="{$REGISTER_PIC_URL}" validate="{ url:true}" /> <br> 
+                    </td>
+                    <td class="last">请输入正确的网站地址，以“<span style="color:#ff0000;">http://</span>”或者“<span style="color:#ff0000;">https://</span>”开头。</td>
+                </tr>	
+                <tr>
+                <td class="first">页面底部广告设置：</td>
+					<td>
+                        <a href="javascript:upImage(5);" class="btnG ico_upload">上传图片</a>
+						<img src="{$BOTTOM_PIC|default='__PUBLIC__/Admin/images/product_image_desc.png'}" id="SHOW_TOP_AD_5" style="width:50px;height:50px;" />
+                        &nbsp;
+						<if condition="$BOTTOM_PIC neq '' " >
+							<a onClick="delPic('{:U('Admin/Home/doTopAdDel')}','REGISTER_PIC','GY_SHOP_TOP_AD_5','SHOW_TOP_AD_5','SHOW_TOP_AD_DEL_5');" id="SHOW_TOP_AD_DEL_5">删除</a>
+						</if>
+                        <input type="hidden" id="GY_SHOP_TOP_AD_5" name="GY_SHOP_TOP_AD_5" value="{$BOTTOM_PIC}"/>
+                    </td>                 
+                    <td>
+                        <input type="text" name="GY_SHOP_TOP_AD_5_URL" id="GY_SHOP_TOP_AD_5_URL" class="medium" value="{$BOTTOM_PIC_URL}" validate="{ url:true}" /> <br> 
+                    </td>
+                    <td class="last">请输入正确的网站地址，以“<span style="color:#ff0000;">http://</span>”或者“<span style="color:#ff0000;">https://</span>”开头。</td>
+                </tr>					
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){   
+	$("#top_ad_set").validate();   
+});
+var dialog;
+var image_input_id;
+var image_input_id_s;
+var editor = new UE.ui.Editor({
+	imageRealPath:"editor"
+});
+editor.render("myEditor");
+editor.ready(function(){
+	editor.hide()
+	dialog = editor.getDialog("insertimage");
+	editor.addListener('beforeInsertImage',function(t, arg){
+		image_input_id = image_input_id-1;
+		for(index in arg){
+		    if(typeof arg[index]['src']=='undefined')  continue;
+			image_input_id = image_input_id + 1;
+			if($("#GY_SHOP_TOP_AD_" + image_input_id)){
+			   var image_path = arg[index]['src'];
+				$("#GY_SHOP_TOP_AD_" + image_input_id).val(image_path);
+				$("#SHOW_TOP_AD_" + image_input_id).attr({src:image_path});
+			}
+		}
+	});
+	
+});
+/**
+ * 图片上传方法集成
+ */
+function upImage(imageId) {
+	//editor.options.imageRealPath = 'desc';
+	image_input_id = imageId;
+	image_input_id_s = imageId;
+	dialog.open();
+}
+//广告图片删除
+function delPic(url,key,image_value_id,image_id,del_id) {
+    var url = url;
+   $.ajax({url:url,data:{'key':key},cache:false,dataType:'json',type:'POST',
+       success:function(msgObj){
+			$("#" + del_id).css("display","none");		
+			$("#" + image_id).attr("src","/Public/Admin/images/product_image_desc.png");		
+			$("#" + image_value_id).val('');	
+       },
+       error:function(msgObj){
+			alert('删除失败');		
+       }
+	});
+}
+
+</script>

@@ -1,0 +1,52 @@
+{__NOLAYOUT__}
+<div class="deliveryInfo01">
+    <dl class="dl01" id="first_addr_list">
+        <if condition="$default_addr NEQ ''">
+            <dd id="row{$default_addr.ra_id}">
+                <input class="checkAddr" onclick="javascript:checkBulkAddr($(this),'getIntegralLogisticType');" id="ra_id" value="{$default_addr.ra_id}" name="ra_id" cr_id ="{$default_addr.cr_id}" ra_id="{$default_addr.ra_id}"  <if condition="$default_addr.ra_is_default eq 1">checked="checked"</if>  type="radio"   />
+                <label class="checkAddr" ra_id="{$default_addr.ra_id}" for="addr">
+                    {$default_addr.ra_name},
+                    {$default_addr.address},
+                    <if condition="$default_addr.ra_detail neq ''">
+                        {$default_addr.ra_detail},
+                    </if>
+
+                    <if condition="$addr.ra_post_code neq ''">
+                        {$default_addr.ra_post_code},
+                    </if>
+
+                    {$default_addr.ra_phone},
+                    {$default_addr.ra_mobile_phone}</label>
+                <a href="javascript:void(0);" onClick="clickReceive($(this));" ra_id="{$default_addr.ra_id}"  class="update updateAddress">修改</a><i>|</i>
+                <a href="javascript:void(0);" class="del" onclick="addressDelete($(this));" id="{$addr.ra_id}">删除</a>
+            </dd>
+        </if>
+    </dl>
+</div>
+<a href="javascript:void(0)" class="wordBlue openA">展开其他地址</a>
+<div class="deliveryInfo02 closedD" style="display:none">
+    <dl class="dl01" id="more_addr_list">
+        <dt><b>常用地址</b></dt>
+        <volist name="ary_addr" id="addr">
+            <dd id="row{$addr.ra_id}">
+                <input class="checkAddr" onclick="javascript:checkAddr($(this),'getIntegralLogisticType');" id="ra_id" value="{$addr.ra_id}" name="ra_id" cr_id ="{$addr.cr_id}" ra_id="{$addr.ra_id}" type="radio" />
+                <label class="checkAddr" ra_id="{$addr.ra_id}" for="addr">
+                    {$addr.ra_name},
+                    {$addr.address},
+                    <if condition="$addr.ra_detail neq ''">
+                        {$addr.ra_detail},
+                    </if>
+                    <if condition="$addr.ra_post_code neq ''">
+                        {$addr.ra_post_code},
+                    </if>
+                    {$addr.ra_phone},
+                    {$addr.ra_mobile_phone}</label>
+                <a href="javascript:void(0);" onClick="clickReceive($(this));" ra_id="{$addr.ra_id}"  class="update updateAddress">修改</a><i>|</i>
+                <a href="javascript:void(0);" class="del" onclick="addressDelete($(this));" id="{$addr.ra_id}">删除</a>
+            </dd>
+        </volist>
+    </dl>
+</div>
+
+
+

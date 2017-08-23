@@ -1,0 +1,49 @@
+<div class="rightInner">
+    <form id="deliveryCorp_del" method="get" action="{:U('Admin/Delivery/doDelArea')}">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">{$info.lc_name}配送区域列表</th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>操作</th>
+                    <!--<th>状态</th>-->
+                    <th>配送区域名称</th>
+                    <th>配送的区域</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="da">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="lt_id[]" value="{$da.lt_id}" /></td>
+                    <td>
+                        <a href='{:U("Admin/Delivery/pageEditArea?lt_id=$da[lt_id]&lc_id=$info[lc_id]")}'>修改</a>
+                        <a href='{:U("Admin/Delivery/doDelArea?lt_id=$da[lt_id]&lc_id=$info[lc_id]")}' class="confirm">删除</a>
+                    </td>
+                    <!--<td><eq name="da.lt_status" value="1"><span class="green">启用</span><else /><span class="red">停用</span></eq></td>-->
+                    <td><span class="blue">{$da.lt_name}</span></td>
+                    <td>
+                        <volist name="da.city" id="city">
+                            {$city.cr_name}&nbsp;
+                        </volist>
+                    </td>
+                </tr>
+            </volist>
+            <empty name="list">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="删除选中" class="btnA confirm" id="delAll" />
+                        <input type="button" value="返回配送公司" class="btnA" onclick='javascript:location.href="{:U('Admin/Delivery/pageList')}";' />
+                        <span class="right page">{$page}</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

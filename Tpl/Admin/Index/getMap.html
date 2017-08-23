@@ -1,0 +1,32 @@
+{__NOLAYOUT__}
+<table class="table_map" style="width: 900px;">
+    <tbody>
+    <volist name="data" id="val">
+        <tr>
+            <th align="center" style="width: 70px;"><a href="{$val['url']}"  data-id="{$val.id}">{$val.name}</a></th>
+            <td>
+                <table class="table_map_sub">
+                    <tbody>
+                    <present name="val['sub']">
+                        <volist name="val['sub']" id="sval">
+                            <tr>
+                                <th style="width: 100px;">{$sval['name']}</th>
+                                <td>
+                            <present name="sval['sub']">
+                                <volist name="sval['sub']" id="ssval">
+                                    <a href="{$ssval['url']}"  data-id="{$ssval.id}">{$ssval['name']}</a>
+                                </volist>
+                            </present>
+
+                            </td>
+                            </tr>
+                        </volist>
+                    </present>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </volist>
+</tbody>
+</table>
+

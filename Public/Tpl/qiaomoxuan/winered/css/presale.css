@@ -1,0 +1,130 @@
+.tgOne{padding-top:0}
+.goodList_navtitle{font-size:14px;padding:10px;height:15px;line-height:15px;display:inline-block}
+.proDOLR ul li a.tg_btn2{background-color:#B2AEB3;color:#fff;border:1px solid #B2AEB3}
+.presale_bot li:first-child {clear: both}
+.presale_bot li{width:166px;float:left;background:#ebdfd6;line-height:25px;color:#836851;font-size:16px;text-align:center;padding:17px 0}
+.presale_bot li.presale_botcur{background:#e5d6c9;border-bottom:3px solid #c00}
+.content .procon{padding-top:20px}
+.wrapD.pro_content.path a{cursor:pointer}
+.finished { background:url(../images/bg41.png) no-repeat center center; }
+.tgL_img a img{ vertical-align:top;}
+.guide-bd li {
+    display: inline;
+    width: 380px;
+    margin: 10px 0 0 10px;
+    position: relative;
+    height: 480px;
+}
+.proDOL{
+    top: 0px;
+}
+.tuanNav ul { background-color:#F0F0F0; }
+.tuanNav ul li { list-style:none; overflow:hidden; clear:both; border-bottom:1px solid #dcdcdc; }
+.tuanNav ul li span { color: #F61D4B; font-size:14px; float:left; display:inline-block; padding:10px 15px; border-right: 1px solid #DCDCDC; }
+.tuanNav ul li .rightC { float:left; width:1040px; height:35px; overflow:hidden; line-height:45px; }
+.tuanNav ul li .rightC a { font-size:14px; margin: 0 10px; padding: 10px; height:15px; line-height:15px; display:inline-block; }
+.tuanNav ul li .rightC a.cur, .tuanNav ul li .rightC a:hover { background-color: #ff658e; color: #FFF; }
+.tgL_title { left:0; right:0; bottom:0; height:100px; color: #fff; background-color:#fff; }
+.tgL_name { padding:9px 12px; border-bottom:1px dashed #eee; line-height:22px; }
+.tgL_name span { font-size: 16px; color: #333; font-weight: 700; line-height: 24px; width: 260px; display: inline-block; float: left; max-height: 48px; overflow: hidden; text-overflow: ellipsis; }
+.tgL_name em { color:#666; font-size:14px; position:absolute; right:12px; font-style: normal; }
+.tgL_price { color:#db2342; font-size:12px; line-height:1.5; padding:9px 12px; left: 0px; bottom: 0px; position: absolute; }
+.tgL_price em { font-size: 20px; font-style: normal; font-weight: bold; }
+.tgL_price i { color: #666666; font-style: normal; margin-left: 6px; text-decoration: line-through; }
+.tgL_btn { position:absolute; bottom:0; right:0; }
+.tgL_btn { display:inline-block; background:url(../images/bg4.png) no-repeat center center; background-size:120px 40px; width:100px; padding-top:8px; height:32px; color:#fff; font-size:16px; padding-right:20px; text-align:center; float:left; margin-right:1px; }
+.tgL_title .dpL_btn { background:none; width:120px; height:auto; background:#378bd9; padding-right:0px; padding-top:0px; }
+.tgL_title .dpL_btn input { vertical-align: middle; }
+.tgL_title .dpL_btn label { display:block; padding:8px 0; }
+.tgL_title .dpL_btn b { font-style:normal; font-weight:normal; margin-left: 10px; }
+.tgL { margin-top:15px; }
+.tgL .tgL_t { background: transparent url(../images/title_bg1.png) no-repeat scroll 0 0; height: 45px; width:210px; }
+.tgL .tgL_t h2 { color:#ffffff; padding-left:62px; line-height:45px; }
+.tgL_tip { top:0; left:0; font-size:14px; color:#fff; }
+.tgL_tip .tip {width:300px; background:url(../images/bg5.png) no-repeat; height:26px; padding:0 9px 0 13px; position:absolute; line-height:22px; left:-5px; top:0;float:left; }
+.tip i { background:url(../images/sale_time.png) 0 3px no-repeat; width:15px; height:22px; display: inline-block; margin-right: 6px; float: left; }
+
+.procon { width: 971px; }
+.tagarea-wrap { height:44px; }
+.tagarea { border:1px solid #e1e1e1; border-bottom:none; background-color:#f2f2f2; position: relative; z-index: 2; width:969px; }
+.tagarea li { float:left; position:relative; height:42px; line-height:42px; padding:0px 30px; font-size:14px; }
+.tagarea li.on { border-top:3px solid #BC322B; background:#fff; margin-top:-2px; }
+.activityA { padding: 12px 0; padding-left:80px; margin-left:12px; background:#D8243A url(../images/tgB.png) 25px 11px no-repeat; }
+.activityA p { color:#ffffff; }
+.activityA1 { background:#D8243A url(../images/spike.png) 25px 11px no-repeat; }
+.activityC { background:#D8243A url(../images/tgC.png) 25px 11px no-repeat; }
+.activityD { background:#D8243A url(../images/tgD.png) 25px 11px no-repeat; }
+.activityA p span { color: #FC0; font-weight:bold; }
+.proDOLR ul li a.ys_btn { background:none; text-align:center; text-indent:0; }
+.tagCon { margin-top:-1px; background-color:#fff; border:1px solid #e1e1e1; position: relative; z-index: 1; }
+.procon_r_wrap { position:relative; width:200px; float:left; }
+.procon_r { width:200px; background-color: #fafafa; z-index:99; padding-bottom:15px; }
+.procon_r ul li { color: #666; font-size: 14px; text-align: center; line-height: 25px; background: url("../images/detail.png") no-repeat scroll 50px -55px transparent; margin-top: 20px; }
+.procon_r ul li.cur, .procon_r ul li:hover { background-position:45px -166px; }
+/*online start*/
+.proDOLR ul li a.tg_btn1 { background-color: #e4393c; color:#ffffff; }
+.addReduce{display: inline-flex !important; padding-left: 0px !important; margin-left: 0px !important;}
+.addReduce input{width: 50px; height: 28px; line-height: 28px; position: absolute; border: 1px solid #ddd; text-align: center;}
+.addReduce label{margin: 0 7px !important;}
+.numboder{width: 70px; height: 30px; border: 1px solid #ddd;}
+.numboder02{height: 30px;}
+.numboder .addnum{cursor: pointer; margin-left: 54px; width: 10px; height: 10px; background: url(../images/pro_icon05.jpg) no-repeat center; background-size: 7px 4px;}
+.numboder .reduce{cursor: pointer; margin-top: 10px; margin-left: 54px; width: 10px; height: 10px; background: url(../images/pro_icon06.jpg) no-repeat center; background-size: 7px 4px;}
+.proDOLR { float: left; width: 518px; }
+.proDOLR h2 { font-size: 18px; padding: 18px 12px; color:#000; }
+.proDOLR p.p01 { padding: 0px 12px; height: 44px; font-size:13px; }
+.proPrice { margin-top: 10px; }
+.proPriceT { width: 518px; }
+.proPriceT span.fleft { float: left; color: #666666; font-family:Verdana, Arial, Helvetica, sans-serif; margin-top: 5px; padding-left: 10px; }
+.proPriceT p.p02 { float: left; margin-left: 10px; }
+.clr0653b0 { color: #0653b0; }
+p.p03 { padding-top:12px; }
+p.p03 span.m_left { float: left; color: #666666; padding-left: 10px; margin:0; }
+p.p03 { clear:both; overflow: hidden; }
+.proPriceT .p03 span { float:left; margin-left:25px; height: 22px; line-height: 22px; }
+.proPriceT p.p02 strong, p.p03 span strong { font-size: 16px; color: #e4393c; font-family:Arial, Helvetica, sans-serif; }
+p.p03 span strong { font-size:20px; margin-right:5px; }
+p.p03 span.tgPrice { margin-left:10px; }
+.proPriceT p.p02 strong i { font-family: 微软雅黑; font-style: normal; margin-right: 5px; font-size:16px; }
+.proPriceT p span del i { font-family: 微软雅黑; font-style: normal; margin-right: 5px; font-size:19px; }
+p.p03 span em { font-style:normal; }
+.proPriceT p.p03 span i { font-size:13px; font-style:normal; clolr:#666666; }
+.sale em { }
+.sale i { margin-left:5px; }
+.proPriceT p.p02 span { display: block; color: #E7E7E7; margin-top: 3px; }
+.proPriceT p.p02 span del { margin-left: 5px; }
+.proPriceT p.p02 span em { font-style: normal; margin-right: 5px; color: #99FF00; }
+.proDOLR ul { padding: 0 10px 0 10px; color: #666; }
+.proDOLR ul li { display: inline-block; margin-top: 10px; }
+.proDOLR ul li.first { padding-bottom: 14px; border-bottom: 1px solid #E0E0E0; overflow: hidden; }
+.proDOLR ul li.first span { float: left; width: 50%; text-align: center; border-left: 1px solid #E0E0E0; margin-left: -1px; color: #999; }
+.proDOLR ul li.first label { display: block; font-size: 18px; }
+.proDOLR ul li.first label.blue { color: #0099FF; }
+.proDOLR ul li.first label.red { color: #CC6666; }
+.proDOLR ul li dl { display: inline-block; }
+.proDOLR .spec_list dl dt { float: left; color: #666; text-align: center; height:27px; line-height:27px; }
+.proDOLR .spec_list dl dd { width: 410px; line-height: 27px; padding-left: 30px; margin-left: 30px; }
+.proDOLR .spec_list dl dd a { display: inline-block; height: 30x; line-height: 30px; padding: 0 6px; border: 1px solid #ccc; margin-right: 5px; color:#666; }
+.proDOLR ul li dl dd a.on { border-color:#0653b0; border-width:2px; background:url(../images/on.gif) right bottom no-repeat; height: 28px; line-height: 28px; padding: 0 5px; }
+.proDOLR ul li.color dl dd a { margin-bottom:8px; }
+.proDOLR ul li dl dd a img { width: 38px; height: 28px; float:left; }
+.proDOLR ul li dl dd .up { width: 14px; height: 14px; background:url(../images/loginRegisterbutton.png) no-repeat scroll 0px -483px transparent; }
+.proDOLR ul li dl dd .down { width: 14px; height: 14px; background:url(../images/loginRegisterbutton.png) no-repeat scroll 0px -459px transparent; }
+.proDOLR ul li.power dl dd a { padding:0 15px; }
+.proDOLR ul li.size dl dd a:hover, .proDOLR ul li.yanse dl dd a:hover { border: 1px solid #F4A11A; }
+.proDOLR ul li.size dl dd a.on, .proDOLR ul li.yanse dl dd a.on { background: url(../images/bj03.png) no-repeat right bottom; border: 2px solid #F4A11A; }
+.proDOLR ul li.yanse dl dt { height: 32px; line-height: 32px; }
+.proDOLR ul li.yanse dl dd a { float: left; height: 32px; width: 32px; line-height: 24px; padding: 1px; border: 1px solid #ccc; margin-right: 5px; text-indent: -9999px; }
+.proDOLR ul li.yanse dl dd a img { margin: 1px auto; }
+.proDOLR ul li.num dt, .proDOLR ul li.num dd { /*height: 30px;*/ line-height: 30px; color: #666; }
+.proDOLR ul li.num dd span { float: left; }
+.proDOLR ul li.num dd span.span01 { width: 57px; height: 27px; border:1px solid #d0d0d0; }
+.proDOLR ul li.num dd span.span01 input { float: left; width: 40px; height: 18px; line-height: 18px; margin: 5px 0 0 5px; background: transparent; border: none; }
+.proDOLR ul li.num dd span.span02 { float: left; width: 25px; margin: 0 5px; }
+.proDOLR ul li a.tg_btn { border:1px solid #e4393c; color: #e4393c; background-color: #f8e5e5; background:url(../images/detail.png) 40px -232px no-repeat; }
+.proDOLR ul li a.tg_btn1 { background-color: #e4393c; color:#ffffff; }
+.proDOLR ul li a.goTobuy, .proDOLR ul li a.j_gwc { float: left; width: 166px; height: 48px; line-height: 48px; text-align: center; font-size: 16px; color: #0653b0; margin-right: 10px; background-color: #eaf3fe; text-indent: 25px; }
+.proDOLR ul li a.goTobuy { background: #e4393c; color: #fff; text-indent: 0; }
+.bd_share{font-family: "微软雅黑";color: #666;/*height: 16px;line-height: 16px;*/vertical-align: middle;}
+.bd_share a{display: inline-block;width: 16px;height: 16px;margin: 10px 5px -4px;}
+.share01{background: url(../images/share08.png);}

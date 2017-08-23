@@ -1,0 +1,30 @@
+<div class="proBot clear">
+    <ul>
+        <Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead" no_paged="1">
+            <php>if($key<5){</php>
+            <li>
+                        <span>
+                            <if condition="$showlist['show_pic'] eq 1">
+                                <a href="{$showlist.gurl}">
+                                    <img src="{$showlist.gpic}" edit-name="列表图片" imagestyle-editable="true" style-num="95" width="180" height="180"/>
+                                </a>
+                            </if>
+                            <b></b>
+                        </span>
+                        <span class="msgBot">
+                           <if condition="$showlist['show_name'] eq 1">
+                               <p class="instr1">
+                                   <a href="{$showlist.gurl}" edit-name="商品标题" textstyle-editable="true" style-num="97"> {$showlist.gname} </a>
+                               </p>
+                           </if>
+                           <if condition="$showlist['sale_price'] neq ''">
+                               <p class="priceL1">
+                                   <em edit-name="销售价" textstyle-editable="true" style-num="96">¥{$showlist.gprice|sprintf='%.2f',###}</em>
+                               </p>
+                           </if>
+                        </span>
+            </li>
+            <php>}</php>
+        </Gyfx:goodslist>
+    </ul>
+</div>

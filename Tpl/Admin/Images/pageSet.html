@@ -1,0 +1,214 @@
+<div class="rightInner">
+    <form id="image_set" name="image_set" method="post" action="{:U('Admin/Images/doSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">站点水印设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">是否开启水印</td>
+                    <td>
+                        <input type="radio" name="water_on" id="water_on_1" value="1" <eq name="info.WATER_ON" value="1">checked="checked"</eq> />
+                        <label for="water_on_1">开启</label>
+
+                        <input type="radio" name="water_on" id="water_on_2" value="0" <eq name="info.WATER_ON" value="0">checked="checked"</eq> />
+                        <label for="water_on_2">关闭</label>
+                    </td>
+                    <td class="last">不开启时，以下设置均不生效。开启时，仅对大图生效，系统自动生成的缩略图不加水印。</td>
+                </tr>
+                <tr>
+                    <td class="first">是否开启放大镜</td>
+                    <td>
+                        <input type="radio" name="magnifier_on" id="magnifier_on_1" value="1" <eq name="info.MAGNIFIER_ON" value="1">checked="checked"</eq> />
+                        <label for="water_on_1">开启</label>
+
+                        <input type="radio" name="magnifier_on" id="magnifier_on_2" value="0" <eq name="info.MAGNIFIER_ON" value="0">checked="checked"</eq> />
+                        <label for="water_on_2">关闭</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                
+                <tr>
+                    <td class="first">水印位置</td>
+                    <td>
+                        <input type="radio" name="water_pos" id="water_pos_1" value="1" <eq name="info.WATER_POS" value="1">checked="checked"</eq> />
+                        <label for="water_pos_1">左上角</label>
+
+                        <input type="radio" name="water_pos" id="water_pos_2" value="2" <eq name="info.WATER_POS" value="2">checked="checked"</eq> />
+                        <label for="water_pos_2">上居中</label>
+                        
+                        <input type="radio" name="water_pos" id="water_pos_3" value="3" <eq name="info.WATER_POS" value="3">checked="checked"</eq> />
+                        <label for="water_pos_3">右上角</label>
+                        </br>
+
+                        <input type="radio" name="water_pos" id="water_pos_4" value="4" <eq name="info.WATER_POS" value="4">checked="checked"</eq> />
+                        <label for="water_pos_4">左居中</label>
+
+                        <input type="radio" name="water_pos" id="water_pos_5" value="5" <eq name="info.WATER_POS" value="5">checked="checked"</eq> />
+                        <label for="water_pos_5">中部</label>
+
+                        <input type="radio" name="water_pos" id="water_pos_6" value="6" <eq name="info.WATER_POS" value="6">checked="checked"</eq> />
+                        <label for="water_pos_6">右居中</label>
+                        </br>
+
+                        <input type="radio" name="water_pos" id="water_pos_7" value="7" <eq name="info.WATER_POS" value="7">checked="checked"</eq> />
+                        <label for="water_pos_7">左下角</label>
+
+                        <input type="radio" name="water_pos" id="water_pos_8" value="8" <eq name="info.WATER_POS" value="8">checked="checked"</eq> />
+                        <label for="water_pos_8">下居中</label>
+
+                        <input type="radio" name="water_pos" id="water_pos_9" value="9" <eq name="info.WATER_POS" value="9">checked="checked"</eq> />
+                        <label for="water_pos_9">右下角(默认)</label>
+
+                    </td>
+                    <td class="last"></td>
+                </tr>
+               
+                <tr style="display: none;">
+                    <td class="first">水印透明度</td>
+                    <td>
+                        <select name="water_alpha" class="small">
+                            <option value="1" <eq name="info.WATER_ALPHA" value="1">selected="selected"</eq> >1</option>
+                            <option value="0.8" <eq name="info.WATER_ALPHA" value="0.8">selected="selected"</eq> >0.8</option>
+                            <option value="0.6" <eq name="info.WATER_ALPHA" value="0.6">selected="selected"</eq> >0.6</option>
+                            <option value="0.4" <eq name="info.WATER_ALPHA" value="0.4">selected="selected"</eq> >0.4</option>
+                            <option value="0.2" <eq name="info.WATER_ALPHA" value="0.2">selected="selected"</eq> >0.2</option>
+                            <option value="0" <eq name="info.WATER_ALPHA" value="0">selected="selected"</eq> >0</option>
+                        </select>
+                    </td>
+                    <td class="last">1为完全不透明，0为完全透明</td>
+                </tr>
+                <tr>
+                    <td class="first">水印类型</td>
+                    <td>
+                        <!--<input type="radio" name="water_type" id="water_type_1" value="text" <eq name="info.WATER_TYPE" value="text">checked="checked"</eq> />
+                        <label for="water_type_1">文字</label>-->
+
+                        <input type="radio" name="water_type" id="water_type_2" value="image"  />
+                        <label for="water_type_2">图片</label>
+                        <input type="radio" name="water_type" id="water_type_1" value="text"   />
+                        <label for="water_type_2">文字</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tbody id="water_text" <eq name="info.WATER_TYPE" value="image">style="display:none"</eq> >
+                <tr>
+                    <td class="first">文字内容</td>
+                    <td>
+                        <input type="text" name="water_text" value="{$info.WATER_TEXT}" class="medium"  />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">文字大小</td>
+                    <td>
+                        <select name="water_size" class="small">
+                            <option value="12" <eq name="info.WATER_SIZE" value="12">selected="selected"</eq> >12</option>
+                            <option value="14" <eq name="info.WATER_SIZE" value="14">selected="selected"</eq> >14</option>
+                            <option value="16" <eq name="info.WATER_SIZE" value="16">selected="selected"</eq> >16</option>
+                            <option value="18" <eq name="info.WATER_SIZE" value="18">selected="selected"</eq> >18</option>
+                            <option value="20" <eq name="info.WATER_SIZE" value="20">selected="selected"</eq> >20</option>
+                        </select>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+            </tbody>
+
+            <tbody id="water_image" <eq name="info.WATER_TYPE" value="text">style="display:none"</eq> >
+                <tr>
+                    <td class="first">上传图片</td>
+                    <td>
+                        <input type="text" name="water_image" id="water_image_src" value="{$info.WATER_IMAGE}" class="large"  /> 
+                        <a href="javascript:upImage();">上传</a>&nbsp;<a href="javascript:delImage();">删除</a> <br />
+                        <notempty name="info.WATER_IMAGE" ><img id="preview" src="{$info.WATER_IMAGE}" /></notempty>
+                    </td>
+                    <td class="last">建议上传PNG格式的图片</td>
+                </tr>
+            </tbody>
+            
+            <tbody >
+                <tr>
+                    <td class="first">放大镜图片大小</td>
+                    <td>
+                        宽<input type="text" name="magnifier_pic_width" value="{$info.MAGNIFIER_PIC_WIDTH}" class="medium" style="width:40px" validate="{ digits:true}" />
+                        高<input type="text" name="magnifier_pic_height" value="{$info.MAGNIFIER_PIC_HEIGHT}" class="medium"  class="medium" style="width:40px" validate="{ digits:true}" />
+                    </td>
+                    <td class="last">输入正数字代表显示区域的宽和高，例如：宽400 高400</td>
+                </tr>
+                <tr>
+                    <td class="first">缩略图片大小</td>
+                    <td>
+                        宽<input type="text" name="thumb_pic_width" value="{$info.THUMB_PIC_WIDTH}" class="medium" style="width:40px" validate="{ digits:true}" />
+                        高<input type="text" name="thumb_pic_height" value="{$info.THUMB_PIC_HEIGHT}" class="medium"  class="medium" style="width:40px" validate="{ digits:true}" />
+                    </td>
+                    <td class="last">输入正数字代表显示区域的宽和高，例如：宽400 高400</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保存设置" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var editor = new UE.ui.Editor();
+    editor.render("myEditor");
+    var dialog;
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            //处理Ueditor返回的URL中的相对路径
+            var str = arg[0].src;
+            str = str.replace('/Lib/ueditor/php/../../../', '/');
+            //str = str.replace('//', '/');
+			str = str.replace('/Public/Lib/ueditor/php/', '');	
+            $('#water_image_src').val(str);
+            $('#preview').attr('src',str);
+        });
+    });
+    
+    function delImage(){
+        $('#water_image_src').val(''); 
+    }
+    function upImage() {
+        dialog.open();
+    }
+
+    $(document).ready(function(){
+        var water_type='{$info.WATER_TYPE}';
+        if(water_type == 'image'){
+            $('#water_type_2').attr('checked','checked');
+        }else{
+            $('#water_type_1').attr('checked','checked');
+        }
+        $("input[name='water_type']").click(function(){
+            if($(this).val() == 'text'){
+                $('#water_text').show();
+                $('#water_image').hide();
+            }else{
+                $('#water_image').show();
+                $('#water_text').hide();
+            }
+        });
+        $('#image_set').validate();
+    });
+</script>

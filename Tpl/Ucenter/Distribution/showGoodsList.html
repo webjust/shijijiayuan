@@ -1,0 +1,170 @@
+<script src="__PUBLIC__/Ucenter/js/thditem.js"></script>
+<div class="contentRightBox">
+	<h2 class="publicH2"><span>淘宝商品铺货</span></h2>
+    <div class="myOrder">
+        <table class="tableTop">
+             <form action='{:U("Ucenter/Distribution/showGoodsList")}' method="get">
+				<tr>
+					<p>
+						<a href="{:U('Ucenter/Distribution/AddThdShop')}" class="blue">店铺授权</a>
+					</p>
+				</tr>
+                <tr>
+                    <td width="81">商品名称：</td>
+                    <td width="180">
+                        <input type="text" name="g_name" id="g_name" value="{$params['g_name']}" class="input01">
+                    </td>
+                    <td width="81">商品货号：</td>
+                    <td width="180">
+                        <input type="text" name="search_g_sn"  id="search_g_sn" value="{$params['search_g_sn']}" class="input01" >
+                    </td>
+                    <td width="81">铺货状态：</td>
+                    <td width="180">
+                        <select name="status">
+                            <option value="0" <if condition="$params.status EQ 0">selected="selected"</if>>全部</option>
+                            <option value="1" <if condition="$params.status EQ 1">selected="selected"</if>>已铺货</option>
+                            <option value="2" <if condition="$params.status EQ 2">selected="selected"</if>>未铺货</option>
+                        </select>
+                    </td>
+                    <td width="81">分类：</td>
+                    <td width="180">
+                        <select name="search_gcid">
+                            <option value="0"> -请选择- </option>
+                            <volist name="search.cates" id="cate">
+                                <option value="{$cate.gc_id}" <if condition="$params.search_gcid EQ $cate['gc_id']">selected="selected"</if>>
+                                    <php>for($j=0;$j<$cate['gc_level'];$j++){echo '--';}</php>{$cate.gc_name}
+                                </option>
+                            </volist>
+                        </select>
+                    </td>
+                    <td><input type="submit" value="搜 索" class="blue"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <a href="javascript:void(0)" onclick="return selectAll(0);" style="color:#215FB2;">全选</a> -
+                        <a href="javascript:void(0)" onclick="return selectAll(1);" style="color:#215FB2;">取消全选</a> -
+                        <a href="javascript:void(0)" onclick="return selectAll(2);" style="color:#215FB2;">已铺过</a> -
+                        <a href="javascript:void(0)" onclick="return selectAll(3);" style="color:#215FB2;">未铺过</a>
+                    </td>
+                <tr>
+            </form>
+        </table>
+        <div class="chooseProCon" style="background:#FFF ;">
+        	<p class="choosePtop">
+                 <a href='{:U("Ucenter/Distribution/showGoodsList?type=0")}'>
+					<span  id="choose1" <if condition="$params['type'] eq 0 or $params['type'] eq ''" >class="onHover"</if>>可铺货商品</span>
+				</a>
+                <a href='{:U("Ucenter/Distribution/HistroyList?type=1")}'>
+					<span  id="choose2" {$params['type']==1? 'class="onHover"':'' }>铺货记录</span>
+				</a>
+                 <!--<a href='{:U("Ucenter/Distribution/showHelp?type=2")}'>
+					<span  id="choose3"{$params['type']==2? 'class="onHover"':'' }>铺货帮助</span>
+				 </a>-->
+            </p>
+            
+            <div id="con_choose_1" class="chooseDiv">
+            	<table class="tableCon">
+                    <thead>
+                        <tr>
+                            <td>
+                                <input class="checkAll" type="checkbox" name="select_all" id="select_all">
+                            </td>
+                            <td>商品图片</td>
+                            <td>商品名称</td>
+                            <td>商品货号</td>
+                            <td>铺货状态</td>
+                            <td>铺货时间</td>
+                            <td>价格区间</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+					<if condition="$datas NEQ ''">
+						<volist name="datas" id="data">  
+							<tr>
+								<td>
+									<input class="checkAll" type="checkbox" value="{$data.thd_goods_id}" name="thd_item_id[]">	
+								</td>
+								<td>
+									<img src='{$data.g_picture|showImage=###,68,68|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+								</td>
+								<td>
+									<a href='{:U("Home/Products/detail","gid=$data[g_id]")}'>{$data.g_name}</a>
+								</td>
+								<td>{$data.g_sn}</td>
+								<td class="history" itemId="{$data.thd_goods_id}">
+									<span></span>
+									<volist name="data.history" id="history">  
+										<input type="hidden" class="topHistory" shopId="{$history.thd_shop_sid}" value="{$history.last_upload_time}" />
+									</volist>
+								</td>
+								<td class="uptimes"></td>
+                                <td><span style="display:block">{$data.price_down}</span> -- <span style="display:block">{$data.price_up}</span></td>
+							</tr>
+						</volist>
+					<else />
+						<tr><td colspan="6">暂无记录！</td></tr>
+					</if>
+                    <tr>
+                        <td colspan="2" style="text-align:left">
+                            <a href="javascript:void(0)" onclick="return selectAll(0);" style="color:#215FB2;">全选</a> -
+                            <a href="javascript:void(0)" onclick="return selectAll(1);" style="color:#215FB2;">取消全选</a> -
+                            <a href="javascript:void(0)" onclick="return selectAll(2);" style="color:#215FB2;">已铺过</a> -
+                            <a href="javascript:void(0)" onclick="return selectAll(3);" style="color:#215FB2;">未铺过</a>
+                        </td>
+                        <td>选择铺货：
+                            <select name="shop" id="shop" style="height:22px;">
+                                <option value="0">请选择店铺</option>
+                                <volist name="shops" id="shop">
+                                    <option value="{$shop.ts_sid}">{$shop.ts_title}</option>
+                                </volist>
+                            </select>
+                        </td>
+                        <td>发票：
+                            <select name="has_invoice"  id="has_invoice" style="height:22px;">
+                                <option value="1">提供</option>
+                                <option value="0" selected>不提供</option>
+                            </select>
+                        </td>
+                        <td>积分返点：
+                            <select name="rebate_point"  id="rebate_point" style="height:22px;">
+                                <option value="1">按供应商设置</option>
+                                <option value="0" selected>没有</option>
+                                <option value="2">0.5%</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="button" id="submit_btn" class="button-auto" value="铺货商品" />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="myOderBot">
+                    <div class="myOderBotRight">
+                    	<div class="fenye">
+                           {$page}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+<div id="alert_div" style="display: none;">
+    <div id="distirbution_result"></div>
+</div>        
+<!-- 中间内容结束 -->
+<script type="text/javascript">
+//更改店铺
+$("#shop").change(function(){
+	if($(this).val()!=0){
+		var shopID = $(this).val();
+		$(".history").each(function(){
+			var history = changeStatus(shopID,$(this).attr('itemId'));
+			$(this).find("span").html(history[0]);
+			$(this).next().html(history[1]);
+		});
+	}
+});
+</script>
+
+</html>

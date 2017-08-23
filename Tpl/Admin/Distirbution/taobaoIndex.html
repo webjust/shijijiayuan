@@ -1,0 +1,104 @@
+<div class="rightInner tableColor">
+    <table width="100%" class="tbList" data-uri='{:U("Admin/Distirbution/doStatus")}'>
+        <thead>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>操作</th>  
+                <th>网店名称</th>
+                <th>添加时间</th>
+                <th>最后更新时间</th>
+                <th>是否默认此店铺物流模板</th>  
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_shops" id="shop">
+            <tr id="list_{$shop.ts_id}">
+                <td><input type="checkbox" class="checkSon" name="ts_id[]"  value="{$shop.ts_id}" /></td>
+                <td><a href='{:U("Admin/Distirbution/topOauth")}' >授权更新</a>&nbsp;<a href='{:U("Admin/Distirbution/doDelShops?ts_ids=$shop[ts_id]")}' class="confirm">删除</a></td>
+                <td>{$shop.ts_title}</td>
+                <td>{$shop.ts_created}</td>
+                <td>{$shop.ts_modified}</td>
+                <td><input type="radio" class="ts_default" id="ts_default_{$shop.ts_id}" name="ts_default" data-uri='{:U("Admin/Distirbution/doEditDistirbutionDefault")}' data-id="{$shop.ts_id}" data-field="ts_default" data-value="{$shop.ts_default}" <eq name="shop.ts_default" value="0">value="0"<else />value="1"  checked="checked"</eq> /></td>
+            </tr>
+            </volist>
+            <empty name="ary_shops">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+                 <a href='{:U("Admin/Distirbution/topOauth")}' class="btnA">店铺绑定</a>
+                <input type="button" data-uri='{:U("Admin/Distirbution/doDelShops")}'  value="取消店铺授权" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <!--</form>-->
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("input[name='ts_default']").click(function(){
+        var url = $(this).attr("data-uri");
+        var field = $(this).attr('data-field');
+        var id   = $(this).attr('data-id');
+        var val  = ($(this).attr('data-value'))== 0 ? 1 : 0;
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:"json",
+            data: {id:id, field:field, val:val},
+            type:"POST",
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                if(msgObj.status == '1'){
+                    $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                }else{
+                    $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                }
+            }
+        });
+    });
+    $("#delAll").live("click",function(){
+	        var ts_ids = new Array();;
+            $(".tbList input:checked[class='checkSon']").each(function(){
+            	ts_ids.push(this.value);
+            });
+            ts_id = ts_ids;
+            ts_ids = ts_ids.join(",");
+            if(ts_ids == ''){
+				alert("请选择需要删除的店铺！");
+                return false;
+            }
+            var url = $(this).attr("data-uri");
+            var field = $(this).attr('data-field');
+            $.ajax({
+                url:url,
+                cache:false,
+                dateType:'json',
+                type:'GET',
+                data:{ts_ids:ts_ids},
+                error:function(){
+                },
+                success:function(msgObj){
+                    
+                    if(msgObj.status == '1'){
+                        $.each(ts_id,function(index,value){
+                            $("#list_"+value).remove();
+                        });
+                       
+                    }else{
+                    	showAlert(false,msgObj.info);
+                    }
+                }
+            });
+        });
+});
+
+</script>

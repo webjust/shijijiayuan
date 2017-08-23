@@ -1,0 +1,95 @@
+<!-- 
+     * 根据条件查询商品信息
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-03-28
+     * @param name,gid
+     * @return array
+     * 商品ID	gid
+     * 商品SN	gsn
+     * 上架时间	onsale
+     * 下架时间	offsale
+     * 商品名称	gname
+     * 商品价格	gprice
+     * 商品库存	gstock
+     * 商品单位	gunit
+     * 商品描述	gdesc
+     * 商品主图	gpic
+     * 商品全部图片	gpics
+     * 新品标识	gnew
+     * 热销标识	ghot
+     * 规格列表	gurl
+     * 货品列表	skus
+     * 商品分类ID	cid
+     * 商品分类名称	cname
+     * 商品品牌ID	bid
+     * 商品品牌名称	bname
+     示例：
+	array(19) {
+	  ["gid"] => string(4) "1053"
+	  ["gsn"] => string(2) "fx"
+	  ["onsale"] => string(19) "2013-03-28 16:37:52"
+	  ["offsale"] => string(19) "0000-00-00 00:00:00"
+	  ["gname"] => string(2) "fx"
+	  ["gprice"] => string(5) "0.000"
+	  ["gstock"] => string(2) "13"
+	  ["gunit"] => string(0) ""
+	  ["gdesc"] => NULL
+	  ["gpic"] => string(0) ""
+	  ["gpics"] => array(0) {
+	  }
+	  ["gnew"] => string(1) "0"
+	  ["ghot"] => string(1) "0"
+	  ["gurl"] => string(41) "/Home/Products/ajaxGoodsProducts/gid/1053"
+	  ["skus"] => array(2) {
+	    [0] => array(8) {
+	      ["pdt_sn"] => string(3) "fX2"
+	      ["pdt_weight"] => string(5) "0.000"
+	      ["pdt_stock"] => string(1) "8"
+	      ["pdt_memo"] => string(0) ""
+	      ["pdt_id"] => string(2) "66"
+	      ["pdt_sale_price"] => string(5) "0.000"
+	      ["pdt_on_way_stock"] => string(1) "0"
+	      ["specName"] => string(7) "尺码:"
+	    }
+	    [1] => array(8) {
+	      ["pdt_sn"] => string(3) "fx1"
+	      ["pdt_weight"] => string(5) "0.000"
+	      ["pdt_stock"] => string(1) "5"
+	      ["pdt_memo"] => string(0) ""
+	      ["pdt_id"] => string(2) "67"
+	      ["pdt_sale_price"] => string(5) "0.000"
+	      ["pdt_on_way_stock"] => string(1) "0"
+	      ["specName"] => string(7) "尺码:"
+	    }
+	  }
+	  ["cid"] => string(3) "117"
+	  ["cname"] => string(6) "干货"
+	  ["bid"] => string(1) "0"
+	  ["bname"] => NULL
+	}
+ -->
+<h3>{$title}</h3>
+<Gyfx:goodsinfo name="detail" gid="1053" >
+    商品id：{$detail.gid}<br>
+    商品名称：{$detail.gname}
+    <hr />
+    <h4>循环SKUS</h4>
+    <volist name="detail.skus" id="vo">
+    {$vo.specName}-
+    {$vo.pdt_sn}-
+    {$vo.pdt_stock}<br />    
+    </volist>
+    <hr />
+    <h4>循环图片</h4>
+    <volist name="detail.gpics" id="pic">
+    {$pic.gp_picture}<br />    
+    </volist>
+</Gyfx:goodsinfo>
+<hr />
+<Gyfx:goodsinfo name="detail1" gid="1057" >
+    商品id：{$detail1.gid}<br>
+    商品名称：{$detail1.gname}
+</Gyfx:goodsinfo>
+<hr />
+<h4>SKU分页</h4>
+<li>{$pageinfo.detail}</li>

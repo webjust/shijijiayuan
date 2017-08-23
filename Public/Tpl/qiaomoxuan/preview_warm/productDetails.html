@@ -1,0 +1,212 @@
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__JS__jquery.cookie.js"></script>
+<link rel="stylesheet" href="__CSS__swiper.min.css">
+<script src="__JS__swiper.min.js"></script>
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__productsdetail.js"></script>
+<div class="header" id="header"><!--header start-->
+	<div class="navbar">
+		<div class="navbar-icon">
+			<a onclick="window.history.back();">
+				<span class="goback"></span>
+			</a>
+		</div>
+		<span class="nav-title">商品详情</span>
+		<div class="navbar-home">
+			<a href="javascript:void(0);" onclick="addToInterests('{$ary_request.gid}');" class="jia"></a>
+		</div>
+	</div>
+</div>
+<div class="container containerD"><!--container-->
+	<form id="goodsForm" name="goodsForm" method="post" action="javascript:void(0);">
+		<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"  ></Gyfx:goodsinfo>
+		<input type="hidden" value="{$ary_request.gid}" id="gid">
+		<input type='hidden' id='m_id' value='{$Think.session.Members.m_id}' />
+		<input type='hidden' name='goods_type' value='{$goods_type}' />
+		<div class="detailTop"> <!--detailTop-->
+			<!-- 标题价格内容 end-->
+			<div class="lunbo banner"><!--lunbo-->
+				<div class="swiper-container" id="swiper-container2">
+					<div class="swiper-wrapper">
+						<volist name="detail.gpics" id="pic">
+							<div class="swiper-slide">
+								<img  src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,640}" width="100%">
+							</div>
+						</volist>
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+					<div class="swiper-pagination swiper-pagination-clickable"></div>
+				</div>
+			</div>
+			<!--/lunbo-->
+			<!-- 标题价格内容 start-->
+			<div class="proDetail">
+				<h1 class="title">{$detail.gname}</h1>
+				<!-- <span class="comment"><i></i><i></i><i></i><i></i><i class="bad"></i>(122好评)<b><a href="">收藏</a></b> </span>-->
+				<p class="proPrice"><em id="showPrice">{$detail.gprice|sprintf='%.2f',###}</em>元</p>
+				<p class="type">款号：{$detail.gsn}</p>
+				<!-- 分类选择 start-->
+				<div class="Choice" id="check_sku">
+					<div id="showDetailSkus"></div>
+				</div>
+				<!-- 分类选择 end-->
+			</div>
+		</div>
+	</form>
+	<!--!detailTop-->
+	<div class="taocan dpList" style="margin-bottom:20px;">
+	  <a href="{:U('Wap/Products/collGoodsPage')}?g_id={$ary_request[gid]}" class="dpTitle">优惠搭配</a>
+		 <div class="dpLists" id="coll_goods">	 
+		</div>
+	</div>		
+	<!--detailCenter-->
+	<div class="tabs">
+		<a href="javascript:;" hidefocus="true" class="active">商品详情</a>
+		<a href="javascript:;" hidefocus="true">商品评价</a>
+		<a href="javascript:;" hidefocus="true">商品咨询</a>
+	</div>
+	<div id="tabs-container" class="swiper-container1">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">
+				<div class="content-slide">
+					<div class="detailCenterNav"><!--商品详情start-->
+						<div class="detailList" style="display:block;">
+							{$goods_desc.g_phone_desc}
+						</div>
+					</div>
+					<!--商品详情end-->
+				</div>
+			</div>
+			<div class="swiper-slide swiper-slide-visible swiper-slide-active">
+				<div class="content-slide">
+					<div class="detailCenterNav"> <!--商品评价 start-->
+						<div class="detailList" id="goods_comments">
+						</div>
+					</div>
+					<!--用户评论 end-->
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="content-slide"><div class="detailCenterNav"> <!--商品咨询 start-->
+					<div class="detailList"  id="goods_advice">
+					</div>
+				</div>
+				</div>
+			</div>
+			<!--商品咨询 end-->
+		</div>
+	</div>
+</div>
+</div>
+<div class="recommPro" id="relate_goods">
+</div>
+</div>
+<!--/container-->
+<form id="orderAddFrom" name="orderAddFrom" method="post" action="/Wap/Orders/pageAdd">
+	<input type="hidden" name="pid[]" id="addOrderPid" value="" />
+	<input type="hidden" name="type[]" id="addOrdertype" value=""/>
+</form>
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Wap/Orders/addOrderPage">
+	<input type="hidden" name="pid[]" id="submitSkipPid" value="" />
+	<input type="hidden" name="type[]" id="submitSkiptype" value=""/>
+</form>
+<input type="hidden" name="mid" id="mid" value="{$Think.session.Members.m_id}"/>
+<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+
+<input type="hidden" name="m_name" value="{$Think.session.Members.m_name}" id="m_name" />
+
+<div class="addcart addcart1" style="display:block;">
+	<div class="sku-layout sku-box-shadow cartCnt">
+		<div class="layout-title sku-box-shadow name-card sku-name-card">
+			<div class="adv-opts layout-content" style="max-height: 468px;">
+				<div class="confirm-action content-foot clearfix">
+					<div class="half-button"> <a href="javascript:void(0);" id="addToOrder"  class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark ">立即购买</a> </div>
+					<div class="half-button"> <a   href="javascript:void(0);" onclick="addToCart();"  class="js-mutiBtn-confirm cart btn btn-block btn-white">加入购物车</a> </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var swiper = new Swiper('#swiper-container2', {
+		autoplay:3000,
+		slidesPerView: 1,
+		pagination:".swiper-pagination",
+		paginationClickable: true,
+		spaceBetween: 0,
+		freeMode: true,
+		prevButton:'.swiper-button-prev',
+		nextButton:'.swiper-button-next',
+		onSlideChangeStart:function(){
+			$(".tabs .active").removeClass('active')
+			var index = swiper.activeIndex%3  ;
+			if(index == 0){
+				$(".tabs a").eq(1).addClass('active')
+			}else if(index == 1){
+				$(".tabs a").eq(2).addClass('active')
+			}else if(index == 2){
+				$(".tabs a").eq(0).addClass('active')
+			}
+		}
+	});
+</script>
+<script>
+	window.onload = function() {
+		var tabsSwiper = new Swiper('#tabs-container',{
+			speed:500,
+			onSlideChangeStart: function(){
+				$(".tabs .active").removeClass('active')
+				$(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+			}
+		})
+		$(".tabs a").on('touchstart mousedown',function(e){
+			e.preventDefault()
+			$(".tabs .active").removeClass('active')
+			$(this).addClass('active')
+			tabsSwiper.slideTo( $(this).index() )
+		})
+		$(".tabs a").click(function(e){
+			e.preventDefault()
+		})
+
+	}
+</script>
+
+
+<script>
+//	alert('{$ary_request.gid}');
+	getCommentPage('{$ary_request.gid}',1);
+    getAdvicePage('{$ary_request.gid}');
+	//获取相关商品
+	getRelateGoodsPage('{$ary_request.gid}');
+	getCollGoodsPage('{$ary_request.gid}');
+	var nullNum = "{$Think.lang.STOCK_ERROR_1}";
+	var notEnough = "{$Think.lang.STOCK_ERROR_2}";
+	var reselection = "{$Think.lang.STOCK_ERROR_3}";
+	var nonExistent = "{$Think.lang.STOCK_ERROR_4}";
+	var notLogin = "{$Think.lang.NO_LOGIN}";
+
+	var swiper = new Swiper('#swiper-container2', {
+		autoplay:3000,
+		slidesPerView: 1,
+		pagination:".swiper-pagination",
+		paginationClickable: true,
+		spaceBetween: 0,
+		freeMode: true,
+		prevButton:'.swiper-button-prev',
+		nextButton:'.swiper-button-next',
+	});
+
+	//初始化金额
+	if($('#check_sku a.on').length) {
+		initData();
+	}
+
+
+//获取商品sku
+getDetailSkus('{$ary_request.gid}','0');
+
+</script>

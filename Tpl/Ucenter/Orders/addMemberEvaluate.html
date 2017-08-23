@@ -1,0 +1,165 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+
+  <div class="wrap-all ncu-order-view contentRightBox">
+    <h2>对商品进行评价</h2>
+    <form id="evalform" method="post" action='{:U("Ucenter/Orders/addComment")}' enctype ="multipart/form-data" onsubmit="return checkform();">
+      <h3 class="mt20 mb10">我的评价</h3>
+      <div class="ncm-notes">
+        <ul>
+          <li>同一订单多件商品成交时，您可以对商品进行逐一评价/评述，针对商品的“动态评分”只能评价一次。</li>
+          <li>默认评价为“好评”，如您也可以选择了中评或差评。</li>
+          <li>评价信息最多填写150字，请您根据本次交易，给予真实、客观地评价；您的评价将是其他会员的参考，也将影响卖家的信用。</li>
+          <li>店铺动态评分默认为“5分”，您可以根据本次交易情况给予商家评分，<span class="orange"> 一旦提交后不能修改。</span></li>
+        </ul>
+      </div>
+      <table class="ncu-table-style order deliver">
+        <tbody>
+          <tr>
+            <th colspan="20"><span class="ml10">订单详情</span><span class="fr mr20">
+                <input type="checkbox" value="1" name="anony" style="position:relative;top: 2px;">
+                <input type="hidden" value="{$oid}" name="oid" style="position:relative;top: 2px;">
+              &nbsp;匿名评价</span>
+            </th>
+          </tr>
+            <volist name="orders_goods_info" id="goods_info">
+
+                <tr>
+                    <td class="bdl w10"></td>
+                    <td class="w70"><div class="goods-pic-small"><span class="thumb size60"><i></i><a href='{:U("Home/Products/detail","gid=$goods_info[g_id]")}' target="_blank"><img src='{$goods_info.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}'  width="60" height="60"></a></span></div></td>
+                    <td class="tl goods-info"><dl>
+                        <dt><a href='{:U("Home/Products/detail","gid=$goods_info[g_id]")}' target="_blank">{$goods_info.oi_g_name}</a></dt>
+                        <dd class="tl">{$goods_info.pdt_spec}&nbsp;</dd>
+                      </dl></td>
+                      <td class="td_price"><span class="price">&yen;{$goods_info.oi_price}</span>&nbsp;x&nbsp;{$goods_info.oi_nums}</td>
+                      <input type="hidden" class="g_name" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][g_name]" value="{$goods_info.oi_g_name}" />
+					<td class="bdr">
+                        <p name="setStyle{$i}">
+                            <em></em>
+                            <i style="width: 100%;" id="setStyle{$i}"></i>
+                            <label class="lb01 hoverX" x="20" sorce="一星"></label>
+                            <label class="lb02 hoverX" x="40" sorce="二星"></label>
+                            <label class="lb03 hoverX" x="60" sorce="三星"></label>
+                            <label class="lb04 hoverX" x="80" sorce="四星"></label>
+                            <label class="lb05 hoverX" x="100" sorce="五星"></label>
+                        </p>
+                        
+                        <input type="hidden" class="gcom_star_score" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][gcom_star_score]" value="100" />
+                      <div class="comments">
+                        <textarea name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][comment]" cols="150" class="w400" onkeyup="checkLen(this)"></textarea>
+						<div>您还可以输入 <span id="count{$goods_info.g_id}">150</span> 字</div>
+                      </div>
+					  <div class="zjplC" style="background:none repeat scroll 0 center rgba(0, 0, 0, 0);">
+						<if condition="$cfg['comments_showpic_switch'] eq 1" >
+						<p style="width:350px;height:35px;">
+						<a  href="javascript:upImage({$i});" >晒照片</a>
+						<php>for($n=1;$n<6;$n++){</php>
+						<img  id="showPic{$i}_{$n}" style="display:none;" width="35px" height="35px"/>
+						<php>}</php>
+						<input type="hidden" value="" id="uploadPic{$i}" name="uploadPic{$i}"/>
+						限5张</p>
+						</if>
+                      </div>
+                    </td>
+                  </tr>
+				  <input type="hidden" value="{$goods_info.g_id}" name="goods[{$goods_info.g_id}{$goods_info.pdt_id}][g_id]" />
+            </volist>
+          
+        </tbody>
+                  
+                        <tfoot>
+          <tr>
+            <td colspan="20"></td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="ncu-form-style">
+        <dl class="bottom mt30">
+          <dt>&nbsp;</dt>
+          <dd class="tc">
+                <input type="submit" class="submit" value="提交">
+          </dd>
+        </dl>
+      </div>
+    </form>
+  </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.hoverX').click(function(){
+            var x = $(this).attr('x');
+            var style = $(this).parent().attr("name");
+            $("#"+style).css({width:x+'%'});
+            $(this).parent().next().val(x);
+        }); 
+    });
+    
+</script>
+<script type="text/javascript">
+var dialog;
+var image_input_id;
+var image_input_id_s;
+var editor = new UE.ui.Editor({
+	imageRealPath:"comments/"+"{$m_id}",
+	imageManagerUrl:"/Ucenter/Orders/getCommentImages"
+});
+editor.render("myEditor");
+editor.ready(function(){
+	editor.hide()
+	dialog = editor.getDialog("insertimage");
+	editor.addListener('beforeInsertImage',function(t, arg){
+		image_input_id = 0;
+		for(index in arg){
+			var imageId = editor.options.imageId;
+		    if(typeof arg[index]['src']=='undefined')  continue;
+			$(".zjplC").find("img").each(function (i,val) {
+				if(this.src==''){
+					image_input_id = i;
+				}
+			}); 
+			image_input_id = image_input_id + 1;
+			//alert(image_input_id);
+			if(image_input_id<=5){
+				if($("#showPic_"+imageId+'_'+image_input_id)){
+				   var image_path = arg[index]['src'];
+				   var tmp_image_path ='';
+					//$("#showPic" + image_input_id).val(image_path);
+					$("#showPic" +imageId+'_'+image_input_id).css('display','');
+					$("#showPic" +imageId+'_'+image_input_id).attr({src:image_path});
+					$(".zjplC").find("img").each(function (i,val) {
+						if(this.src!=''){
+							tmp_image_path += ','+$(this).attr("src");
+						}
+					});
+					$("#uploadPic"+imageId).val(tmp_image_path);
+				}			
+			}
+		}
+	});
+	
+});
+/**
+ * 图片上传方法集成
+ */
+function upImage(imageId) {
+	editor.options.imageId = imageId
+	//editor.options.imageRealPath = 'desc';
+	image_input_id = imageId;
+	image_input_id_s = imageId;
+	dialog.open();
+}
+// add by zhangjiasuo 2015-07-28
+function checkLen(obj) {
+
+	var maxChars = 150;//最多字符数  
+	if (obj.value.length > maxChars)  {
+		obj.value = obj.value.substring(0,maxChars);  
+	}
+    var wrapDiv =$(obj).parent();
+	var curr = maxChars - obj.value.length;
+    wrapDiv.find('span').text(curr.toString());
+} 
+</script>

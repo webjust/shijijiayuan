@@ -1,0 +1,80 @@
+
+       
+        <!-- 右侧主题内容开始 -->
+        <div class="contentRightBox"><!--contentRightBox  start-->
+        	<h2 class="publicH2"><span>我的充值卡</span></h2>
+        	
+            <div class="myOrder"><!--myOrder  start-->
+               
+                <table class="tableTop">
+                     <form action='{:U("Ucenter/MyPrepaidCard/pageList")}' method="get">
+                    <tr>
+                        <td width="81">充值卡名称：</td>
+                        <td width="215"><input type="text" name="pc_name" value="{$pc_name}" class="input01"></td>
+                        <td width="81">充值卡卡号：</td>
+                        <td width="215"><input type="text" name="pc_card_number" value="{$pc_card_number}" class="input01"></td>
+                        <td><input type="submit" value="搜 索" class="blue"></td>
+                    </tr>
+                   
+                    </form>
+                </table>
+                <div class="chooseProCon"><!--chooseProCon  start-->
+                	<p class="choosePtop">
+                         <a href='{:U("Ucenter/MyPrepaidCard/pageList")}'><span id="choose1" <if condition="$pc_processing_status eq ''"> class="onHover"</if>>全部</span></a>
+                         <a href='{:U("Ucenter/MyPrepaidCard/pageList","pc_processing_status=success")}'><span id="choose2" <if condition="$pc_processing_status eq 'success'"> class="onHover"</if>>充值成功</span></a>
+                         <a href='{:U("Ucenter/MyPrepaidCard/pageList","pc_processing_status=waiting")}'><span id="choose3" <if condition="$pc_processing_status eq 'waiting'"> class="onHover"</if>>待审核</span></a>
+                         <a href='{:U("Ucenter/MyPrepaidCard/pageList","pc_processing_status=error")}'><span id="choose4" <if condition="$pc_processing_status eq 'error'"> class="onHover"</if>>充值驳回</span></a>
+                    </p>
+                    
+                    <div id="con_choose_1" class="chooseDiv">
+                    	<table class="tableCon">
+                            <thead>
+                                <tr>
+                                    <td>流水号</td>
+                                    <td>充值卡名称</td>
+                                    <td>充值卡卡号</td>
+                                    <td>面值</td>
+                                    <td>充值时间</td>
+                                    <td>充值结果</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="list" id="card">  
+                                <tr>
+                                    <td>{$card.pc_serial_number}</td>
+                                    <td>{$card.pc_name}</td>
+                                    <td>{$card.pc_card_number}</td>
+                                    <td>{$card.pc_money|sprintf='%.2f',###}</td>
+                                    <td>{$card.pc_use_time}</td>
+                                    <td>
+                                        <if condition="$card['pc_processing_status'] eq '1'">
+                                            <b style="color:green">充值成功</b>
+                                        </if>
+                                        <if condition="$card['pc_processing_status'] eq '0'">
+                                            <b style="color:blue">待审核</b>
+                                        </if>
+                                        <if condition="$card['pc_processing_status'] eq '2'">
+                                            <b style="color:red">充值驳回</b>
+                                        </if>
+                                    </td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                        
+                        <div class="myOderBot" ><!--myOderBot  start-->
+                            <div class="myOderBotRights" ><!--myOderBotRight  start-->
+                                {$page}
+                            </div><!--myOderBotRight  end-->
+                        </div><!--myOderBot  end-->
+                    </div>
+                </div><!--chooseProCon  end-->
+                
+            </div><!--myOrder  end-->
+            
+        </div><!--contentRightBox  end-->
+        
+<script>
+    $('.myOderBotRights').css({'float':'right'});
+</script>
+</html>

@@ -1,0 +1,326 @@
+
+<div class="rightInner"><!--rightInner  start-->
+    <div id="con_addGoods_1" class="adCon"><!--商品基本信息  开始-->
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑组合商品 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">组合商品标题：</td>
+                    <td>
+                        <input type="text"  value="{$data.g_name}" id="g_name" onblur='checkGname(this)' name="g_name" class="large" maxlength="60"/>
+                        <font style="color:#ff0000;">*</font>
+                        <span class="gname_error" style="color:#ff0000;"></span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="first">添加组合商品货号：</td>
+                    <td>
+                        <input type="text"  id="pdt_sn" class="large" onkeypress="EnterPress(event)" />
+                        直接按回车
+                        <button type="submit" id="addGoods"  class="btnA submit-button">添加商品</button>
+                        <div id="goodsSelect" style="display: none;" title="请选择商品">
+                            <include file="Goods:getProductsInfo" />
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        <table style="border:1px solid gray;">
+                            <thead>
+                                <tr style="border:1px solid gray;text-align:center;">
+                                    <td style="border:1px solid gray;" width="150px;">商品名称</td>
+                                    <td style="border:1px solid gray;" width="200px;">商品货号</td>
+                                    <td style="border:1px solid gray;" width="150px;">组合数量</td>
+                                    <td style="border:1px solid gray;" width="150px;">库存数</td>
+                                    <td style="border:1px solid gray;" width="150px;">销售价</td>
+                                    <td style="border:1px solid gray;" width="150px;">规格</td>
+                                    <td style="border:1px solid gray;" width="150px;">组合后单价</td>
+                                    <td style="border:1px solid gray;" width="150px;">优惠金额</td>
+                                    <td style="border:1px solid gray;" width="150px;">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody id="product_info">
+                                <include file="Goods:ajaxLoadEditComPdtLits" />
+                            </tbody>
+                        </table>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right" style="font-weight:bold; font-size:14px; color:#333">
+                        组合套餐总价：<span id="package">{$data.price.all_price}</span>&nbsp;&nbsp;&nbsp;
+                        共优惠：<span id="coupon">{$data.price.coupon_price}</span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="first">有效时间段：</td>
+                    <td>
+                        <input type="text" id="g_on_sale_time" value="{$data.g_on_sale_time}"  style="width: 145px;float: none;"  class="small timer" />
+                        至
+                        <input type="text" id="g_off_sale_time" value="{$data.g_off_sale_time}" style="width: 145px;float: none;"  class="small timer" />
+                        <font>默认为不限制</font>
+                    </td>
+                    
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td class="first">最大下单数：</td>
+                    <td>
+                        <input type="text"  value="{$data.pdt_max_num}" class="small" id="minOrders" onblur="minPlaceOrder(this);" />
+                        <font>0为不限制，如果填写的话判断库存是否充足</font>
+                    </td>
+                    
+                    <td></td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div><!--商品基本信息  结束-->
+    <input type="hidden" value="{$data.g_id}" id="g_id" />
+    
+    
+    <!-- 表单提交 开始 -->
+    <p style="text-align:left; padding:10px 0px;">
+        <button type="submit" class="btnA submit-button" onclick="javascript:submitFrom();">保存</button>
+        <input type="button" value="重置" onclick="javascript:window.location.reload();"  class="btnA" />
+    </p>
+</div><!--rightInner  end-->
+
+<script type="text/javascript">
+var deleteGoods = '';
+//执行添加组合商品
+function submitFrom(){
+    var data = new Object();
+    var g_name = $("#g_name").val();
+    var pdt_max_num = $("#minOrders").val();
+    if(g_name == ''){
+        $('.gname_error').html('组合商品标题不能为空');return false;
+    }
+    
+    data['g_name'] = g_name;
+    data['pdt_max_num'] = pdt_max_num;
+    data['del_g_id'] = deleteGoods;
+    data['g_id'] = $("#g_id").val();
+    data['g_on_sale_time'] = $("#g_on_sale_time").val();
+    data['g_off_sale_time'] = $("#g_off_sale_time").val();
+    data['combination_goods'] = {};
+    var error_g_name = '';
+    var error_msg = '';
+    var status = '';
+    //循环遍历货品信息，拼接数组
+    var error_g_name = '';
+    $(".searchGoods").each(function(e){
+        status = 1;
+        data['combination_goods'][e] = {};
+        var releted_pdt_id = $(this).children('td:eq(1)').children("input[name='pro_pdt_id']").val();
+        var releted_pdt_sn = $(this).children('td:eq(1)').children("input[name='pro_pdt_sn']").val();
+        var com_id = $(this).children('td:eq(1)').children("input[name='com_id']").val();
+        var com_price = $(this).children('td:eq(6)').children().val();
+        var com_nums = $(this).children('td:eq(2)').children().val();
+        var g_id = $(this).children('td:eq(1)').children("input[name='pro_g_id']").val();
+        if(com_price == '' ||com_nums == ''){
+            error_g_name = $(this).children().html();
+            if(com_nums == ''){
+                error_msg = '商品：'+error_g_name+'   请输入组合数量！';
+            }else{
+                error_msg = '商品：'+error_g_name+'   请输入组合后单价！';
+            }
+        }
+        data['combination_goods'][e]['releted_pdt_id'] = releted_pdt_id;
+        data['combination_goods'][e]['releted_pdt_sn'] = releted_pdt_sn;
+        data['combination_goods'][e]['com_price'] = com_price;
+        data['combination_goods'][e]['com_nums'] = com_nums;
+        data['combination_goods'][e]['g_id'] = g_id;
+        data['combination_goods'][e]['com_id'] = com_id;
+        
+    });
+    if(status == 0){showAlert(false,'请选择商品');return false;}
+    if(error_msg!=''){showAlert(false,error_msg);return false;}
+    $.post("{:U('Admin/Goods/editCombinationGoods')}",data,function(msgData){
+        if(msgData.status == 'error'){
+            showAlert(false,msgData.Msg);return false;
+        }else{
+            showAlert(true,'操作成功','成功',{'确认':msgData.URL});
+        }
+    },'json');
+}
+function checkGname(obj){
+    $(obj).val(rtrim(ltrim($(obj).val())));
+}
+//去左空格;
+function ltrim(s){
+    return s.replace( /^\s*/, "");
+}
+//去右空格;
+function rtrim(s){
+    return s.replace( /\s*$/, "");
+}
+//回车触发搜索商品货号
+function EnterPress(e){ //传入 event 
+    var e = e || window.event; 
+    if(e.keyCode == 13){
+        var pdt_sn = $("#pdt_sn").val();
+        if(pdt_sn==''){
+            showAlert(false,'商品货号不能为空！');return false;
+        }
+        ajaxSelectProducts(pdt_sn);
+    } 
+}
+/**
+ *判断最大下单数，根据商品组合数量与库存
+ */
+function minPlaceOrder(obj){
+    var palce_order_nums = $(obj).val();
+    var min_orders = '';
+    $('.searchGoods').each(function(){
+        var nums = $(this).children('td:eq(2)').children().val();
+        var stock = $(this).children('td:eq(3)').html();
+         min_orders += String(Math.floor(stock/nums))+',';
+        
+    });
+    if(min_orders == ''){
+        $(obj).val('');
+        showAlert(false,'请选择商品！');return false;
+    }
+    min_orders = min_orders.substring(0,min_orders.length-1);
+    
+    min_orders = min_orders.split(',');
+    min_orders = Array.min(min_orders);
+    if(palce_order_nums > min_orders){
+        $(obj).val(min_orders);
+    }
+}
+Array.min=function(array){
+    return Math.min.apply(Math,array);
+}
+//删除货品
+function deleteProduct(obj){
+    if(confirm('确定删除？')){
+        if($(obj).parent().parent().children("td:eq(1)").children("input[name='com_id']").val()){
+            deleteGoods += $(obj).parent().parent().children("td:eq(1)").children("input[name='com_id']").val()+",";
+        }
+        $(obj).parent().parent().remove();
+        searchGoods();
+    }
+}
+$('#goodsSelect').dialog({
+    resizable:false,
+    autoOpen: false,
+    modal: true,
+    width: 'auto',
+    position: [220,85],
+    buttons: {
+        '确认': function() {
+            $("input[name='gs_pdt_sn']:checked").each(function(){
+                ajaxSelectProducts(this.value);
+            });
+            $(this).dialog( "close" );
+        },
+        '关闭': function() {
+            $( this ).dialog( "close" );
+        }
+    }
+});
+$("#addGoods").click(function(){
+    $('#goodsSelect').dialog('open');
+});
+
+function blurMousePrice(obj){
+    //验证价格
+    var ereg_rule= /^\d{1,10}(\.\d{1,3})?$/;;
+    var price = obj.value;
+    if(price == ''){return false;}
+    price = parseFloat(price);
+    var cost_price = parseFloat($(obj).parent().prev().prev().html());
+    if(!ereg_rule.test(price)){
+        $(obj).val(cost_price.toFixed(2));
+        $(obj).parent().next().html('0.000');
+    }else{
+        if((cost_price-price)<0){
+            $(obj).val(cost_price.toFixed(2));
+            $(obj).parent().next().html('0.000');
+        }else{
+            $(obj).parent().next().html((cost_price-price).toFixed(2));
+        }
+    }
+    searchGoods();
+}
+function blurMouseNums(obj){
+    //验证数量
+    var ereg_rule=/^\+?[1-9][0-9]*$/;
+    var nums = obj.value;
+    if(nums == ''){return false;}
+    var stock = parseInt($(obj).parent().next().html());
+    if(!ereg_rule.test(nums)){
+        $(obj).val(1);
+    }else{
+        if(nums>stock){
+            $(obj).val(stock);
+        }
+    }   
+    searchGoods();
+}
+//根据pdt_sn获取货品详情信息，并将它显示在货品列表
+function ajaxSelectProducts(pdt_sn){
+    $.ajax({
+            url:"{:U('Admin/Goods/searchPdtInfo')}",
+            type:'POST',
+            dateType:'json',
+            data:{'pdt_sn':pdt_sn},
+            success:function(msg){
+                if(msg.status == 'error'){
+                    showAlert(false,msg.msg);return false;
+                }else{
+                    var i = 0;
+                    $(".pro_pdt_sn").each(function(){
+                        if(this.value == pdt_sn){
+                            i++;
+                        }
+                    });
+                    if(i == 0){
+                        $("#product_info").append(msg);
+                    }
+                }
+            }
+        });
+}
+//计算套餐总价与优惠金额
+function searchGoods(){
+    //套餐总价
+    var max_all_price = 0;
+    //共优惠金额
+    var mix_conpon_price = 0;
+    $('.searchGoods').each(function(){
+        var nums = $(this).children('td:eq(2)').children().val();
+        var price = $(this).children('td:eq(6)').children().val();
+        var cost_price = $(this).children('td:eq(4)').html();
+        if(nums == '' || price == ''){
+            
+        }else{
+            var original_price = parseFloat(nums*cost_price).toFixed(2);
+            var max_tmp_price = parseFloat(nums*price);
+            max_all_price = (parseFloat(max_all_price) + max_tmp_price).toFixed(2);
+            mix_conpon_price = (parseFloat(mix_conpon_price) + parseFloat(original_price-max_tmp_price)).toFixed(2);
+        }
+    });
+    var minPlace = $("#minOrders");
+    //如果最大下单数填写，同时更新最大下单数量
+    if($(minPlace).val()!=''){
+        minPlaceOrder(minPlace);
+    }
+    $('#package').html(max_all_price);
+    $('#coupon').html(mix_conpon_price);
+    
+}
+</script>

@@ -1,0 +1,113 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .modal-dialog {width: 500px;margin: 100px auto;  }
+</style>
+<div class="contentRightBox">
+    <div class="rightBox_content_title" style="display: none;">
+        <a href="javascript:void(0)">生成分拣单</a>
+    </div>
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+        <form method="get" action="{:U('Admin/Members/doDel')}" id="members_del">
+            <table width="100%" class="tbList">
+                <thead>
+                <tr class="title">
+                    <th colspan="99">客户订单列表</th>
+                </tr>
+                <tr>
+                    <!--<th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>-->
+                    <th>下单时间</th>
+                    <th>订单编码</th>
+                    <th>商品详细名字</th>
+                    <th>订单数量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="data" id="order">
+                <tr>
+                    <!--<td><input type="checkbox" class="checkSon" data-xid="checkSon_x" name="o_id[]" value="{$order.o_id}" o_sn="{$datas.o_sn}" /></td>-->
+                    <td>{$order.o_create_time}</td>
+                    <td>{$order.o_id}</td>
+                    <td>{$order.g_name}</td>
+                    <td>{$order.oi_nums}</td>
+                </tr>
+            </volist>
+                  <empty name="data">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+<!--模态登录对话框-->
+<div id="add_product" class="modal hide">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <table class="order_tb">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="ordertime_cont">
+                                <div class="time_txt">
+                                    一天的分拣单
+                                    <b>></b>
+                                </div>
+                                <div class="time_list">
+                                    <ul>
+                                        <li><a href="#">一个星期的分拣单</a></li>
+                                        <li><a href="#">一个月的分拣单</a></li>
+                                        <li><a href="#">三个月的分拣单</a></li>
+                                        <li><a href="#">一年的分拣单</a></li>
+                                        <li><a href="#">所有的分拣单</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--模态登录对话框二-->
+<div id="add_product_2" class="modal hide">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="login-form-add">
+                <input type="button" value="是否继续添加" id="bt-login-add">
+                <input type="button" value="保存" id="bt-login-save">
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+//    $('.rightBox_content_title>a').click(function(){
+//        $('#add_product').removeClass('hide');
+//    });
+//    全选和全选的功能
+//    $(function() {
+//        $(".checkAll").click(function() {
+//            $('.checkSon').attr("checked",this.checked);
+//        });
+//        var $subBox = $('.checkSon');
+//        $subBox.click(function(){
+//            $(".checkAll").attr("checked",$subBox.length == $('.checkSon:checked').length ? true : false);
+//        });
+//    });
+</script>

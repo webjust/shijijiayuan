@@ -1,0 +1,526 @@
+<div class="rightInner">
+   
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                <th colspan="<php>echo 14+count($fields);</php>">
+                    <p class="conOneP" style="float: left;">
+                        <a href="javascript:void(0);" class="btnG ico_explort">导出Excel</a>
+                    </p>                  
+					<span style="float:left;">
+                        <select id="batch" onchange="doBatch()" class="medium" name="">
+                            <option value="0">批量操作</option>
+                            <option  value="1">批量分组</option>
+                            <option  value="2">批量设置等级</option>
+                            <option  value="3">批量审核</option>
+                            <option  value="4">批量冻结</option>
+                            <option  value="5">批量设置类型</option>
+                        </select>
+                    </span>
+                    <span   style="margin-left:40px;float:left;text-align:right;font-size:12px;">
+                        <form id="searchForm" method="get" action="{:U('Admin/Members/pageList')}">
+                            <select id="" class="medium" name="level">
+                                <option value="0">请选择</option>
+                                <volist name="level" id="ml">
+                                    <option value="{$ml.ml_id}" <if condition="$ml[ml_id] eq $filter[level]">selected="selected"</if>>{$ml.ml_name}</option>
+                                </volist>
+                            </select>
+                            <select id="" class="medium" name="m_name_type">
+                                <option value="1" <php>if($filter['m_name_type'] == '1'){</php>selected="selected"<php>}</php>>会员名称</option>
+                                <option value="2" <php>if($filter['m_name_type'] == '2'){</php>selected="selected"<php>}</php>>真实姓名</option>
+                                <option value="3" <php>if($filter['m_name_type'] == '3'){</php>selected="selected"<php>}</php>>手机号</option>								
+                            </select>
+                            <input type="text" name="m_name" class="large" value="{$filter.m_name}" style="width: 145px;">
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+								<button type="button" id="admin-member-advance-search-button">高级搜索</button>	
+                        </form>   
+                    </span>
+                  </th>
+                </tr>
+                 <form method="get" action="{:U('Admin/Members/doDel')}" id="members_del">
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>操&nbsp;&nbsp;作</th>
+                    <th>会员账号</th>
+                    <th>邮箱</th>
+                    <th>性别</th>
+					<th>所属地区</th>
+                    <th>状态</th>
+                    <th>会员等级</th>
+                    <th>会员来源</th>
+					<th>预存款</th>
+                    <th>积分</th>
+					<th>红包</th>
+                    <th>保证金</th>
+					<th>注册日期</th>
+                    <volist name="fields" id="field">
+                        <th>{$field.field_name}</th>
+                    </volist>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="ary_members" id="members">
+                <tr id="list_{$members.m_id}">
+                    <td><input type="checkbox" class="checkSon" name="m_id[]" value="{$members.m_id}" /></td>
+                    <td>
+                        <a href='{:U("Admin/Members/pageEdit?mid=$members[m_id]")}'>编辑</a><br/>
+                        <a href='{:U("Admin/Members/doDel?m_id=$members[m_id]")}' class="confirm">删除</a> <br/>
+                        <a  href="{:U("Admin/Members/addOrder")}?m_id={$members[m_id]}"   target="_blank"  class="confirm">替客户下单</a> 
+                       <!--  <a class="addOrder" m_id="{$members[m_id]}" url='{:U("Admin/Members/addOrder")}'  class="confirm">替客户下单</a>-->  
+                    </td>
+                    <td>{$members.m_name}</td>
+                    <td class="left">{$members.m_email}</td>
+                    <td >
+                        <if condition="$members[m_sex] eq 0">女
+                        <elseif condition="$members[m_sex] eq 1" />男
+                        <else/>保密
+                        </if>
+                    </td>
+					<td>{$members.cr_name}</td>
+                    <td>
+                        <if condition="$members[m_verify] eq 0">未审核
+                        <elseif condition="$members[m_verify] eq 2" />审核通过
+                        <elseif condition="$members[m_verify] eq 4" />待审核
+                        <else/>审核中</if>
+                    </td>
+                    <td>{$members.ml_name}</td>
+                    <td>{$members.source}</td>
+					<td>{$members.m_balance}</td>
+                    <td>{$members.total_point}</td>
+					<td>{$members.m_bonus}</td>
+                    <td data-id="{$members.m_id}" id="deposit_{$members.m_id}">{$members.m_security_deposit}</td>
+					<td>{$members.m_create_time}</td>
+                    <volist name="members.fields" id="field">
+                        <td>
+						<php>
+						$is_exist = 0;
+						if(stristr($field['content'],'.png') || stristr($field['content'],'.jpg') || stristr($field['content'],'.gif')){
+							$is_exist = 1;
+						}
+						</php>
+						<if condition="$is_exist eq 1">
+						<img src="{$field.content}" width="50px" height="50px"/>
+						<else />
+						{$field.content}
+						</if>
+						</td>
+                    </volist>
+                </tr>
+            </volist>
+            <empty name="ary_members">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99"><input type="button" data-uri='{:U("Admin/Members/doBatDelMembers")}' data-field="m_id" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+    
+    <div id="member_dialog" style="display:none;"></div>
+    <input type="hidden" value="{$filters}" name="filter"/>
+    <!--    分组弹框-->
+    <div id="batch_group" title="请选择分组" style="display: none;">
+          <table class="alertTable"  >
+            <tr>
+                <td align="right" width="75" valign="top">分组名称：</td>
+                <td>
+                    <select id="batch_group_val">
+                        <option>请选择</option>
+                        <volist name="group" id="mg">
+                            <option value="{$mg.mg_id}">{$mg.mg_name}</option>
+                        </volist>
+                    </select> 
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 弹框 -->
+    <!--等级设置弹框-->
+    <div id="batch_level" title="请选择等级" style="display: none;">
+        <table class="alertTable"  >
+            <tr>
+                <td align="right" width="75" valign="top">等级名称：</td>
+                <td>
+                    <select id="batch_level_val">
+                        <option>请选择</option>
+                        <volist name="level" id="ml">
+                            <option value="{$ml.ml_id}">{$ml.ml_name}</option>
+                        </volist>
+                    </select> 
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 会员类型设置弹框 -->
+    <div id="batch_set_type" title="请选择会员类型" style="display: none;">
+        <table class="alertTable"  >
+            <tr>
+                <td align="right" width="75" valign="top">会员类型：</td>
+                <td>
+                    <select id="batch_type_val" class="medium">
+                        <option  value="0" >分销商类型</option>
+                        <option  value="1" >普通类型</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 弹框 -->
+</div>
+<include file="advance-search" />
+<script type="text/javascript">
+    var old_deposit = '';
+    function doBatch(){
+        var batecVal = $("#batch").val();
+        var m_ids = new Array();
+        $(".tbList input:checked[class='checkSon']").each(function(){
+            m_ids.push(this.value);
+        });
+        m_id = m_ids;
+        m_ids = m_ids.join(",");
+        if(m_ids == ''){
+            alert("请选择需要操作的会员！");
+            return false;
+        }
+        //批量分组
+        if(batecVal == 1){
+             $("#batch_group").dialog({
+                height:200,
+                width:300,
+                resizable:false,
+                modal:true,
+                title:'批量会员分组',
+                close:function(){
+                    $("#batch_group").dialog('destroy');
+                },
+                buttons: {
+                    '添加': function() {
+                        var data = { 'mg_id':$("#batch_group_val").val(),'m_id':m_ids};
+                        var url = "{:U('Admin/Membergroup/doBacthGroup')}";
+                        $.post(url,data,function(info){
+                            if(info=="false"){
+                                showAlert(false,'出错了','归组失败');
+                            }else{
+                                showAlert(true,'成功');
+                            }
+                        });
+                        $( this ).dialog( "close" );
+                    },
+                    '取消': function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
+        }
+        //批量设置等级
+        if(batecVal == 2){
+            $("#batch_level").dialog({
+                height:200,
+                width:300,
+                resizable:false,
+                modal:true,
+                title:'批量设置等级',
+                close:function(){
+                    $("#batch_level").dialog('destroy');
+                },
+                buttons: {
+                    '添加': function() {
+                        var data = { 'ml_id':$("#batch_level_val").val(),'m_id':m_ids};
+                        var url = "{:U('Admin/Memberlevel/doBacthLevel')}";
+                        $.post(url,data,function(info){
+                            if(info=="false"){
+                                showAlert(false,'设置失败');
+                            }else{
+                                showAlert(true,'成功');
+                            }
+                        });
+                        $( this ).dialog( "close" );
+                    },
+                    '取消': function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
+        }
+        //批量审核
+        if(batecVal == 3){
+            if(!confirm('你确定要批量审核吗？')){
+                return false;
+            }
+            var url = "{:U('Admin/Members/doBacthMembers')}";
+            $.post(url,{'m_id':m_ids,'type':'verify'},function(data){
+                if(data==true){
+                    showAlert(true,'成功');
+                }else {
+                    showAlert(false,'失败');
+                }
+            });
+        }
+        //批量审核
+        if(batecVal == 4){
+            if(!confirm('你确定要批量冻结吗？')){
+                return false;
+            }
+            var url = "{:U('Admin/Members/doBacthMembers')}";
+            $.post(url,{'m_id':m_ids,'type':'freeze'},function(data){
+                if(data==true){
+                    showAlert(true,'成功');
+                }else {
+                    showAlert(false,'失败');
+                }
+            });
+        }
+
+        //批量设置会员类型
+        if(batecVal == 5){
+            $("#batch_set_type").dialog({
+                height:200,
+                width:300,
+                resizable:false,
+                modal:true,
+                title:'批量设置会员类型',
+                close:function(){
+                    $("#batch_set_type").dialog('destroy');
+                },
+                buttons: {
+                    '添加': function() {
+                        var data = { 'm_type':$("#batch_type_val").val(),'m_id':m_ids};
+                        var url = "{:U('Admin/Members/doBacthSetype')}";
+                        $.post(url,data,function(resMsg){
+                            showAlert(resMsg.status,resMsg.info);
+                        });
+                        $( this ).dialog( "close" );
+                    },
+                    '取消': function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
+        }
+   
+    }
+
+    $(document).ready(function(){
+        $('td[id^=deposit]').bind({'dblclick':function(){
+            old_deposit = $(this).text();
+            $(this).html('<input type="text" name="deposit" value="" id="operate_'+$(this).attr('data-id')+'" style="width:50px;" >');
+            $(this).find('input').focus();
+        }});
+        $('input[id^=operate]').live('blur',function(){
+            var operate_dom = $(this);
+            var m_id = $(this).parent().attr('data-id');
+            var deposit = $(this).val();
+            if(typeof deposit == 'undefined' || deposit == ''){
+                alert('请填写金额');
+                $(this).focus();
+                return false;
+            }
+            $.ajax({
+                url:"{:U('Admin/Members/exchangeDeposit')}",
+                cache:false,
+                dataType:"json",
+                data: {mid:m_id,deposit:deposit},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                    operate_dom.parent().html(parseFloat(old_deposit));
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '2'){
+                        $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                        var total = parseFloat(old_deposit)+parseFloat(msgObj.data);
+                        operate_dom.parent().html(total);
+                    }else{
+                        $("#J_ajax_loading").removeClass("ajax_success").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                        operate_dom.parent().html(parseFloat(old_deposit));
+                    }
+                }
+            });
+        });
+
+        $(".synMembers").live('click',function(){
+            var url = $(this).attr("data-uri");
+            var field = $(this).attr('data-field');
+            var val   = $(this).attr('data-id');
+            var name = $(this).attr("data-name");
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {id:val, field:field,'name':name},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                        var strHtml = '';
+                        strHtml += '<span style="color:green;">已同步</span>';
+                        $("#syn_"+val).html(strHtml);
+                    }else{
+                        $("#J_ajax_loading").removeClass("ajax_success").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+        
+        $("#delAll").live("click",function(){
+            var m_ids = new Array();;
+            $(".tbList input:checked[class='checkSon']").each(function(){
+                m_ids.push(this.value);
+            });
+            m_id = m_ids;
+            m_ids = m_ids.join(",");
+            if(m_ids == ''){
+                $("#J_ajax_loading").addClass('ajax_error').html("请选择需要删除的会员！").show().fadeOut(5000);
+                return false;
+            }
+            var url = $(this).attr("data-uri");
+            var field = $(this).attr('data-field');
+            $.ajax({
+                url:url,
+                cache:false,
+                dateType:'json',
+                type:'POST',
+                data:{field:field,m_ids:m_ids},
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        $.each(m_id,function(index,value){
+                            $("#list_"+value).remove();
+                        });
+                        $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+        
+        //替会员下单 wangguibin
+        $(".addOrder").live("click",function(){
+			var m_id = $(this).attr('m_id');
+			var url = $(this).attr('url');
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {m_id:m_id},
+                type:"POST",
+                error:function(){
+                   showAlert(false,'失败，未知错误');
+                   return;
+                },
+                success:function(msgObj){
+                    window.open("/Products")
+                }
+            });
+        });  
+        
+        //导出Excel yangkewei
+        $('.ico_explort').click(function(){
+            //弹出对话框，确认导出成员对象
+            $.ajax({
+                url      : '{:U('Admin/Members/getMembersDialog')}',
+                cache    : false,
+                dataType : 'HTML',
+                data     : {},
+                type     : 'POST',
+                success  : function(msgObj){
+                    $('#member_dialog').html(msgObj);
+                    $('#member_dialog').dialog({
+                        height : '305',
+                        width  : '300',
+                        resizable:false,
+                        title:'会员导出',
+                        buttons:{
+                            '确认' : function(){
+                                $('#member_dialog').dialog('destroy');      //先关闭对话框
+                                m_ids = setMids();                          //通过单选获取m_ids的值
+                                explor(m_ids);                              //将成员值以Excel格式导出
+                            },
+                            '取消' : function(){
+                                $('#member_dialog').dialog('destroy');
+                            }
+                        },
+                        close:function(){
+                            $('#member_dialog').dialog('destroy');
+                        }
+                    });
+                }
+            });  
+        });
+    });
+    //将成员值以Excel格式导出
+    function explor(m_ids){
+		var select_type = $('.tbForm input[type="radio"]:checked').val();
+        if(m_ids==''){
+            alert('请勾选您要导出的数据！');
+            return false;
+        }else{
+            $.ajax({
+                url      : '{:U("Admin/Members/explortMembersInfo")}',
+                cache    : false,
+                dataType : 'json',
+                data     : {m_ids:m_ids,type:select_type},
+                type     : 'POST',
+                success  : function(msgObj){
+                    if(msgObj.status == '1'){
+                        var url = '{:U('Admin/Members/getExportFileDownList')}'+'?type=excel&file='+msgObj.data;
+                        window.location.href = url;
+                        return false;
+                    }else{
+                        alert(msgObj.info);
+                        return false;
+                    }
+                }
+            });
+        }
+    }
+    //通过对话框选中对象获取相应的类型
+    function setMids(){
+        //获取Radio的值
+        var select_type = $('.tbForm input[type="radio"]:checked').val();
+		var start = parseInt($("#members_start").val());
+		var end = parseInt($("#members_end").val());
+        //初始化m_ids的值为选中成员
+        var m_ids = new Array();;
+        $(".tbList input:checked[class='checkSon']").each(function(){
+            m_ids.push(this.value);
+        });
+        m_ids = m_ids.join(',');
+        switch(parseInt(select_type)){
+			case 0:
+				if(start <= 0){
+					alert("输入有误请重新输入");return false;
+				}
+				if(end <= 0){
+					alert("输入有误请重新输入");return false;
+				}
+				return start+'-'+end;break;
+            case 1 : return m_ids;break;
+            case 2 : return 'ALL';break;
+            case 3 : return $('input[name="filter"]').val();break;
+            default: return m_ids;
+        }
+    }	
+</script>

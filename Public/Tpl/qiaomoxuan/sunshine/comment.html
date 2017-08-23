@@ -1,0 +1,151 @@
+{__NOLAYOUT__}
+<div class="pingOne">
+	<span>与描述相符<strong><php>echo sprintf('%.1f', $score);</php></strong>
+	<php>for($i=0;$i<round($score);$i++){</php>
+	<i></i>
+	<php>}</php>
+	</span>
+	<p><span><i style="left:{$score_str}%;"><php>echo sprintf('%.1f', $score);</php></i></span></p>
+</div>
+<div class="pingTwo">
+	<ul>
+		<volist name="data" id="cinfo" >
+        <if condition="$comment['type'] eq 1">
+		<li>
+			<div class="plun clearfix">
+				<p>{$cinfo[gcom_content]}<label>{$cinfo[gcom_create_time]}</label></p>
+				<span>
+				<php>$start_score = ($cinfo['gcom_star_score']/100)*5; 
+				for($i=0;$i<$start_score;$i++){
+				</php>
+				<i></i>
+				<php>}</php>
+				<label>{$cinfo.gcom_mbname|default="匿名用户"}</label></span>
+				<if condition="$cinfo['gcom_pics'] neq ''">
+				<p>
+				<php>$gcom_pics = explode(',',$cinfo['gcom_pics']);
+				foreach($gcom_pics as &$pic){
+					$pic = D('QnPic')->picToQn($pic);
+				} 
+				foreach($gcom_pics as $gcom_pic){</php>
+				<a href="{$gcom_pic}" target="_blank" ><img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" /></a>
+				<php>}</php>
+				</p>	
+				</if>
+				<if condition="$cinfo[reply] neq ''">
+				<p class="brow">客服回复：{$cinfo[reply][gcom_content]}</p>
+				</if>
+			</div>
+			<if condition="$cinfo['recomment'] neq ''">
+			<php>foreach($cinfo['recomment'] as $recomment){</php>
+			<div class="zhuijia clearfix">
+				<p>[追加评论]{$recomment['gcom_content']}<label>{$recomment['gcom_create_time']}</label></p>
+				<if condition="$recomment[gcom_pics] neq ''">
+				<p>
+				<php>$gcom_pics = explode(',',$recomment['gcom_pics']);foreach($gcom_pics as $gcom_pic){</php>
+				<a href="{$gcom_pic}" target="_blank" ><img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" /></a>
+				<php>}</php>
+				</p>	
+				</if>
+				<if condition="$recomment[reply] neq ''">
+				<p class="brow">客服回复：{$recomment[reply][gcom_content]}</p>
+				</if>
+			</div>
+			<php>}</php>
+			</if>
+		</li>
+        <else/>
+            <if condition="$cinfo['gcom_verify'] eq 1">
+				<li>
+					<div class="plun clearfix">
+						<p>{$cinfo[gcom_content]}<label>{$cinfo[gcom_create_time]}</label></p>
+						<span>
+						<php>$start_score = ($cinfo['gcom_star_score']/100)*5;
+						for($i=0;$i<$start_score;$i++){
+						</php>
+						<i></i>
+						<php>}</php>
+						<label>{$cinfo.gcom_mbname|default="匿名用户"}</label></span>
+						<if condition="$cinfo['gcom_pics'] neq ''">
+						<p>
+						<php>$gcom_pics = explode(',',$cinfo['gcom_pics']);foreach($gcom_pics as $gcom_pic){</php>
+						<a href="{$gcom_pic}" target="_blank" ><img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" /></a>
+						<php>}</php>
+						</p>	
+						</if>
+						<if condition="$cinfo[reply] neq ''">
+						<p class="brow">客服回复：{$cinfo[reply][gcom_content]}</p>
+						</if>
+					</div>
+					<if condition="$cinfo['recomment'] neq ''">
+					<php>foreach($cinfo['recomment'] as $recomment){</php>
+					<div class="zhuijia clearfix">
+						<p>[追加评论]{$recomment['gcom_content']}<label>{$recomment['gcom_create_time']}</label></p>
+						<if condition="$recomment[gcom_pics] neq ''">
+							<p>
+								<php>$gcom_pics = explode(',',$recomment['gcom_pics']);
+								foreach($gcom_pics as &$pic){
+									$pic = D('QnPic')->picToQn($pic);
+								} 
+								foreach($gcom_pics as $gcom_pic){</php>
+									<a href="{$gcom_pic}" target="_blank" ><img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" /></a>
+								<php>}</php>
+							</p>	
+						</if>
+						<if condition="$recomment[reply] neq ''">
+						<p class="brow">客服回复：{$recomment[reply][gcom_content]}</p>
+						</if>
+					</div>
+					<php>}</php>
+					</if>
+				</li>
+            </if>
+        </if>
+        </volist>
+
+	</ul>
+</div>
+<div class="fenyex">
+<if condition="$page['nowPage'] eq 1">
+<a><<上一页</a>
+<else />
+<a onclick="CommentPage('{$g_id}','{$a-1}')"><<上一页</a>
+</if>
+<php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+<if condition="$a eq $page['nowPage']">
+<a href="javascript:void(0);" class="on">{$a}</span>
+<else/>
+<a onclick="CommentPage('{$g_id}','{$a}')">{$a}</a>
+</if>
+<php>}</php>
+<if condition="$page['nowPage'] eq $page['totalPage']">
+<a>下一页>></a>
+<else />
+<a onclick="CommentPage('{$g_id}','{$a+1}')">下一页>></a>
+</if>
+</div>
+
+<script>
+    $(document).ready(function(){
+        if("{$count}"){
+            $('#show_comment_num').html("("+"{$ary_gcs.total_count|default=0}" +")");
+            $("#comment_count").html("全部评价("+'{$ary_gcs.total_count}'+')');
+        }
+
+    });
+function CommentPage(gid,page){
+    $.ajax({
+        url:'/Home/Comment/getCommentPage',
+        dataType:'HTML',
+        type:'POST',
+        data:{
+            gid:gid,
+			p:page
+        },
+        success:function(msgObj){
+            $("#con_tabAbp_2").html(msgObj);
+            return false;
+        }
+    }); 
+}
+</script>

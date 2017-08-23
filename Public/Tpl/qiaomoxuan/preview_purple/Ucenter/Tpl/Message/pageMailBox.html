@@ -1,0 +1,120 @@
+
+    <link rel="stylesheet" href="__UCSS__ucenter.css">
+    <script type="text/javascript" src="__UJS__ucenter.js"></script>
+    <div class="container">
+        <!--container-->
+        <div class="titleTop"> <!--titleTop-->
+            <p class="detailT"><a href="{:U('Wap/Index/index')}">首页</a>/<a href="{:U('Wap/Ucenter/index')}">个人中心</a></p>
+            <h1><span>站内信</span></h1>
+        </div>
+        <div class="Ucenter">
+            <div class="userInfo" id="userInfo">
+            </div>
+        <div class="ucenter_S">
+            <div class="selector"><span  class="select" >站内消息</span>
+                <ul  id="list" style="display: none;">
+                    <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                    <li><a  href="{:U('Wap/Orders/orderList')}" selectid="2">我的订单</a></li>
+                    <li><a  href="{:U('Wap/My/pageDeliver')}"  selectid="4">我的地址</a></li>
+                    <li><a  href="{:U('Wap/Message/pageMailBox')}"  selectid="5">站内消息</a></li>
+                    <li><a  href="{:U('Wap/Collect/pagelist')}"  selectid="6">收藏列表</a></li>
+                    <li><a   href="{:U('Wap/PointLog/pagelist')}"  selectid="8">我的积分</a></li>
+                    <li><a   href="{:U('Wap/Coupon/couponList')}"  selectid="9">我的优惠券</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--ucenter_S-->
+        <!--Message-->
+        <div class=" Message">
+            <h1>消息列表<a href="{:U('Wap/Message/pageSend')}" class="write">写信</a></h1>
+            <div class="msg_Tb">
+                <table width="100%" border="0" class="msg_tb">
+                    <tr>
+                        <th scope="col">&nbsp;&nbsp;</th>
+                        <th scope="col">发信人</th>
+                        <th scope="col">标题</th>
+                        <th scope="col">时间</th>
+                        <th scope="col">操作</th>
+
+                    </tr>
+                    <volist name="list" id="msg">
+                        <tr>
+                            <td><label><input name="chkItem" id="check_{$msg.sl_id}" type="checkbox" value="{$msg.sl_id}"></label></td>
+                            <td><if condition="$msg['from_name'] neq '' ">{$msg.from_name}<else/>{$msg.to_name}</if></td>
+                            <td class="title"><a href='{:U("Wap/Message/pageRead","mid=$msg[sl_id]&type=to")}'>{$msg.sl_title}</a></td>
+                            <td>{$msg.sl_create_time}</td>
+                            <td><a href='javascript:void(0)' class="doDelect" data-id="{$msg.sl_id}">删除</a></td>
+                        </tr>
+                    </volist>
+                    <tr>
+                        <td><label for="che"><input name="checkAll" id="che" type="checkbox" value=""></label></td>
+                        <td class="title"><a href="javascript:void(0);" class="J_allDel">批量删除</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="fenye">
+                {$page}
+            </div>
+        </div>
+        <!--Message-->
+    </div>
+</div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.J_allDel').click(function(){
+                var chkItem = $("input[name='chkItem']").val();
+                //if($("#che").attr("checked")=='checked'){
+                    if( $('#check_'+chkItem).attr('checked')=='checked'){
+                        if(confirm('是否删除站内信')){
+                            var strVal = [];
+                            $("[name=chkItem]:checked").each(function(){
+                                strVal.push($(this).val());
+                            });
+                            var data = 'slid=' + strVal + "&type=0";
+                            ajaxReturn('{:U("Wap/Message/doDelete")}',data,'post');
+                        }
+                    }
+                //}
+                return false;
+            });
+            $(".doDelect").click(function(){
+                if(confirm('是否删除站内信')){
+                    var strVal = [];
+                    strVal.push($(this).data('id'));
+                    var data = 'slid=' + strVal + "&type=0";
+                    ajaxReturn('{:U("Wap/Message/doDelete")}',data,'post');
+                }
+            });
+            $("#che").click(function(){
+                if($("#che").attr("checked")=='checked'){
+                    $("[name = chkItem]:checkbox").attr("checked", true);
+                }else{
+                    $("[name = chkItem]:checkbox").attr("checked", false);
+                }
+            });
+        });
+    </script>
+    <script>
+        function doFilter(){
+            $("#orders_form").submit();
+            return false;
+        }
+        $(function(){
+            $("#zhuangtai").find("a[type='status']").click(function(){
+                var o_status = $(this).attr("value");
+                $("#status").val(o_status);
+                $("#orders_form").submit();
+                return false;
+            });
+            $("#curr_order_status").click(function(){
+                $("#zhuangtai").toggle();
+            });
+        });
+    </script>
+    <script>
+        getcommoninfo();
+    </script>
+
+

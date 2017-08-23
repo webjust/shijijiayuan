@@ -1,0 +1,63 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>预存款充值审核</span></h2>
+
+    <div class="verifyDeposit myOrder"><!--verifyDeposit  start-->
+        <p class="verifyDp01">审核状态：
+            <select id="verifySelecter">
+                <option value="" <eq name="status" value="">selected="selected"</eq> >选择全部</option>
+                <option value="0" <eq name="status" value="0">selected="selected"</eq> >待审核</option>
+                <option value="1" <eq name="status" value="1">selected="selected"</eq> >审核通过</option>
+                <option value="2" <eq name="status" value="2">selected="selected"</eq> >审核不通过</option>
+            </select>
+        </p>
+        <table class="tableCon">
+            <thead>
+                <tr>
+                    <td>支付序列号</td>
+                    <td width="80">审核状态</td>
+                    <td width="140">预存额（元）</td>
+                    <td>存入账号</td>
+                    <td width="180">汇款时间</td>
+					<td>备注</td>
+                    <td>回复</td>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="list" id="re">
+                <tr>
+                    <td>{$re.re_payment_sn}</td>
+                    <td>
+                        <if condition="$re['re_status'] EQ 0">作废<else/>{$verifys[$re['re_verify']]}</if>
+                    </td>
+                    <td><i class="price">￥</i> {$re.re_money_all}</td>
+                    <td class="left"><span class="wordBlue">{$re.a_apply_bank}</span><br />{$re.a_account_number}</td>
+                    <td>{$re.re_date}</td>
+                    <td>{$re.re_message}</td>
+                    <td>{$re.re_admin_message}</td>
+                </tr>
+                </volist>
+                <empty name="list">
+                <tr><td colspan="99" class="left">没有查找到任何结果!</td></tr>
+                </empty>
+            </tbody>
+        </table>
+        <div class="fenye"><!--fenye  start-->
+           {$page}
+        </div><!--fenye  end-->
+
+    </div><!--verifyDeposit  end-->
+
+</div><!--contentRightBox  end-->
+
+
+<script>
+    $(document).ready(function(){
+        $('#verifySelecter').change(function(){
+            var v = $(this).val();
+            var url = "{:U('Ucenter/Financial/pageVerifyDeposit')}" + "?v=" + v;
+            location.href = url;
+        });
+    });
+</script>

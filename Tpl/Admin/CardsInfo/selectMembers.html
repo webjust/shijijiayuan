@@ -1,0 +1,40 @@
+{__NOLAYOUT__}
+<volist name="data" id="list">
+    <tr>
+        <td><input type="radio" class="checkSon" name="mid" value="{$list.m_id}" m_bce="{$list.m_cards}" m_name="{$list.m_name}"/></td>
+        <td style="text-align: left;">
+            <a href="javascript:void(0);" title="{$list.m_name}">{$list.m_names}</a>
+        </td>
+    </tr>
+</volist>
+<!--<tr>
+    <td colspan="2">
+        <input type="button" class="btn" name="besure" value="确定" style="background: #cecece;border: 1px solid #cecece;padding: 3px 10px;cursor: pointer;"/>
+        <input type="button" class="btn" name="cancel" value="取消" style="background: #cecece;border: 1px solid #cecece;padding: 3px 10px;cursor: pointer;"/>
+    </td>
+</tr>-->
+<script>
+$(document).ready(function(){
+    $("input[name='besure']").click(function(){
+        var m_id = $("#memberList input:radio[name='mid']:checked").val();
+        if(m_id == null ){
+            alert("请选中一个");return false;
+        }
+        var m_name = $("#memberList input:radio[name='mid']:checked").attr("m_name");
+        var m_bce = $("#memberList input:radio[name='mid']:checked").attr("m_bce");
+        $("#members").html("[ "+m_name+" ]");
+        $("#m_id").val(m_id);
+        // $("#bi_balance_money").attr("validate",'{ required:true,min:0,remote:"/Admin/BalanceInfo/checkBalanceMoney?id='+m_id+'",messages:{min:"金额不能为负数"}}');
+        $(".bi_moneys").attr("validate",'{ required:true,min:0,messages:{min:"金额不能为负数"}}');
+        $("#balance").html(m_bce);
+        $("#memberBalan").show();
+        $("#member_dialog").dialog('destroy');
+        $('#tip_dialog').append($('#member_dialog'));
+    });
+
+    $("input[name='cancel']").click(function(){
+        $("#member_dialog").dialog('destroy');
+        $('#tip_dialog').append($('#member_dialog'));
+    });
+});
+</script>

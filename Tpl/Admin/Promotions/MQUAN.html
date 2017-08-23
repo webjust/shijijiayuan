@@ -1,0 +1,145 @@
+{__NOLAYOUT__}
+<div style="padding: 10px" class="load">
+    <div class="rightInner"><!--rightInner  start-->
+        <table width="100%" class="tbNew">
+            <tbody>
+                <tr class="load">
+                    <th colspan="99">促销规则 - 购物车中商品总金额大于指定金额，用户可获得优惠劵</th>
+                </tr>
+                <tr class="load">
+                    <td class="first">* 优惠条件</td>
+                    <td>
+                        <input type="text" id="cfg_cart_start" name="cfg_cart_start" class="small" validate="{ required:true,number:true,min:1}" value="{$config->cfg_cart_start}" /> - 
+                        <input type="text" id="cfg_cart_end" name="cfg_cart_end" class="small" value="{$config->cfg_cart_end}" validate="{ required:true,number:true,min:1}" />
+                    </td>
+                    <td class="last">
+                         购物车金额在此范围内享受优惠，优惠条件为必填项。
+                        <br>例如：500-2000代表500以上2000以下。
+                    </td>
+                </tr>
+                <tr class="load">
+                    <td class="first">* 优惠券面额</td>
+                    <td>
+                        <input type="text" name="cfg_coupon_money" class="small" validate="{ required:true,min:0,number:true}" value="{$config->cfg_coupon_money}"  />
+                    </td>
+                    <td class="last">输入赠送的优惠券的面额</td>
+                </tr>
+                <tr class="load">
+                    <td class="first">* 优惠券有效天数</td>
+                    <td>
+                        <input type="text" name="cfg_coupon_date" class="small" validate="{ required:true,min:1,max:365,number:true,digits:true}" value="{$config->cfg_coupon_date}"  />
+                    </td>
+                    <td class="last">优惠券的有效期起始时间从下单支付成功时开始计算，此处填写有效期天数，例如10代表有效期为10天</td>
+                </tr>
+                <tr class="load">
+                    <td class="first">优惠券前缀</td>
+                    <td>
+                        <input type="text" name="cfg_coupon_prefix" class="small" validate="{ path:true}" value="{$config->cfg_coupon_prefix}"  />
+                    </td>
+                    <td class="last">系统自动生成优惠券时的前缀，方便查找统计，可以不填</td>
+                </tr>
+                <tr class="load">
+                    <td class="first">优惠券后缀</td>
+                    <td>
+                        <input type="text" name="cfg_coupon_suffix" class="small" validate="{ path:true}" value="{$config->cfg_coupon_suffix}"  />
+                    </td>
+                    <td class="last">系统自动生成优惠券时的后缀，方便查找统计，可以不填</td>
+                </tr>
+                <tr class="load">
+                    <td class="first">* 优惠券SN长度</td>
+                    <td>
+                        <input type="text" name="cfg_coupon_long" class="small" validate="{ required:true,min:6,number:true,digits:true}" value="{$config->cfg_coupon_long}"  />
+                    </td>
+                    <td class="last">系统自动生成优惠券的SN长度，至少6位</td>
+                </tr>
+                <tr>
+                    <td class="first" style="width:103px">* 选择商品：</td>
+                    <td>
+                        <input class="goodsSelecter" type="radio" value="1" name="cfg_goods_area" <eq name="config:cfg_goods_area" value="1">checked="checked"</eq>>选择商品
+                        <input class="goodsSelecter" type="radio" value="-1" name="cfg_goods_area" <eq name="config:cfg_goods_area" value="-1">checked="checked"</eq> >全部商品
+                        <input type="button" class="goodsSelecter" id="add_goods" value="添加商品">
+                        <div id="goodsSelect" style="display: none;" title="请选择商品">
+                            <include file="Products:getGoodsSelecter" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table id="raGoodsId" class="tbList" width="100%" style="border-top:1px solid #d7d7d7;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" onclick="checkAll()" class="checkAll_tr">
+                                    </th>
+                                    <th>商品名称</th>
+                                    <th>商品编号</th>
+                                    <th>销售价（元）</th>
+                                    <eq name="goods_page" value="PYIKOUJIA"> 
+                                        <th>一口价（元）
+                                            <a class="askIcon" href="javascript:void(0)">
+                                                <div class="viewDiv" style="width:100px; height:50px; display:none">
+                                                    内容说明
+                                                </div>
+                                            </a>
+                                        </th>
+                                    </eq>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <include file="Promotions:getGoodsTr"/>	
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <input type="button" class="btnA confirm" onclick="batchDelGoods();" value="批量删除">
+                                        {$page}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div><!--rightInner  end--></div>
+<script type="text/javascript">
+    $('#goodsSelect').dialog({
+        resizable:false,
+        autoOpen: false,
+        modal: true,
+        width: 'auto',
+        height:500,
+        open:function(){
+            $('.ui-widget-content').css('overflow-x','hidden');
+        },
+        buttons: {
+            '确认': function() {
+                var dio = $( this );
+                //将弹框内已经选择好的数据发送的母页面的元素
+                //此处不用js拼接html元素，直接把数据发送给控制器，利用控制器生成页面返回替换
+                var data = $("input[name='gs_gid[]']").serialize();
+                var url = "{:U('Admin/Promotions/getGoodsTr')}";
+                $.post(url,data,function(info){
+                    var html= $('#raGoodsId').html() + info;
+                    $('#raGoodsId').html(html);
+                },'text');
+                dio.dialog( "close" );
+            },
+            '关闭': function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    $('.goodsSelecter').click(function(){
+        var types=$("input:radio[name='cfg_goods_area']:checked").val();
+        if(types==1){
+            $('#add_goods').css('display','');
+            $('#goodsSelect').dialog('open');
+        }else{
+            $('#add_goods').css('display','none');
+            $("input[name='ra_gid[]']").each(function(){
+                $(this).parent('td').parent('tr').remove();
+            })
+        }
+    });
+</script>

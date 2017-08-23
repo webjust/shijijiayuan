@@ -1,0 +1,57 @@
+{__NOLAYOUT__}
+<include file="User:header" />
+<include file="Common:incAlert" />
+<!--用户中心登录页   开始-->
+<div class="uLogin">
+
+	<div class="content960">
+    	<div><img src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Ucenter/images/uLogo.jpg" width="201" height="53" /></div>
+        <div class="managementCenter">分销平台管理中心</div>
+    </div>
+    
+    <div class="uLoginCon"><!--uLoginCon  start-->
+    	<div class="content960"><!--content960  start-->
+            <form id="login_form" method="POST" action="__APP__/Ucenter/User/doLogin/">
+        	<div class="uLCon"><!--uLCon  start-->
+            	<div class="uLConLeft"></div>
+                
+                <div class="uLConRight"><!--uLConRight  start-->
+                	<div class="uLoginRepeaty">
+                        <span class="wrong hide login_error">对不起，请输入正确的验证码</span>
+                        
+                        <div class="uLCon01"><!--uLCon01  start-->
+                        	<span class="spantablebjtop"></span>
+                            <table>
+                                <tr>
+                                    <td width="73" class="td01">用 户 名：</td>
+                                    <td><input type="text" name="m_name" value="" onkeypress="EnterPress(event)" onkeydown="EnterPress()" validate="{ required:true,minlength:4,messages:{required:'用户名不能为空',minlength:'用户名长度不得少于4位'}}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+                                    <td><input type="password" name="m_password" onkeypress="EnterPress(event)" onkeydown="EnterPress()" validate="{ required:true,messages:{required:'请输入密码'}}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="td01">验 证 码：</td>
+                                    <td><input type="text" class="input02" onkeypress="EnterPress(event)" onkeydown="EnterPress()" name="verify" validate="{ required:true,digits:true,rangelength:[4,4],messages:{rangelength:'验证码长度为4',digits:'对不起，请输入正确的验证码',required:'请输入验证码'},remote:'__APP__/Ucenter/User/checkVerify'}"/>
+                                        <span class="check"><img src="__APP__/Ucenter/User/verify/" onClick="this.src='__APP__/Ucenter/User/verify/'+Math.random()" id="verificationcode" title="看不清,请点击换一张" style="cursor:pointer;"/></span>
+                                        <!--<b style="cursor:pointer;" onclick="replaceVerificationCode()" class="change">换一张</b></td>-->
+                                </tr>
+                            </table>
+                            <span class="spantablebjbottom"></span> 
+                            <p class="p01"><a href="__URL__/pageRegister/">注册新用户</a><span>|</span><a href="__URL__/pageFoget/">忘记密码？</a></p>
+                            <a  href="javascript:void(0);" id="login_submit"class="login">登录</a>
+                            <input type='hidden' value="{$redirect_url}" id="redirct_url" name="redirct_url" />
+                        </div><!--uLCon01  end-->
+                    </div>
+                    <span class="urightbotbj"></span>
+                </div><!--uLConRight  end-->
+            </div><!--uLCon  end-->
+            </form>
+        </div><!--content960  end-->
+      <include file="Common:incFooter" />
+<style type="text/css" media="screen">
+.hide {
+	display:none;
+}
+
+</style>

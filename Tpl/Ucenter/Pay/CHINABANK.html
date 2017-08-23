@@ -1,0 +1,19 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>网银在线支付接口PHP版</title>
+    </head>
+    <body onLoad="javascript:document.E_FORM.submit();">
+        <form method="post" name="E_FORM" action="https://Pay3.chinabank.com.cn/PayGate">
+            <input type="hidden" name="v_mid" value="{$v_mid}" />
+            <input type="hidden" name="v_oid" value="{$v_oid}" />
+            <input type="hidden" name="v_amount" value="{$v_amount}" />
+            <input type="hidden" name="v_moneytype" value="{$v_moneytype}" />
+            <input type="hidden" name="v_url" value="{$v_url}" />
+            <input type="hidden" name="v_md5info" value="{$v_md5info}" />
+			<input type="hidden" name="remark2" value="{$remark2}">
+        </form>
+    </body>
+</html>

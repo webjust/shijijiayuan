@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/base.css"/>
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/TouchSlide.1.1.js"></script>
+    <script src="js/jquery.SuperSlide.2.1.1.js"></script>
+</head>
+<body>
+<!--header-->
+<div class="header_float3">
+    <div class="headerTop3">
+        <div class="header_in3">
+            <div class="header_set3">
+                <a href="#">设置</a>
+            </div>
+            <div class="header_right3">
+                <div class="header_Share3"><a href="#"><img src="images/shareBonus.png" alt=""/></a></div>
+                <div class="header_Talk3"><a href="#"><img src="images/talk_ico.png" alt=""/></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--body-->
+<div class="mg ov1">
+    <div class="me_avatar">
+        <div class="me_avatar_img">
+            <a href="#"><img src="images/me_people.png" alt=""/></a>
+        </div>
+        <div class="me_avatar_btn">
+            <a href="#">登录</a>/<a href="#">注册</a>
+        </div>
+        <div class="me_avatar_title">
+            <div>欢迎来到彩妆国际</div>
+        </div>
+        <div class="me_avatar_btn_list">
+            <div>
+                <a href="#">69 <br/>我的收藏</a>
+                <a href="#">88 <br/>我的优惠券</a>
+                <a href="#">66 <br/>浏览记录</a>
+            </div>
+        </div>
+    </div>
+    <div class="me_order_box">
+        <div>我的订单</div>
+        <a href="#">查看全部订单&nbsp;></a>
+    </div>
+    <div class="me_order_state">
+        <a href=""><img src="images/me_smallIco1.png" alt=""/>待付款</a>
+        <a href=""><img src="images/me_smallIco2.png" alt=""/>待发货</a>
+        <a href=""><img src="images/me_smallIco3.png" alt=""/>待收货</a>
+        <a href=""><img src="images/me_smallIco4.png" alt=""/>待评价</a>
+    </div>
+    <div class="me_order_vip">
+        <ul>
+            <li><a href=""><img src="images/me_bigIco1.png" alt=""/><span>我的奖金</span></a></li>
+            <li><a href=""><img src="images/me_bigIco2.png" alt=""/><span>分享会员</span></a></li>
+            <li><a href=""><img src="images/me_bigIco3.png" alt=""/><span>收支明细</span></a></li>
+        </ul>
+    </div>
+    <div class="me_order_service">
+         <a href="#">分享奖金<span><img src="images/service_right_ico.png" alt=""/></span></a>
+         <a href="#">我的收货地址<span><img src="images/service_right_ico.png" alt=""/></span></a>
+         <a href="#">实名认证<span><img src="images/service_right_ico.png" alt=""/></span></a>
+         <a href="#">联系客服<span><img src="images/service_right_ico.png" alt=""/></span></a>
+         <a href="#">关于我们<span><img src="images/service_right_ico.png" alt=""/></span></a>
+         <a href="#">意见反馈<span><img src="images/service_right_ico.png" alt=""/></span></a>
+         <a href="#">清除缓存<span><img src="images/service_right_ico.png" alt=""/></span></a>
+    </div>
+</div>
+
+<!--footer-->
+<div class="news news_footer" >
+    <div class="footer">
+        <ul>
+            <li>
+                <div class="pic"><a href="index.html"><img src="images/home1.png" alt="" _src="images/home1_hover.png"><p>首页</p></a></div>
+            </li>
+            <li>
+                <div class="pic"><a href="productList.html"><img src="images/classifiy.png" alt="" _src="images/classifiy_hover.png"><p>分类</p></a></div>
+            </li>
+            <li>
+                <div class="pic"><a href="beauty.html"><img src="images/class.png" alt="" _src="images/class_hover.png"><p>美妆课堂</p></a></div>
+            </li>
+            <li>
+                <div class="pic">
+                    <a href="shoppingCar.html">
+                        <img src="images/cart.png" alt="" _src="images/cart_hover.png">
+                        <p>购物车</p>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="pic"><a href="me.html"><img src="images/me.png" alt="" _src="images/me_hover.png"><p>我的</p></a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".footadd").height($(".footer").height());
+        var headerTop_h = $(".headerTop").height();
+        $(".menu").css("top",headerTop_h);
+        var li_width = $(".index_pp li").width();
+        $(".index_pp li").height(li_width);
+    })
+</script>
+<script src="js/index.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".gdspea").height($(".gdspea").prev().height());
+        $(".gdspeb").height($(".gdspeb").prev().height());
+        //wimb = $(".footer li").eq(0).find('a').find('img').attr("src");
+        wimw = $(".footer li").eq(0).find('a').find('img').attr("_src");
+        $(".footer li").eq(0).find('a').addClass("on");
+        //$(".footer li").eq(0).find('a').find('img').attr('_src',wimb);
+        $(".footer li").eq(0).find('a').find('img').attr('src',wimw);
+    });
+</script>
+</body>
+</html>

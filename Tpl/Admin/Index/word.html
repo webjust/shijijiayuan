@@ -1,0 +1,27 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">关键词屏蔽</th>
+            </tr>
+            <tr>
+                <th>编号</th>
+                <th>关键词</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="wordList" id="item">
+            <tr>
+                <td>{$item.w_id}</td>
+                <td>{$item.w_name}</td>
+            </tr>
+        </volist>
+        </tbody>
+                      <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>

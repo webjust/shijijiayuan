@@ -1,0 +1,174 @@
+<!-- 
+     * 自定义商品类目标签
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-03-29
+     * @param name,fid
+     * @return array
+     * 分类ID	cid
+	 * 父类ID	fid
+	 * 分类名称	cname
+	 * 分类层级	clevel
+     示例：
+array(4) {
+  [0] => array(8) {
+    ["cid"] => string(3) "117"
+    ["fid"] => string(1) "0"
+    ["cname"] => string(6) "干货"
+    ["erp_code"] => string(4) "0001"
+    ["erp_guid"] => string(36) "BFD62BF5-7A3F-46C6-A9F2-EA12E4ADAE41"
+    ["clevel"] => string(1) "0"
+    ["gc_parent_id"] => string(1) "0"
+    ["sub"] => array(3) {
+      [0] => array(7) {
+        ["cid"] => string(3) "134"
+        ["fid"] => string(36) "BFD62BF5-7A3F-46C6-A9F2-EA12E4ADAE41"
+        ["cname"] => string(6) "杨梅"
+        ["erp_code"] => string(8) "00010003"
+        ["erp_guid"] => string(36) "8365ED60-A674-4EA3-B46D-85471AD9667E"
+        ["clevel"] => string(1) "0"
+        ["gc_parent_id"] => string(36) "BFD62BF5-7A3F-46C6-A9F2-EA12E4ADAE41"
+      }
+      [1] => array(7) {
+        ["cid"] => string(3) "129"
+        ["fid"] => string(36) "BFD62BF5-7A3F-46C6-A9F2-EA12E4ADAE41"
+        ["cname"] => string(6) "杏仁"
+        ["erp_code"] => string(8) "00010001"
+        ["erp_guid"] => string(36) "0A0552FA-B375-41AB-AABC-9FA003DB4900"
+        ["clevel"] => string(1) "0"
+        ["gc_parent_id"] => string(36) "BFD62BF5-7A3F-46C6-A9F2-EA12E4ADAE41"
+      }
+      [2] => array(7) {
+        ["cid"] => string(3) "118"
+        ["fid"] => string(36) "BFD62BF5-7A3F-46C6-A9F2-EA12E4ADAE41"
+        ["cname"] => string(6) "核桃"
+        ["erp_code"] => string(8) "00010002"
+        ["erp_guid"] => string(36) "ECFF89CB-A2EA-4697-84C1-DB2BD96B3675"
+        ["clevel"] => string(1) "0"
+        ["gc_parent_id"] => string(36) "BFD62BF5-7A3F-46C6-A9F2-EA12E4ADAE41"
+      }
+    }
+  }
+  [1] => array(8) {
+    ["cid"] => string(3) "123"
+    ["fid"] => string(1) "0"
+    ["cname"] => string(6) "衣服"
+    ["erp_code"] => string(4) "0002"
+    ["erp_guid"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+    ["clevel"] => string(1) "0"
+    ["gc_parent_id"] => string(1) "0"
+    ["sub"] => array(4) {
+      [0] => array(8) {
+        ["cid"] => string(3) "131"
+        ["fid"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["cname"] => string(9) "新分类"
+        ["erp_code"] => string(8) "00020010"
+        ["erp_guid"] => string(36) "89936711-2903-47BA-8F61-99FE18A08AAB"
+        ["clevel"] => string(1) "0"
+        ["gc_parent_id"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["sub"] => array(1) {
+          [0] => array(7) {
+            ["cid"] => string(3) "121"
+            ["fid"] => string(36) "89936711-2903-47BA-8F61-99FE18A08AAB"
+            ["cname"] => string(9) "短外套"
+            ["erp_code"] => string(12) "000200100005"
+            ["erp_guid"] => string(36) "1F12E700-61C7-4321-804B-C38DF06BE52E"
+            ["clevel"] => string(1) "0"
+            ["gc_parent_id"] => string(36) "89936711-2903-47BA-8F61-99FE18A08AAB"
+          }
+        }
+      }
+      [1] => array(8) {
+        ["cid"] => string(3) "135"
+        ["fid"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["cname"] => string(6) "春装"
+        ["erp_code"] => string(8) "00020005"
+        ["erp_guid"] => string(36) "D5AC8814-1D11-4BB3-B96E-8410CC6B05F8"
+        ["clevel"] => string(1) "0"
+        ["gc_parent_id"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["sub"] => array(1) {
+          [0] => array(7) {
+            ["cid"] => string(3) "122"
+            ["fid"] => string(36) "D5AC8814-1D11-4BB3-B96E-8410CC6B05F8"
+            ["cname"] => string(6) "风衣"
+            ["erp_code"] => string(12) "000200050002"
+            ["erp_guid"] => string(36) "64474742-2130-4777-9A8E-B85D3FB9CE70"
+            ["clevel"] => string(1) "0"
+            ["gc_parent_id"] => string(36) "D5AC8814-1D11-4BB3-B96E-8410CC6B05F8"
+          }
+        }
+      }
+      [2] => array(8) {
+        ["cid"] => string(3) "136"
+        ["fid"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["cname"] => string(9) "新分类"
+        ["erp_code"] => string(8) "00020011"
+        ["erp_guid"] => string(36) "1E475472-00DA-4BC5-889D-69908F1AF627"
+        ["clevel"] => string(1) "0"
+        ["gc_parent_id"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["sub"] => array(1) {
+          [0] => array(7) {
+            ["cid"] => string(3) "120"
+            ["fid"] => string(36) "1E475472-00DA-4BC5-889D-69908F1AF627"
+            ["cname"] => string(6) "毛衫"
+            ["erp_code"] => string(12) "000200110006"
+            ["erp_guid"] => string(36) "F2CD63C3-20A4-490F-AB70-D40D8AFBF5DD"
+            ["clevel"] => string(1) "0"
+            ["gc_parent_id"] => string(36) "1E475472-00DA-4BC5-889D-69908F1AF627"
+          }
+        }
+      }
+      [3] => array(8) {
+        ["cid"] => string(3) "119"
+        ["fid"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["cname"] => string(6) "夏装"
+        ["erp_code"] => string(8) "00020004"
+        ["erp_guid"] => string(36) "7ED789DF-1981-4977-A34E-D9B1D238F7C1"
+        ["clevel"] => string(1) "0"
+        ["gc_parent_id"] => string(36) "E9E930B2-C905-4B0F-BAA8-B6DB107A569B"
+        ["sub"] => array(3) {
+          [0] => array(7) {
+            ["cid"] => string(3) "138"
+            ["fid"] => string(36) "7ED789DF-1981-4977-A34E-D9B1D238F7C1"
+            ["cname"] => string(4) "T恤"
+            ["erp_code"] => string(12) "000200040004"
+            ["erp_guid"] => string(36) "DC4FBB67-07D7-4A26-BA32-47CEABEADF06"
+            ["clevel"] => string(1) "0"
+            ["gc_parent_id"] => string(36) "7ED789DF-1981-4977-A34E-D9B1D238F7C1"
+          }
+          [1] => array(7) {
+            ["cid"] => string(3) "128"
+            ["fid"] => string(36) "7ED789DF-1981-4977-A34E-D9B1D238F7C1"
+            ["cname"] => string(6) "衬衫"
+            ["erp_code"] => string(12) "000200040001"
+            ["erp_guid"] => string(36) "FEE6F988-EFD5-4E72-9925-A244A2460C0A"
+            ["clevel"] => string(1) "0"
+            ["gc_parent_id"] => string(36) "7ED789DF-1981-4977-A34E-D9B1D238F7C1"
+          }
+          [2] => array(7) {
+            ["cid"] => string(3) "127"
+            ["fid"] => string(36) "7ED789DF-1981-4977-A34E-D9B1D238F7C1"
+            ["cname"] => string(9) "连衣裙"
+            ["erp_code"] => string(12) "000200040003"
+            ["erp_guid"] => string(36) "6C1076BE-2402-4E4A-957B-A56630F1CDEB"
+            ["clevel"] => string(1) "0"
+            ["gc_parent_id"] => string(36) "7ED789DF-1981-4977-A34E-D9B1D238F7C1"
+          }
+        }
+      }
+    }
+  }
+  }
+ -->
+ 
+
+<h3>{$title}</h3>
+<h4>单个类目</h4>
+<Gyfx:goodscate name="cate" fid="107" >
+    <li>{$cate.cid} - {$cate.cname} - {$cate.clevel}</li>
+</Gyfx:goodscate>
+<hr />
+<h4>所有类目</h4>
+<Gyfx:goodscate name="cate" >
+    <li>{$cate.cid} - {$cate.cname} - {$cate.clevel}</li>
+</Gyfx:goodscate>
+

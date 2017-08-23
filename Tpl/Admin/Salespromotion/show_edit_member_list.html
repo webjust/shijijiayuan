@@ -1,0 +1,18 @@
+
+	     	<table cellspacing="0" cellpadding="0" id="search_member_result_table">
+	     		{!foreach from=$mdata item=md!}
+				<tr><td style="width:50px" class="aligncenter"><input type="radio" name="mname" value="{!$md.m_id!}" /><input type="hidden" class="hidden_m_name" value="{!$md.m_name!}"><input type="hidden" class="hidden_ml_name" value="{!$md.ml_name!}"></td>
+				<td style="width:200px" id="mid_{!$md.m_id!}">{!$md.m_name!}</td>
+				<td style="width:200px" id="mname_{!$md.m_id!}">{!$md.ml_name!}</td>
+				</tr>
+				{!foreachelse!}		
+					<tr><td colspan="3">暂无数据</td></tr>
+				{!/foreach!}
+				<tr><td colspan="3">
+				<p id="loading_txt" style="display:none; text-align:center;"><img src="{!$WEBROOT!}modules/admin/statics/images/loading.gif"/></p>
+				</td></tr>
+	     	</table>
+	     	{!$pagelist!}
+
+
+<script type="text/javascript">globalvariablesPost('{!$globalPost!}');</script>

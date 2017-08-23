@@ -1,0 +1,38 @@
+<div class="contentRightBox">
+    <div style="overflow-y:auto;height: 1232px;width: 100%;max-width: 1200px;">
+        <form method="get" action="{:U('Admin/Members/doDel')}" id="members_del">
+            <table width="100%" class="tbList">
+                <thead>
+                    <tr class="title">
+                        <th colspan="99">计划商品列表</th>
+                    </tr>
+
+                    <tr>
+                        <th>商品名称</th>
+                        <th>官网商品网址</th>
+                        <th>供应商名称</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="planList" id="item">
+                        <!-- 会员id -->
+                        <tr id="list_{$item.pl_id}">
+                            <td>{$item.pl_good_name}</td>
+                            <td>{$item.pl_website_url}</td>
+                            <td>{$item.m_name}</td>
+                            <td>{$item.pl_status}</td>
+                        </tr>
+                    </volist>
+                    <empty name="planList">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty>
+              </tbody>
+              <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

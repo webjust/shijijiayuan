@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SpriteFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CssFileName="../images" ImageName="icons" IsPhone="false" xmlns="CssSprite">
+  <SpriteList>
+    <Sprite Path="3_11.png" LocationX="0" LocationY="0" />
+    <Sprite Path="sort.png" LocationX="0" LocationY="15" />
+    <Sprite Path="3_06.png" LocationX="0" LocationY="40" />
+    <Sprite Path="search-icon.png" LocationX="0" LocationY="69" />
+    <Sprite Path="detail-icon01.png" LocationX="0" LocationY="92" />
+    <Sprite Path="detail-icon04.png" LocationX="0" LocationY="200" />
+    <Sprite Path="detail-icon02.png" LocationX="0" LocationY="283" />
+    <Sprite Path="detail-icon03.png" LocationX="0" LocationY="390" />
+    <Sprite Path="show.png" LocationX="0" LocationY="499" />
+    <Sprite Path="save.png" LocationX="0" LocationY="523" />
+    <Sprite Path="searchBox.png" LocationX="0" LocationY="563" />
+    <Sprite Path="goBuy.png" LocationX="0" LocationY="596" />
+    <Sprite Path="addCart.png" LocationX="0" LocationY="658" />
+    <Sprite Path="share-icon.png" LocationX="0" LocationY="715" />
+  </SpriteList>
+</SpriteFile>

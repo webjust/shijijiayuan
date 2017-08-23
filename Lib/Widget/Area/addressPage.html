@@ -1,0 +1,42 @@
+{__NOLAYOUT__}
+<select id="province" name="province" onchange="selectCityRegion($(this));" class="medium">
+    <option value="-1" selected="selected">请选择</option>
+    <present name="region_0">
+		<volist name="region_0" id="cr">
+			<option value="{$cr.cr_id}" {$selected_0==$cr[cr_id]?' selected="selected"':''}>{$cr.cr_name}</option>
+		</volist>
+	</present>
+</select >
+<select id="city"  name="city" onchange="selectCityRegion($(this));" class="medium">
+    <option value="-1" selected="selected">请选择</option>
+    <present name="region_1">
+		<volist name="region_1" id="cr">
+			<option value="{$cr.cr_id}" {$selected_1==$cr[cr_id]?' selected="selected"':''}>{$cr.cr_name}</option>
+		</volist>
+	</present>
+</select>
+<select id="region" name="cr_id" class="medium">
+    <option value="-1" selected="selected">请选择</option>
+    <present name="region_2">
+		<volist name="region_2" id="cr">
+			<option value="{$cr.cr_id}" {$selected_2==$cr[cr_id]?' selected="selected"':''}>{$cr.cr_name}</option>
+		</volist>
+	</present>
+</select>
+
+<script type="text/javascript">
+    function selectCityRegion(obj,type){
+        var cr_id = obj.val();
+        var cr_type = obj.attr('id');
+        var url = "{:U('Admin/Address/getSelectHtml')}";
+        $.get(url,{'cr_id':cr_id},function(info){
+            if(cr_type == 'province'){
+                $('#city').html(info);
+                $('#region').html('<option value="0" selected="selected">请选择</option>');
+            }else if(cr_type == 'city'){
+                $('#region').html(info);
+            }
+        });
+    }
+    
+</script>

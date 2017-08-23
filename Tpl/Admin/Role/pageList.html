@@ -1,0 +1,93 @@
+<div class="rightInner" data-uri='{:U("Admin/Role/doEditStatus")}'>
+    
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="99">
+                    角色列表
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" /></th>
+                <th>操作</th>
+                <th>角色名称</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+        <form action="{:U('Admin/Role/doDelete')}" method="post">
+        <tbody>
+        <volist name="data" id="list">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="role_id[]" value="{$list[id]}" /></td>          
+            <td>
+            <if condition="$list.r_id neq '1'">
+                <a href='{:U("Admin/Role/pageEdit?id=$list[id]")}'>修改</a>&nbsp;
+                <a href='javascript:;' class="confirmurl" data-uri='{:U("Admin/Role/doDelete","id=$list[id]")}' data-msg="确定要删除“{$list.name}”吗？" data-acttype="ajax">删除</a>
+                <else />    
+                此组为系统组，不可删除或修改
+            </if>
+            </td>
+            <td>{$list.name}</td>
+            <td>
+                <img data-id="{$list[id]}" data-field="status" data-value="{$list.status}" src="__PUBLIC__/Admin/images/status-{$list.status}.gif"<if condition="$list.status eq '1'"> title="启用"<else /> title="停用"</if> class="pointer" />
+            </td>
+
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><input type="submit" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+        </form>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display: none;">
+        <div id="tip_div"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        //切换
+        $('.pointer').live('click', function() {
+            var url = $(".rightInner").attr("data-uri");
+            var img    = this,
+            s_val  = ($(img).attr('data-value'))== 0 ? 1 : 0,
+            s_name = $(img).attr('data-field'),
+            s_id   = $(img).attr('data-id'),
+            s_src  = $(img).attr('src');
+            s_msg = ($(img).attr('data-value'))== 0 ? '启用' : '停用';
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {id:s_id, field:s_name, val:s_val},
+                type:"POST",
+                beforeSend:function(){
+                    $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+                },
+                error:function(){
+                    $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+                },
+                success:function(msgObj){
+                    $("#J_ajax_loading").hide();
+                    if(msgObj.status == '1'){
+                        if(s_src.indexOf('0')>-1) {
+                                $(img).attr({'src':s_src.replace('0','1'),'data-value':s_val,'title':s_msg});
+                        } else {
+                                $(img).attr({'src':s_src.replace('1','0'),'data-value':s_val,'title':s_msg});
+                        }
+                    }else{
+                        $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                    }
+                }
+            });
+        });
+    });
+    
+    
+</script>

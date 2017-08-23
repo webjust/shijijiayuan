@@ -1,0 +1,224 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<!--<script src="__PUBLIC__/Ucenter/js/passport.js"></script>-->
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>增值税发票管理</span></h2>
+    <div class="member_editpass" style="display: none;">
+        <b></b>
+    </div>
+    <div class="deliverList myOrder"><!--deliverList  start-->
+        <p class="tongyongP"><span><!--<if condition="$raid gt 0 ">编辑<else />新增</if>-->新增增值税发票</span></p>
+        <form action="#" method="post" id="edit_deliverTable">
+            <table class="deliverTable">
+                <tr><td colspan="2"></td></tr>
+                <!--<tr>
+                    <td width="99" align="right"><i class="red">*</i> 个人姓名：</td>
+                    <td><input type="text" class="input01" value="{$edit_city.invoice_people}" id="invoice_people" name="invoice_people" validate="{ required:true,isCheck:true,messages:{required:'单位名称不能为空',isCheck:'包含非法字符，请重新输入'}}"><span class="spanWrong"></span></td>
+                </tr>-->
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 单位名称：</td>
+                    <td><input type="text" class="input01" value="{$edit_city.invoice_name}" id="invoice_name" name="invoice_name" validate="{ required:true,messages:{required:'单位名称不能为空',isCheck:'包含非法字符，请重新输入'}}"><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 纳税人识别号：</td> 
+                    <td>
+                        <input type="text" class="input01" style="width: 280px;" id="invoice_identification_number" validate="{ required:true}" value="{$edit_city.invoice_identification_number}" name="invoice_identification_number" >
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 注册地址：</td>
+                    <td>
+                        <input type="text" class="input01" style="width: 280px;" id="invoice_address" validate="{ required:true}" value="{$edit_city.invoice_address}" name="invoice_address" >
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right"><i class="red">*</i> 注册电话：</td>
+                    <td>
+                        <!--<input type="text" class="input01" id="ra_mobile_phone" value="{$edit_city.ra_mobile_phone}" name="ra_mobile_phone" validate="{ required:true,rangelength:[11,11],isPhone:true,messages:{required:'手机号码不能为空',rangelength:'手机号码至少11位'}}">
+                        或者固定电话：
+                        <input type="text" class="input02" id="isMobile" name="isMobile" value="{$edit_city['mobile'].0}">
+                        ~
+                        <input type="text" class="input03" id="isMobile_2" name="isMobile_2" value="{$edit_city['mobile'].1}">
+                        ~-->
+                        <input type="text" class="input01" validate="{required:true,number:true}" id="invoice_phone" name="invoice_phone" value="{$edit_city['invoice_phone']}">
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right">开户银行：</td>
+                    <td>
+                        <input type="text" class="input01" id="invoice_bank" name="invoice_bank" value="{$edit_city.invoice_bank}" >
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="99" align="right">银行帐户：</td>
+                    <td>
+                        <input type="text" class="input01" id="invoice_account" name="invoice_account" value="{$edit_city.invoice_account}" >
+                        <span class="spanWrong"></span>
+                    </td>
+                </tr>
+                <notempty name="ary_invoice_content">
+                <tr>
+                    <td width="99" align="right">发票内容：</td>
+                    <td>
+                       <volist name="ary_invoice_content"  id="vo" key="key">
+                            <div>
+                                <input id="u10" type="radio" value="{$key}" name="invoice_content" checked > {$vo}
+                            </div>
+                        </volist>
+                       
+                    </td>
+                </tr>
+                </notempty>
+                <tr>
+                    <td colspan="2" align="center">
+                        <!--<input type="hidden" name="raid" id="raid" value="{$raid}">-->
+                        <input type="hidden" name="m_id" id="m_id" value="{$member.m_id}">
+                        <button class="blue" type="button" id="ajax_pageInvoice">确 定</button>
+                    </td>
+                </tr>
+                <tr><td colspan="2"></td></tr>
+				<tr><td colspan="2"></td></tr>
+            </table>
+        </form>
+        <p class="tongyongP"><span>已保存的增值税发票</span></p>
+        <table class="tableCon">
+            <thead>
+                <tr>
+                    <td width="98">单位名称</td>
+                    <td width="146">纳税人识别号</td>
+                    <td width="250">注册地址</td>
+                    <td width="102">注册电话</td>
+                    <td width="110">开户银行</td>
+                    <td width="110">银行帐户</td>
+                    <td width="110">状态</td>
+                    <td width="110">操作</td>
+                    <!--<td>操作</td>-->
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="invoices" id="dev">
+                <tr id="list_{$dev.id}">
+                    <td width="98">{$dev.invoice_name}</td>
+                    <td width="146">{$dev.invoice_identification_number}</td>
+                    <td width="372">{$dev.invoice_address}</td>
+                    <td width="102">{$dev.invoice_phone}</td>
+                    <td width="110">{$dev.invoice_bank}</td>
+                    <td width="110">{$dev.invoice_account}</td>
+                    <td width="110">
+						<if condition="$dev.is_verify eq 1">
+							审核
+							<else />
+							未审核
+						</if>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" class="wordBlue" id="del_{$dev.id}" onclick="delInvoice('{$dev.id}');">删除</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+	<div id="pro_diglog" style="display: none;">
+		<div id="tip_div">您确定要删除吗?</div>
+	</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".del_deliver").click(function(){
+            var ra_id = $(this).attr("ra_id");
+            $("#tip_div").dialog({
+                width:330,
+                height:170,
+                modal:true,
+                title:'提示信息',
+                buttons:{
+                    '确定':function(){
+                        $("#tip_div").dialog('destroy');
+                        $('#pro_diglog').append($('#tip_div'));
+                        mDialogCallback(ra_id);
+                    },
+                    "取消": function() {
+                        $("#tip_div").dialog('destroy');
+                        $('#pro_diglog').append($('#tip_div'));
+                    }
+                }
+            });
+        });
+        
+        /****START***我的增值税发票管理************/
+    $('.spanWrong').hide();
+    $.metadata.setType("attr","validate");
+    $('#edit_deliverTable').validate();
+    $("#ajax_pageInvoice").click(function(){
+        $('.spanWrong').html('');
+        $('.spanWrong').hide();
+        var res = $('#edit_deliverTable').valid();
+        var invoice_name = $('#invoice_name').val();
+        var	invoice_identification_number = $('#invoice_identification_number').val();
+        var	invoice_address = $('#invoice_address').val();
+        var	invoice_phone = $('#invoice_phone').val();
+        if(invoice_name =="" || invoice_identification_number =="" || invoice_address =="" || invoice_phone =="" ){
+        	showAlert(false,'必填项不允许为空');
+        	return false;
+        }
+        if(res){
+            var data = $('#edit_deliverTable').serialize();
+            //var raid = $('#raid').val();
+            //alert(raid);return false;
+            var url = '/Ucenter/My/doAddInvoice';
+            $.post(url, data, function(msgObj) {
+                if(msgObj.success == '1'){
+                    $(".member_editpass").show();
+                    $(".member_editpass b").html(msgObj.msg);
+                    $(".input01").val('');
+                    document.location.reload();
+                    return false;
+                }else{
+                    $(".member_editpass").show();
+                    $(".member_editpass b").html(msgObj.msg);
+                    return false;
+                }
+            }, 'json');
+            //ajaxReturn('/Ucenter/My/doAddDeliver',data,'post');
+        }
+    });
+    /****END***我的增值税发票管理**************/
+    });
+	//删除增值税发票
+	function delInvoice(id){
+        if(id <= 0){
+			$.ThinkBox.error('该发票不存在！');
+			return false;
+		}	
+		var box = $.ThinkBox.confirm(
+			'确定删除该发票吗？',
+			{
+				'title' : '删除增值税发票',
+				'ok' : function(){
+					box.hide();
+					$.post(
+						'{:U("/Ucenter/My/doDelInvoice")}',
+						{id:id},
+						function(msgObj){
+							if(msgObj.status){
+                                $("#list_"+id).remove();
+								$.ThinkBox.success("删除成功");
+							}else{
+								$.ThinkBox.error(msgObj.info);
+							}
+						},
+						'json'
+					);
+				},
+				'drag' : false,
+                'unload'	: true,
+				'cancel' : function(){box.hide();}
+			}
+		);
+    }
+
+</script>

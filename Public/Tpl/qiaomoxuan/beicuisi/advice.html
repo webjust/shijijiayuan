@@ -1,0 +1,94 @@
+{__NOLAYOUT__}
+<h3 class="titH3">我要咨询</h3>
+<div class="sendDis"><!--sendDis  start-->
+    <table>
+        <tr>
+            <th width="120" align="right" valign="top"><b>*</b> 咨询内容：</th>
+            <td><textarea id="question_content" name="question_content"></textarea></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input type="submit" id="addAdvice" value="发表咨询" class="sendD"></td>
+        </tr>
+    </table>
+</div><!--sendDis  end-->
+
+<div class="disCon" style="margin-top:-1px"><!--disCon  start-->
+    <ul>
+		
+        <volist name="data" id="vo" key="k">
+		<if condition="$vo['pc_is_reply'] eq 1">
+        <li>
+            <dl>
+                <dt>
+                    <!--<p><i style="width:50%"></i></p>-->
+                    <span><abbr>{$vo.new_mname|default="匿名用户"}</abbr></span>
+                </dt>
+                <dd>
+                    <p class="p01">{$vo.pc_question_content}</p>
+                    <if condition="$vo.pc_is_reply eq '1'">
+                    <p class="p02"><strong>客服回复：</strong>{$vo.pc_answer}</p>
+                    </if>
+                    <span>{$vo.pc_create_time}</span>
+                </dd>
+            </dl>
+        </li>
+		</if>
+        </volist>
+        
+    </ul>
+</div><!--disCon  start-->
+<div class="fenye" style="text-align:right"><!--fenye  start-->
+<php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+<if condition="$a eq $page['nowPage']">
+<span>{$a}</span>
+<else/>
+<a style="width:25px;" onclick="getGoodsAdvice('{$filter.gid}','{$a}')">{$a}</a>
+</if>
+
+<php>}</php>
+
+
+</div><!--fenye  end-->
+<script>
+window.onload = function(){
+    var count = "{$count}";
+    if(count == ''){
+        $("#tabAbp3").html("购买咨询（0）");
+    }else{
+        $("#tabAbp3").html("购买咨询（"+count+"）");
+    }
+    
+};
+$("#addAdvice").click(function(){
+    $("input[type='submit']").hide();
+    var question_content = $("#question_content").val();
+    if(question_content == ''){
+        $.ThinkBox.error('咨询内容不能为空');
+        $("input[type='submit']").show();
+        return false;
+    }
+    var gid = '{$filter.gid}';
+    var mid = '{$Think.session.Members.m_id}';
+    var m_name = '{$Think.session.Members.m_name}';
+    var url = '/Home/Products/doGoodsAdvice';
+    $.post(url,{'gid':gid,'mid':mid,'question_content':question_content,'type':1,'question_title':'提问'},function(msgObj){
+        if(msgObj.status == '1'){
+            $("input[type='submit']").show();
+            $.ThinkBox.success(msgObj.info);
+            var _mvq = window._mvq || [];window._mvq = _mvq;
+            _mvq.push(['$setAccount', 'm-24416-0']);
+
+            _mvq.push(['$setGeneral', 'consult', '', /*用户名*/ m_name, /*用户id*/ mid]);
+            _mvq.push(['$logConversion']);
+
+            getGoodsAdvice(gid,1);
+            return false;;
+        }else{
+            $.ThinkBox.error(msgObj.info);
+            $("input[type='submit']").show();
+            return false;
+        }
+    },'json')
+});
+</script>

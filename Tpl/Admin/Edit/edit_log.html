@@ -1,0 +1,205 @@
+{__NOLAYOUT__}
+<div id="isAjax" style="display:none"></div>
+<style>
+.rightInner{ border: 1px  #d7d7d7; border-bottom-width: 2px; clear: both; position: relative;  width: 1020px; min-height: 50px; height: auto; padding-bottom: 8px; margin-bottom: 3px;}
+.rightInner a,.rightInner .blue,td.blue{ color: #479DF4;}
+.rightInner a.green,.green{ color: green}
+.rightInner a.red,.red,.rightInner a.btnR{ color: #FF0000;}
+.rightInner .left, td.left,.tbList tbody tr td.left{ text-align: left;}
+.rightInner .right{ float: right; display: inline-block;}
+.rightInner .page{ margin-right: 0px;padding-top:14px;}
+.rightInner .larger{font-size: 1.1em;}
+.rightInner .bolder{ font-weight: bold;}
+.tbForm{ position: relative;}
+table,tbody, tfoot, thead, tr, th, td {border-collapse:collapse; border-spacing:0; padding:0px; margin:0px;}
+.tbList thead tr.titles th,.tbForm thead tr.titles th{background-image:url('__PUBLIC__/Admin/images/listTwoToptdbj.jpg'); height: 30px; text-align: left;}
+.tbForm tbody tr td{ padding: 5px 5px; line-height: 150%; vertical-align: middle; word-break:break-all;}
+.rightInner input[type='text'],.rightInner input[type='password'],.rightInner select,.rightInner textarea{ color: #666;}
+.rightInner input[type='text']:hover,.rightInner input[type='password']:hover,.rightInner select:hover,.rightInner textarea:hover{ color: #333;}
+.tiny{ width: 30px; margin: 3px 3px 3px 0px; padding: 3px; border: 1px solid #999;}
+.input40{ width: 40px; margin: 3px 3px 3px 0px; padding: 2px; border: 1px solid #999;}
+.small{ width: 70px; margin: 3px 3px 3px 0px; padding: 3px; border: 1px solid #999;}
+.spec_input{ width: 70px; margin: 1px 1px 1px 0px; padding: 1px; border: none;}
+.spec_input_border{ border: 1px solid #f99;color:#966;}
+.width_100{ width: 100px; margin: 3px 3px 3px 0px;padding: 3px;border: 1px solid #999;}
+.medium{ width: 150px; margin: 3px 3px 3px 0px;padding: 3px;border: 1px solid #999;}
+.width200{ width: 200px; margin: 3px 3px 3px 0px;padding: 3px;border: 1px solid #999;}
+.large{ width: 300px; margin: 3px 3px 3px 0px;padding: 3px;border: 1px solid #999;}.tbList thead tr th,.tbForm thead tr th{ height: 22px; font-size: 14px; color: #333; text-align: center; background: #ececec; white-space: nowrap; font-weight: normal; border: 1px solid #d7d7d7; padding: 3px 15px;}
+.brown { background-color:#f3a119;display:inline-block; padding:0px 10px; height:25px; text-align:center; line-height:17px; color:white; font-size:14px; font-weight:bold; border:none; cursor:pointer;}
+.tbList thead tr th,.tbForm thead tr th{ height: 22px; font-size: 14px; color: #333; text-align: center; background: #ececec; white-space: nowrap; font-weight: normal; border: 1px solid #d7d7d7; padding: 3px 15px;}
+.tbList tbody tr td{ padding: 5px 5px; line-height: 140%; border:1px solid #d7d7d7;text-align: center; word-break:break-all;}
+.page a:hover{color:#f4a11a;}
+</style>
+
+<div class="rightInner load" style=" margin: 13px 48px 20px;">
+    <table width="100%" class="tbForm">
+        <thead>
+            <tr class="titles">
+                <th colspan="99">查询</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>管理员账号：</td>
+                <td>
+                    <input type="text" class="medium" value="{$chose.u_name}" name="u_name" id="u_name" />
+                </td>
+                <td>管理员姓名：</td>
+                <td>
+                    <input type="text" class="medium" value="{$chose.u_real_name}" name="u_real_name" id="u_real_name" />
+                </td>
+                <td>操作时间筛选：</td>
+                <td>
+                    <select class="medium" name="timesSearch">
+                        <option <if condition="$chose['timesSearch'] eq '1'">selected</if> value="1">所有</option>
+                        <option <if condition="$chose['timesSearch'] eq '2'">selected</if> value="2">仅今天</option>
+                        <option <if condition="$chose['timesSearch'] eq '3'">selected</if> value="3">一天以内</option>
+                        <option <if condition="$chose['timesSearch'] eq '4'">selected</if> value="4">三天以内</option>
+                        <option <if condition="$chose['timesSearch'] eq '5'">selected</if> value="5">一周以内</option>
+                        <option <if condition="$chose['timesSearch'] eq '6'">selected</if> value="6">三周以内</option>
+                        <option <if condition="$chose['timesSearch'] eq '7'">selected</if> value="6">一月以内</option>
+                        <option <if condition="$chose['timesSearch'] eq '8'">selected</if> value="8">三月以内</option>
+                        <option <if condition="$chose['timesSearch'] eq '9'">selected</if> value="9">半年以内</option>
+                    </select>
+                </td>
+                <td colspan="99" align="right">
+                    <input type="button" value="查 找" class="brown" onclick="logsSelecterSerch(1,this);" >
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="rightInner load" style="margin: 0px 48px;">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr>
+                <th>编辑模块</th>
+                <th>编辑人账号</th>
+                <th>编辑人姓名</th>
+                <th>编辑事项</th>
+                <th>编辑时间</th>
+            </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="logs">
+            <tr>
+                <td>{$logs.tl_model}</td>
+                <td>{$logs.u_name}</td>
+                <td>{$logs.u_real_name|default='匿名'}</td>
+                <td>{$logs.tl_operation}</td>
+                <td>{$logs.tl_operation_time}</td>
+            </tr>
+        </volist>
+        <empty name="list">
+            <tr><td colspan="99" class="left">没有查找到结果! 没有相关的数据或者请先进行查找~ </td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+                    <div class="fenyex" style="padding-right:0;height:1px;margin:23px 0;">
+                        <a href="javascript:void(0);" style="line-height:27px;height:25px;" class="on">共{$page['totalRow']|default="0"}条记录{$page['nowPage']|default="0"}/{$page['totalPage']|default="0"}页</a>
+                        <php>if(($page['nowPage'] == 1) || empty($page['nowPage'])){</php>
+                        <a href="javascript:void(0);" style="line-height:27px;height:25px;" class="on">首页</a>
+                        <a href="javascript:void(0);" style="line-height:27px;height:25px;" class="on"><<上一页</a>
+                        <php>}else{</php>
+                        <php>if($page['nowPage'] != 1){</php>
+                            <a href="javascript:void(0);" style="line-height:27px;height:25px;" onclick="logsSelecterSerch('1',this)" >首页</a>
+                            <a href="javascript:void(0);" style="line-height:27px;height:25px;" onclick="logsSelecterSerch('<php>echo $page['nowPage']-1;</php>',this)"><<上一页</a>
+                        <php>}}</php>
+                        <php>
+                            $int_i = 1;
+                            $totalPage = 0;
+                            if($page['nowPage']<5 && $page['totalPage']>5){
+                                $totalPage = 5;
+                            }else if($page['nowPage']<5 && $page['totalPage']<=5){
+                                $totalPage = $page['totalPage'];
+                            }
+                            if($page['nowPage'] >=3){
+                                $minPage = $page['totalPage'] - $page['nowPage'];
+                                
+                                if($minPage <4){
+                                    $totalPage = $page['totalPage'];
+                                    $int_i = $page['totalPage']-4;
+                                }else{
+                                    $totalPage = $page['nowPage']+2;
+                                    $int_i = $page['nowPage']-2;
+                                }
+                                if($int_i <= 0){
+                                    $int_i = 1;
+                                }
+                            }
+                            for($i=$int_i;$i<=$totalPage;$i++){
+                                if($i == $page['nowPage']){
+                                    echo "<a  style='line-height:27px;height:25px;' class='on'>".$i."</a>";
+                                }else{
+                                    if($i > $page['nowPage']){
+                                        </php>
+                                        <a href="javascript:void(0);" style="line-height:27px;height:25px;" onclick="logsSelecterSerch('{$i}',this)">{$i}</a>
+                                        <php>
+                                    }else{
+                                        </php>
+                                        <a href="javascript:void(0);" style="line-height:27px;height:25px;" onclick="logsSelecterSerch('{$i}',this)">{$i}</a>
+                                        <php>
+                                    }
+                                }
+                            }
+                        </php>
+                        <php>if($page['nowPage'] == $page['totalPage']){</php>
+                            <a href="javascript:void(0);" style="line-height:27px;height:25px;" class="on">下一页>></a>
+                            <a href="javascript:void(0);" style="line-height:27px;height:25px;" class="on">尾页</a>
+                        <php>}</php>
+                        <php>if($page['nowPage'] < $page['totalPage']){</php>
+                            
+                            <a href="javascript:void(0);" style="line-height:27px;height:25px;" onclick="logsSelecterSerch('<php>echo $page['nowPage']+1;</php>',this)">下一页>></a>
+                            <a href="javascript:void(0);" style="line-height:27px;height:25px;" onclick="logsSelecterSerch('{$page.totalPage}',this)" >尾页</a>
+                        <php>}</php>
+                    </div>
+                    </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>
+
+<dl style="margin:5px 52px;height:37px;">
+    <dd style="float: right;">
+        <input type="button" class="brown" value="关闭" onclick="javascript:diaplogEdit.hide();">
+    </dd>
+</dl>
+
+
+<script>
+//查找商品 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function logsSelecterSerch(page,obj){
+    var u_name = '';
+    var u_real_name = '';
+    var timesSearch = '';
+    $("input[name='u_name']").each(function(){
+        if(this.value != ''){
+            u_name = this.value;
+        }
+    });
+    $("input[name='u_real_name']").each(function(){
+        if(this.value != ''){
+            u_real_name = this.value;
+        }
+    });
+    $("select[name='timesSearch']").each(function(){
+        if(this.value != ''){
+            timesSearch = this.value;
+        }
+    });
+    var data = {
+        'u_name':u_name,
+        'u_real_name':u_real_name,
+        'timesSearch':timesSearch,
+        'p':page,
+    };
+    var url = "{:U('Admin/Edit/searchEditLog')}";
+    $.get(url,data,function(info){
+        $(obj).parents('div').parent('div').html(info)
+    },'text');
+}
+</script>

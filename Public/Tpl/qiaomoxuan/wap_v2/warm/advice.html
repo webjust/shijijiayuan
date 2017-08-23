@@ -1,0 +1,53 @@
+{__NOLAYOUT__}
+<div class="Consultation">
+    <h1>商品咨询</h1>
+    <!--商品咨询问题 start-->
+    <volist name="data" id="vo" key="k">
+        <!--商品咨询问题 start-->
+        <div class="questions">
+            <i class="question_flag"></i>
+            <b>网友：{$vo.new_mname|default="匿名用户"} <i>{$vo.pc_create_time}</i></b>
+            <p><span>咨询内容：</span>{$vo.pc_question_content}</p>
+        </div>
+        <!--商品咨询问题 end-->
+        <!--商品咨询回答 start-->
+        <div class="Answer">
+            <p><span>客服回复：</span>{$vo.pc_answer}<b><i>2015/05/06</i></b> </p>
+        </div>
+    </volist>
+    <div class="Doubt">
+        <h3>咨询</h3>
+        <textarea  class="txt" placeholder="对产品有任何疑问？"></textarea>
+    </div>
+    <div >
+        <input class="btn" type="submit" id="addAdvice" value="提交我的疑问" />
+    </div>
+</div>
+
+<script>
+    $("#addAdvice").click(function(){
+        var question_content = $("#question_content").val();
+        if(question_content == ''){
+            $.ThinkBox.error('咨询内容不能为空');return false;
+        }
+        var gid = '{$filter.g_id}';
+        var mid = '{$Think.session.Members.m_id}';
+        var m_name = '{$Think.session.Members.m_name}';
+        var url = '/Wap/Products/doGoodsAdvice';
+        $.post(url,{'gid':gid,'mid':mid,'question_content':question_content,'type':1,'question_title':'提问'},function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success(msgObj.info);
+                var _mvq = window._mvq || [];window._mvq = _mvq;
+                _mvq.push(['$setAccount', 'm-24416-0']);
+
+                _mvq.push(['$setGeneral', 'consult', '', /*用户名*/ m_name, /*用户id*/ mid]);
+                _mvq.push(['$logConversion']);
+                //getGoodsAdvice(gid,1);
+                return false;;
+            }else{
+                $.ThinkBox.error(msgObj.info);
+                return;
+            }
+        },'json')
+    });
+</script>

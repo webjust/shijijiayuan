@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="gb2312"?>
+<BOCOMB2C>	
+	<Setting>T</Setting>	<!-- T为测试环境，P为生产环境 -->
+	<ConnetionTimeOut>30000</ConnetionTimeOut>	<!--连接超时设置（毫秒）-->
+	<ReadTimeOut>30000</ReadTimeOut>						<!--读取超时设置（毫秒）-->
+	<Certs>
+		<CertInf>																	<!--测试环境不用修改-->
+			<MerchantCertFile></MerchantCertFile>		<!--商户上线时直接填写生产证书的文件名-->
+			<MerchantCertPassword></MerchantCertPassword> <!--商户上线时直接填写商户生产证书密码-->
+		</CertInf>
+	</Certs>
+</BOCOMB2C>

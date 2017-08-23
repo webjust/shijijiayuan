@@ -1,0 +1,48 @@
+<div class="footer"><!--footer begin-->
+	<div class="footOne">
+		<div class="footT">
+		<ul>
+
+			<Gyfx:articlecate name="artcat"  num="4" recommend="1" is_show="1">
+				<volist name="artcat" key="keys" id="arts">
+					<li> 
+						<strong>{$arts.cat_name}</strong> 
+						<volist name="arts.list" key="k" id="artinfo">
+							<if condition="$k elt 4">
+								<div style="width:10px;height:10px;float:left" <if condition="$artinfo.hot eq '1'">class="hot2"</if>></div>
+								<a href="{:U('Home/Article/articleDetail',array('cid'=>$arts['cat_id'],'aid'=>$artinfo['a_id']))}">
+									{$artinfo.a_title}
+								</a>
+							</if>						
+						</volist>
+					</li>
+				</volist>
+			</Gyfx:articlecate>
+
+
+        <li><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_QC_LOGO']}" width="120" height="120" alt="商城二维码"/></li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="footTwo">
+    <div class="footB"><span>{$commonInfo['GY_SHOP_TITLE']} {$commonInfo['GY_SHOP_ICP']} </span><span class="copy">&copy; 2015 {$commonInfo['GY_SHOP_TITLE']}.版权所有</span></div>
+  </div>
+</div>
+<!--footer end--> 
+<script src="__JS__jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<script src="__JS__lm.js" type="text/javascript"></script>
+<script src="__JS__miniCart.js" type="text/javascript"></script>
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

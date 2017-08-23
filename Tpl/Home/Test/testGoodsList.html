@@ -1,0 +1,39 @@
+<!-- 
+request:name='返回数据变量名' gname='商品名称' gid='商品ID' cid='分类ID' bid='品牌ID' hot='是否热销' new='是否新品' order='排序默认时间逆序' num='数量' start='偏移量' pagesize=’每页显示条数'
+备注：hot(是否热销产品1是0不是)、new(是否新品上架1是0不是)、order(_new:时间逆序,new:时间正序,price:价格从低到高，_price:价格从高到低)
+response：
+     * 商品ID	gid
+     * 商品SN	gsn
+     * 上架时间	onsale
+     * 下架时间	offsale
+     * 商品名称	gname
+     * 商品价格	gprice
+     * 商品库存	gstock
+     * 商品单位	gunit
+     * 商品描述	gdesc
+     * 商品主图	gpic
+     * 总销量	gsales
+     * 新品标识	gnew
+     * 热销标识	ghot
+     * 详情页URL	gurl
+     * 分页信息	pageinfo
+ -->
+<div>
+<h3>{$title}</h3>
+<h4>获取5条商品列表数据</h4>
+<gyfx:goodslist name='showlist' num='5' >
+    <li>{$showlist.gid} - {$showlist.gname} - {$showlist.gurl}</li>
+</Gyfx:goodslist>
+<hr />
+<h4>获取第3页，每页显示20条，按价格倒序</h4>
+<gyfx:goodslist name='showlist' start='3' pagesize='20' order='_price' >
+    <li>{$showlist.gid} - {$showlist.gname} - {$showlist.gurl}</li>
+</Gyfx:goodslist>
+<hr />
+<h4>分页</h4>
+<gyfx:goodslist name='showlist' >
+    <li>{$showlist.gid} - {$showlist.gname} - {$showlist.gurl}</li>
+</Gyfx:goodslist>
+<li>{$pageinfo.showlist}</li>
+<hr />
+</div>

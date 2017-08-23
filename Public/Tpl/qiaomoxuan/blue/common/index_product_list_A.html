@@ -1,0 +1,29 @@
+<div class="index_product_list_A_css blocss">
+    <a href="#" class="fleft" edit-name="首张大图" linkcontent-editable="true" content-num="10" textstyle-editable="true" style-num="3"><img src="__TPL__demo/pic02.png" width="220" height="540" edit-name="首张图片" imagestyle-editable="true" style-num="4" imagecontent-editable="true" content-num="11"></a>
+    <div class="mainConRB"> <!--mainConRB开始-->
+        <h2><span edit-name="模块标题" textstyle-editable="true" style-num="1" textcontent-editable="true" content-num="1">ONLY&nbsp;&nbsp;牛仔裤</span></h2>
+        <div class="products proCon">
+            <ul>
+            	<Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+                <php>if($key<8){</php>
+	                <li>
+	                	<if condition="$showlist['show_pic'] eq 1">
+	                		<a href="{$showlist.gurl}" class="pro"><img src="{$showlist.gpic|showImage=###,185,185}" class="lazy" data-original="{$showlist.gpic|showImage=###,185,185}" width="185" height="185" edit-name="列表图上" imagestyle-editable="true" style-num="5"></a> 
+	                    </if>
+	                    <if condition="$showlist['show_name'] eq 1">
+                        	<a href="{$showlist.gurl}" class="proN" edit-name="商品标题" textstyle-editable="true" style-num="7">{$showlist.gname}</a>
+                        </if>
+	                    <p>
+                        <if condition="$showlist['sale_price'] neq ''">
+                        <strong edit-name="销售价" textstyle-editable="true" style-num="8">{$showlist.sale_price}<label>{$showlist.gprice|sprintf='%.2f',###}</label></strong>
+                        </if>
+                        <if condition="$showlist['market_price'] neq ''">
+                        <del edit-name="市场价" textstyle-editable="true" style-num="9">{$showlist.market_price}<label>{$showlist.maprice|sprintf='%.2f',###}</label></del></p>
+                        </if>
+	                </li>                
+                <php>}</php>
+                </Gyfx:goodslist>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+</style>
+<div class="contentRightBox">
+    <div class="rightBox_content_title">
+        <a href="javascript:void(0)">增加计划商品</a>
+    </div>
+    <div style="overflow-y:auto;height: 616px;width: 100%">
+        <form method="get" action="{:U('Admin/Members/doDel')}" id="members_del">
+            <table width="100%" class="tbList">
+                <thead>
+                    <tr class="title">
+                        <th colspan="99">计划商品表</th>
+                    </tr>
+
+                    <tr>
+                        <th>商品名称</th>
+                        <th>官网商品网址</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="planList" id="item">
+                        <!-- 会员id -->
+                        <tr id="list_{$item.pl_id}">
+                            <td>{$item.pl_good_name}</td>
+                            <td>{$item.pl_website_url}</td>
+                            <td>{$item.pl_status}</td>
+                        </tr>
+                    </volist>
+                    <empty name="planList">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty>
+              </tbody>
+              <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+</div>
+    <!--模态登录对话框-->
+    <div id="add_product" class="modal hide">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <h4>计划商品添加</h4>
+                <p class="alert">
+                    请在此处输入计划商品信息。
+                </p>
+                <form id="login-form" name="reply" action="{:U('Ucenter/Supplier/doPlanGoodsAdd')}" method="POST" onsubmit = "return validateForm();">
+                    <input type="text" placeholder="商品名称" name="p_name">
+                    <input type="text" placeholder="官网商品网址" name="p_url">
+                    <input type="button" value="提交" onclick="doPlanGoodsAdd();">
+                    <input type="button" value="关闭" id="bt-close">
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--模态登录对话框二-->
+    <div id="add_product_2" class="modal hide">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="login-form-add">
+                    <input type="button" value="是否继续添加" id="bt-login-add">
+                    <input type="button" value="保存" id="bt-login-save">
+                </form>
+            </div>
+        </div>
+    </div>
+<include file="advance-search" />
+<script type="text/javascript">
+    function doPlanGoodsAdd(){  
+       if(document.reply.p_name.value == ""){ //通过form名来获取form  
+           alert("商品名填写不能为空！");  
+           document.reply.p_name.focus();  
+            return false;  
+        }     
+       if(document.reply.p_url.value == ""){ //通过forms数组获取form  
+           alert("商品官网地址填写不能为空!"); 
+           document.reply.p_url.focus();  
+            return false;  
+        }
+        $.post('/Ucenter/Supplier/doPlanGoodsAdd',{'p_name':document.reply.p_name.value,'p_url':document.reply.p_url.value},function(data){
+            if(data){ 
+                alert('添加成功');
+                window.location.reload();
+            }
+        });   
+       return true;   
+    }
+
+    $('.rightBox_content_title>a').click(function(){
+
+         $('#add_product').removeClass('hide');
+    });
+    $('#bt-login').click(function(){
+        var p_name=$("form>[name='p_name']").val();
+        var p_url=$("form>[name='p_url']").val();
+        var p_all=$('<tr><td>'+p_name+'</td><td>'+p_url+'</td><td>hahah</td></tr>');
+        if(p_name==''||(p_name==null)){
+            alert("商品名填写不能为空！")
+        }else if(p_url==''||(p_url==null)){
+            alert("商品官网地址填写不能为空！")
+        }else if((p_name==''||(p_name==null))&&(p_url==''||(p_url==null))){
+            alert("商品名和商品官网地址不能为空")
+        }else{
+            $('.contentRightBox>div>table>tbody').prepend(p_all);
+            $("form>[name='p_name']").val("");
+            $("form>[name='p_url']").val("");
+            $('#add_product').addClass('hide').next().removeClass('hide');
+        }
+    });
+    $('#bt-close').click(function(){
+            $("form>[name='p_name']").val("");
+            $("form>[name='p_url']").val("");
+            $('#add_product').addClass('hide');
+    });
+
+    $('#bt-login-add').click(function(){
+        $('#add_product_2').addClass('hide').prev().removeClass('hide');
+    });
+    $('#bt-login-save').click(function(){
+        $('#add_product_2').addClass('hide');
+    });
+</script>

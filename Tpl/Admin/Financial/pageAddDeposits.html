@@ -1,0 +1,44 @@
+<div class="rightInner">
+    <form id="offline_add" method="post" action="{:U('Admin/Financial/doAddDeposits')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">预存款充值</th>
+                </tr>
+            </thead>
+
+            <tbody>
+               
+                <tr>
+                    <td class="first">* 充值金额</td>
+                    <td>
+                        <input type="hidden" name="m_id" id="m_id" value="{$mid}"> 
+                       <input type="text" name="m_balance" class="medium" validate="{ required:true,number:true,min:0.01,messages:{required:'请输入充值金额',number:'充值金额只能填写数字'}}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">备注</td>
+                    <td><input type="text" name="ra_memo" class="medium"  /></td>
+                    <td class="last">请填写好备注。</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" class="btnA" onclick="javascript:history.go(-1);">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('#offline_add').validate();
+    });
+</script>

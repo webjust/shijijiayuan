@@ -1,0 +1,373 @@
+<script src="__JS__jquery.colorbox-min.js"></script>
+<link href="__CSS__point.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+	<div class="content1200">
+		<div class="mypaths" style="margin-top:10px;">
+			<p>			
+				<a href="{:U('Ucenter/Index/index')}">我的会员</a>
+				<small>&gt;</small>
+	
+				<span>积分兑换商品</span>
+			</p>
+		</div>
+		<div class="clear line10"  style="border-top: 1px solid #b4b6b7;height:5px;margin-top:10px;margin-bottom:5px;"></div>
+	</div>
+	<div class="content1200">
+	<div class="lnav2">
+                <div class="uinfo2">
+			<p><img width="196" height="52" src="__IMAGES__ustitle1.jpg"></p>
+            <ul>
+				<empty name="Think.session.Members.m_name"><li>请您：<a href="{:U('Home/User/login')}">登录</a></li></empty>
+				<notempty name="Think.session.Members.m_name"><li><p class="v1">欢迎您：</p><span class="v2">{$Think.session.Members.m_name}</span></li>
+				<li><p>账户积分：</p><span>{$dataObj['total_point']-$dataObj['freeze_point']}分</span></li>
+				<div class="clear"></div>
+				</notempty>
+			</ul>
+                   
+			<div class="link">
+				<!-- <p text='积分详情'><a href="javascript:;" ><img width="73" height="22" src="__IMAGES__inp11.gif"></a></p>
+				<p text='兑换记录'><a href="javascript:;" ><img width="73" height="22" src="__IMAGES__inp12.gif"></a></p>
+                <p style="margin-top:5px;"><a href="#"><img width="73" height="22" src="__IMAGES__inpcj.gif"></a></p>
+                <p style="margin-top:5px;"><a href="#"><img width="73" height="22" src="__IMAGES__inptc.gif"></a></p>
+				<div class="clear"></div> -->
+			</div>
+		</div>
+			<script>
+		$(function(){
+			function Tabs(obj,event,n){
+				$(obj).bind(event,function(){
+					var i = $(obj).index($(this));
+					if(n) i = i + n;
+					$('.unav1 li').removeClass('this');
+					$('.unav1 li').eq(i).addClass('this');
+					$('.m-prolist > *').eq(i).show().siblings().hide();
+					$('.mypath span').text($(this).attr('text'))
+				})
+			}
+			Tabs('.unav1 li','click');
+			Tabs('.link p','click',3);
+		})
+	</script>
+	<div class="clear line5"></div>
+		<div class="proListLeft"><!--proListLeft   start-->
+			<div class="borderPadd pb5"><!--borderPadd  start-->
+				<ul class="navUL">
+				   <Gyfx:goodscate name="cate"  >
+					<li  <if condition="($cate['cid'] eq $ary_request['cid']) or ($cate['cid'] eq $ary_request['gpc_id'])">class="on"</if> >
+						<strong><a href="{:U('Home/Point/index',"cid=$cate[cid]")}">{$cate.cname}</a></strong>
+						<dl <if condition="($cate['cid'] neq $ary_request['cid']) and ($cate['cid'] neq $ary_request['gpc_id'])">style="display:none;"</if>>
+						   <volist name="cate['sub']" id="cat">
+							<dd><a href="{:U('Home/Point/index',"cid=$cat[cid]")}" <if condition="$cat[cid] eq $ary_request['cid']"> style="color:#970000;" </if>>{$cat.cname}</a></dd>
+						   </volist>
+						</dl>
+					</li>
+				   </Gyfx:goodscate>
+				</ul>
+			</div><!--borderPadd  end-->
+			
+		</div><!--proListLeft   end-->
+		<div class="clear line5"></div>
+		<div class="title_h3" style="margin-top:5px;"><p><strong>积分排行榜</strong></p></div>
+		<div class="prolist_s1">
+			<volist name="pointObj" id="point">
+				<ul>
+					<li class="img"><a href="<php>echo '/Home/Products/detail/gid/'.$point['g_id']</php>"><img src="{$point.g_picture}"></a></li>
+					<li class="txt">
+							<p class="til"><a href="#" target="_blank">{$point.g_name}</a></p>
+							<p>市价：<small>￥{$point.g_market_price}</small></p>
+							<p class="pri">和茶价：￥{$point.g_price}</p>
+					</li>
+					
+					<div class="clear"></div>
+				</ul>  
+			</volist>
+		</div>
+	</div>
+	<div class="rubox2" style="width:1000px;">
+            <!--<div class="ban1"><img width="770" height="235" src="__IMAGES__banner6.jpg"></div>-->
+		<div class="clear line5"></div>
+		<div class="unav1">
+			<ul>
+				<li class="this" text="积分兑换礼品"><a class="ig2" href="javascript:;">积分兑换礼品</a></li>
+                <li text="会员积分制度"><a class="ig1" href="javascript:;" >会员积分制度</a></li>
+				<li text="积分规则"><a class="ig4" href="javascript:;" >积分规则</a></li>
+				<div class="clear"></div>
+			</ul>
+		</div>
+
+		<div class="clear line5"></div>
+		<div class="m-prolist">
+		<!-- 积分兑换礼品 -->
+	
+		<div class="prolist_s2" >
+			<Gyfx:goodslist name='showlist' pagesize="12" type="1" start="$ary_request[start]" cid="$ary_request['cid']" gname="$ary_request[keyword]">
+            <ul style="margin-left:2px;margin-right:2px;padding:4px;width:233px;">
+				<li class="img">
+					<a title="{$showlist.gname}" target="_blank" href="{$showlist.gurl}"><img alt="{$showlist.gname}" src="{$showlist.gpic|showImage=###,225,225}"></a>
+				</li>
+				<li class="txt">
+					<a title="{$showlist.gname}" target="_blank" href="#">{$showlist.gname}<span style="color:red; font-weight:900;"></span></a>
+				</li>
+				<li class="pri2"><em>市场价:￥{$showlist.maprice}元</em><strong>{$showlist.gpoint}积分</strong></li>
+                <li class="buy">
+                	<a class="la" onclick="yDh(this)"  data-id="{$showlist[gid]}" data-uri='{:U("Home/Products/getAddToCartDetail")}' href="javascript:void(0);">我要兑换</a>
+                    <a data-id="{$showlist[gid]}"   class="lb" href="{:U('Home/Products/detail', 'gid='. $showlist['gid'])}">我要购买</a>
+               	</li>
+			</ul>
+			</Gyfx:goodslist>
+			
+                        			<div class="clear"></div>
+			<form action="{:U('Home/Point/index/')}" method="get" >
+			<div class="fenyeDiv" style="margin-right:10px;margin-bottom:5px;">
+				<notempty name="pagearr.showlist.upPage">{$pagearr.showlist.upPage}</notempty>&nbsp; {$pagearr.showlist.linkPage}&nbsp; <notempty name="pagearr.showlist.downPage">{$pagearr.showlist.downPage}</notempty>&nbsp;&nbsp; 共{$pagearr.showlist.totalPage}页，
+						到第 <input type="text" name="start" value="{$itemInfo.start}"> 页 <input type="submit" value="确定">
+			</div>
+			</form>
+                <div class="clear"></div>
+                <div style="margin-left:10px;margin-right:10px; padding: 5px 5px; background-color: #F5F5F5;" class="tx2">
+                <p><strong>兑换说明：</strong></p>
+                <p>1. 根据兑换积分兑换商品；</p>
+                <p>2. 兑换的商品会跟随您购物订单邮寄（本次购物订单如未发货，可跟随本次购物订单发出，若本次购物订单已发出，将重下订单为您配送，邮费自付；还可以选择下次领取，下次购物时随您的订单一同发出）；</p>
+              <!--   <p>3. 本抽奖活动解释权归本网所有。</p> -->
+                </div>
+				
+                <div class="clear line10"></div>
+		</div>
+        <!-- 会员积分制度 -->
+        <div class="uinfo1" style="display:none">
+			<div class="til2">会员制度</div>
+			<div class="utabs">
+				<table width="740" border="0" cellspacing="0" cellpadding="0">
+	<tbody><tr>
+		<td width="96" align="center"><strong>会员等级</strong></td>
+		<td width="168" align="center"><strong>VIP会员</strong></td>
+		<td width="168" align="center"><strong>金卡会员</strong></td>
+		<td width="155" align="center"><strong>钻石卡会员</strong></td>
+		<td width="152" align="center"><strong>蓝钻卡会员</strong></td>
+	</tr>
+	<tr>
+		<td align="center"><strong>满足条件</strong></td>
+		<td>登入本网免费<br>注册</td>
+		<td><p>VIP用户一次性购物超过500元</p>
+			<p>VIP用户累计购物超过1500元</p></td>
+		<td><p>VIP用户一次性购物超过1000元</p>
+                    <p>VIP用户累计购物超过5000元</p>
+                    <p>每年需要保持在1000元消费</p>
+                </td>
+		<td>
+			<p>VIP用户一次性购物超过5000元</p>
+			<p>VIP用户累计购物超过20000元</p>
+			<p>每年需要保持在3000元消费</p>
+		</td>
+	</tr>
+	<tr>
+		<td rowspan="2" align="center"><strong>享受权益</strong></td>
+		<td>购物金额每消费1元，赠送积分2分</td>
+		<td>购物金额每消费1元，赠送积分2分；并加送20%积分</td>
+		<td>购物金额每消费1元，赠送积分2分；并加送50%积分</td>
+		<td>购物金额每消费1元，赠送积分2分；并加送80%积分</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+                    1、首次注册VIP会员赠送300积分；首次购物成功后赠送500分；评价商品后赠送30分，微博晒单后赠送50分；专题活动参与可以获赠积分（签到50分，每人限一次）或（分享送20分，每个平台限一次，最多100分）<br>
+                    2、会员推荐返点回馈：老会员推荐客户成为新会员，新会员首次在网站上购买成功后赠送200积分<br>
+                    3、定期发送茶与健康短息邮件服务
+                </td>
+		</tr>
+</tbody></table>
+
+			</div>
+			<div class="til">免责条款</div>
+			<div class="txt">
+				<p>感谢您访问本网的会员积分计划，本计划由本网提供，并解释权归本网所有。以上计划条款和条件，连同计划有关的任何促销内容的相应条款和条件，构成本计划会员与本网之间关于制度的完整协议。如果您使用本网，您就参加了本计划并接受了这些条款、条件、限制和要求。 请注意， 您对本网站的使用以及您的会员资格还受制于本网站上时常更新的所有条款、条件、限制和要求，请仔细阅读这些条款和条件。</p>
+			</div>
+			<div class="til">协议的变更 </div>
+			<div class="txt">
+				<p>本网可以在没有特殊通知的情况下自行变更本条款、本网的任何其它条款和条件、或您的计划会员资格的任何方面。 对这些条款的任何修改将被包含在本网的更新的条款中。如果任何变更被认定为无效、废止或因任何原因不可执行，则该变更是可分割的，且不影响其它变更或条件的有效性或可执行性。在我们变更这些条款后，您对本网的继续使用，构成您对变更的接受。</p>
+			</div>
+			<div class="til">协议的终止</div>
+			<div class="txt">
+				<p>本网可以不经通知而自行决定终止全部或部分计划， 或终止您的计划会员资格。 即使本网没有要求或强制您严格遵守这些条款，也并不构成对属于本网的任何权利的放弃。如果您在本网的客户帐户被关闭，那么您也将丧失您的会员资格。对于该会员资格的丧失，您对本网不能主张任何权利或为此索赔。 </p>
+			</div>
+			<div class="til">责任限制</div>
+			<div class="txt">
+				<p>除了本网的使用条件中规定的其它限制和除外情况之外，在中国法律法规所允许的限度内，对于因会员积分计划而引起的或与之有关的任何直接的、间接的、特殊的、附带的、后果性的或惩罚性的损害，或任何其它性质的损害， 本网、本网的董事、管理人员、雇员、代理或其它代表在任何情况下都不承担责任。本网的全部责任，不论是合同、保证、侵权（包括过失）项下的还是其它的责任，均不超过您所购买的与该索赔有关的商品价值额。这些责任排除和限制条款将在法律所允许的最大限度内适用，并在您的计划会员资格被撤销或终止后仍继续有效。</p>
+			</div>
+		</div>
+		<!-- 积分规则 -->
+		<div class="uinfo1" style="display:none">
+			<div class="til">积分如何赠送？</div>
+			<div class="txt">
+				<p>1、新注册用户赠送300分</p>
+				<p>2、首次购物成功赠送500分，订单交易完成后15天内到账</p>
+				<p>3、老用户（有成功购物记录的用户）每周签到赠送50分，连续5次签到额外赠送100分</p>
+				<p>4、个人资料填写完整，赠送30分</p>
+				<p>5、购物金额每消费1元，赠送2分（获得积分为四舍五入后的整数,金卡用户加送20%积分，钻卡用户加送50%积分，蓝钻用户加送80%</p>
+				   积分），订单交易完成后15天内积分到账<p></p>
+				<p>6、专题活动参与可以赠送积分（分享赠送20分，每个平台限一次，最多100分）</p>
+				<p>7、评论一个商品赠送30分，微博晒单赠送50积分</p>
+			</div>
+			<div class="til">积分如何使用？ </div>
+			<div class="txt">
+				<p>1、积分可以抵扣现金，在购物过程中使用，100积分可抵扣1元，全场商品通用；</p>
+				<p>2、积分可以用来抽奖，100%中奖，千元现金大奖等你拿；</p>
+				<p>3、积分可以用来兑换数十款茶礼、茶具。</p>
+			</div>
+			<div class="til">积分何时过期？ </div>
+			<div class="txt">
+				<p>积分有效期：账户一年内未获得新积分或使用积分记录，账户内所有积分清零。</p>
+			</div>
+			<div class="til">积分细则说明:  </div>
+			<div class="txt">
+				<p>1、不同帐户积分不可合并使用；</p>
+				<p>2、本计划只适用于个人用途而进行的购物、抽奖，不适用于团体购物、以营利或销售为目的的购买行为、其它非个人用途购买行为；</p>
+				<p>3、订单取消后，订单中抵扣的积分3天内返还到账；</p>
+				<p>4、会员积分计划及原VIP制度的最终解释权归本网所有。</p>
+			</div>
+			<div class="til">积分活动:</div>
+			<div class="txt">
+				<p>本网会不定期地推出各种积分活动，请随时关注关于积分促销的告知，参与后会赠送或扣减相应的积分。</p>
+			</div>
+		</div>
+		<!-- 积分详情 -->
+		<div class="uinfo1" style="display:none">
+			<div class="til2">积分详情</div>
+			<div class="til">您目前的会员积分是：<strong style="color:#f27b04;">0分</strong></div>
+			<div class="txt">
+				<p>为了保证您退换货的权益，您的积分会在商品成功签收后有效。</p>
+			</div>
+			<div class="til">积分明细：</div>
+			<div class="utabs">
+			<table width="735" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+                <td align="center" bgcolor="#f5f5f5"><strong>当前积分</strong></td>
+		<td align="center" bgcolor="#f5f5f5"><strong>积分变动</strong></td>
+		<td align="center" bgcolor="#f5f5f5"><strong>来源</strong></td>
+		<td align="center" bgcolor="#f5f5f5"><strong>积分生效时间</strong></td>
+	</tr>
+                <tr>
+		<td colspan="4" align="center">暂无积分变动记录</td>
+		
+	</tr>
+        
+			</tbody></table>
+			</div>
+			<div class="pages6">
+<!--				<p class="this"><a href="/list-34-34-0-0-0-0-1.html#order">1</a></p><p ><a href="/list-34-34-0-0-0-0-2.html#order">2</a></p><p ><a href="/list-34-34-0-0-0-0-3.html#order">3</a></p>						<p class="nx"><a href="/list-34-34-0-0-0-0-2.html#order">下一页</a></p>
+			<p><a href="/list-34-34-0-0-0-0-3.html#order">尾页</a></p>-->
+                        <p class="info">1/0</p> 			<div class="clear line10"></div>
+		</div>
+		</div>
+		<!-- 积分兑换记录 -->
+		<div class="uinfo1" style="display:none">
+			<div class="til2">积分兑换记录</div>
+			<div class="til">您目前的会员积分是：<strong style="color:#f27b04;">0分</strong></div>
+			<div class="txt">
+				<p>为了保证您退换货的权益，您的积分会在商品成功签收后有效。</p>
+			</div>
+			<div class="til">兑换明细：</div>
+			<div class="utabs">
+			<table width="735" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+                <td align="center" bgcolor="#f5f5f5"><strong>商品名称</strong></td>
+		<td align="center" bgcolor="#f5f5f5"><strong>商品图片</strong></td>
+		<td align="center" bgcolor="#f5f5f5"><strong>兑换积分</strong></td>
+                <td align="center" bgcolor="#f5f5f5"><strong>订单号</strong></td>
+                <td align="center" bgcolor="#f5f5f5"><strong>时间</strong></td>
+		<td align="center" bgcolor="#f5f5f5"><strong>状态</strong></td>
+                <td align="center" bgcolor="#f5f5f5"><strong>操作</strong></td>
+	</tr>
+                <tr>
+		<td colspan="6" align="center">暂无积分变动记录</td>
+	</tr>
+        
+        
+			</tbody></table>
+			</div>
+			<div class="pages6">
+                        <p class="info">1/0</p> 			<div class="clear line10"></div>
+		</div>
+		</div>
+	</div>
+	</div>
+
+	<div class="clear line10"></div>
+</div>
+<!--弹窗-积分兑换   开始-->
+<div style="display:none;" id="pdt_div">
+  <div id="yDhu" class="CPM" style="height:300px"></div>
+</div>
+<!--弹窗-积分兑换   结束-->
+<script>
+	$(function(){
+		$(".classiCon").attr('style','display:none;');
+		$('.classiCon').css('display','none');
+        $('.allSpan').mouseover(function(){
+            $('.classiCon').css('display','block');
+        });
+        $('.allClassi').mouseleave(function(){
+            $('.classiCon').css('display','none');
+        });
+		 $(".classiCon ul li").hover(function(){
+            $(this).find("div.secondD").show()
+        },function(){
+            $(this).find("div.secondD").hide()
+        })
+        
+        $(".secondD dl dd").hover(function(){
+            $(this).find("div.thirdD").show().end().addClass("on");
+        },function(){
+            $(this).find("div.thirdD").hide().end().removeClass("on");
+        })
+        
+        $(".allClassi").hover(function(){
+            $(".classiCon02").slideDown();
+        },function(){
+            $(".classiCon02").slideUp();
+        })  
+	})
+
+</script>
+<script>
+$(".borderPadd ul li").hover(function(){
+	$(".navUL ul li").children("dl").hide();
+	$(this).children("dl").show();
+},function(){
+	$(this).children("dl").hide();
+});
+    /** 积分商城页面**/
+//商品数量更改
+function countNum(i){
+    var _this = $("#point_goods_num");
+    var num=parseInt(_this.val());
+        num=num+i;
+        if((num<=0)||(num>999)){return false;}
+        else{_this.val(num);}
+}
+//是否登录
+function isLogin(){
+    var flag = true;
+	if("{$Think.session.Members}" == ''){
+		$.post('/Home/User/doBulkLogin/',{},function(htmlMsg){
+			$.ThinkBox(htmlMsg, {'title' : '会员登录','width':'448px','drag' : true,'unload':true});
+		},'html');
+		return false;
+	}
+    return flag;
+}
+
+function yDh(obj) {
+    if(isLogin()){
+        var _this = $(obj),
+                g_id = _this.attr('data-id');
+        url = _this.attr('data-uri');
+        $.post(url,{item_id:g_id,item_type: 1},function(data){
+//                $('#yDhu').html(data);
+            var box = $.ThinkBox(data, {'title' : '积分兑换','width':'402px','drag' : true,'unload':true});
+        },'TEXT');
+        //$.colorbox({ inline: true, href: "#yDhu", width: "402px", height: "302px", unload: true});
+    }
+}
+/** 积分商城end**/
+</script>

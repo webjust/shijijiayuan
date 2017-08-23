@@ -1,0 +1,66 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>我的报告</span></h2>
+    <div class="deliverList myDa ncu-order-view ">
+        <form id="my_doedit" method="post" action="{:U('Ucenter/Try/doReport')}" enctype="multipart/form-data">
+            <table class="deliverTable">
+				<volist name="ary_question" id="vo">
+					<tr><td colspan="2"></td></tr>
+					<tr>
+						<td align="right">{$vo.gs_name}：</td>
+						<td>
+							<if condition="$vo.gs_input_type eq 1">
+                                <input type="text" class="large question" name="question_spec[{$vo.gs_id}]" value="{$vo.gsd_aliases}" />
+                            <elseif condition="$vo.gs_input_type eq 2" />
+                                <select class="medium question" name="question_spec[{$vo.gs_id}]" style="width:auto;">
+                                    <option value="0" >请选择{$vo.gs_name}的属性值</option>
+                                    <volist name="vo[spec_detail]" id="sp">
+                                        <if condition="$vo['gsd_id'] eq $sp['gsd_id']">
+                                            <option value="{$sp.gsd_id}" selected="selected" >{$sp.gsd_value}</option>
+                                        <else />
+                                            <option value="{$sp.gsd_id}" >{$sp.gsd_value}</option>
+                                        </if>
+                                    </volist>
+                                </select>
+                            <elseif condition="$vo.gs_input_type eq 3" />
+                                <textarea name="question_spec[{$vo.gs_id}]" class="mediumBox question">{$vo.gsd_aliases}</textarea>
+                            <elseif condition="$vo.gs_input_type eq 4" />
+                                <p name="setStyle{$vo.gs_id}">
+                                    <em></em>
+                                    <i style="width: 100%;" id="setStyle{$vo.gs_id}"></i>
+                                    <label class="lb01 hoverX" x="20" sorce="一星"></label>
+                                    <label class="lb02 hoverX" x="40" sorce="二星"></label>
+                                    <label class="lb03 hoverX" x="60" sorce="三星"></label>
+                                    <label class="lb04 hoverX" x="80" sorce="四星"></label>
+                                    <label class="lb05 hoverX" x="100" sorce="五星"></label>
+                                </p>
+                                <input type="hidden" name="question_spec[{$vo.gs_id}]" value="100">
+                            </if>
+						</td>
+						<td width="236px"><span class="spanWrong"></span></td>
+					</tr>
+				</volist>
+                <tr><td colspan="2"></td></tr>
+                <tr>
+                    <td colspan="99" align="center">
+                        <input type="hidden" name="try_oid" value="{$ary_apply.try_oid}">
+                        <button class="blue" type="submit" style="color: rgb(255, 255, 255); text-decoration: none; background-color: rgb(23, 144, 203);">保 存</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.hoverX').click(function(){
+        var x = $(this).attr('x');
+        var style = $(this).parent().attr("name");
+        $("#"+style).css({width:x+'%'});
+        $(this).parent().next().val(x);
+    });
+});
+</script>

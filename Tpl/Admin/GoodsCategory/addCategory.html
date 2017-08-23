@@ -1,0 +1,178 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="category_form" name="category_form" method="post" action="{:U('Admin/GoodsCategory/doAdd')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">商品分类添加</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">分类名称：</td>
+                    <td>
+                        <input type="text" name="gc_name" id="gc_name" size="25" maxlength="20" class="medium" value="{$level.ml_code}" validate="{required:true}" /> <span style="color:red;">*</span></span><br> 
+                    </td>      
+                    <td class="last">限制20个文字</td>              
+                </tr>
+                <tr>
+                    <td class="first">上级分类：</td>
+                    <td>
+	                    <select name="gc_parent_id" id="gc_parent_0">
+	                      	<option value="0">--作为一级分类--</option>
+	                        {$option_html}
+	                    </select><br> 
+                    </td>
+                    <td class="last">顶级分类请选择“作为一级分类”</td>
+                </tr>
+                <tr>
+                    <td class="first">排序：</td>
+                    <td>
+                        <input name="gc_order" class="medium" type="text" id="gc_order" size="25" maxlength="10"> <span style="color:red;">*</span><br> 
+                    </td>
+                    <td class="last">数字越小越靠前</td>
+                </tr>
+                <notempty name="GCTYPE">
+                <tr>
+                    <td class="first">分类属性：</td>
+                    <td>
+	                    <input type="radio" name="gc_type" value="0" checked="checked" id="gc_type_0" />
+	                    <label for="gc_type_0">普通</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gc_type" value="1" id="gc_type_1" />
+	                    <label for="gc_type_1">楼层</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gc_type" value="2" id="gc_type_2" />
+	                    <label for="gc_type_2">店铺</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                </notempty>
+                <tr>
+                    <td class="first">前台是否显示：</td>
+                    <td>
+	                    <input type="radio" name="gc_is_display" value="1" checked="checked" id="gc_is_display_true" />
+	                    <label for="gc_is_display_true">是</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gc_is_display" value="0" id="gc_is_display_false" />
+	                    <label for="gc_is_display_false">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">是否热销：</td>
+                    <td>
+	                    <input type="radio" name="gc_is_hot" value="1" id="gc_is_hot_true" />
+	                    <label for="gc_is_hot_true">是</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gc_is_hot" value="0" checked="checked" id="gc_is_hot_false" />
+	                    <label for="gc_is_hot_false">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">标注关键：</td>
+                    <td>
+                        <input type="radio" name="gc_key" value="1" id="gc_key_true" />
+                        <label for="gc_key_true">是</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="gc_key" value="0" checked="checked" id="gc_key_false" />
+                        <label for="gc_key_false">否</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">类目图片：</td>
+                    <td>
+                       <a href="javascript:upImage();" class="btnG ico_upload">上传图片</a>
+                        <img width="50px" height="50px" src="" id="show_pic">
+                        &nbsp;
+                        <input type="hidden" id="gc_pic_url" name="gc_pic_url" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">标题：</td>
+                    <td>
+                        <input name="gc_title" class="medium" type="text" id="gc_title" size="25" > <br> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">关键字：</td>
+                    <td>
+                        <input name="gc_keyword" class="medium" type="text" id="gc_keyword" size="25" > <br> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">行邮税号：</td>
+                    <td>
+                        <input name="NcadCode" class="medium" type="text" id="NcadCode" size="25" > <br> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">HS编码：</td>
+                    <td>
+                        <input name="HSCode" class="medium" type="text" id="HSCode" size="25" > <br> 
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                   <td class="first">分类描述：</td>
+                    <td>
+                        <textarea class="mediumBox" name="gc_description" id="gc_description" ></textarea>
+                    </td>
+                    <td class="last"></td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="page_jump" value="0" id="page_jump" />
+                        <input type="submit" value="保 存" class="btnA submit_button" page_jump="0" />
+                        <input type="submit" value="保存并继续" class="btnA submit_button" page_jump="1" />
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/GoodsCategory/pageList')}');" class="btnA" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var dialog;
+    var editor = new UE.ui.Editor({
+        imageRealPath:"editor"
+    });
+    editor.render("myEditor");
+    editor.ready(function(){
+        editor.hide()
+        dialog = editor.getDialog("insertimage");
+        editor.addListener('beforeInsertImage',function(t, arg){
+            for(index in arg){
+                var image_path = arg[index]['src'];
+                $("#gc_pic_url").val(image_path);
+                $("#show_pic").attr({src:image_path});
+                
+            }
+        });
+        
+    });
+    
+    function upImage() {
+        dialog.open();
+    }
+</script>
+<script>
+    $(document).ready(function(){   
+		$(".submit_button").click(function(){
+			$("#page_jump").val($(this).attr("page_jump"));
+		});
+        $("#category_form").validate(); 
+    });
+</script>

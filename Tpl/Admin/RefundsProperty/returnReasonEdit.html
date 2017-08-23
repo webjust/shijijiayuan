@@ -1,0 +1,58 @@
+<div class="rightInner">
+    <form id="reason_form" name="reason_form" method="post" action="{:U('Admin/RefundsProperty/returnReasondoEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+            <tr class="title">
+                <th colspan="99">退费退货理由编辑</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="first">退费退货理由：</td>
+                <td>
+                    <textarea name="rr_name" class="medium" required>{$reason.rr_name}</textarea>
+                </td>
+                <td class="last">请输入退换货理由。</td>
+            </tr>
+            <tr>
+                <td class="first">是否显示：</td>
+                <td>
+                    <span style="margin-right:15px;">
+                        <input type="radio" name="rr_is_display"  value="1"  <php>if($reason['rr_is_display'] == 1 ){</php>checked="checked"<php>}</php>style="vertical-align:middle;" />&nbsp;是
+                        <input type="radio" name="rr_is_display"  value="2"  <php>if($reason['rr_is_display'] == 2 ){</php>checked="checked"<php>}</php>  style="vertical-align:middle;" />&nbsp;否
+                    </span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">所属类型：</td>
+                <td>
+                    <span style="margin-right:15px;">
+                        <input type="radio" name="rr_show_type"  value="1"<php>if($reason['rr_show_type'] == 1 ){</php>checked="checked"<php>}</php> style="vertical-align:middle;" />&nbsp;退款
+                        <input type="radio" name="rr_show_type"  value="2"  <php>if($reason['rr_show_type'] == 2 ){</php>checked="checked"<php>}</php> style="vertical-align:middle;" />&nbsp;退货
+                    </span>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr>
+                <td class="first">排序：</td>
+                <td>
+                    <input type="text" name="rr_order" class="medium" value="{$reason.rr_order}" />
+                </td>
+                <td class="last">请填入一个数字，数字越小越靠前。</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="99">
+                    <input type="submit" value="保 存" class="btnA" >
+                    <input type="button" value="取 消" onClick="onUrl('/Admin/RefundsProperty/returnReasonList');" class="btnA" >
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" name="rr_id" value="{$reason.rr_id}"/>
+    </form>
+    <div class="clear"></div>
+</div>

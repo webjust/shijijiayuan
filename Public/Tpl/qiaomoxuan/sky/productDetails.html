@@ -1,0 +1,308 @@
+<script src="__JS__productsdetail.js"></script>
+<script src="__JS__js.js" type="text/javascript"></script>
+<!--<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>-->
+<!--<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">-->
+<script type="text/javascript" src="__JS__jquery.jqzoom.js"></script>
+<script type="text/javascript" src="__JS__jqzoombase.js"></script>
+<script src="__JS__jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<link href="__CSS__jqzoom.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<!--中间内容 start-->
+<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+<php>
+     $gpicture = $detail['gpics'][0]['gp_picture'] ;
+</php>
+<input type="hidden" value="{$ary_request.gid}" id="gid">
+<div class="pro_content w1180 bgfa">
+    <div class="path" style="  margin-top: 0px;">
+        <a href="{:U('Home/Index')}">首页</a>>
+        <a href="{:U('Home/Products/Index')}">所有商品</a>>
+        <gyfx:breadcrumbs name='breadcrumb'  gid="$ary_request[gid]" >
+            <a href="{$breadcrumb.gcurl}">{$breadcrumb.cname}</a>>
+        </gyfx:breadcrumbs>
+        {$detail.gname}
+    </div>
+    <div class="proDetail bgfff clearfix"><!--proDetail 开始-->
+    <div class="proDO"><!--proDO 开始-->
+        <form id="goodsForm" name="goodsForm" method="post" action="#">
+        <div class="proDOL" style="float: left;width:auto;position: relative;z-index: 10;top:0px"><!--proDOL 开始-->
+            <div class="proDOLL"><!--proDOLL 开始-->
+                <div class="proDOLLT">
+                    <div class="promotionPic">
+                        <div id="preview" class="spec-preview">
+                             <span class="jqzoom">
+                                <img jqimg="{$gpicture|showImage=###,850,850}" bigWidth="850"  bigHeight='850'  id="main_pic" src="{$gpicture}" width="415" height="415"/>
+                             </span>
+                        </div>
+                        <!--缩图开始-->
+                        <div class="spec-scroll">
+                            <a class="prev">&lt;</a>
+                            <a class="next">&gt;</a>
+                            <div class="items">
+                                <ul>
+                                    <volist name="detail.gpics" id="pic">
+                                        <li>
+                                            <img alt="佳能" bimg="{$pic['gp_picture']}" src="{$pic['gp_picture']}"width="79px" height="79px" onmousemove="preview(this);">
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- JiaThis Button BEGIN -->
+                        <div class="bd_share jiathis_style">
+                            <a class="share01" href="javascript:addToInterests('{$ary_request[gid]}');"></a>收藏 |
+                            <a class="jiathis_button_qzone"></a>
+                            <a class="jiathis_button_tsina"></a>
+                            <a class="jiathis_button_tqq"></a>
+                            <a class="jiathis_button_weixin"></a>
+                            <a class="jiathis_button_renren"></a>
+                            <!--<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>-->
+                            <a class="jiathis_counter_style"></a>
+                        </div>
+                        <script type="text/javascript" >
+                            var jiathis_config={
+                                summary:"",
+                                shortUrl:false,
+                                hideMore:true
+                            }
+                        </script>
+                        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                        <!-- JiaThis Button END -->
+                    </div>
+                    <!-- 放大镜结束 -->
+                </div>
+            </div>
+            <!--proDOLL 结束-->
+            <div class="proDOLR"><!--proDOLR 开始-->
+                <h2>{$detail.gname}</h2>
+                <notempty name="detail.gremark">
+                    <p class="p01">
+                        {$detail.gremark}
+                    </p>
+                </notempty>
+                <div class="proPrice">
+                    <div class="proPriceT"><span class="fleft">商城价:</span>
+                        <p class="p02"><strong><i>&yen;</i><lable id="showPrice">{$detail.gprice|sprintf='%.2f',###}</lable></strong></p>
+                        <p class="p03"><span class="mleft">市场价:</span>
+                            <span><i>&yen;</i><del id="showMarketPrice">{$g_market_price|sprintf='%.2f',###}</del></span>
+                            <php>
+                                $discount = round($g_price/$g_market_price *10 ,2);
+                                 $money = round(($g_market_price- $g_price),2);
+                            </php>
+                            <span>折扣 :<em id="discountPrice">{$discount}</em> 折</span>
+                            <span  class="sale clr0653b0">优惠:<i>&yen;</i> <em id="savePrice"> {$money}</em></span>
+                        </p>
+                    </div>
+                    <ul>
+                        <php>if (GLOBAL_STOCK) {</php>
+                        <li class="transfer">
+                            <input type="hidden" value="1" id="is_global_stock" />
+                            <dl>
+                                <dt>运 费：</dt>
+                                <dd>配送至
+                                    <input type="hidden" value="" name="cr_ids" id="cr_ids">
+                                    <div class="proCity" style="display: none;position:relative">
+                                        <p>
+                                            <span name="city" style="display: none;" onClick="setTabs('proCity', 1, 4,'{$citys.country.cr_parent_id}')" id="proCity1">{$citys.country.cr_name}</span>
+                                            <span name="city" onClick="setTabs('proCity', 2, 4,'{$citys.province.cr_parent_id}')" id="proCity2" class="onHover">{$citys.province.cr_name}</span>
+                                            <span name="city" onClick="setTabs('proCity', 3, 4,'{$citys.city.cr_parent_id}')" id="proCity3">{$citys.city.cr_name}</span>
+                                            <span name="city" onClick="setTabs('proCity', 4, 4,'{$citys.city.cr_parent_id}')" id="proCity4">{$citys.region.0.cr_name}</span>
+                                            <a href="javascript:void(0);" id="cityClose"></a>
+                                        </p>
+                                        <div class="proCCon" id="con_proCity_1" style="display: none;">
+
+                                        </div>
+
+                                        <div class="proCCon" id="con_proCity_2">
+                                            <volist name="country" id="cy">
+                                                <span cr_id="{$cy.cr_id}" class="country" tabs="1" onClick="selectCitys('{$cy.cr_id}','{$cy.cr_name}','{$cy.cr_type}');">{$cy.cr_name}</span>
+                                            </volist>
+                                        </div>
+
+                                        <div class="proCCon" id="con_proCity_3" style="display:none;">
+                                            <volist name="city" id="cys">
+                                                <span cr_id="{$cys.cr_id}" class="country" tabs="1" onClick="selectCitys('{$cys.cr_id}','{$cys.cr_name}','{$cys.cr_type}');">{$cys.cr_name}</span>
+                                            </volist>
+                                        </div>
+                                        <div class="proCCon" id="con_proCity_4" style="display:none;">
+                                            <volist name="citys[region]" id="crg">
+                                                <span cr_id="{$crg.cr_id}" class="country" tabs="1" onClick="selectCitys('{$crg.cr_id}','{$crg.cr_name}','{$crg.cr_type}');">{$crg.cr_name}</span>
+                                            </volist>
+                                        </div>
+                                    </div>
+                                    <span class="clr0653b0">货到付款 满XXXX元免运费</span>
+                                </dd>
+                            </dl>
+                        </li>
+                        <php>}</php>
+                        
+                        <li class="service">
+                            <dl>
+                                <dt>商城编码：</dt>
+                                <dd>{$detail.gsn}</dd>
+                            </dl>
+                        </li>
+                        <li class="service">
+                            <dl>
+                                <dt>月 销 量：</dt>
+                                <dd>{$detail.gsalenum|default=0}</dd>
+                            </dl>
+                        </li>
+                        <li class="service">
+                            <dl>
+                                <dt>商品评分：</dt>
+                                <dd>
+                                    <php> $score = ceil($comment_statics['average_score'] /20) ;</php>
+                                    <php>for($i=0;$i<$score;$i++){</php>
+                                    <i></i>
+                                    <php>}</php>
+                                    <php>for($j=0;$j< 5-$score;$j++){</php>
+                                    <i class="gray"></i>
+                                    <php>}</php>
+                                    (共{$comment_statics.total_count|default=0}条评价)</dd>
+                            </dl>
+                        </li>
+                        <li class="service">
+                            <dl>
+                                <dt>温馨提示：</dt>
+                                <dd>{$detail.field1|default="$warm_prompt"}</dd>
+                            </dl>
+                        </li>
+                        <script>
+                            var goods_url = new Array();
+                            <volist name="detail.goods_url" id="da" key="k">
+                            goods_url['{$key}'] = "{$da}";
+                            </volist>
+                        </script>
+						<span id="showDetailSkus">商品规格加载中......</span>
+                        <li style="margin-top: 50px;">
+                            <if condition="$detail.authorize eq 1" >
+                            <input type="hidden" name="way_type" value="" id="way_type"/>
+                            <a href="javascript:void(0);" class="j_gwc detail_img"  id="addToCart" >购物车</a>
+                            <a href="javascript:void(0);" class="goTobuy" id="addToOrder">立即购买</a>
+                            </if>
+                            <if condition="$detail.authorize neq 1  ">
+                                <a href="javascript:void(0);" class="j_gwc detail_img"   title="您无权购买本商品">您无权购买本商品</a>
+                                <a href="javascript:void(0);" class="goTobuy" >立即购买</a>
+                            </if>
+                        </li>
+                    </ul>
+                </div>
+                <!--proDOLR 结束-->
+            </div>
+        </div>
+        </form>
+        <!--proDOL 结束-->
+        <div class="proDOR"><!--proDOR 开始-->
+            <h4><span>猜你喜欢</span></h4>
+            <div class="proDORC">
+                <div class="x_lunbo" id="relate_goods">
+                </div>
+            </div>
+        </div>
+        <!--proDOR 结束-->
+    </div>
+    <!--proDO 结束-->
+        <div class="pro_main">
+            <div class="pro_main_l left" id="coll_goods">
+
+                <!--<div class="pro_youhui yh_tab" id="relate_goods"></div>-->
+
+            </div>
+        <!--proDetail 结束-->
+        <div class="content clear">
+            <div class="fl procon" id="procon">
+                <div class="tagarea-wrap">
+                    <div class="tagarea clearfix">
+                        <ul id="left_menus">
+                            <li class="on"><a href="#procon">商品介绍</a></li>
+                            <li><a href="#procon2">用户评价({$comment_statics.total_count|default=0})</a></li>
+                            <li><a href="#procon3">交易记录</a></li>
+                            <li><a href="#procon4">售后保障</a></li>
+                        </ul>
+						<div id="qc_wrap" style="float:right;margin-right: 0px;">
+							<div class="qc_trigger" style="position: relative;">客户端下单</div>
+							<div class="qc_inner" style="position: absolute;  display: none; ">
+								<img src="{$Think.config.DOMAIN_HOST}{$qc_img}">                    </div>
+							<script type="text/javascript">
+								$(function(){
+								   $('#qc_wrap').hover(function(){
+									  $('.qc_inner').toggle();
+								   })
+								});
+							</script>
+						</div>   
+                    </div>
+                </div>
+                    <div class="tagCon">
+                        <div class="ever"><!--商品详情-->
+                            <div class="product-detail">
+                                {$detail.gdesc}
+                            </div>
+                        </div>
+                        <div class="ever recomm"><!--商品评价-->
+                            <div id="recomment" class="rv-wrap clearfix mt10">
+                            </div>
+                        </div>
+                        <div class="ever cpcs" id="buyrecord"><!--交易记录-->
+                        </div>
+                        <div class="ever"><!--售后保障-->
+                            <!--<div  id="advice"></div>-->
+                            <Gyfx:articleinfo name="artinfo" aid="1" >
+                                <h2>{$artinfo.atitle}</h2>
+                                {$artinfo.acontent}
+                            </Gyfx:articleinfo>
+                        </div>
+                    </div>
+                </div>
+                <div class="procon_r_wrap">
+                    <div class="procon_r">
+                        <ul>
+                            <li class="cur"><a href="#procon" >商品介绍</a></li>
+                            <li><a href="#procon2">用户评价</a></li>
+                            <li><a href="#procon3">交易记录</a></li>
+                            <li><a href="#procon4">售后保障</a></li>
+                            <li><a href="#top">回到顶部</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<include file="$commonIncOnline" />
+    <input type="hidden" name="error_1" value="{$Think.lang.STOCK_ERROR_1}" id="error_1" />
+    <input type="hidden" name="error_2" value="{$Think.lang.STOCK_ERROR_2}" id="error_2" />
+    <input type="hidden" name="error_3" value="{$Think.lang.STOCK_ERROR_3}" id="error_3" />
+    <input type="hidden" name="error_4" value="{$Think.lang.STOCK_ERROR_4}" id="error_4" />
+
+    <form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Ucenter/Orders/pageAdd">
+        <input type="hidden" name="pid[]" id="submitSkipItemPid" value="" />
+        <input type="hidden" name="type[]" id="submitSkipItemtype" value=""/>
+    </form>
+    <php>if(empty($detail['skuNames'])){</php>
+    <input type="hidden" id="detail_skuNames" value="0">
+    <php>}else{</php>
+    <input type="hidden" id="detail_skuNames" value="1">
+    <php>}</php>
+</div>
+
+
+<script type="text/javascript">
+//    var IS_ON_MULTIPLE = '{$is_on_mulitiple}';
+	getDetailSkus('{$ary_request.gid}',0);
+    getCollGoodsPage('{$ary_request.gid}');
+    getRelateGoodsPage('{$ary_request.gid}');
+    <if condition="$common['comments_switch'] eq 1">
+    CommentPage('{$ary_request.gid}',1,1);
+    </if>
+    getBuyRecordPage('{$detail.gid}',20,1);
+//    getGoodsAdvice('{$ary_request.gid}',1);
+//    getcoupon();
+</script>
+
+
+
+
+

@@ -1,0 +1,226 @@
+<script>
+$(document).ready(function(){
+        $("#register_form").validate({
+            errorPlacement: function(error, element) {
+                if(element.is("#verify")){
+                    var error_td = element.next().next().next();
+                }else{
+                    var error_td = element.next('p');
+                }
+                error_td.find('span').hide();
+                error_td.append(error);
+            },
+            submitHandler:function(form){
+				var rand = '{$Think.session.rand}'.toString();
+				var m_password = $("#m_password").val().toString();
+				var new_password = encode64(m_password+rand);
+				$("#m_password").val(new_password);				
+				var formdata = $("#register_form").serialize();
+				var url = $("#requsetUrl").val();
+				var isreset = url.indexOf("doReset");
+				var mobilereset = url.indexOf("synResetByMobile");
+				$.ajax({
+					url:"{:U('Home/User/doLogin')}",
+					data:formdata,
+					dataType:"json",
+					type:"post",
+					success:function(msgObj){
+						if(msgObj.status == 1){
+							if(msgObj.url){
+								url = msgObj.url;
+							}
+							if( isreset !== -1 || mobilereset !== -1){
+								$.ThinkBox.success('登录成功,等待跳转……');
+								window.location.href = "/Home/Index/index";
+							}else{
+								$.ThinkBox.success('登录成功,等待跳转……');
+								window.location.href = url;
+							}
+						}else{
+						   showAlert(false,msgObj.info);
+						   return false;
+						}
+					}
+				});
+            },
+            rules : {
+                m_name : {
+                    required:true,
+                    minlength:2,
+                    isCheck:true
+                },
+                m_password : {
+                    required : true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                verify  :{
+					required:true,
+					digits:true,
+					remote:'/Home/User/checkVerify',
+					rangelength:[4,4]
+                }
+            },
+            messages : {
+                m_name : {
+                    required : '用户名不能为空',
+                    minlength : '用户名不能少于4位',
+                    isCheck: '用户名不能包含敏感字符'
+                },
+                m_password  : {
+                    required : '密码不能为空',
+                    minlength: '密码长度应在6-20个字符之间',
+                    maxlength: '密码长度应在6-20个字符之间'
+                },
+                verify  :{
+                    required : '验证码不能为空',
+					rangelength:'验证码长度为4',
+					digits:'对不起，请输入正确的验证码'
+                }
+            }
+        });
+    });    
+    
+</script>
+<!--中间内容  开始--->
+<div class="warp">
+    <div class="loginY">
+    	<div class="loginCon"><!--loginCon  start-->
+            <if condition="$ad_arr['log_pic'] neq ''">
+            <a href="{$ad_arr['log_url']}" class="ggpic"><img src="{$Think.config.DOMAIN_HOST}{$ad_arr['log_pic']}" width="450" height="350" /></a>
+            </if>
+            
+            <div class="lgRight"><!--lgRight  start-->
+                <form method="post" class="ztag" action="{:U('Home/User/doLogin')}" id="register_form">
+            	<ul>
+                	<li>
+                    	<strong>登录名：</strong>
+                        <input tabindex="1" type="text"  class="text" name="m_name" id="m_name" value="" />
+                        <p><span class="red"></span></p>
+                    </li>
+                    <li>
+                    	<strong>登录密码：</strong>
+                        <input tabindex="2" name="m_password" type="password"  id="m_password" class="text ztag" onkeypress="EnterPressPsd(event)" onkeydown="EnterPressPsd()" autocomplete="off"/>
+                        <p><span class="red"></span></p>
+                    </li>
+                    <if condition="$vef.sc_value eq 1">
+                    <li>
+                    	<strong>验证码：</strong>
+                        <input tabindex="3" type="text" class="text" name="verify" id="verify" value="" style="width:75px; ">
+                        <img src="__APP__/Home/User/verify/" onClick="this.src='__APP__/Home/User/verify/'+Math.random()" id="verificationcode" width="78" height="37"/>
+                        <a href="javascript:;" class="blue " onclick="replaceVerificationCode()" style="margin:8px 0 0 5px;">换一张</a>
+                        <p><span class="red"></span></p>
+                    </li>
+                    </if>
+                    <li>
+                    	<a href="{:U('Home/User/pageFoget')}" class="forget">忘记登录密码？</a>
+                        <!--<input  tabindex="4" type='submit' class="sub" onclick="javascript:homeLoginSubmit();" value="登录"></button>-->
+						<input  tabindex="4" type='submit' class="sub"  value="登录"></button>
+				   </li>
+                    <input name="savelogin" type="hidden" value="0"/>
+                    <input name="requsetUrl" id="requsetUrl" type="hidden" value="{$requset_url}"/>
+                </ul>
+                </form>
+                <p class="bot">
+                	<label>使用合作网站账号登录：</label>
+                    <span>
+						<p class="lgBot">
+						<if condition="$sina eq '1'">
+						<a href="{:U('Home/User/thdLoginUr/')}?type=Sina" class="first"><i></i>新浪微博</a><!-- 使用新浪微博登录 -->
+						</if>
+						<if condition="$qq eq '1'">
+						<a href="{:U('Home/User/thdLoginUr/')}?type=QQ"><i class="i03"></i>QQ</a><!-- 使用腾讯QQ登录 -->
+						</if>
+						<if condition="$renren eq '1'">
+						<a href="{:U('Home/User/thdLoginUr/')}?type=RenRen" class="last"><i class="i04"></i>人人</a><!-- 使用使用人人网登录 -->
+						</if>
+							<if condition="$wx eq '1'">
+							<div id="wx_login" class="t_center">
+								<img src="__IMAGES__ewm_wx.jpg" />
+								<span class="f12 gray3" style="margin-top:10px;">使用微信扫描上方二维码登陆</span>
+							</div>
+							</if>
+						</p>
+                    </span>
+                </p>
+            </div><!--lgRight  end-->
+        </div><!--loginCon  end-->
+        <a href="{:U('Home/User/pageRegister')}" class="regi"><span>免费注册</span></a>
+    </div>
+</div>
+<!--中间内容  结束--->
+<script>var tpl = "__TPL__";</script>
+<script type="text/javascript" src="__JS__base.js"></script>
+<eq name="wxloginstatus" value="1">
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<script>
+	var obj = new WxLogin({
+	  id:"wx_login", 
+	  appid: "{$wxid}", 
+	  scope: "snsapi_login", 
+	  redirect_uri: "{$wx_redirect_uri}",
+	  state: "{$wxrand}",
+	  style: "white", //可选值：black,white
+	  href: ""
+	});
+</script>
+</eq>
+<script>
+	function redirectUri(obj){
+		if(obj == 'fogetpass'){
+			window.parent.location.href="{:U('Home/User/pageFoget')}";
+		}else if(obj == 'registpage'){
+			$.popup.close();
+			$.popup.popwin('/Home/User/ajaxRegPage', { settings: { width: 410, height:710, title: '注册',head:true} });
+		}
+	}
+</script>
+<script>
+$("input[tabindex=1]").blur(function(){
+    $("#m_name").val(this.value);
+});
+
+$("input[tabindex=3]").blur(function(){
+    $("#verify").val(this.value);
+});
+
+$(document).ready(function(){
+    $("#home_reg_submit").click(function(){
+        
+        var data = $('#reg_form').serialize();
+        $.post("/Home/User/doRegister", data, function(json) {
+            if (json.status) {
+                alert("注册成功,等待跳转...");
+                window.location.href = "/Home/User/Login";
+                return false;
+            } else {
+
+                alert(json.info);return false;
+
+            }
+        }, 'json');
+
+    });
+    
+    
+});
+
+function EnterPressPsd(e){
+/**
+    var e = e || window.event; 
+    if(e.keyCode == 13){
+        homeLoginSubmit();
+    }
+**/
+}
+
+/**
+function homeLoginSubmit(){
+    var rand = '{$Think.session.rand}'.toString();
+    var m_password = $("#m_password").val().toString();
+    var new_password = encode64(m_password+rand);
+    $("#m_password").val(new_password);
+	
+    $("#register_form").submit();
+}**/
+</script>

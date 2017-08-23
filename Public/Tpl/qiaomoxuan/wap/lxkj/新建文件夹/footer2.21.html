@@ -1,0 +1,32 @@
+
+        <div class="news">
+            <div class="footadd" style="width:100%;display:block;"></div>
+            <div class="footer">
+                <ul>
+                    <li>
+                        <div class="pic"><a href="###"><img src="__TPL__/images/home1.png" alt="" _src="__TPL__/images/home1_hover.png"><p>首页</p></a></div>
+                    </li>
+                    <li>
+                        <div class="pic"><a href="###"><img src="__TPL__/images/classifiy.png" alt="" _src="__TPL__/images/classifiy_hover.png"><p>分类</p></a></div>
+                    </li>           
+                    <li>
+                        <div class="pic"><a href="###"><img src="__TPL__/images/cart.png" alt="" _src="__TPL__/images/cart_hover.png"><p>购物车</p></a></div>
+                    </li>           
+                    <li>
+                        <div class="pic"><a href="###"><img src="__TPL__/images/me.png" alt="" _src="__TPL__/images/me_hover.png"><p>我的</p></a></div>
+                    </li>           
+                    <div style="clear:both;"></div>
+                </ul>               
+            </div>
+        </div>
+    </div>
+<script>
+$(document).ready(function(){ 
+    $(".footadd").height($(".footer").height());
+    var headerTop_h = $(".headerTop").height()
+    $(".menu").css("top",headerTop_h);
+    var li_width = $(".index_pp li").width()
+    $(".index_pp li").height(li_width)
+})
+</script>
+<script src="__TPL__/js/index.js"></script>  

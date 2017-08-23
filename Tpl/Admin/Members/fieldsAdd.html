@@ -1,0 +1,148 @@
+<script src="__PUBLIC__/Addmin/js/member.js"></script>
+<div class="rightInner">
+    <form id="fields_add" name="fields_add" method="post" action="{:U('Admin/Members/doFields')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">会员属性项添加</th>
+                </tr>
+            </thead>
+            <tbody id="detail_tbody"> 
+                <tr>
+                    <td class="first">属性项名称：</td>
+                    <td>
+                        <input type="text" name="field_name" id="field_name" class="medium" value="{$data.field_name}" validate="{ required:true}" <if condition="($data.type eq 1)"> disabled="disabled" </if>/> 
+                    </td>
+                    <td class="last">请输入属性项名称</td>
+                </tr>
+                <tr>
+                    <td class="first">排序：</td>
+                    <td>
+                        <input type="text" name="dis_order" id="dis_order" class="medium" value="{$data.dis_order}" validate="{ number:true}" style="width:50px;"/> 
+                    </td>
+                    <td class="last">数值越大越显示后。</td>
+                </tr>
+                <tr>
+                    <td class="first">获赠积分：</td>
+                    <td>
+                        <input type="text" name="fields_point" id="fields_point" class="medium" value="{$data.fields_point}" validate="{ number:true}" style="width:50px;"/> 
+                    </td>
+                    <td class="last">完善此条信息获赠积分数</td>
+                </tr>
+                <tr>
+                    <td class="first">是否显示：</td>
+                    <td>
+                        <input type="radio" value="1" name="is_display" <if condition="($data.is_display eq 1)"> checked="checked" </if>>是
+                        <input type="radio" value="0" name="is_display" <if condition="($data.is_display neq 1)"> checked="checked" </if>>否
+                    </td>
+                    
+                </tr>
+                <neq name="data.type" value="1">
+                    <tr>
+                        <td class="first">会员列表是否显示：</td>
+                        <td>
+                            <input type="radio" value="1" name="list_display" <if condition="($data.list_display eq 1)"> checked="checked" </if>>是
+                            <input type="radio" value="0" name="list_display" <if condition="($data.list_display neq 1)"> checked="checked" </if>>否
+                        </td>
+                        
+                    </tr>
+                </neq>
+                <tr>
+                    <td class="first">是否必填：</td>
+                    <td>
+                        <input type="radio" value="1" name="is_need" <if condition="($data.is_need eq 1)"> checked="checked" </if>>是
+                        <input type="radio" value="0" name="is_need" <if condition="($data.is_need neq 1)"> checked="checked" </if>>否
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">是否为注册项：</td>
+                    <td>
+                        <input type="radio" value="1" name="is_register" <if condition="($data.is_register eq 1)"> checked="checked" </if>>是
+                        <input type="radio" value="0" name="is_register" <if condition="($data.is_register neq 1)"> checked="checked" </if>>否
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">是否编辑：</td>
+                    <td>
+                        <input type="radio" value="1" name="is_edit" <if condition="($data.is_edit eq 1)"> checked="checked" </if>>是
+                        <input type="radio" value="0" name="is_edit" <if condition="($data.is_edit neq 1)"> checked="checked" </if>>否
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">类型：</td>
+                    <td>
+                        <select class="medium" name="fields_type" onchange="onchange_addr(this.value)" <if condition="($data.type eq 1)"> disabled="disabled" </if>>
+                            <option value="text"> 文本框</option>
+                            <option value="radio" <if condition="($data.fields_type eq radio)"> selected="selected" </if>> 单选框</option>
+                            <option value="checkbox" <if condition="($data.fields_type eq checkbox)"> selected="selected" </if>> 多选框</option>
+                            <option value="select" <if condition="($data.fields_type eq select)"> selected="selected" </if>> 下拉框</option>
+                            <option value="file" <if condition="($data.fields_type eq file)"> selected="selected" </if>> 附件框</option>
+                        </select>
+                    </td>
+                </tr>
+                <if condition="($data.type neq 1)">
+                    <volist name="data.fields_content" id="content">
+                    <tr class="fields_content" >
+                		<td class="first">选项内容：</td>
+                        <td>
+                            <input type="text" name="ary_option[]" value="{$content}" class="medium"/>{$fields_content}
+                            <a href="javascript:void(0);" onclick="return aotuAddOneRow();">添加</a>
+                			<a href="javascript:void(0);" onclick="return deleteDetailRows(this);">移除</a>
+                		</td>
+                	</tr>
+                    </volist>
+                    <empty name="data.fields_content">
+                        <tr class="fields_content" style="display: none;">
+                		<td class="first">选项内容：</td>
+                        <td>
+                            <input type="text" name="ary_option[]" value="{$content}" class="medium"/>
+                            <a href="javascript:void(0);" onclick="return aotuAddOneRow();">添加</a>
+                			<a href="javascript:void(0);" onclick="return deleteDetailRows(this);">移除</a>
+                		</td>
+                	</tr>
+                    </empty>
+                </if>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="{$data.id}" name="id" />
+                        <input type="hidden" value="{$data.type}" name="type" />
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/Members/fieldsList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#fields_add").validate();   
+    });
+    
+    function aotuAddOneRow(){
+    	var domObj = $(".fields_content:first").clone();
+    	domObj.appendTo("#detail_tbody").find("input[type='text']").val("");
+    }
+    function deleteDetailRows(clickObj){
+    	$(clickObj).parent("td").parent("tr").remove();
+    	return false;
+    }
+    function onchange_addr(clickObj){
+        if(clickObj=='radio'){
+            $(".fields_content").css('display','');
+        }
+        else if(clickObj=='checkbox'){
+            $(".fields_content").css('display','');
+        }
+        else if(clickObj=='select'){
+            $(".fields_content").css('display','');
+        }else{
+            $(".fields_content").css('display','none');
+            $(".fields_content").find("input[type='text']").val("");
+        }
+    }
+    
+</script>

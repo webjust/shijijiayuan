@@ -1,0 +1,353 @@
+.pdt-one{
+	width:910px;
+	padding:30px 0 43px 70px;
+	background:url(../images/detail_bg_01.png) no-repeat;
+	position:relative;
+}
+.pdt-one-bottom{
+	width:980px;
+	height:45px;
+	background:#fff url(../images/detail_bg_02.png) no-repeat;
+	position:absolute;
+	bottom:0;
+	left:0;
+	z-index: 1;
+}
+.pdt-one .tu-wraper{
+	position:relative;
+	width:440px;
+	float:left;
+}
+.pdt-one .tu-wraper .images{
+	width:320px;
+	height:320px;
+	background-color:#FFF;	
+}
+.pdt-one .tu-wraper .images img{
+	width:320px;
+	height:320px;
+}
+.pdt-one .tu-wraper .shabox{
+	box-shadow:0 0 3px #e7ddce;
+	border:1px solid #e8e5dd;
+	width:320px;
+	height:320px;
+	float:left;
+	overflow:hidden;
+	position:relative;
+	z-index: 1;
+}
+.pdt-one .tu-wraper .images img{
+	width:320px;
+	height:320px;
+	display:block;
+}
+.pdt-one .tu-wraper .s{
+	width:16px;
+	height:16px;
+	background:url(../images/pis.jpg) no-repeat 0 -274px;
+	position:absolute;
+	bottom:2px;
+	left:305px;
+	z-index:3;
+}
+.pdt-one .tu-wraper .thumbs{
+	float:left;
+	margin-top:25px;
+	padding-left:20px;
+	height:280px;
+	overflow:hidden;
+}
+.pdt-one .tu-wraper .thumbs img{
+	box-shadow:0 0 3px #e7ddce;
+	border:1px solid #e8e5dd;
+	display:block;
+	width:82px;
+	height:82px;
+	margin-bottom:10px;
+}
+.pdt-one .tu-wraper .thumbs img.selected{
+	border:4px solid #ff7423;
+	width:75px;
+	height:75px;
+}
+.pdt-one .tu-wraper .prev,.pdt-one .tu-wraper .next{
+	width:82px;
+	height:16px;
+	position:absolute;
+	display:block;
+	box-shadow:0 0 3px #e7ddce;
+	border:1px solid #e8e5dd;
+	background:url(../images/pis.jpg) no-repeat;
+}
+.pdt-one .tu-wraper .prev{
+	top:0px;
+	left:341px;
+	background-position:-107px -143px;
+}
+.pdt-one .tu-wraper .prev.disabled{
+	background-position:-204px -143px;
+}
+.pdt-one .tu-wraper .next{
+	top:302px;
+	left:341px;
+	background-position:-107px -172px;
+}
+.pdt-one .tu-wraper .next.disabled{
+	background-position:-204px -172px;
+}
+.pdt-one .pdt-in{
+	color:#a78874;
+	float:left;
+	width:375px;
+}
+.pdt-one .pdt-in ul li{
+	border-bottom:1px solid #e0d6c8;
+}
+.pdt-one .pdt-in ul li.nbd{
+	border:0;
+}
+.pdt-one .pdt-in h1{
+	width:369px;
+	font-weight:bold;
+	font-size:16px;
+	color:#6f3b21;
+	padding:5px 0;
+}
+.pdt-one .pdt-in .rol2{
+	height:42px;
+	line-height:40px;
+}
+.pdt-one .pdt-in .rol2 .pl{
+	padding-left:50px;
+}
+.pdt-one .pdt-in .rol2 .red{
+	color:#c44004;
+}
+.pdt-one .pdt-in .rol2 strong{
+	font-size:16px;
+	padding:0 2px;
+}
+.pdt-one .pdt-in .rol2 .ib{
+	background:url(../images/pis.jpg) no-repeat -72px -2px;
+	display:inline-block;
+	width:26px;
+	height:26px;
+	position:relative;
+	top:6px;
+}
+.pdt-one .pdt-in .rol3{
+	padding: 5px 0;
+}
+.pdt-one .pdt-in .rol3 .lx{
+	float:left;
+	width:210px;
+}
+.pdt-one .pdt-in .rol3 .lx a{
+	display:inline-block;
+	width:42px;
+	height:42px;
+	overflow:hidden;
+	border:1px solid #e0d6c8;
+	margin-right:5px;
+}
+.pdt-one .pdt-in .rol3 .lx a.selected{
+	border:3px solid #de6121;
+	width:38px;
+	height:38px;
+}
+.pdt-one .pdt-in .rol3 .lx a img{
+	width:100%;
+	height:100%;
+}
+.pdt-one .pdt-in .rol4{
+	padding:10px 0;
+}
+.pdt-one .pdt-in .rol4 table{
+	background-color:#e0d6c8;
+	border-collapse:separate;
+	border-spacing:1px;
+	width:100%;
+	
+}
+.pdt-one .pdt-in .rol4 table td{
+	background-color:#f5f1e9;
+	padding: 3px 5px;
+}
+.pdt-one .pdt-in .rol4 .sharemore a{
+	background:none;
+	padding-left:0!important;
+}
+.pdt-one .pdt-in .rol4 .share{
+	background:url(../images/pis.jpg) no-repeat -21px 0;
+	width:36px;
+	height:19px;
+	display:block;	
+	cursor:pointer;
+}
+.pdt-one .pdt-in .rol4 .num{
+	background:url(../images/num.jpg) no-repeat;
+	padding:10px 0;
+	text-align:center;
+	width:152px;
+	float:left;
+}
+.pdt-one .pdt-in .rol4 .num .u{
+	width:75px;
+	height:18px;
+	text-align:center;
+	border:0;
+	background:none;
+}
+.pdt-one .pdt-in .rol4 .num a{
+	padding:8px 15px;
+}
+.pdt-one .pdt-in .rol4 .sbm{
+	display:block;
+	width:120px;
+	height:36px;
+	background:url(../images/btns.jpg) no-repeat;
+	margin:0 10px;
+}
+.pdt-one .pdt-in .p10{
+	padding:10px 0;
+}
+.datu{
+	
+}
+.datu .images{
+	width:578px;
+	height:578px;
+	border:1px solid #f1f1f1;
+	float:left;
+	overflow: hidden;
+}
+.datu .images img{
+	width:578px;
+	height:578px;
+	display:block;
+}
+.datu .thumbs{
+	float:left;
+	width:386px;
+	height:552px;
+	overflow:hidden;
+}
+.datu .thumbs img{
+	width:176px;
+	height:176px;
+	border:2px solid #f1f1f1;
+	margin-left:7px;
+}
+.datu .thumbs img.selected{
+	border:2px solid #dc5113;
+}
+.datu .thumbs img:hover{
+	border:2px solid #dc5113;
+}
+.review{
+	padding-top:0!important;
+	width:963px!important;
+}
+.review .pxu{
+	background:#faf9f5;
+	height:50px;
+	width:953px;
+	text-align:right;
+	padding-right:10px;
+}
+.review .pxu a{
+	padding-top:13px;
+	display:inline-block;
+}
+.review .pxu i{
+	display:inline-block;
+	width:12px;
+	height:12px;
+	background:url(../images/icon3.gif) no-repeat -1px 0;
+}
+.review .pxu i.selected{
+	background-position:-18px 0;
+}
+.review .list{
+	
+}
+.review .list .name{
+	text-align:center;
+	color:#AF1702;
+}
+.review .list li{
+	clear:both;
+	border-bottom:1px solid #e0d6c8;
+	min-height:36px;
+	width:100%;
+}
+.review .list li .bd{
+	padding: 10px;
+	width:760px;
+}
+.review .dj{
+	height:24px;
+	
+	background:url(../images/dj.gif) no-repeat;
+}
+.review .dj.p1{
+	width:20px;
+}
+.review .dj.p2{
+	width:45px;
+}
+.review .dj.p3{
+	width:68px;
+}
+.review .dj.p4{
+	width:91px;
+}
+.review .dj.p5{
+	width:112px;
+}
+.p-ad{
+	padding:20px 0;
+	border-top:1px solid #e0d6c8;
+	border-bottom:1px solid #e0d6c8;
+}
+.p-ad a{
+	margin-right:10px;
+}
+/*搭配套餐*/
+.dapz{
+	color:#6f3b21;
+}
+.dapz h2{
+	color:#6F3B21;
+	line-height:20px;
+}
+.dapz .plus{
+	color:#6f3b21;
+	font-size:20pt;
+}
+.dapz .dpdt{
+	width:112px;
+}
+.dapz table td{
+	
+}
+.dapz table td label{
+	text-align:left;
+	display:block;
+	padding:1px 3px;
+	
+}
+.dapz table td label input[type="checkbox"]{
+	margin-right:5px;
+}
+.dapz .img a img{
+	display:block;
+	border:1px solid #e0d6c8;
+}
+.dapz .img a:hover img{
+	border:1px solid #8f7652;
+}
+.dapz .dpdt-a{
+	line-height:20px;
+}

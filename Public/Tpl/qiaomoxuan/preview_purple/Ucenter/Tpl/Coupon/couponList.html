@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="__UCSS__ucenter.css">
+<script type="text/javascript" src="__UJS__ucenter.js"></script>
+<div class="container">
+    <!--container-->
+    <div class="titleTop"> <!--titleTop-->
+        <p class="detailT"><a href="{:U('Wap/Index/index')}">首页</a>/<a href="{:U('Wap/Ucenter/index')}">个人中心</a></p>
+        <h1><span>我的优惠券</span></h1>
+    </div>
+    <!--titleTop-->
+    <!--Ucenter-->
+    <div class="Ucenter">
+        <div class="userInfo" id="userInfo">
+        </div>
+        <!--ucenter_S-->
+        <div class="ucenter_S">
+            <div class="selector"><span class="select">我的优惠券</span>
+                <ul style="display: none;">
+                    <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                    <li><a  href="{:U('Wap/Orders/orderList')}" selectid="2">我的订单</a></li>
+                    <li><a  href="{:U('Wap/My/pageDeliver')}"  selectid="4">我的地址</a></li>
+                    <li><a  href="{:U('Wap/Message/pageMailBox')}"  selectid="5">站内消息</a></li>
+                    <li><a  href="{:U('Wap/Collect/pagelist')}"  selectid="6">收藏列表</a></li>
+                    <li><a   href="{:U('Wap/PointLog/pagelist')}"  selectid="8">我的积分</a></li>
+                    <li><a   href="{:U('Wap/Coupon/couponList')}"  selectid="9">我的优惠券</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--ucenter_S-->
+        <!--Message-->
+        <div class="Mycoupons">
+            <php>
+                $count = 0;
+                foreach ($ary_coupon as $key =>$value){
+                    if($value['c_is_use'] == 0 && $value['no']==0){
+                        $count ++ ;
+                }
+                }
+            </php>
+            <h1>可用优惠券：{$count}</h1>
+            <div class="intTop">
+                <table class="myCou_tb">
+                    <tbody><tr class="TableHeader">
+                        <th>有效日期</th>
+                        <th>金额</th>
+                        <th>优惠代码</th>
+                        <th>状态</th>
+                    </tr>
+                    <volist name="ary_coupon" id="coupon">
+                        <tr class="tab_Cont">
+                            <td>{$coupon.c_end_time}</td>
+                            <if  condition="$coupon.c_type eq 0 ">
+                                <td>{$coupon.c_money}</td>
+                             <elseif condition ="$coupon.c_type eq 1"/>
+                                <php> $coupon['c_money'] =  $coupon['c_money']*10;</php>
+                                <td><php> echo ($coupon['c_money']);</php>折</td>
+                            </if>
+                            <td>{$coupon.c_sn}</td>
+                            <if  condition="$coupon.c_type eq 0 or $coupon.c_type eq 1">
+                                <eq name="coupon[no]" value="1">
+                                    <td class="mid">过期</td>
+                                    <else />
+                                        <eq name="coupon[c_is_use]" value="0">
+                                            <td class="Available">
+                                            <php>
+                                                $nowtime = date("Y-m-d H:i:s", time());
+                                                if($nowtime < $coupon['c_start_time']){
+                                                  echo  "未生效";
+                                                }else{
+                                                   echo "可用";
+                                                }
+                                            </php>
+                                            </td>
+                                         <else />
+                                        <eq name="coupon[c_is_use]" value="1">
+                                            <td class="mid">已用</td>
+                                        </eq>
+                                        <eq name="coupon[c_is_use]" value="4">
+                                            <td class="mid">过期</td>
+                                        </eq>
+                                    </eq></td>
+                                </eq>
+                            </if>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!--Message-->
+    </div>
+    <div>{$page}</div>
+    <!--Ucenter-->
+</div>
+<script>
+    getcommoninfo();
+</script>

@@ -1,0 +1,81 @@
+<div class="rightInner">
+<form id="navForm" method="post" action="{$nav?U('Admin/Nav/doEdit'):U('Admin/Nav/doAdd')}" enctype="multipart/form-data">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">{$nav?'修改自定义导航':'添加自定义导航'}</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="first">* 自定义导航名称：</td>
+		<td>
+		    <input class="large" type="text" name="n_name" value="{$nav.n_name}" id="n_name" validate="{required:true}">
+		</td>
+	</tr>
+	<tr>
+		<td class="first">* 自定义导航地址：</td>
+		<td>
+		    <input class="large" type="text" name="n_url" value="{$nav.n_url}" id="n_url" validate="{required:true,url:true}">
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">是否新窗口：</td>
+		<td>
+            <input type="radio" name="n_target" value="_blank" <if condition="$nav['n_target'] eq '_blank'">checked="checked"</if>>是
+	        <input type="radio" name="n_target" value="_self" <if condition="$nav['n_target'] eq '_self'">checked="checked"</if>>否
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">位置：</td>
+		<td>
+					<select name="n_position">
+						<option value="top" <if condition="$nav.n_position eq 'top'"> selected="selected"</if>>顶部</option>
+						<option value="middle" <if condition="$nav.n_position eq 'middle' "> selected="selected"</if>>中间</option>
+						<option value="bottom" <if condition="$nav.n_position eq 'bottom' "> selected="selected"</if>>底部</option>
+						<option value="hot" <if condition="$nav.n_position eq 'hot' "> selected="selected"</if>>热门搜索</option>
+						<option value="wap_hot" <if condition="$nav.n_position eq 'wap_hot' "> selected="selected"</if>>wap热门搜索</option>
+						<option value="bulk" <if condition="$nav.n_position eq 'bulk' "> selected="selected"</if>>团购</option>
+						<option value="wap" <if condition="$nav.n_position eq 'wap' "> selected="selected"</if>>wap导航</option>
+					</select>
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">是否显示：</td>
+		<td>
+			<input type="radio" name="n_status" value="1"{$nav['n_status']?' checked="checked"':''}>是
+	        <input type="radio" name="n_status" value="0"{$nav['n_status']?'':' checked="checked"'}>否
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">标注关键：</td>
+		<td>
+			<input type="radio" name="n_key" value="1"{$nav['n_key']?' checked="checked"':''}>是
+	        <input type="radio" name="n_key" value="0"{$nav['n_key']?'':' checked="checked"'}>否
+		</td>
+	</tr>
+	<tr>
+	    <td class="first">排序：</td>
+		<td><input class="small" type="text" name="n_order" value="{$nav.n_order}" id="n_order"></td>
+		<td class="last">值越小，排序越靠前</td>
+	</tr>
+</tbody>
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="submit" value="保 存" class="btnA" >
+            <input type="button" onclick="window.history.go(-1);" value="取 消" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</table>
+<input name="n_id" type="hidden" value="{$nav.n_id}"/>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $('#navForm').validate();
+    });
+</script>

@@ -1,0 +1,42 @@
+{__NOLAYOUT__}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{$url.index}</loc>
+        <lastmod>{$refresh}</lastmod>
+        <changefreq>{$setting['INDEX_FREQ']}</changefreq>
+        <priority>1</priority>
+    </url>
+    <volist name="goods" id="g">
+        <url>
+            <loc>{$url.goods}/gid/{$g.g_id}</loc>
+            <lastmod>{$g.g_update_time}</lastmod>
+            <changefreq>{$setting['GOODS_FREQ']}</changefreq>
+            <priority>0.9</priority>
+        </url>
+    </volist>
+    <volist name="cates" id="gc">
+        <url>
+            <loc>{$url.cates}/cid/{$gc.gc_id}</loc>
+            <lastmod>{$gc.gc_update_time}</lastmod>
+            <changefreq>{$setting['CATE_FREQ']}</changefreq>
+            <priority>0.8</priority>
+        </url>
+    </volist>
+    <volist name="brands" id="gb">
+        <url>
+            <loc>{$url.brands}/bid/{$gb.gb_id}</loc>
+            <lastmod>{$gb.gb_update_time}</lastmod>
+            <changefreq>{$setting['CATE_FREQ']}</changefreq>
+            <priority>0.8</priority>
+        </url>
+    </volist>
+    <volist name="article" id="a">
+        <url>
+            <loc>{$url.articles}/aid/{$a.a_id}</loc>
+            <lastmod>{$a.a_update_time}</lastmod>
+            <changefreq>{$setting['ARTI_FREQ']}</changefreq>
+            <priority>0.7</priority>
+        </url>
+    </volist>
+</urlset>

@@ -1,0 +1,27 @@
+
+<div id="help">
+    <!-- <div class="help_nav"><a href="###"></a><a href="###"></a><a href="###"></a><a href="###"></a><a href="###"></a></div> -->
+    <div style="height: 15px;"></div>
+    <div class="tt_content">
+        <div class="left">
+            <gyfx:articlecate_list name="cate" num="10" recommend="1" linum="10">
+                <volist name="cate" id="tin">
+                    <dl class="word">
+                        <dt>{$tin.cat_name}</dt>
+                        <dd>
+	                        <volist name="tin.a_list" id="a_list">
+	                            <a href="{$a_list.aurl}">{$a_list.atitle}</a>
+	                        </volist>
+                        </dd>
+                    </dl>
+                </volist>
+            </gyfx:articlecate_list>
+        </div>
+        <div class="right">
+			<Gyfx:articleinfo name="artinfo" aid="$aid" >
+	            <div class="title">{$artinfo.atitle}</div>
+	            <div>{$artinfo.acontent}</div>
+			</Gyfx:articleinfo>
+        </div>
+    </div>
+</div>

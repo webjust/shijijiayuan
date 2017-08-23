@@ -1,0 +1,86 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style type="text/css">   
+body,ul,li{margin:0;padding:0;}   
+.grid_wrapper{   
+ width: 170px;   
+ height: 170px;   
+ margin-left: auto;   
+ margin-right: auto;   
+}   
+.grid{   
+ margin-left: 5px;   
+ margin-top: 5px;   
+ list-style-type:none;   
+}   
+.grid:after{   
+ content: ".";   
+ display: block;   
+ line-height: 0;   
+ width:0;   
+ height: 0;   
+ clear: both;   
+ visibility: hidden;   
+ overflow: hidden;   
+}   
+.grid li{float:left;line-height: 50px;}   
+.grid li a,.grid li a:visited{   
+ display:block;   
+ border: 5px solid #ccc;   
+ width: 50px;   
+ height: 50px;   
+ text-align: center;   
+ margin-left: -5px;   
+ margin-top: -5px;   
+ position: relative;   
+ z-index: 1;   
+}   
+.grid li a:hover{
+ border-color: #f00;   
+ z-index: 2;   
+}   
+</style>   
+<div class="contentRightBox">
+<div class="grid_wrapper">   
+ <ul class="grid">
+<volist name="orderList" id="order" key="k">  
+  <li><a href="#" id="{$order.o_id}">{$k}</a></li>
+</volist>    
+ </ul>   
+</div>
+商品条形码:<input type="text"  value="" id="pdt_bar_code" name="pdt_bar_code" class="large" maxlength="60"/> <br>
+<volist name="orderList" id="order" key="k">  
+  {$k}号订单：{$order.o_id}<br>
+</volist>
+
+<volist name="goodList" id="good" key="k">  
+  {$good.g_name}　　{$good.pdt_bar_code}　　{$good.os_nums}<br>
+</volist>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    window.onload = function()
+    {
+      document.getElementById("pdt_bar_code").focus();
+    }
+    $('input').bind('input propertychange', function() { 
+        var pdt_bar_code = $("#pdt_bar_code").val();
+        var osob_id = '{$osob_id}';
+        if(pdt_bar_code.length==13){
+            $.ajax({
+                url:"/Ucenter/Warehouse/doBasket",
+                cache:false,
+                data:{pdt_bar_code:pdt_bar_code,osob_id:osob_id},
+                type:"post",
+                success:function(data){
+                    oidArr = data.split(",");
+
+                }
+            });
+        }
+    });
+</script>

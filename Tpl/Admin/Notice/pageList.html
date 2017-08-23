@@ -1,0 +1,39 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th><a href="{:U('Admin/Notice/pageAdd')}" class="btnG ico_add">新增公告</a></th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+					<form id="searchForm" method="post">
+						公告标题：<input type="text" name="title" value="{$title}" class="inputClass">
+						<input type="submit" value="搜 索" class="btnHeader inpButton">
+					</form>
+                </th>
+            </tr>
+            <tr>
+                <th width="120">操作</th>
+                <th>公告标题</th>
+                <th width="120">是否置顶</th>
+                <th width="200">发布日期</th>
+            </tr>
+        </thead>
+        <tbody>
+           	<volist name="list" id="notice">
+               <tr>
+                   <td width="120">
+                    <a href='{:U("Admin/Notice/pageEdit","pnid=$notice[pn_id]")}'>编辑</a>|
+					<a href='{:U("Admin/Notice/doDel","pnid=$notice[pn_id]")}'>删除</a>
+					</td>
+					<td>{$notice.pn_title}</td>
+					<td width="120">{$notice['pn_is_top']?'是':'否'}</td>
+					<td width="200">{$notice.pn_create_time}</td>
+               </tr>
+               </volist>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">{$page}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

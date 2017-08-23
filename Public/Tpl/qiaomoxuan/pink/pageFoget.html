@@ -1,0 +1,151 @@
+{__NOLAYOUT__}
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+	<title>忘记密码页</title>
+	<link href="__CSS__global.css" type="text/css" rel="stylesheet">
+	<script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+	<script src="__PUBLIC__/Lib/jquery/js/jquery.form.js"></script>
+	<script src="__PUBLIC__/Lib/jquery/js/jquery-ui-1.9.2.custom.js"></script>
+	<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+	<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+	<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+	<style>
+	.error{color:red;}
+	</style>
+</head>
+<body>
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<div class="header headerT">
+	<div class="header_logo">
+		<div class="logo"><a href="{:U('Home/Index/index')}"><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']|default='__IMAGES__header_logo.png'}" width="345px" height="47px" /></a></div>
+	</div>
+</div>
+<div class="wrap">
+	<div class="warp_left">
+		<div class="left">
+			<h1 class="title">忘记密码</h1>
+			<div class="top2">
+			<form id="forgetform" action="/Home/User/synReset" method="post">
+				<ul class="list">
+					<li>
+						<label class="title"><i>*</i>用户邮箱:</label>
+						<span class="inS">
+							<input type="text" value="" validate="{ required:true}" class="medium" id="username" name="username">
+						</span>
+						<i class="mark" style="width:auto"></i>   
+					</li>
+					<li>
+						<label class="title"><i>*</i>校验码:</label>
+						<span class="yanzm"><input type="text" value="" id="verify" name="verify" class="inp3"></span>
+						<a onclick="changeverify(this)" href="javascript:void(0);"><img width="78" height="37" onclick="this.src='/Home/User/verify/'+Math.random()" src="/Home/User/verify/" id="loginverify">换一张</a>
+						<i onclick="this.src='/Home/User/verify/'+Math.random()" style="display:none;color:red" class="message">验证码有误</i>
+						<i class="mark" style="width:auto"></i> 
+					</li>
+					<li> 
+						<input type="submit" id="submitForm" class="btn find_Pwd" value="找回密码">
+					</li>
+				</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="warp_right">
+		<img src="__IMAGES__reg_Log.jpg" width="370" height="580"/>
+	</div>
+</div>
+<script type="text/javascript">
+function changeverify(){      
+    $('#loginverify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());        	
+}
+$(document).ready(function(){
+	$.metadata.setType("attr", "validate");
+	$("#forgetform").validate({
+		errorPlacement: function(error, element) {
+			var error_td = element.parent("span").siblings("i");
+			error_td.append(error);
+		},
+		rules : {
+			username : {
+				required:true,
+				email:true,
+			},
+			verify : {
+				required:true,
+				digits:true,
+				rangelength:[4,4],
+				remote:'/Home/User/checkVerify'
+				
+			}
+		},
+		messages : {
+			username : {
+				required : '注册邮箱不能为空',
+				minlength : '注册邮箱不能少于4位',
+				remote:'该用户名已经存在'
+			},
+			verify : {
+				required:'请输入验证码',
+				digits:'对不起，请输入正确的验证码',
+				rangelength:'验证码长度为4'
+				
+			}
+		}
+	});
+});
+</script>
+<!--foot start-->
+<!--<div class="footer">-->
+	<!--<div class="ftOne">&lt;!&ndash;ftOne&ndash;&gt;-->
+		<!--<div class="ftOneTop">&lt;!&ndash;ftOneTop&ndash;&gt; -->
+			<!--<span><img src="__IMAGES__service1.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service2.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service3.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service4.jpg"></span>-->
+            <!--<span><img src="__IMAGES__service5.jpg"></span>-->
+		<!--</div>&lt;!&ndash;/ftOneTop&ndash;&gt;-->
+		<!--<div class="ftOneBot">&lt;!&ndash;ftOneBot&ndash;&gt;-->
+			<!--<ul>-->
+                <!--<Gyfx:articlecate name="artcat" num="5" recommend="1" is_show="1">-->
+                    <!--<volist name="artcat" key="k" id="arts">-->
+                        <!--<li>-->
+                            <!--<strong>{$arts.cat_name}</strong>-->
+                            <!--<volist name="arts.list" key="k" id="artinfo">-->
+                                <!--<if condition="$k elt 4">-->
+                                    <!--<a href="{$artinfo.aurl}" target="_blank">{$artinfo.a_title}</a>-->
+                                <!--</if>-->
+                            <!--</volist>-->
+                        <!--</li>-->
+                    <!--</volist>-->
+                <!--</Gyfx:articlecate>-->
+			<!--</ul>-->
+			<!--<div style="float:right;width:145px;margin:10px 25px 0 0">-->
+				<!--<a style="width:145px;height:105px" href="{$Think.config.DOMAIN_HOST}{$ary_top_ads['bottom_pic_url']}" target="_blank">-->
+				<!--<img src="{$ary_top_ads['bottom_pic']}" width="145" height="105">-->
+				<!--</a>-->
+			<!--</div>-->
+		<!--</div>-->
+      <!--&lt;!&ndash;/ftOneBot&ndash;&gt; -->
+    <!--</div>-->
+	<!--&lt;!&ndash;/ftOne&ndash;&gt;-->
+	<!--<div class="ftTwo">&lt;!&ndash;ftTwo&ndash;&gt;-->
+		<!--<p>版权所有© 2007-2013 爱玛科技股份有限公司 AIMA HI-TECH All rights reserved  </p>-->
+		<!--<p>津ICP备12002534号-1  </p>-->
+	<!--</div>-->
+  <!--&lt;!&ndash;/ftTwo&ndash;&gt; -->
+<!--</div>-->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

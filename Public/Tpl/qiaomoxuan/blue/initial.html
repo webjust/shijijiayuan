@@ -1,0 +1,60 @@
+<div class="reConN"><!--reConN  start-->
+	<div class="zm">
+        <volist name="initial" id="il">
+            <a href="#city_{$il}" class="list_city" <if condition="($key+1) eq $count">style="margin-right:0px;"</if>>{$il}</a>
+        </volist>
+    </div>
+    <div class="dtcity">
+    	<ul>
+            <volist name="data" id="dt">
+            	<li >
+                	<p><a name="city_{$dt.name}"></a><span>{$dt.name}</span></p>
+                    <volist name="dt['city']" id="cy">
+                    <dl>
+                    	<dt>{$cy.cr_name}</dt>
+                        <dd>
+                            <volist name="cy['city']" id="cty">
+                            
+                                <span class="select_city" cr_name="{$cty.cr_name}" cr_id="{$cty.cr_id}" <if condition="$Think.session.city.cr_id eq $cty[cr_id]">style="background:#999;color:#fff;padding:0px 5px;"</if>>{$cty.cr_name}</span>
+                            
+                            </volist>
+                        </dd>
+                    </dl>
+                    </volist>
+                </li>
+            </volist>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".select_city").live("click",function(){
+        var htmls = $(this).html();
+        var cr_id = $(this).attr("cr_id");
+        if(cr_id == ''){
+            alert("请选择城市");return false;
+        }
+        
+        $.ajax({
+            url:'{:U("Home/Index/doSelectedCity")}',
+            cache:false,
+            dataType:"json",
+            data:{cr_id:cr_id},
+            type:"POST",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    $("#Citys").text(htmls);   
+                    $('.webox').css({display:'none'});
+                    $('.background').css({display:'none'});
+                    return false;
+                }else{
+                    alert("选择配送区域失败，请重试...");return false;
+                }
+                
+            }
+        });
+        return false;
+    });
+
+});
+</script>

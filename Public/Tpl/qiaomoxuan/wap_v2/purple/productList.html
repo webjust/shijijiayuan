@@ -1,0 +1,184 @@
+<!--content-->
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__product.js"></script>
+<div class="container"><!--container-->
+    <div class="titleTop">
+		<p class="detailT">
+			<a href="{:U('/Wap/Index/index')}">首页</a>/<a>商品列表页</a>
+		</p>
+	</div>
+	
+    <div class="proList">
+		<notempty name="ary_ads">
+		<div class="proBanner">
+			<a href="{$ary_ads['0']['ad_url']}">
+				<img src="{$ary_ads['0']['ad_pic_url']}" >
+			</a>
+		</div>
+		</notempty>
+		<form method="get" action="{:U('Wap/Products/index')}" id="proFilter">
+		<div class="proNav">
+		    <input type="hidden" name="bid" value="{$ary_request.bid}">
+			<input type="hidden" name="cid" value="{$ary_request.cid}">
+			<input type="hidden" name="startPrice" value="{$ary_request.startPrice}">
+			<input type="hidden" name="endPrice" value="{$ary_request.endPrice}">
+			<ul>
+				<li>
+					<a href="javascript:;" style="color: #ffffff; display:block; font-size:12px; background-color: #5f1785; padding:12px 4%; position:relative;font-size:16px">商品筛选<i></i></a>
+					<div class="menu_list">
+						<p>筛选
+							<a href="javascript:void(0);" onclick="$('#proFilter').submit();" class="fright queding">确定</a>
+						</p>
+						<div class="sxCon">
+							<h2>分类</h2>
+							<ul class="flexbox">
+								<li class="clearfix">
+								<a href='#' cid="" item="goodscate" <if condition="$ary_request.cid eq ''">class="on" </if>>全部</a>
+								<Gyfx:goodscate name="cate" mod="3">
+									<a href="{$cate.curl}" cid="{$cate.cid}" item="goodscate" <if condition="$cate[cid] eq $ary_request[cid]">class="on"</if> >{$cate.cname}</a>
+									<php>
+										if($cate['cid'] == $ary_tmp_cate[0]){
+											$cname = $cate['cname'];
+											$cid = $cate['cid'];
+											$ary_cate = $cate['sub'];
+										}
+									</php>
+									<eq name="mod" value="1"></li><li class="clearfix"></eq>
+								</Gyfx:goodscate>
+								</li>
+							</ul>
+						</div>
+						<div class="sxCon">
+							<h2>品牌</h2>
+							<ul>
+								<li class="clearfix">
+									<a href='#' item="goodsbrand" bid="" <if condition="$ary_request.bid eq ''"> class="on" </if>>全部</a>
+									<Gyfx:goodsbrand name="brand" cid="$ary_request.cid" mod='3'>
+										<a href="#" item="goodsbrand"  bid="{$brand.bid}" <if condition="$brand[bid] eq $ary_request[bid]"> class="on"</if> >{$brand.bname}</a>
+										<eq name="mod" value="1"></li><li class="clearfix"></eq>
+									</Gyfx:goodsbrand>
+								</li>
+							</ul>
+						</div>
+						<div class="sxCon">
+							<h2>价格区间</h2>
+							<ul class="clearfix">
+								<li class="clearfix">
+									<a href="#" item='goodspRank' startPrice="" endPrice="" <if condition="($ary_request.startPrice eq '') and  ($ary_request.endPrice eq '')"> class="on" </if>>不限</a>
+									<a href="#" item='goodspRank' startPrice="0" endPrice="100" <if condition="$ary_request.endPrice eq 100" >class="on"</if> >100以下</a>
+									<a href="#" item='goodspRank' startPrice="100" endPrice="300" <if condition="$ary_request.endPrice eq 300" >class="on"</if> >100-300元</a>
+									<a href="#" item='goodspRank' startPrice="300" endPrice="500" <if condition="$ary_request.endPrice eq 500" >class="on"</if> >300-500元</a>
+                                </li>
+                                <li class="clearfix">
+                                    <a href="#" item='goodspRank' startPrice="500" endPrice="700" <if condition="$ary_request.endPrice eq 700" >class="on"</if> >500-700元</a>
+									<a href="#" item='goodspRank' startPrice="700" endPrice="1000" <if condition="$ary_request.endPrice eq 1000" >class="on"</if> >700-1000元</a>
+									<a href="#" item='goodspRank' startPrice="1000" endPrice="" <if condition="$ary_request.startPrice eq 1000" >class="on"</if> >1000元以上</a>
+                                 </li>
+
+							</ul>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div class="proSort"><span class="sortType">排列方式:</span>
+			<div id="selectors" class="selector">
+				<span class="select">
+					<php>
+						$new = substr_count($_SERVER['QUERY_STRING'],'_new');
+						$hot0 = substr_count($_SERVER['QUERY_STRING'],'order=_hot');
+						$hot1 = substr_count($_SERVER['QUERY_STRING'],'order=hot');
+						if($new == 1){
+							echo "最新商品";
+						}else if($hot0 == 1){
+							echo "销量由高到低";
+						}else if($hot1 == 1){
+							echo "销量由低到高";
+						}else{
+							echo "请选择排列方式";
+						}
+					</php>
+				</span>
+				<ul style="display: none;">
+					<li>
+						<a selectid="1">请选择排列方式</a>
+					</li>
+					<li><a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order=_new"  selectid="2">最新商品</a></li>
+					<li><a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order=_hot" selectid="3">销量由高到低</a></li>
+					<li><a href="{:U('/Wap/Products/index')}?bid={$ary_request.bid}&cid={$ary_request.cid}&startPrice={$ary_request.startPrice}&endPrice={$ary_request.endPrice}&keyword={$ary_request.keyword}&order=hot" selectid="4">销量由低到高</a></li>
+				</ul>
+			</div>
+			<input name="" value="" id="inputselect" type="hidden"></div>
+        </div>
+		</form>
+		<div class="listAll">
+			<ul>
+				<Gyfx:goodslist wap="1" name='showlist' bid="$ary_request['bid']" cid="$ary_request['cid']" pagesize="12" start="$ary_request[start]" gname="$ary_request[keyword]" order="$ary_request[order]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" >
+				<li><!-- <php>echo "<pre>";print_r($showlist);</php> -->
+					<a href="{$showlist.gurl}"><img src="{$Think.config.DOMAIN_HOST}{$showlist.g_picture|showImage=###,300,300}"/></a>
+					<p style="border:none"><a href="{$showlist.gurl}">{$showlist.gname}</a></p>
+					<p style="margin-top:5px">销售价：<i>&yen;{$showlist.gprice|sprintf='%.2f',###}</i></p>
+					<p class="price">
+						<span style="float:left">销量:<b>{$showlist.gsales}</b>件</span>
+						<span style="float:right">(<b>{$showlist.comment_nums}</b>评论)</span>
+					</p>
+				</li>
+				</Gyfx:goodslist>
+			</ul>
+        </div>
+	</div>
+    <!--商品列表内容分页 start-->
+	<div class="pagSplit">
+		<php>if($pagearr['showlist']['nowPage'] == 1){</php>
+		<a class="prev prev-disable" href="javascript:void(0)"><i class="icon"></i>up</a>
+		<php>}else{</php>
+		<a href="<php>echo rtrim(substr($pagearr['showlist']['upUrl'],0,-8),'/').'/';</php>" class="change">首页</a>
+		<a href="{$pagearr.showlist.upUrl}" class="prev01">up</a>
+		<php>}</php>
+		<php>
+			$int_i = 1;
+			$totalPage = 0;
+			if($pagearr['showlist']['nowPage']<4 && $pagearr['showlist']['totalPage']>4){
+			$totalPage = 4;
+			}else if($pagearr['showlist']['nowPage']<4 && $pagearr['showlist']['totalPage']<=4){
+			$totalPage = $pagearr['showlist']['totalPage'];
+			}
+			if($pagearr['showlist']['nowPage'] >=2){
+			$minPage = $pagearr['showlist']['totalPage'] - $pagearr['showlist']['nowPage'];
+
+			if($minPage <3){
+			$totalPage = $pagearr['showlist']['totalPage'];
+			$int_i = $pagearr['showlist']['totalPage']-3;
+			}else{
+			$totalPage = $pagearr['showlist']['nowPage']+1;
+			$int_i = $pagearr['showlist']['nowPage']-1;
+			}
+			if($int_i <= 0){
+			$int_i = 1;
+			}
+			}
+			for($i=$int_i;$i<=$totalPage;$i++){
+			if($i>0){
+			if($i == $pagearr['showlist']['nowPage']){
+			echo "<a class='on'>".$i."</a>";
+			}else{
+			if($i > $pagearr['showlist']['nowPage']){
+			$url = rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/'.'start/'.$i;
+			echo "<a href=".$url.">".$i."</a>";
+			}else{
+			$url = rtrim(substr($pagearr['showlist']['upUrl'],0,-8),'/').'/'.'start/'.$i;
+			echo "<a href=".$url.">".$i."</a>";
+			}
+			}
+			}
+			}
+		</php>
+		<php>if($pagearr['showlist']['nowPage'] == $pagearr['showlist']['totalPage']){</php>
+		<a class="next next-disable" href="javascript:void(0)">next<i class="icon"></i></a>
+		<php>}</php>
+		<php>if($pagearr['showlist']['nowPage'] < $pagearr['showlist']['totalPage']){</php>
+		<a href="{$pagearr.showlist.downUrl}" class="next">next</a>
+		<a href="<php>echo rtrim(substr($pagearr['showlist']['downUrl'],0,-8),'/').'/';</php>start/{$pagearr['showlist']['totalPage']}" class="change">尾页</a>
+		<php>}</php>
+	</div>
+    <!--商品列表内容分页 end--> 
+</div>
+<!--/container-->

@@ -1,0 +1,44 @@
+<!--warp begin-->
+<div class="warp article"> 
+	<!--articleBox begin-->
+	<div class="articleBox">
+		<p><a>首页</a> / {$parent_cate.cat_name|default="联系我们"}</p>
+        <div class="articleNav">
+            <h1 class="right">{$parent_cate.cat_name|default="联系我们"}</h1>
+            <h1 class="left">新闻列表</h1>
+        </div>
+		<div class="nav"> 
+			<!--left begin-->
+			<div class="left">
+				<ul class="touch">
+					<volist name="article_category" id="art">
+                        <li>
+                            <a href="{$art.curl}" <if condition="$art.cat_id eq $ary_request['cid']"> <php>$cate_name = $art['cat_name'];</php>  class="cur"</if>>{$art.cat_name}</a></li>
+						</li>
+					</volist>
+				</ul>
+			</div>
+      <!--left end--> 
+      <!--right begin-->
+      <div class="right">
+		  <ul class="touch">
+              <Gyfx:article name="page3" cid="$ary_request['cid']" num="10">
+              </Gyfx:article>
+			  <volist name="page3" id="article">
+				  <li>
+					  <a href="{$article.aurl}" target="_blank">{$article.atitle}</a>
+				  </li>
+			  </volist>
+		  </ul>
+          <div class="YKfenye" style="text-align:center">
+              <notempty name="pagearr.page3.upPage">{$pagearr.page3.upPage}</notempty>&nbsp;&nbsp;
+              {$pagearr.page3.linkPage}
+              <notempty name="pagearr.page3.downPage">{$pagearr.page3.downPage}</notempty>
+          </div>
+      </div>
+      <!--right end--> 
+    </div>
+  </div>
+  <!--articleBox end--> 
+</div>
+<!--wrap begin-->

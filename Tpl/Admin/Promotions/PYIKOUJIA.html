@@ -1,0 +1,161 @@
+{__NOLAYOUT__}
+<div style="padding: 10px" class="load">
+    <div class="rightInner"><!--rightInner  start-->
+        <table width="100%" class="tbNew">
+            <tbody>
+                <tr class="load">
+                    <th colspan="99">设置商品一口价</th>
+                </tr>
+                <tr>
+                    <td class="first" style="width:103px">* 选择商品：</td>
+                    <td>
+                        <input class="goodsSelecter" type="radio" value="-1" id="cfg_goods_all" name="cfg_goods_area" <eq name="config:cfg_goods_area" value="-1">checked="checked"</eq> >全部商品
+                        <input class="goodsSelecter" type="radio" value="1" id="cfg_goods_part" name="cfg_goods_area" <eq name="config:cfg_goods_area" value="1">checked="checked"</eq>>选择商品
+                        <input type="button" <eq name="config:cfg_goods_area" value="-1">style="display:none;"</eq> class="btnA" id="add_goods" value="添加商品" onClick="javascript:add_pmn_goods();">
+                        <div id="goodsSelect" style="display: none;" title="请选择商品">
+                            <include file="Products:getGoodsSelecter" />
+                        </div>
+                    </td>
+                </tr>
+                <tr id="add_goods_tr" <eq name="config:cfg_goods_area" value="-1">style="display:none"</eq>>
+                    <td colspan="2">
+                        <table id="raGoodsId" class="tbList" width="100%">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;">
+                                        <input type="checkbox" onclick="checkAll()" class="checkAll_tr">
+                                    </th>
+                                    <th style="text-align:center;">商品名称</th>
+                                    <th style="text-align:center;">商品编号</th>
+                                    <th style="text-align:center;">销售价（元）</th>
+                                    <eq name="goods_page" value="PYIKOUJIA"> 
+                                        <th style="text-align:center;">一口价（元）
+                                            <a class="askIcon" href="javascript:void(0)">
+                                                <div class="viewDiv" style="width:100px; height:50px; display:none">内容说明</div>
+                                            </a>
+                                        </th>
+                                    </eq>
+                                    <th style="text-align:center;">操作</th>
+                                </tr>
+                            </thead>
+                            <include file="Promotions:getGoodsTr"/>    
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <input type="button" class="btnA confirm" onclick="batchDelGoods();" value="批量删除">
+                                        {$page}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <table style="width:500px">
+                        <tr>
+                            <td >设置一口价：</td>
+                            <td id="discounts_all" <eq name="config:cfg_goods_area" value="1"> style="display:block;" </eq> <neq name="config:cfg_goods_area" value="1"> style="display:none;" </neq>>
+                                <input type="text" class="small" id="cfg_discounts_all" name="cfg_discounts_all" validate="{ number:true}" >
+                                <a href="javascript:void(0);" id="cfg_discounts_setAll" >快速批量设置</a>&nbsp;&nbsp;
+                            </td>
+                            <td id="discounts_system_all" <eq name="config:cfg_goods_area" value="-1"> style="display:block;width:180px;" </eq> <neq name="config:cfg_goods_area" value="-1"> style="display:none;" </neq>>
+                                <input type="text" class="small" id="cfg_discounts_system_all" name="cfg_discounts_system_all" validate="{ required:true,number:true,min:0.01}" value="{$config['cfg_discounts_system_all']}"/>
+                            </td>
+                            <td >折上折：<input class="checkSon_tr" type="checkbox" name="cfg_use_again_discount" id="cfg_use_again_discount" value="1"<eq name="config['cfg_use_again_discount']" value="1">checked="checked"</eq>>(是否再次参与订单促销)
+                            </td>
+                        <tr>
+                    <table >
+                </tr>
+            </tbody>
+        </table>
+    </div><!--rightInner  end--></div>
+
+<script type="text/javascript">
+    $('#goodsSelect').dialog({
+        resizable:false,
+        autoOpen: false,
+        modal: true,
+        width: 'auto',
+        height:500,
+        open:function(){
+            $('.ui-widget-content').css('overflow-x','hidden');
+        },
+        buttons: {
+            '确认': function() {
+                var dio = $( this );
+                //将弹框内已经选择好的数据发送的母页面的元素
+                //此处不用js拼接html元素，直接把数据发送给控制器，利用控制器生成页面返回替换
+                var data = $("input[name='gs_gid[]']").serialize();
+                    data+=',PYIKOUJIA';
+                var url = "{:U('Admin/Promotions/getGoodsTr')}";
+                $.post(url,data,function(info){
+                    var html= $('#raGoodsId thead').after($(info));
+                    //$('#raGoodsId').html(html);
+                    var num=$("input[name='ra_gid[]']").length;
+                    if(num==0){
+                        $("#cfg_discounts_setAll").css('display','none');
+                    }else{
+                        $("#cfg_discounts_setAll").css('display','');
+                    }
+                },'text');
+                dio.dialog( "close" );
+            },
+            '关闭': function() {
+                var num=$("input[name='ra_gid[]']").length;
+                if(num==0){
+                    $("#cfg_discounts_setAll").css('display','none');
+                }else{
+                    $("#cfg_discounts_setAll").css('display','');
+                }
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    $('.goodsSelecter').click(function(){
+        var types=$("input:radio[name='cfg_goods_area']:checked").val();
+        //1:部分商品，-1：全部商品
+        if(types==1){
+            $("#add_goods_tr").hide();
+            $('#add_goods').hide();
+            $("#raGoodsId tbody").remove();
+            $("#discounts_system_all").css("display","block");  
+            $("#discounts_all").css("display","none"); 
+            $("#add_goods_tr").addClass('tbList');
+            $('#add_goods').css("display","");
+            $("#add_goods_tr").css("display","");
+            //$('#goodsSelect').dialog('open');
+            $("#discounts_all").css("display","block");  
+            $("#discounts_system_all").css("display","none");  
+        }else{
+            //如果是全部商品则隐藏商品
+            $("#add_goods_tr").hide();
+            $('#add_goods').hide();
+            /*
+            $("input[name='ra_gid[]']").each(function(){
+                $(this).parent('td').parent('tr').remove();
+            })
+            */
+            $("#raGoodsId tbody").remove();
+            $("#discounts_system_all").css("display","block");  
+            $("#discounts_all").css("display","none");  
+        }
+    });
+    /*
+     * 设置价格
+     */
+    function shortcut(gid){
+        $(".shortcut_pro_"+gid).val($("#shortcut_goods_"+gid).val());
+    }
+    /*批量设置商品折扣*/
+    $(function(){
+        $('#cfg_discounts_setAll').click(function(){
+            $('.cfg_discounts').val($('#cfg_discounts_all').val());
+        });
+        
+    });
+    //显示商品选择框
+    function add_pmn_goods() {
+        $('#goodsSelect').dialog('open');
+    }
+</script>

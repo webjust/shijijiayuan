@@ -1,0 +1,31 @@
+<!-- 
+     * 自定义公告标签
+     * @author wangguibin <wangguibin@guanyisoft.com>
+     * @date 2013-04-10
+     * @param string $attr 标签属性 pnid name num
+     * @return array
+     * 公告ID	pnid
+	 * 公告名称	bname
+	 * 公告内容	bpic
+	 * 发布时间	pntime
+     示例：
+	array(1) {
+	  [0] => array(4) {
+	    ["pnid"] => string(1) "2"
+	    ["pntitle"] => string(16) "看见就行1！"
+	    ["pncontent"] => string(232) "<p><img src="/Public/Lib/ueditor/php/upload/20130115/13582392533984.jpg" title="10207144.jpg" />看打奥法阿发卡死减肥咖啡精神可嘉发送开房间阿苏卡放假啊开房间阿苏卡放假啊快放假啊看法<br /></p>"
+	    ["pntime"] => string(19) "2013-01-15 16:40:40"
+	  }
+	}
+ -->
+<h3>{$title}</h3>
+<h4>查询一条公告</h4>
+<Gyfx:notice name="notice"  pnid="1">
+    <li>{$notice.pnid} - {$notice.pntitle}</li>
+</Gyfx:notice>
+
+<hr />
+<h4>查询所有公告信息</h4>
+<Gyfx:notice name="notice"  >
+    <li>{$notice.pnid} - {$notice.pntitle}</li>
+</Gyfx:notice>

@@ -1,0 +1,309 @@
+<!--中间内容  开始--->
+<div class="warp">
+    <div class="register">
+    	<h2>注册新用户</h2>
+        <div class="regCon"><!--regCon  start-->
+            <form action="{:U('Home/User/doRegister')}" method="POST" id="register_form">
+        	<div class="regConOne">
+            	<dl style="width:530px;">
+					<volist name="ary_extend_data" id="data">
+					<dt><if condition="($data.is_need eq 1)"><span class="red">*</span></if> {$data.field_name}：</dt>
+					<dd>
+						<if condition="$data.fields_type eq 'radio'">
+							<volist name="data.fields_content" id="field_content">
+								<input class="text" name="extend_field_{$data.id}" id="extend_field_{$data.id}" type="{$data.fields_type}"  value="{$field_content}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+							</volist>
+						</if>
+						<if condition="$data.fields_type eq 'checkbox'">
+								<volist name="data.fields_content" id="field_content" >
+									<input class="text" name="extend_field_{$data.id}[]" id="extend_field_{$data.id}[]" type="{$data.fields_type}"  value="{$field_content}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+								</volist>
+							</if>
+							<if condition="$data.fields_type eq 'select'">
+								<if condition="$data.id eq 14 ">
+									<select id="province" name="province" class="medium city_region_select" style="border: 1px solid #999999;margin: 3px 3px 3px 0;padding: 3px;width: 100px;float:left;" child_id="city" val="{$region['province']}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>>
+									   <option value="0" selected="selected">请选择省份</option>
+									</select>
+									<select id="city" name="city" child_id="region1" class="medium city_region_select" style="border: 1px solid #999999;margin: 3px 3px 3px 0;padding: 3px;width: 100px;float:left;" val="{$region['city']}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>>
+									   <option value="0" selected="selected">请选择城市</option>
+									</select>
+									<select id="region1" name="region1" child_id="" class="medium city_region_select" style="border: 1px solid #999999;margin: 3px 3px 3px 0;padding: 3px;width: 100px;float:left;" val="{$region['region']}" >
+									   <option value="0" selected="selected">请选择地区</option>
+									</select>
+								<else />
+								<select class="medium" name="extend_field_{$data.id}" >
+									<volist name="data.fields_content" id="field_content" >
+										<option value="{$field_content}" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>> {$field_content}</option>
+									</volist>
+								</select>
+								</if>
+							</if>
+							<if condition="$data.fields_type eq 'text'">
+									<!--<input <if condition="($data.type eq 1 )">name="{$data.fields_content}" id="{$data.fields_content}"<else /> name="extend_field_{$data.id}" id="extend_field_{$data.id}"</if> <if condition="($data.fields_content eq 'm_password' or $data.fields_content eq 'm_password_1')"> type="password"  <else /> type="text" </if>class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if><if condition="($data.fields_content eq 'm_recommended')"> value="{$data.content}" disabled="disabled" </if>/>-->
+									<input class="text" <if condition="($data.type eq 1 )">name="{$data.fields_content}" id="{$data.fields_content}"<else /> name="extend_field_{$data.id}" id="extend_field_{$data.id}"</if> <if condition="($data.fields_content eq 'm_password' or $data.fields_content eq 'm_password_1')"> type="password"  <else /> type="text" </if>class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if><if condition="($data.fields_content eq 'm_recommended' )"> value="{$data.content}" <if condition="($data.is_edit eq 0)"> readonly="false" </if><if condition="($data.is_edit eq 1)"> readonly="true" </if></if>/>
+							</if>
+							<if condition="$data.fields_type eq 'file'">
+								<if condition="$data.content neq ''"><img src="{$Think.config.DOMAIN_HOST}{$data.content}" width="100px";height="100px"/></if>
+								<input name="extend_field_{$data.id}" type="file"  value="{$data.content}" class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> />
+								<input name="extend_field_{$data.id}" type="hidden"  value="{$data.content}" class="medium" />
+							</if>		
+							<p class="red"></p>
+					</dd>
+					<if condition="$data.fields_type eq 'text'">
+					<if condition="$data.fields_content eq 'm_mobile'">
+					<if condition="$is_mobile_validate eq '1'">
+					<dt><span class="red">*</span> 手机验证码：</dt>
+                	<dd><input type="text" style="width:105px" class="text" id="m_mobile_code" name="m_mobile_code"><span class="red"></span><input type="button" id="btnGetCode" class="blue" style="color:#fff;" title="获取验证码" value="获取验证码" />
+					</dd>
+					</if>
+					</if>
+					</if>
+					</volist>
+					<dt><span class="red">*</span> 验证码：</dt>
+                	<dd>
+                    	<input type="text" name="verify" id="verify" class="text text02" value="">
+                        <span class="yanz"><img src="__APP__/Home/User/verify/" onClick="this.src='__APP__/Home/User/verify/'+Math.random()" id="verificationcode" width="78" height="37"/></span>
+                        <a href="javascript:;" class="change blue" style="color:#fff;padding:6px 10px;" onclick="replaceVerificationCode()">换一张</a>
+						<p class="red"></p>
+                    </dd>
+                    <dt></dt>
+                    <dd>
+						<input type="submit" value="同意注册协议，提交" class="sub" id="submitForm">
+                        <input type="hidden" name="ret_url" value="<?php echo($_GET['redirect_uri'])?>" >
+                        <notempty name="m_recommended">
+						<input type="hidden" name="m_recommended" value="{$m_recommended}" >
+						</notempty>
+                        <span class="xieyi rega" style="cursor:pointer;">《服务协议》</span>
+                    </dd>
+					<!--
+                	<dt><span class="red">*</span> 会员名：</dt>
+                	<dd><input type="text" class="text" name="m_name" id="m_name" value=""/><p class="red"></p></dd>
+					
+                 	<dt><span class="red">*</span> 手机号：</dt>
+                	<dd><input type="text" class="text" id="m_mobile" name="m_mobile"><p class="red"></p></dd>
+					<if condition="$is_mobile_validate eq '1'">
+					<dt><span class="red">*</span> 手机验证码：</dt>
+                	<dd><input type="text" style="width:105px" class="text" id="m_mobile_code" name="m_mobile_code"><span class="red"></span><input type="button" id="btnGetCode" class="blue" style="color:#fff;" title="获取验证码" value="获取验证码" />
+					</dd>
+					</if>
+					<dt><span class="red">*</span> 登录密码：</dt>
+                	<dd><input type="password" class="text" name="m_password" id="m_password" value=""/><p class="red"></p></dd>
+                    <dt><span class="red">*</span> 确认密码：</dt>
+                	<dd>
+                    	<input type="password" class="text" name="confirmPassword" id="confirmPassword" value="" />
+                        <p class="red"></p>
+                    </dd>
+                    <dt>邮箱：</dt>
+                	<dd>
+                    	<input type="text" class="text" id="m_email" name="m_email">
+                        <p class="red"></p>
+                    </dd>					
+                    <dt><span class="red">*</span> 验证码：</dt>
+                	<dd>
+                    	<input type="text" name="verify" id="verify" class="text text02" value="">
+                        <span class="yanz"><img src="__APP__/Home/User/verify/" onClick="this.src='__APP__/Home/User/verify/'+Math.random()" id="verificationcode" width="78" height="37"/></span>
+                        <a href="javascript:;" class="change blue" style="color:#fff;" onclick="replaceVerificationCode()">换一张</a>
+						<span class="red"></span>
+                    </dd>
+                    <dt></dt>
+                    <dd>
+						<input type="submit" value="同意注册协议，提交" class="sub" id="submitForm">
+                        <input type="hidden" name="ret_url" value="<?php echo($_GET['redirect_uri'])?>" >
+                        <input type="hidden" name="m_recommended" value="{$m_recommended}" >
+                        <span class="xieyi rega" style="cursor:pointer;">《服务协议》</span>
+                    </dd>
+					-->
+                </dl>			
+			
+            </div>
+            </form>
+            <div class="regConTwo">
+                <if condition="$ad_arr['reg_pic'] neq ''">
+                <a href="{$ad_arr['reg_url']}" class="ggpic"><img src="{$Think.config.DOMAIN_HOST}{$ad_arr['reg_pic']}" width="352" height="402" /></a>
+                </if>
+            </div>
+        </div><!--regCon  end-->
+    </div>
+</div>
+<div id="box" style="display:none;">
+    <div class="mainlist" style="overflow-x:auto;height:430px;padding:10px;">
+        {$content}
+    </div>
+</div>
+<script type="text/javascript" src="__JS__base.js"></script>
+<!--中间内容  结束--->
+<script type="text/javascript">
+	var btnGetCode_info = ($("#btnGetCode").val() == undefined)?"-1":$("#btnGetCode").val();
+	var wait=90;
+	if(btnGetCode_info != '-1'){
+		document.getElementById("btnGetCode").disabled = false;
+		function time(o) {
+				if (wait == 0) {
+					o.removeAttribute("disabled");          
+					o.value="获取验证码";
+					wait = 90;
+				} else {
+					o.setAttribute("disabled", true);
+					o.value="重新发送(" + wait + ")";
+					wait--;
+					setTimeout(function() {
+						time(o)
+					},
+					1000)
+				}
+		}
+		document.getElementById("btnGetCode").onclick=function(){
+			document.getElementById("btnGetCode").disabled = true;  
+			//调用发送验证码接口
+			var formdata = $("#register_form").serialize();
+			$.ajax({
+				url:"{:U('Home/User/sendMobileCode')}",
+				data:formdata,
+				dataType:"json",
+				type:"post",
+				success:function(msgObj){
+					if(msgObj.status == 1){
+						time(document.getElementById("btnGetCode"));
+					}else{
+						document.getElementById("btnGetCode").removeAttribute("disabled"); 
+						showAlert(false,msgObj.msg);
+					}
+				},
+				error:function(){
+					document.getElementById("btnGetCode").removeAttribute("disabled"); 
+				}
+			});		
+		}		
+	}
+</script> 
+<script type="text/javascript">
+$(document).ready(function(){
+    //弹出注册协议
+    $('.rega').click(function(){
+    var box_html = $("#box").html();
+      $.webox({
+              height:480,
+              width:600,
+              bgvisibel:true,
+              title:'注册协议和隐私政策',
+              html:box_html
+      });
+    });
+    
+    $("#register_form").validate({
+        errorPlacement: function(error, element) {
+            if(element.is("#verify")){
+                var error_td = element.next().next().next();
+            }else{
+                var error_td = element.next();
+            }
+			if (element.is(':radio') || element.is(':checkbox') ) {  //如果是radio或checkbox
+				var eid = element.attr('name');  //获取元素的name属性]
+				error.appendTo(element.parent());    //将错误信息添加当前元素的父结点后面
+			} else {
+				error_td.append(error);
+			}
+
+        },
+        submitHandler:function(form){
+            //ajaxpost('register_form', '', '', 'onerror') 
+			var rand = '{$Think.session.rand}'.toString();
+			var m_password = $("#m_password").val().toString();
+			var new_password = encode64(m_password+rand);
+			$("#m_password").val(new_password);	
+			var m_password_1 = $("#m_password_1").val().toString();
+			var new_password_1 = encode64(m_password_1+rand);
+			$("#m_password_1").val(new_password_1);				
+			
+			var formdata = $("#register_form").serialize();
+			$.ajax({
+				url:"{:U('Home/User/doRegister')}",
+				data:formdata,
+				dataType:"json",
+				type:"post",
+				success:function(msgObj){
+					if(msgObj.status == 1){
+						showAlert(true,"注册成功,等待跳转……");
+						window.location.href = "{:U('Home/User/Login')}";
+					}else{
+					   showAlert(false,msgObj.info);
+					   window.location.href = "{:U('Home/User/Login')}";
+					   return false;
+					}
+				}
+			});
+        },
+        rules : {
+            m_name : {
+                required:true,
+                minlength:4,
+                isCheck:true,
+                remote:'/Home/User/checkName'
+            },
+            m_email : {
+                //required:true,
+                email:true,
+                remote : '/Home/User/checkEmail'
+            },
+            m_mobile : {
+				//required:true,
+                remote : '/Home/User/checkMobile'
+            },
+<php>if($is_mobile_validate == 1){</php>	
+            m_mobile_code : {
+				required:true,
+                remote : '/Home/User/checkMobileCode'
+            },
+<php>}</php>		
+            m_password : {
+                required : true,
+                minlength: 6,
+                maxlength: 20
+            },
+            confirmPassword : {
+                required : true,
+                equalTo  : '#m_password'
+            },
+            verify : {
+                required:true,
+                digits:true,
+                remote:'/Home/User/checkVerify',
+                rangelength:[4,4]
+            }
+        },
+        messages : {
+            m_name : {
+                required : '用户名不能为空',
+                minlength : '用户名不能少于4位',
+                isCheck: '用户名不能包含敏感字符',
+                remote:'该用户名已经存在'
+            },
+            m_mobile : {
+                required:'手机号不能为空'
+            },
+<php>if($is_mobile_validate == 1){</php>	
+            m_mobile_code : {
+				required:'手机验证码不能为空'
+            },
+<php>}</php>				
+            m_email : {
+                //required:'邮箱不能为空'
+            },			
+            m_password  : {
+                required : '密码不能为空',
+                minlength: '密码长度应在6-20个字符之间',
+                maxlength: '密码长度应在6-20个字符之间'
+            },
+            confirmPassword : {
+                required : '请再次输入您的密码',
+                equalTo  : '两次输入的密码不一致'
+            },
+            verify : {
+                required:'请输入验证码',
+                rangelength:'验证码长度为4',
+                digits:'对不起，请输入正确的验证码'
+            }
+        }
+    });
+});
+</script>

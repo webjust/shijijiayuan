@@ -1,0 +1,17 @@
+<table width="100%" class="tbList">
+    <thead>
+        <tr class="title">
+            <th colspan="99">
+                <p class="conOneP">
+                    <volist name="title.data" id="tl">
+                        <if condition="$tl.value eq $filter[options]">
+                            <a href="javascript:void(0);" class="btnB {$tl.value}">{$tl.name}</a>
+                        <else />    
+                            <a href='{:U("Admin/Home/doEditTpl","tabs=$filter[tabs]&options=$tl[value]&dir=$filter[dir]&tid=$filter[tid]&wapdir=$filter[wapdir]&&appdir=$filter[appdir]")}' class="btnG {$tl.value}">{$tl.name}</a>
+                        </if>
+                    </volist>
+                </p>
+            </th>
+        </tr>
+    </thead>
+</table>

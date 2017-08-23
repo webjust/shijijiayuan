@@ -1,0 +1,99 @@
+<div class="rightInner tableColor">
+    <form action="{:U('Admin/RefundsProperty/doDelSpec')}" method="POST" onsubmit="return beforeDeleteConfirm();">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="5">
+                    退换货属性列表
+				</th>
+                <th style="text-align:right">
+                <a class="btnG ico_add" href="/Admin/RefundsProperty/specAddPage">添加属性项</a>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" id="checkbox_check_all" class="checkbox " /></th>
+                <th>操作</th>
+                <th>属性名称</th>
+                <th>排序</th>
+                <th>类型</th>
+                <th>属性值的录入方式</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_spec" id="spec">
+            <tr>
+                <td><input type="checkbox" class="checkSon" name="gs_id[]"  value="{$spec.gs_id}" /></td>
+                <td>
+				    <a href='{:U("Admin/RefundsProperty/specEditPage?gsid=$spec[gs_id]")}'>编辑</a> 
+                    <a href='{:U("Admin/RefundsProperty/doDelSpec?gsid=$spec[gs_id]")}' class="confirm">删除</a>
+				</td>
+                <td>{$spec.gs_name}</td>
+                </td> 
+                <td>{$spec.gs_order}</td>
+				<td>
+                    <if condition="$spec.gs_show_type eq 1">
+					退款
+                    <elseif condition="$spec.gs_show_type eq 2" />
+                    退货
+                    </if>
+				</td>
+                <td>
+					<if condition="$spec.gs_input_type eq 1">
+					文本框
+					<elseif condition="$spec.gs_input_type eq 2" />
+					附件
+					<elseif condition="$spec.gs_input_type eq 3" />
+					文本域输入：textarea
+					</if>
+				</td>
+            </tr>
+            </volist>
+            <empty name="ary_spec">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99">
+					<input type="submit" value="删除选中" class="btnA confirm" />
+					<span class="right page">{$page}</span>
+				</td>
+            </tr>
+        </tfoot>
+    </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#checkbox_check_all").click(function(){
+		var bool_is_checked = this.checked;
+		$(".checkSon").each(function(){
+			$(this).attr('checked',bool_is_checked);
+		})
+	});
+	$("#goods-spec-list-type-change").change(function(){
+		var selected_goods_type_id = parseInt($(this).val());
+		if( selected_goods_type_id > 0){
+			var request_uri = "{:U('Admin/RefundsProperty/specListPage')}/gt_id/" + $(this).val();
+			window.location.href = request_uri;
+		}else{
+			window.location.href = "{:U('Admin/RefundsProperty/specListPage')}";
+		}
+		return false;
+	});
+});
+function beforeDeleteConfirm(){
+	//验证是否选择要删除的数据
+	var is_checked = false;
+	$(".checkSon").each(function(){
+		if(this.checked){
+			is_checked = true;
+		}
+	});
+	if(!is_checked){
+		alert("请选择您要删除的属性！");
+		return false;
+	}
+}
+</script>

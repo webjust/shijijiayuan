@@ -1,0 +1,192 @@
+<link rel="stylesheet" href="__CSS__swiper.min.css">
+<script type="text/javascript" src="__JS__jquery.touchslider.min.js"></script>
+<script src="__JS__swiper.min.js"></script>
+<link href="{$Think.config.DOMAIN_HOST}__CSS__spike.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__js.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="{$Think.config.DOMAIN_HOST}__JS__spike.js"></script>
+<link rel="stylesheet" href="__CSS__global.css">
+<link rel="stylesheet" href="__UCSS__global.css">
+<div class="header" id="header"><!--header start-->
+    <div class="navbar">
+        <div class="navbar-icon">
+            <a onclick="window.history.back();">
+                <span class="goback"></span>
+            </a>
+        </div>
+        <span class="nav-title">秒杀详情</span>
+        <div class="navbar-home">
+            <a href="javascript:void(0);"></a>
+        </div>
+    </div>
+</div>
+<Gyfx:goodsinfo name="detail" gid="$g_id" erpguid="$g_id"  ></Gyfx:goodsinfo>
+
+<div class="container containerD"><!--container-->
+    <div class="detailTop"> <!--detailTop-->
+        <div class="lunbo banner"><!--lunbo-->
+            <div class="swiper-container" id="swiper-container2">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img  src="{$Think.config.DOMAIN_HOST}{$sp_picture|showImage=###,640,315}" width="640px" height="315px">
+                    </div>
+                    <volist name="detail.gpics" id="pic">
+                        <div class="swiper-slide">
+                            <img  src="{$Think.config.DOMAIN_HOST}{$pic['gp_picture']|showImage=###,640,315}" width="640px" height="315px">
+                        </div>
+                    </volist>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-pagination swiper-pagination-clickable"></div>
+            </div>
+        </div>
+        <!-- 标题价格内容 start-->
+        <div class="proDetail">
+            <h1 class="title">{$sp_title}</h1>
+            <p class="type">款号：{$detail.gsn}</p>
+            <div class="tgTitle1">秒杀倒计时：
+                <php>$time = date("Y-m-d H:i:s");</php>
+                <php>if($time <= $sp_start_time){</php>
+                <span  id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><span class="day">00</span>天<span class="hours">00</span>小时<span class="minutes">00</span>分<span class="seconds">00</span>秒</span>
+                <script>setGroupbuyTime('{$sp_start_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',1,'{$sp_end_time}',"{sp_id}","{$detail['gid']}");</script>
+                <php>}elseif($time >= $sp_end_time){</php>
+                <span  class="gpendtime qproPriceB"><span class="day">00</span>天<span class="hours">00</span>小时<span class="minutes">00</span>分<span class="seconds">00</span>秒</span>
+                <php>}else{</php>
+                <span  id="showGroupTime{$sp_id}" class="gpendtime qproPriceB"><span class="day">00</span>天<span class="hours">00</span>小时<span class="minutes">00</span>分<span class="seconds">00</span>秒</span>
+                <script>setGroupbuyTime('{$sp_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>",'miaos',2,'',"{$sp_id}","{$detail['gid']}");</script>
+                <php>}</php>
+            </div>
+
+            <!-- <span class="comment"><i></i><i></i><i></i><i></i><i class="bad"></i>(122好评)<b><a href="">收藏</a></b> </span>-->
+            <p class="proPrice tgPrice">
+                <span>秒杀价:<em>{$sp_price|sprintf='%.2f',###}</em>元</span>
+                <!--<span>原价：<del>300元</del></span>-->
+            </p>
+            <p class="tgPrice">已售出<em>{$sp_now_number}</em>件</p>
+            <!-- 分类选择 start-->
+            <div class="Choice">
+                <div class="proDT" id="showDetailSkus">
+                    <script>getDetailSkus('{$sp_id}','8');</script>
+                </div>
+                <!--<i></i>-->
+            </div>
+            <!-- 分类选择 end-->
+        </div>
+    </div>
+    <!--!detailTop-->
+    <!--detailCenter-->
+    <div class="tabs">
+        <a href="javascript:;" hidefocus="true" class="active">秒杀详情</a>
+        <a href="javascript:;" hidefocus="true">商品评价</a>
+        <a href="javascript:;" hidefocus="true">商品咨询</a>
+    </div>
+    <div id="tabs-container" class=" swiper-container-horizontal">
+        <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);">
+            <div class="swiper-slide swiper-slide-active" style="width: 640px;">
+                <div class="content-slide">
+                    <div class="detailCenterNav"><!--商品详情start-->
+                        <div class="detailList" style="display:block;">
+                            <notempty name="sp_mobile_desc">
+                                {$sp_mobile_desc}
+                            </notempty>
+                            <if condition="is_show_desc eq 1">
+                                {$detail.g_phone_desc}
+                            </if>
+                        </div>
+                    </div>
+                    <!--商品详情end-->
+                </div>
+            </div>
+            <div class="swiper-slide swiper-slide-visible swiper-slide-next" style="width: 640px;">
+                <div class="content-slide">
+                    <div class="detailCenterNav"> <!--商品评价 start-->
+                        <div class="detailList" id="goods_comments">
+                        </div>
+                    </div>
+                    <!--用户评论 end-->
+                </div>
+            </div>
+
+            <div class="swiper-slide" style="width: 640px;">
+                <div class="content-slide"><div class="detailCenterNav"> <!--商品咨询 start-->
+                    <div class="detailList"  id="goods_advice">
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!--商品咨询 end-->
+        </div>
+    </div>
+    <div class="recommPro" id="relate_goods">
+    </div>
+</div>
+<div class="addcart addcart1" style="display:block;">
+    <div class="sku-layout sku-box-shadow cartCnt">
+        <div class="layout-title sku-box-shadow name-card sku-name-card">
+            <div class="adv-opts layout-content" style="max-height: 468px;">
+                <div class="confirm-action content-foot clearfix">
+                    <input type="hidden" id="sp_id" value="{$sp_id}"/>
+                    <input type="hidden" id="is_spike" value="{$is_spike}" />
+                    <div class="half-button tg-button">
+                        <php>if($time <= $sp_start_time){</php>
+                        <a href="javascript:void(0);" disabled     gid="{$detail.gid}" class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark">未开始</a>
+                        <php>}elseif($time >= $sp_end_time){</php>
+                        <a href="javascript:void(0);" disabled   gid="{$detail.gid}" class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark">秒杀结束</a>
+                        <php>}else{</php>
+                        <a href="javascript:void(0);" class="js-mutiBtn-confirm confirm btn btn-block btn-orange-dark"  gid="{$detail.gid}" id="addToOrder">立即抢购</a>
+                        <php>}</php>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+<script>
+    window.onload = function() {
+        var tabsSwiper = new Swiper('#tabs-container',{
+            speed:500,
+            onSlideChangeStart: function(){
+                $(".tabs .active").removeClass('active')
+                $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+            }
+        })
+        $(".tabs a").on('touchstart mousedown',function(e){
+            e.preventDefault()
+            $(".tabs .active").removeClass('active')
+            $(this).addClass('active')
+            tabsSwiper.slideTo( $(this).index() )
+        })
+        $(".tabs a").click(function(e){
+            e.preventDefault()
+        })
+
+    }
+</script>
+
+<script>
+    //	alert('{$ary_request.gid}');
+    getCommentPage('{$g_id}',1);
+    getAdvicePage('{$g_id}');
+    //获取相关商品
+    getRelateGoodsPage('{$g_id}');
+
+    var nullNum = "{$Think.lang.STOCK_ERROR_1}";
+    var notEnough = "{$Think.lang.STOCK_ERROR_2}";
+    var reselection = "{$Think.lang.STOCK_ERROR_3}";
+    var nonExistent = "{$Think.lang.STOCK_ERROR_4}";
+    var notLogin = "{$Think.lang.NO_LOGIN}";
+
+    var swiper = new Swiper('#swiper-container2', {
+        autoplay:3000,
+        slidesPerView: 1,
+        pagination:".swiper-pagination",
+        paginationClickable: true,
+        spaceBetween: 0,
+        freeMode: true,
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+    });
+</script>

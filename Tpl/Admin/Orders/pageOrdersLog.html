@@ -1,0 +1,92 @@
+
+ <p class="tabListP">
+        <a href='{:U("Admin/Orders/pageDetails?o_id=$int_oid")}'><span onclick="setTab('tabListP',1,3)" id="tabListP1">订单详情</span></a>
+        <a href='{:U("Admin/Orders/pageOrdersLog?o_id=$int_oid")}'><span onclick="setTab('tabListP',2,3)" id="tabListP2" class="onHover">订单日志</span></a>
+        <a href='{:U("Admin/Orders/pageOrdersReceipt?o_id=$int_oid")}'><span onclick="setTab('tabListP',3,3)" id="tabListP3">售后单据</span></a>
+    </p>
+    
+    <div class="rightInner" id="con_tabListP_2" ><!--rightInner  start-->
+        <table width="100%" class="tbList" style="border-top:1px solid #d7d7d7; margin-top:10px;">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>时间</th>
+                    <th>操作人</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <volist name="orders_log" id="log" key="k">
+                <tr>
+                    <td>{$k}</td>
+                    <td>{$log.ol_create}</td>
+                    <td>{$log.ol_uname}</td>
+                    <td>{$log.ol_behavior}</td>
+                    <td>
+                    <if condition="($log.ol_behavior eq '卖家订单编辑:') or ($log.ol_behavior eq '卖家已付款订单编辑')">
+                    <a class="showOrderPic" val="{$k}">查看快照</a>
+                    </if>
+                    <div style="display:none;" id="show_{$k}">{$log.ol_desc}</div>
+                    </td>
+                </tr>
+            </volist>
+            <empty name="orders_log">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+           <tfoot>
+            <tr>
+                <td colspan="99">
+                    <span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+        </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display:none;">
+        <div id="ajax_loading">
+            <div id="ajaxsenddiv_loading">
+                <img src="__PUBLIC__/images/loading.gif" title="正在加载中..." style="margin-top:30px;"/>
+            </div>
+        </div>
+        <div id="orders_dialog">
+            
+            
+            
+        </div>
+    </div>
+    </div><!--rightInner  end-->
+    <script>
+        // TAB 切换
+	function setTab(name,cursel,n){
+	 for(i=1;i<=n;i++){
+	  var tab=document.getElementById(name+i);
+	  var con=document.getElementById("con_"+name+"_"+i);
+	  tab.className=i==cursel?"onHover":"";
+	  con.style.display=i==cursel?"block":"none";
+	 }
+	}
+	$(".showOrderPic").click(function(){
+		var val = $(this).attr('val');
+		var msgObj = $("#show_"+val).html();
+        $("#orders_dialog").html(msgObj);
+        $("#orders_dialog").dialog({
+            height:'600',
+            width:'auto',
+            resizable:false,
+            modal:true,
+            title:'订单快照',
+            buttons: {
+                '关闭': function() {
+                    $("#orders_dialog").dialog('destroy');
+                    $('#pro_dialog').append($('#orders_dialog'));
+                }
+            },
+            close:function(){
+                $("#orders_dialog").dialog('destroy');
+                $('#pro_dialog').append($('#orders_dialog'));
+            }
+        });
+	});
+    </script>

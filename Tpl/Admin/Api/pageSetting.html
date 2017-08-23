@@ -1,0 +1,36 @@
+<div class="rightInner">
+<form id="erp_set" name="erp_set" method="post"
+	action="{:U('Admin/Home/doSet')}" enctype="multipart/form-data">
+<table class="tbForm" width="100%">
+	<thead>
+		<tr class="title">
+			<th colspan="99">分销开放平台设置</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td class="first">API请求地址：</td>
+			<td>{$hostUrl}</td>
+			<td class="last"></td>
+		</tr>
+		<tr>
+			<td class="first">APP_KEY：</td>
+			<td>{$appInfo['app_key']}</td>
+			<td class="last"></td>
+		</tr>
+
+		<tr>
+			<td class="first">APP_SECRET：</td>
+			<td>{$appInfo['app_secret']}</td>
+			<td class="last">APP_KEY和APP_SECRET供第三方调用使用</td>
+		</tr>
+	</tbody>
+
+	<tfoot>
+
+	</tfoot>
+</table>
+</form>
+<div class="clear"></div>
+</div>

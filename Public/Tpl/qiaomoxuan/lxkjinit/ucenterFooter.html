@@ -1,0 +1,83 @@
+<!--footer-->
+<div id="third" style="clear: both;height: auto;overflow: hidden;">
+    <div class="third">
+        <a href="/"></a>
+        <a href="javascript:void(0);" class="gotop"></a>
+        <a href="javascript:void(0);"></a>
+    </div>
+</div>
+
+<div id="foot">
+    <div class="foot">
+        <div class="allA">
+        </div>
+        <div class="left">
+            <gyfx:articlecate_list name="cate" num="5" recommend="1" linum="4">
+                <volist name="cate" id="tin">
+                    <dl class="word">
+                        <dt>{$tin.cat_name}</dt>
+                        <volist name="tin.a_list" id="a_list">
+                            <dd><a href="{$a_list.aurl}">{$a_list.atitle}</a></dd>
+                        </volist>
+                    </dl>
+                </volist>
+            </gyfx:articlecate_list>
+            <dl class="pic">
+                <dt class="margintop"><img src="__TPL__images/hhr.jpg" alt=""></dt>
+                <dd><a href="###">加盟合伙人</a></dd>
+            </dl>
+            <dl class="pic">
+                <dt><img src="__TPL__images/ewm.jpg" alt=""></dt>
+                <dd><a href="###">下载手机APP</a></dd>
+            </dl>
+            <dl class="pic">
+                <dt><img src="__TPL__images/ewm.jpg" alt=""></dt>
+                <dd><a href="###">关注公众微信号</a></dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div class="footer">
+        <ul>
+            <li>友情链接</li>
+            <gyfx:link name='nav' row="20" sort="asc">
+                <li><a href="{$nav.ul_link_url}" target="_blank">{$nav.ul_name}</a></li>
+            </gyfx:link>
+        </ul>
+        <p>copyright@2016 meilishuo.com 电信与信息服务业务经营许可证100798号 经营性网站备案信息<br/>
+京icp备11031139号 京公网安备110108006045 客服：020-31123712 文明办风文明上网举报电话：010-82615762 违法不良信息举报中心</p>
+    </div>
+</div>
+
+<!--[if lte IE 8]>
+<script src="js/ieBetter.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="__JS__parabola.js"></script>
+<script type="text/javascript" src="__JS__main.js"></script>
+<!--弹出框-->
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<link href="__CSS__user_style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+/**
+ * 各种按钮鼠标挪入颜色变换
+ */
+$(function(){
+    $(".blue").hover(function(){
+        $(this).attr('style','')
+    },function(){
+        $(this).attr('style','')
+    })
+})
+</script>

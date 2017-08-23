@@ -1,0 +1,44 @@
+{__NOLAYOUT__}
+<style>
+    .tab .inputClass input{border: 1px solid #cecece;height: 25px;line-height: 25px;width: 220px;}
+    
+    
+</style>
+<div style="width: 930px;">
+    <table class="tbForm" width="100%">
+        <tbody class="tab">
+            <tr>
+                <td class="first"><font color="red">*</font>客户名</td>
+                <td>
+                    <font color="blue"><input type="hidden" value="" id="m_id" name="m_id" validate="{ required:true}"/><span id="members" style="font-weight: bold;margin-right: 6px;color: #666;"></span><label class="showSelectedMember">选择会员</label></font>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr id="memberBalan" style="display: none;">
+                <td class="first">客户余额</td>
+                <td>
+                    <font color="blue" id="balance">0.00</font>
+                </td>
+            </tr>
+            <tr class="inputClass">
+                <td align="right" width="145px"><font color="red">*</font>订单号：</td>
+                <td class="inputClass"><input type="hidden" name="bi_type" id="bi_type" value="1"><input type="text" class="input01" name="o_id" value="" id="o_id" validate="{ required:true,maxlength:30,remote:'{:U('Admin/BalanceInfo/checkName')}'
+}"></td>
+                <td width="236px"></td>
+            </tr>
+            <tr class="inputClass">
+                <td align="right"><font color="red">*</font>扣除金额：</td>
+                <td class="inputClass"><input type="text" class="input01" name="bi_money" value="" id="bi_balance_money" validate="{ required:true}"></td>
+                <td width="236px"></td>
+            </tr>
+            <tr class="inputClass">
+                <td align="right">备注：</td>
+                <td>
+                    <textarea name="bi_desc" id="bi_desc" validate="{ isCheck:true}" style="width: 400px;height: 100px;border: 1px solid #cecece;"></textarea>
+                    <!--<input type="text" class="input01" name="bi_desc" value="" id="bi_desc" validate="{ isCheck:true}">-->
+                </td>
+                <td width="236px"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

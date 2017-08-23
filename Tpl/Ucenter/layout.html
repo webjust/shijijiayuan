@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <include file="Common:incHeader" />
+	<php> if(!empty($_SESSION['OSS']['GY_OSS_PIC_URL']) || (!empty($_SESSION['OSS']['GY_OTHER_IP']) && !empty($_SESSION['OSS']['GY_OTHER_ON']) )){</php>
+    <input type="hidden" value="1" id="oss_id" />
+   	<php>}else{</php>
+   	<input type="hidden" value="0" id="oss_id" />
+   	<php>}</php>
+	<php> if($_SESSION['OSS']['GY_QN_ON'] == '1'){</php>
+    <input type="hidden" value="1" id="qn_id" />
+   	<php>}else{</php>
+   	<input type="hidden" value="0" id="qn_id" />
+   	<php>}</php>
+    <body>
+ 		<include file="$str_header_include_file" />
+ 		<include file="Common:incSkin" />
+        <div class="warp" style="margin-top:10px;margin-bottom:50px;">
+            <div class="content1200">
+                <include file="Common:incMenus" />
+                {__CONTENT__}
+            </div>
+
+        </div>
+    <include file="Common:incOnline" />
+    <!-- 底部开始 -->
+	<include file="$srt_inc_footer" />
+    <!-- 底部结束 -->
+    <include file="Common:incAlert" />
+    <include file="Common:incSpeech" />
+	<script type="text/javascript">
+		function load(){
+			$.ajax({
+				url:'{:U("Script/Batch/ajaxAsynchronous")}',//请求的url地址 
+				type:"post", //请求的方式 
+				dataType:"json", //数据的格式
+				data:{}, //请求的数据 
+				success:function(data){ //请求成功时，处理返回来的数据 
+					
+				} 
+			})
+		}
+        //load();
+	</script>
+	<!-- <script type="text/javascript" src="alires://MsgHistory/unknownurl.pnghttp://g.tbcdn.cn/sj/securesdk/0.0.3/securesdk_v2.js" id="J_secure_sdk_v2" data-appkey="12541234"></script> -->
+</body>
+</html>

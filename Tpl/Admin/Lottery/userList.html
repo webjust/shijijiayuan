@@ -1,0 +1,93 @@
+<div class="rightInner">
+	<table width="100%" class="tbList">
+		<thead>
+			<tr class="title">
+				<th colspan="99">
+					<span style="font-size:18px;"><b>中奖名单列表</b></span>
+					中奖会员：<input type="text" class="width_100 search_cond" name="m_name" value="{$filter.m_name}" />
+					
+					中奖时间：<input type="text" class="width_100 timer search_cond" name="ul_confirm_time_1" value="{$filter.ul_confirm_time_1}" />
+					- 
+					<input type="text" class="width_100 timer search_cond" name="ul_confirm_time_2" value="{$filter.ul_confirm_time_2}" />
+					<select name="l_id" id="l_id">
+						<option value="">活动名称</option>
+						<volist name="lottery_data" id="lottery" >
+							<option value="{$lottery.l_id}" <if condition="$filter.l_id eq $lottery.l_id">selected</if>>{$lottery.l_name}</option>
+						</volist>
+					</select>
+					<select name="ul_type" id="ul_type">
+						<option value="">奖品类型</option>
+						<option value="1" <if condition="$filter.ul_type eq '1'">selected</if>>红包</option>
+						<option value="2" <if condition="$filter.ul_type eq '2'">selected</if>>神秘大奖</option>
+					</select>
+					红包金额：<input type="text" class="width_100 search_cond" name="ul_bonus_money" value="{$filter.ul_bonus_money}" />
+					<a href="javascript:void(0);" class="btnA" id="searchButton">搜索</a>
+				</th>
+			</tr>
+			<tr>
+				<th>会员名</th>
+				<th>抽奖活动名称</th>
+				<th>奖品类型</th>
+				<th>红包金额</th>
+				<th>神秘大奖</th>
+				<th>创建时间</th>
+				<th>修改时间</th>
+				<th>抽奖时间</th>
+			</tr>
+		</thead>
+		<form id="coupon_del" method="get" action="{:U('Admin/Lottery/doDel')}">
+    		<tbody>
+        		<volist name="list" id="cp">
+        			<tr>
+        				<td>
+                            <a href='{:U("Admin/Members/pageEdit?mid=$cp[m_id]")}'>{$cp.m_name}</a>
+                        </td>
+        				<td>
+						<volist name="lottery_data" id="lot" >
+						<php>if($cp['l_id'] == $lot['l_id']){echo $lot['l_name'];}</php>
+						</volist>						
+						</td>
+        				<td>
+						<if condition="$cp.ul_type eq '1'">
+						红包
+						</if>
+						<if condition="$cp.ul_type eq '2'">
+						神秘大奖
+						</if>						
+						</td>
+        				<td>{$cp.ul_bonus_money}</td>
+        				<td>{$cp.ul_title}</td>
+        				<td>{$cp.ul_create_time}</td>
+						<td>{$cp.ul_update_time}</td>
+						<td>{$cp.ul_confirm_time}</td>
+        			</tr>
+        		</volist>
+        		<empty name="list">
+        			<tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        		</empty>
+    		</tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <span class="right page">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>			
+        </form>
+	</table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#searchButton").click(function(){
+		var redirect_url = "{:U('Admin/Lottery/userList')}" + "?";
+		$(".search_cond").each(function(){
+			redirect_url += $(this).attr("name") + "=" + encodeURIComponent($(this).val()) + '&';
+		});
+		redirect_url +='l_id='+$('#l_id').val()+'&ul_type='+$('#ul_type').val();
+		location.href= redirect_url;
+	});
+});
+</script>

@@ -1,0 +1,122 @@
+<div class="rightInner">
+    <form id="online_config" method="post" action="{:U('Admin/Financial/doConfigOnline')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        配置您的支付宝线上APP收款账户
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th colspan="99"></th>
+                </tr>
+                <tr>
+                    <td class="first">* 支付宝收款账户</td>
+                    <td>
+                        <input type="text" name="alipay_account" class="large" value="{$info.config.alipay_account}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 设置加密方式</td>
+                    <td>
+                        <input type="radio" name="pay_encryp" value="MD5" <if condition="$info['config']['pay_encryp'] eq 'MD5'">checked</if> /> MD5
+                        <input type="radio" name="pay_encryp" value="RSA" <if condition="$info['config']['pay_encryp'] eq 'RSA'">checked</if> /> RSA
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr encrypType="MD5" <if condition="$info['config']['pay_encryp'] neq 'MD5'">style="display:none;"</if>>
+                    <td class="first">* 交易安全校验码</td>
+                    <td>
+                        <input type="text" name="pay_safe_code" class="large" value="{$info.config.pay_safe_code}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <!-- RSA 验证 start -->
+                <tr encrypType="RSA" <if condition="$info['config']['pay_encryp'] neq 'RSA'">style="display:none;"</if>>
+                    <td class="first">* 支付宝公钥</td>
+                    <td>
+                        <input type="file" class="large" name="alipay_public_key"/>
+                        <br />文件路径: {$info.config.app_alipay_public_key.upload_path}
+                        <br />上传时间：{$info.config.app_alipay_public_key.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr encrypType="RSA" <if condition="$info['config']['pay_encryp'] neq 'RSA'">style="display:none;"</if>>
+                    <td class="first">* 商户公钥</td>
+                    <td>
+                        <input type="file" class="large" name="shop_public_key"/>
+                        <br />文件路径: {$info.config.app_shop_public_key.upload_path}
+                        <br />上传时间：{$info.config.app_shop_public_key.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr encrypType="RSA" <if condition="$info['config']['pay_encryp'] neq 'RSA'">style="display:none;"</if>>
+                    <td class="first">* 商户私钥</td>
+                    <td>
+                        <input type="file" class="large" name="shop_private_key"/>
+                        <br />文件路径: {$info.config.app_shop_private_key.upload_path}
+                        <br />上传时间：{$info.config.app_shop_private_key.upload_time}
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <!-- RSA 验证 end -->
+                <tr>
+                    <td class="first">* 合作者身份ID</td>
+                    <td>
+                        <input type="text" name="identity_id" class="large" value="{$info.config.identity_id}" validate="{ required:true}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 选择接口类型</td>
+                    <td>
+                        <select name="interface_type" class="medium">
+                            <!-- <option value="">请选择</option> -->
+                            <option value="1" <eq name="info.config.interface_type" value="1">selected="selected"</eq> >APP支付接口</option>
+                        </select>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">支付手续费</td>
+                    <td>
+                        <input type="text" name="pc_fee" class="small" value="{$info.pc_fee}"  validate="{ number:true, min:0}" />%
+                    </td>
+                    <td class="last">通常第三方平台会向您收取支付手续费。您可以为每笔订单设置固定的支付手续费。默认为0%</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="hidden" value="APPALIPAY" name="code" />
+                        <input type="submit" value="保 存" class="btnA" />&nbsp;
+                        <input type="button" value="返 回" class="btnA back" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+        $('input[name=pay_encryp]').live('change',function(){
+            var encryp_choose = $(this).val();
+            $('input[name=pay_encryp]').each(function(){
+                var encryp = $(this).val();
+                if(encryp == encryp_choose){
+                    $('tr[encrypType='+encryp+']').show();
+                }else{
+                    $('tr[encrypType='+encryp+']').hide();
+                }
+            });
+        });
+        $('#online_config').validate();
+    });
+</script>

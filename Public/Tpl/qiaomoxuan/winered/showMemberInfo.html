@@ -1,0 +1,9 @@
+{__NOLAYOUT__}
+<empty name="Think.session.Members.m_name">
+<a href="{:U( URL_PREFIX . '/Home/User/login')}">登录</a> |
+<a href="{:U(URL_PREFIX . '/Home/User/pageRegister')}">注册</a>
+</empty>
+<notempty name="Think.session.Members.m_name">
+   您好，<a href="{:U('Ucenter/Index/index')}" style="color:#73B805;" title="我的账户">{$Think.session.Members.m_name}</a>&nbsp;&nbsp;&nbsp;
+    <a href="{:U('Home/User/doLogout')}">[{$Think.lang.TOP_LOGOUT}]</a>
+</notempty>

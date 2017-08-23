@@ -1,0 +1,94 @@
+<div class="rightInner">
+    <form id="category_form" name="category_form" method="post" enctype="multipart/form-data" action="{:U('Admin/Groupbuy/doAddBrand')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">团购品牌添加</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">品牌名称：</td>
+                    <td>
+                        <input type="text" name="gbb_name" id="gbb_name" size="25" maxlength="20" class="medium" value="{$level.ml_code}" validate="{required:true}" /> <span style="color:red;">*</span></span><br> 
+                    </td>      
+                    <td class="last">限制20个文字</td>              
+                </tr>
+                 <tr style="height:50px;">
+                    <td class="first">品牌图片</td>
+                    <td>
+                        <input type="file" class="f12"   name="gp_picture"  />
+                        <!-- 
+                        <img width="50px" height="50px" src="" id="show_pic">
+                        &nbsp;
+                        <input type="hidden" id="sp_pic" name="sp_pic" value=""/>
+			            <if condition="$a eq 1">
+			                <a id="delPic" url="{:U('Admin/Groupbuy/delCatePic')}" >删除</a>
+			            </if>
+			             -->
+            		</td>               
+                <tr>
+                    <td class="first">排序：</td>
+                    <td>
+                        <input name="gbb_order" class="medium" type="text" id="gbb_order" size="25" maxlength="10"> <br> 
+                    </td>
+                    <td class="last">数字越小越靠前</td>
+                </tr>
+                <tr>
+                    <td class="first">是否热门：</td>
+                    <td>
+	                    <input type="radio" name="gbb_is_hot" value="1" checked="checked" id="gbb_is_hot_true" />
+	                    <label for="gbb_is_hot_true">是</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gbb_is_hot" value="0" id="gbb_is_hot_false" />
+	                    <label for="gbb_is_hot_false">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">前台是否显示：</td>
+                    <td>
+	                    <input type="radio" name="gbb_is_display" value="1" checked="checked" id="gbb_is_display_true" />
+	                    <label for="gbb_is_display_true">是</label>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <input type="radio" name="gbb_is_display" value="0" id="gbb_is_display_false" />
+	                    <label for="gbb_is_display_false">否</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">关键字：</td>
+                    <td>
+                        <input name="gbb_keyword" class="medium" type="text" id="gbb_keyword" size="25" > <br> 
+                    </td>
+                    <td class="last">数字越小越靠前</td>
+                </tr>
+                   <td class="first">品牌描述：</td>
+                    <td>
+                        <textarea class="mediumBox" name="gbb_description" id="gbb_description" ></textarea>
+                    </td>
+                    <td class="last"></td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="page_jump" value="0" id="page_jump" />
+                        <input type="submit" value="保 存" class="btnA submit_button" page_jump="0" />
+                        <input type="submit" value="保存并继续" class="btnA submit_button" page_jump="1" />
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Groupbuy/pageBrandList')}');" class="btnA" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){   
+		$(".submit_button").click(function(){
+			$("#page_jump").val($(this).attr("page_jump"));
+		});
+        $("#category_form").validate(); 
+    });
+</script>

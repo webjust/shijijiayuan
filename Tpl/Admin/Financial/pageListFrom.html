@@ -1,0 +1,79 @@
+{__NOLAYOUT__}
+<style type="text/css">
+<!--
+form {
+    float: none;
+    width: 100%;
+}
+-->
+</style>
+<form id="coupon_del" method="get" action="{:U("Admin/Financial/pageListDetails")}" style="width:100%;">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title ">
+                    <th colspan="99">
+                        <a class="btnB" href="{:U('Admin/Financial/pageListDetails?type=0')}">全部</a>
+                        <select class="medium">
+                            <volist name="balancetype" id="types">
+                                <option class="btype" data-uri='{:U("Admin/Financial/pageListFrom")}' field="lxmc" value="{$types.lxmc}">{$types.lxmc}</option>
+                            </volist>
+                        </select>
+                        	会员邮箱：<input type="text" class="large" name="hydm" value="{$hydm}"/>
+                        <input type="submit" class="btnHeader inpButton" value="搜索" />
+                        </form>
+                    </th>
+                </tr>
+                <tr>
+                    <th>用户名称</th>
+                    <th>交易时间</th>
+                    <th>支出前金额</th>
+                    <th>支出金额</th>
+                    <th>支出后金额</th>
+                    <th>业务类型</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="running_account" id="ra">
+                <tr>
+                    <td>{$ra.hymc}</td>
+                    <td>{$ra.zdrq}</td>
+                    <td>{$ra.tzqje}</td>
+                    <td>{$ra.tzje}</td>
+                    <td>{$ra.tzhje}</td>
+                    <td>{$ra.lxmc}</td>
+                    <td>{$ra.bz}</td>
+                </tr>
+            </volist>
+            <empty name="running_account">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+<script type="text/javascript">
+$(".btype").click(function(){
+    var value = $(this).attr("value");
+    var url = $(this).attr("data-uri");
+    var field = $(this).attr("field");
+    $.ajax({
+        url:url,
+        cache:false,
+        dateType:'text',
+        type:'POST',
+        data:{value:value,field:field},
+        beforeSend:function(){
+            $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("数据查询中，请稍候...").show();
+        },
+        success:function(msgObj){
+            $("#listfrom").html(msgObj);
+            $("#J_ajax_loading").addClass('ajax_success').html(msgObj.info).show().fadeOut(5000);
+        }
+    });
+});
+</script>

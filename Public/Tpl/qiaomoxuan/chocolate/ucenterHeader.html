@@ -1,0 +1,182 @@
+<div class="" id="sideTools">
+    <p class="iToTop">
+        <a id="iToTop" href="javascript:void(0);" name="dac_index_ycdhsh06" title="回到顶部">
+            <s></s>
+        </a>
+    </p>
+</div>
+<script>
+$(document).ready(function(e) {
+	$('#iToTop').click(function(){
+		$(document).scrollTop(0);	
+	})
+});
+</script>
+<!-- 获取公共信息 -->
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<input type="hidden" value="{$commonInfo['GY_SHOP_OPEN']}" name ="gy_shop_open" id="gy_shop_open"/>
+<script src="__JS__global.js"></script>
+<link href="__CSS__global.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/jquery/js/jquery-webox.js"></script>
+<link href="__PUBLIC__/Lib/webox/image/jquery-webox.css" rel="stylesheet">
+<!--toolbar start-->
+<div class="toolbar">
+	<div class="main w1192">
+		<div class="fl tool-left">
+			<div class="tool-node"><a class="node-href" href="/"><i class="icon icon-size-24 icon-back"></i><span>首页</span></a>
+			</div>
+			<div class="tool-node has-node">
+				<a class="node-href" href="###">
+					<i class="icon icon-size-18-24 icon-mobile"></i><span>商城二维码</span>
+					<i class="icon icon-size-12 icon-arrow"></i>
+				</a>
+				<div class="node-con">
+					<div class="cod">
+						<p><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_QC_LOGO']}" width="120" height="120" alt="商城二维码"/></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="fr tool-right">
+			<div class="tool-node has-node">
+				<a class="node-href" href="{:U('/Ucenter/Orders/pageList')}"><span>我的订单</span><i class="icon icon-size-12 icon-arrow"></i></a>
+
+				<div class="node-con w-all">
+					<div class="list service-list">
+						<a href="{:U('Ucenter/Orders/pageList','status=3')}" target="_blank">待支付</a>
+						<a href="{:U('Ucenter/Orders/pageList','status=1')}" target="_blank">待发货</a>
+						<a href="{:U('Ucenter/Orders/pageList','status=2')}" target="_blank">待收货</a>
+					</div>
+				</div>
+			</div>
+			<div class="tool-node has-node">
+				<a class="node-href" href="{:U('/Ucenter/Index/index')}"><span>我的小屋</span><i class="icon icon-size-12 icon-arrow"></i></a>
+
+				<div class="node-con w-all">
+					<div class="list service-list">
+						<a href="{:U('Ucenter/Financial/pageDepositList')}" target="_blank">我的钱包</a>
+						<a href="{:U('Ucenter/Collect/pageList')}" target="_blank">我的收藏</a>
+						<a href="{:U('Ucenter/MyCoupon/pageList')}" target="_blank">我的卡包</a>
+					</div>
+				</div>
+			</div>
+			<div class="tool-node has-node">
+				<a class="node-href" href="###">
+					<span>服务中心</span><i class="icon icon-size-12 icon-arrow"></i>
+				</a>
+				<div class="node-con w-all">
+					<div class="list service-list">
+						<a href="{:U('Home/Article/articleList')}" target="_blank">帮助中心</a>
+						<a href="{:U('Ucenter/Orders/pageList','status=4')}" target="_blank">退换货</a>
+					</div>
+				</div>
+			</div>
+			<div class="tool-node">
+				<span id="shopping_member_list">
+					<if condition="$commonInfo['GY_SHOP_OPEN'] eq '0' ">
+						<a title="我的账户" style="color:#73B805;" href="{:U('Ucenter/Index/index')}">{$Think.session.Members.m_name}</a>
+						<a href="/Ucenter/User/doLogout">[安全退出]</a>
+					</if>
+				</span>
+			</div>
+			<div class="tool-node has-node cart">
+				<a class="node-href" href="{:U('Ucenter/Cart/pageList')}">
+					<i class="icon icon-size-29-24 icon-cart"></i><span>购物车</span>
+				</a>
+				<div class="node-con cart-con">
+					<div class="cartCon" id="shopping_cart_list"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--toolbar end-->
+<!--header start-->
+<div class="header">
+    <div class="hd-top w1192">
+        <div class="ef-title">
+            <h1 class="logo">
+                <a href="{:U('Home/Index/index')}" class="no-trans">
+					<img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']|default='__IMAGES__logo.png'}" width="177" height="50" />
+				</a>
+            </h1>
+        </div>
+        <div class="ef-search">
+            <div class="srch-main">
+                <p class="fl">
+                    <i class="icon icon-size-24 icon-search"></i>
+                    <if condition="isset($itemInfo['keyword']) AND $itemInfo.keyword neq ''">
+                        <input type="text" class="srch-txt" id="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value='搜一搜，更精彩！！！'}" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+                        <else/>
+                        <input type="text" class="srch-txt" id="head_serach_keyword" onblur="if (value=='') {value='搜一搜，更精彩！！！'}" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+                    </if>
+                    <!--<input class="srch-txt" type="text"/>-->
+                </p>
+                <input class="srch-btn" id="search_submit_button" type="submit" value="搜索" style="cursor: pointer;"/>
+            </div>
+            <p class="p02">
+                热门搜索：
+                <gyfx:navigation name='nav' position="hot" num="5">
+                    <a href="{$nav.nurl}" target="{$nav.ntarget}">{$nav.nname}</a><span>|</span>
+                </gyfx:navigation>
+            </p>
+        </div>
+        <div class="title-promise"><img src="{$ary_top_ads['right_pic']}" width="406" height="40"></div>
+    </div>
+    <div class="ef-nav">
+        <div class="ef-nav-main w1192">
+            <div class="all">
+                <a href="{:U('/Home/Products/index/')}" class="all-txt" style="cursor:pointer;">全部商品分类<i class="icon icon-size-16-12 icon-arrow1"></i></a>
+
+                <div class="nav-category">
+                    <Gyfx:goodscate name="cate" >
+                    <dl>
+                        <dt>
+                        <h2><a href="{$cate.curl}" style="color: #fff;">{$cate.cname}</a></h2>
+                        <p class="nav-category-list">
+                            <php>if(isset($cate['sub']) && !empty($cate['sub'])){ foreach($cate['sub'] as $cat){</php>
+                            <a href="{$cat.curl}" target="_blank">{$cat.cname}</a>
+                            <php>}}</php>
+                        </p>
+                        <b class="nav-line"></b>
+                        </dt>
+                    </dl>
+                    </Gyfx:goodscate>
+                </div>
+            </div>
+            <ul class="nav">
+                <gyfx:navigation name='nav'  position="top">
+                    <li class="countries current">
+                        <a href="{$nav.nurl}" target="{$nav.ntarget}" <if condition="$Think.request.name eq $nav.nname">class="on"</if>>{$nav.nname}</a>
+                    </li>
+                </gyfx:navigation>
+            </ul>
+        </div>
+    </div>
+<!--header end-->
+<script type="text/javascript">
+//实现搜索功能
+$(function(){
+	$("#search_submit_button").click(function(){
+		var search_key=$("#head_serach_keyword").val();
+		if(search_key==''){return false;}
+		search_key=search_key.replace(/%0D%0A/,'');
+		search_key=search_key.replace(/%0d%0a/,'');
+		var __search_base_url="{:U('Home/Hisense/index')}?keyword="+search_key;
+		window.location.href=__search_base_url;
+	});
+});
+function EnterPress(e){
+	var e=e||window.event;
+	if(e.keyCode==13){
+		var search_key=$("#head_serach_keyword").val();
+		if(search_key==''){return false;}
+		search_key=search_key.replace(/%0D%0A/,'');
+		search_key=search_key.replace(/%0d%0a/,'');
+		var __search_base_url="{:U('Home/Hisense/index')}?keyword="+search_key;window.location.href=__search_base_url;
+	}
+}
+</script>
+<!-- 判断页面是首页还是其他页面,首页隐藏类目  Start-->
+<input type="hidden" value="1" id="is_show_category"/>
+<!-- 判断页面是首页还是其他页面,首页隐藏类目 End-->

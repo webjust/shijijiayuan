@@ -1,0 +1,168 @@
+<div class="rightInner">
+	<table width="100%" class="tbList">
+		<thead>
+			<tr class="title">
+				<th colspan="99">
+				<form method="post" action="{:U('Admin/Try/apply_index')}">
+                    <p class="conOneP" style="float: left;">
+                       <a href="javascript:void(0);" class="btnG Set" id="setAutoApply">批量审核</a>
+                    </p>
+					<span style="float: right;">
+                        审核状态:
+                        <select name="applyStatus" class="small search_cond" style="width:auto" >
+                            <option value="0" <if condition="($filter.applyStatus eq 0)">selected=selected</if> >未审核</option>
+                            <option value="1" <if condition="($filter.applyStatus eq 1)">selected=selected</if> >已审核</option>
+                            <option value="2" <if condition="($filter.applyStatus eq 2)">selected=selected</if> >拒绝</option>
+                        </select>
+                        <select name="field" class="small search_cond" style="width: auto">
+                            <option value="1" <if condition="($filter.field eq 1)">selected=selected</if> >试用标题</option>
+                            <option value="2" <if condition="($filter.field eq 2)">selected=selected</if> >商品名称</option>
+                        </select>
+                        <input type="text" name="val" class="large search_cond" value="{$filter.val}" style="width: 145px;">
+                        <a href="javascript:void(0);" class="btnA" id="searchButton">搜索</a>
+					</span>
+				</form>
+				</th>
+			</tr>
+			<tr>
+				<th><input type="checkbox" class="checkAll" /></th>
+				<th style="width:80px;">操作</th>
+                <th>试用标题</th>
+				<th>申请人</th>
+				<th>商品名称</th>
+				<th>状态</th>
+				<th>申请时间</th>
+				<th>订单号</th>
+			</tr>
+		</thead>
+		<tbody>
+            <volist name="list" id="ay">
+                <tr>
+                    <td>
+                        <input type="checkbox" class="checkSon" name="tar_id" value="{$ay.tar_id}" />
+                    </td>
+                    <td>
+                        <span style="display:block;width:80px;">
+                            <if condition="$ay['property_typeid_front'] neq 0">
+                                <a href='javascript:void(0);' tar_id="{$ay.tar_id}" data-uri='{:U("Admin/Try/ShowApplyQuestion")}' class="setTry">查看问题</a>&nbsp;&nbsp;
+                                <div id="children_{$ay.tar_id}"  style="display:none" title="回答详情"></div>
+                            </if>
+                            <if condition="$ay['try_status'] eq 0">
+                                <a href='javascript:void(0);' onclick="refuseApply('{$ay.tar_id}',this)">拒绝</a>
+                            </if>
+                        </span>
+                    </td>
+                    <td>{$ay.try_title}</td>
+                    <td>{$ay.m_name}</td>
+                    <td><span class="blue">{$ay.g_name}</span></td>
+                    <td>
+                        <if condition="$ay['try_status'] eq 1">
+                            <span class="green">已审核</span>
+                        <elseif condition="$ay['try_status'] eq 2"/>
+                            <span class="red">拒绝</span>
+                        <else />
+                            <span class="blue">未审核</span>
+                        </if>
+                    </td>
+                    <td>{$ay.tar_create_time}</td>
+					<td>
+                        <notempty name="ay.try_oid">
+                            <a href="{:U('Admin/Orders/pageDetails')}?o_id={$ay.try_oid}">{$ay.try_oid|default='-'}</a>
+                        </notempty>
+                    </td>
+                </tr>
+                </volist>
+                <empty name="list">
+                    <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                </empty>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="99">
+                    <span class="right page">{$page}</span>
+                </td>
+			</tr>
+		</tfoot>
+	</table>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#searchButton").click(function(){
+		var redirect_url = "{:U('Admin/Try/apply_index')}" + "?";
+		$(".search_cond").each(function(){
+			redirect_url += $(this).attr("name") + "=" + encodeURIComponent($(this).val()) + '&';
+		});
+		location.href= redirect_url;
+	});
+    // 查看问题
+    $('.setTry').bind({'click':function(){
+        var _this = $(this);
+        var tar_id = _this.attr('tar_id');
+
+        var url = _this.attr('data-uri');
+        $.post(url,{'tar_id':tar_id},function(html){
+            $('#children_'+tar_id).dialog({
+                height:365,
+                width:540,
+                resizable:false,
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    '确定':function(){
+                        $( this ).dialog( "close" );
+                        $('#children_'+tar_id).hide();
+                    }
+                }
+            });
+            $('#children_'+tar_id).dialog('open');
+            $('#children_'+tar_id).html(html);
+        },'html');
+    }});
+    // 批量审核
+    $('#setAutoApply').bind({'click':setAutoApply});
+});
+// 批量审核
+function setAutoApply(){
+    var apply_id = '';
+    $(".checkSon:checked").each(function(){
+        apply_id += this.value+',';
+    });
+    apply_id = apply_id.substring(0,apply_id.length-1);
+    if(apply_id == ''){
+        showAlert(false,'请选择要审核的申请');return false;
+    }
+    $.ajax({
+        url:'{:U("Admin/Try/checkAudit")}',
+        cache:false,
+        dataType:"json",
+        data:{apply_id:apply_id},
+        type:"POST",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                showAlert(true,'订单审核成功','',{'成功':'/Admin/Try/apply_index'});return false;
+            }else{
+                showAlert(false,msgObj.info);
+            }
+        }
+    });
+}
+// 拒绝操作
+function refuseApply(tar_id,obj){
+    $.ajax({
+        url:"{:U('Admin/Try/doRefuseStatus')}",
+        data:{'tar_id':tar_id},
+        dateType:'json',
+        type:'POST',
+        success:function(DataMsg){
+            if(DataMsg.status=='2'){
+                showAlert(true,DataMsg.info,'',{'成功':'/Admin/Try/apply_index'});return false;
+            }else{
+                showAlert(false,DataMsg.info);return false;
+            }
+        },
+        error:function(){
+        }
+    });
+}
+</script>

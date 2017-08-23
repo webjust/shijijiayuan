@@ -1,0 +1,228 @@
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/salepromotion.css" type="text/css">
+<div class="p-m-r-div-03" style="width:1100px;overflow-x:auto;font-size:13px;">
+    <div class="p-m-r-div-0302">
+        <ul class="pmr-ul-0302-left">
+        </ul>
+        <ul class="pmr-ul-0302-right search_boxrt">
+            <table cellspacing="0" cellpadding="0" style="margin-top:5px;">
+                <tr>
+					<td>每页显示条数：</td>
+					<td><select name="page_size" id="page_size">
+					<option value="50">50</option>
+					<option value="100" <if condition="$filter.page_size eq 100">selected</if> >100</option>
+					<option value="200" <if condition="$filter.page_size eq 200">selected</if> >200</option>
+					</select></td>
+                    <td style=" color:#666666;">&nbsp;被推荐人 :</td>
+                    <td>
+                    	<input type="text" <if condition="$filter.m_name neq ''">disabled='disabled'</if> value="{$filter.m_name}" name="m_name" id="m_name" />
+                		<input type="hidden" value="{$filter.m_id}" name="post_m_id" id="post_m_id" />
+                    </td>
+                    <td>&nbsp;货号 : </td>
+                    <td><input type="text" value="{$filter.pdt_sn}" name="pdt_sn" id="pdt_sn"/></td>
+                    <td>&nbsp;商品名称 : </td>
+                    <td>
+                    	<input type="text" value="{$filter.g_name}" name="g_name" id="g_name"/>
+                    </td>
+                    <td><button name="button" id="button" onclick="doSearchPayback();" value="查询" class="but-type-022">查询</button></td>
+                </tr>
+            </table>
+        </ul>
+    </div>
+    <div class="p-m-r-div-0303 list-head-div">
+        <ul>
+            <table cellspacing="0" cellpadding="0" class="list-head-table">
+                <tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;">
+                    <td style="width: 380px; padding-left:5px; border-left:1px solid #e4e4e4;">商品信息</td>
+                    <td style="width: 90px; padding-left:5px; border-left:1px solid #e4e4e4;">成本价<br >销售价</td>
+                    <td style="width: 180px; padding-left:5px; border-left:1px solid #e4e4e4;">当前分销商<br >进货价</td>
+                    <volist name="payback_list.m_info" id="m">
+                    <td style="width: 120px; padding-left:5px; border-left:1px solid #e4e4e4;">{$m}</td>
+                    </volist>
+                </tr>
+            </table>
+        </ul>
+    </div>
+    
+    <div class="p-m-r-div-0304 list-content-div" style="border:1px solid #E4E4E4; border-top:none;">
+        <ul>
+            <table cellspacing="0" cellpadding="0" class="list-content-table">
+                <php>foreach($payback_list['pdt_info'] as $mk=>$pdtinfo){</php>
+                <tr>
+                    	<td style="width: 380px; padding-left:5px; border-right:1px solid #e4e4e4;">{$pdtinfo.g_name}<br>{$pdtinfo.pdt_sn}</td>
+                    	<td style="width: 90px; padding-left:5px; border-right:1px solid #e4e4e4;">{$pdtinfo.pdt_cost_price}<br >{$pdtinfo.pdt_sale_price}</td>
+                    	<td style="width: 180px; padding-left:5px; border-right:1px solid #e4e4e4;">{$pdtinfo['pdt_price']}</td>
+                    	<php>foreach($payback_list['m_info'] as $md=>$mdis){</php>
+							<if condition="$payback_list['m_o_auth'][$md][$pdtinfo['g_id']] neq ''">
+		                    	<td style="width: 120px; padding-left:5px;">进货价：
+								<php>$p = 0.00;</php>
+		                    	<if condition="$payback_list['m_o_auth'][$md][$pdtinfo['g_id']]['pdt_price'] neq ''">
+		                    	<php>$p = $pdtinfo['pdt_price'];</php>
+		                    	<else />
+								<php>$p = $pdtinfo['pdt_price'];</php>
+		                    	{$p}
+		                    	</if>
+		                    	<br>
+		                    	返利：
+		                    	<if condition="$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_amount'] neq ''">
+		                    		<input type="text" value="{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_amount']}" style="width:50px;border:1px solid #dcdcdc;" onblur="ajaxSetGoodsPayback(this,{$p});"class="setPrice{$md}" price="{$p}" />
+	                    			<input type="hidden" value="{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}" name="m_p_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}" id="m_p_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}"/>
+	                    			<input type="hidden" value="{$pdtinfo['g_id']}" name="g_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}" id="g_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}"/>
+	                    			<input type="hidden" value="{$pdtinfo['pdt_id']}" name="pdt_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}" id="pdt_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}"/>
+	                    			<input type="hidden" value="{$md}" name="m_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}" id="m_id{$payback_list['m_o_auth'][$md][$pdtinfo['g_id']][$pdtinfo['pdt_id']][$filter['m_id']]['m_p_id']}_{$md}"/>
+									<span></span>
+		                    	<else />
+		                    	    <input type="text" value="0" style="width:50px;border:1px solid #dcdcdc;" onblur="ajaxSetGoodsPayback(this,{$p});" class="setPrice{$md}" price="{$p}" />
+	                    			<input type="hidden" value="0" name="m_p_id0_{$md}" id="m_p_id0_{$md}"/>
+	                    			<input type="hidden" value="{$pdtinfo['g_id']}" name="g_id0_{$md}" id="g_id0_{$md}"/>
+	                    			<input type="hidden" value="{$pdtinfo['pdt_id']}" name="pdt_id0_{$md}" id="pdt_id0_{$md}"/>
+	                    			<input type="hidden" value="{$md}" name="m_id0_{$md}" id="m_id0_{$md}"/>
+									<span></span>
+								</if>
+		                    	</td>
+							<else />
+							<td style="width: 120px; padding-left:5px;">没有分销权限</td>
+							</if>
+                    		<php>}</php>
+                </tr>
+                <php>}</php>
+				<tr>
+				<td></td><td></td><td></td>
+				<php>foreach($payback_list['m_info'] as $md=>$mdis){</php>
+				<td><button class="but-type-022 setRetPrice" mid="{$md}" style="width:90px;" >批量返利金额</button></td>
+				<php>}</php>
+				</p>
+				</tr>
+                <empty name="payback_list.pdt_info">
+	                <tr>
+	                    <td>无搜索结果！</td>
+	                </tr>
+                </empty>
+            </table>
+        </ul>
+    </div>
+	<div style="float:right;margin-right:20px;margin-top:10px;margin-bottom:10px;font-size:14px;">{$pageInfo}</div>
+</div>
+<!--批量设置返利价格-->
+<div id="goodsSetPriceBatch" style="display: none;text-align:center;" title="批量设置当前会员返利价格">
+    <table>
+    	<tbody>
+    		<tr id="wrap">
+				<td style="width:80px;text-align:right;">设置方式:</td>
+    			<td style="text-align:left;">
+					<input type="radio" value="1" name="set_type" checked id="set_type" />&nbsp;固定金额&nbsp;
+					<input type="radio" value="2" name="set_type" id="set_type" />&nbsp;比例
+				</td>
+    		</tr>
+    		<tr>
+				<td style="width:80px;text-align:right;">金额或比例：</td>
+    			<td style="text-align:left;">
+    				<input type="text" name="set_price" value="" id="set_price" class="small" />(比例从0到1)
+				</td>
+    		</tr>			
+    	</tbody>
+    </table>
+</div>
+<script>
+function doSearchPayback(){
+    var m_name	= $("#m_name").val();
+	var pdt_sn	= $("#pdt_sn").val();
+	var g_name	= $("#g_name").val();
+	var m_id	= $("#post_m_id").val();
+	var page_size = $("#page_size").val();
+	if(m_name == ''){
+		showAlert(false,"被推荐人不能为空");
+		return false;
+	}
+	location.href='{:U("Admin/Promotings/index")}?m_name='+m_name+'&pdt_sn='+pdt_sn+'&g_name='+g_name+'&m_id='+m_id+'&p={$filter.p}'+'&page_size='+page_size;
+}
+$('.setRetPrice').bind({'click':function(){
+var mid = $(this).attr('mid');
+$('#goodsSetPriceBatch').dialog({
+	resizable:false,
+	autoOpen: false,
+	modal: true,
+	width: 'auto',
+	// position: [220,85],
+	buttons: {
+		'确认': function() {
+			var set_type = $('#wrap input[name="set_type"]:checked ').val(); 
+			var set_price = parseFloat($('#set_price').val());
+			if(isNaN(set_price)){
+				showAlert(false,"请设置金额或比例");
+				return false;
+			}
+			//折扣
+			if(set_type == 2){
+				if(parseFloat(set_price)<=0 || parseFloat(set_price)>=1){
+					showAlert(false,"请设置0到1之内的数字");
+					return false;						
+				}
+			}	
+			$(".setPrice"+mid).each(function(){
+				var price = parseFloat($(this).attr('price'));
+				var last_price = parseFloat(set_price);
+				if(set_type == 1){
+					if(parseFloat(set_price)>parseFloat(price)){
+						last_price = 0;
+					}
+				}
+				if(set_type == 2){
+					last_price = parseFloat(set_price*price);
+				}
+				var tmp_last_price = parseFloat($(this).val());
+				if(tmp_last_price.toFixed(2) != last_price.toFixed(2)){
+					if(last_price.toFixed(2)>0){
+						$(this).val(last_price.toFixed(2));
+						ajaxSetGoodsPayback(this,price);				
+					}				
+				}
+			});
+			$(this).dialog( "close" );
+			return false;
+		},
+		'关闭': function() {
+			if(confirm('确定不设置!')){
+				$(this).dialog( "close" );
+				return false;
+			}
+		}
+	}
+});
+$('#goodsSetPriceBatch').dialog('open');
+}});
+function ajaxSetGoodsPayback(e,price){
+	var m_p_amount	= $(e).val();
+	var m_p_id	= $(e).next('input');
+	var g_id	= $(e).next().next('input').val();
+	var pdt_id	= $(e).next().next().next('input').val();
+	var m_o_id	= $(e).next().next().next().next('input').val();
+	var m_id	= $("#post_m_id").val();
+	if(0 == m_p_amount && 0 == m_p_id.val()){
+		return false;
+	}
+	if(parseFloat(price)<parseFloat(m_p_amount)){
+		$(e).css("border-color","red");
+		$(e).next().next().next().next().next().html('<img title="设置返利价格不能大于进货价格，请重试..." style="position:relative;top:2px;" src="__PUBLIC__/Admin/images/span-false.jpg">');
+		//showAlert(false,"设置返利价格不能大于进货价格！");
+		return false;
+	}
+	$.post('{:U("Admin/Promotings/ajaxSetGoodsPayback")}',
+		   {"m_p_id":m_p_id.val(),"m_p_amount":m_p_amount,"g_id":g_id,"pdt_id":pdt_id,'m_id':m_id,'m_o_id':m_o_id},
+		   function(json){
+			   if('error' == json.status){
+				   $(e).css("border-color","red");
+				   $(e).next().next().next().next().next().html('<img title="设置返利金额失败，请重试..." style="position:relative;top:2px;" src="__PUBLIC__/Admin/images/span-false.jpg">');
+				   //showAlert(false,"操作失败，请重试！");
+					return false;
+			   }else if('success' == json.status){
+				   $(e).val(json.m_p_amount);
+				   m_p_id.val(json.m_p_id);
+				   $(e).css("border-color","green");
+				   $(e).next().next().next().next().next().html('<img src="__PUBLIC__/Admin/images/span-true.jpg">');
+				  // showAlert(true,"操作成功！");
+				   return false;
+			   }
+		   },'json');
+	return false;
+}
+</script>

@@ -1,0 +1,37 @@
+<script src="__PUBLIC__/Addmin/js/member.js"></script>
+<div class="rightInner">
+    <form id="group_form" name="group_form" method="post" action="{:U('Admin/Membergroup/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">会员分组修改</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">分组名称：</td>
+                    <td>
+                        <input type="text" name="mg_name" id="mg_name" class="medium" value="{$group.mg_name}" /> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">分组描述：</td>
+                    <td>
+                        <textarea name="mg_info" id="mg_info" class="mediumBox">{$group.mg_info}</textarea>
+                    </td>
+                </tr>     
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/Membergroup/pageList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" id="mg_id" name="mg_id" value="{$group.mg_id}" >
+    </form>
+    <div class="clear"></div>
+</div>
+

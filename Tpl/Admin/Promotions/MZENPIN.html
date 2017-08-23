@@ -1,0 +1,96 @@
+{__NOLAYOUT__}
+<!-- 中间内容开始 -->
+<div style="padding: 10px" class="load">
+    <div class="rightInner"><!--rightInner  start-->
+
+        <div class="classifyList"><!--classifyList  start-->
+            <div class="favorableBox"> 
+                <h2 class="titleH2 favorable">优惠条件</h2>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tbForm">
+                    <tr id="orders_condition" >
+                        <td ><span class="red">*</span> 订单优惠条件：</td>
+                        <td>
+                            <input type="text" class="medium" name="cfg_cart_start" id="cfg_cart_start" value="{$config->cfg_cart_start}" validate="{ required:true,number:true,min:1}"/> - 
+                            <input type="text" name="cfg_cart_end" id="cfg_cart_end" class="medium" value="{$config->cfg_cart_end}" validate="{ required:true,number:true,min:1}"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="favorableBox"> 
+                <h2 class="titleH2 favorable">优惠内容</h2>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tbForm">
+                    <tbody>
+                        <tr>
+                            <td class="first" style="width:103px">* 选择赠品：</td>
+                            <td>
+                                <input class="goodsSelecter" type="radio" value="1" name="cfg_goods_area" checked="checked">选择商品
+                                <input type="button" class="goodsSelecter" id="add_goods" value="添加商品">
+                                <div id="goodsSelect" style="display: none;" title="请选择商品">
+                                    <include file="Products:getGoodsSelecter" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                 <table id="raGoodsId" class="tbList" width="100%" style="border-top:1px solid #d7d7d7;">
+                                    <include file="Promotions:getGoodsTr"/>
+                                 </table>
+                            </td>
+                        </tr>
+                </tbody>
+                </table>
+            </div>
+        </div><!--classifyList  end-->
+    </div><!--rightInner  end-->
+</div>
+<script type="text/javascript">
+    $('#goodsSelect').dialog({
+        resizable:false,
+        autoOpen: false,
+        modal: true,
+        width: 'auto',
+        height:500,
+        open:function(){
+            $('.ui-widget-content').css('overflow-x','hidden');
+        },
+        buttons: {
+            '确认': function() {
+                var dio = $( this );
+                //将弹框内已经选择好的数据发送的母页面的元素
+                //此处不用js拼接html元素，直接把数据发送给控制器，利用控制器生成页面返回替换
+                var data = $("input[name='gs_gid[]']").serialize();
+                data+=',PZENPIN';
+                var url = "{:U('Admin/Promotions/getGoodsTr')}";
+                $.post(url,data,function(info){
+                    var html= $('#raGoodsId').html() + info;
+                    $('#raGoodsId').html(html);
+                },'text');
+                dio.dialog( "close" );
+            },
+            '关闭': function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+
+    $('.goodsSelecter').click(function(){
+        var types=$("input:radio[name='cfg_goods_area']:checked").val();
+        if(types==1){
+            $('#goodsSelect').dialog('open');
+        }else{
+            $("input[name='ra_gid[]']").each(function(){
+                $(this).parent('td').parent('tr').remove();
+            })
+        }
+    });
+
+    $('.condition').click(function(){
+        if($(this).val() == '1'){
+            $('#orders_condition').fadeIn('fast');
+            $('#cart_condition').hide();
+        }else if($(this).val() == '2'){
+            $('#cart_condition').fadeIn('fast');
+            $('#orders_condition').hide();
+        }
+    })
+</script>

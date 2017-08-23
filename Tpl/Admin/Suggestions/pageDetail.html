@@ -1,0 +1,94 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+<form id="articleForm" method="post" action="{:U('Admin/Suggestions/doIshandle')}" enctype="multipart/form-data">
+<table class="tbForm" width="100%">
+<thead>
+    <tr class="title">
+        <th colspan="99">投诉建议详情</th>
+    </tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="first">标题：</td>
+		<td>
+                    {$data.s_title|default="暂无"}
+                </td>
+	</tr>
+        <tr>
+	    <td class="first">投诉者：</td>
+		<td>
+                    {$data.m_name}
+                </td>
+	</tr>
+	<tr>
+	    <td class="first">联系邮箱：</td>
+		<td>
+                    {$data.s_email|default="暂无"}
+                </td>
+	</tr>
+	<tr>
+	    <td class="first">联系手机：</td>
+		<td>
+                    {$data.s_mobile|default="暂无"}
+                </td>
+	</tr>
+        <if condition="$data.s_is_handle eq '1'">
+            <tr>
+                <td class="first">联系手机：</td>
+                    <td>
+                        {$data.s_mobile}
+                    </td>
+            </tr>
+            <tr>
+                <td class="first">处理者：</td>
+                    <td>
+                        {$data.u_name}
+                    </td>
+            </tr>
+            <tr>
+                <td class="first">处理时间：</td>
+                    <td>
+                        {$data.s_handle_time}
+                    </td>
+            </tr>
+        </if>
+        <if condition="$data.s_is_handle eq '0'">
+            <tr>
+                <td class="first">是否处理：</td>
+                    <td>
+                        <input type="radio" name="is_handle" value="0"  validate="{required:true}">否
+                        <input type="radio" name="is_handle" value="1"  validate="{required:true}">是
+                    </td>
+            </tr>
+        </if>
+	<tr>
+	    <td class="first">投诉内容：</td>
+		<td><script id="editor" name="a_content" type="text/plain">{$data.s_content}</script></td>
+	</tr>
+	
+	
+</tbody>
+<if condition="$data.s_is_handle eq '0'">
+<tfoot>
+    <tr>
+    	<td></td>
+        <td colspan="99">
+            <input type="hidden" value="{$data.s_id}" class="btnA" name="id">
+            <input type="submit" value="保 存" class="btnA" >
+            <input type="button" id="goback" value="取 消" class="btnA" >
+        </td>
+    </tr>
+</tfoot>
+</if>
+</table>
+</form>
+<div class="clear"></div>
+</div>
+<script type="text/javascript">
+   	//实例化编辑器
+	UE.getEditor('editor');
+</script>

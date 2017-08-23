@@ -1,0 +1,111 @@
+<!--中间内容  开始--->
+<div class="warp">
+	<div class="tgindex"><!--tgindex  start-->
+    	<div class="content">
+            <div class="fright">
+                <div class="tglb"><!--tglb  start-->
+                    <div id="focusGroupbuy" class="tongy spt tg">
+                        <ul>
+                            <volist name="ary_ads" id="ads" >
+                            <if condition="$key neq 1">
+                            <li><a href="{$ads.ad_url}"><img src="{$Think.config.DOMAIN_HOST}{$ads.ad_pic_url}" width="100%" height="270"></a></li>
+                            </if>
+                            </volist>
+                        </ul>
+                    </div>  
+                </div><!--tglb  end-->
+                <div class="tgadver"><a href="<php>echo $ary_ads[1][ad_url];</php>"><img src="{$Think.config.DOMAIN_HOST}<php>echo $ary_ads[1][ad_pic_url];</php>" width="250" height="250" /></a></div>
+            </div>
+        </div>
+    </div><!--tgindex  end-->
+    
+    <div class="content">
+    	<div class="tgList"><!--tgList  start-->
+        	<div class="fright">
+            	<div class="tgiOne"><!--tgiOne  start-->
+                	<strong>品牌团</strong> <span>品牌优选 品荐生活</span>
+                    <a href="{:U('Home/Groupbuy/lists')}" class="more">更多品牌团 ></a>
+                </div><!--tgiOne  end-->
+            	<div class="tgLThree marTop0"><!--tgLThree  start-->
+                	<ul> 
+                        <volist name="ary_brands" id="brand">
+                    	<li>
+                        <a href="{:U('Home/Groupbuy/lists')}/gbid/{$brand.gbb_id}" class="proPic">
+                            <img src="{$Think.config.DOMAIN_HOST}{$brand.gbb_pic}" width="300" height="275" />
+                            <span class="gpendtime" timer="<php>echo strtotime($brand['brand_end_time'])-time();</php>">剩余时间：</span>
+                        </a>
+                            <h2 class="clearfix"><span>{$brand.gbb_name}</span></h2>
+                        </li>
+                        </volist>
+                    </ul>
+                </div><!--tgLThree  end-->
+                
+                <div class="tgiOne"><!--tgiOne  start-->
+                	<strong>所有团购</strong>
+                </div><!--tgiOne  end-->
+            	<div class="tgLThree marTop0"><!--tgLThree  start-->
+                	<ul> 
+                        <volist name="ary_glist" id="val">
+                    	<li>
+                            <a href="{:U('Home/Groupbuy/detail')}/gpid/{$val.gp_id}" class="proPic">
+                                <img src="{$Think.config.DOMAIN_HOST}{$val.gp_picture}" width="300" height="300" />
+                                <php>if($val[stat_time] == 1){</php>
+                                <span class="gpendtime" timer="<php>echo strtotime($val['gp_start_time'])-time();</php>">剩余开始时间：</span>
+                                <php>}elseif($val[stat_time] == 2){</php>
+                                <span>此团购已结束</span>
+                                <php>}else{</php>
+                                <span class="gpendtime" timer="<php>echo strtotime($val['gp_end_time'])-time();</php>">剩余时间：</span>
+                                <php>}</php>
+                            </a>
+                            <a href="{:U('Home/Groupbuy/detail')}/gpid/{$val.gp_id}" class="proN">{$val.gp_title}</a>
+                            <p>
+                                <span><b>&yen;</b>
+                                    <strong>{$val.gp_price|sprintf='%.2f',###}</strong>
+                                    <i><php>echo sprintf('%.1f',$val['gp_price']/$val['cust_price']*10)</php>折</i>
+                                </span>
+                                <del>&yen;{$val.cust_price|sprintf='%.2f',###}</del>
+                                <label><ins>{$val['gp_now_number']}</ins>销售量</label>
+                            </p>
+                        </li>
+                        </volist>
+                    </ul>
+                </div><!--tgLThree  end-->
+            </div>
+        </div><!--tgList  end-->
+    </div>
+</div>
+<!--中间内容  结束--->
+
+<div class="tgNav">
+	<dl>
+    	<dt><a href="javascript:void(0)">商品团</a></dt>
+        <dd style="display:block;">
+        	<div>
+                <volist name="gclist" id="gc" >
+                <a href="{:U('Home/Groupbuy/lists')}/gcid/{$gc.gc_id}">{$gc.gc_name}</a>
+                </volist>
+            </div>
+        </dd>
+        <dt><a href="javascript:void(0)" class="a03">品牌团</a></dt>
+        <dd>
+            <div>
+                <volist name="gblist" id="gbb" >
+                <a href="{:U('Home/Groupbuy/lists')}/gbid/{$gbb.gbb_id}">{$gbb.gbb_name}</a>
+                </volist>
+            </div>
+        </dd>
+        <dt><a href="{:U('Home/Groupbuy/lists')}/type/1" class="a02">开团预告</a></dt>
+    </dl>
+</div>
+
+<script type="text/javascript"> 
+    $(".gpendtime").each(function(){
+        var obj = $(this);
+        var intDiff = obj.attr("timer");
+        var strTime = obj.text();
+        timer(intDiff,obj,strTime);
+        //obj.countdown(endtime,starttime,function(event){
+        //        $(this).html(event.strftime(strTime+'<label>%D</label> 天 <label>%H</label> 时 <label>%M</label> 分 <label>%S</label> 秒'));
+        //    });
+    });
+</script>

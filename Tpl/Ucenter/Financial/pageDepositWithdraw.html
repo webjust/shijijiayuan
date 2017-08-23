@@ -1,0 +1,89 @@
+<link href="__PUBLIC__/Ucenter/css/Financial.css" rel="stylesheet">
+
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>预存款充值 - 线下预存款充值</span></h2>
+
+    <div class="deposit"><!--deposit  start-->
+        <p class="p01">
+            <span class="span01">提现账户：</span><strong>{$members.m_name}</strong>
+            <span class="span02">账户余额：</span><b>{$members['m_balance'] |number_format=2}</b> 元
+        </p>
+
+        <div class="depositCon"><!--depositCon  start-->
+            <p class="depositConP">
+                <span id="depositConP1"><a href="{:U('Ucenter/Financial/pageDepositOnline')}">线上预存款充值</a></span>
+                <span id="depositConP2"><a href="{:U('Ucenter/Financial/pageDepositOffline')}">线下预存款充值</a></span>
+                <if condition="$PREPAID_OPEN['sc_value'] eq '1'">
+                <span id="depositConP3"><a href="{:U('Ucenter/Financial/pagePrepaidCard')}">充值卡充值</a></span>
+                </if>
+                <span id="depositConP4" class="onHover">预存款提现</span>
+				<!--
+                <span id="depositConP5"><a href="{:U('Ucenter/Financial/pageDepositToJlb')}">兑换金币</a></span>
+				-->
+		   </p>
+
+            <div id="con_depositConP_2" class="depositLine">
+                <form action="{:U('Ucenter/Financial/doAddDepositWithdraw')}" method="post" id="withdraw_add" name="withdraw_add">
+                    <div class="OffLine02"><!--OffLine02  start-->
+                        <table>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 提现金额：</td>
+                                <td>
+                                    <input type="text" class="input01" name="bi_money" validate="{ required:true,number:true,min:0,max:{$members['m_balance']}}" <if condition="$oid neq ''"> value="{$price}" readOnly="true" </if>/>
+                                </td>
+                                <td><span>单位：元。请在此输入打款金额的整数部分，最大金额999万，例: 100。</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 收款人：</td>
+                                <td><input type="text" class="input01" name="bi_payeec" validate="{ required:true}" /></td>
+                                <td><span>请填写收款人姓名</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i>收款银行：</td>
+                                <td><input type="text" class="input01" name="bi_accounts_bank" validate="{ required:true}" /></td>
+                                <td><span>收款银行名称。</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 收款账号：</td>
+                                <td><input type="text" class="input01" name="bi_accounts_receivable" validate="{ required:true,isCheck:true,path:true }" /></td>
+                                <td><span>收款银行卡号</span></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><i class="red">*</i> 付款时间：</td>
+                                <td><input type="text" class="input01 dater" name="bi_payment_time" validate="{ required:true,isDate:true}" /></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top">备注：</td>
+                                <td>
+                                    <textarea name="bi_desc"></textarea>
+                                </td>
+                                <td><span>200个字以内</span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><a href="###" class="brown" id="submit">提现</a></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div><!--OffLine02  end-->
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div><!--depositCon  end-->
+
+    </div><!--deposit   end-->
+
+</div><!--contentRightBox  end-->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.metadata.setType("attr","validate");
+        $("#withdraw_add").validate();
+        $("#submit").click(function(){
+            if(false != $("#withdraw_add").valid()){
+                $("#withdraw_add").submit();
+            }
+        });
+    });
+</script>

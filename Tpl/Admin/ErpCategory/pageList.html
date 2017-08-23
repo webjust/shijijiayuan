@@ -1,0 +1,192 @@
+<div class="rightInner">
+        <table width="100%" class="tbList">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">
+                        <!--href='{:U("Admin/ErpProducts/doAddERPGoods?type=all")}' -->
+                        <a class="btnB" onclick="synCategory();"  href="javascript:void(0);">同步ERP全部分类</a>
+                    </th>
+                     
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th style="text-align:left;">分类名称</th>
+                    <th>ERP代码</th>
+                    <th>查看商品</th>
+                    <th>是否显示</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <form method="get" action="{:U('Admin/ErpProducts/doAddERPGoods')}" id="products_add">
+            
+            <tbody>
+            <volist name="erpCategory" id="category">
+                <tr>
+                    <td><input type="checkbox" class="checkSon" name="guid[]" value="{$category.cid}" /></td>
+                    <td style="text-align:left;">{$category.cname}</td>
+                    <td>{$category.erp_code}</td>
+                    <td><a href="{:U('Admin/Products/pageList')}?category[]={$category.cid}" >查看商品</a></td>
+                    <td>显示</td>   
+                    <td>
+    				<notempty name="category['sub']">
+                    <span id="showSubCate{$category.cid}"><a href="javascript:void(0);" class="showSubCate" name="cate{$category.cid}" val="{$category.cid}" >显示子分类</a></span>
+                    <span id="hideSubCate{$category.cid}" style="display:none;"><a href="javascript:void(0);" class="hideSubCate" name="cate{$category.cid}" val="{$category.cid}"　 >隐藏子分类</a>
+                    </span>
+                    </notempty>
+                    <a href="javascript:void(0);" >编辑</a>&nbsp;&nbsp;<a href="javascript:void(0);" >删除</a></td>
+                </tr>                                                                                                                                                                       
+          			<volist name="category['sub']" id="cat">
+			                <tr style="display:none;" class="cate{$category.cid}">
+			                    <td><input type="checkbox" class="checkSon" name="guid[]" value="{$cat.cid}" /></td>
+			                    <td style="text-align:left;">&nbsp;&nbsp;&nbsp;&nbsp;└─{$cat.cname}</td>
+			                    <td>{$cat.erp_code}</td>
+			                    <td><a href="{:U('Admin/Products/pageList')}?category[]={$cat.cid}" >查看商品</a></td>
+			                    <td>显示</td>   
+			                    <td><a href="javascript:void(0);" >编辑</a>&nbsp;&nbsp;<a href="javascript:void(0);" >删除</a></td>
+			                </tr>    				
+                        	<volist name="cat.sub" id="subcat">
+								<tr style="display:none;" class="cate{$category.cid}">
+				                    <td><input type="checkbox" class="checkSon" name="guid[]" value="{$subcat.cid}" /></td>
+				                    <td style="text-align:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─{$subcat.cname}</td>
+				                    <td>{$subcat.erp_code}</td>
+				                    <td><a href="{:U('Admin/Products/pageList')}?category[]={$subcat.cid}" >查看商品</a></td>
+				                    <td>显示</td>   
+				                    <td><a href="javascript:void(0);" >编辑</a>&nbsp;&nbsp;<a href="javascript:void(0);" >删除</a></td>
+				                </tr>    
+                            </volist>
+                    </volist>
+            </volist>
+            <empty name="erpCategory">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+            </tbody>
+            
+            <tfoot>
+                <tr>
+                    <input type="hidden" id="type" name="type" value="other">
+                    <td colspan="99"><input type="button"  value="批量删除" class="btnA" id="doAddErp" /><span class="right page">{$page}</span></td>
+                </tr>
+            </tfoot>
+        </table>
+</form>
+    <div class="clear"></div>
+</div>
+<div id="children" name="children" style="display:none" title="查看分类">
+    
+</div>
+<div id="tip_div" name="tip_div" style="display:none" title="同步分类">
+    
+</div>
+<script>
+    function lookerpcategory(guid){
+         //alert(1);
+        var url = '/Admin/ErpCategory/erpChildrenList';
+        //alert(url);return false;
+        $.post(url,{'guid':guid},function(html){
+        $('#children').dialog({
+                            height:600,
+                            width:500,
+                            resizable:false,
+                            autoOpen: false,
+                            modal: true,
+                            buttons: { 
+                                '取消': function() {
+                                    $( this ).dialog( "close" );
+                                    $('#children').hide();
+                                }
+                            }
+                        });
+                         $('#children').dialog('open');
+                         $('#children').html(html);
+                        
+       },'TEXT');
+    }
+       var page_size = 10;
+       var page_no = 0;
+       var page_num = 0
+       var total_category = 0;
+       var succRows	= 0;
+       var errRows		= 0;
+ function synCategory(){
+   
+        $('#tip_div').html('');
+        var url = "/Admin/ErpCategory/saveAllCategory";
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:'TEXT',
+            data:{},
+            success:function(msgObj){
+                var total = parseInt(msgObj);
+		total_category = total;
+		page_num = Math.ceil(total/page_size);
+                $("#tip_div").dialog({
+                    width:450,
+                    height:240,
+                    modal:true,
+                    title:'erp分类同步 [ 共有 <span style="font-weight:bold; color:#F00;">' + total + '</span> 条分类记录]',
+                    buttons:{
+                        '确定':function(){
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                page_no = 0;
+                saveAll();
+            }
+        });
+        
+}
+ 	//显示子分类
+	 $(".showSubCate").click(function(){
+	     var class_name = $(this).attr("name");
+	     var cid = $(this).attr("val");
+		$("."+class_name).css("display","");
+		$("#showSubCate"+cid).css("display","none");
+		$("#hideSubCate"+cid).css("display","");
+	 });
+	 //隐藏子分类
+	 $(".hideSubCate").click(function(){
+	     var class_name = $(this).attr("name");
+	     //alert(class_name);
+	     var cid = $(this).attr("val");
+		$("."+class_name).css("display","none");
+		$("#hideSubCate"+cid).css("display","none");
+		$("#showSubCate"+cid).css("display","");
+	 });
+    function saveAll(){
+        page_no++;
+        if(page_no <= page_num){
+        var w = Math.ceil((page_no / page_num) * 400);
+        var p = Math.ceil((page_no / page_num) * 100);
+        var innerHtmls = '<p align="center"><img src="__PUBLIC__/Admin/images/ajaxloading.gif"/>';
+        innerHtmls += '<span>正在同步第' + parseInt(page_no*page_size) + '条数据，共' + total_category + '条，请稍后......'+p+'%</span></p>';
+        innerHtmls += '<p><div style="min-width:400px; width:auto; min-height:8px; height:auto; border:1px solid silver; padding:2px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;"><div id="loading" style="height:8px; background-color:green; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;"></div></div></p>';
+        $('#tip_div').html(innerHtmls);
+        $("#loading").css("width",w+'px');
+        $.ajax({
+        url:'{:U("Admin/ErpCategory/saveAllCategory")}',
+        cache:false,
+        dataType:'json',
+        type:'POST',
+        data:{'page_size':page_size, 'page_no':page_no},
+        success:function(msgObj){
+            succRows = succRows+msgObj.succRows;
+            errRows	= errRows+msgObj.errRows;
+            updRows	= errRows+msgObj.updRows;
+            if(page_no == page_num){
+                var after_message = '<b>全部分类同步完成，同步成功<span style="color:#f00;">' + succRows + '</span>条数据！</b>'+
+                //'<b>同步更新<span style="color:#f00;">' + updRows + '</span>条数据！</b>'+
+                '<b>同步失败<span style="color:red;">' + errRows + '</span>条数据！</b>';
+                $('#tip_div').html(after_message);
+            }
+            saveAll();
+        }
+        });
+        }else{
+        page_no = 0;
+        succRows	= 0;
+        errRows		= 0;
+        }
+}
+</script>

@@ -1,0 +1,250 @@
+<style>
+.error{color:red;}
+.regConL ul li{width:720px; overflow:hidden;}
+.regConL ul li dl{width:720px; overflow:hidden; margin-bottom:10px;}
+.regConL ul li dl dt{ float:left;width:145px; font-weight:bold; text-align:right; padding-top:10px;}
+.regConL ul li dl dd{ float:left;width:415px;height:38px;line-height:38px;} 
+.regConL ul li dl dd span{display:inline-block; float:left;width:225px; height:35px;border:1px solid #d7d7d7;}
+.regConL ul li dl dd span input{ width:210px; height:26px; margin:5px 0 0 7px; border:none white; font-size:20px;}
+.regConL ul li dl dd span.yanzm{float:left; display:inline-block;width:100px;}
+.regConL ul li dl dd span.yanzm input{float:left; display:inline-block;width:90px;}
+.regConL ul li dl dd i{ float:left; width:180px; height:35px; margin-left:5px; vertical-align:middle; overflow:hidden; font-style:normal;}
+.regConL ul li dl dd strong{ float:left;display:inline-block; width:75px; height:35px; background:#f00; margin-left:5px; vertical-align:middle; overflow:hidden; font-style:normal;}
+.regConL ul li dl dd a{ float:left;display:inline-block;margin-left:5px; color:#2D4F8E; text-decoration:underline;}
+.regConL input.login{display:block;color:white;margin-left:75px;  background:#2D4F8E;width:180px; height:40px;line-height:40px; text-align:center; border:none; cursor:pointer; font-weight:bold; margin-top:20px;}
+.regCon{margin-top:10px;width:958px; border:1px solid #d6d5d5; padding:20px; overflow:hidden;}
+.regConL{float:left; width:500px; padding-bottom:80px;}
+.YSTwarp .crumb{width:1190px;margin:0 auto;height:40px; line-height:40px; background:#f3f3f3; font-size:14px;}
+.content1000 {width:1000px; margin:0px auto;}
+.itemSelect {
+padding-top: 5px;
+height: 55px;
+line-height: 26px;
+}
+.itemSelect .label {
+width: 140px;
+text-align: right;
+font-size: 14px;
+font-weight: bold;
+float:left;
+}
+.itemSelect select {
+margin-top: 1px;
+}
+option {
+font-weight: normal;
+display: block;
+padding: 0px 2px 1px;
+white-space: pre;
+min-height: 1.2em;
+}
+</style>
+<div class="YSTwarp">
+    <div class="area">
+        <div class="col">
+            <div class="crumb" >
+                <div class="content1000" style="display:none;">
+                    <strong>输入您收到的手机验证码:</strong>
+                </div>
+            </div>
+            <div class="reg">
+                <div class="content1000">
+                    <div class="regCon">
+                        <div class="itemSelect">
+                        <span class="label">请选择验证身份方式：</span>
+                            <div class="fl">
+                                 <select class="select" id="selectType" onchange="selectType();">
+                                     <notempty name="ary_member.m_mobile"><option value="mobile">已验证手机</option></notempty>
+                                     <notempty  name="ary_member.m_email"><option value="email">邮箱</option></notempty>
+                                 </select>
+                            </div>
+                        </div>
+                        <notempty name="ary_member.m_mobile">
+                        <div id="resetByMobile" class="regConL" style="display:block;">
+							<form id="forgetform" action="/Home/User/synResetByMobile" method="post">
+								<ul>
+									<li>
+										<dl>
+											<dt>
+												用户名：
+											</dt>
+											<dd style="font-size:15px;">   
+												{$ary_cover['m_name']}
+												<input type="hidden"   readonly value="{$ary_member['m_name']}" id="mname" name="mname">
+											</dd>
+										</dl>
+									</li>
+									<li>
+										<dl>
+											<dt>
+												手机号：
+											</dt>
+											<dd style="font-size:15px;">   
+												{$ary_cover['m_mobile']}
+												<input type="hidden"   readonly value="{$ary_member['m_mobile']}" id="m_mobile" name="m_mobile">
+											</dd>
+										</dl>
+									</li>
+									<li>
+										<dl>
+											<dt>
+												*手机验证码：
+											</dt>
+											<dd>   
+												<span class="yanzm"><input type="text" id="m_mobile_code" name="m_mobile_code"></span>
+												<input type="button" id="btnGetCode" class="blue" style="color:#fff;margin-left:5px;" title="获取验证码" value="获取验证码" /><i style="float:right;"></i>
+											</dd>
+										</dl>
+									</li>
+									<li>
+										<dl>
+											<dt>*校&nbsp;验&nbsp;码：</dt>
+											<dd>
+												<span class="yanzm"><input type="text" id="verify" name="verify"></span>
+												<a onclick="changeverify(this)" href="javascript:void(0);"><img width="78" height="37" onclick="this.src='/Home/User/verify/'+Math.random()" src="/Home/User/verify/" id="loginverify">换一张</a>
+												<i onclick="this.src='/Home/User/verify/'+Math.random()" style="display:none;color:red" class="message">验证码有误</i>
+												<i></i>  
+										   </dd>
+										</dl>
+									</li>
+								</ul>
+								<input type="submit" id="submitForm" class="login" value="重置密码">
+							</form>
+                        </div>
+                        </notempty>
+                        <notempty  name="ary_member.m_email">
+                        <div id="resetByEmail" class="regConL" <if condition="$ary_member.m_mobile neq ''">style="display:none;"</if>>
+							<form id="forgetform" action="/Home/User/synResetByEmail" method="post">
+								<ul>
+									<li>
+										<dl>
+											<dt>
+												用户名：
+											</dt>
+											<dd style="font-size:15px;">   
+												{$ary_cover['m_name']}
+												<input type="hidden"   readonly value="{$ary_member['m_name']}" id="mname" name="mname">
+											</dd>
+										</dl>
+									</li>
+									<li>
+										<dl>
+											<dt>
+												邮&nbsp;箱：
+											</dt>
+											<dd style="font-size:15px;">   
+												{$ary_cover['m_email']}
+												<input type="hidden"   readonly value="{$ary_member['m_email']}" id="memail" name="memail">
+											</dd>
+										</dl>
+									</li>
+								</ul>
+								<input type="submit" id="submitForm" class="login" value="发送邮件">
+							</form>
+                        </div>
+                        </notempty>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--中间内容  结束--->
+<script type="text/javascript">
+	var wait=90;
+	document.getElementById("btnGetCode").disabled = false;  
+	function time(o) {
+			if (wait == 0) {
+				o.removeAttribute("disabled");          
+				o.value="获取验证码";
+				wait = 90;
+			} else {
+				o.setAttribute("disabled", true);
+				o.value="重新发送(" + wait + ")";
+				wait--;
+				setTimeout(function() {
+					time(o)
+				},
+				1000)
+			}
+	}
+	document.getElementById("btnGetCode").onclick=function(){
+		document.getElementById("btnGetCode").disabled = true;  
+		//调用发送验证码接口
+		var formdata = $("#forgetform").serialize();
+		$.ajax({
+			url:"{:U('Home/User/sendMobilePwdCode')}",
+			data:formdata,
+			dataType:"json",
+			type:"post",
+			success:function(msgObj){
+				if(msgObj.status == 1){
+					time(document.getElementById("btnGetCode"));
+				}else{
+					document.getElementById("btnGetCode").removeAttribute("disabled"); 
+					showAlert(false,msgObj.msg);
+				}
+			},
+			error:function(){
+				document.getElementById("btnGetCode").removeAttribute("disabled"); 
+			}
+		});		
+	}
+</script> 
+<script type="text/javascript">
+function changeverify(){      
+    $('#loginverify').attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());        	
+}
+function selectType(){
+    var type = $("#selectType").val();
+    if(type == "mobile"){
+        $("#resetByMobile").show();
+        $("#resetByEmail").hide();
+    }else if(type == "email"){
+        $("#resetByMobile").hide();
+        $("#resetByEmail").show();
+    }
+}
+$(document).ready(function(){
+	$("#forgetform").validate({
+		errorPlacement: function(error, element) {
+			var error_td = element.parent("span").siblings("i");
+			error_td.append(error);
+		},
+		rules : {
+            m_mobile_code : {
+				required:true,
+                remote : '/Home/User/checkMobilePwdCode'
+            },
+			verify : {
+				required:true,
+				digits:true,
+				remote:'/Home/User/checkVerify',
+				rangelength:[4,4]
+			}
+		},
+		messages : {
+            m_mobile_code : {
+				required:'手机验证码不能为空'
+            },
+			verify : {
+				required:'请输入验证码',
+				rangelength:'验证码长度为4',
+				digits:'对不起，请输入正确的验证码'
+			}
+		}
+	});
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

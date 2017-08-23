@@ -1,0 +1,77 @@
+<div class="rightInner">
+    <form id="role_form" name="role_form" method="post" action="{:U('Admin/Role/doAdd')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">角色添加</th>
+                </tr>
+            </thead>
+            <tbody style="">
+                <tr>
+                    <td class="first">角色名称：</td>
+                    <td>
+                        <input type="text" name="name" id="name" class="medium" value="{$vo.name}" validate="{ required:true,maxlength:30,remote:'{:U('Admin/Role/checkRoleName')}'
+                               }"/> <br> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">权限设置：</td>
+                    <td>
+                        1. 如果要指定当前模块下的所有权限，可选中该模块名称 <br>
+                        2. 如果要指定当前模块下的操作权限，可选中该模块的操作名称
+                    </td>
+                </tr>
+                <tr>
+                    <th class="first" style="text-align: center">模块</th>
+                    <th colspan="2" style="text-align: center;">
+                        操作
+                    </th>
+                </tr>
+            <volist name="access_list" id="list">
+                <tr>
+                    <td class="first" style="padding-top:5px;line-height: 24px;vertical-align: top;border-right: 1px;text-align: left;">
+                        <p>
+                            <label>
+                                <input class="module-item" type="checkbox" name="access_node[]" value="{$list.id}" style="vertical-align:-3px;padding: 0px;margin-right: 3px;">
+                                <span>{$list.module_name}</span>
+                            </label>
+                        </p>
+                    </td>
+                    <td colspan="2" style="">
+                        <p>	
+                            <!--                            <label><input class="select-all" type="checkbox">&nbsp;<span>全选</span></label>-->
+                            <div class="role_div" style="width:400px;">
+                                <ul>
+                                    <volist name="list.actions" id="action">
+                                        <li style=" float: left;height: 25px;width: 33%;line-height: 25px;overflow: hidden;">
+                                            <label>
+                                                <input class="action-item" type="checkbox" name="access_node[]" value="{$action.id}" key="k" style="vertical-align:-3px;padding: 0px;margin-right: 3px;">
+                                                <span>{$action.action_name}</span>
+                                            </label>
+                                        </li>
+                                    </volist>
+                                </ul>
+                                
+                            </div>
+                </p>
+                </td>
+                </tr>
+            </volist>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+    $(document).ready(function(){   
+        $("#role_form").validate();   
+    });
+</script>

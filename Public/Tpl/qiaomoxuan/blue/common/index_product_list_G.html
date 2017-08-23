@@ -1,0 +1,105 @@
+    <div class="tit phone"><!--tit  start-->
+        <strong edit-name="模块标题" textstyle-editable="true" style-num="1" textcontent-editable="true" content-num="1">5F 手机</strong>
+        <a href="#" class="more">更多>></a>
+        <p>
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="2" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="3" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="4" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="5" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="6" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="7" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="8" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+            <a href="#" edit-name="更多连接" linkcontent-editable="true" content-num="9" textstyle-editable="true" style-num="2">液晶电视</a>
+            |
+        </p>
+    </div><!--tit  end-->
+
+    <div class="piCon"><!--piCon  start-->
+        <div class="piConL">
+            <a href="#" edit-name="首张大图" linkcontent-editable="true" content-num="10" textstyle-editable="true" style-num="3"><img src="__TPL__demo/prod.png" width="200" height="520" edit-name="首张图片" imagestyle-editable="true" style-num="4" imagecontent-editable="true" content-num="11"></a>
+        </div>
+
+        <div class="piConR">
+            <div class="piConT">
+                
+                <div class="piConTL">
+                    <ul class="norUl">
+                        <Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+                        <switch name="key">
+                        <case value="0|1|2|3">
+                        <li>
+                            <if condition="$showlist['show_pic'] eq 1">
+                            <a href="{$showlist.gurl}" class="proP"><img src="{$showlist.gpic|showImage=###,180,170}" class="lazy" data-original="{$showlist.gpic|showImage=###,180,170}" width="180" height="170" edit-name="列表图上" imagestyle-editable="true" style-num="5"></a>
+                            </if>
+                            <if condition="$showlist['show_name'] eq 1">
+                            <a href="{$showlist.gurl}" class="proN" edit-name="商品标题" textstyle-editable="true" style-num="7">{$showlist.gname}</a>
+                            </if>
+                            <h3>{$showlist['field1']|default="$warm_prompt"}</h3>
+                            <p>
+                                <if condition="$showlist['sale_price'] neq ''">
+                                <strong edit-name="销售价" textstyle-editable="true" style-num="8"><i>{$showlist['sale_price']}</i>{$showlist.gprice|sprintf='%.2f',###}</strong>
+                                </if>
+                                <if condition="$showlist['market_price'] neq ''">
+                                <del edit-name="市场价" textstyle-editable="true" style-num="9"><i>{$showlist['market_price']}</i>{$showlist.maprice|sprintf='%.2f',###}</del>
+                                </if>
+                            </p>
+                        </li>
+                        </case>
+                        </switch>
+                        </Gyfx:goodslist>
+                    </ul>
+                </div>
+
+                <div class="hsConR piConTR"><!--hsConR  start-->
+                    <h2>热销排行榜</h2>
+                    <ul>
+                        <Gyfx:goodslist name="sales" hc_nums="$hc_nums" hcid="$hcid" order="_hot">
+                                <li <if condition="$key eq 0">class="hover"</if>>
+                            <strong>{$key+1}</strong>
+                            <p>{$sales.gname}</p>
+                            <dl <if condition="$key neq 0">style="display:none"</if>>
+                                <dt><a href="{$sales.gurl}"><img src="{$sales.gpic|showImage=###,80,80}" class="lazy" data-original="{$showlist.gpic|showImage=###,80,80}" width="80" height="80"></a></dt>
+                                <dd><a href="{$sales.gurl}">{$sales.gname}</a><span><I>￥</I>{$sales.gprice}</span></dd>
+                            </dl>
+                        </li>
+                        </Gyfx:goodslist>
+                    </ul>
+                </div><!--hsConR  end-->
+            </div>
+
+            <div class="piConB">
+                <ul class="norUl">
+                    <Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+                    <switch name="key">
+                    <case value="4|5|6|7|8|9|10|11|12">
+                    <li>
+                        <if condition="$showlist['show_pic'] eq 1">
+                        <a href="{$showlist.gurl}" class="proP"><img src="{$showlist.gpic|showImage=###,180,180}" class="lazy" data-original="{$showlist.gpic|showImage=###,180,180}" width="180" height="180" edit-name="列表图下" imagestyle-editable="true" style-num="6"></a>
+                        </if>
+                        <if condition="$showlist['show_name'] eq 1">
+                        <a href="{$showlist.gurl}" class="proN" edit-name="商品标题" textstyle-editable="true" style-num="7">{$showlist.gname}</a>
+                        </if>
+                        <h3>{$showlist['field1']|default="$warm_prompt"}</h3>
+                        <p>
+                            <if condition="$showlist['sale_price'] neq ''">
+                            <strong edit-name="销售价" textstyle-editable="true" style-num="8"><i>{$showlist['sale_price']}</i>{$showlist.gprice|sprintf='%.2f',###}</strong>
+                            </if>
+                            <if condition="$showlist['market_price'] neq ''">
+                            <del edit-name="市场价" textstyle-editable="true" style-num="9"><i>{$showlist['market_price']}</i>{$showlist.maprice|sprintf='%.2f',###}</del>
+                            </if>
+                        </p>
+                    </li>
+                    </case>
+                    </switch>
+                    </Gyfx:goodslist>
+                </ul>
+            </div>
+        </div>
+    </div><!--piCon  end-->

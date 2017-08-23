@@ -1,0 +1,129 @@
+<div class="rightInner tableColor">
+    <!--<form method="post" action="{:U('Admin/GoodsBrand/doDelBrands')}" id="">-->
+    <table width="100%" class="tbList" data-uri='{:U("Admin/IncreaseInvoice/doVerify")}'>
+        <thead>
+            <tr class="title">
+                <th>
+                </th>
+                <th style="text-align:right;font-size: 12px;" colspan="99">
+                    <form id="searchForm" method="post" href='{:U("Admin/IncreaseInvoice/pageList")}'>
+                        单位名称：
+                        <input type="text" value="" name="invoice_name" class="large">
+                        <input class="btnHeader inpButton" type="submit" value="搜 索">
+                    </form>
+                </th>
+            </tr>
+            <tr>
+                <th>操作</th>
+                <th>单位名称</th>
+                <th>纳税人识别号</th>
+                <th>注册地址</th>
+                <th>注册电话</th>
+                <th>开户银行</th>
+                <th>银行帐户</th>
+                <th>是否审核</th>     
+                     
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_invoice" id="brand">
+            <tr id="list_{$brand.id}">
+                <td id="verify_{$brand.id}">
+                    <a class="setInvoice" href="javascript:void(0);" g_id="{$brand.id}" data-uri='{:U("Admin/IncreaseInvoice/detailInvoiceInfo")}'>查看</a>
+                    <div id="children_{$brand.id}"  style="display:none" title="发票详情"></div>
+                    <if condition="($brand.is_verify eq 0) ">
+                      <a class="pointer" data-id="{$brand[id]}" style="cursor: pointer;" data-field="is_verify" data-value="{$brand.is_verify}" data-src="__PUBLIC__/Admin/images/span-false.jpg">审核</a>
+                    </if>
+                </td>
+                <td>{$brand.invoice_name}</td>
+                <td>{$brand.invoice_identification_number}</td>
+                <td>{$brand.invoice_address}</td>
+                <td>{$brand.invoice_phone}</td>
+                <td >{$brand.invoice_bank}</td>
+                <td>{$brand.invoice_account}</td>
+                <td>
+                    <img
+                        <if condition="($brand.is_verify eq 1) ">
+                            src='__PUBLIC__/Admin/images/span-true.jpg' alt="审核" title="审核"
+                        <else />
+                            src='__PUBLIC__/Admin/images/span-false.jpg' alt="不审核" title="不审核"
+                        </if>/>
+                </td>
+                
+            </tr>
+            </volist>
+            <empty name="ary_invoice">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+    <!--</form>-->
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+    //切换
+        $('.pointer').live('click', function() {
+            var url = $(".tbList").attr("data-uri");
+            var img    = this,
+            s_val  = ($(img).attr('data-value'))== 0 ? 1 : 0,
+            s_name = $(img).attr('data-field'),
+            s_id   = $(img).attr('data-id'),
+            s_src  = $(img).attr('data-src');
+            s_msg = ($(img).attr('data-value'))== 0 ? '审核' : '不审核';
+            $.ajax({
+                url:url,
+                cache:false,
+                dataType:"json",
+                data: {id:s_id, field:s_name, val:s_val},
+                type:"POST",
+                error:function(){
+                    $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+                },
+                success:function(msgObj){
+                    if(msgObj.status == '1'){
+                        $('<div id="resultMessage" />').addClass("msgSuccess").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                        //alert(s_id);alert(s_src);
+                        var _this = $('#list_'+s_id),
+                            _this_verify = $('#verify_'+s_id);
+                            
+                          _this.find('img').attr({'src':s_src.replace('false','true')});
+                        _this_verify.find('.pointer').remove();
+                        
+                    }else{
+                        $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(1000);
+                    }
+                }
+            });
+        });
+        
+        //退款单详情
+    $(".setInvoice").click(function(){ 
+        var _this = $(this);
+        var g_id = _this.attr('g_id');
+       
+        var url = _this.attr('data-uri');
+        $.post(url,{'g_id':g_id},function(html){
+            $('#children_'+g_id).dialog({
+                height:365,
+                width:540,
+                resizable:false,
+                autoOpen: false,
+                modal: true,
+                buttons: { 
+                    '确定':function(){
+		                $( this ).dialog( "close" );
+		                $('#children_'+g_id).hide();
+                    }
+                }
+            });
+            $('#children_'+g_id).dialog('open');
+            $('#children_'+g_id).html(html);
+        },'html');
+        
+    });
+   
+});
+
+</script>

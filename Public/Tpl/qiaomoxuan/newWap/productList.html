@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/base.css"/>
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/TouchSlide.1.1.js"></script>
+    <script src="js/jquery.SuperSlide.2.1.1.js"></script>
+</head>
+<body>
+<!--header-->
+<div class="header_float1">
+    <div class="headerTop1">
+        <div class="header_in1">
+            <div class="header_Search1"><a href="#"><img src="images/top_search.png" alt=""/></a><input type="text"/></div>
+            <div class="header_Share1"><a href="#"><img src="images/shareBonus.png" alt=""/></a></div>
+            <div class="header_Talk1"><a href="#"><img src="images/talk_ico.png" alt=""/></a></div>
+        </div>
+    </div>
+</div>
+<!--body-->
+<div class="mg ov1">
+    <div class="pd_list">
+        <ul>
+            <li class="on"><a>卸妆</a></li>
+            <li><a>洁面</a></li>
+            <li><a>面膜</a></li>
+            <li><a>面部护肤</a></li>
+            <li><a>眼唇护肤</a></li>
+            <li><a>底妆</a></li>
+            <li><a>眉妆</a></li>
+            <li><a>洗发护发</a></li>
+            <li><a>身体护理</a></li>
+            <li><a>口腔护理</a></li>
+            <li><a>男士护理</a></li>
+            <li><a>男士洗护</a></li>
+            <li><a>美妆工具</a></li>
+        </ul>
+    </div>
+    <script>
+        $('.pd_list').on("click","a",function(){
+            $(this).parent().addClass("on").siblings("li").removeClass("on");
+        });
+    </script>
+    <div class="pd_right">
+        <div id="focus1" class="focus1">
+            <div class="hd1">
+                <ul></ul>
+            </div>
+            <div class="bd1">
+                <ul>
+                    <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="images/text1.jpg" alt=""/></a></li>
+                </ul>
+            </div>
+        </div>
+        <!--一级列表-->
+        <div class="productList_pd">
+            <div class="brand_center_title productList_right_title">
+                <div style="color:black;">面膜</div>
+                <div></div>
+            </div>
+            <div class="productList_pd_center">
+                <ul>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--二级列表-->
+        <div class="productList_pd productList_pd1">
+            <div class="brand_center_title productList_right_title">
+                <div style="color:black;">局部面膜</div>
+                <div></div>
+            </div>
+            <div class="productList_pd_center">
+                <ul>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                    <li>
+                        <div><a href=""><img src="images/productList_text1.png" alt=""/></a></div>
+                        <div>乳/膏状面膜</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--品牌墙-->
+        <div class="productList_pd">
+            <div class="brand_center_title productList_right_title">
+                <div style="color:black;">品牌墙</div>
+                <div></div>
+            </div>
+            <div class="productList_pp_center">
+                <ul>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                    <li>
+                        <a href=""><img src="images/productList_pp_ico.png" alt=""/></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+            TouchSlide({
+                slideCell:"#focus1",
+                titCell:".hd1 ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:".bd1 ul",
+                effect:"left",
+                autoPlay:true,//自动播放
+                autoPage:true, //自动分页
+                switchLoad:"_src" //切换加载，真实图片路径为"_src"
+            });
+        </script>
+    </div>
+</div>
+<!--footer-->
+<div class="news news_footer" >
+    <div class="footer">
+        <ul>
+            <li>
+                <div class="pic"><a href="index.html"><img src="images/home1.png" alt="" _src="images/home1_hover.png"><p>首页</p></a></div>
+            </li>
+            <li>
+                <div class="pic"><a href="productList.html"><img src="images/classifiy.png" alt="" _src="images/classifiy_hover.png"><p>分类</p></a></div>
+            </li>
+            <li>
+                <div class="pic"><a href="beauty.html"><img src="images/class.png" alt="" _src="images/class_hover.png"><p>美妆课堂</p></a></div>
+            </li>
+            <li>
+                <div class="pic">
+                    <a href="shoppingCar.html">
+                        <img src="images/cart.png" alt="" _src="images/cart_hover.png">
+                        <p>购物车</p>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="pic"><a href="me.html"><img src="images/me.png" alt="" _src="images/me_hover.png"><p>我的</p></a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".footadd").height($(".footer").height());
+        var headerTop_h = $(".headerTop").height();
+        $(".menu").css("top",headerTop_h);
+        var li_width = $(".index_pp li").width();
+        $(".index_pp li").height(li_width);
+    })
+</script>
+<script src="js/index.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".gdspea").height($(".gdspea").prev().height());
+        $(".gdspeb").height($(".gdspeb").prev().height());
+        //wimb = $(".footer li").eq(0).find('a').find('img').attr("src");
+        wimw = $(".footer li").eq(0).find('a').find('img').attr("_src");
+        $(".footer li").eq(0).find('a').addClass("on");
+        //$(".footer li").eq(0).find('a').find('img').attr('_src',wimb);
+        $(".footer li").eq(0).find('a').find('img').attr('src',wimw);
+    });
+</script>
+</body>
+</html>

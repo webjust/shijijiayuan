@@ -1,0 +1,101 @@
+<div class="container"><!--container-->
+    <div class="loginRegBox">
+		<div class="login-reg">
+			<a href="#" class="on">忘记密码</a>
+		</div>
+		<form action="{:U('Wap/User/synReset')}" method="Post" id="loginform">
+		<div class="loginBox">
+			<h1>找回密码</h1>
+			<div class="input_text">
+				<span>用户邮箱：</span>
+				<input name="user_email" id="user_email" type="text" />
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="input_text">
+				<span>验证码：</span>
+				<input type="text" class="verify_input" name='verify' id='verify'>
+				<span class="yazm">
+					<a href="javascript:void(0);" >
+					<img id="loginverify" alt="换一张" title="换一张" src="__APP__/Wap/User/verify/" width="60" height="30" style="margin-left:5px" onClick="this.src='__APP__/Wap/User/verify/'+Math.random()">
+					</a>
+                </span>
+			</div>
+			<i style="width:auto;float:right"></i>
+			<div class="btn_text">
+				<span></span><input type="submit" value="找回密码" class="login_btn"/><span></span>
+			</div>
+			<input name="savelogin" type="hidden" value="0"/>
+			<input name="jumpUrl" type="hidden" value="{$_SERVER['HTTP_REFERER']}"/>
+		</div>
+		</form>
+    </div>
+</div>
+<!--/container-->
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script type="text/javascript">
+    function changeverify(){      
+        $('#loginverify').attr('src','{:U("Wap/User/verify")}'+'?r='+Math.random());   	
+    }
+    $(function(){
+        $("#loginform").validate({
+			errorPlacement: function(error, element) {
+				var error_td = element.parent().next();
+				if (element.is(':text') || element.is(':password')) {  
+					var eid = element.attr('name');
+					error_td.append(error);
+				}
+            },
+            rules : {
+                user_email : {
+					required:true,
+					email:true,
+				},
+                verify : {
+                    required:true,
+                    digits:true,
+                    remote:'/Wap/User/checkVerify',
+                    rangelength:[4,4]
+                }
+            },
+            messages : {
+                user_email : {
+					required : '邮箱不能为空',
+					minlength : '邮箱不能少于4位',
+				},
+                verify : {
+                    required:'请输入验证码',
+                    digits:'对不起，请输入正确的验证码',
+                    rangelength:'验证码长度为4',
+                    remote: '对不起，请输入正确的验证码'
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $('#tologin').click(function(){
+            //发送ajax请求
+        var data = $('#loginform').serialize();
+        var ti;
+        if(data != ' '){
+            $.ajax({
+                url:"{:U('Wap/User/doLogin')}",
+                data:data,
+                dataType:"json",
+                type:"post",
+                success:function(dataMsg){
+                    if(dataMsg.status == 1){
+                        alert(dataMsg.msg);
+                        ti =  setTimeout(function(){window.location.href= dataMsg.url;},2000);
+                    }else{
+                        alert(dataMsg.msg);
+                        ti =  setTimeout(function(){window.location.href= dataMsg.url;},2000);
+                    }
+                }
+            });
+        }
+    });
+</script>
+

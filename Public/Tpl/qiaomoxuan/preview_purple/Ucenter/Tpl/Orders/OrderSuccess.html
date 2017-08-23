@@ -1,0 +1,83 @@
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js" type="text/javascript"></script>
+<script src="__PUBLIC__/Wap/js/order.js" type="text/javascript"></script>
+<!--content-->
+<div class="container"><!--container-->
+    <div class="shopCart"> <!--shopCart-->
+		<p class="detailT">
+			<a href="#">首页</a>/<a href="#">购物车</a>/<a href="#">订单提交成功</a>
+		</p>
+		<!--Paysuccess-->
+		<form id="successorderForm" action="{:U('/Wap/Orders/paymentPage/')}" method="post">
+		<div class="Paysuccess Submitsuccess">
+			<div class="Top">
+				<p>订单提交成功</p>
+			</div>
+			<div class="payImgs">
+				<img src="__IMAGES__success.png"/>
+			</div>
+			<div class="pay_top">
+				<p class="p1">您已选择的付款方式：
+                    <b id='payment_custom_name'>{$ary_orders.payment_name}</b>
+					<if condition="$ary_orders['pc_abbreviation'] neq 'DELIVERY'">
+                    <a href="javascript:void (0);" onclick="$('#payment_list').toggle();">[选择其他支付方式]</a></p>
+					</if>
+                <dl  id="payment_list" style="display:none">
+                    <dt>请选择支付方式：</dt>
+                    <volist name="payment_list" id="list" key="key">
+                        <dd>
+                        <span>
+                            <input name="o_payment" id="o_payment_{$list.pc_id}" type="radio" value="{$list.pc_id}" <if condition="$list.pc_id EQ $ary_orders.pc_id "> checked </if>>
+                            <input type="hidden" name="o_payment{$list.pc_id}" id="o_payment{$list.pc_id}" value="{$list.pc_custom_name}">
+                            <label for="o_payment_{$list.pc_id}"> {$list.pc_custom_name}</label>
+                        </span> <d style="color: grey;"> {$list.pc_memo}</d>
+                        </dd>
+                    </volist>
+                </dl>
+				<input type="hidden" name="typeStat" id="typeStat" value="" />
+				<p>订单号：{$ary_orders.o_id}</p>
+				<p>应付金额：¥ {$ary_orders.o_all_price|sprintf="%.2f",###}（含运费￥{$ary_orders.o_cost_freight|sprintf="%.2f",###}）</p>
+				<php>if(isset($pay_status) && $pay_status=='1'){</php>
+				<p>已付金额： &nbsp;&nbsp;&nbsp;￥{$ary_orders.o_pay|number_format=2}</p>
+				<php>}</php>
+				<p>下单日期：{$ary_orders.o_create_time} </p>
+				<p>{$ary_orders.str_status} <if condition="$ary_orders['o_status'] eq '1'">{$ary_orders.str_pay_status}  {$ary_orders.refund_status}  {$ary_orders.refund_goods_status} {$ary_orders.deliver_status}</if></p>
+			</div>
+			<input type="hidden" name="oid" value="{$ary_orders.o_id}" id="o_id">
+            
+			<div class="Btn">
+				<if condition="$ary_orders['pc_abbreviation'] neq 'DELIVERY'">
+				<php>if(isset($pay_status) && $pay_status=='0'){</php>
+                <a href="javascript:void(0);" class="gobuyit" id="hideButton" onclick="paymentOrders(0);">立即支付</a>
+                <a href="javascript:void(0);" class="gobuyit" id="dingjinPay" onclick="paymentOrders(1);">定金支付</a>
+                <php>}elseif(isset($pay_status) && $pay_status=='1'){</php>
+                <a href="javascript:void(0);" class="gobuyit" id="hideButton" onclick="paymentOrders(2);">支付尾款</a>
+                <php>}elseif($ary_orders['o_pay_status'] != 1){</php>
+                <if condition="$ary_orders['o_pay_status'] eq '0'">
+                    <a href="javascript:void(0);" class="gobuyit" id="hideButton" onclick="paymentOrders(0);">立即支付</a>
+                <elseif condition="$ary_orders['o_pay_status'] eq '3'"/>
+                    <a href="javascript:void(0);" class="gobuyit" id="hideButton" onclick="paymentOrders(2);">支付尾款</a>
+                    <else/></if>
+                <php>}</php>
+				</if>
+			</div>
+			<div class="Btn">
+				<a href="{:U('Wap/Index/index')}" class="back">继续购物</a>
+				<a href="{:U('Wap/Orders/orderDetail')}/oid/{$ary_orders.o_id}" class="myorder">查看订单详情</a>
+			</div>
+		</div>
+		</form>
+  <!--Paysuccess-->
+	</div>
+  <!--shopCart-->
+</div>
+<!--/container-->
+<script type="text/javascript">
+    $(function(){
+       $('[name="o_payment"]:radio').click(function(){
+           var pay_id = $(this).val();
+           var pay_name = $('#o_payment'+pay_id).val();
+           $('#payment_custom_name').html(pay_name);
+           $('#payment_list').hide();
+       })
+    });
+</script>

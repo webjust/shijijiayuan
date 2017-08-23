@@ -1,0 +1,155 @@
+<div class="rightInner">
+    <form id="map_set" name="map_set" method="post" action="{:U('Admin/Seo/doMapSave')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">站点地图设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">站点地图地址</td>
+                    <td>
+                        <input type="text" name="" value="{:U('/Sitemap','','xml',false,true)}" class="large" readonly="readonly" />
+                    </td>
+                    <td class="last">本站点地图遵守<a href="http://www.sitemaps.org/zh_CN/" target="_blank">http://www.sitemaps.org/</a>协议，XML格式，可以直接提交给谷歌、百度、雅虎、必应等搜索引擎</td>
+                </tr>
+                <tr>
+                    <td class="first">首页更新频率</td>
+                    <td>
+                        <input type="radio" name="index_freq" id="index_freq_1" value="always" <eq name="info.INDEX_FREQ" value="always">checked="checked"</eq> />
+                        <label for="index_freq_1">实时</label>
+
+                        <input type="radio" name="index_freq" id="index_freq_2" value="hourly" <eq name="info.INDEX_FREQ" value="hourly">checked="checked"</eq> />
+                        <label for="index_freq_2">每小时</label>
+
+                        <input type="radio" name="index_freq" id="index_freq_3" value="daily" <eq name="info.INDEX_FREQ" value="daily">checked="checked"</eq> />
+                        <label for="index_freq_3">每天</label>
+
+                        <input type="radio" name="index_freq" id="index_freq_4" value="weekly" <eq name="info.INDEX_FREQ" value="weekly">checked="checked"</eq> />
+                        <label for="index_freq_4">每周</label>
+
+                        <input type="radio" name="index_freq" id="index_freq_5" value="monthly" <eq name="info.INDEX_FREQ" value="monthly">checked="checked"</eq> />
+                        <label for="index_freq_5">每月</label>
+
+                        <input type="radio" name="index_freq" id="index_freq_6" value="yearly" <eq name="info.INDEX_FREQ" value="yearly">checked="checked"</eq> />
+                        <label for="index_freq_6">每年</label>
+
+                        <input type="radio" name="index_freq" id="index_freq_7" value="never" <eq name="info.INDEX_FREQ" value="never">checked="checked"</eq> />
+                        <label for="index_freq_7">从不</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">品牌/分类列表页更新频率</td>
+                    <td>
+                        <input type="radio" name="cate_freq" id="cate_freq_1" value="always" <eq name="info.CATE_FREQ" value="always">checked="checked"</eq> />
+                        <label for="cate_freq_1">实时</label>
+
+                        <input type="radio" name="cate_freq" id="cate_freq_2" value="hourly" <eq name="info.CATE_FREQ" value="hourly">checked="checked"</eq> />
+                        <label for="cate_freq_2">每小时</label>
+
+                        <input type="radio" name="cate_freq" id="cate_freq_3" value="daily" <eq name="info.CATE_FREQ" value="daily">checked="checked"</eq> />
+                        <label for="cate_freq_3">每天</label>
+
+                        <input type="radio" name="cate_freq" id="cate_freq_4" value="weekly" <eq name="info.CATE_FREQ" value="weekly">checked="checked"</eq> />
+                        <label for="cate_freq_4">每周</label>
+
+                        <input type="radio" name="cate_freq" id="cate_freq_5" value="monthly" <eq name="info.CATE_FREQ" value="monthly">checked="checked"</eq> />
+                        <label for="cate_freq_5">每月</label>
+
+                        <input type="radio" name="cate_freq" id="cate_freq_6" value="yearly" <eq name="info.CATE_FREQ" value="yearly">checked="checked"</eq> />
+                        <label for="cate_freq_6">每年</label>
+
+                        <input type="radio" name="cate_freq" id="cate_freq_7" value="never" <eq name="info.CATE_FREQ" value="never">checked="checked"</eq> />
+                        <label for="cate_freq_7">从不</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">商品信息更新频率</td>
+                    <td>
+                        <input type="radio" name="goods_freq" id="goods_freq_1" value="always" <eq name="info.GOODS_FREQ" value="always">checked="checked"</eq> />
+                        <label for="goods_freq_1">实时</label>
+
+                        <input type="radio" name="goods_freq" id="goods_freq_2" value="hourly" <eq name="info.GOODS_FREQ" value="hourly">checked="checked"</eq> />
+                        <label for="goods_freq_2">每小时</label>
+
+                        <input type="radio" name="goods_freq" id="goods_freq_3" value="daily" <eq name="info.GOODS_FREQ" value="daily">checked="checked"</eq> />
+                        <label for="goods_freq_3">每天</label>
+
+                        <input type="radio" name="goods_freq" id="goods_freq_4" value="weekly" <eq name="info.GOODS_FREQ" value="weekly">checked="checked"</eq> />
+                        <label for="goods_freq_4">每周</label>
+
+                        <input type="radio" name="goods_freq" id="goods_freq_5" value="monthly" <eq name="info.GOODS_FREQ" value="monthly">checked="checked"</eq> />
+                        <label for="goods_freq_5">每月</label>
+
+                        <input type="radio" name="goods_freq" id="goods_freq_6" value="yearly" <eq name="info.GOODS_FREQ" value="yearly">checked="checked"</eq> />
+                        <label for="goods_freq_6">每年</label>
+
+                        <input type="radio" name="goods_freq" id="goods_freq_7" value="never" <eq name="info.GOODS_FREQ" value="never">checked="checked"</eq> />
+                        <label for="goods_freq_7">从不</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">文章/公告更新频率</td>
+                    <td>
+                        <input type="radio" name="arti_freq" id="arti_freq_1" value="always" <eq name="info.ARTI_FREQ" value="always">checked="checked"</eq> />
+                        <label for="arti_freq_1">实时</label>
+
+                        <input type="radio" name="arti_freq" id="arti_freq_2" value="hourly" <eq name="info.ARTI_FREQ" value="hourly">checked="checked"</eq> />
+                        <label for="arti_freq_2">每小时</label>
+
+                        <input type="radio" name="arti_freq" id="arti_freq_3" value="daily" <eq name="info.ARTI_FREQ" value="daily">checked="checked"</eq> />
+                        <label for="arti_freq_3">每天</label>
+
+                        <input type="radio" name="arti_freq" id="arti_freq_4" value="weekly" <eq name="info.ARTI_FREQ" value="weekly">checked="checked"</eq> />
+                        <label for="arti_freq_4">每周</label>
+
+                        <input type="radio" name="arti_freq" id="arti_freq_5" value="monthly" <eq name="info.ARTI_FREQ" value="monthly">checked="checked"</eq> />
+                        <label for="arti_freq_5">每月</label>
+
+                        <input type="radio" name="arti_freq" id="arti_freq_6" value="yearly" <eq name="info.ARTI_FREQ" value="yearly">checked="checked"</eq> />
+                        <label for="arti_freq_6">每年</label>
+
+                        <input type="radio" name="arti_freq" id="arti_freq_7" value="never" <eq name="info.ARTI_FREQ" value="never">checked="checked"</eq> />
+                        <label for="arti_freq_7">从不</label>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">站点地图缓存周期</td>
+                    <td>
+                        <input type="radio" name="map_freq" id="map_freq_3" value="daily" <eq name="info.MAP_FREQ" value="daily">checked="checked"</eq> />
+                        <label for="map_freq_3">一天</label>
+
+                        <input type="radio" name="map_freq" id="map_freq_4" value="weekly" <eq name="info.MAP_FREQ" value="weekly">checked="checked"</eq> />
+                        <label for="map_freq_4">一周</label>
+
+                        <input type="radio" name="map_freq" id="map_freq_5" value="monthly" <eq name="info.MAP_FREQ" value="monthly">checked="checked"</eq> />
+                        <label for="map_freq_5">一月</label>
+
+                        <input type="radio" name="map_freq" id="map_freq_6" value="yearly" <eq name="info.MAP_FREQ" value="yearly">checked="checked"</eq> />
+                        <label for="map_freq_6">一年</label>
+
+                        <input type="radio" name="map_freq" id="map_freq_7" value="forever" <eq name="info.MAP_FREQ" value="forever">checked="checked"</eq> />
+                        <label for="map_freq_7">从不过期，直到手动生成</label>
+                    </td>
+                    <td class="last">生成站点地图会消耗较多服务器资源，请不要设置太短以免频繁自动生成</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保存设置" class="btnA" style="float:left; margin-right: 10px;">
+                        <a target="_blank" href="{:U('Admin/Seo/doMapRefresh')}" class="btnA" style="float:left;">生成/预览</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

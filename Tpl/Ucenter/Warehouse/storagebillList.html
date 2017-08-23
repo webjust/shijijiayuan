@@ -1,0 +1,50 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    .rightBox_content_title>a{float: right;}
+    .rightBox_content_title>div{float:left;}
+    .bold_size{font-weight: bold;}
+</style>
+<div class="contentRightBox">
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+            <table width="100%" class="tbList">
+                <thead>
+                <tr class="title">
+                    <th colspan="99">商品入库单</th>
+                </tr>
+                <tr>
+                <th>入库单编码</th>
+                <th>生成时间</th>
+                <th>状态</th>
+                <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+            <volist name="billList" id="bill">
+                <tr id="list_{$bill.opb_id|intval}">
+                    <td><a href="/Ucenter/Warehouse/deliveryList/odb_id/{$bill.odb_id}">{$bill.odb_id}</a></td>
+                    <td>{$bill.odb_time}</td>
+                    <td>
+                    <if condition="$bill.odb_status eq 0">未确认</if>
+                    <if condition="$bill.odb_status eq 1">已确认</if>
+                    </td>
+                    <td>
+                    <a href="/Ucenter/Warehouse/deliveryList/odb_id/{$bill.odb_id}">查看</a>
+                    </td>
+                </tr>
+            </volist>
+                   <empty name="billList">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> 
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="99"><span class="right page">{$page}</span></td>
+                </tr>
+                </tfoot>
+            </table>
+    </div>
+</div>

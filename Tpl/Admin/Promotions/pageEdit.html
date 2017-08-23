@@ -1,0 +1,209 @@
+<div class="rightInner">
+    <form id="promotion_edit" name="promotion_edit" method="post" action="{:U('Admin/Promotions/doEdit')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">编辑促销活动</th>
+                </tr>
+            </thead>
+
+            <tbody class="tab">
+                <tr>
+                    <th colspan="99">促销基本信息</th>
+                </tr>
+                <tr>
+                    <td class="first">* 活动名称</td>
+                    <td>
+                        <span id="nameChose" class="nameChose">
+                            <input type="text" name="pmn_activity_name" id="pmn_activity_name" value="{$info.pmn_activity_name}" class="large" validate="{ required:true,maxlength:30}" />
+                            <a href="javascript:void(0);" onclick="nameChose('nameNew');">查看已有</a>
+                        </span>
+                        <span id="nameNew" class="nameChose none">
+                            <select name="" id="nameSelect" class="large" validate="{ selected:true}">
+                                <option value="">请选择已有活动 - 如果没有您必须新建一个</option>
+                                <volist name="active" id="act">
+                                    <option value="{$act.pmn_activity_name}">{$act.pmn_activity_name}</option>
+                                </volist>
+                            </select>
+                            <a href="javascript:void(0);" onclick="nameChose('nameChose');">新增活动</a>
+                        </span>
+                    </td>
+                    <td class="last">不同的促销规则可以采用相同的活动名称，用来聚合到一个活动名下。建议不超过30个字</td>
+                </tr>
+                <tr>
+                    <td class="first">* 规则名称</td>
+                    <td><input type="text" name="pmn_name" value="{$info.pmn_name}" class="large" validate="{ required:true,maxlength:30}" /></td>
+                    <td class="last">建议不超过30个字</td>
+                </tr>
+                <tr>
+                    <td class="first">* 优先级</td>
+                    <td>
+                        <select name="pmn_order" id="pmn_order" class="medium" validate="{ selected:true}" >
+                            <option value="{$info.pmn_order}">{$info.pmn_order} - 当前已选</option>
+                            <volist name="orders" id="od">
+                                <option value="{$od.num}" <neq name="od.pmn_id" value="0">disabled="disabled"</neq> >{$od.num}<neq name="od.pmn_id" value="0"> -- 已被{$od.pmn_activity_name} - {$od.pmn_name}使用</neq></option>
+                            </volist>
+                        </select>
+                        <input type="checkbox" id="showDisableOrder" checked="checked" /> <label for="showDisableOrder">显示已占用</label>
+                    </td>
+                    <td class="last">数值越大越被优先使用。为避免发生冲突，每个优先级仅能被一个活动规则占用</td>
+                </tr>
+                <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="radio" name="pmn_enable" value="1" <eq name="info.pmn_enable" value="1">checked="checked"</eq> /> 启用
+                        <input type="radio" name="pmn_enable" value="0"  <eq name="info.pmn_enable" value="0">checked="checked"</eq> /> 停用 </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 促销开始时间</td>
+                    <td>
+                        <input type="text" class="medium timer" name="pmn_start_time" id="pmn_start_time" value="{$info.pmn_start_time}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 促销结束时间</td>
+                    <td>
+                        <input type="text" class="medium timer" name="pmn_end_time" id="pmn_end_time" value="{$info.pmn_end_time}" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">促销规则描述</td>
+                    <td><textarea name="pmn_memo" class="mediumBox" validate="{ maxlength:200}">{$info.pmn_memo}</textarea></td>
+                    <td class="last">200字以内</td>
+                </tr>
+                <tr class="last">
+                    <td colspan="99">
+                        <input type="button" value="下一步" class="btnA" onclick="nextTab(1,1);" />&nbsp;
+                        <input type="button" value="取 消" class="btnA back" />
+                    </td>
+                </tr>
+            </tbody>
+            <tbody class="tab none">
+                <include file="Members:addMembersPublic" />
+                <tr class="last">
+                   <td colspan="99">
+                       <input type="button" value="上一步" class="btnA" onclick="nextTab(0,0);" />&nbsp;
+                       <input type="button" value="下一步" class="btnA" onclick="nextTab(2,1);" />&nbsp;
+                       <input type="button" value="取 消" class="btnA back" >
+                   </td>
+               </tr>
+            </tbody>
+     
+            <tbody class="tab none" id="ruler">
+                <tr class="last">
+                    <td colspan="99">
+                        <input type="hidden" value="{$info.pmn_id}" name="pmn_id" />
+                        <input type="hidden" value="{$info.pmn_class}" name="pmn_class" />
+                        <input type="button" value="上一步" class="btnA" onclick="nextTab(1,0);" />&nbsp;
+                        <input type="button" value="提 交" class="btnA" onclick="javascrpt:save();"/>&nbsp;
+                        <input type="button" value="取 消" class="btnA back" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $('.pmn_class').attr('checked',false);
+    $("document").ready(function(){
+        /*选择已有活动*/
+        $("#nameSelect").change(function(){
+            $('#pmn_activity_name').val($(this).val());
+        });
+
+        /*显示和隐藏已经被占用的优先级*/
+        $('#showDisableOrder').click(function(){
+            if($(this).attr('checked')=='checked'){
+                $("#pmn_order option:disabled").show();
+            }else{
+                $("#pmn_order option:disabled").hide();
+            }
+        });
+
+        /*全部会员还是部分会员*/
+        $(".ra_all").click(function(){
+            if($(this).val()=='0'){
+                $('.raMember').fadeIn('fast');
+            }else{
+                $('.raMember').hide();
+            }
+        });
+
+        /*加载不同促销类型的页面*/
+        var url = "{:U('Admin/Promotions/getPromotionRuler')}";
+        var code = "{$info['pmn_class']}";
+        var pid = "{$info['pmn_id']}";
+        $.post(url,{code:code,pid:pid},function(info){
+            $("#ruler").prepend(info);
+        },'text');
+
+    });
+
+    /*上一步 下一步 操作*/
+    /**
+     * @param int num 跳转到哪个tab
+     * @param boolean vld 是否进行验证。注：下一步时需要验证本页输入的内容，而上一步的时候不需要
+     */
+    function nextTab(num,vld){
+        if(num==1){
+            var startTime=$("#pmn_start_time").val(); 
+            var endTime=$("#pmn_end_time").val(); 
+              
+            var start=new Date(startTime.replace("-", "/").replace("-", "/"));  
+            var end=new Date(endTime.replace("-", "/").replace("-", "/")); 
+            if(start > end){
+                showAlert(false,'出错了','促销开始时间不能大于促销结束时间！');
+                return false;
+            } 
+        }
+		if(num==2){
+            var types=$("input:radio[name='ra_all']:checked").val();
+            var mid_num =$("input[name='ra_mid[]']").length;
+            var ml_num =$("input[name='ra_ml[]'][checked]:checkbox").length;
+            var mg_num =$("input[name='ra_mg[]'][checked]:checkbox").length;
+            if(mid_num==0 && ml_num==0 && mg_num==0 && types==0){
+                showAlert(false,'出错了','会员组/会员等级/指定会员不能都为空！');
+                return false;
+            }
+        }
+        if($('#promotion_edit').valid() || vld == 0){
+            $('.tab').hide();
+            $('.tab:eq('+num+')').fadeIn('fast');
+        }
+    }
+
+    /*新增活动还是选择已有活动*/
+    function nameChose(obj){
+        $('.nameChose').hide();
+        $('#'+obj).fadeIn('fast');
+    }
+    /**提交表单
+     * @author zhangjiasuo <zhangjiasuo@guanyisoft.com>
+     * @date 2013-05-29
+     */
+    function save(){
+        var types=$("input:radio[name='cfg_goods_area']:checked").val();
+        var res = $('#promotion_edit').valid();
+        var start_price =$('#cfg_cart_start').val();
+        var end_price =$('#cfg_cart_end').val();
+        if(parseFloat(end_price) < parseFloat(start_price)){
+            showAlert(false,'出错了','优惠条件起始价格大于结束价格！');
+            return false;
+        }
+        if(types==1){
+            var num = $("input[name='ra_gid[]']").length;
+            if(num==0){
+                showAlert(false,'出错了','请您选择商品！');
+                return false;
+            }
+        }
+        if(res){
+            document.promotion_edit.submit();
+        }
+    }
+</script>

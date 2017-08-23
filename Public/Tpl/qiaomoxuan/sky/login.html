@@ -1,0 +1,180 @@
+ <div class="wrap bg5ac3f0 clear">
+    <div class="content">
+        <div id="lgForm" class="lgBox loginBox clearfix">
+
+            <img src="{$ad_arr.log_pic}" width="636" height="407">
+            <div class="loginBoxCon">
+                <div class="loginBoxMain">
+                    <h1>用户登录</h1>
+                    <form action="{:U('Home/User/doLogin')}"  method="post" id="regForm">
+                        <ul>
+                            <li>
+                                <span>用户名：</span>
+                                <input class="iptTxt w276"  type="text"  validate="{ required:true}" name="m_name" id="m_name">
+                            </li>
+                            <p class="error" style=" padding-left: 80px; line-height: 0px; color: #F92626;margin-top: 17px;"></p>
+                            <li>
+                                <span>密码：</span>
+                                <input class="iptTxt w276" type="password" validate="{ required:true}" name="m_password" id="m_password" autocomplete="off">
+
+                            </li>
+                            <p class="error" style=" padding-left: 80px; line-height: 0px; color: #F92626;margin-top: 17px;"></p>
+                            <li>
+                                <span>验证码：</span>
+                                <input class="iptTxt chkIpt w98"  type="text" validate="{ required:true}" name="verify" id="verify">
+                                <img class="chkImg" id="loginverify" src="__APP__/Home/User/verify/" height="30" onClick="this.src='__APP__/Home/User/verify/'+Math.random()">
+                                <a href="javascript:void(0);" class="blue" onclick="changeverify()">换一张</a>
+                            </li>
+                            <p class="error" style=" padding-left: 80px; line-height: 0px; color: #F92626;margin-top: 8px;"></p>
+                            <li class="chooseBtn">
+                                <!--<label><input type="checkbox"/> 记住密码</label>-->
+                                <a href="{:U('Home/User/pageFoget')}" class="blue">忘记密码 ?</a>
+                            </li>
+                            <input name="savelogin" type="hidden" value="0"/>
+                            <input name="requsetUrl" id="requsetUrl" type="hidden" value="{$requset_url}"/>
+                            <li class="subBtn">
+                                <input type="submit" value="登录" class="login">
+                                <a href="{:U('Home/User/pageRegister')}" class="blk-inline">注册</a>
+                            </li>
+
+                        </ul>
+                    </form>
+                </div>
+                <div class="loginBoxft">
+                    使用社交账号登录：
+
+                    <if condition="$qq eq '1'">
+                        <a href="{:U('Home/User/thdLoginUr/')}?type=QQ" class="icon icon-qq">QQ</a>
+                    </if>
+
+                    <!--<a href="###" class="icon icon-pay"></a>-->
+                    <if condition="$sina eq '1'">
+                        <a href="{:U('Home/User/thdLoginUr/')}?type=Sina" class="icon icon-sina">新浪微博</a>
+                    </if>
+                    <if condition="$renren eq '1'">
+                        <a href="{:U('Home/User/thdLoginUr/')}?type=RenRen" class="icon icon-renren" title="人人网">人人网</a>
+                    </if>
+
+                    <if condition="$wx eq '1'">
+                         <div id="wx_login" class="t_center">
+                              <img src="__IMAGES__ewm_wx.jpg" />
+                              <span class="f12 gray3" style="margin-top:10px;">使用微信扫描上方二维码登陆</span>
+                         </div>
+                    </if>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <script src="__JS__login.js" type="text/javascript"></script>
+ <script type="text/javascript" src="__JS__base.js"></script>
+ <script src="__PUBLIC__/Lib/jquery/js/jquery.form.js"></script>
+ <script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+ <script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+ <script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+ <link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+ <script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+ <eq name="wxloginstatus" value="1">
+     <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+     <script>
+         var obj = new WxLogin({
+             id:"wx_login",
+             appid: "{$wxid}",
+             scope: "snsapi_login",
+             redirect_uri: "{$wx_redirect_uri}",
+             state: "{$wxrand}",
+             style: "white", //可选值：black,white
+             href: ""
+         });
+     </script>
+ </eq>
+ <script type="text/javascript">
+     function changeverify(){
+         $("#loginverify").attr('src','{:U("Home/User/verify")}'+'?r='+Math.random());
+     }
+ </script>
+<script type="text/javascript">
+ function redirectUri(obj){
+     if(obj == 'fogetpass'){
+        window.parent.location.href="{:U('Home/User/pageFoget')}";
+     }else if(obj == 'registpage'){
+        $.popup.close();
+        $.popup.popwin('/Home/User/ajaxRegPage', { settings: { width: 410, height:710, title: '注册',head:true} });
+    }
+ }
+</script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+    $("#regForm").validate({
+         errorPlacement: function(error, element) {
+            var error_td = element.parent('li').next('p.error');
+            error_td.append(error);
+                         },
+        submitHandler:function(form){
+            var rand = '{$Think.session.rand}'.toString();
+            var m_password = $("#m_password").val().toString();
+            var new_password = encode64(m_password+rand);
+            $("#m_password").val(new_password);
+            var formdata = $("#regForm").serialize();
+            var url = $("#requsetUrl").val();
+            var isreset = url.indexOf("doReset");
+            $.ajax({
+                url:"{:U('Home/User/doLogin')}",
+                data:formdata,
+                dataType:"json",
+                type:"post",
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+                        if(msgObj.url){
+                            url = msgObj.url;
+                        }
+                        if( isreset !== -1){
+                            $.ThinkBox.success('登录成功,等待跳转……');
+                            window.location.href = "/Home/Index/index";
+                        }else{
+                            $.ThinkBox.success('登录成功,等待跳转……');
+                            window.location.href = url;
+                        }
+                    }else{
+                        $.ThinkBox.error(msgObj.info);
+                        changeverify();
+                        return false;
+                    }
+                }
+            });
+        },
+        rules : {
+              m_name : {
+                 required:true,
+                 minlength:4,
+                 isCheck:true,
+              },
+              m_password : {
+                 required : true
+              },
+              verify : {
+                 required:true,
+                 digits:true,
+                 remote:'/Home/User/checkVerify',
+                 rangelength:[4,4]
+              }
+        },
+         messages : {
+             m_name : {
+                 required : '用户名不能为空',
+                 minlength : '用户名不能少于4位',
+                 isCheck: '用户名不能包含敏感字符',
+             },
+             m_password  : {
+                 required : '密码不能为空'
+             },
+             verify : {
+                 required:'请输入验证码',
+                 rangelength:'验证码长度为4',
+                 digits:'对不起，请输入正确的验证码'
+             }
+         }
+      });
+   });
+</script>
+

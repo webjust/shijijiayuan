@@ -1,0 +1,99 @@
+<div class="rightInner tableColor">
+    <!--<form method="post" action="{:U('Admin/GoodsBrand/doDelBrands')}" id="">-->
+    <table width="100%" class="tbList" data-uri='{:U("Admin/Email/pageList")}'>
+        <thead>
+            <tr class="title">
+                <th style="text-align:right;font-size: 12px;" colspan="99">
+                    <form id="searchForm" method="post" href='{:U("Admin/Email/pageList")}'>
+                        Email:
+                        <input type="text" value="{$ary_request['email']}" name="email" class="medium">
+						验证码:
+						<input type="text" value="{$ary_request['code']}" name="code" class="small">
+						验证状态:
+						<select name="check_status">
+							<option value="-1" <if condition="$ary_request['check_status'] eq -1 ">selected</if>>选择</option>
+							<option value="0" <if condition="$ary_request['check_status'] eq 0">selected</if>>未认证</option>
+							<option value="1" <if condition="$ary_request['check_status'] eq 1">selected</if>>已认证</option>
+							<option value="2" <if condition="$ary_request['check_status'] eq 2">selected</if>>无效</option>
+						</select>
+						发送类型:
+						<select name="email_type">
+							<option value="-1" <if condition="$ary_request['email_type'] eq -1 ">selected</if>>选择</option>
+							<option value="0" <if condition="$ary_request['email_type'] eq 0">selected</if>>普通邮件</option>
+							<option value="1" <if condition="$ary_request['email_type'] eq 1">selected</if>>忘记密码</option>
+							<option value="2" <if condition="$ary_request['email_type'] eq 2">selected</if>>邮箱验证</option>
+							<option value="3" <if condition="$ary_request['email_type'] eq 3">selected</if>>重置密码</option>
+						</select>
+						发送时间:
+						<input type="text" name="start_time" class="medium timer" value="{$ary_request.start_time}"  >
+						-
+						<input type="text" name="end_time" class="medium timer" value="{$ary_request.end_time}"  >
+                        <input class="btnHeader inpButton" type="submit" value="搜 索">
+                    </form>
+                </th>
+            </tr>
+            <tr>
+                <th>邮箱</th>
+                <th>发送内容</th>
+                <th>验证状态</th>
+                <th>验证码</th>
+                <th>发送时间</th>
+                <th>修改时间</th>     
+                <th>发送类型</th>     
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="ary_email" id="email">
+            <tr>
+                <td>{$email['email']}</td>
+                <td>
+				{$email['content']}
+				</td>
+                <td>
+				<if condition="$email.check_status eq 0">
+				未验证
+				</if>
+				<if condition="$email.check_status eq 1">
+				已验证
+				</if>
+				<if condition="$email.check_status eq 2">
+				失效
+				</if>
+				</td>
+                <td>{$email.code}</td>
+                <td>{$email.create_time}</td>
+                <td>
+					{$email.update_time}
+                </td>
+                <td>
+				<if condition="$email.email_type eq 0">
+				普通邮件
+				</if>
+				<if condition="$email.email_type eq 1">
+				忘记密码
+				</if>
+				<if condition="$email.email_type eq 2">
+				邮箱验证
+				</if>
+				<if condition="$email.email_type eq 3">
+				重置密码
+				</if>				
+                </td>
+            </tr>
+            </volist>
+            <empty name="ary_email">
+                <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+            </empty>
+        </tbody>
+        <tfoot>
+		<!--
+            <tr>
+                <td colspan="99">
+                <input type="button" data-uri='{:U("Admin/GoodsBrand/doDelBrands")}'  value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+            </tr>
+		-->
+        </tfoot>
+    </table>
+    <!--</form>-->
+    <div class="clear"></div>
+</div>

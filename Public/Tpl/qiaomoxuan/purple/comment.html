@@ -1,0 +1,148 @@
+{__NOLAYOUT__}
+<style>
+
+</style>
+<div id="recomm1" class="rv-wrap mt10">
+    <div class="rv-rate">
+        <div class="rv-rate-wrap clearfix">
+            <div class="rv-rate-item rv-rate-score">
+                <div class="item">
+                    <p class="score">
+                        <span><php>echo sprintf('%.1f', $score);</php></span>
+                        <php>for($i=0;$i<round($score);$i++){</php>
+                        <i></i>
+                        <php>}</php>
+                    </p>
+                </div>
+            </div>
+            <div class="rv-rate-item rv-rate-label">
+                <p>
+                    <span><i style="left:{$score_str}%;"><php>echo sprintf('%.1f', $score);</php></i></span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="rv-list clearfix">
+        <ul>
+            <li class="on">全部({$count})</li>
+            <!--
+            <li>好评({$good_count})</li>
+            <li>晒单({$pic_count})</li>-->
+        </ul>
+    </div>
+    <div class="rv-target-con">
+        <div class="rv-target-item">
+            <div class="rv-target-list">
+                <div class="rv-target-topic clearfix">
+                    <volist name="data" id="cinfo" >
+                        <div class="topic-avatar fl">
+                            <div class="username">
+                                <span>{$cinfo.gcom_mbname|default="匿名用户"}</span>
+                            </div>
+                        </div>
+                        <div class="topic-main fl">
+                            <div class="topic-title clearfix">
+                                <div class="fl star" style="width:105px;">
+                                    <php>$start_score = ($cinfo['gcom_star_score']/100)*5;
+                                        for($i=0;$i<$start_score;$i++){
+                                    </php>
+                                    <i></i>
+                                    <php>}</php>
+                                </div>
+                            </div>
+                            <div class="topic-body">
+                                <p class="body-content">
+                                    {$cinfo[gcom_content]}
+                                </p>
+                                <div class="body-info clearfix">
+                                    <div class="date fl"><span>{$cinfo[gcom_create_time]}</span></div>
+                                    <div style="clear:both;"></div>
+                                    <if condition="$cinfo['gcom_pics'] neq ''">
+                                        <div class="date fl" style="margin-left: 105px;">
+                                            <p>
+                                                <php>
+													$gcom_pics = explode(',',$cinfo['gcom_pics']);
+                                                    foreach($gcom_pics as &$pic){
+                                                    $pic = D('QnPic')->picToQn($pic);
+                                                    }
+                                                    foreach($gcom_pics as $gcom_pic){
+														if($gcom_pic!=''){
+												</php>
+													<a href="{$gcom_pic}" target="_blank" >
+														<img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" />
+													</a>
+                                                <php>}}</php>
+                                            </p>
+                                            <if condition="$cinfo[reply] neq ''">
+                                                <p class="brow">客服回复：{$cinfo[reply][gcom_content]}</p>
+                                            </if>
+                                        </div>
+                                    </if>
+                                    <if condition="$cinfo['recomment'] neq ''">
+                                        <div style="clear:both;"></div>
+                                        <php>foreach($cinfo['recomment'] as $recomment){</php>
+                                        <div class="date">
+                                            <p class="body-content">[追加评论]{$recomment['gcom_content']}<label><br />{$recomment['gcom_create_time']}</label></p>
+                                            <if condition="$recomment[gcom_pics] neq ''">
+                                                <p>
+                                                    <php>$gcom_pics = explode(',',$recomment['gcom_pics']);
+                                                        foreach($gcom_pics as &$pic){
+                                                        $pic = D('QnPic')->picToQn($pic);
+                                                        }
+                                                        foreach($gcom_pics as $gcom_pic){</php>
+                                                    <a href="{$gcom_pic}" target="_blank" ><img src="{$Think.config.DOMAIN_HOST}{$gcom_pic}" width="60px" height="60px" /></a>
+                                                    <php>}</php>
+                                                </p>
+                                            </if>
+                                            <if condition="$recomment[reply] neq ''">
+                                                <p class="brow" style="margin-left: 105px">客服回复：{$recomment[reply][gcom_content]}</p>
+                                            </if>
+                                        </div>
+                                        <php>}</php>
+                                    </if>
+                                </div>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+            <div class="ui-page-item">
+                <div class="item fr" style="float:right;margin-right: 114px;">
+                    <if condition="$page['nowPage'] eq 1">
+                        <a class="prev prev-disable" href="javascript:void(0)"><i class="icon"></i>上一页</a>
+                        <else />
+                        <a class="prev prev-disable" style="color: #666;" href="javascript:void(0)" onclick="CommentPage('{$g_id}','{$a-1}')"><i class="icon"></i>上一页</a>
+                    </if>
+                    <php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+                    <if condition="$a eq $page['nowPage']">
+                        <a href="javascript:void(0);" class="on">{$a}</span>
+                            <else/>
+                            <a onclick="CommentPage('{$g_id}','{$a}')" class="change current">{$a}</a>
+                    </if>
+                    <php>}</php>
+                    <if condition="$page['nowPage'] eq $page['totalPage']">
+                        <a class="next" href="javascript:void(0)">下一页<i class="icon"></i></a>
+                        <else />
+                        <a class="next" onclick="CommentPage('{$g_id}','{$a+1}')">下一页<i class="icon"></i></a>
+                    </if>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //评价标签切换ever
+    tagChange({
+        tagObj:$('#recomm1 .rv-list li'),
+        tagCon:$('#recomm1 .rv-target-item'),
+        currentClass:'on'
+    });
+
+    $(document).ready(function(){
+        if("{$count}"){
+            $('#show_comment_num').html("("+"{$ary_gcs.total_count|default=0}" +")");
+            $("#comment_count").html("全部评价("+'{$ary_gcs.total_count}'+')');
+        }
+
+    });
+</script>

@@ -1,0 +1,70 @@
+<!--footer-->
+<div id="third">
+    <div class="third">
+        <a href="/"></a>
+        <a href="javascript:void(0);" class="gotop"></a>
+        <a href="javascript:void(0);"></a>
+    </div>
+</div>
+
+<div id="foot">
+    <div class="foot">
+        <div class="allA">
+        </div>
+        <div ></div>
+        <div class="left">
+            <gyfx:articlecate_list name="cate" num="5" recommend="1" linum="4">
+                <volist name="cate" id="tin">
+                    <dl class="word">
+                        <dt>{$tin.cat_name}</dt>
+                        <volist name="tin.a_list" id="a_list">
+                            <dd><a href="{$a_list.aurl}">{$a_list.atitle}</a></dd>
+                        </volist>
+                    </dl>
+                </volist>
+            </gyfx:articlecate_list>
+            <dl class="pic marrig15" style="display:none">
+                <dt class="margintop"><img src="__TPL__images/hhr.jpg" alt=""></dt>
+                <dd><a href="###">加盟合伙人</a></dd>
+            </dl>
+            <dl class="pic marrig15" style="display:none">
+                <dt><img src="__TPL__images/ewm.jpg" alt=""></dt>
+                <dd><a href="###">下载手机APP</a></dd>
+            </dl>
+            <dl class="pic" style="display:none">
+                <dt><img src="__TPL__images/ewm.jpg" alt=""></dt>
+                <dd><a href="###">关注公众微信号</a></dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div class="footer">
+        <ul>
+            <li>友情链接</li>
+            <gyfx:link name='nav' row="20" sort="asc">
+                <li><a href="{$nav.ul_link_url}" target="_blank">{$nav.ul_name}</a></li>
+            </gyfx:link>
+        </ul>
+        <p>Copyright 2015-2017 ALL Rights Reserved 广州悦荞茉萱贸易有限公司 版权所有 备案/许可证编号为：<a href="http://www.miitbeian.gov.cn" target="_blank">粤ICP备16075564号</a></p>
+    </div>
+</div>
+
+<!--[if lte IE 8]>
+<script src="js/ieBetter.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="__JS__parabola.js"></script>
+<script type="text/javascript" src="__JS__main.js"></script>
+<!--弹出框-->
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>

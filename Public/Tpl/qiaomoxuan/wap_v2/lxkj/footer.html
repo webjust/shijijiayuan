@@ -1,0 +1,40 @@
+
+        <div class="news news_footer" >
+            <div class="footadd" style="width:100%;display:block;">
+
+            </div>
+            <div class="footer">
+                <ul>
+                    <li>
+                        <div class="pic"><a href="{:U('/Wap/')}"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/home1.png" alt="" _src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/home1_hover.png"><p>首页</p></a></div>
+                    </li>
+                    <li>
+                        <div class="pic"><a href="{:U('/Wap/Products/index')}"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/classifiy.png" alt="" _src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/classifiy_hover.png"><p>分类</p></a></div>
+                    </li>
+                    <li>
+                        <div class="pic"><a href=""><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/class.png" alt="" _src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/class_hover.png"><p>美妆课堂</p></a></div>
+                    </li>
+                    <li>
+                        <div class="pic">
+                            <a href="{:U('/Wap/Cart/pageCartList')}">
+                                <img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/cart.png" alt="" _src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/cart_hover.png">
+                                <p>购物车</p>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pic"><a href="{:U('/Wap/Ucenter/index')}"><img src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/me.png" alt="" _src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/images/me_hover.png"><p>我的</p></a></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+<script>
+$(document).ready(function(){ 
+    $(".footadd").height($(".footer").height());
+    var headerTop_h = $(".headerTop").height()
+    $(".menu").css("top",headerTop_h);
+    var li_width = $(".index_pp li").width()
+    $(".index_pp li").height(li_width)
+})
+</script>
+<script src="/Public/Tpl/qiaomoxuan/wap_v2/lxkj/js/index.js"></script>

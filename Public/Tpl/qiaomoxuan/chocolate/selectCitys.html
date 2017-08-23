@@ -1,0 +1,13 @@
+<notempty name ="city">
+    <volist name="city" id="cy">
+        <span onClick="selectCitys('{$cy.cr_id}','{$cy.cr_name}','{$cy.cr_type}');">{$cy.cr_name}</span>
+    </volist>
+<else/>
+    <notempty name="skuName">
+        {$skus}
+        <else/>
+        {$stock}
+    </notempty>
+
+</notempty>
+    

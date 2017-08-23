@@ -1,0 +1,120 @@
+<style>
+    .intro_content{width: 100%;overflow: hidden;}
+    .intro_content_box{width: 1200px;overflow: hidden;margin: 0 auto;background:#efeff1;padding:20px 0;}
+    .intro_content_top{width: 1200px;height:51px;overflow: hidden;}
+    .intro_content_top ul li{float: left;width:230px;height:49px;font-size:20px;border:1px solid #b6b6b6;background:white;text-align: center;line-height: 49px;margin-right: 10px;}
+    .intro_content_top ul li:last-child{margin-right: 0;}
+    .intro_content_top ul li.on{background: #ff2691;color: white;}
+    .intro_content_body{width: 1140px;margin: 20px auto;height:500px;overflow: hidden;background: white;}
+    .intro_content_title{width: 1140px;height:40px;overflow: hidden;background: #676767;font-size: 20px;color: white;line-height: 40px;}
+    .intro_content_title .lt{width: 150px;height:40px;overflow: hidden;float:left;background: #959595;line-height: 40px;text-align: center;}
+    .intro_content_title .rt{width: 960px;height:40px;overflow: hidden;float:left;line-height: 40px;padding-left: 30px;}
+    .intro_content_content{width: 1140px;height:460px;overflow: hidden;}
+    .intro_content_content>form>div>div{width:570px;height:147px;overflow: hidden;float: left;}
+    .intro_content_content>form>div>div.line{width:1200px;height:48px;overflow: hidden;border-bottom: 1px solid #959595;background:#f7f7f7;clear: both;}
+    .intro_content_content>form>div>div.line_last{width:1200px;height:245px;overflow: hidden;background:#f7f7f7;clear: both;}
+    .intro_content_content>form>div>div div.intro_content_lt{width:117px;height:48px;line-height:48px;border-bottom: 1px solid #959595;background:#f7f7f7;float:left;text-align: center;font-size: 16px;}
+    .intro_content_content>form>div>div div.intro_content_rt{width:453px;height:48px;overflow:hidden;background:#ffffff;float: left;border-bottom: 1px solid #959595;}
+    .intro_content_content>form>div>div div.intro_content_rt input{width:320px;height:30px;overflow: hidden;border: 1px solid #959595;margin-top: 8px;padding-left: 10px;margin-left: 12px;float: left;}
+    .intro_content_content>form>div>div div.intro_content_rt textarea{width:977px;height:170px;overflow: hidden;border: 1px solid #959595;margin-top: 8px;padding:10px;margin-left: 12px;}
+    .intro_content_content>form>div>div div.intro_content_rt .file-box{position:relative;width:330px;margin-top: 14px;margin-left: 112px;}
+    .intro_content_content>form>div>div div.intro_content_rt .file-box input{vertical-align:middle; margin:0; padding:0;}
+    .intro_content_content>form>div>div div.intro_content_rt input.txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
+    .intro_content_content>form>div>div div.intro_content_rt input.btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:70px;}
+    .intro_content_content>form>div>div div.intro_content_rt input.file{ position:absolute; top:0; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
+    .intro_content_content>form>div>div div.intro_content_lt_new{width:117px;height:132px;border-bottom: 1px solid #959595;padding-top:14px;line-height: 20px; }
+    .intro_content_content>form>div>div div.intro_content_rt_new{width:453px;height:146px;}
+    .intro_content_content>form>div>div div.intro_content_rt_new input{width:453px;height:146px;}
+    .intro_content_content>form>div>div div.intro_content_line_new{width:1083px;height:146px;}
+    .intro_content_content>form>div>div div.intro_content_line_title{height:245px;overflow: hidden;}
+    .intro_content_content>form>div>div div.intro_content_line_last{width:1083px;height:245px;overflow: hidden;}
+    .intro_content_rt_title{width:453px;height:48px;overflow: hidden;border-bottom: 1px solid #959595;}
+    .intro_content_btn{width:1200px;height:50px;text-align: center;overflow: hidden;}
+    .intro_content_btn a{width:233px;height:50px;display:inline-block;text-align: center;overflow: hidden;font-size:20px;line-height: 50px;background:white;margin-right:50px;}
+    .intro_content_btn a:first-child{background:#ff2691;color: white;}
+    .intro_content_btn a:last-child{margin-right: 0;}
+    strong{color: red;margin-left: 10px;font-size: 20px;float: left;margin-top: 13px;}
+</style>
+<div class="intro_content">
+    <div class="intro_content_box">
+        <div class="intro_content_top">
+            <ul>
+                <li>签署协议</li>
+                <li>填写申请</li>
+                <li>资质上传</li>
+                <li class="on">店铺信息</li>
+                <li>等待审核</li>
+            </ul>
+        </div>
+        <div class="intro_content_body">
+            <div class="intro_content_title">
+                <div class="lt">
+                    店铺基本信息
+                </div>
+                <div class="rt">
+                    提示：填写店铺信息必须完整（名称、LOGO、联系地址）等。
+                </div>
+            </div>
+            <div class="intro_content_content">
+                <form>
+                    <div>
+                        <div class="intro_content_left_box">
+                            <div>
+                                <div class="intro_content_lt">店铺名称</div>
+                                <div class="intro_content_rt"><input type="text"/><strong>*</strong></div>
+                            </div>
+                            <div>
+                                <div class="intro_content_lt">邮政编码</div>
+                                <div class="intro_content_rt"><input type="text"/><strong>*</strong></div>
+                            </div>
+                            <div>
+                                <div class="intro_content_lt">实体店</div>
+                                <div class="intro_content_rt"><input type="text"/><strong>*</strong></div>
+                            </div>
+                        </div>
+                        <div class="intro_content_right_box">
+                            <div class="intro_content_lt intro_content_lt_new">
+                                组织机构<br/>
+                                代码证<br/>
+                                复印件
+                            </div>
+                            <div class="intro_content_rt intro_content_rt_new">
+                                <div class="intro_content_rt_title">
+                                    <div class="file-box">
+                                        <form action="" method="post" enctype="multipart/form-data">
+                                            <input type='text' name='textfield' id='textfield' class='txt' />
+                                            <input type='button' class='btn' value='浏览...' />
+                                            <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                                            <input type="submit" name="submit" class="btn" value="上传" />
+                                        </form>
+                                    </div>
+                                </div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="intro_content_lt">联系地址</div>
+                            <div class="intro_content_rt intro_content_line_new"><input type="text"/><strong>*</strong></div>
+                        </div>
+                        <div class="line">
+                            <div class="intro_content_lt">店铺简介</div>
+                            <div class="intro_content_rt intro_content_line_new"><input type="text"/><strong>*</strong></div>
+                        </div>
+                        <div class="line_last">
+                            <div class="intro_content_lt intro_content_line_title">店铺介绍</div>
+                            <div class="intro_content_rt intro_content_line_last"><textarea></textarea></div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="csrf" value="{$csrf}"/>
+                </form>
+            </div>
+        </div>
+        <div class="intro_content_btn">
+            <a href="http://www.caizhuangguoji.com/Home/Seller/pendingReview.html">确定</a>
+            <a href="#">取消</a>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

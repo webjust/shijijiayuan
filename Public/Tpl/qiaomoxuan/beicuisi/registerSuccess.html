@@ -1,0 +1,80 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>用户注册 -- 注册成功</title>
+    <link rel="stylesheet" href="__CSS__style.css">
+    <link rel="stylesheet" href="__CSS__sunshine.css">
+    <!--[if lt IE 9]>
+      <script>
+          document.execCommand("BackgroundImageCache", false, true);
+      </script>
+      <![endif]-->
+    <!--[if IE 6]>
+      <script type="text/javascript" src="js/fix_png.js" ></script>
+      <script type="text/javascript">   DD_belatedPNG.fix('.png,.dd-top');   </script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="s-card">
+      <div class="s-card-container">
+        <div class="s-logo-box"><a href="#" class="s-logo png"></a></div>
+
+        <div class="s-card-content">
+          <div class="s-dark-border png"></div>
+          <div class="s-field-center wide">
+            <span class="s-field-success png"></span>
+            <h4 class="s-field-content" >恭喜您注册成功！</h4>
+            <p>
+              <span>您的用户名：</span>
+              <span class="important">{$member['m_name']}</span>
+              <span class="s-column">邮箱：</span>
+              <span class="important">{$member['m_email']}</span>
+            </p>
+            <p class="s-field-toolbar">
+              <button type="button" class="btn btn-success btn-large" id="regis_bt">注册成功</button>
+              <!--<span>邮箱激活用于找回密码，接受订单通知等。</span>-->
+            </p>
+            <!--<div class="s-board">
+              <p class="important">如果您没有收到激活邮件？</p>
+              <p>您可以尝试以下方法：</p>
+              <p>1.查看您的邮箱的垃圾箱，是否有被误认为是垃圾邮件的激活邮件；</p>
+              <p>2.稍等几分钟，若仍然没有收到确认信，让贝脆思重发一封；</p>
+              <p>3.检查一下上面的Email地址是否正确，若不正确，可以更换邮箱。</p>
+            </div>-->
+          </div>
+        </div>
+      </div>
+      <div class="navbar s-navbar-bright">
+        <div class="navbar-inner">
+          <div class="s-container">
+            <ul class="nav">
+              <li><a href="">关于贝脆思</a></li>
+              <li><a href="">帮助中心</a></li>
+              <li><a href="">网站地图</a></li>
+              <li><a href="">法律申明</a></li>
+              <li class="nav-last"><a href="">联系我们</a></li>
+            </ul>
+
+            <span class="nav-board"> Powered by EmporioAsia</span>
+            <span class="nav-board"> Copyright@2011 All Rights 津ICP备 </span>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="__JS__sunshine.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        sunshine.setHeight('.s-card-content', 'body', 320);
+        setTimeout(go,2000);
+        function go() {          
+            window.location.href = "/Home/User/Login";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,450 @@
+<link href="__PUBLIC__/Ucenter/css/Cart.css" rel="stylesheet">
+<script src="__PUBLIC__/Ucenter/js/orders.js"></script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>填写核对信息</span></h2>
+    <form  id="orderForm" name="orderForm" >
+	<input type="hidden" id="goods_pids" name="goods_pids" value="spike" />
+        <div class="checkInformation"><!--checkInformation   start-->
+            <p class="topPic"></p>
+            <div class="checkInforCon"><!--checkInforCon  start-->
+                <ul>
+                    <li>
+                        <p class="tongyongP"><span>收货信息</span></p>
+                        <include file="Orders:getSpikeAddressPage" />
+                        <div class="deliveryInfo02">
+                            <a href="javascript:void(0);" id="addCommonlyAddr" HD="Spike">    
+                                <input type="radio" name="ra_id" id="ra_id" class="otherAddr" value="other"> 
+                            </a>
+                            <label for="ra_id">其它收货地址</label>
+                            <div id="updateAddress"></div> 
+                        </div><!--deliveryInfo02  end-->
+                    </li>
+                    <li>
+                        <p class="tongyongP"><span>配送方式</span></p>
+                        <dl class="dl02" id="logistic_dl">
+                            <include file="Orders:getSpikeLogisticType" />
+                        </dl>
+                    </li>
+                    <if condition="$order_time eq '1'">
+                        <li>
+                            <p class="tongyongP"><span>选择送货时间</span></p>
+                            <p class="p03">送货时间：
+                                <input type="text" name="o_receiver_time" id="o_receiver_time" class="searchtime timer">
+                                <input type="hidden" name="o_status" id="o_status" value="1">
+                                <if condition="$order_lock eq 1 ">
+                                    <input type="checkbox" name="receiver_time" onclick="Delay()"  value="延迟发货">
+                                </if>
+                                <span><i>*</i>实际送货时间以供应商发货时间为准！</span>
+                            </p>
+                        </li>
+                    </if>
+                    <li>
+                        <p class="tongyongP">
+                            <span>支付方式</span>
+                            <a href="javascript:void(0);" onClick="payments($(this));" class="wordBlue marL20" id="upA" status="open">修改</a>
+                        </p>
+                        <volist name="ary_paymentcfg" id="paymentcfg" offset="0" length='1'>
+                            <p id="payment_name">付款方式:{$paymentcfg.pc_custom_name}</p>
+                        </volist>
+                        <dl class="dl03" style="display:none" id="payment_list">
+                            <volist name="ary_paymentcfg" id="paymentcfg" key="key">
+                                <dd>
+                                    <input type="radio" validate="{ required:true}" id="o_payment" name="o_payment" value="{$paymentcfg.pc_id}" <eq name="key" value="1"> checked </eq> >
+                                    <input type="hidden" name="o_payment{$paymentcfg.pc_id}" id="o_payment{$paymentcfg.pc_id}" value="{$paymentcfg.pc_custom_name}">
+                                    <label for="zhifu">{$paymentcfg.pc_custom_name}</label>
+                                    <span>{$paymentcfg.pc_memo}</span>
+                                </dd> 
+                            </volist>
+                        </dl>
+                    </li>
+                </ul>
+            </div><!--checkInforCon  end-->
+
+            <div class="shopList"><!--shopList  start-->
+                <p class="tongyongP">
+                    <span>购物清单</span>
+    
+                        
+ 
+                </p>
+                <table class="table01">
+                    <thead>
+                        <tr>
+                            <td width="115">商品图</td>
+                            <td width="191">商品名称</td>
+                            <td width="149">秒杀价</td>
+                            <td width="100">购买数量</td>
+                            <td width="100">优惠</td>
+                            <td width="">商品优惠小计</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td width="115" valign="top">
+                                    <div class="cartProPic"><a href="javascript:void(0);"><img src='{$Think.config.DOMAIN_HOST}{$product_data.sp_picture|showImage=###,68,68|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" class=" class='thumb lazy"></a></div>
+                                </td>
+                                <td width="191">
+                                    <div class="cartProName">
+                                        <a href="javascript:void(0);" title="{$product_data.sp_title}">{$product_data.sp_title}</a>
+                                        <span>{$Think.lang.PRODUCT_SN}：{$product_data['sku']['pdt_sn']}</span>
+                                        <span>{$Think.lang.GOODS_SPEC}：{$product_data['sku']['specName']}</span>
+                                    </div>
+                                </td>
+                                <td width="149">{$product_data.sp_price|sprintf='%.2f',###}</td>
+                                <td width="100">{$product_data['sku']['num']}</td>
+                                <td>
+                                    <strong class="strong01">￥{$product_data['sku']['coupon_price']|sprintf='%.2f',###}</strong>
+                                </td>
+                                <td width="186">￥{$product_data['sku']['all_cprice']|sprintf='%.2f',###}</td>
+                            </tr>
+                    </tbody>
+                </table>
+                <if condition="$invoice_info['is_invoice'] eq 1 ">
+                    <div class="billInfo"><!--发票信息  开始-->
+                        <p class="tongyongP">
+                            <span>发票信息</span>
+                            <a href="javascript:void(0);" class="margin" id="upBill">修改</a>
+                        </p>
+                        <p class="color333" id="invoice_hide" style="display:none;">
+                        <if condition="$invoice_list eq '' ">
+                            不开发票
+			<p style="color:red;">备注：如商品由第三方卖家销售，发票内容由其卖家决定，发票由卖家开具并寄出</p>
+                        <else />
+                            <volist name="invoice_list" id="list"> 
+                                <if condition="$list.is_default eq 1 "> 
+                                    发票类型：<if condition="$list.invoice_type eq 2 ">增值税发票 </if>
+                                    <if condition="$list.invoice_type eq 1 ">普通发票 </if>
+                                    <br>
+                                    发票抬头：
+                                    <if condition="$list.invoice_head eq 2 ">
+                                        单位 ({$list.invoice_name})
+                                    <else />
+                                        个人
+                                    </if>
+                                    <br>
+                                    发票内容：{$list.invoice_content}
+                                    <input name="invoices_val" type="hidden" id="invoices_vals" value="1">
+                                </if>
+                            </volist> 
+                        </if>
+                        </p>
+                        <div class="billICon" style="display:none" id="invoice_show"><!--billICon  start-->
+                            <if condition="$invoice_list neq '' ">
+                                <H3>
+                                    <p class="tongyongP"><span>常用发票</span></p>
+                                    <dl>
+                                        <volist name="invoice_list" id="list"> 
+                                            <dd>
+                                            <input type="radio" name="is_default" <if condition="$list.is_default eq 1 ">checked</if> value="{$list.id}"> 
+                                            <label for="raa">
+                                                发票抬头：
+                                                <if condition="$list.invoice_head eq '1'">个人 </if>
+                                                <if condition="$list.invoice_head eq '2'">单位 ({$list.invoice_name})</if>
+                                                （
+                                                    <if condition="$list.invoice_type eq 2 ">增值税发票 </if>
+                                                    <if condition="$list.invoice_type eq 1 ">普通发票 </if>
+                                                ）
+                                            </label>
+                                            </dd>
+                                        </volist> 
+                                    </dl>
+                                </H3>
+                            </if>
+                            <table class="normalT01">
+                                <tr>
+                                    <td width="65">发票类型：</td>
+                                    <td>
+                                        <eq name="invoice_info.invoice_comom" value="1">
+                                        <input type="radio" id="rada" name="invoice_type" value="0" > <label for="rada">普通发票</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </eq>
+                                        <eq name="invoice_info.invoice_special" value="2">
+                                        <input type="radio" id="rada02" name="invoice_type" value="1"> <label for="rada02">增值税发票</label>
+                                        </eq>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <table class="hdT01" id="peopleInvoice">
+                                            <tr>
+                                                <td width="65">发票抬头：</td>
+                                                <td>
+                                                    <eq name="invoice_info.invoice_personal" value="1">
+                                                    <input type="radio" id="radp"  name="invoice_head" value="1" > <label for="radp">个人</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <eq>
+                                                    <eq name="invoice_info.invoice_unit" value="1">
+                                                    <input type="radio" id="radp02"  name="invoice_head" value="2"> <label for="radp02">单位 </label>
+                                                    </eq>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="personalT">
+                                                        <tr>
+                                                            <td width="65">个人姓名：</td>
+                                                            <td><span class="tex01"><input type="text" id="invoice_people" name="invoice_people" value=""></span></td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="unitT" style="display:none">
+                                                        <tr>
+                                                            <td width="65">单位名称：</td>
+                                                            <td><span class="tex01"><input type="text" id="invoice_name" name="invoice_name" value=""></span></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><input type="button" value="添加至常用发票信息" class="blue" onclick="add_invoice();"></td>
+                                            </tr>
+                                            <notempty name="invoice_content">
+                                                <tr>
+                                                    <td>发票内容：</td>
+                                                    <td>
+                                                        <volist name="invoice_content" id="info"> 
+                                                            <input type="radio" id="invoice_contents" name="invoice_content" value="{$info}">
+                                                            <label for="rad">{$info}</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </volist>
+                                                    </td>
+                                                </tr>
+                                            </notempty>
+                                            <tr>
+                                                <td></td>
+                                                <td><input type="button" value="保存发票信息" class="blue" onclick="save_invoice();"> <input type="button" onclick="no_invoice();" value="暂不要发票" class="brown"></td>
+                                            </tr>
+                                        </table>
+                                        <if condition="$invoice_info.is_auto_verify eq 1">
+                                        <table class="hdT02" style="display:none;" id="zengzhishui">
+                                            <tr>
+                                                <td colspan="2">增值税发票专用发票资质填写：</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="100" align="right">单位名称：</td>
+                                                <td><span class="tex01"><input type="text" name='invoice_name' id='invoice_names' validate="{ required:true}"></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">纳税人识别号：</td>
+                                                <td><span class="tex01"><input type="text" name='invoice_identification_number' id='invoice_identification_number'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">注册地址：</td>
+                                                <td><span class="tex01"><input type="text" name='invoice_address' id='invoice_address'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">注册电话：</td>
+                                                <td><span class="tex01"><input type="text" name='invoice_phone' id='invoice_phone'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">开户银行：</td>
+                                                <td><span class="tex01"><input type="text" name='invoice_bank' id='invoice_bank'></span> <span class="red">*</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" valign="top">银行帐户：</td>
+                                                <td>
+                                                    <span class="tex01"><input type="text" name='invoice_account' id='invoice_account'></span> <span class="red">*</span>
+                                                    <p class="color999"><br/>温馨提示：1.发票相关信息将被系统自动打印到发票上，请仔细核对所填发票信息。<br/>2.增值税发票开具时限：增值税发票将在订单成功收货15天后开出，且没有退换货记录，下<br/>单后30天未申请开具增值税专用发票的，将不再受理开具增票申请；</p>
+                                                </td>
+                                            </tr>
+                                            <notempty name="invoice_content">
+                                                <tr>
+                                                    <td align="right">发票内容：</td>
+                                                    <td>
+                                                <volist name="invoice_content" id="info"> 
+                                                    <input type="radio" id="invoice_contents" name="invoice_content" value="{$info}">
+                                                    <label for="rad">{$info}</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </volist>
+                                                </td>
+                                                </tr>
+                                            </notempty>
+                                            <tr>
+                                                <td></td>
+                                                <td><input type="button" value="保存发票信息" class="blue" onclick='addAppInvoice();'> <input type="blue" onclick="submitInvoice('fromInvoice')" value="暂不要发票" class="brown"></td>
+                                            </tr>
+                                        </table>
+                                        <input name="invoices_val" type="hidden" id="invoices_val" value="0">
+                                        <else />
+                                        <table class="hdT02" style="display:none;">
+                                             <tr>
+                                                <td>
+                                                   <p class="color999">温馨提示：请到会员中心里新增增值税发票并等待卖家审核</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        </if>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div><!--billICon  end-->
+                    </div><!--发票信息  结束-->
+                </if>
+                <p class="tongyongP"><span>订单结算</span></p>
+
+                <div class="shopListCon"><!--shopListCon  start-->
+                    <div class="shopListConLeft"><!--shopListConLeft  start-->
+                        <table>
+                            <tr>
+                                <td width="72" align="left" valign="top">订单备注：</td>
+                                <td>
+                                    <textarea name="o_buyer_comments" id="o_buyer_comments"></textarea>
+                                </td>
+                            </tr>
+                          
+                        </table>
+                    </div><!--shopListConLeft  end-->
+
+                    <div class="shopListConRight"><!--shopListConLeft  start-->
+                        <ul>
+                            <li><span>商品总重：</span><label>{$product_data['sku']['all_weight']}g</label></li>
+                            <li><span>商品总价：</span><label><i class="price">￥</i>{$product_data['sku']['all_sale_price']|sprintf='%.2f',###}</label></li>
+                            <li><span>秒杀价：</span><label id="bulk_price"><i class="price" >￥</i>{$product_data['sku']['sp_price']|sprintf='%.2f',###}</label></li>
+                            <input type="hidden" id="goods_all_price" name="goods_all_price" value="{$product_data['sku']['sp_price']|sprintf='%.2f',###}">
+                            <input type="hidden" id="all_orders_promotion_price" name="all_orders_promotion_price" value="{$product_data['sku']['all_cprice']|sprintf='%.2f',###}">
+                            <input type="hidden" id="sp_id" name="sp_id" value="{$product_data.sp_id}" />
+                            <input type="hidden" id="g_id" name="g_id" value="{$product_data.g_id}" />
+                            <input type="hidden" id="pdt_id" name="pdt_id" value="{$product_data['sku']['pdt_id']}" />
+                            <input type="hidden" id="num" name="num" value="{$product_data['sku']['num']}" />
+                            <input type="hidden" id="coupon_input" value="" />
+                            <input type="hidden" id="web_type" value="{$web_type}" />
+                            <li><span>运费金额：</span><label id="logistic_price"><i class="price" >￥</i>0</label></li>
+                            <li><span>促销优惠：</span><label id="promotion_price"><i class="price" >￥</i>{$product_data['sku']['all_cprice']|sprintf='%.2f',###}</label></li>
+                            
+                            <li>
+                                <span>合&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计：</span>
+                                <label id="all_orders_price">
+                                    <strong>
+                                        <i class="price">￥</i>0
+                                    </strong>
+                                </label>
+                            </li>
+                            <li>
+								<input type="hidden" name="originator" value="{$auto_code}">
+                                <input type="checkbox" name="is_anonymous" value="1"/>&nbsp;匿名购买
+								<input type="button"  class="brown" onclick="javascrpt:submitOrders();"  value="提交订单" id="submit_order" >   
+                            </li>
+                        </ul>
+                    </div><!--shopListConRight  end-->
+                </div><!--shopListCon  end-->
+            </div><!--shopList  end-->
+        </div><!--checkInformation   end-->
+    </form>
+</div><!--contentRightBox  end-->
+  
+<!-- 中间内容结束 -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".searchtime").datepicker({
+            showButtonPanel: true,
+            changeMonth: true,
+            autoSize: true,
+            minDate: new Date(1940, 1 - 1, 1),
+            yearRange: '1940:+5',
+            changeYear: true
+        });
+
+    });
+
+    $(function() {
+        //其它地址展开
+        $("a.openA").toggle(function() {
+            $(".closedD").show();
+        }, function() {
+            $(".closedD").hide();
+        })
+
+        //发票信息 修改
+        $("#upBill").click(function() {
+            var status = $("#invoice_hide").css("display");
+            if (status == 'block') {
+                $(this).parent().next("p").hide().end().siblings(".billICon").show();
+            } else {
+                $(this).parent().next("p").show().end().siblings(".billICon").hide();
+            }
+        });
+    })
+
+    javascript:window.history.forward(1);
+    
+    //添加增值税发票
+    function addAppInvoice(){
+        var invoice_type_id = $("input[name='invoice_type']:checked").val();
+        var invoice_head_id = $("input[name='invoice_head']:checked").val();
+        var invoice_name = $("#invoice_names").val();
+        var invoice_identification_number = $("#invoice_identification_number").val();
+        var invoice_address = $("#invoice_address").val();
+        var invoice_phone = $("#invoice_phone").val();
+        var invoice_bank = $("#invoice_bank").val();
+        var invoice_account = $("#invoice_account").val();
+        var invoice_contents = $("#invoice_contents").val();
+        if(invoice_name == '' || invoice_identification_number == '' || invoice_address == '' || invoice_phone == '' || invoice_bank == '' || invoice_account== ''){
+            showAlert(false,'出错了','请填写完整发票信息');
+            return false;
+        }
+
+        if(invoice_type_id==undefined){
+            showAlert(false,'出错了','请设置发票基本信息!');
+            return false;
+        }else{
+            if(invoice_type_id==2){
+                var invoice_type='增值税发票';
+                var invoice_head_id = 2;
+            }else{
+                var invoice_type='普通发票';
+            }
+            if(invoice_head_id == 1){
+                var invoice_head_name = '个人';
+            }else{
+                var invoice_head_name = '单位';
+            }
+            
+            if(invoice_name==''){
+                showAlert(false,'出错了','单位名称不能为空!'); 
+                return false;
+             }else{
+                 var invoice_head=invoice_name;
+             }
+        }
+        
+        var url = '/Ucenter/Orders/AddAppInvoice';
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:"json",
+            type:"post",
+            data:{
+                "invoice_type":invoice_type_id,
+                "invoice_head":invoice_head_id,
+                "invoice_name":invoice_name, 
+                "invoice_account":invoice_account,
+                "invoice_identification_number":invoice_identification_number,
+                "invoice_address":invoice_address,
+                "invoice_phone":invoice_phone,
+                "invoice_bank":invoice_bank,
+                "invoice_content":invoice_contents,
+                "is_invoice":1
+            },
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    $("#invoice_hide").show();
+                    $("#invoice_show").hide();
+                    if(invoice_contents == undefined){
+                        var htmls='发票类型：'+invoice_type +'<br>发票抬头：'+invoice_head_name+'&nbsp;&nbsp;('+invoice_name+')<br><input type="hidden" name="in_id" id="in_id" value="'+msgObj.data+'">';
+                    }else{
+                        var htmls='发票类型：'+invoice_type +'<br>发票抬头：'+invoice_head_name+'&nbsp;&nbsp;('+invoice_name+')<br>'+'发票内容：'+invoice_contents+'<input type="hidden" name="in_id" id="in_id" value="'+msgObj.data+'">';
+                    }
+                    $("#invoices_val").val("1");
+                    $("input[name='is_default']").attr('checked',false);
+                    $('#invoice_hide').html(htmls);
+                }else{
+                    showTips(false,"系统提示",msgObj.info);
+                    return false;
+                }
+            }
+        });
+    }
+    $("input[name='is_default']").click(function(){
+        $("input[name='invoice_type']").removeAttr('checked');
+        $("input[name='invoice_head']").removeAttr('checked');
+    });
+	    var inv_content = '';
+    var inv_header = '';
+</script>

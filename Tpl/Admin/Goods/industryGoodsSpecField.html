@@ -1,0 +1,31 @@
+<volist name="industry_filed_config" id="field">
+<tr>
+	<td class="first">{$field.label}：</td>
+	<td>
+	<switch name="field.type">
+		<case value="radio">
+			<foreach name="field.options" item="option" key="option_key">
+			<span style="margin-left:10px;">
+			<input type="radio" name="goods[{$key}]" value="{$option.value}" <if condition="$goods[$key] eq $option['value']">checked="checked"</if> id="{$key}_{$option['value']}" />
+			<label for="{$key}_{$option['value']}">{$option.label}</label>
+			</span>
+			</foreach>
+		</case>
+		<case value="input">
+			<input type="text" name="goods[{$key}]" value="{$goods[$key]}" class="medinum" />
+		</case>
+		<case value="select">
+			<select name="goods[{$key}]">
+				<foreach name="field.options" item="option" key="option_key">
+					<option value="{$option.value}" <if condition="$goods[$key] eq $option['value']">selected</if>>{$option.label}</option>
+				</foreach>
+			</select>
+		</case>
+		<case value="textarea">
+			<textarea name="goods[{$key}]" class="medinum" >{$goods[$key]}</textarea>
+		</case>
+	</switch>
+	</td>
+	<td></td>
+</tr>
+</volist>

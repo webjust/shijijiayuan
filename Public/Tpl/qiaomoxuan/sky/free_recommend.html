@@ -1,0 +1,219 @@
+<style>
+    .fenye .current{
+        display: inline-block;
+        height: 38px;
+        line-height: 38px;
+        margin-left: -1px;
+        padding: 0px 14px;
+        border: 1px solid #E5E5E5;
+        color: #333;
+        font-size: 14px;
+    }
+    .guide-bd li {
+        display: inline;
+        width: 380px;
+        margin: 10px 0 0 10px;
+        position: relative;
+        height: 480px;
+    }
+</style>
+<link href="__CSS__free.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<div class="wrapT">
+    <div class="content">
+        <div class="tgList"><!--tgList-->
+            <!--prtad end-->
+            <div class="tgOne"><!--tgTwo-->
+                <div class="tg_Nav">
+                    <p><a href="">分类</a></p>
+                    <ul>
+                        <php>$cname;$cid; $ary_cate = array();</php>
+                        <li <if condition="$get.cid eq ''"> class="cur" </if> >
+                            <a href="{:U('Home/Products/freeCollocation')}">全部</a>
+                        </li>
+                        <Gyfx:goodscate name="cate" >
+                        <li <if condition="$ary_tmp_cate[0] eq $cate[cid]"> class="cur" </if> >
+                            <a href="{:U('Home/Products/freeCollocation')}?cid={$cate.cid}">{$cate.cname}</a>
+                        </li>
+                            <php>
+                                if($cate['cid'] == $ary_tmp_cate[0]){
+                                $cname = $cate['cname'];
+                                $cid = $cate['cid'];
+                                $ary_cate = $cate['sub'];
+                                }
+                            </php>
+                        </Gyfx:goodscate>
+                    </ul>
+                </div>
+                <if condition="$cname neq ''">
+                    <div class="tg_Nav">
+                        <p><a href="">{$cname}：</a></p>
+                        <ul>
+
+                            <li <if condition="$get.cid eq $cid"> class="cur" </if> >
+                                <a href="{:U('Home/Products/freeCollocation')}?cid={$cid}">全部</a>
+                            </li>
+                            <php>foreach($ary_cate as $key=>$val){</php>
+                                <li <if condition="$val[cid] eq $ary_tmp_cate[1]"> class="cur" </if> >
+                                <a href="{:U('Home/Products/freeCollocation')}?cid={$val.cid}">{$val.cname}</a>
+                                </li>
+                            <php>}</php>
+                        </ul>
+                    </div>
+                </if>
+
+                <div class="tgL">
+                    <div class="tgL_t">
+                        <h2>今日搭配</h2>
+                    </div>
+                    <div class="guide-bd">
+                        <ul class="clearfix">
+
+                            <volist name="data" id="datas">
+                                <li class="fl rel w485">
+                                    <p class="tgL_img">
+                                        <a href="{:U('Home/Products/detail')}?gid={$datas.fr_goods_id}" target="_blank">
+                                            <img src="{$Think.config.DOMAIN_HOST}{$datas.fr_goods_picture|showImage=###,380,380}" width="380" height="380">
+                                        </a>
+                                    </p>
+                                    <div class="tgL_title">
+                                        <p class="tgL_name"><span>{$datas.fr_name}</span><em>已抢购{$datas.gsalenum}件</em></p>
+                                        <p class="tgL_price">¥<em>{$datas.fr_price|sprintf='%.2f',###}</em><i>原价：￥{$datas.fr_original_price|sprintf='%.2f',###}</i></p>
+                                        <if condition="$datas['skuNames'] eq ''">
+                                            <input type="hidden" name="type" value="item" id="item_type_{$datas.gid}" />
+                                            <input type="hidden" value="{$datas.pdt_id}" name="pdt_id" id="pdt_id_{$datas.gid}" />
+                                            <input type="hidden" value="{$datas.pdt_stock}" name="pdt_stock" id="pdt_stock_{$datas.gid}" />
+                                            <input type="hidden" value="1" id="item_num_{$datas.gid}" name="num" />
+                                        </if>
+                                        <div class="tgL_btn dpL_btn">
+                                                <label>
+                                                    <span <if condition="$datas.is_invice eq '0'">class="addDP"<else/>class="addDP02"</if> <if condition="$datas['skuNames'] eq ''">onclick="clickInput(this,1)" stock="{$datas.pdt_stock}"<else/>onclick="clickInput(this,2)"</if>  authorize="{$datas.authorize}" gid="{$datas.gid}" fr_id="{$datas.fr_id}">加入搭配</span>
+                                                </label>
+                                        </div>
+                                    </div>
+                                    <div class="tgL_tip abs">
+                                        <p class="tip"><i></i>剩余时间：<em id="day{$datas.fr_id}">3</em>天<em id="hours{$datas.fr_id}">12</em>时<em id="minutes{$datas.fr_id}">20</em>分<em id="seconds{$datas.fr_id}">30</em>秒 </p>
+                                        <script>setTuanGouTime('{$datas.fr_end_time}','day{$datas.fr_id}','hours{$datas.fr_id}','minutes{$datas.fr_id}','seconds{$datas.fr_id}',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                    </div>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <!--今日新团结束-->
+            </div>
+            <include file="$commonIncOnline" />
+            <!--/tgThree-->
+            <div class="fenye">
+                <php>if(!isset($pagearr['nowPage']) || $pagearr['nowPage'] == 1){</php>
+                <a href="javascript:void(0);" class="prev">首页</a>
+                <a href="javascript:void(0);" class="prev">上一页</a>
+                <php>}</php>
+                <php>if(isset($pagearr['nowPage']) && $pagearr['nowPage'] != 1){</php>
+                <a href="<php>echo rtrim(substr($pagearr['upUrl'],0,-3),'/').'/';</php>" class="prev01">首页</a>
+                <a href="{$pagearr.upUrl}" class="prev01">上一页</a>
+                <php>}</php>
+                {$pagearr.linkPage}
+                <php>if($pagearr['nowPage'] == $pagearr['totalPage']){</php>
+                <a href="javascript:void(0);" class="prev">下一页</a>
+                <a href="javascript:void(0);" class="prev">尾页</a>
+                <php>}</php>
+                <php>if($pagearr['nowPage'] < $pagearr['totalPage']){</php>
+                <a href="{$pagearr.downUrl}" class="next">下一页</a>
+                <a href="<php>echo rtrim(substr($pagearr['downUrl'],0,-3),'/').'/';</php>p/{$pagearr['totalPage']}" class="next">尾页</a>
+                <php>}</php> &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <!--/tgList-->
+    </div>
+</div>
+<script type="text/javascript" src="__JS__goodsDetailSku.js"></script>
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script>
+    //点击加入搭配触发事件
+    function clickInput(obj,type){
+        var fr_id = $(obj).attr('fr_id');
+        var authorize = $(obj).attr('authorize');
+        var g_id = $(obj).attr('gid');
+        if(authorize != '1'){
+            $.ThinkBox.error("您不能购买该商品");
+            return false;
+        }
+        if(parseInt(g_id) <= 0){
+            $.ThinkBox.error("商品不存在或者已经被下架");
+            return false;
+        }
+        if($(obj).hasClass('addDP')){
+            if(type == '1'){
+                addGoodsProductsCart(obj,g_id,fr_id);
+            }else{
+                addGoodsCart(obj,g_id,fr_id);
+            }
+        }else{
+            removeColl(fr_id);
+        }
+    }
+    //单规格商品加入搭配
+    function addGoodsProductsCart(obj,g_id,fr_id){
+        var pdt_id = $('#pdt_id_'+g_id).val();
+        var pdt_stock = parseInt($('#pdt_stock_'+g_id).val());
+        if(0 == pdt_stock){
+            $.ThinkBox.error("该商品库存不足！");
+            return false;
+        }
+        if (pdt_id == ""){
+            $.ThinkBox.error("{$Think.lang.STOCK_ERROR_4}");
+            return false;
+        }
+        addColl(fr_id,pdt_id);
+    }
+    //多规格商品加入搭配
+    function addGoodsCart(obj,g_id,fr_id){
+        $.ajax({
+            url:'/Home/Products/getAddToCartDetail',
+            cache:false,
+            dataType:'HTML',
+            data:{
+                g_id:g_id,
+                item_type: 6,
+                item_id:fr_id
+            },
+            type:"POST",
+            success:function(msgObj){
+                var box = $.ThinkBox(msgObj, {'title' : '请选择商品规格','width':'448px','drag' : true,'unload':true});
+            }
+        });
+    }
+    //加入搭配
+    function addColl(fr_id,pdt_id){
+        $.post("{:U('/Products/addCollocation')}",{'fr_id':fr_id,'pdt_id':pdt_id},function(htmlMsg){
+            $.ThinkBox.success('加入搭配栏成功');
+            $("#collocationColumn").html('');
+            $("#collocationColumn").html(htmlMsg);
+            if($("span[fr_id='"+fr_id+"']").hasClass('addDP')){
+                $("span[fr_id='"+fr_id+"']").removeClass('addDP').addClass('addDP02');
+            }
+        },'html');
+    }
+    //移除搭配
+    function removeColl(fr_id){
+        $.post("{:U('/Products/removeCollocation')}",{'fr_id':fr_id},function(htmlMsg){
+            $.ThinkBox.success('移除成功');
+            $("#collocationColumn").html('');
+            $("#collocationColumn").html(htmlMsg);
+            if($("span[fr_id='"+fr_id+"']").hasClass('addDP02')){
+                $("span[fr_id='"+fr_id+"']").removeClass('addDP02').addClass('addDP');
+            }
+        },'html');
+    }
+    $(document).ready(function($){
+        <if condition="$is_show eq '1'">
+                $.post("{:U('/Products/showCollColumn')}",{},function(htmlMsg){
+                    $("#collocationColumn").html(htmlMsg);
+                },'html');
+        </if>
+    });
+</script>
+<div class="contrast dp" id="collocationColumn"><!--contrast  start-->
+
+</div><!--contrast  end-->

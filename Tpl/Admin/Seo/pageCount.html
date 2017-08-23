@@ -1,0 +1,31 @@
+<div class="rightInner">
+    <form id="count_edit" name="count_edit" method="post" action="{:U('Admin/Seo/doCount')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">修改第三方统计脚本设置</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="first">统计代码</td>
+                    <td>
+                        <textarea class="largeBox" name="sc_memo">{$info.sc_memo}</textarea>
+                    </td>
+                    <td class="last">请参考第三方统计代码网站设置</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="保 存" class="btnA" >
+                        <input type="button" value="取 消" class="btnA back" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>

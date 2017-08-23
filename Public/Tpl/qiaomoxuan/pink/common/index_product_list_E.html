@@ -1,0 +1,20 @@
+<div style="height:320px">
+	<Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead">
+	<dd class="hot" data-sku="125381378|1|2|0070080807">
+	<if condition="$showlist['show_pic'] eq 1">
+		<a href="{$showlist.gurl}" target="_blank" >
+			<img src="{$showlist.gpic|showImage=###,295,295}" class="car" alt="{$showlist.gname}"/>
+		</a>
+	</if>
+		<span>
+		<if condition="$showlist['show_name'] eq 1">
+			<p class="title"><a href="{$showlist.gurl}" target="_blank" edit-name="商品标题" textstyle-editable="true" style-num="1">{$showlist.gname}</a></p>
+		</if>
+		<if condition="$showlist['sale_price'] neq ''">
+			<p class="price">￥   {$showlist.gprice|sprintf='%.2f',###}</p>
+		</if>
+		</span>
+		<b></b>
+	</dd>
+    </Gyfx:goodslist>
+</div>

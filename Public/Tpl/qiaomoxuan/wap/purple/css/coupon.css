@@ -1,0 +1,56 @@
+/*优惠券  开始*/
+.coupon { padding:0px; background: transparent url("../images/cou-repeatx.png") repeat-y scroll 0% 0%; }
+.cash { overflow:hidden; }
+.cash h2 { line-height: 14px; font-size: 16px; color: #333; padding-top: 30px; font-weight: normal; padding: 25px 0 15px 4%; margin: 0px; }
+.cash  strong {font-weight:normal;}
+.cash ul { overflow:hidden; zoom:1; width:100%; }
+.cash ul li { display: inline; float: left; width: 47%; overflow: hidden; background: transparent url("../images/coupon1.png") no-repeat scroll 0% 0% / 100% auto; position: relative; margin-left: 2%; margin-bottom:8px;}
+.cash ul li.hReceive { background: transparent url("../images/coupon2.png") no-repeat scroll 0% 0% / 100% auto; position: relative; }
+.cash ul li.hReceive p.price { color:#494949 }
+.cash ul li i { position:absolute; background: url("../images/coupon1.png") no-repeat 0 -828px; width:109px; height:34px; top:74px; left:69px; }
+.cash p.price, .cash p.con { padding-left: 9%; font-size: 12px; }
+.cash p.price { color: #FFF; padding: 12px 0px 0px 6%; font-size: 16px; text-align: left; }
+.cash p.price strong { font-size:28px; font-family:Arial, Helvetica, sans-serif; margin-left:3px }
+.cash p.con { color:white; font-family:宋体; line-height:18px; overflow:hidden; }
+.cash p.wcon { color:white; font-family:宋体; line-height:18px; height:15px;overflow:hidden; }
+.cash p.bot { padding: 0px 2%; overflow: hidden; line-height: 25px; margin-top: 18px; }
+@media (max-width:320px) {
+ .cash ul li {
+min-height:170px;
+}
+ .cash p.con {
+line-height:16px;
+}
+}
+ @media (min-width:321px) and (max-width:390px) {
+ .cash ul li {
+min-height:200px;
+}
+ .cash p.price {
+padding: 10% 0px 0px 10%;
+}
+}
+ @media (min-width:391px) and (max-width:480px) {
+ .cash ul li {
+min-height:220px;
+}
+.cash p.price {
+padding: 12% 0px 0px 10%;
+}
+.cash p.price strong {
+font-size:32px;
+}
+.cash p.bot {
+  margin-top: 25px;
+}
+}
+
+.cash p.bot span, .cash p.bot img { float:left; }
+.cash p.bot span { font-size:14px; color:#333; }
+.cash p.bot a { float:right; color:#006768; font-size:12px; }
+.cash p.discount a { color:#533a5f; font-size: 12px; }
+.cash p.bot label { float:right; color:#666 }
+.cash p.yellowColor { color:#fffc00 }
+.cash p.yellowColor strong { margin:0; }
+.cash p.yellowColor code { margin-left:5px; font-size:18px; font-weight:bold }
+/*优惠券  结束*/

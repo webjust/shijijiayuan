@@ -1,0 +1,130 @@
+<div class="rightInner">
+    <form id="members_form" name="members_form" method="post" action="{:U('Admin/Members/doAdd')}" enctype="multipart/form-data">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">新建会员</th>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="ary_extend_data" id="data">
+                    <tr>
+                        <td class="first"><if condition="$data.fields_content eq 'm_email' || $data.fields_content eq 'm_name' || $data.fields_content eq 'm_password' || $data.fields_content eq 'm_password_1' || $data.fields_content eq 'e_mail'"><span class="red">*</span></if>{$data.field_name}：</td>
+                        <td>
+                            <if condition="$data.fields_type eq 'radio'">
+                                <volist name="data.fields_content" id="field_content">
+                                    <input name="extend_field_{$data.id}" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'checkbox'">
+                                <volist name="data.fields_content" id="field_content" >
+                                    <input name="extend_field_{$data.id}[]" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'select'">
+                                <if condition="$data.id eq 14 ">
+                                    <include file="Address:addressPage" />
+                                <else />
+                                <select class="medium" name="extend_field_{$data.id}" >
+                                    <volist name="data.fields_content" id="field_content" >
+                                        <option value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">selected="selected"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>> {$field_content}</option>
+                                    </volist>
+                                </select>
+                                </if>
+                            </if>
+                            <if condition="$data.fields_type eq 'text'">
+                                <input <if condition="($data.type eq 1 )">name="{$data.fields_content}"<else /> name="extend_field_{$data.id}"</if> <if condition="$data.fields_content eq 'm_password'"> type="password" <elseif condition="$data.fields_content eq m_password_1" />type="password" <else /> type="text" </if> <if condition="($data.fields_content neq 'm_password')">value="{$data.content}"</if> class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>
+                            </if>
+                            <if condition="$data.fields_type eq 'file'">
+                                <input name="extend_field_{$data.id}" type="file"  value="{$data.content}" class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> />
+                            </if>
+                        </td>
+                        <if condition="($data.type eq 1 )">
+                            <td class="last">系统默认属性项</td>
+                        <else />
+                            <td class="last">自定义会员属性项</td>
+                        </if>
+                    </tr> 
+                </volist>
+                
+                
+                <tr>
+                    <td class="first">会员等级：</td>
+                    <td>
+                        <select name="ml_id" class="medium" validate="{ required:true}">
+                            <option  value="0"> 请选择</option>
+                            <volist name="members_level" id="level">
+                                <option validate="{ required:true}" value="{$level.ml_id}"> {$level.ml_name}</option>
+                            </volist>
+                        </select> <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">会员类型：</td>
+                    <td>
+                        <select name="m_type" class="medium">
+                            <option  value="0" >分销商类型</option>
+                            <option  value="1" >普通类型</option>
+                        </select> <br>
+                    </td>
+                    <td class="last">说明文字</td>
+                </tr>
+                 <tr>
+                     <td class="first">会员所属平台：</td>
+                    <td>
+                       <volist name="ary_platform" id="platform">
+                           <span style="min-width:60px;width:auto;margin-left:15px;">
+						   <input type="checkbox" name="platform[]" value="{$platform.sp_id}" id="sp_id_{$platform.sp_id}" />
+						   <label for="sp_id_{$platform.sp_id}">{$platform.sp_name}</label>
+						   </span>
+                       </volist>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="first"><span class="red">*</span> 性别：</td>
+                    <td>
+                        <input type="radio" validate="{ required:true}" name="m_sex" value="1" id="m_sex_1" />
+						<label for="m_sex_1">男</label>
+                        <input type="radio" validate="{ required:true}" name="m_sex" value="0" id="m_sex_0" />
+						<label for="m_sex_0">女</label>
+                        <input type="radio" validate="{ required:true}" name="m_sex" value="2" id="m_sex_2" />
+						<label for="m_sex_2">保密</label>
+                    </td>
+                    <td class="last">说明文字</td>
+                </tr>
+                
+            
+            
+            
+            <tr>
+                <td class="first">是否已经审核：</td>
+                <td>
+                    <input type="radio" value="0" checked=""  name="m_verify" /> 未审核 
+                    <input type="radio" value="2"  name="m_verify" /> 审核通过 
+                </td>
+                <td class="last">说明文字</td>
+            </tr> 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+						<input type="hidden" name="jump_type" id="jump_type" value="0" />
+                        <input type="submit" value="保 存" jump="0" class="btnA submit_button" />
+                        <input type="submit" value="保存并继续" jump="1" class="btnA submit_button" />
+                        <input type="button" value="取 消" onClick="onUrl('{:U('Admin/Members/pageList')}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script>
+$("document").ready(function(){
+	$('#members_form').validate();
+	$(".submit_button").click(function(){
+		$("#jump_type").val($(this).attr("jump"));
+	});
+});
+</script>

@@ -1,0 +1,158 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>登录页</title>
+        <link href="__PUBLIC__/Admin/css/global.css" type="text/css" rel="stylesheet" />
+        <script src="__PUBLIC__/Lib/jquery/js/jquery-1.8.3.js"></script>
+		<script src="__PUBLIC__/Admin/js/base64.js"></script>
+    </head>
+
+    <body>
+        
+        <div class="fx_loginCon"><!--fx_loginCon  start-->
+            <span class="logoSpan"></span>
+            <div class="loginForm">
+                <div id="resultMsg" redirect_url="{$redirect_url}"></div>
+                <form method="post" action="{:U('Admin/User/doLogin')}" id="login">
+                    <input type="text" class="input01" id="username" name="username" value="" autocomplete='off' />
+                    <input type="password" class="input01" id="password" name="password" value="" autocomplete='off' />
+                    <input type="text" class="input02" id="code" name="code" value="" autocomplete='off' maxlength="4"/>
+                    <input type="hidden" name="csrf" value="{$csrf}"/>
+                    <input type="submit" class="loginBut" value="" />
+                </form>
+                <div class="yanzheng" id="yanzheng" style="display: none;">
+                    <span><img id="verify" src="{:U('Admin/User/verify')}" class="changeVerify" style="cursor: pointer;" title="点击更新验证码" /></span>
+                    <em style="cursor: pointer;" class="changeVerify"  title="点击更新验证码" >看不清楚？</em>
+                </div>
+            </div>
+        </div>
+<script>
+    //图片自适应
+    $(document).ready(function(){
+            $("body").append("<div class='fx_login' id='fx_login'></div>");
+            $("#fx_login").append("<img src='__PUBLIC__/Admin/images/loginbj.jpg' id='bigpic'>");
+            cover();
+            $(window).resize(function(){
+                cover();
+            });
+    });
+    function cover(){
+            var win_width = $(window).width();
+            var win_height = $(window).height();
+            $("#bigpic").attr({width:win_width,height:win_height});
+    }
+    $(document).ready(function(){
+        
+        
+        
+        if($("#username").val()==''){
+            $("#username").addClass('inputA');
+        }
+        if($("#password").val()==''){
+            $("#password").addClass('inputB');
+        }
+        if($("#code").val()==''){
+            $("#code").css('color','#333');
+            $("#code").val('验证码');
+        }
+
+        $("#username").focusin(function(){
+            $(this).css('color','#999');
+            $(this).removeClass('inputA');
+        });
+        $("#username").focusout(function(){
+            $(this).css('color','#333');
+            if($(this).val()==''){
+                $(this).addClass('inputA');
+            }
+        });
+
+        $("#password").focusin(function(){
+            $(this).css('color','#999');
+            $(this).removeClass('inputB');
+        });
+        $("#password").focusout(function(){
+            $(this).css('color','#333');
+            if($(this).val()==''){
+                $(this).addClass('inputB');
+            }
+        });
+		
+        var timer;
+        $("#code").focusin(function(){
+            $(this).css('color','#999');
+            clearTimeout(timer);
+            $("#yanzheng").fadeIn('fast');
+            if($(this).val()=='验证码'){
+                $(this).val('');
+            }
+        });
+
+        $("#code").focusout(function(){
+            $(this).css('color','#333');
+            timer = setTimeout(function(){
+                $("#yanzheng").fadeOut('fast');
+            },3000);
+            if($(this).val()==''){
+                $(this).val('验证码');
+            }
+        });
+
+        $(".changeVerify").click(function(){
+            clearTimeout(timer);            
+            $('#verify').attr('src','{:U("Admin/User/verify")}'+'?r='+Math.random());
+        });
+
+        $("#yanzheng").hover(function(){
+            clearTimeout(timer);
+        },function(){
+            timer = setTimeout(function(){
+                $("#yanzheng").fadeOut('fast');
+            },3000);
+        });
+        
+        $("#login").submit(function(){
+		login();
+		return false;
+	});
+    });
+function login(){
+    $("#resultMsg").stop().removeClass('ajaxerror').addClass('loading').html("提交请求中，请稍候...").show();
+    var url = "{:U('Admin/User/doLogin')}";
+	var rand = '{$Think.session.pwd_salt}'.toString();
+	var password = $("#password").val().toString();
+	//var new_password = Base64.encode(password+rand);
+	//$("#password").val(new_password);
+    var data = $("#login").serialize();
+    $.ajax({
+        url:url,
+        cache:false,
+        dataType:"json",
+        data:data,
+        type:"POST",
+        error:function(){
+            $("#resultMsg").addClass('ajaxerror').html("AJAX请求发生错误！").show().fadeOut(5000);
+        },
+        success:function(msgObj){
+            $("#resultMsg").hide();
+            if(msgObj.status == '1'){
+                //location.href = "{:U('Admin/Index/index')}";
+                location.href = $("#resultMsg").attr("redirect_url");
+            }else{
+                $("#resultMsg").addClass('ajaxerror').html(msgObj.info).show().fadeOut(5000);
+		fleshVerify();
+            }
+        }
+    });
+}
+
+function fleshVerify(){
+	var time = new Date().getTime();
+	$("#verify").attr('src',"{:U('Admin/User/verify')}?r="+time);
+}
+</script>
+    </body>
+</html>
+

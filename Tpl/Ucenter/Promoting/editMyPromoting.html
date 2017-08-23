@@ -1,0 +1,185 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>修改我的分销商</span></h2>
+    <div class="deliverList myDa">
+        <form id="my_doedit" method="post" action="{:U('Ucenter/Promoting/doEditMyPromoting')}" enctype="multipart/form-data">
+            <table class="deliverTable">
+                <tr><td colspan="2"></td></tr>
+                <volist name="ary_extend_data" id="data">
+                    <if condition="($data['fields_content'] neq 'm_password') and ($data['fields_content'] neq 'm_password_1')">
+                    <tr>
+                        <td class="right"><if condition="($data.is_need eq 1)"><span class="red">*</span></if>{$data.field_name}：</td>
+                        <td>
+                            <if condition="$data.fields_type eq 'radio'">
+                                <volist name="data.fields_content" id="field_content">
+                                    <input name="extend_field_{$data.id}" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'checkbox'">
+                                <volist name="data.fields_content" id="field_content" >
+                                    <input name="extend_field_{$data.id}[]" type="{$data.fields_type}"  value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">checked="checked"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>/>{$field_content}&nbsp;&nbsp;
+                                </volist>
+                            </if>
+                            <if condition="$data.fields_type eq 'select'">
+                                <if condition="$data.id eq 14 ">
+                                    <include file="Address:addressPage" />
+                                <else />
+                                <select class="medium" name="extend_field_{$data.id}" >
+                                    <volist name="data.fields_content" id="field_content" >
+                                        <option value="{$field_content}" <eq name="field_content" value="$data[content][$field_content]">selected="selected"</eq> <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>> {$field_content}</option>
+                                    </volist>
+                                </select>
+                                </if>
+                            </if>
+                            <if condition="$data.fields_type eq 'text'">
+                                <input 
+                                    <if condition="($data.type eq 1 )">
+                                        name="{$data.fields_content}" id="{$data.fields_content}" 
+                                    <else />
+                                         name="extend_field_{$data.id}"
+                                    </if>
+                                     type="text"  
+                                    <if condition="($data.fields_content neq 'm_password')">value="{$data.content}"</if>
+                                     class="input01" 
+                                    <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if>
+                                     <php>if($data['fields_content'] == 'm_name' || $data['is_edit'] == '0'){</php>disabled="disabled"<php>}</php> 
+                                />
+                                <if condition="($data.fields_content eq 'm_name')">
+                                    <input name="m_name" type="hidden"  value="{$data.content}" class="medium" />
+                                </if>
+                            </if>
+                            <if condition="$data.fields_type eq 'file'">
+                                <if condition="$data.content neq ''"><img src="{$data.content}" width="100px";height="100px"/></if>
+                                <input name="extend_field_{$data.id}" type="file"  value="{$data.content}" class="medium" />
+                                <input name="extend_field_{$data.id}" type="hidden"  value="{$data.content}" class="medium" <if condition="($data.is_need eq 1)"> validate="{ required:true}"</if> />
+                            </if>
+                        </td>
+                        <td width="236px"><span class="spanWrong"></span></td>
+                    </tr> 
+                    <!--更换手机-->
+                    </if>
+                </volist>
+                <tr>
+                    <td align="right">出生日期：</td>
+                    <td><input type="text" class="input01" name="m_birthday" readonly="readonly" value="{$member.m_birthday}" id="m_birthday" validate="{ isCheck:true,messages:{isCheck:'您输入的参数非法，请重新输入'}}"></td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                <tr>
+                    <td align="right">性别：</td>
+                    <td>
+                        <input type="radio" name="sex" value="1" id="sex01" class="radio" <if condition="$member['m_sex'] eq '1'">checked="checked"</if>><label for="sex01" class="boy">男</label>
+                        <input type="radio" name="sex" value="0" id="sex02" class="radio" <if condition="$member['m_sex'] eq '0'">checked="checked"</if>><label for="sex02" class="boy">女</label>
+                        <input type="radio" name="sex" value="2" id="sex01" class="radio" <if condition="$member['m_sex'] eq '2'">checked="checked"</if>><label for="sex01">保密</label>
+                    </td>
+                    <td width="236px"><span class="spanWrong"></span></td>
+                </tr>
+                <if condition="$MEMBER_EDIT_STATUS.sc_value eq '1'">
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="hidden" class="input01" name="m_id" value="{$member.m_id}" id="m_id" >
+                        <if condition="$member.m_verify eq 4">
+                            <button class="blue" type="submit" disabled="disabled">待审核</button>
+                        <else />
+                            <button class="blue" type="submit" >保 存</button>
+                        </if>
+                    </td>
+                </tr>
+                </if>
+                <tr><td colspan="2"></td></tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("document").ready(function(){
+        $("#btnValidateEmail").click(function(){
+            var formdata = $("#my_doedit").serialize();
+            $.ajax({
+            url:"{:U('Ucenter/My/sendEmailCode')}",
+            data:formdata,
+            dataType:"json",
+            type:"post",
+            success:function(msgObj){
+                if(msgObj.status == 1){
+                    showAlert(false,msgObj.msg);
+                }else{
+                    showAlert(false,msgObj.msg);
+                }
+            },
+            error:function(){
+                showAlert(false,'未知错误验证失败');
+            }
+            }); 
+        })
+        $("#m_birthday").datepicker({
+            showButtonPanel: true,
+            changeMonth: true,
+            autoSize: true,
+            minDate: new Date(1940, 1 - 1, 1),
+            yearRange: '1940:+5',
+            changeYear: true
+        });
+        $('#members_form').validate();
+        $(".dater").datepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        $(".timer").datetimepicker({showMonthAfterYear: true,changeMonth: true,changeYear: true,buttonImageOnly: true});
+        //$('#my_doedit').validate();
+        
+        $("#my_doedit").validate({
+        /**
+        errorPlacement: function(error, element) {
+            showAlert(false,error);
+            
+        }, 
+        **/
+        errorPlacement: function(error, element) {
+        
+        },
+        showErrors: function(errors) {
+            for (var name in errors) {
+                $('#' + name).parent('td').next('td').children('span.spanWrong').show();
+                $('#' + name).parent('td').next('td').children('span.spanWrong').html(errors[name]);
+            }
+            return false;
+        },
+        submitHandler:function(form){
+            var formdata = $("#my_doedit").serialize();
+            $.ajax({
+                url:"{:U('Ucenter/My/doEdit')}",
+                data:formdata,
+                dataType:"json",
+                type:"post",
+                success:function(msgObj){
+                    if(msgObj.status == 1){
+                        if($('#r_m_mobile').val() != ''){
+                            $('#m_mobile').val($('#r_m_mobile').val());
+                            $('#r_m_mobile').val();
+                            $('#m_mobile_code').val();                      
+                        }
+                        showAlert(true,'会员信息修改成功');
+                        window.location.href = "{:U('Ucenter/Promoting/myPromoting')}";
+                    }else{
+                       showAlert(false,msgObj.info);
+                       return false;
+                    }
+                }
+            });
+        },
+        rules : {
+            // r_m_mobile : {
+            //     remote : '/Ucenter/My/checkMobile'
+            // },
+            // m_email : {
+            //     //required:true,
+            //     email:true,
+            //     remote : '/Ucenter/My/checkEmail'
+            // },
+            // m_mobile_code : {
+            //     remote : '/Ucenter/My/checkMobileCode'
+            // }       
+        }
+    });
+});
+</script>

@@ -1,0 +1,295 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="coupon_add" enctype="multipart/form-data" name="coupon_add" method="post" action="{:U('Admin/Groupbuy/doAdd')}" onsubmit="return save();">
+        <table class="tbForm" width="100%" id="wrap">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">新增团购活动</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<tr>
+					<td  colspan="3" style="text-align:left;padding-left:100px;">
+						分类：
+						<select name="search_cats" class="related_goods_form_info medium" >
+							<option value="0"> -请选择- </option>
+							<volist name="array_category" id="cat">
+							<option value="{$cat.gc_id}"><php>for($j=0;$j<$cat['gc_level'];$j++){echo '--';}</php>{$cat.gc_name}</option>
+							</volist>
+						</select>
+						品牌：
+						<select name="search_brand" class="related_goods_form_info medium">
+							<option value="0"> -请选择- </option>
+							<volist name="array_brand" id="vo">
+								<option value="{$vo.gb_id}">{$vo.gb_name}</option>
+							</volist>
+						</select>
+						关键词：
+						<input type="text" name="keywords" class="related_goods_form_info medium" id="search_keywords" value="" />
+						<button type="button" id="related_goods_form_search_info" class="btnA">搜索</button>
+					</td>
+				</tr>
+                <tr>
+                    <td class="first">* 团购标题</td>
+                    <td>
+                    	<textarea  name="gp_title" id="gp_title"  maxlength="250" style="width:300px;height:100px;text-align:left;vertical-align:top;" validate="{ required:true}"></textarea>
+                    </td>
+                    <td class="last">限制250个字符</td>
+                </tr>
+				<tr>
+                    <td class="first">团购简介</td>
+                    <td>
+                    	<textarea  name="gp_remark" id="gp_remark"  maxlength="250" style="width:300px;height:100px;text-align:left;vertical-align:top;" ></textarea>
+                    </td>
+                    <td class="last">限制250个字符</td>
+                </tr>
+				
+                <tr>
+                    <td class="first">* 团购商品</td>
+                    <td>
+                    <input type="hidden" value="1" id="good_type"/>
+                    <input type="hidden" value="" id="item_price" /> 
+                        <select name="g_id" id="g_related_goods_ids_selected_info" onchange="showPic(this)" validate="{ required:true}">
+                        	<option value="0">请先搜索商品,再次生成选项列表</option>
+                        	
+                        </select>
+                    </td>
+                    <td class="last">必填，更加商品选择区域限售</td>
+                </tr>
+                <tr>
+                    <td colspan="5" >
+                        <include file="Presale:getPresaleGoods" />
+                    </td>
+                </tr>
+                <tr style="height:50px;">
+                    <td class="first">商品图片</td>
+                    <td>
+                        <a href="javascript:upImage();" class="btnG ico_upload">上传图片</a>
+                        <img width="50px" height="50px" src="" id="show_pic">
+                        &nbsp;
+                        <input type="hidden" id="gp_pic" name="gp_pic" value=""/>
+                        
+                    </td>
+                    <td class="last">不上传图片按商品主图,建议您图片大小为500*500</td>
+                </tr>
+                <tr>
+                    <td class="first"> 区域限售</td>
+                    <td>
+						<a class="rule-chooser-trigger" ref="'.$this->index.'" href="javascript:void(0)">
+						<img title="Open Chooser" class="v-middle" alt="" src="__PUBLIC__/Admin/images/rule_chooser_trigger.gif"></a>
+                           	请点击按钮选择显示或隐藏限售区域
+						<div id="shopMulti_cat" class="shop-cat-list rule-chooser" style="display:none;padding-left: 15px;">
+						   <include file="related-goods-form" /> 
+						</div> 
+                    </td>
+                    <td class="last">（移动端暂不支持）</td>
+                </tr>
+                <tr>
+                    <td class="first">团购类目</td>
+                    <td>
+                    <select name="gcid" class="small search_cond" style="width: auto">
+                             <option value="0" >选择类目</option>
+                             <volist name="cates" id="cate">
+                             	<option value="{$cate['gc_id']}" <if condition="($gcid eq $cate['gc_id'])">selected=selected</if> >{$cate['gc_name']}</option>
+								<notempty name="cate.sub">
+									<volist name="cate.sub" id="sub_cate">
+										<option value="{$sub_cate['gc_id']}" <if condition="($gcid eq $sub_cate['gc_id'])">selected=selected</if> >----{$sub_cate['gc_name']}</option>
+									</volist>
+								 </notempty>
+							 </volist>
+                    </select>	
+                    </td>
+                    <td class="last">（移动端暂不支持）</td>
+                </tr>	
+                <tr>
+                    <td class="first">团购品牌</td>
+                    <td>
+                    <select name="gbbid" class="small search_cond" style="width: auto">
+                             <option value="0" >选择品牌</option>
+                             <volist name="brands" id="brand">
+                             	<option value="{$brand['gbb_id']}" <if condition="($brand eq $cate['gbb_id'])">selected=selected</if> >{$brand['gbb_name']}</option>
+                             </volist>
+                    </select>	
+                    </td>
+                    <td class="last">（移动端暂不支持）</td>
+                </tr>				
+                <tr>
+                    <td class="first">* 活动开始时间</td>
+                    <td>
+                        <input type="text" name="gp_start_time" id="gp_start_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">* 活动结束时间</td>
+                    <td>
+                        <input type="text" name="gp_end_time" id="gp_end_time" class="medium timer" validate="{ required:true}"/>
+                    </td>
+                    <td class="last"></td>
+                </tr> 
+                <tr>
+                    <td class="first">是否使用定金</td>
+                    <td>
+                        <input type="checkbox" name="is_deposit" id="is_deposit" value="1" />
+                    </td>
+                    <td class="last">不勾选代表一次性付清</td>
+                </tr>
+                <tr>
+                    <td class="first"> 定金</td>
+                    <td>
+                        <input type="text" name="gp_deposit_price" id="gp_deposit_price" class="medium" />
+                    </td>
+                    <td class="last">（移动端暂不支持）</td>
+                </tr>                 
+                <tr>
+                    <td class="first">* 限购数量</td>
+                    <td>
+                        <input type="text" name="gp_number" id="gp_number" class="medium" validate="{ required:true}"/>
+                    </td>
+                    <td class="last">达到此数量，团购活动自动结束。0表示没有数量限制</td>
+                </tr>                 
+                <tr>
+                    <td class="first">补交尾款时间</td>
+                    <td>
+                        <input type="text" name="gp_overdue_start_time" id="gp_overdue_start_time" class="medium timer" />
+                        	至
+                        <input type="text" name="gp_overdue_end_time" id="gp_overdue_end_time" class="medium timer" />
+                    </td>
+                    <td class="last"></td>
+                </tr> 
+                 <tr style="display:none;">
+                    <td class="first">赠送积分数</td>
+                    <td>
+                        <input type="text" name="gp_send_point" id="gp_send_point" class="medium" />
+                    </td>
+                    <td class="last"></td>
+                </tr>
+                <tr>
+                    <td class="first">设置类型</td>
+                    <td>
+                        <label><input type="radio" name="gp_tiered_pricing_type" id="gp_tiered_pricing_type_1" value="1"  onclick="changeDiscountType(this);" autocomplete="off" checked/>按减少指定金额计算</label>
+                        <label><input type="radio" name="gp_tiered_pricing_type" id="gp_tiered_pricing_type_2" value="2"  onclick="changeDiscountType(this);" autocomplete="off"/>按价格折扣计算</label>
+                    </td>
+                    <td class="last">按价格折扣计算：请输入小于等于1的正数，如0.88=8.8折</td>
+                </tr>
+                <tr>
+                    <td class="first">价格设置</td>
+                    <td colspan="2">
+                        <table  id="J_ManagePrice"  class="clearfix dialog manage-cats" style="width: 100%">
+                            <tr>
+                                <td>
+                                    商品正常销售价：&yen;<span id="normal_sale_price">0.00</span>
+                                </td>
+                                <td class="last">作为普通商品销售时的价格</td>
+                            </tr>
+                            <tr class="price_discount_init" data-type="1">
+                                <td>
+                                    初始团购价：减<input type="text" name="gp_price"  value="{$info['gp_price']|default=0}" class="medium input-text" onblur="checkGroupbuyPrice(this);" />元&nbsp;&nbsp;
+                                    <!-- <img src="__PUBLIC__/Admin/images/u48_normal.png" onclick="addTieredPrice();" title="添加价格阶梯" /> -->
+                                </td>
+                                <td class="last">在普通销售价上减去指定金额作为团购初始价</td>
+                            </tr>
+                            <tr class="price_discount_init" data-type="2" style="display: none;">
+                                <td>
+                                    初始团购价：<input type="text" value="{$info['gp_price']}" class="medium input-text" onblur="checkGroupbuyPrice(this);" />折&nbsp;&nbsp;
+                                    <!-- <img src="__PUBLIC__/Admin/images/u48_normal.png" onclick="addTieredPrice();" title="添加价格阶梯" /> -->
+                                </td>
+                                <td class="last">请输入小于等于1的正数，如0.88=8.8折</td>
+                            </tr>
+
+                            <!-- <tr id="price_discount_hide" class="tiered_price_config" style="display: none;">
+                                <td>
+                                    数量达到：<input type="text" value="" class="medium input-text nums"/>以上，
+                                    减<input type="text" value="" class="medium input-text prices"/>元
+                                    <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格阶梯" />
+                                </td>
+                                <td class="last">请输入小于等于商品销售金额的数字</td>
+                            </tr> -->
+                            <!-- <tr id="price_discount_rate_hide" class="tiered_price_config" style="display:none;">
+                                <td>
+                                    数量达到：<input type="text" value="" class="medium input-text nums"/>以上，
+                                    <input type="text" value="" class="medium input-text prices"/> 折销售
+                                    <img src="__PUBLIC__/Admin/images/u21_normal.png" class="deletePrice" title="删除价格阶梯" />
+                                </td>
+                                <td class="last">请输入小于等于1的正数，如0.88，意思是8.8折</td>
+                            </tr> -->
+                        </table>
+                    </td>
+                </tr>
+				<tr>
+					<td class="first">* 每个会员限购</td>
+					<td><input type="text" name="gp_per_number" id="gp_per_number"
+						class="medium" validate="{ required:true}"/></td>
+					<td class="last"></td>
+				</tr>
+				<tr>
+					<td class="first">虚拟数量</td>
+					<td><input type="text" name="gp_pre_number" id="gp_pre_number"
+						class="medium" /></td>
+					<td class="last">（移动端暂不支持）</td>
+				</tr>		
+				<tr>
+					<td class="first">显示次序</td>
+					<td><input type="text" name="gp_order" id="gp_order"
+						class="medium" value="0"/></td>
+					<td class="last"></td>
+				</tr>	
+	            <tr>
+                    <td class="first">是否显示商品详情</td>
+                    <td>
+                        <input type="checkbox" name="gp_goodshow_status" id="gp_goodshow_status" value="1" />
+                    </td>
+                    <td class="last"></td>
+                </tr>	
+	            <tr>
+                    <td class="first">是否包邮</td>
+                    <td>
+                        <input type="checkbox" name="gp_is_baoyou" <if condition="$info.gp_is_baoyou eq '1'">checked</if> id="gp_is_baoyou" value="1" />
+                    </td>
+                    <td class="last"></td>
+                </tr>					
+	            <tr>
+                    <td class="first">是否启用</td>
+                    <td>
+                        <input type="checkbox" name="is_active" id="is_active" checked value="1" />
+                    </td>
+                    <td class="last">不勾选代表停用</td>
+                </tr>	
+	            <tr>
+                    <td class="first">是否使用验证码</td>
+                    <td>
+                        <input type="checkbox" name="gp_start_code" <if condition="$info.gp_start_code eq '1'">checked</if> id="gp_start_code" value="1" />
+                    </td>
+                    <td class="last">启用验证码后抢购时要输入验证码</td>
+                </tr>					
+ 				<tr>
+					<td class="first">PC端团购描述</td>
+					<td>
+					<textarea name="gp_desc" id="editor"  style="width:600px;"></textarea>
+					</td>
+					<td class="last"></td>
+				</tr>	
+ 				<tr>
+					<td class="first">手机端团购描述</td>
+					<td>
+					<textarea name="gp_mobile_desc" id="mobile_editor"  style="width:300px;"></textarea>
+					</td>
+					<td class="last"></td>
+				</tr>				
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/groupbuy.js"></script>

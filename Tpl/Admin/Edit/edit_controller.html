@@ -1,0 +1,40 @@
+<!--控制面板-->
+<div id="gy_edit_controllers" style="width:100%; height: 100px; background-color: rgba(240,240,250,0.9); border-bottom: 1px solid rgb(200,200,200); box-shadow:0px 1px 5px rgb(200,200,200); position: fixed; top: 0px; left: 0px; z-index: 888;">
+    <table  id="gy_edit_controller">
+        <tr>
+            <td class="first">欢迎使用管易分<br>销可视化编辑器</td>
+            <td>当前模版</td>
+            <td>当前页面</td>
+            <td rowspan="2"><img src="__TPL__layout.jpg" style="width:50px; height: 65px; border: 1px solid rgb(125,125,125);" /></td>
+            <td>操作选项</td>
+            <td rowspan="2"><span style="font-size:48px; font-family: helvetica,'微软雅黑'; color: rgb(200,200,200);">请使用Chrome或Firefox浏览器</span></td>
+        </tr>
+        <tr>
+            <td class="first"><a href="javascript:searchEditLog();">查看编辑日志</a></td>
+            <td>默认模版<br>免费</td>
+            <td>首页</td>
+            <td style="width:280px;">
+                <a href="javascript:gy_mod_huifu();">初始化首页</a>&nbsp;&nbsp;
+                <a href="javascript:gy_mod_save();">保存</a>&nbsp;&nbsp;
+                <a href="javascript:gy_mod_huanyuan();">返回上次编辑</a>&nbsp;&nbsp;
+                <a href="javascript:gy_mod_add();">添加模块</a>&nbsp;&nbsp;
+                <a href="javascript:gy_mod_zancun();">暂存</a>&nbsp;&nbsp;
+                <a href='{:U("Admin/Edit/index/","dir=$files[dir]&file=$files[file]&val=$files[val]&type=$files[type]")}' target="_blank">预览首页</a>&nbsp;&nbsp;
+                <a href="{:U('Home/Index/index')}" target="_blank">浏览首页</a>&nbsp;&nbsp;
+                <a href='javascript:window.location.reload(true);'>刷新当前页</a>
+                
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="EditLog" style="display: none;"></div>
+<!--编辑浮层-->
+<div id="hover">
+    <div id="hover_edit_area" style="display: block;width:190px;margin:0 auto;position:relative;top:30%;">
+        <div class="min_btn_set">
+            <input type="button" value="样式" class="min_btn" id="btn_edit_style"  /><input type="button" value="数据" class="min_btn" onclick="javascript:edit_content();" /><input type="button" value="删除" class="min_btn" onclick="javascript:del();" />
+        </div>
+    </div>
+    <div id="hover_clone"></div>
+</div>
+<script>var dir = '{$files.dir}';</script>

@@ -1,0 +1,85 @@
+@CHARSET "UTF-8";
+/* FORMS
+*******************************************************************************/
+select.countries option         { background-repeat:no-repeat; }
+.entry-edit .fieldset .tree li,
+.entry-edit .tree li            { margin:0; }
+
+/* Entry Edit  */ /* Site-wide form fieldset */
+.entry-edit .entry-edit-head { background:#eff7ff; padding:2px 10px;height:20px;}
+table.form-edit                         { width:100%; }
+.box,
+.entry-edit fieldset,
+.entry-edit .fieldset                   { padding:10px 0px; margin-bottom:15px; }
+.entry-edit .entry-edit-head h4         { float:left; padding:0; background:none; margin:0; color:#000; font-size:1em; line-height:18px; min-height:0; }
+.entry-edit .entry-edit-head strong,
+.entry-edit .entry-edit-head a          { color:#fff; font-size:1em; line-height:18px; min-height:0; font-weight:bold}
+.entry-edit .content                    { margin-left:0 !important; padding:10px 15px; }
+.entry-edit fieldset li,
+.entry-edit .fieldset li                { margin:4px 0; }
+.entry-edit fieldset span.form_row,
+.entry-edit .fieldset span.form_row,
+.entry-edit fieldset .field-row .hint,
+.entry-edit .fieldset .field-row .hint  { float:left; color:#999; padding-left:12em; }
+.entry-edit .form-buttons               { float:right; margin:2px -3px 2px 0pt; }
+label.inline                            { float:none !important; width:auto !important; }
+.nested-content .entry-edit             { margin-left:2em; }
+.nested-content .entry-edit .entry-edit { margin-left:0; }
+
+/* Price Rules */
+.rule-tree ul                   { padding-left:16px !important; border-left:dotted 1px #888; }
+.rule-tree .x-tree ul           { padding-left:0 !important; border-left:none !important; }
+.rule-param .label              { font-weight:bold; color:black; }
+.rule-param .label:hover        { font-weight:bold; color:blue; }
+.rule-param .element            { display:none; }
+.rule-param .select-operator     { max-width:75px !important; max-width:75px; }
+.rule-param .search-result     { max-width:150px; }
+.rule-param select.multiselect  { vertical-align:top; }
+.rule-param-edit .label         { display:none; }
+.rule-param-edit .element       { display:inline; }
+.rule-param-add                 { font-weight:normal; color:green; text-decoration:none; }
+.rule-param-add:hover           { font-weight:normal; color:blue; text-decoration:none; }
+.rule-param-apply               { font-weight:normal; color:green; text-decoration:none; }
+.rule-param-apply:hover         { font-weight:normal; color:blue; text-decoration:none; }
+.rule-param-remove              { font-weight:normal; color:red; text-decoration:none; }
+.rule-param-remove:hover        { font-weight:normal; color:blue; text-decoration:none; }
+.rule-chooser                   { border:solid 1px #CCC; margin:5px; padding:5px; display:none; }
+.rule-param-wait                { padding-left:20px; background-image:url(../images/rule-ajax-loader.gif); background-repeat:no-repeat; background-position:0 50%; }
+
+/* Directional and spacial */
+.f-left, .left      { float:left; }
+.f-right, .right    { float:right; }
+.v-top              { vertical-align:top; }
+.v-middle           { vertical-align:middle !important; }
+.v-bottom           { vertical-align:bottom; }
+.a-left             { text-align:left !important; }
+.a-center           { text-align:center !important; }
+.a-right            { text-align:right !important; }
+.nm                 { margin:0 !important; }
+.np                 { padding:0 !important; }
+.no-display         { display:none; }
+.no-show            { display:none; }
+.nowrap, .nobr      { white-space:nowrap; }
+.wrap               { white-space:normal !important; }
+.no-float           { float:none !important; }
+.pointer            { cursor:pointer; }
+
+.shop-cat-list {
+	border:1px solid #e4e4e4;
+	padding:3px;
+	height:142px;
+	overflow:auto;
+	margin-right:10px;
+	*width:637px;
+	_width:auto;
+}
+.shop-cat-list ul{
+	margin-left:-10px;
+	border-left-style:none;
+}
+.shop-cat-list ul li {
+	float:none !important;
+}
+.shop-cat-list ul li ul {
+	margin-left:20px;
+}

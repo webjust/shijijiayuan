@@ -1,0 +1,233 @@
+<link href="__PUBLIC__/Ucenter/css/Cart.css" rel="stylesheet">
+<script src="__PUBLIC__/Ucenter/js/orders.js"></script>
+<script>
+    $(document).ready(function(){
+        TrdorderLog('{$ary_result.to_receiver_province}','{$ary_result.to_receiver_city}','{$ary_result.to_receiver_district}','{$ary_result.to_oid}','{$ary_result.to_receiver_address}');
+    })
+    
+    function TrdorderLog(province, city, district, tt_id, adderss){
+        var city_id = $('#city').val();
+        var region_id = $('#region').val();
+        var goods_info = {};
+        goods_info['pdt_num'] = {};
+        goods_info['pdt_weight'] = {};
+        var address_id = 0;
+        if(region_id && region_id > 0) {
+            address_id = region_id;
+        }else if(city_id){
+            address_id = city_id;
+        }
+        var tt_id = $("#goods_all_price").attr("tt_id");
+        var pdt_num =$("#goods_all_price").attr("pdt_num");
+        var pdt_price =$("#goods_all_price").attr("pdt_price");
+        var pdt_weight = $("#goods_all_price").attr("pdt_weight");
+        goods_info['pdt_num'] = pdt_num;
+        goods_info['pdt_price'] = pdt_price;
+        goods_info['pdt_weight'] = pdt_weight;
+        var url = '/Ucenter/Trdorders/getAvailableLogisticsList';
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:'TEXT',
+            type:'POST',
+            data:{
+                'province':province,
+                'city':city,
+                'type':'trd',
+                'district':district,
+                'address_id': address_id,
+                'goods_info':goods_info,
+                'tt_id':tt_id
+            },
+            success:function(msgObj){
+                $("#logistic_dl").html(msgObj);
+            }
+        });
+    }
+</script>
+<!-- 右侧主题内容开始 -->
+<div class="contentRightBox"><!--contentRightBox  start-->
+    <h2 class="publicH2"><span>填写核对信息</span></h2>
+    <form  id="orderForm" name="orderForm" >
+        <div class="checkInformation"><!--checkInformation   start-->
+            <p class="p01"></p>
+
+            <div class="checkInforCon"><!--checkInforCon  start-->
+
+                <ul>
+                    <li>
+                        <p class="tongyongP"><span>收货信息</span></p>
+                        <div class="deliveryInfo02"><!--deliveryInfo02  start-->
+                            <a href="javascript:void(0);" class="brown">常用收货地址</a>
+                            <div id="updateAddress">
+                                <div id="updateAddress"><form id="fromAddress">
+                                        <table>
+                                            <tbody><tr>
+                                                    <td width="90" align="right"><i class="red">*</i> 收货人姓名：</td>
+                                                    <td width="870"><input type="text" class="input01" name="ra_name" value="{$ary_result.to_receiver_name}" validate="{ required:true}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right"><i class="red">*</i> 选择地区：</td>
+                                                    <td>
+                                                        <select id="province" name="province" onchange="initSelectCityRegion();selectCityRegion(this, 'city', '');changeLogisticsList(this);">
+                                                            <option value="0" selected="selected">请选择</option>
+                                                            <foreach name="city" item="cy">
+                                                                <option value="{$cy.cr_id}">{$cy.cr_name}</option>
+                                                            </foreach>
+                                                        </select>
+                                                        <select id="city" name="city" onchange="selectCityRegion(this, 'region','');changeLogisticsList(this);" >
+                                                            <option value="0" selected="selected">请选择</option>
+                                                        </select>
+                                                        <select id="region" name="region" onchange="changeLogisticsList(this);">
+                                                            <option value="0" selected="selected">请选择</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right"><i class="red">*</i>收货人地址：</td>
+                                                    <td width="870"><input type="text" class="input01" name="ra_detail" value="{$ary_result.to_receiver_address}" validate="{ required:true}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">手机号码：</td>
+                                                    <td>
+                                                        <input type="text" class="input01" name="ra_mobile_phone" value="{$ary_result.to_receiver_mobile}" validate="{ required:true,isMobile:true}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">固定电话：</td>
+                                                    <td>
+                                                        <input type="text" class="input01" name="ra_phone" value="{$ary_result.to_receiver_phone}" validate="{ required:true,isPhone:true}">
+                                                        <span class="gray">两者至少写一项</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">邮政编码：</td>
+                                                    <td><input type="text" class="input01" value="{$ary_result.to_receiver_zip}" name="ra_post_code" validate="{ isZipCode:true}"></td>
+                                                </tr>
+                                                <!--                                                <tr>
+                                                                                                    <td colspan="2">
+                                                                                                        <input type="button" class="blue" onclick="submitAddress('fromAddress')" value="保存收货人信息">
+                                                                                                    </td>
+                                                                                                </tr>-->
+                                            </tbody></table>
+                                    </form>
+                                </div> 
+                                <div>        
+                                </div><!--deliveryInfo02  end-->
+                                </li>
+                                <li>
+                                    <p class="tongyongP"><span>配送方式</span></p>
+
+                                    <dl class="dl02" id="logistic_dl">
+
+                                    </dl>
+                                </li>
+                                <li>
+                                    <p class="tongyongP"><span>选择送货时间</span></p>
+                                    <p class="p03">送货时间：<input type="text" name="o_receiver_time" id="o_receiver_time"><span><i>*</i>为空时，则为任意日期！</span></p>
+                                </li>
+                                <li>
+                                    <p class="tongyongP"><span>支付方式</span><i>备注</i></p>
+                                    <dl class="dl03">
+                                        <volist name="ary_paymentcfg" id="paymentcfg">
+                                            <dd><input type="radio" validate="{ required:true}" id="o_payment" name="o_payment" value="{$paymentcfg.pc_id}" ><label for="zhifu">{$paymentcfg.pc_custom_name}</label><span>{$paymentcfg.pc_memo}</span></dd> 
+                                        </volist>
+                                    </dl>
+                                </li>
+                                </ul>
+                            </div><!--checkInforCon  end-->
+
+                            <div class="shopList"><!--shopList  start-->
+                                <p class="tongyongP"><span>购物清单</span><a href="{:U('Ucenter/Cart/pageList')}" class="float">返回修改购物车</a></p>
+
+                                <table class="table01">
+                                    <thead>
+                                        <tr>
+                                            <td width="115">商品图</td>
+                                            <td width="291">商品名称</td>
+                                            <td width="149">会员采购价</td>
+                                            <td width="186">购买数量</td>
+                                            <td width="">商品优惠小计</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="cart_data" id="product">  
+                                        <tr>
+                                            <td width="115" valign="top">
+                                                <div class="cartProPic">
+                                                    <a href="javascript:void(0);">
+                                                        <img src='{$Think.config.DOMAIN_HOST}__PUBLIC__/{$product.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" class="thumb">
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td width="291">
+                                                <div class="cartProName">
+                                                    <a href="javascript:void(0);">{$product.g_name}</a>
+                                                    <span>{$Think.lang.PRODUCT_SN}：{$product.g_sn}</span>
+                                                    <span>{$Think.lang.GOODS_SPEC}{$product.pdt_spec}</span>
+                                                </div>
+                                            </td>
+                                            <td width="149"><i class="price">￥</i> {$product.f_price}</td>
+                                            <td width="186">{$product.pdt_nums}</td>
+                                            <td>
+                                                <strong class="strong01"><i class="price">￥</i> {$product.pdt_momery}</strong>
+
+                                            </td>
+                                        </tr>
+                                    </volist> 
+                                    </tbody>
+                                </table>
+                                <p class="tongyongP"><span>订单结算</span></p>
+
+                                <div class="shopListCon"><!--shopListCon  start-->
+                                    <div class="shopListConLeft"><!--shopListConLeft  start-->
+                                        <table>
+                                            <tr>
+                                                <td width="72" align="left" valign="top">订单备注：</td>
+                                                <td>
+                                                    <textarea id="order_massage" name="order_massage">{$ary_result.to_buyer_message}</textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="72" align="left" valign="top">使用优惠券：</td>
+                                                <td>
+                                                    <input type="text" class="input01"><button class="blue">使用</button>
+                                                    <span>优惠劵一旦使用，在订单生成后，将无法退回。如您取消订单，订单中所使用的优惠券将永久失效，无法找回。</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div><!--shopListConLeft  end-->
+
+                                    <div class="shopListConRight"><!--shopListConLeft  start-->
+                                        <ul>
+                                            <li><span>商品总重：</span><label>{$data.all_weight|sprintf='%.2f',###}g</label></li>
+                                            <li><span>商品总价：</span><label><i class="price">￥</i>{$data.all_price|sprintf='%.2f',###}</label></li>
+                                            <input type="hidden" id="goods_all_price"  pdt_num="{$data.nums}" pdt_price="{$data.all_price}" pdt_weight="{$data.all_weight}" tt_id="{$cart.tt_id}" name="goods_all_price" value="{$data.all_price|sprintf='%.3f',###}">
+                                            <input type="hidden" name="tt_id" id="tt_id" value="{$cart.tt_id}" />
+                                            <li><span>运费金额：</span><label id="logistic_price"><i class="price" >￥</i>0</label></li>
+                                            <!--<input type="hidden" id="o_cost_freight" name="o_cost_freight" value="">-->
+                                            <li><span>积分抵扣：</span><label><i class="price">￥</i>0</label></li>
+                                            <li><span>优&nbsp; 惠 券：</span><label><i class="price">￥</i>0</label></li>
+                                            <li><span>促销优惠：</span><label><i class="price">￥</i>0</label></li>
+                                            <li><span>合&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计：</span><label id="all_orders_price"><strong><i class="price">￥</i>0</label></strong></li>
+                                            <li>
+                                                <input type="button"  class="brown" onclick="javascrpt:submitTrdOrders();"  value="提交订单">   
+                                            </li>
+                                        </ul>
+                                    </div><!--shopListConRight  end-->
+                                </div><!--shopListCon  end-->
+                            </div><!--shopList  end-->
+                        </div><!--checkInformation   end-->
+                        </form>
+                        </div><!--contentRightBox  end-->
+
+                        <!-- 右侧主题内容结束 -->
+                        </div><!--content1200  end-->
+                        <div id="pro_diglog" style="display: none;">
+                            <div id="ajax_loading">
+                                <img src="__PUBLIC__/images/loading.gif" title="正在加载中..." style="margin-top:30px;"/>
+                            </div>
+                        </div>
+                        </div>    
+                        <!-- 中间内容结束 -->
+                        {$js_city}

@@ -1,0 +1,151 @@
+{__NOLAYOUT__}
+<div class="deliveryInfo01">
+    <dl class="dl01" id="first_addr_list">
+        <if condition="$default_addr NEQ ''">
+            <dd id="row{$default_addr.ra_id}">
+                <input class="checkAddr" onclick="javascript:checkAddr($(this));" id="ra_id" value="{$default_addr.ra_id}" name="ra_id" cr_id ="{$default_addr.cr_id}"   <if condition="$default_addr.ra_is_default eq 1">checked="checked"</if>   ra_id="{$default_addr.ra_id}" type="radio"  />
+                <label class="checkAddr" ra_id="{$default_addr.ra_id}" for="addr">
+                    {$default_addr.ra_name},
+					<span id="is_zt_display"> 
+						{$default_addr.address},
+						<if condition="$default_addr.ra_detail neq ''">
+							{$default_addr.ra_detail},
+						</if>
+                    </span>
+                    <if condition="$addr.ra_post_code neq ''">
+                    {$default_addr.ra_post_code},
+                    </if>
+                    
+                    {$default_addr.ra_phone},
+                    {$default_addr.ra_mobile_phone}
+				</label> 
+                <a href="javascript:void(0);" onClick="clickReceive($(this));" ra_id="{$default_addr.ra_id}"  class="update updateAddress">修改</a><i>|</i>
+                <a href="javascript:void(0);" class="del" onclick="addressDelete($(this));" id="{$addr.ra_id}">删除</a>
+            </dd>
+        </if> 
+    </dl>
+</div>    
+<if condition="$GY_IS_FOREIGN.sc_value eq 1">
+<gt name="countAddr" value="1">
+<a href="javascript:void(0)" class="wordBlue openA">更换收货地址</a>
+<div id="otherDeliveryInfo" class="deliveryInfo02" style="display:none">
+	<dl class="dl01" id="more_addr_list" style="width:800px;">
+        <form id="searchAddr" >收货人：<input type="text" name="s_ra_name" id="s_ra_name"/>&nbsp;&nbsp;&nbsp;手机号：<input type="text" name="s_ra_mobile" id="s_ra_mobile"/>&nbsp;<input type="submit" id="searchAddr_submit" value="搜索"></form>
+        <dt><b>常用地址</b></dt>
+        <div id="cont_addr_list">
+            <volist name="ary_addr" id="addr">
+                <dd id="row{$addr.ra_id}">
+                    <input class="checkAddr" id="ra_id" value="{$addr.ra_id}" name="ra_id" cr_id ="{$addr.cr_id}" ra_id="{$addr.ra_id}" type="radio" />
+                    <label class="checkAddr" ra_id="{$addr.ra_id}" for="addr">
+                        {$addr.ra_name},
+                        {$addr.address},
+                        <if condition="$addr.ra_detail neq ''">
+                        {$addr.ra_detail},
+                        </if>
+                        <if condition="$addr.ra_post_code neq ''">
+                        {$addr.ra_post_code},
+                        </if>
+                        {$addr.ra_phone},
+                        {$addr.ra_mobile_phone}</label> 
+                    <a href="javascript:void(0);" onClick="clickReceiveForeign($(this));" ra_id="{$addr.ra_id}"  class="update updateAddress">修改</a><i>|</i>
+                    <a href="javascript:void(0);" class="del" onclick="addressDelete($(this));" id="{$addr.ra_id}">删除</a>
+                </dd>
+            </volist>                
+            <div class="fenye" style="padding:0;">
+                <if condition="$addr_page['nowPage'] neq 1">
+                    <a onclick="getAddressPage('{$addr_page[nowPage]-1}')"><<上一页</a>
+                </if>
+                <php>
+                $int_i = 1;
+                $totalPage = 0;
+                if($addr_page['nowPage']<5 && $addr_page['totalPage']>5){
+                    $totalPage = 5;
+                }else if($addr_page['nowPage']<5 && $addr_page['totalPage']<=5){
+                    $totalPage = $addr_page['totalPage'];
+                }
+                if($addr_page['nowPage'] >=3){
+                    $minPage = $addr_page['totalPage'] - $addr_page['nowPage'];
+                    
+                    if($minPage <4){
+                        $totalPage = $addr_page['totalPage'];
+                        $int_i = $addr_page['totalPage']-4;
+                    }else{
+                        $totalPage = $addr_page['nowPage']+2;
+                        $int_i = $addr_page['nowPage']-2;
+                    }
+                    if($int_i <= 0){
+                        $int_i = 1;
+                    }
+                }
+                </php>
+                <php>for($a=$int_i;$a<=$totalPage;$a++){</php>
+                    <if condition="$a eq $addr_page['nowPage']">
+                    <a href="javascript:void(0);" class="on">{$a}</span>
+                    <else/>
+                    <a onclick="getAddressPage('{$a}')">{$a}</a>
+                    </if>
+                <php>}</php>
+                <if condition="$addr_page['nowPage'] eq $addr_page['totalPage']">
+                    <a>已经是最后一页</a>
+                <else />
+                    <a onclick="getAddressPage('{$addr_page[nowPage]+1}')">下一页>></a>
+                </if>
+            </div>
+        </div>
+    </dl>
+    <div id="updateAddressForeign"></div>
+</div>
+<script>
+$(function(){
+    $("#searchAddr_submit").click(function(){
+        var ra_name = $("#s_ra_name").val(),
+            ra_mobile = $("#s_ra_mobile").val();
+        getAddressPage('',ra_name,ra_mobile);
+    })
+});
+function getAddressPage(num,ra_name,ra_mobile){
+    $.ajax({
+        url:'/Ucenter/Orders/ajaxAddressPage',
+        dataType:'HTML',
+        type:'POST',
+        data:{
+            p:num,
+            name:ra_name,
+            mobile:ra_mobile
+        },
+        success:function(msgObj){
+            $("#cont_addr_list").html(msgObj);
+            return false;
+        }
+    }); 
+}
+</script>
+</gt>
+<else/>
+<a href="javascript:void(0)" class="wordBlue openA" id="open_common_info">展开其他地址</a>
+<div class="deliveryInfo02 closedD" style="display:none">
+	<dl class="dl01" id="more_addr_list">
+        <dt><b id="common_info">常用地址</b></dt>
+    	<volist name="ary_addr" id="addr">
+            <dd id="row{$addr.ra_id}">
+                <input class="checkAddr" onclick="javascript:checkAddr($(this));" id="ra_id" value="{$addr.ra_id}" name="ra_id" cr_id ="{$addr.cr_id}" ra_id="{$addr.ra_id}" type="radio" />
+                <label class="checkAddr" ra_id="{$addr.ra_id}" for="addr">
+                    {$addr.ra_name},
+					<span id="is_zt_display1"> 
+						{$addr.address},
+						<if condition="$addr.ra_detail neq ''">
+						{$addr.ra_detail},
+						</if>
+					</span>
+                    <if condition="$addr.ra_post_code neq ''">
+                    {$addr.ra_post_code},
+                    </if>
+                    {$addr.ra_phone},
+                    {$addr.ra_mobile_phone}</label> 
+                <a href="javascript:void(0);" onClick="clickReceive($(this));" ra_id="{$addr.ra_id}"  class="update updateAddress">修改</a><i>|</i>
+                <a href="javascript:void(0);" class="del" onclick="addressDelete($(this));" id="{$addr.ra_id}">删除</a>
+            </dd>
+        </volist>                
+    </dl>
+</div>
+</if>

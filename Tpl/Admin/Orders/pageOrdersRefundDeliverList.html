@@ -1,0 +1,307 @@
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th colspan="">退款单列表</th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Orders/pageOrdersRefundDeliverList')}">
+                        订单号：<input type="text" name="o_id" class="large" value="{$filter.o_id}" style="width: 145px;">
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                </th>
+        </tr>
+        <tr>
+            <th><input type="checkbox" class="checkAll" /></th>
+            <th>操作</th>
+            <th>退款单号</th>
+            <th>金额</th>
+            <th>货币</th>
+            <th>订单号</th>
+            <th>会员用户名</th>
+            <th>退款账号</th>
+            <th>退款银行</th>
+            <th>收款人</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="order">
+            <tr>
+                <td><input type="checkbox" class="checkSon"/></td>
+                <if condition="($order.or_processing_status eq '2') || ($order.or_processing_status eq '3')">
+                    <td>
+                        <font  color="red">已作废</font>
+                    </td>
+                <else />
+                    <td id="list_{$order.or_id}">
+                        <if condition="$order.or_service_verify eq '1'">
+                            <font  color="green" id="or_service_verify_{$order.or_id}_status">已客审</font>
+                            <else />
+                            <font  color="blue" class="ServiceVerify" style="cursor: pointer;" id="or_service_verify_{$order.or_id}_status" data-id="{$order.or_id}" data-field="or_service_verify" data-value='1'>客审</font>
+                        </if>
+                        &nbsp;&nbsp;
+                        <if condition="$order.or_finance_verify eq '1'">
+                            <font color="green">已财审</font>
+                            <else />
+                            <font id="or_finance_verify_{$order.or_id}_status" class="ServiceVerify" color="blue" style="cursor: pointer;"  data-id="{$order.or_id}" data-field="or_finance_verify" data-value='1'>财审</font>
+                        </if>
+                        <if condition="($order.or_service_verify neq '1') || ($order.or_finance_verify neq '1')">
+                        &nbsp;&nbsp;
+                            <font  color="blue" style="cursor: pointer;" class="ServiceVerify" id="or_processing_status_{$order.or_id}_status" data-id="{$order.or_id}" data-field="or_processing_status" data-value='2'>作废</font>
+                        </if>
+                    </td>
+                </if>
+                <td>
+                    <if condition="$order.or_return_sn eq ''">
+                        <a class="blue setOrderRefund" href="javascript:void(0);" g_id="{$order.or_id}" data-uri='{:U("Admin/Orders/setOrderRefund")}' data-acttype="ajax">{$order.or_id}</a>
+                        <div id="children_{$order.or_id}"  style="display:none" title="退款单详情"></div>
+                    <else />
+                        <a class="blue setOrderRefund" href="javascript:void(0);" g_id="{$order.or_id}" data-uri='{:U("Admin/Orders/setOrderRefund")}' data-acttype="ajax">{$order.or_return_sn}</a>
+                        <div id="children_{$order.or_id}"  style="display:none" title="退款单详情"></div>
+                    </if>
+                </td>
+                <td>{$order.or_money}</td>
+                <td>
+                    <if condition="$order.or_currency eq ''">
+                        RMB
+                        <else />
+                        {$order.or_currency}
+                    </if>
+                </td>
+                <td><a href="{:U('Admin/Orders/pageOrdersReceipt')}?o_id={$order.o_id}" target="_blank" >{$order.o_id}</a></td>
+                <td>{$order.m_name}</td>
+                <td id="refund_{$order.or_id}_account">{$order.or_account}</td>
+                <td id="refund_{$order.or_id}_bank">{$order.or_bank}</td>
+                <td id="refund_{$order.or_id}_payee">{$order.or_payee}</td>
+            </tr>
+        </volist>
+        <empty name="data">
+            
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+</div>
+<div style="display:none" id="setRefundType"></div>
+
+<div id="verify_div"  style="display: none"><!--弹框  开始-->
+    <table class="alertTable">
+        <tr>
+            <td align="right" width="75" valign="top">备注：</td>
+            <td>
+                <textarea id="verify_comments" class="mediumBox"></textarea>
+            </td>
+        </tr>
+    </table>
+</div><!--弹框  结束-->
+<script>
+$(document).ready(function(){
+    $(".synRefunds").live('click',function(){
+        var url = $(this).attr("data-uri");
+        var field = $(this).attr('data-field');
+        var val   = $(this).attr('data-value');
+        $.ajax({
+            url:url,
+            cache:false,
+            dataType:"json",
+            data: {'field':field,'val':val},
+            type:"POST",
+            beforeSend:function(){
+                $("#J_ajax_loading").stop().removeClass('ajax_error').addClass('ajax_loading').html("提交请求中，请稍候...").show();
+            },
+            error:function(){
+                $("#J_ajax_loading").addClass('ajax_error').html("AJAX请求发生错误！").show().fadeOut(5000);
+            },
+            success:function(msgObj){
+                $("#J_ajax_loading").hide();
+                if(msgObj.status == '1'){
+                    var strHtml = '';
+                    strHtml += '<span style="color:green;">已同步</span>';
+                    $("#syid_"+val).html(strHtml);
+                }else{
+                    $("#J_ajax_loading").addClass('ajax_error').html(msgObj.info).show().fadeOut(5000);
+                }
+            }
+        });
+    });
+    
+    //退款单详情
+    $(".setOrderRefund").click(function(){ 
+        var _this = $(this);
+        var or_id = _this.attr('g_id');
+        var o_id = "{$order.o_id}";
+        var url = _this.attr('data-uri');
+        $.post(url,{'or_id':or_id,'o_id':o_id},function(html){
+            $('#children_'+"{$order.or_id}").dialog({
+                width:540,
+                resizable:true,
+                autoOpen: false,
+                modal: true,
+                position: [470,120],
+                buttons: {
+                    '确定':function(){
+		                $( this ).dialog( "close" );
+		                $('#children_'+"{$order.or_id}").hide();
+                    }
+                }
+            });
+            $('#children_'+"{$order.or_id}").dialog('open');
+            $('#children_'+"{$order.or_id}").html(html);
+        },'html');
+        
+    });
+    
+    $(".ServiceVerify").live("click",function(){
+        var field = $(this).attr("data-field");
+        var id = $(this).attr("data-id");
+        var val = $(this).attr("data-value");
+        var oid=$(this).attr("data-oid");
+        if(field == 'or_processing_status'){
+            var r=confirm("单据作废后不可恢复,确认操作?");
+            if(r == false) return false;
+
+            $("#verify_div").dialog({
+                width:450,
+                height:300,
+                modal:true,
+                title:'',
+                buttons:{
+                    '确定':function(){
+                        if($("#verify_comments").val() == ''){
+                            showAlert(false,'备注不能为空！');
+                            $(this).dialog("close");
+                            return false;
+                        }
+                        ajaxDoOrderStatus(field,id,$('#verify_comments').val(),val);
+                        $(this).dialog("close");
+                        return false;
+                    },
+                    '关闭':function(){
+                        $( this ).dialog( "close" );
+                        $(this).hide();
+                        return false;
+                    }
+                }
+            });
+            return false;
+        }
+        if(field == 'or_finance_verify'){
+            var statusStr = $("#or_service_verify_"+id+"_status").html();
+            if(statusStr == '客审'){
+                alert("该单据尚未客审,请先客审再操作");return false;
+            }
+        }
+        $.post('{:U("Admin/Orders/checkOrderRefundType")}',{id:id,oid:oid},function(htmlMsg){
+            $("#setRefundType").dialog({
+                title:'请选择退款方式',
+                width:540,
+                height:500,
+                resizable:true,
+                autoOpen: false,
+                modal: true,
+                position: [470,120],
+                buttons: {
+                    '确定':function(){
+                        var or_refunds_type = $("#refund_type").val();
+                        if(or_refunds_type ==2){
+                            var or_bank = $("#or_bank").val();
+                            var or_account = $("#or_account").val();
+                            var or_payee = $("#or_payee").val();
+                            var i=0;
+                            if(or_bank == ''){
+                                $("#or_bank").next().show();i=1;
+                            }
+                            if(or_account == ''){
+                                $("#or_account").next().show();i=1;
+                            }
+                            if(or_payee == ''){
+                                $("#or_payee").next().show();i=1;
+                            }
+                            if(i==1){return false;}
+                        }
+                        ajaxDoOrderStatus(field,id,val,or_refunds_type,$("#or_seller_memo").val(),or_bank,or_account,or_payee);
+                        $( this ).dialog( "close" );
+                    },
+                    '关闭':function(){
+                        $( this ).dialog( "close" );
+		                $(this).hide();
+                    }
+                }
+                });
+                $("#setRefundType").dialog('open');
+                $('#setRefundType').html(htmlMsg);
+        },'html');
+        
+    });
+    
+    function ajaxDoOrderStatus(field,id,val,or_refunds_type,or_seller_memo,or_bank,or_account,or_payee){
+        $.ajax({
+            url:'{:U("Admin/Orders/doOrderStatus")}',
+            cache:false,
+            dataType:'json',
+            type:'POST',
+            data:{field:field,id:id,val:val,or_refunds_type:or_refunds_type,or_bank:or_bank,or_account:or_account,or_payee:or_payee,or_seller_memo:or_seller_memo},
+            error:function(){
+                $('<div id="resultMessage" />').addClass("msgError").html('AJAX请求发生错误！').appendTo('.mainBox').fadeOut(1000);
+            },
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    $("#"+field+"_"+id+"_status").removeClass("ServiceVerify");
+                    if(field == 'or_service_verify'){
+                        $("#"+field+"_"+id+"_status").css({"cursor":"default","color":"green"});
+                        $("#or_service_verify_"+id+"_status").html("已客审");
+                        if($("#or_finance_verify_"+id+"_status").html() == '已财审'){
+                            $("#or_processing_status_"+id+"_status").remove();
+                            $("#or_processing_status_"+id+"_status_3").remove();
+                        }
+                        if(or_refunds_type ==2){
+                            $("#refund_"+id+"_account").html(or_account);
+                            $("#refund_"+id+"_payee").html(or_payee);
+                            $("#refund_"+id+"_bank").html(or_bank);
+                        }else{
+                            $("#refund_"+id+"_account").html('');
+                            $("#refund_"+id+"_payee").html('');
+                            $("#refund_"+id+"_bank").html('');
+                        }
+                    }else if(field == 'or_finance_verify'){
+                        $("#"+field+"_"+id+"_status").css({"cursor":"default","color":"green"});
+                        $("#or_finance_verify_"+id+"_status").html("已财审");
+                        if($("#or_service_verify_"+id+"_status").html() == '已客审'){
+                            $("#or_processing_status_"+id+"_status").remove();
+                            $("#or_processing_status_"+id+"_status_3").remove();
+                        }
+                        if(or_refunds_type ==2){
+                            $("#refund_"+id+"_account").html(or_account);
+                            $("#refund_"+id+"_payee").html(or_payee);
+                            $("#refund_"+id+"_bank").html(or_bank);
+                        }else{
+                            $("#refund_"+id+"_account").html('');
+                            $("#refund_"+id+"_payee").html('');
+                            $("#refund_"+id+"_bank").html('');
+                        }
+                    }else{
+                        $("#"+field+"_"+id+"_status").css({"cursor":"default","color":"red"});
+                        $("#or_finance_verify_"+id+"_status").html("已作废");
+                        $("#list_"+id).html('<font color="red">已作废</font>');
+                    }
+                }else{
+                    $('<div id="resultMessage" />').addClass("msgError").html(msgObj.info).appendTo('.mainBox').fadeOut(2000);
+                    if(msgObj.info == '该单据已客审'){
+                        $("#"+field+"_"+id+"_status").css({"cursor":"default","color":"green"});
+                        $("#or_service_verify_"+id+"_status").html("已客审");
+                    }else if(msgObj.info == '该单据已财审'){
+                        $("#"+field+"_"+id+"_status").css({"cursor":"default","color":"green"});
+                        $("#or_finance_verify_"+id+"_status").html("已财审");
+                    }
+                }
+                $("#setRefundType").dialog( "close" );
+            }
+        });
+    }
+});
+</script>

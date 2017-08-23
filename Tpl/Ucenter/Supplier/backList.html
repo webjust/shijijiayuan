@@ -1,0 +1,88 @@
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet" />
+<script src="__PUBLIC__/Ucenter/js/passport.js"></script>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<style>
+    #imagePreview1{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview2{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+    #imagePreview3{width: 100px;height:100px;display: inline-block;border: 1px solid #cccccc;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale); }
+</style>
+<div class="contentRightBox">
+    <div style="overflow-x:auto;height: 650px;width: 100%">
+        <form method="get" action="{:U('Admin/Members/doDel')}" id="members_del">
+            <table width="100%" class="tbList">
+                <thead>
+                <tr class="title">
+                    <th colspan="99">商品退货单</th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="checkAll" /></th>
+                    <th>商品详细名字</th>
+                    <th>系统商品编码（乙方编制）</th>
+                    <th>商品识别码（生产商编制）</th>
+                    <th>产地</th>
+                    <th>颜色</th>
+                    <th>规格</th>
+                    <th>其他商品属性（或属性描述）</th>
+                    <th>单位含量（g）</th>
+                    <th>单位包装数量</th>
+                    <th>官网零售价（韩币）</th>
+                    <th>采购折价率（%）</th>
+                    <th>采购指导价（系统自动生成韩币）</th>
+                    <th>商品采购价（韩币）</th>
+                    <th>销售指导价（乙方编制）（韩币）</th>
+                    <th>销售价格（系统自动生成韩币）</th>
+                    <th>可销售库存</th>
+                    <th>官网URL地址</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="ary_supplier" id="supplier">
+                    <!-- 会员id -->
+                    <tr id="list_{$supplier.m_id}">
+                        <td><input type="checkbox" class="checkSon" name="m_id[]" value="{$supplier.m_id}" /></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </volist>
+                <!--   <empty name="ary_supplier">
+                      <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+                  </empty> -->
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="99"><input type="button" data-uri='{:U("Admin/Members/doBatDelMembers")}' data-field="m_id" value="删除选中" class="btnA confirm" id="delAll" /><span class="right page">{$page}</span></td>
+                </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+<include file="advance-search" />
+<script type="text/javascript">
+function check(m_id,s_status){
+        var url ="{:U('Admin/Members/doSupplierCheck')}";
+        $.post(url,{'m_id':m_id,'s_status':s_status},function(data){
+            if(data){ 
+                // alert(data);
+                window.location.reload();
+            }
+        });
+}
+</script>

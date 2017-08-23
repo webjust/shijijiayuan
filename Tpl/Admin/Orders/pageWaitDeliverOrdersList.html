@@ -1,0 +1,155 @@
+<script type="text/javascript" src="__PUBLIC__/Admin/js/order.js"></script>
+<div class="rightInner">
+    <table width="100%" class="tbList">
+        <thead>
+            <tr class="title">
+                <th>待发货订单列表</th>
+                <th colspan="99" style="text-align:right;font-size: 12px;">
+                    <form id="searchForm" method="get" action="{:U('Admin/Orders/pageWaitDeliverOrdersList')}">
+                        订单号：<input type="text" name="o_id" class="large" value="{$filter.o_id}" style="width: 145px;">
+						下单时间从：<input type="text" name="o_create_time_1" class="large timer" value="{$filter.o_create_time_1}" style="width: 145px;">
+						 到 <input type="text" name="o_create_time_2" class="large timer" value="{$filter.o_create_time_2}" style="width: 145px;">		
+                                <input type="submit" value="搜 索" class="btnHeader inpButton">
+                    </form>
+                </th>
+        </tr>
+        <tr>
+            <th>订单号</th>
+            <th>数量</th>
+            <th>订单状态</th>
+			<th>订单金额</th>
+			<th>支付方式</th>
+            <th width="100">收货人</th>
+            <th>会员名</th>
+            <th>支付时间</th>
+            <th>客服</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="data" id="order">
+            <tr id="o_id_{$order.o_id}">
+                <td id="oid_{$order.o_id}">
+					<a href="{:U('Admin/Orders/pageDetails')}?o_id={$order.o_id}">{$order.o_id}</a>
+				</td>
+                <td>{$order.oi_nums}</td>
+                <td>
+                    <if condition="$order.str_status eq '作废'">
+                        <span>{$order.str_status}</span>
+                    <else />        	
+                        <if condition="$order.o_pay_status eq '1'">
+                            <span style="margin-left:10px;">已支付</span>
+                        <else />
+                            <span style="margin-left:10px;">未支付</span>
+                        </if>
+                        
+                        <if condition="$order.deliver_status eq '已发货'">
+                            <span style="margin-left:10px;">已发货</span>
+                        <else />
+                                <a class="blue send_ship" id="send_ship_{$order.o_id}" pay_status="{$order.str_pay_status}" href="javascript:void(0);" oi_type="{$order.oi_type}" o_id="{$order.o_id}" oi_refund_status="{$order.oi_refund_status}" data-uri='{:U("Admin/Orders/setSendShip")}' data-acttype="ajax">发货</a>
+
+                                <div id="children_{$order.o_id}"  style="display:none" title="发货设置"></div>
+                        </if>
+                    </if>
+				</td>
+				<td>{$order.o_all_price}</td>
+                <td>{$order.pc_name}</td>
+                <td>{$order.o_receiver_name}</td>
+                <td>{$order.m_name}</td>
+                <td>{$order.order_pay_time|default="0000-00-00:00:00:00"}</td>
+                <td>{$order.admin_name}</td>
+                <td><span href="javascript:void(0);" title="<php>echo ltrim($order['o_seller_comments'],'/')</php>" style="width:80px;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;"><php>echo ltrim($order['o_seller_comments'],'/')</php></span></td>
+            </tr>
+        </volist>
+        <empty name="data">
+            <tr><td colspan="99" class="left">暂时没有数据!</td></tr>
+        </empty>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="99"><span class="right page">{$page}</span></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="clear"></div>
+    <div id="pro_dialog" style="display:none;">
+        <div id="ajax_loading">
+            <div id="ajaxsenddiv_loading"><img src="__PUBLIC__/images/loading.gif" title="正在加载中..." style="margin-top:30px;"/></div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+$(".send_ship").click(function(){
+    var _this = $(this);
+    var oi_type = _this.attr('oi_type');
+    var oi_pay_status = _this.attr('pay_status');
+    var o_id = _this.attr('o_id');
+    var url = _this.attr('data-uri');
+	var oi_refund_status = _this.attr("oi_refund_status");
+    if(oi_type == 8){
+        if(oi_pay_status == '部分支付'){
+            showAlert(false,'预售商品还没有支付尾款！不能发货！');return false;
+        }
+    }
+	if(3 == oi_refund_status || 2 == oi_refund_status){
+		if(!confirm("订单编号为"+o_id+"已申请售后，您确定要发货吗？")){
+			return false;
+		}
+	}
+    if(oi_refund_status == 4 || oi_refund_status == 5){
+        if(!confirm("订单编号为"+o_id+"退款/退货成功，您确定要发货吗？")){
+            return false;
+        }
+    }
+	$.post(url,{'o_id':o_id},function(html){
+		$('#children_'+o_id).html($(html));
+		$("#children_"+o_id).dialog({
+			height:265,
+			width:540,
+			resizable:false,
+			autoOpen: false,
+			modal: true,
+			buttons: { 
+				'确定':function(){         
+					UpdateSendShipStatus(o_id,$(this));
+				},
+				'取消': function() {
+					$( this ).dialog( "close" );
+					$('#children_'+"{$datas.g_id}").hide();
+				}
+			}
+		});
+		$('#children_'+o_id).dialog('open');
+	},'html');
+});  
+    
+    
+//更新发货状态
+function UpdateSendShipStatus(o_id,obj){
+    var url = "{:U('Admin/Orders/UpdateOrderStatus')}";
+    var memo =$('#memo').val();
+    var logistics_name =$('#logistics_name').val();
+    var logistics_no =$('#logistics_no').val();
+    $.post(url, 
+    {
+        'o_id':o_id,
+        'memo':memo,
+        'logistics_name':logistics_name,
+        'logistics_no':logistics_no
+    }, 
+    function(data){
+        if(data.status == '1'){
+            obj.dialog( "close" );
+            $('#o_id_'+o_id).remove();
+            showAlert(true,'成功！','',{'成功':'/Admin/Orders/pageWaitDeliverOrdersList'});
+            return false;
+        }else{
+            showAlert(false,'出错了',data.info);
+            return false;
+        }
+
+    }, 'json');
+}    
+</script>

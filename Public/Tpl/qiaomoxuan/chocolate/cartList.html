@@ -1,0 +1,1121 @@
+{__NOLAYOUT__}
+<gyfx:common name='commonInfo'  ></gyfx:common>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$page_title}</title>
+    <link href="__CSS__style.css" type="text/css" rel="stylesheet">
+    <script src="__JS__jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script src="__JS__comm.js" type="text/javascript"></script>
+    <script src="__JS__newCart.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/Ucenter/js/cart.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/Ucenter/js/common.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery-1.8.3.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery.blockUI.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery-ui-1.9.2.custom.js"></script>
+    <script src="/Public/Lib/validate/jquery.validate.1.9.js"></script>
+    <script src="/Public/Lib/validate/jquery.metadata.js"></script>
+    <script type="text/javascript">var __ROOT = '/';</script>
+    <script src="/Public/Lib/validate/messages_cn.js"></script>
+    <link href="/Public/Ucenter/css/Cart.css"  rel="stylesheet" />
+    <link href="/Public/Lib/jquery/css/base/jquery-ui.css" rel="stylesheet">
+    <link href="/Public/Lib/thinkbox/css/style.css" rel="stylesheet">
+    <script src="/Public/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery-ui-timepicker-addon.js"></script>
+    <script src="/Public/Lib/jquery/js/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="/Public/Common/js/global.js"></script>
+    <script src="__PUBLIC__/Lib/jquery/js/jquery-webox.js"></script>
+    <link href="__PUBLIC__/Lib/webox/image/jquery-webox.css" rel="stylesheet">
+
+</head>
+<body>
+<!--toolbar -->
+<div class="toolbar">
+    <div class="main w1192">
+        <div class="fl tool-left">
+            <div class="tool-node"><a class="node-href" href="{:U('Home/Index/index')}"><i class="icon icon-size-24 icon-back"></i><span>返回欧品家首页</span></a>
+            </div>
+            <empty name="Think.session.Members.m_name">
+            <div class="tool-node has-node">
+                <a class="node-href" href="###"><i class="icon icon-size-18-24 icon-mobile"></i><span>手机品家</span><i
+                        class="icon icon-size-12 icon-arrow"></i></a>
+
+                <div class="node-con">
+                    <div class="cod">
+                        <p><img src="__IMAGES__mobile-code.gif" width="120" height="120" alt="家居二维码"/></p>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="tool-node has-node">
+                <a class="node-href" href="###"><span>网站导航</span><i class="icon icon-size-12 icon-arrow"></i></a>
+
+                <div class="node-con" style="left: -204px;">
+                    <div class="site-nav">
+                        <dl class="site-list">
+                            <dt>
+                                特色购物
+                            </dt>
+                            <dd>
+                                <p><a href="http://10035.suning.com/" target="_blank">苏宁互联</a></p>
+
+                                <p><a href="http://store.suning.com/v.htm" target="_blank">苏宁V购</a></p>
+
+                                <p>
+                                    <a href="http://member.suning.com/emall/GiftCardStaticPageView?storeId=10052&amp;catalogId=10051"
+                                       target="_blank">礼品卡</a></p>
+
+                                <p><a href="http://g.suning.com/" target="_blank">海外购</a></p>
+
+                                <p><a href="http://b.suning.com/" target="_blank">企业频道</a></p>
+
+                                <p><a href="http://ju.suning.com/" target="_blank">大聚惠</a></p>
+
+                                <p><a href="http://try.suning.com/" target="_blank">0元试用</a></p>
+
+                                <p><a href="http://tv.suning.com/" target="_blank">视频购物</a></p>
+
+                                <p><a href="http://sale.suning.com/images/advertise/zyn/TV0811sndjt/index.html"
+                                      target="_blank">TV购</a></p>
+
+                                <p><a href="http://sale.suning.com/images/advertise/mdr/oabangong526/index.html"
+                                      target="_blank">办公直通车</a></p>
+
+                                <p><a href="http://pai.suning.com/shanpai/" target="_blank">闪拍</a></p>
+
+                                <p><a href="http://yushou.suning.com" target="_blank">预售</a></p>
+
+                                <p><a href="http://new.suning.com" target="_blank">新发现</a></p>
+
+                                <p><a href="http://2.suning.com" target="_blank">摸金党<i class="hot"></i></a></p>
+                            </dd>
+                        </dl>
+                        <dl class="site-list">
+                            <dt>
+                                主题频道
+                            </dt>
+                            <dd>
+                                <p><a href="http://channel.suning.com/dianqicheng.html" target="_blank">电器城<i
+                                        class="hot"></i></a></p>
+
+                                <p><a href="http://chaoshi.suning.com/" target="_blank">苏宁超市</a></p>
+
+                                <p><a href="http://shouji.suning.com/" target="_blank">手机</a></p>
+
+                                <p><a href="http://sports.suning.com/" target="_blank">运动馆</a></p>
+
+                                <p><a href="http://book.suning.com/" target="_blank">图书</a></p>
+
+                                <p><a href="http://shop70082947.suning.com/" target="_blank">苏宁置业</a></p>
+
+                                <p><a href="http://redbaby.suning.com/" target="_blank">红孩子母婴</a></p>
+
+                                <p><a href="http://binggo.suning.com/" target="_blank">缤购美妆</a></p>
+
+                                <p><a href="http://pindao.suning.com/city/diannao.htm" target="_blank">电脑</a></p>
+
+                                <p><a href="http://fashion.suning.com/lirenfang.html" target="_blank">服装城</a></p>
+
+                                <p><a href="http://pinpai.suning.com/" target="_blank">品牌街</a></p>
+                            </dd>
+                        </dl>
+                        <dl class="site-list">
+                            <dt>
+                                生活助手
+                            </dt>
+                            <dd>
+                                <p>
+                                    <a href="https://passport.suning.com/ids/trustLogin?sysCode=epp&amp;targetUrl=https://licai.suning.com/bof/bofIndex.htm"
+                                       target="_blank">零钱宝<i class="hot"></i></a></p>
+
+                                <p><a href="http://chong.suning.com/eppscrp/mobile/fill.htm"
+                                      target="_blank">手机充值</a></p>
+
+                                <p><a href="http://huochepiao.suning.com/" target="_blank">火车票</a></p>
+
+                                <p><a href="http://sh.suning.com/life/at/memtrans!input.action"
+                                      target="_blank">转账还款</a></p>
+
+                                <p><a href="http://sale.suning.com/images/advertise/007/event/index.html"
+                                      target="_blank">苏宁帮客</a></p>
+
+                                <p><a href="http://sh.suning.com/life/2-1.html" target="_blank">水电煤</a></p>
+
+                                <p><a href="http://baoxian.suning.com/ins/index.htm" target="_blank">保险</a></p>
+
+                                <p><a href="http://caipiao.suning.com/" target="_blank">彩票</a></p>
+
+                                <p><a href="http://jipiao.suning.com/" target="_blank">机票</a></p>
+
+                                <p>
+                                    <a href="https://passport.suning.com/ids/trustLogin?sysCode=manzuo&amp;targetUrl=http%3a%2f%2fhotel.manzuo.com%2f%3fcampaign%3d%3fcampaign%3dsuning_shouye_daohang"
+                                       target="_blank">酒店团购</a></p>
+
+                                <p><a href="http://store.suning.com/" target="_blank">门店查询</a></p>
+                            </dd>
+                        </dl>
+                        <dl class="site-list">
+                            <dt>
+                                会员服务
+                            </dt>
+                            <dd>
+                                <p><a href="http://vip.suning.com" target="_blank">会员联盟<i class="hot"></i></a></p>
+
+                                <p><a href="http://club.suning.com/" target="_blank">苏宁社区</a></p>
+
+                                <p>
+                                    <a href="http://member.suning.com/emall/YBBagIndexView?storeId=10052&amp;catalogId=10051"
+                                       target="_blank">延长保修</a></p>
+
+                                <p><a href="http://snbook.suning.com/web/index.htm" target="_blank">电子书</a></p>
+
+                                <p>
+                                    <a href="https://pay.suning.com/epp-portal/useraccount/user-account!initUserAccount.action"
+                                       target="_blank">易付宝</a></p>
+
+                                <p>
+                                    <a href="https://passport.suning.com/ids/trustLogin?sysCode=epp&amp;targetUrl=https://licai.suning.com/bof/licaiIndex.htm"
+                                       target="_blank">苏宁理财</a></p>
+                            </dd>
+                        </dl>
+                        <dl class="site-list rnb">
+                            <dt>
+                                更多热点
+                            </dt>
+                            <dd>
+                                <p><a href="http://www.manzuo.com/" target="_blank">满座网</a></p>
+
+                                <p><a href="http://www.pptv.com/" target="_blank">PPTV</a></p>
+
+                                <p><a href="http://sale.suning.com/images/advertise/hg/20120419xsjkhd/index.html"
+                                      target="_blank">客户端</a></p>
+
+                                <p><a href="http://sop.suning.com/" target="_blank">商家入驻</a></p>
+
+                                <p><a href="http://pan.suning.com" target="_blank">苏宁云</a></p>
+
+                                <p><a href="http://sncs.suning.com/" target="_blank">苏宁众包</a></p>
+
+                                <p><a href="http://union.suning.com/" target="_blank">苏宁联盟</a></p>
+
+                                <p><a href="http://ued.suning.com/survey/" target="_blank">用户体验</a></p>
+
+                                <p><a href="http://app.suning.com/android" target="_blank">应用商店</a></p>
+
+                                <p><a href="http://gongyi.suning.com" target="_blank">公益频道</a></p>
+
+                                <p><a href="http://sale.suning.com/images/advertise/zyn/suxiaoxiao/index.html"
+                                      target="_blank">校园代理</a></p>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>-->
+            </empty>
+            <notempty name="Think.session.Members.m_name">
+            <div class="tool-node">
+                <span>Hi，{$Think.session.Members.m_name}</span>
+                <a href="{:U('Home/User/doLogout')}">退出</a>
+            </div>
+            </notempty>
+        </div>
+        <div class="fr tool-right">
+            <div class="tool-node has-node">
+                <a class="node-href" href="{:U('/Ucenter/Orders/pageList')}"><span>我的订单</span><i class="icon icon-size-12 icon-arrow"></i></a>
+
+                <div class="node-con w-all">
+                    <div class="list service-list">
+                        <a href="{:U('Ucenter/Orders/pageList','status=3')}" target="_blank">待支付</a>
+                        <a href="{:U('Ucenter/Orders/pageList','status=2')}" target="_blank">待收货</a>
+                        <a href="{:U('Ucenter/Orders/pageList','status=5')}" target="_blank">待评价</a>
+                        <a href="###" target="_blank">修改订单</a>
+                    </div>
+                </div>
+            </div>
+            <div class="tool-node has-node">
+                <a class="node-href" href="{:U('/Ucenter/Index/index')}"><span>我的小屋</span><i class="icon icon-size-12 icon-arrow"></i></a>
+
+                <div class="node-con w-all">
+                    <div class="list service-list">
+                        <a href="###" target="_blank">我的消息</a>
+                        <a href="{:U('Ucenter/Financial/pageDepositList')}" target="_blank">我的零钱宝</a>
+                        <a href="{:U('Ucenter/Collect/pageList')}" target="_blank">我的收藏</a>
+                        <a href="{:U('Ucenter/MyCoupon/pageList')}" target="_blank">我的优惠券</a>
+                        <a href="###" target="_blank">我的云钻</a>
+                        <a href="###" target="_blank">会员联盟</a>
+                    </div>
+                </div>
+            </div>
+            <div class="tool-node has-node">
+                <a class="node-href" href="###"><span>服务中心</span><i class="icon icon-size-12 icon-arrow"></i></a>
+
+                <div class="node-con w-all">
+                    <div class="list service-list">
+                        <a href="{:U('Home/Article/articleList')}" target="_blank">帮助中心</a>
+                        <a href="###" target="_blank">查找门店</a>
+                        <a href="{:U('Ucenter/Orders/pageList','status=4')}" target="_blank">退换货</a>
+                        <a href="{:U('Ucenter/My/pageAdvice')}" target="_blank">投诉/建议反馈</a>
+                        <a href="###" target="_blank">在线客服</a>
+                    </div>
+                </div>
+            </div>
+            <empty name="Think.session.Members.m_name">
+                <div class="tool-node"><a class="node-href" href="{:U('Home/User/login')}"><span>登录</span></a></div>
+                <div class="tool-node"><a class="node-href" href="{:U('Home/User/pageRegister')}"><span>注册</span></a></div>
+            </empty>
+        </div>
+    </div>
+</div>
+
+<!-- header -->
+<div class="header">
+    <div class="hd-top w1192">
+        <div class="ef-title">
+            <h1 class="logo">
+                <a href="{:U('Home/Index/index')}" class="no-trans"><img src="{$Think.config.DOMAIN_HOST}{$commonInfo['GY_SHOP_LOGO']|default='__IMAGES__logo.png'}" width="177" height="50" alt="欧品家"/></a>
+                <span class="CHANNEL_LOGO">
+                    <img src="__IMAGES__go.png" width="116" height="29" alt=""/>
+                </span>
+            </h1>
+        </div>
+        <div class="ef-search cart-search" style="float: right">
+            <div class="srch-main">
+                <p class="fl">
+                    <i class="icon icon-size-24 icon-search"></i>
+                    <if condition="isset($itemInfo['keyword']) AND $itemInfo.keyword neq ''">
+                        <input type="text" class="srch-txt" id="head_serach_keyword" value="{$itemInfo.keyword}" onblur="if (value=='') {value='搜一搜，更精彩！！！'}" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+                        <else/>
+                        <input type="text" class="srch-txt" id="head_serach_keyword" onblur="if (value=='') {value='搜一搜，更精彩！！！'}" value="搜一搜，更精彩！！！" onfocus="if(value=='搜一搜，更精彩！！！') {value=''}" name="keyword" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+                    </if>
+                </p>
+                <input class="srch-btn" id="search_submit_button" type="submit" value="搜索" style="cursor: pointer;"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 购物车列表 -->
+<div class="shopCart w1192">
+    <table class="cart-list" style="font-size: 12px;">
+        <div style="padding: 3px 0;">
+        <empty name="Think.session.Members.m_name">
+            现在<a href="{:U('Home/User/login')}" style="color: #ff4400">登录</a>，
+            您的商品将永久保存在“购物车”中
+        </empty>
+            </div>
+        <div class="Settlement">
+            <a href="{:U('/Home/Products/Index')}">< &nbsp;返回继续购物</a>
+        </div>
+        <form action="#" method="post" id="cartForm" name="cartForm">
+        <thead>
+        <tr>
+           <!-- <td class="check-cols" width="100">
+                <label class="checkbox"><input type="checkbox" name="select_all" id="select_all1">全选</label>
+            </td>-->
+            <td width="340">商品信息</td>
+            <td>会员采购价</td>
+            <td>数量</td>
+            <td>金额</td>
+            <td width="80" class="textLeft">操作</td>
+        </tr>
+        </thead>
+
+        <!-- 跨境购商品 -->
+        <tbody>
+        <if condition="$ary_rate_goods neq '' ">
+        <tr>
+            <td class="check-cols" colspan="6">
+                <label class="checkbox"><input type="checkbox" id="foreign"><strong class="proN">跨境购商品</strong></label>
+            </td>
+        </tr>
+        </if>
+        <if condition="$ary_rate_goods neq '' ">
+            <volist name="ary_rate_goods" id="rate_goods">
+        <tr class="cartPdt{$rate_goods.pdt_id}">
+            <td colspan="2">
+                <div class="pro">
+                    <if condition="($rate_goods[0]['type'] eq '4') or ($rate_goods[0]['type'] eq '6')">
+                        <input type="checkbox" value="{$rate_goods[0]['pdtId']}"  name="pid[]" data-tax="is_tax">
+                        <input type="hidden" value="{$rate_goods[0]['type']}" name="type[]">
+                        <else/>
+                        <input type="checkbox" value="{$rate_goods.pdt_id}" name="pid[]" data-tax="is_tax">
+                        <input type="hidden" value="{$rate_goods.type}" name="type[]">
+                    </if>
+                    <dl>
+                        <dt>
+                        <if condition="($rate_goods['type'] eq '0') or ($rate_goods['type'] eq '1')">
+                            <a href='{:U("Home/Products/detail","gid=$rate_goods[g_id]")}'>
+                                <img src='{$Think.config.DOMAIN_HOST}{$rate_goods.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="60" height="60">
+                                <input type="hidden" id="pdt_price{$cart_data[$rate_goods[pdt_id]].pdt_id}" value="{$cart_data[$rate_goods[pdt_id]].pdt_sale_price}" />
+                            </a>
+                            <else/>
+                            <volist name="rate_goods"  id="subvo">
+                                <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}'>
+                                    <img src='{$Think.config.DOMAIN_HOST}{$subvo.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+                                    <input type="hidden" id="pdt_price{$subvo.pdt_id}" value="{$subvo.pdt_sale_price}" />
+                                </a>
+                            </volist>
+                        </if>
+                        </dt>
+                        <dd>
+                            <div class="ellipsis">
+                                <if condition="($rate_goods['type'] eq '0') or ($rate_goods['type'] eq '1')">
+                                    <a href="{:U("Home/Products/detail","gid=$rate_goods[g_id]")}">{$cart_data[$rate_goods[pdt_id]].g_name}</a>
+                                    <eq name="cart_data[$rate_goods[pdt_id]].g_pre_sale_status" value="1">[预售商品]</eq>
+                                    <div>{$Think.lang.PRODUCT_SN}：{$cart_data[$rate_goods[pdt_id]].pdt_sn}</div>
+                                    <notempty name="cart_data[$pro[pdt_id]][pdt_spec]">
+                                        <div>{$Think.lang.GOODS_SPEC}：{$cart_data[$rate_goods[pdt_id]].pdt_spec}</div>
+                                    </notempty>
+                                    <if condition="$cart_data[$rate_goods[pdt_id]][authorize] neq 1">
+                                        <div style="color:red;">商品已不允许购买</div>
+                                    </if>
+                                    <else />
+                                    <!--自由推荐商品-->
+                                    <volist name="rate_goods"  id="subvo">
+                                        <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}'>{$subvo.g_name}</a>
+                                        <div>{$Think.lang.PRODUCT_SN}：{$cart_data[$rate_goods[pdt_id]].pdt_sn}</div>
+                                        <notempty name="cart_data[$rate_goods[pdt_id]][pdt_spec]">
+                                            <div>{$Think.lang.GOODS_SPEC}：{$cart_data[$rate_goods[pdt_id]].pdt_spec}</div>
+                                        </notempty>
+                                        <if condition="$cart_data[$rate_goods[pdt_id]][authorize] neq 1">
+                                            <div style="color:red;">商品已不允许购买</div>
+                                        </if>
+                                    </volist>
+                                </if>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+            </td>
+            <td  value="{$cart_data[$rate_goods[pdt_id]].f_price}">
+                <if condition="$rate_goods['type'] eq '0'">
+                    <if condition="$cart_data[$rate_goods[pdt_id]].f_price EQ $cart_data[$rate_goods[pdt_id]].pdt_sale_price ">
+                        <div>
+                            &yen; {$cart_data[$rate_goods[pdt_id]].pdt_sale_price|sprintf="%.2f",###}<br>
+                            <else />
+                            <del>&yen; {$cart_data[$rate_goods[pdt_id]].pdt_sale_price|sprintf="%.2f",###}</del>
+                        </div>
+                        <div class="new-price">&yen; <span class="jsPrice">{$cart_data[$rate_goods[pdt_id]].f_price|sprintf="%.2f",###}</span></div>
+                    </if>
+                    <php>if(!empty($prom['pmn_name'])){</php>
+                    <span class="limit-tag lt-r" title="<php>echo $prom['pmn_name'];</php> <php>echo $rate_goods['rule_info']['name'];</php>"><php>echo $prom['pmn_name'];</php></span>
+                    <php>if($rate_goods['rule_info']['name']){</php>
+                    <span class="limit-tag lt-r" title="<php>echo $rate_goods['rule_info']['name'];</php>"><php>echo $rate_goods['rule_info']['name'];</php></span>
+                    <php>}</php>
+                    <php>}else{</php>
+                    <php>if(!empty($rate_goods['rule_info']['pmn_id'])){</php>
+                    <span class="limit-tag lt-r" title="<php>echo $rate_goods['rule_info']['name'];</php>"><php>echo $rate_goods['rule_info']['name'];</php></span>
+                    <php>}else{</php>
+                    <span>无优惠</span>
+                    <php>}</php>
+                    <php>}</php>
+                    <else />
+                    <volist name="rate_goods"  id="subvo">
+                        <if condition="$subvo.f_price EQ $subvo.pdt_sale_price ">
+                            <div>
+                                &yen; {$subvo.pdt_sale_price|sprintf='%.2f',###}<br>
+                                <else />
+                                <del>&yen; {$subvo.pdt_sale_price|sprintf='%.2f',###}</del>
+                            </div>
+                            <div class="new-price">&yen; <span class="jsPrice">{$subvo.f_price}</span></div>
+                        </if>
+                        <php>if(!empty($prom['pmn_name'])){</php>
+                        <span class="limit-tag lt-r" title="<php>echo $prom['pmn_name'];</php> <php>echo $rate_goods['rule_info']['name'];</php>"><php>echo $prom['pmn_name'];</php></span>
+                        <php>if($pro['rule_info']['name']){</php>
+                        <span class="limit-tag lt-r" title="<php>echo $rate_goods['rule_info']['name'];</php>"><php>echo $rate_goods['rule_info']['name'];</php></span>
+                        <php>}</php>
+                        <php>}else{</php>
+                        <php>if(!empty($rate_goods['rule_info']['pmn_id'])){</php>
+                        <span class="limit-tag lt-r" title="<php>echo $rate_goods['rule_info']['name'];</php>"><php>echo $rate_goods['rule_info']['name'];</php></span>
+                        <php>}else{</php>
+                        <span>无优惠</span>
+                        <php>}</php>
+                        <php>}</php>
+                    </volist>
+                </if>
+            </td>
+            <td>
+                <if condition="($rate_goods.type eq '0') or ($rate_goods.type eq '1')">
+                    <p class="addReduce">
+                        <a href="javascript:void(0);" class="reduce addNums" pdt_id="{$cart_data[$rate_goods[pdt_id]].pdt_id}" stock="{$cart_data[$rate_goods[pdt_id]].pdt_stock}" min_num="{$cart_data[$rate_goods[pdt_id]].pdt_min_num}" pdt_sale_price="{$cart_data[$rate_goods[pdt_id]].pdt_sale_price}" type="1"></a>
+                        <input type="text" class='inputNum' value="{$cart_data[$rate_goods[pdt_id]].pdt_nums}" types="3" pdt_id="{$cart_data[$rate_goods[pdt_id]].pdt_id}" stock="{$cart_data[$rate_goods[pdt_id]].pdt_stock}" good_type="{$cart_data[$rate_goods[pdt_id]].type}">
+                        <input type="hidden" value="{$cart_data[$rate_goods[pdt_id]].pdt_nums}" />
+                        <a href="javascript:void(0);" class="add addNums" pdt_id="{$cart_data[$rate_goods[pdt_id]].pdt_id}" stock="{$cart_data[$rate_goods[pdt_id]].pdt_stock}" pdt_sale_price="{$cart_data[$rate_goods[pdt_id]].pdt_sale_price}" type="2"></a>
+                        <br>
+                    </p>
+                    <else />
+                    <volist name="pro"  id="subvo">
+                        <p style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+                            {$subvo.pdt_nums}
+                            <br>
+                        </p>
+                    </volist>
+                </if>
+            </td>
+            <td class="cart-price" id="xiao_price{$cart_data[$rate_goods[pdt_id]].pdt_id}" value="{$cart_data[$rate_goods[pdt_id]].f_price}">
+                <if condition="($rate_goods['type'] eq '0') or ($rate_goods['type'] eq '1')">
+                    <php>if(!empty($prom['pmn_name'])){</php>
+                    &yen; <span class="jsAmount"><php>echo ($rate_goods['pdt_nums'] * $rate_goods['pdt_price']);</php></span>
+                    <php>}else{</php>
+                    &yen; <span class="jsAmount">{$cart_data[$rate_goods[pdt_id]].pdt_momery}</span>
+                    <php>}</php>
+                    <else />
+                    <volist name="rate_goods"  id="subvo">
+                        <div tyle="height:100px;border-bottom:1px dashed;padding-top:3px;">
+                            &yen; <span class="jsAmount">{$subvo.pdt_momery}</span>
+                        </div>
+                    </volist>
+                </if>
+            </td>
+            <td>
+                <php>if($rate_goods[0]['type'] ==''){</php>
+                <p><a href="javascript:void(0);" onclick="javascript:ajaxReturn('{:U("Ucenter/Collect/doAddCollect","pid=$rate_goods[pdt_id]")}');">加入收藏夹</a></p>
+                <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>$rate_goods[pdt_id],'type'=>$rate_goods[type]))}');}" pdt_id ="{$cart_data[$rate_goods[pdt_id]].pdt_id}">删除</a></p>
+                <php>}else{</php>
+                <php>if($rate_goods[0]['type']=='6'){</php>
+                <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>'freerecommend','type'=>$rate_goods[0][type]))}');}" pdt_id ="{$rate_goods[0]['pdtId']}">删除</a></p>
+                <php>}else{</php>
+                <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>$rate_goods[0][pdtId],'type'=>$rate_goods[0][type]))}');}" pdt_id ="{$rate_goods[0]['pdtId']}">删除</a></p>
+                <php>}</php>
+                <php>}</php>
+            </td>
+        </tr>
+        <!--<tr class="cart-total">
+            <td colspan="6">
+                商品金额：<span class="cart-price">&yen;<b class="jsTotalAmount">100.00</b></span>
+                运费：<span class="cart-price">&yen;10.00</span>
+            </td>
+        </tr>-->
+                </volist>
+        </if>
+        </tbody>
+        </form>
+        <!-- 国内现货 -->
+        <form id="ordinary" action="#" method="post" name="ordinary">
+        <tbody>
+        <php>if(!empty($promotion['0']['products']) || !empty($ary_cate_goods['products'])){</php>
+        <tr>
+            <td colspan="6" class="check-cols">
+                <label class="checkbox"><input type="checkbox" id="domestic"><strong class="proN">国内现货</strong></label>
+            </td>
+        </tr>
+        <php>}</php>
+        <if condition="$promotion neq ''">
+            <volist name="promotion"  id="prom">
+                <volist name='prom.products' id='pro'>
+        <tr class="cartPdt{$pro.pdt_id}">
+            <td colspan="2">
+                <div class="pro">
+                    <if condition="($pro[0]['type'] eq '4') or ($pro[0]['type'] eq '6')">
+                         <input type="checkbox" value="{$pro[0]['pdtId']}"  name="pid[]" data-tax="no_tax">
+                        <input type="hidden" value="{$pro[0]['type']}" name="type[]">
+                    <else/>
+                        <input type="checkbox" value="{$pro.pdt_id}" name="pid[]" data-tax="no_tax">
+                        <input type="hidden" value="{$pro.type}" name="type[]">
+                    </if>
+
+                    <dl>
+                        <dt>
+                            <if condition="($pro['type'] eq '0') or ($pro['type'] eq '1')">
+                            <a href="{:U("Home/Products/detail","gid=$pro[g_id]")}">
+                            <img src='{$Think.config.DOMAIN_HOST}{$cart_data[$pro[pdt_id]].g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="60" height="60">
+                            <input type="hidden" id="pdt_price{$cart_data[$pro[pdt_id]].pdt_id}" value="{$cart_data[$pro[pdt_id]].pdt_sale_price}" />
+                            </a>
+                            <else/>
+                                <volist name="pro"  id="subvo">
+                                    <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}'>
+                                        <img src='{$Think.config.DOMAIN_HOST}{$subvo.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+                                        <input type="hidden" id="pdt_price{$subvo.pdt_id}" value="{$subvo.pdt_sale_price}" />
+                                    </a>
+                                </volist>
+                            </if>
+                        </dt>
+                        <dd>
+                            <div class="ellipsis">
+                                <if condition="($pro['type'] eq '0') or ($pro['type'] eq '1')">
+                                <a href="{:U("Home/Products/detail","gid=$pro[g_id]")}">{$cart_data[$pro[pdt_id]].g_name}</a>
+                                    <eq name="cart_data[$pro[pdt_id]].g_pre_sale_status" value="1">[预售商品]</eq>
+                                    <div>{$Think.lang.PRODUCT_SN}：{$cart_data[$pro[pdt_id]].pdt_sn}</div>
+                                    <notempty name="cart_data[$pro[pdt_id]][pdt_spec]">
+                                        <div>{$Think.lang.GOODS_SPEC}：{$cart_data[$pro[pdt_id]].pdt_spec}</div>
+                                    </notempty>
+                                    <if condition="$cart_data[$pro[pdt_id]][authorize] neq 1">
+                                        <div style="color:red;">商品已不允许购买</div>
+                                    </if>
+                                    <else />
+                                    <!--自由推荐商品-->
+                                    <volist name="pro"  id="subvo">
+                                        <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}'>{$subvo.g_name}</a>
+                                        <div>{$Think.lang.PRODUCT_SN}：{$cart_data[$pro[pdt_id]].pdt_sn}</div>
+                                        <notempty name="cart_data[$pro[pdt_id]][pdt_spec]">
+                                            <div>{$Think.lang.GOODS_SPEC}：{$cart_data[$pro[pdt_id]].pdt_spec}</div>
+                                        </notempty>
+                                        <if condition="$cart_data[$pro[pdt_id]][authorize] neq 1">
+                                            <div style="color:red;">商品已不允许购买</div>
+                                        </if>
+                                    </volist>
+                                </if>
+                            </div>
+                        </dd>
+                    </dl>
+
+                </div>
+            </td>
+            <td  value="{$cart_data[$pro[pdt_id]].f_price}">
+                <if condition="$pro['type'] eq '0'">
+                    <if condition="$cart_data[$pro[pdt_id]].f_price EQ $cart_data[$pro[pdt_id]].pdt_sale_price ">
+                        <div>
+                        &yen; {$cart_data[$pro[pdt_id]].pdt_sale_price|sprintf="%.2f",###}<br>
+                        <else />
+                        <del>&yen; {$cart_data[$pro[pdt_id]].pdt_sale_price|sprintf="%.2f",###}</del>
+                        </div>
+                        <div class="new-price">&yen; <span class="jsPrice">{$cart_data[$pro[pdt_id]].f_price|sprintf="%.2f",###}</span></div>
+                    </if>
+                        <php>if(!empty($prom['pmn_name'])){</php>
+                        <span class="limit-tag lt-r" title="<php>echo $prom['pmn_name'];</php> <php>echo $pro['rule_info']['name'];</php>"><php>echo $prom['pmn_name'];</php></span>
+                            <php>if($pro['rule_info']['name']){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                            <php>}</php>
+                        <php>}else{</php>
+                            <php>if(!empty($pro['rule_info']['pmn_id'])){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                            <php>}else{</php>
+                            <span>无优惠</span>
+                            <php>}</php>
+                        <php>}</php>
+                    <else />
+                    <volist name="pro"  id="subvo">
+                        <if condition="$subvo.f_price EQ $subvo.pdt_sale_price ">
+                            <div>
+                            &yen; {$subvo.pdt_sale_price|sprintf='%.2f',###}<br>
+                            <else />
+                            <del>&yen; {$subvo.pdt_sale_price|sprintf='%.2f',###}</del>
+                            </div>
+                            <div class="new-price">&yen; <span class="jsPrice">{$subvo.f_price}</span></div>
+                        </if>
+                            <php>if(!empty($prom['pmn_name'])){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $prom['pmn_name'];</php> <php>echo $pro['rule_info']['name'];</php>"><php>echo $prom['pmn_name'];</php></span>
+                            <php>if($pro['rule_info']['name']){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                            <php>}</php>
+                            <php>}else{</php>
+                            <php>if(!empty($pro['rule_info']['pmn_id'])){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                            <php>}else{</php>
+                            <span>无优惠</span>
+                            <php>}</php>
+                            <php>}</php>
+                    </volist>
+                </if>
+            </td>
+            <td>
+                <if condition="($pro.type eq '0') or ($pro.type eq '1')">
+                <p class="addReduce">
+                    <a href="javascript:void(0);" class="reduce addNums" pdt_id="{$cart_data[$pro[pdt_id]].pdt_id}" stock="{$cart_data[$pro[pdt_id]].pdt_stock}" min_num="{$cart_data[$pro[pdt_id]].pdt_min_num}" pdt_sale_price="{$cart_data[$pro[pdt_id]].pdt_sale_price}" type="1"></a>
+                    <input type="text" class='inputNum' value="{$cart_data[$pro[pdt_id]].pdt_nums}" types="3" pdt_id="{$cart_data[$pro[pdt_id]].pdt_id}" stock="{$cart_data[$pro[pdt_id]].pdt_stock}" good_type="{$cart_data[$pro[pdt_id]].type}">
+                    <input type="hidden" value="{$cart_data[$pro[pdt_id]].pdt_nums}" />
+                    <a href="javascript:void(0);" class="add addNums" pdt_id="{$cart_data[$pro[pdt_id]].pdt_id}" stock="{$cart_data[$pro[pdt_id]].pdt_stock}" pdt_sale_price="{$cart_data[$pro[pdt_id]].pdt_sale_price}" type="2"></a>
+                    <br>
+                </p>
+                    <else />
+                    <volist name="pro"  id="subvo">
+                        <p style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+                            {$subvo.pdt_nums}
+                            <br>
+                        </p>
+                    </volist>
+                </if>
+            </td>
+            <td class="cart-price" id="xiao_price{$cart_data[$pro[pdt_id]].pdt_id}" value="{$cart_data[$pro[pdt_id]].f_price}">
+                <if condition="($pro['type'] eq '0') or ($pro['type'] eq '1')">
+                    <php>if(!empty($prom['pmn_name'])){</php>
+                    &yen; <span class="jsAmount"><php>echo ($pro['pdt_nums'] * $pro['pdt_price']);</php></span>
+                    <php>}else{</php>
+                    &yen; <span class="jsAmount">{$cart_data[$pro[pdt_id]].pdt_momery}</span>
+                    <php>}</php>
+                    <else />
+                    <volist name="pro"  id="subvo">
+                        <div tyle="height:100px;border-bottom:1px dashed;padding-top:3px;">
+                            &yen; <span class="jsAmount">{$subvo.pdt_momery}</span>
+                        </div>
+                    </volist>
+                 </if>
+            </td>
+            <td>
+                <php>if($pro[0]['type'] ==''){</php>
+                <p><a href="javascript:void(0);" onclick="javascript:ajaxReturn('{:U("Ucenter/Collect/doAddCollect","pid=$pro[pdt_id]")}');">加入收藏夹</a></p>
+                <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>$pro[pdt_id],'type'=>$pro[type]))}');}" pdt_id ="{$cart_data[$pro[pdt_id]].pdt_id}">删除</a></p>
+                <php>}else{</php>
+                    <php>if($pro[0]['type']=='6'){</php>
+                    <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>'freerecommend','type'=>$pro[0][type]))}');}" pdt_id ="{$pro[0]['pdtId']}">删除</a></p>
+                    <php>}else{</php>
+                    <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>$pro[0][pdtId],'type'=>$pro[0][type]))}');}" pdt_id ="{$pro[0]['pdtId']}">删除</a></p>
+                    <php>}</php>
+                <php>}</php>
+            </td>
+        </tr>
+        <!--<tr class="cart-total">
+            <td colspan="6">
+                商品金额：<span class="cart-price">&yen; <b class="jsTotalAmount">100.00</b></span>
+                运费：<span class="cart-price">&yen;10.00</span>
+            </td>
+        </tr>-->
+                    </volist>
+                </volist>
+        </if>
+        <if condition="$ary_cate_goods neq ''">
+            <volist name='ary_cate_goods' id='products'>
+            <volist name="products" id="pro">
+               <!-- <php>dump($pro)</php>
+                <php>dump($cart_data)</php>-->
+                <tr class="cartPdt{$pro.pdt_id}">
+                    <td colspan="2">
+                        <div class="pro">
+                            <if condition="($pro[0]['type'] eq '4') or ($pro[0]['type'] eq '6')">
+                                <input type="checkbox" value="{$pro[0]['pdtId']}"  name="pid[]" data-tax="no_tax">
+                                <input type="hidden" value="{$pro[0]['type']}" name="type[]">
+                                <else/>
+                                <input type="checkbox" value="{$pro.pdt_id}" name="pid[]" data-tax="no_tax">
+                                <input type="hidden" value="{$pro.type}" name="type[]">
+                            </if>
+
+                            <dl>
+                                <dt>
+                                    <if condition="($pro['type'] eq '0') or ($pro['type'] eq '1')">
+                                        <a href='{:U("Home/Products/detail","gid=$pro[g_id]")}'>
+                                            <img src='{$Think.config.DOMAIN_HOST}{$pro.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="60" height="60">
+                                            <input type="hidden" id="pdt_price{$cart_data[$pro[pdt_id]].pdt_id}" value="{$cart_data[$pro[pdt_id]].pdt_sale_price}" />
+                                        </a>
+                                        <else/>
+                                        <volist name="pro"  id="subvo">
+                                            <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}'>
+                                                <img src='{$Think.config.DOMAIN_HOST}{$subvo.g_picture|default="__PUBLIC__/Ucenter/images/pdtDefault.jpg"}' width="68" height="68" />
+                                                <input type="hidden" id="pdt_price{$subvo.pdt_id}" value="{$subvo.pdt_sale_price}" />
+                                            </a>
+                                        </volist>
+                                    </if>
+                                </dt>
+                                <dd>
+                                    <div class="ellipsis">
+                                        <if condition="($pro['type'] eq '0') or ($pro['type'] eq '1')">
+                                            <a href="{:U("Home/Products/detail","gid=$pro[g_id]")}">{$cart_data[$pro[pdt_id]].g_name}</a>
+                                            <eq name="cart_data[$pro[pdt_id]].g_pre_sale_status" value="1">[预售商品]</eq>
+                                            <div>{$Think.lang.PRODUCT_SN}：{$cart_data[$pro[pdt_id]].pdt_sn}</div>
+                                            <notempty name="cart_data[$pro[pdt_id]][pdt_spec]">
+                                                <div>{$Think.lang.GOODS_SPEC}：{$cart_data[$pro[pdt_id]].pdt_spec}</div>
+                                            </notempty>
+                                            <if condition="$cart_data[$pro[pdt_id]][authorize] neq 1">
+                                                <div style="color:red;">商品已不允许购买</div>
+                                            </if>
+                                            <else />
+                                            <!--自由推荐商品-->
+                                            <volist name="pro"  id="subvo">
+                                                <a href='{:U("Home/Products/detail","gid=$subvo[g_id]")}'>{$subvo.g_name}</a>
+                                                <div>{$Think.lang.PRODUCT_SN}：{$cart_data[$pro[pdt_id]].pdt_sn}</div>
+                                                <notempty name="cart_data[$pro[pdt_id]][pdt_spec]">
+                                                    <div>{$Think.lang.GOODS_SPEC}：{$cart_data[$pro[pdt_id]].pdt_spec}</div>
+                                                </notempty>
+                                                <if condition="$cart_data[$pro[pdt_id]][authorize] neq 1">
+                                                    <div style="color:red;">商品已不允许购买</div>
+                                                </if>
+                                            </volist>
+                                        </if>
+                                    </div>
+                                </dd>
+                            </dl>
+
+                        </div>
+                    </td>
+                    <td  value="{$cart_data[$pro[pdt_id]].f_price}">
+                        <if condition="$pro['type'] eq '0'">
+                            <if condition="$cart_data[$pro[pdt_id]].f_price EQ $cart_data[$pro[pdt_id]].pdt_sale_price ">
+                                <div>
+                                    &yen; {$cart_data[$pro[pdt_id]].pdt_sale_price|sprintf="%.2f",###}<br>
+                                    <else />
+                                    <del>&yen; {$cart_data[$pro[pdt_id]].pdt_sale_price|sprintf="%.2f",###}</del>
+                                </div>
+
+                                <div class="new-price">&yen; <span class="jsPrice">{$cart_data[$pro[pdt_id]].f_price|sprintf="%.2f",###}</span></div>
+                            </if>
+                            <php>if(!empty($prom['pmn_name'])){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $prom['pmn_name'];</php> <php>echo $pro['rule_info']['name'];</php>"><php>echo $prom['pmn_name'];</php></span>
+                            <php>if($pro['rule_info']['name']){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                            <php>}</php>
+                            <php>}else{</php>
+                            <php>if(!empty($pro['rule_info']['pmn_id'])){</php>
+                            <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                            <php>}else{</php>
+                            <span>无优惠</span>
+                            <php>}</php>
+                            <php>}</php>
+                            <else />
+                            <volist name="pro"  id="subvo">
+                                <if condition="$subvo.f_price EQ $subvo.pdt_sale_price ">
+                                    <div>
+                                        &yen; {$subvo.pdt_sale_price|sprintf='%.2f',###}<br>
+                                        <else />
+                                        <del>&yen; {$subvo.pdt_sale_price|sprintf='%.2f',###}</del>
+                                    </div>
+                                    <div class="new-price">&yen; <span class="jsPrice">{$subvo.f_price}</span></div>
+                                </if>
+                                <php>if(!empty($prom['pmn_name'])){</php>
+                                <span class="limit-tag lt-r" title="<php>echo $prom['pmn_name'];</php> <php>echo $pro['rule_info']['name'];</php>"><php>echo $prom['pmn_name'];</php></span>
+                                <php>if($pro['rule_info']['name']){</php>
+                                <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                                <php>}</php>
+                                <php>}else{</php>
+                                <php>if(!empty($pro['rule_info']['pmn_id'])){</php>
+                                <span class="limit-tag lt-r" title="<php>echo $pro['rule_info']['name'];</php>"><php>echo $pro['rule_info']['name'];</php></span>
+                                <php>}else{</php>
+                                <span>无优惠</span>
+                                <php>}</php>
+                                <php>}</php>
+                            </volist>
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="($pro.type eq '0') or ($pro.type eq '1')">
+                            <p class="addReduce">
+                                <a href="javascript:void(0);" class="reduce addNums" pdt_id="{$cart_data[$pro[pdt_id]].pdt_id}" stock="{$cart_data[$pro[pdt_id]].pdt_stock}" min_num="{$cart_data[$pro[pdt_id]].pdt_min_num}" pdt_sale_price="{$cart_data[$pro[pdt_id]].pdt_sale_price}" type="1"></a>
+                                <input type="text" class='inputNum' value="{$cart_data[$pro[pdt_id]].pdt_nums}" types="3" pdt_id="{$cart_data[$pro[pdt_id]].pdt_id}" stock="{$cart_data[$pro[pdt_id]].pdt_stock}" good_type="{$cart_data[$pro[pdt_id]].type}">
+                                <input type="hidden" value="{$cart_data[$pro[pdt_id]].pdt_nums}" />
+                                <a href="javascript:void(0);" class="add addNums" pdt_id="{$cart_data[$pro[pdt_id]].pdt_id}" stock="{$cart_data[$pro[pdt_id]].pdt_stock}" pdt_sale_price="{$cart_data[$pro[pdt_id]].pdt_sale_price}" type="2"></a>
+                                <br>
+                            </p>
+                            <else />
+                            <volist name="pro"  id="subvo">
+                                <p style="height:100px;border-bottom:1px dashed;padding-top:3px;">
+                                    {$subvo.pdt_nums}
+                                    <br>
+                                </p>
+                            </volist>
+                        </if>
+                    </td>
+                    <td class="cart-price" id="xiao_price{$cart_data[$pro[pdt_id]].pdt_id}" value="{$cart_data[$pro[pdt_id]].f_price}">
+                        <if condition="($pro['type'] eq '0') or ($pro['type'] eq '1')">
+                            <php>if(!empty($pro['pmn_name'])){</php>
+                            &yen; <span class="jsAmount"><php>echo ($pro['pdt_nums'] * $pro['pdt_price']);</php></span>
+                            <php>}else{</php>
+                            &yen; <span class="jsAmount">{$cart_data[$pro[pdt_id]].pdt_momery}</span>
+                            <php>}</php>
+                            <else />
+                            <volist name="pro"  id="subvo">
+                                <div tyle="height:100px;border-bottom:1px dashed;padding-top:3px;">
+                                    &yen; <span class="jsAmount">{$subvo.pdt_momery}</span>
+                                </div>
+                            </volist>
+                        </if>
+                    </td>
+                    <td>
+                        <php>if($pro[0]['type'] ==''){</php>
+                        <p><a href="javascript:void(0);" onclick="javascript:ajaxReturn('{:U("Ucenter/Collect/doAddCollect","pid=$pro[pdt_id]")}');">加入收藏夹</a></p>
+                        <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>$pro[pdt_id],'type'=>$pro[type]))}');}" pdt_id ="{$cart_data[$pro[pdt_id]].pdt_id}">删除</a></p>
+                        <php>}else{</php>
+                        <php>if($pro[0]['type']=='6'){</php>
+                        <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>'freerecommend','type'=>$pro[0][type]))}');}" pdt_id ="{$pro[0]['pdtId']}">删除</a></p>
+                        <php>}else{</php>
+                        <p><a href="javascript:void(0);" onclick="javascript:if(confirm('{$Think.lang.CONFIRM_DELETE_CART}')){ ajaxReturn('{:U("Home/Cart/doDel",array('pid'=>$pro[0][pdtId],'type'=>$pro[0][type]))}');}" pdt_id ="{$pro[0]['pdtId']}">删除</a></p>
+                        <php>}</php>
+                        <php>}</php>
+                    </td>
+                </tr>
+                <tr class="cart-total">
+                    <td colspan="6">
+                        <!--商品金额：<span class="cart-price">&yen; <b class="jsTotalAmount">100.00</b></span>-->
+                        <!--运费：<span class="cart-price">&yen;10.00</span>-->
+                    </td>
+                </tr>
+                </volist>
+            </volist>
+        </if>
+        </tbody>
+        </form>
+        <!-- 总计 -->
+        <tfoot>
+        <tr>
+            <td colspan="6">
+                <ul>
+                    <li>商品总价：<label id="pdt_price"><i>&yen; 0.00</i></label></li>
+                    <li style="display: none;">关税：<label id="g_tax_rate"><i>&yen; 0.00</i></label></li>
+                    <li>商品优惠总额：<label id="label_pre_price"><i>&yen; 0.00</i></label></li>
+                    <!--<li>运费：<span>&yen; 20.00</span></li>-->
+                    <li>预计可获积分：<i id="li_i_reward_point">0</i>分</li>
+                    <li>花费积分总计：<i id="li_i_consume_point">0</i>分</li>
+                    <input type="hidden" value="{$price_data['consumed_ratio']}" id="consumed_ratio">
+                    <input type="hidden" value="{$price_data['pre_price']}" id="pre_price">
+                    <input type="hidden" value="{$price_data['all_pdt_price']}" pdt_price="{$price_data['all_pdt_price']}" id="all_pdt_price">
+                    <input type="hidden" value="{$price_data['all_price']}" id="all_price_dis">
+                    <input type="hidden" value="{$num}" id="current_num">
+                    <input type="text" value="{:U('Home/Order/pageAdd/')}" id="post_url" style='display: none;'>
+                </ul>
+            </td>
+        </tr>
+        <tr class="tbot">
+            <td colspan="6">
+                <div class="fl cart-func-ft">
+                    <!--<label class="checkbox"><input type="checkbox" name="select_all" id="select_all2">全选</label>-->
+                    <a href="javascript:void(0);" id="delSelected" <if condition="$cart_data NEQ ''"> onclick="javascript:doDel();" </if>>删除</a>
+                  <!--  <a onclick="removeDisableFromCart();" href="javascript:void(0)">清除失效宝贝</a>-->
+                    <a onclick="javascript:ajaxReturn('/Ucenter/Collect/doAddAllCollect', $('#cartForm').serialize());" href="javascript:void(0);">移入收藏夹</a>
+                </div>
+                <div class="fr cart-total-ft">
+                    <span>已选商品 <em class="cart-price" id="new_current_num">0</em> 件</span>
+                    <span>合计:<strong id="strong_all_price">&yen; 0.00</strong></span>
+                    <a class="shop-submit" href="javascript:void(0);" <if condition="$cart_data NEQ ''"> onclick="AddOrder();"<else /> href="#"</if> >结算</a>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<div id="ajax_check_order_error" style="display:none;text-align:center;">
+    <table style="margin-left:auto;margin-right:auto;">
+        <tr style="text-align:center;">
+            <td id="error_message"></td>
+        </tr>
+        <tr>
+            <td>确定要删除该商品吗!</td>
+        </tr>
+    </table>
+</div>
+<!-- 推荐商品 -->
+<div id="recommend" class="recomPro w1192">
+    <h2 class="clearfix">
+        <span id="hot" class="active">热卖推荐</span>
+        <span id="favorite">最近收藏</span>
+        <span id="view">最近浏览过的</span>
+        <span id="guess">猜您喜欢的</span>
+    </h2>
+
+    <div class="recomCon"><!--recomCon-->
+        <ul>
+            <!-- 热卖推荐 -->
+            <li>
+                <dl>
+                    <gyfx:sales name='sale' limit="5" titlelen='25'>
+                    <dd>
+                        <a href="{$sale.gurl}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$sale.gpicture|showImage=###,208,210}"></a>
+                        <a href="{$sale.gurl}" class="proN" style="display: inline-block;width: 215px;">{$sale.lgname}</a>
+                        <span>&yen; {$sale.gprice|sprintf='%.2f',###}</span>
+                    </dd>
+                    </gyfx:sales>
+                </dl>
+            </li>
+
+            <!-- 最近收藏 -->
+            <li>
+                <dl>
+                    <volist name="ary_collect" id="list">
+                    <dd>
+                        <a href="{:U('Home/Products/detail')}?gid={$list['g_id']}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$list.g_picture|showImage=###,208,210}"></a>
+                        <a href="{:U('Home/Products/detail')}?gid={$list['g_id']}" class="proN" style="display: inline-block;width: 215px;">{$list.g_name}</a>
+                        <span>&yen; {$list.g_price|sprintf='%.2f',###}</span>
+                    </dd>
+                        </volist>
+                </dl>
+            </li>
+
+            <!-- 最近浏览过的 -->
+            <li>
+                <dl>
+                    <php>foreach($ary_res as $browsehistory){</php>
+                    <dd>
+                        <a href="{:U('Home/Products/detail')}?gid={$browsehistory['g_id']}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$browsehistory.g_picture|showImage=###,208,210}"></a>
+                        <a href="{:U('Home/Products/detail')}?gid={$browsehistory['g_id']}" class="proN">{$browsehistory.g_name}</a>
+                        <span>&yen; {$browsehistory.g_price|sprintf='%.2f',###}</span>
+                    </dd>
+                    <php>}</php>
+                </dl>
+            </li>
+
+            <!-- 猜您喜欢的 -->
+            <li>
+                <dl>
+                    <volist name="ary_goods_info" id="goods_info">
+                    <dd>
+                        <a href="{:U('Home/Products/detail')}?gid={$goods_info['g_id']}" class="proPic"><img src="{$Think.config.DOMAIN_HOST}{$goods_info.g_picture|showImage=###,208,210}"></a>
+                        <a href="{:U('Home/Products/detail')}?gid={$goods_info['g_id']}" class="proN">{$goods_info.g_name}</a>
+                        <span>&yen; {$goods_info.g_price|sprintf='%.2f',###}</span>
+                    </dd>
+                        </volist>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--弹出框-->
+<div id="alert" style="display: none;" title="系统提示">
+    <table width="100%">
+        <tr>
+            <td style="padding:5px; vertical-align: top;"><div id="alert_face" class=""></div></td>
+            <td style="padding:5px; vertical-align: top;">
+                <div id="alert_title">提示标题</div>
+                <div id="alert_msg">提示内容</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    $(function() {
+        //推荐商品tab
+        $('#recommend').find('h2').find('span').click(function() {
+            var index = $(this).index();
+            var ul = $('#recommend').find('.recomCon').find('ul');
+            var liWidth = ul.children('li').width();
+            $(this).addClass('active').siblings().removeClass('active');
+            ul.css('left', -(liWidth * index));
+        });
+    });
+</script>
+<script>
+    function AddOrder(){
+        var postUrl = $('#post_url').val();
+        var it = 0;
+        var id = '';
+        var tax_is_check = $('#foreign').attr('checked');
+        var ordinary_check = $('#domestic').attr('checked');
+        var is_tax = [];
+        $("input[data-tax='is_tax']:checked").each(function(i){
+            is_tax[i] = $(this).attr('checked');
+        })
+        var no_tax = [];
+        $('input[data-tax="no_tax"]:checked').each(function(j){
+            no_tax[j] = $(this).attr('checked');
+        });
+        if((tax_is_check == 'checked' || is_tax[0] == 'checked') && (ordinary_check == 'checked' || no_tax[0] == 'checked')){
+            showAlert(false,'只能选择跨境商品或者国内商品');
+            return false;
+        }
+
+        $("input[name='pid[]']:checked").each(function(){
+            it++;
+            id += $(this).val() + ',';
+        });
+        if(it == 0){
+            showAlert(false,'请选择购物车商品后再提交订单');return false;
+        }
+        $.ajax({
+            url: "{:U('Ucenter/Orders/ajaxCheckOrder/')}",
+            cache:false,
+            dataType:'json',
+            data:{pid:id.substr(0,id.length-1)},
+            type:"POST",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    var tax_is_check = [];
+                    $('input[data-tax="is_tax"]').each(function(i){
+                        tax_is_check[i] = $(this).attr('checked');
+                    })
+                    var ord_is_check = [];
+                    $('input[data-tax="no_tax"]').each(function(i){
+                        ord_is_check[i] = $(this).attr('checked');
+                    })
+                    if((tax_is_check == 'checked' || is_tax[0] == 'checked') && (ordinary_check !== 'checked' || no_tax[0] !== 'checked')){
+                        $("#cartForm").attr('action',postUrl);
+                        $("#cartForm").submit();
+                     }
+
+                    if((ordinary_check == 'checked' || no_tax[0] == 'checked')  && (tax_is_check !== 'checked' || is_tax[0] !== 'checked')){
+                        $("#ordinary").attr('action',postUrl);
+                        $("#ordinary").submit();
+                    }
+                }else{
+                    /** ****** dialog 对话框展示开始 ******** */
+                    $('#error_message').html(msgObj.info);
+                    $("#ajax_check_order_error").dialog({
+                        // title:'错误!',
+                        width:'auto',
+                        height:'auto',
+                        modal: true,
+                        buttons:{
+                            '确定':function(){
+                                var type = $('.cartPdt'+msgObj.data).find('input[name^=type]').val();
+                                ajaxReturn('/Ucenter/Cart/doDel/pid/'+msgObj.data+'/type/'+type);
+                            },
+                            '取消':function(){
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                    /** ****** dialog 对话框展示结束 ******** */
+                    // showAlert(false,msgObj.info);
+                }
+            }
+        });
+
+
+
+    }
+    function doDel(){
+        var url = "{:U('Ucenter/Cart/doDel/')}";
+        var data = new Object();
+        data['pid'] = {};
+        data['type'] = {};
+        var j = 0;
+        $("input[name='pid[]']:checked").each(function(i){
+            data['pid'][i] = this.value;
+            data['type'][i] = $(this).next().val();j++;
+        });
+        if(j == 0){showAlert(false,'请选择删除的商品');return false;}
+        if(confirm('确认从购物车删除这些商品嘛?')){
+            $.get(url,data,function(result){
+                showAlert(result.status,result.info,'',result.url);
+
+            },'json');
+        }
+
+    }
+
+</script>
+<script type="text/javascript">
+    var _mvq = _mvq || [];
+    _mvq.push(['$setAccount', 'm-24416-0']);
+
+    _mvq.push(['$setGeneral', 'cartview', '', /*用户名*/ '{$Think.session.Members.m_name}', /*用户id*/ '{$Think.session.Members.m_id}']);
+    _mvq.push(['$logConversion']);
+    <volist name="cart_data" id="cart">
+    _mvq.push(['$addItem', '', '', '',/*商品ID*/'{$cart.pdt_id}']);
+    </volist>
+    <volist name="gifts_data" id="carts">
+    _mvq.push(['$addItem', '', '', '',/*商品ID*/'{$carts.pdt_id}']);
+    </volist>
+
+    _mvq.push(['$logData']);
+</script>
+<script type="text/javascript">
+    $(function(){
+        //实现搜索功能
+        $("#search_submit_button").click(function(){
+            var search_key = $("#head_serach_keyword").val();
+            if(search_key == ''){
+                return false;
+            }
+            search_key = search_key.replace(/%0D%0A/,'');
+            search_key = search_key.replace(/%0d%0a/,'');
+            var __search_base_url = "{:U('Home/Hisense/')}?keyword="+ search_key;
+            window.location.href = __search_base_url;
+        });
+    });
+    function EnterPress(e){ //传入 event
+        var e = e || window.event;
+        if(e.keyCode == 13){
+            var search_key = $("#head_serach_keyword").val();
+            if(search_key == ''){
+                return false;
+            }
+            search_key = search_key.replace(/%0D%0A/,'');
+            search_key = search_key.replace(/%0d%0a/,'');
+            var __search_base_url = "{:U('Home/Hisense/')}?keyword="+ search_key;
+            window.location.href = __search_base_url;
+        }
+    }
+    $('.all-txt .nav-category').mouseover(function(){
+        $('.nav-category').css('display','block');
+    })
+    $('.all-txt .nav-category').mouseout(function(){
+        $('.nav-category').css('display','none');
+    })
+</script>
+</body>
+</html>

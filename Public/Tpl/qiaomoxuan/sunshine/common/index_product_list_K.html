@@ -1,0 +1,38 @@
+
+	<div class="conThree"><!--conThree 乌龙茶-->
+		<div class="conThLeft conFLeft1"><!--conThLeft-->
+			<h1>
+				<span edit-name="模块标题" textstyle-editable="true" style-num="1" textcontent-editable="true" content-num="108">乌龙茶  <label>Oolong Tea</label></span>
+				<code edit-name="模块自定义导航" textstyle-editable="true" style-num="1" textcontent-editable="true" content-num="109"></code>
+				
+			</h1>
+			<div class="proCon"><!--proCon-->
+				<a href="#" class="adver" edit-name="广告图片链接" linkcontent-editable="true" content-num="110" textstyle-editable="true" style-num="1"><img src="__TPL__images/pic.png" edit-name="广告图片" imagestyle-editable="true" style-num="1" imagecontent-editable="true" content-num="111" width="255" height="448"></a>
+				<div class="products">
+					<ul>
+					<Gyfx:goodslist name="showlist" num="$num" cid="$cid" startprice="$startprice" gname="$gname" gsn="$gsn" endprice="$endprice" tid="$tid" bid="$bid" hot="$hot" new="$new" order="$order" column="$column" market_price="$price['market_price']" sale_price="$price['sale_price']" save_price="$price['save_price']" discount_price="$price['discount_price']" a="$a" show_name="$show_name" show_pic="$show_pic" g_nums="$g_nums" g_instead="$g_instead" no_paged="1">
+					<php>if($key<10){</php>
+					<li>
+						<p>
+                            <if condition="$showlist['show_name'] eq 1">
+                                <a href="{$showlist.gurl}" title="{$showlist.gname}">{$showlist.gname}</a>
+                            </if>
+                            <if condition="$showlist['sale_price'] neq ''">
+                                {$showlist.sale_price}<span>¥{$showlist.gprice|sprintf='%.2f',###}</span>
+                            </if>
+                            <if condition="$showlist['market_price'] neq ''">
+                                <del>{$showlist.market_price}{$showlist.maprice|sprintf='%.2f',###}</del>
+                            </if>
+						</p>
+                        <if condition="$showlist['show_pic'] eq 1">
+						<a href="{$showlist.gurl}" class="proPic" title="{$showlist.gname}"><img src="{$showlist.gpic|showImage=###,170,170}" width="170px" height="170px"></a>
+					    </if>
+                    </li>
+					<php>}</php>
+					</Gyfx:goodslist>						
+					</ul>
+				</div>
+			</div><!--/proCon-->
+		</div><!--/conThLeft-->
+		
+	</div><!--/conThree-->

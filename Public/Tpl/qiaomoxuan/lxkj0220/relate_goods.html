@@ -1,0 +1,22 @@
+{__NOLAYOUT__}
+<if condition="count($ary_relate_goods) neq 0">
+<!--关联商品   开始-->
+    <div class="middle" id="relate_goods">
+        <div class="picScroll-left">
+            <div class="bd">
+                <ul class="picList">
+                    <volist name="ary_relate_goods" id="this_coll">
+                        <li><a href="/Home/Products/detail/gid/{$this_coll.g_id}">
+                            <div class="pic"><img src="{$this_coll['g_picture']}" alt=""></div>
+                            <div class="word">【￥{$this_coll.g_price|sprintf='%.2f',###}】{$this_coll.g_name}</div>
+                        </a></li>
+                    </volist>
+                </ul>
+            </div>
+        </div>  
+    </div>
+    <script type="text/javascript">
+        jQuery(".picScroll-left").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:true,vis:4});
+    </script>
+<!--关联商品   结束-->
+</if>

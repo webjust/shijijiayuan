@@ -1,0 +1,142 @@
+@charset "utf-8";
+/* CSS Document */
+ /*------------------------------------------
+  * 云开 项目
+  * guanyi css 框架
+  * 通用引用文件，global、header主要css文件
+  * Developed By: 张贤（zhangxian）
+  * 版本号：2013-04-10   
+  ----------------------------------------------*/
+/* start reset */ 
+html,body{background-color:#F3F3F3;}
+html { 
+zoom: expression(function(ele){ 
+ele.style.zoom = "1"; 
+document.execCommand("BackgroundImageCache", false, true); 
+}(this)); 
+}
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,input,select,textarea,table,caption,tbody,tfoot,thead,tr,th,td {margin:0; padding:0;}
+/*全局样式*/
+body {font:12px/1.5 tahoma,arial,\5b8b\4f53; color:#666; -webkit-text-size-adjust:none;}/*  \5fae\8f6f\96c5\9ed1 微软雅黑   \5b8b\4f53 宋体 */
+a img{ display:inline-block;}
+a img, img, iframe {border:0;}
+a span, form label {cursor:pointer;}
+table,tbody, tfoot, thead, tr, th, td {border-collapse:collapse; border-spacing:0; padding:0px; margin:0px;}
+a{ text-decoration:none;color:#333; hide-focus:expression(this.hideFocus=true);outline: none; cursor:pointer;}
+a:hover{text-decoration:underline;color:#970000;}
+input,select {outline:none; font-size:12px;}
+b,strong {font-weight:bold;}
+/*段落*/
+li ul,li ol,ul, ol{ margin:0; }
+ul,ol{ list-style:none }
+ul{padding:0;margin:0}
+dl,dt,dd { margin: 0; }
+dd {margin-left:0;}
+textarea {
+-webkit-appearance: textarea;
+border-image: initial;
+-webkit-rtl-ordering: logical;
+-webkit-user-select: text;
+-webkit-box-orient: vertical;
+font-size:12px;
+white-space: pre-wrap;
+word-wrap: break-word;
+text-transform: none;
+outline:none;
+resize:none;
+}
+
+/*清除浮层*/
+.clear{clear:both;overflow:hidden;}
+.clearfix:after,.content:after { content:"."; display:block; height:0; clear:both; visibility:hidden; }
+* html .clearfix,* html .content { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix,*:first-child+html .content  { zoom: 1; } /* IE7 */
+.w960 { width:960px; margin:0 auto; }
+
+/*整体框架*/
+h1,h2,h3,h4,h5,h6 {font-weight:bold; color: #333; font-family:\5b8b\4f53,\5fae\8f6f\96c5\9ed1,tahoma,arial; margin-bottom: 0em;}
+h1 img, h2 img, h3 img,h4 img, h5 img, h6 img {margin: 0;}
+
+.YKheader,.YKfooter,.YKwarp {margin:0px; padding:0px; width:100%; clear:left;}
+.content1190 {width:1190px; margin:0px auto;}
+.content990 {width:990px; margin:0px auto;}
+
+.marTop10 { margin-top:10px;}
+.marTop6 { margin-top:6px;}
+.pb5 { padding-bottom:5px;}
+.fleft { float:left}
+.fright { float:right}
+
+/*字体颜色*/
+.orange { color:#f98a10;}
+.ykblue { color:#0099FF;}
+a:hover.ykblue { color:#0099FF;}
+.red { color:#CF2E05;}
+a:hover.red { color:#CF2E05;}
+.green { color:#009900;}
+
+i.YKi { font-style:normal; font-family:微软雅黑;}
+
+input[type="radio"],input[type="checkbox"] { position:relative; top:2px;}
+
+/*头部  开始*/
+.YKheadOne { height:30px; line-height:30px; background:#E7E7E7; color:#8D8D8D; border-bottom:1px solid #D9D9D9;}
+.yho { float:left; width:100%; height:30px; background:#E7E7E7; border-bottom:1px solid #D9D9D9;}
+.YKheadOne ul { overflow:hidden;}
+.YKheadOne ul li { float:left; margin-right:-5px;}
+.YKheadOne ul li a { color:#8D8D8D; margin:0px 15px 0px 20px; display:inline-block; padding-left:20px; background:url(../images/YKheadOneabj.png) no-repeat;}
+.YKheadOne ul li a.service { background-position:left 9px;}
+.YKheadOne ul li a.advise { background-position:left -13px;}
+.YKheadOne ul li a.collect { background-position:left -38px; padding-left:15px;}
+
+.YKheadThree { height:120px; background:#F1EFED; border-top:1px solid white; clear:both; position:relative; z-index:2}
+.yht { float:left; height:120px; border-top:1px solid white; width:1190px; position:relative; top:-1px}
+.YKlogo { float:left; margin:10px 0px 0px 10px;}
+.YKsearch { width:655px; margin:33px 0px 0px 88px; float:left;} 
+.YKsearch p.p01 { height:36px;}
+.YKsearch p.p01 span { float:left; width:425px; border:1px solid #CEC7BF; border-right:none; height:34px; background:white; padding-left:10px;}
+.YKsearch p.p01 span input { width:425px;font-size:14px; border:none; margin-top:10px;}
+.YKsearch p.p01 input.subm { float:left; width:89px; height:36px; line-height:36px; color:white; font-weight:bold; text-align:center; background-color:#0074C2; font-size:15px; text-shadow:0px 0px 2px #A0D0F0; border:none; cursor:pointer;}
+.YKsearch p.p01 a { float:left; height:36px; width:120px; background:url(../images/normal.png) no-repeat; text-align:left; overflow:hidden; text-indent:-9999px; margin-left:10px;+margin-left:6px; display:inline;}
+.YKsearch p.p02 { line-height:27px; color:#999; white-space:nowrap; overflow:hidden;}
+.YKsearch p.p02 a { color:#999; margin-right:34px;}
+.YKphoneNum { float:right; text-align:right; color:#999; margin-top:36px; margin-right:5px;}
+.YKphoneNum b { font-size:26px; font-family:Arial, Helvetica, sans-serif; margin-right:5px;}
+
+/*头部  结束*/
+
+/*底部 开始*/
+.YKfootOne { float:left; width:100%; background:#404D57;padding: 25px 0 40px;}
+.fobg { background:#404D57; float:left; width:100%; padding:25px 0px 40px 0px; border-bottom:1px solid #313A42;}
+.YKtelNum { float:left; margin-left:15px;}
+.YKtelNum p { text-align:right; color:#8396A3;}
+.YKtelNum p b { font-size:26px; margin-right:5px; font-family:Arial, Helvetica, sans-serif}
+.YKfootOne ul { float:left; margin-left:50px;}
+.YKfootOne ul li { margin:0px 40px; float:left; width:103px;}
+.YKfootOne ul li strong { display:block; font-size:14px; color:#999; margin-bottom:8px;}
+.YKfootOne ul li a { display:block; color:#999; line-height:26px;}
+
+.YKfootTwo { height:66px; line-height:66px; text-align:center; background:#262F35; border-top:1px solid #596B79; color:#999; clear:both}
+.ftt { width:1190px; margin:0 auto; height:66px; background:#262F35; border-top:1px solid #596B79; position:relative; top:-1px;}
+.YKfootTwo span { margin:0px 10px;}
+.YKfootTwo a { color:#999;}
+
+.YKfootThree { height:39px; line-height:39px; border-bottom:1px solid #DDDDDD; text-align:center;}
+.fth { width:1190px; margin:0 auto; height:39px; border-bottom:1px solid #DDDDDD;}
+.YKfootThree a { color:#999; margin:0px 30px;}
+
+.YKfootFour { height:32px; line-height:32px; text-align:center; color:#999; border-top:1px solid white;}
+.ftf { width:1190px; margin:0 auto; height:32px; border-top:1px solid white;}
+.YKfootFive { padding-bottom:40px; text-align:center; display:inline-block; width:100%;}
+.YKfootFive p { width:497px; margin:0 auto;}
+.YKfootFive a { display:inline-block; text-align:left; float:left; overflow:hidden; text-indent:-9999px; background:url(../images/footbottom.png) no-repeat; margin:0px 8px;}
+.YKfootFive a.a01 { background-position:0px 0px; width:96px; height:42px; position:relative; top:4px}
+.YKfootFive a.a02 { background-position:0px -47px; width:111px; height:48px;}
+.YKfootFive a.a03 { background-position:0px -100px; width:111px; height:48px;}
+.YKfootFive a.a04 { background-position:0px -152px; width:114px; height:41px; position:relative; top:4px}
+/*底部 结束*/
+
+
+
+

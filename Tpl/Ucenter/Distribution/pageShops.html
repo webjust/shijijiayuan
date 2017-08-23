@@ -1,0 +1,38 @@
+<link href="__PUBLIC__/Ucenter/css/Distribution.css" rel="stylesheet" type="text/css">
+<div class="contentRightBox">
+    <h2 class="publicH2"><span>店铺管理</span></h2>
+
+    <div class="myOrder shopManage" style="min-height: 400px;">
+        <p class="Ptop">
+            <a href="{:U('Ucenter/Distribution/synAddShop')}" class="blue">添加淘宝店铺</a>
+            <a href="{:U('Ucenter/Distribution/synAddShop?pf=paipai')}" class="blue">添加拍拍店铺</a>
+        </p>
+        <table class="tableCon">
+            <thead>
+                <tr>
+                    <td width="40"><input type="checkbox"></td>
+                    <td width="226">店铺名称</td>
+                    <td width="160">店铺类型</td>
+                    <td width="250">授权时间</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="shops" id="shop">
+                <tr>
+                    <td width="40"><input type="checkbox"></td>
+                    <td width="226">{$shop.ts_title}</td>
+                    <td width="160"><switch name="shop.ts_source" ><case value="2">拍拍店</case><default />淘宝店</switch></td>
+                    <td width="250">{$shop.ts_modified}</td>
+                    <td>
+                        <a href="#" class="wordBlue">铺货</a>&nbsp;
+                        <a href="#" class="wordBlue">同步库存</a>&nbsp;
+                        <a href="#" class="wordBlue">自动同步</a>&nbsp;
+                        <a href='{:U("Ucenter/Distribution/doDelShop?id=$shop[ts_id]")}' class="wordBlue" onclick="javascript:if(!confirm('是否删除?')){return false;}">删除</a>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+    </div>
+</div>

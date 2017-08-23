@@ -1,0 +1,86 @@
+<script type="text/javascript" charset="utf-8">
+    window.UEDITOR_HOME_URL = "__PUBLIC__/Lib/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Lib/ueditor/editor_all.js"></script>
+<div class="rightInner">
+    <form id="coupon_add" method="post" action="{:U('Admin/Try/doAddSet')}">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">试用活动设置</th>
+                </tr>
+            </thead>
+            <tbody>
+				<php>for($n = 0; $n<5; $n++){ </php>
+					<tr>
+						<td class="first"><php>if($n+1 == 5){ echo "试用申请流程图：";}else{ echo "广告图片".($n+1)."：";}</php></td>
+						<td>
+							图片链接地址:<input type="text" name="GY_SHOP_TOP_AD_{$n}_URL" id="GY_SHOP_TOP_AD_{$n}_URL" class="medium" value="{$ary_ads[$n+1]['ad_url']}" validate="{ url:true}" />
+							排序：<input type="text" name="sort_order_{$n}" value="{$n+1}" readonly='readonly' class="small" />
+							<a href="javascript:upImage({$n});" class="btnG ico_upload">上传图片</a>
+							<img src="{$ary_ads[$n+1]['ad_pic_url']}" id="SHOW_TOP_AD_{$n}" style="width:50px;height:50px;" />
+							<a href="javascript:void(0);" image_id="{$n}" class="del images_tools_bar_del">删除</a>
+							<input type="hidden" id="GY_SHOP_TOP_AD_{$n}" name="GY_SHOP_TOP_AD_{$n}" value="{$ary_ads[$n+1]['ad_pic_url']}"/>
+						</td>
+						<td class="last"></td>
+					</tr>
+				<php>}</php>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="reset" value="重置" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $("document").ready(function(){
+		//删除图片
+	$(".images_tools_bar_del").click(function(){
+		var image_id = $(this).attr('image_id');
+		$('#GY_SHOP_TOP_AD_'+image_id).val('');
+		$('#GY_SHOP_TOP_AD_'+image_id+'_URL').val('');
+		$('#SHOW_TOP_AD_'+image_id).attr('src','');
+	});
+    });
+	var dialog;
+	var image_input_id;
+	var image_input_id_s;
+	var editor = new UE.ui.Editor({
+		imageRealPath:"editor"
+	});
+	editor.render("myEditor");
+	editor.ready(function(){
+		editor.hide()
+		dialog = editor.getDialog("insertimage");
+		editor.addListener('beforeInsertImage',function(t, arg){
+			image_input_id = image_input_id-1;
+			for(index in arg){
+				if(typeof arg[index]['src']=='undefined')  continue;
+				image_input_id = image_input_id + 1;
+				if($("#GY_SHOP_TOP_AD_" + image_input_id)){
+					var image_path = arg[index]['src'];
+					$("#GY_SHOP_TOP_AD_" + image_input_id).val(image_path);
+					$("#SHOW_TOP_AD_" + image_input_id).attr({src:image_path});
+				}
+			}
+		});
+	});
+	/**
+	 * 图片上传方法集成
+	 */
+	function upImage(imageId) {
+		//editor.options.imageRealPath = 'desc';
+		image_input_id = imageId;
+		image_input_id_s = imageId;
+		dialog.open();
+	}
+</script>

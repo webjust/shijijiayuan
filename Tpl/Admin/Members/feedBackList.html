@@ -1,0 +1,204 @@
+<div id="content">
+    <div class="rightInner" id="con_tabListP_1"><!--rightInner  start-->
+        <table width="100%" class="tbList" >
+            <thead>
+                <tr class="title">
+                    <th colspan="9">
+            <p class="conOneP" style="float: left;">
+                <a href="javascript:void(0);" class="btnG ico_explort">导出Excel</a>
+            </p>
+            <ul class="conOneUl" style="width:815px;">
+                <form method="get" action="{:U('Admin/Members/feedBackList')}" >
+                    <li>
+                        <select name="msg_type" class="small" style="width: auto">
+                            <option value="select">选择类型</option>
+                            <option value="0" <if condition="$filter['msg_type'] eq '0'">selected="selected"</if>>留言</option>
+                            <option value="1" <if condition="$filter['msg_type'] eq '1'">selected="selected"</if> >投诉</option>
+                            <option value="2" <if condition="$filter['msg_type'] eq '2'">selected="selected"</if> >询问</option>
+                            <option value="3" <if condition="$filter['msg_type'] eq '3'">selected="selected"</if> >售后</option>
+                            <option value="4" <if condition="$filter['msg_type'] eq '4'">selected="selected"</if> >求购</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select name="msg_status" class="small" style="width: auto">
+                            <option value="select">回复状态</option>
+                            <option value="0" <if condition="$filter['msg_status'] eq '0'">selected="selected"</if> >未回复</option>
+                            <option value="1" <if condition="$filter['msg_status'] eq '1'">selected="selected"</if> >已回复</option>
+                        </select>
+                    </li>
+
+                    <li>留言时间从：<input type="text" name="starttime" class="small medium timer" value="{$filter.starttime}"  style="width: 100px;float: none;"></li>
+                    <li>至<input type="text" name="endtime" class="small medium timer" value="{$filter.endtime}"  style="width: 100px;float: none;"></li>
+                    <li>
+                        <select name="field" class="small" style="width: auto">
+                            <option value="m_name" <if condition="$filter['field'] eq 'm_name'">selected="selected"</if>>会员名</option> 
+                            <option value="o_id" <if condition="$filter['field'] eq 'o_id'">selected="selected"</if>>订单号</option>
+                        </select>
+                    </li>
+                    <li><input type="text" name="val" class="large" value="{$filter.val}" style="width: 145px;"></li>
+                    <li><input type="submit" value="搜 索" class="btnHeader" style="margin-right: 0px;height: 23px;margin-top: 4px;"/></li>
+                </form>
+            </ul>
+            </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="checkAll" data-checklist="checkSon_x" data-direction="x"></th>
+                <th style="text-align:left;padding-left: 0px;">会员名称</th>
+                <th>手机号</th>
+                <th>留言标题</th>
+			    <th>留言类型</th>
+                <th>地址</th>
+                <th>提问时间</th>
+                <th>回复状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="fbInfo">
+                <tr id="row_{$fbInfo['msg_id']}">
+                    <td>
+                        <input type="checkbox" class="checkSon" data-xid="checkSon_x" name="sr_id[]" value="{$fbInfo['msg_id']}" bi_sn="{$fbInfo['msg_id']}" />
+                        
+                    </td>
+                    <td style="text-align:left;">{$fbInfo['user_name']}</td>
+                    <td >{$fbInfo['user_mobile']} </td>
+                    <td>{$fbInfo['msg_title']}</td>
+					<td>{$fbInfo['msg_type_title']}</td>
+                    <td title="{$fbInfo['msg_address']}">{$fbInfo['msg_address']|substrs=###,20}</td>
+                    <td>{$fbInfo['msg_time']}</td>
+                    <td>
+                <if condition="$fbInfo['msg_status'] eq 1 ">
+                    已回复
+                    <else /> 
+                    <a href="javascript:void(0)" class="reply_a" rel="{$fbInfo['msg_id']}">回复</a>
+                </if>
+                </td>
+                <td style="text-align: center;">
+                    <a href="javascript:void(0);" class="S_message" rel="{$fbInfo['msg_id']}">查看</a>
+                </td>
+                </tr>
+                <tr class="msg_detail_show msg_detail" id="d_{$fbInfo['msg_id']}">
+                    <td colspan="9" align="center" class="colspan">
+                        <div class="msg_detail_div" id="div_{$fbInfo['msg_id']}"  style="margin: 0px;background-color: #F2F8FF">
+                            <volist name="fbInfo['detail']" id="v">
+                                <div style="margin: 3px;padding: 5px;">
+                                    {$v['msg_content']}
+                                </div>
+                                <div style="text-align: right;border-bottom: 1px dashed white;padding: 5px;">
+                                    <notempty name="v['file_url']">
+                                        <a href="{$Think.config.DOMAIN_HOST}{$v['file_url']}" target="_blank">有附件</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </notempty>
+                                    {$v['user_name']}@{$v['msg_time']}&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </volist>
+                            <div style="text-align: right;"><a href="javascript:void(0);" rel="{$fbInfo['msg_id']}" class="detail_close">取消</a>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="msg_reply reply_show" id="r_{$fbInfo['msg_id']}">
+                    <td colspan="9" align="center" class="colspan">
+                        <div class="msg_reply_div" id="rdiv_{$fbInfo['msg_id']}"  style="margin: 0px;background-color: #F2F8FF">
+                            <div style="padding: 5px ;">
+                                <textarea class="reply_area" id="t_{$fbInfo['msg_id']}" cols="50" rows="5"></textarea><br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<input type="button" class="reply_btn" id="btn_{$fbInfo['msg_id']}" value='确定'/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>               
+            </volist>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9">
+                        <span class="right page" style="margin-right:-83px;">
+                            {$page}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div><!--rightInner  end-->
+</div>
+    <style>
+        .msg_detail, .reply_show{display: none;}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".ico_explort").click(function(){
+                var bi_sns = new Array();;
+                $(".tbList input:checked[class='checkSon']").each(function(){
+                    bi_sns.push($(this).attr("bi_sn"));
+                });
+                var bi_id = bi_sns;
+                bi_sns = bi_sns.join(",");
+                if(bi_sns == ''){
+                    alert("请选择需要导出的留言");
+                    return false;
+                }
+                $.ajax({
+                    url:'{:U("Admin/Members/explortFeedBackList")}',
+                    cache:false,
+                    dataType:'json',
+                    data:{bi_sns:bi_sns},
+                    type:'POST',
+                    success:function(msgObj){
+                        if(msgObj.status == '1'){
+                            var url = "{:U('Admin/Members/getExportFileDownList')}" + "?type=excel&file="+msgObj.data;
+                            window.location.href = url;
+                            return false;
+                        }else{
+                            alert(msgObj.info);return false;
+                        }
+                    }
+                });
+            });
+            var sgan_ditail = $('.S_message');
+            var detail_tr = $('.msg_detail_show');
+            var detail_close = $('.detail_close');
+            var reply_a = $('.reply_a');
+            var reply_btn = $('.reply_btn');
+            $(sgan_ditail).click(function() {
+                var msg_id = this.rel;
+                $('#d_'+msg_id).removeClass('msg_detail')
+            });    
+            $(detail_close).click(function() {
+                var msg_id = this.rel;
+                $('#d_'+msg_id).addClass('msg_detail');
+            });   
+            $(reply_a).click(function() {
+                var msg_id = this.rel;
+                $('#r_'+msg_id).removeClass('reply_show')
+            });   
+            $(reply_btn).click(function() {
+                var msg_id = this.id.split('_')[1];
+                var content = $('#t_'+msg_id).val();
+                var postUrl = "{:U('Admin/Members/replyAjax')}";
+                $.ajax({
+                    url:postUrl,
+                    data:{msg_id:msg_id,content:content},
+                    beforeSend:function(){
+                        //alert("正在请求远端数据，请稍候...");
+                    },
+                    success:function(msgObj){
+                        msgObj = eval("(" + msgObj + ")");
+                        if(msgObj.success=='1') {
+                            showAlert(true,"操作成功",'成功',{'确认':msgObj.URL});
+                            //location.reload();
+                        }else {
+                            showAlert('',msgObj.msg);
+                        }
+                    },
+                    error:function(msgObj){
+                        showAlert(false,'回复错误，位置错误');
+                    },
+                    type:'POST',
+                    timeout:30000,
+                    dataType:'html'
+                });
+            });   
+        });
+    </script>
+
+
+

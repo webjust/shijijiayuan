@@ -1,0 +1,88 @@
+{__NOLAYOUT__}
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<php>
+    $couponList = array_merge($xjList,$zkList);
+</php>
+<empty name="couponList">
+<h1 class="titleC">优惠券</h1>
+    <div>尚无优惠券</div>
+</empty>
+ <notempty name="couponList">
+<h1 class="titleC">优惠券</h1>
+<div class="myCoupon">
+    <h1>现金券</h1>
+    <volist name="xjList" id="list">
+       <php>if($i<=2){</php>
+        <div class="CouponList"> <span class="couponBg"></span> <a class="couponCnt" href="#">
+            <div class="couponL"> <b class="couponT">{$list.c_name}</b>
+                <div class="couponC"> <em>￥{$list.c_money|sprintf='%.0f',###}</em> <b>使用条件：{$list.c_condition_money|default="无"}</b></div>
+                <if condition="$list.is_receive eq '1'">
+                    <div class="couponD">
+                        <span>已领取</span>
+                    </div>
+                    <else/>
+                    <div class="couponD"> <span class="click_receive" cname="{$list.c_name}">点击领取</span> </div>
+                </if>
+                <p><php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+            </div>
+        </a>
+        </div>
+        <php>}</php>
+    </volist>
+    <div class="seeMore"> <a href="{:U('Home/Coupon/Index')}">查看更多&gt;&gt;</a> </div>
+</div>
+<div class="haCoupon">
+    <h1>折扣券</h1>
+    <volist name="zkList" id="list">
+        <php>if($i<=2){</php>
+        <div class="CouponList"> <span class="couponBg"></span> <a class="couponCnt" href="#">
+            <div class="couponL"> <b class="couponT">{$list.c_name}</b>
+                <div class="couponC"> <em><php>echo $list['c_money']*10;</php>折</em> <b>使用条件：{$list.c_condition_money|default="无"}</b></div>
+                <div class="couponD">
+                    <if condition="$list.is_receive eq '1'">
+                        <div class="couponD">
+                            <span>已领取</span>
+                        </div>
+                        <else/>
+                        <span class="click_receive" cname="{$list.c_name}">点击领取</span>
+                    </if>
+                </div>
+                <p><php>echo date('Y.m.d',strtotime($list['c_start_time']))."-".date('Y.m.d',strtotime($list['c_end_time']));</php></p>
+            </div>
+        </a>
+        </div>
+        <php>}</php>
+    </volist >
+    <div class="seeMore"> <a href="{:U('Home/Coupon/Index')}">查看更多&gt;&gt;</a> </div>
+</div>
+ </notempty>
+<span class="sign">◆</span>
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script type="text/javascript">
+    $(".click_receive").click(function(){
+        var obj = $(this),
+                cname = obj.attr("cname");
+        $.ajax({
+            url:'/Home/Coupon/getReceive',
+            cache:false,
+            dataType:"json",
+            type:'POST',
+            data:{
+                cname:cname
+            },
+            success:function(msgObj){
+                if(msgObj.status == 1){
+                    obj.html('已领用');
+                }else{
+                    $.ThinkBox.error(msgObj.message);
+                }
+            }
+        });
+    });
+    function hidecoupon(obj){
+        var _this = jQuery(obj);
+        _this.parent().parent().parent().css("display","none");
+    }
+
+
+</script>

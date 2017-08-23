@@ -1,0 +1,125 @@
+﻿@charset "utf-8";
+/* CSS Document */
+ /*------------------------------------------
+  *
+  * guanyi css 框架
+  * 通用引用文件，global、header主要css文件
+  * Developed By: 管易UED
+  * 版本号：2014-3-17   
+  ----------------------------------------------*/
+/* start reset */ 
+html,body{background-color:white;}
+html { 
+zoom: expression(function(ele){ 
+ele.style.zoom = "1"; 
+document.execCommand("BackgroundImageCache", false, true); 
+}(this)); 
+}
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,input,select,textarea,table,caption,tbody,tfoot,thead,tr,th,td {margin:0; padding:0;}
+/*全局样式*/
+body {font:12px/1.5 微软雅黑; color:#666; -webkit-text-size-adjust:none; font-size:12px; font-family:微软雅黑}/*  \5fae\8f6f\96c5\9ed1 微软雅黑   \5b8b\4f53 宋体 */
+a img, img, iframe {border:0;}
+a span, form label {cursor:pointer;}
+table,tbody, tfoot, thead, tr, th, td {border-collapse:collapse; border-spacing:0; padding:0px; margin:0px;}
+a{ text-decoration:none;color:#333; hide-focus:expression(this.hideFocus=true);outline: none; cursor:pointer;}
+a:hover{text-decoration:none;color:#970000;}
+input,select {outline:none; font-size:12px;}
+b,strong {font-weight:bold;}
+/*段落*/
+li ul,li ol,ul, ol{ margin:0; }
+ul,ol{ list-style:none }
+ul{padding:0;margin:0}
+dl,dt,dd { margin: 0; }
+dd {margin-left:0;}
+textarea {
+-webkit-appearance: textarea;
+border-image: initial;
+-webkit-rtl-ordering: logical;
+-webkit-user-select: text;
+-webkit-box-orient: vertical;
+font-size:12px;
+white-space: pre-wrap;
+word-wrap: break-word;
+text-transform: none;
+outline:none;
+resize:none;
+}
+
+/*清除浮层*/
+.clear{clear:both; height:0px; overflow:hidden;}
+.clearfix:after,.content:after { content:""; display:block; height:0; clear:both; visibility:hidden; }
+* html .clearfix,* html .content { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix,*:first-child+html .content  { zoom: 1; } /* IE7 */
+.w960 { width:960px; margin:0 auto; }
+
+/*整体框架*/
+h1,h2,h3,h4,h5,h6 {font-weight:bold; color: #333; font-family:\5b8b\4f53,\5fae\8f6f\96c5\9ed1,tahoma,arial; margin-bottom: 0em;}
+h1 img, h2 img, h3 img,h4 img, h5 img, h6 img {margin: 0;}
+
+.header,.footer,.warp {background:white;}
+.content {width:1190px; margin:0px auto;}
+.header { position:relative; z-index:2}
+.warp { position:relative; z-index:1}
+
+.fleft { float:left;}
+.fright { float:right;}
+
+/* focus */
+#focus {width:100%; height:auto; overflow:hidden; position:relative;}
+#focus ul {height:auto; position:absolute;}
+#focus ul li {float:left; width:100%; height:auto; overflow:hidden; position:relative; background:#000;}
+#focus ul li img { width:100%; height:auto; display:block}
+#focus ul li div {position:absolute; overflow:hidden;}
+#focus .btnBg {position:absolute; width:100%; height:20px; left:0; bottom:0; background:#000; display:none}
+#focus .btn {position:absolute; width:100%; height:4px;bottom:0px; display:-webkit-box; display:box; display:-moz-box;}
+#focus .btn span { display:block; -webkit-box-flex:1; -moz-box-flex:1; background:#666666}
+#focus .btn span.on {background:#643C93;}
+#focus .preNext {width:35px; height:52px; position:absolute; top:172px; background:url(../images/sprite.png) no-repeat 0 0; cursor:pointer;}
+#focus .pre {left:0;}
+#focus .next {right:0; background-position:right top;}
+
+/*首页  开始*/
+#main { min-width:320px; max-width:640px; margin:0 auto; overflow:hidden;}
+.warp { background:#F7F7F7; min-width:320px; max-width:640px; margin:0 auto; overflow:hidden; position:relative;}
+.logo { padding:20px 0; text-align:center;}
+.indexO { margin:0 0px;}
+
+.search { display:block; padding-right:60px; position:relative;}
+.search input { display:block;}
+.search input[type="text"] { width:100%; font-size:12px; height:40px; line-height:40px; text-indent:5px; border:1px solid #D2D2D2; color:#999999; border-right:none;-moz-border-radius:5px 0 0 5px;-webkit-border-radius:5px 0 0 5px; border-radius:5px 0 0 5px;}
+.search input[type="submit"] { height:42px; background:url(../images/searck.png) no-repeat center #643C93; border:none; cursor:pointer; text-indent:-9999px; overflow:hidden;-moz-border-radius:0 5px 5px 0;-webkit-border-radius:0 5px 5px 0; border-radius:0 5px 5px 0; position:absolute; right:0; top:0; width:60px;}
+
+.gOne { margin:15px 0;}
+.gOne ul { display:-webkit-box; display:box; display:-moz-box;}
+.gOne ul li { display:block; -webkit-box-flex:1; -moz-box-flex:1; text-align:center; margin-right:10px;}
+.gOne ul li img { width:100%;}
+.gOne ul li a { display:block;}
+
+.gTwo {padding:10px 0;}
+.gTwo ul,.Ttwo,.Tthree ul  { display:-webkit-box; display:box; display:-moz-box; }
+.gTwo ul li img,.Ttwo a img { width:100%;}
+.gTwo ul li,.Ttwo a { display:block; -webkit-box-flex:1; -moz-box-flex:1; margin-right:10px;}
+.gTwo ul li:last-child,.Ttwo a:last-child { margin-right:10}
+
+.indexT {box-sizing: border-box;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;}
+.adver img { display:block; width:100%; height:auto;}
+.Ttwo { padding:10px 0}
+.Ttwo a { margin-right:10px;}
+
+.Tthree { padding-bottom:10px}
+.Tthree ul li {  display:block; margin-right:10px;}
+.Tthree ul li:first-child { -webkit-box-flex:277; -moz-box-flex:277;}
+.Tthree ul li:last-child { margin-right:0; -webkit-box-flex:133; -moz-box-flex:133;}
+.Tthree ul li  img { width:100%;}
+.Tthree ul li a,.Tthree ul li a img { display:block;}
+.Tthree ul li:last-child a { margin-bottom:7px;}
+.Tthree ul li:last-child a:last-child { margin-bottom:0}
+
+.indexThree { height:35px; box-shadow:0 0 6px #B7B7B7; line-height:35px; background:white; padding-left:10px; margin:15px 0; position:relative;}
+.indexThree span { display:inline-block; max-width:178px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.indexThree a.goout { color:#0066FF}
+.indexThree a.gotop { position:absolute; right:15px; top:0px; font-family:Arial, Helvetica, sans-serif; color:#666; font-weight:bold; background:url(../images/dian.png) no-repeat right center; padding-right:13px;}
+
+.bot { padding:10px 0 20px; text-align:center}
+/*首页  结束*/

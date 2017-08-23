@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/salepromotion.css" type="text/css">
+<div class="p-m-r-div-02">
+    <ul>
+        <li> 您的位置： <a href="#">桌面</a>
+        <span>></span>
+        渠道管控
+        <span>></span>
+        推广销售
+        <span>></span>
+        <span class="title_cls">批量设置返利 第一步：选择会员</span> </li>
+    </ul>
+</div>
+<div class="p-m-r-div-03">
+    <div class="p-m-r-div-0303">
+        <ul>
+            <table cellspacing="1" cellpadding="4" border="1" summary="summary" style="background-color:#000000;text-align:center;" title="输入查询条件以后按回车键即可搜索！">
+                <tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;background-color: #EFF3FF;">
+					<td colspan="5" style="text-align:left;">
+						用户名：
+						<input type="text" name="m_name" onkeydown="adminMemberSerchEnterKey(event);" class="search_field" value="{$filter.m_name}" />
+						邮箱：
+						<input type="text" name="m_email" onkeydown="adminMemberSerchEnterKey(event);" class="search_field" value="{$filter.m_email}" />
+						手机：
+						<input type="text" name="m_mobile" onkeydown="adminMemberSerchEnterKey(event);" class="search_field" value="{$filter.m_mobile}" />
+						会员等级：
+						<input type="text" name="ml_name" onkeydown="adminMemberSerchEnterKey(event);" class="search_field" value="{$filter.ml_name}" />
+						会员组：
+						<input type="text" name="mg_name" onkeydown="adminMemberSerchEnterKey(event);" class="search_field" value="{$filter.mg_name}" />
+						<button type="button" onclick="return doSearch();">搜索</button>
+					</td>
+				</tr>
+				<tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;background-color: #EFF3FF;">
+                    <td style="width:20px;" class="aligncenter">
+						<input type="checkbox" name="selectAll" id="selectAll" value="0" />
+					</td>
+					<td style="width: 150px; padding-left:5px;">会员用户名</td>
+					<td style="width: 150px; padding-left:5px;">会员邮箱</td>
+                    <td style="width: 150px; padding-left:5px;">会员手机</td>
+                    <td style="width: 150px; padding-left:5px;">会员等级</td>
+                </tr>
+				<volist name="data_list" id="item">
+                <tr style="background-color: #EFF3FF;">
+                    <td class="aligncenter">
+						<input type="checkbox" name="m_id[]" class="lists_checkbox" {$item.checked} value="{$item.m_id}" />
+					</td>
+                    <td style="text-align:left; padding-left:5px;width:150px">{$item.m_name}</td>
+                    <td>{$item.m_email}</td>
+                    <td>{$item.m_mobile}</td>
+                    <td>{$item.ml_name}</td>
+                </tr>
+                </volist>
+				<tr style="background-color: #EFF3FF;">
+					<td colspan="7">
+						<button type="button" id="checkMember_nextStep_1">保存并继续选择其他会员</button>
+						<button type="button" id="checkMember_nextStep_2">保存会员并进入下一步：设置返利金额</button>
+					</td>
+				</tr>
+            </table>
+        </ul>
+    </div>
+	{$pagelist}
+</div>
+<script type="text/javascript">
+function adminMemberSerchEnterKey(event){
+	var e = event || window.event || arguments.callee.caller.arguments[0];
+	if(e && e.keyCode==13){
+		//当用户敲下回车键，则执行搜索操作
+		return doSearch();
+	}
+}
+function doSearch(){
+	var location_url = '{:U("Admin/Promotings/bathConfigGoodsRebatesCheckMember")}?';
+	var search_condition = "";
+	$(".search_field").each(function(){
+		if($(this).val()!=""){
+			search_condition += $(this).attr("name") + "=" + $(this).val() + "&";
+		}
+	});
+	if(search_condition == ""){
+		showAlert(false,"请输入您要搜索的关键词！");
+		return false;
+	}
+	search_condition += "s=1";
+	//刷新页面并搜索
+	top.location.href=location_url+search_condition;
+	return false;
+}
+$(document).ready(function(){
+	//全选，全不选
+	$("#selectAll").click(function(){
+		if(this.checked){
+			$(".lists_checkbox").attr("checked",true);
+		}else{
+			$(".lists_checkbox").attr("checked",false);
+		}
+	});
+	//全选 products
+	$(".lists_goods").click(function(){
+		var int_goods_id = $(this).val();
+		if(this.checked){
+			$(".list_goods_"+int_goods_id).attr("checked",true);
+		}else{
+			$(".list_goods_"+int_goods_id).attr("checked",false);
+		}
+	});
+	//保存并继续选择会员
+	$("#checkMember_nextStep_1").click(function(){
+		var checked_member_id = "";
+		$(".lists_checkbox").each(function(){
+			if(this.checked){
+				checked_member_id += $(this).val() + ",";
+			}
+		});
+		doAjax(
+			js_webentry + '{:U("Admin/Promotings/saveCheckedMember")}',
+			{string_checked_mid:checked_member_id},
+			function(jsonObj){
+				if(true === jsonObj.status){
+					//提示并刷新当前页
+					return showAlert(true,'会员保存成功，您可以继续选择其他会员！','',true);
+				}
+				return showAlert(false,jsonObj.message);
+			},
+			function(){},
+			'json'
+		);
+	});
+	//保存并进入下一步：设置返利金额
+	$("#checkMember_nextStep_2").click(function(){
+		var checked_member_id = "";
+		$(".lists_checkbox").each(function(){
+			if(this.checked){
+				checked_member_id += $(this).val() + ",";
+			}
+		});
+		doAjax(
+			js_webentry + '{:U("Admin/Promotings/saveCheckedMember")}',
+			{string_checked_mid:checked_member_id},
+			function(jsonObj){
+				if(true === jsonObj.status){
+					//提示并刷新当前页
+					return showAlert(true,'会员保存成功,马上进入下一步！',js_webentry + '{:U("Admin/Promotings/bathConfigGoodsRebates")}');
+				}
+				return showAlert(false,jsonObj.message);
+			},
+			function(){},
+			'json'
+		);
+	});
+});
+</script>

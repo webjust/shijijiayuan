@@ -1,0 +1,173 @@
+<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+<script src="__JS__bulkdetail.js" type="text/javascript"></script>
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<!--wrap-->
+<div class="wrap">
+	<div class="content">
+    	<div class="navBox">
+			 <span><a href="{:U('Home/Index/index')}">首页</a></span><span>></span>
+			 <span><a href="javascript:void(0);">今日推荐</a></span>			
+        </div>
+        <div class="proShow"><!--proShow-->
+        	<div class="details_picShow"><!--picShow-->
+                <!-- 放大镜开始 -->
+				<div class="promotionPic">
+				   <div id="examples">
+					   <ul id="example3">
+						   <volist name="detail.gpics" id="pic">
+							   <li>
+							<img class="etalage_thumb_image" src="{$pic['gp_picture']}" />
+							   <img class="etalage_source_image" src="{$pic['gp_picture']}" />
+							   </li>
+						   </volist>
+					   </ul>
+				   </div>
+				</div>
+                <!-- 放大镜结束 -->
+            </div><!-- picShow -->
+           
+            <div class="details"><!--details-->
+            	<h2>{$gp_title}</h2>
+                <ul class="ul01">
+                	<li>
+                    	<span class="tit">活 动 价：</span>
+                        <label id="showPrice">&yen; <b>{$gp_price|sprintf='%.2f',###}</b> 元</label>
+                        <span class="tit03" id="savePrice" style="height:20px;line-height:20px;margin-top:7px;margin-left:15px">折扣：<php>echo sprintf('%.1f',$gp_price/$cust_price*10)</php>折</span>
+                    </li>
+                    <li>
+                    	<span class="tit">商 城 价：</span>
+                        <label class="lb02" style="height:20px;line-height:20px;margin-top:5px;margin-left:10px"><code>&yen;</code> <strong>{$cust_price|sprintf='%.2f',###}</strong> 元</label>
+                        <span class="tit03" id="savePrice" style="margin-left:50px">节省：{$cust_price-$gp_price} 元</span>
+                    </li>
+                    <li class="ti">
+                    	<p class="time" id="showGroupTime">
+                        	<i></i>
+							<php>if($stat_time == 1){</php>
+								<span><abbr>剩余开始时间：</abbr></span>
+								<span id="timebox{$gp_id}">
+									<!--<b id="day">0</b>天-->
+									<b id="hour">0</b>小时
+									<b id="minute">0</b>分钟
+									<b id="second">0</b>秒
+								</span>
+								<script>countDown("{$gp_start_time}","{$gp_id}","2","<php>echo date('Y-m-d H:i:s');</php>","{$gp_end_time}","tuangouOver");</script>
+							<php>}elseif($stat_time ==2){</php>
+								<span><abbr>此团购已结束：</abbr></span>
+								<span id="timebox{$gp_id}">
+									<!--<b id="day">0</b>天-->
+									<b id="hour">0</b>小时
+									<b id="minute">0</b>分钟
+									<b id="second">0</b>秒
+								</span>
+							<php>}else{</php>
+								<span><abbr>剩余时间：</abbr></span>
+								<span id="timebox{$gp_id}">
+									<!--<b id="day">0</b>天-->
+									<b id="hour">0</b>小时
+									<b id="minute">0</b>分钟
+									<b id="second">0</b>秒
+								</span>
+								<script>countDown("{$gp_end_time}","{$gp_id}","1","<php>echo date('Y-m-d H:i:s');</php>",'1',"tuangouOver");</script>
+							<php>}</php>							
+                        </p>
+					</li>					
+                    <li class="li03">
+                    	<span class="tit">已售出：</span>
+                        <span id="score">{$gp_now_number}件</span>
+                    </li>
+					<li class="li03">
+						<volist name="rel_bulk_price" id="rbp">
+							<span class="tit">满{$rbp.rgp_num}人</span>
+							<span id="score">{$rbp.rgp_price|sprintf='%.2f',###}</span>
+						</volist>
+                    </li>
+                </ul>
+                <div class="detChoose">
+                	<dl>
+						<volist name="good_info.skuNames" id="sku" key="k">
+							<dt class="dd">{$key}：</dt>
+							<dd id="sku{$good_info.gid}_{$k}" class="sku_products dd">
+							<volist name="sku" id="sku_info">
+								<a name="{$sku_info}" <eq name="good_info['skus'][1]['pdt_id']" value=""> class="on" </eq>  onclick="return showSelect(this);" >{$sku_info}<i></i></a>
+							</volist>
+							</dd>
+						</volist>
+						<dt class="dd">购买数量：</dt>
+                        <dd class="dd">
+							<input type="text" id="item_num" name="num" value="1" onblur="blurSelectNum();" max="{$gp_number}" value="1" onfocus="if (value == '1') {value = ''}">
+                            <a href="javascript:void(0);" onclick="countNum(1)" class="add"></a>
+                            <a href="javascript:void(0);" onclick="countNum( - 1)" class="reduce"></a>
+							每人限购<label>{$gp_number}</label>件
+							<input type="hidden" name="type" value="item" id="item_type" />
+                            <input type="hidden" value="<eq name="good_info['skus'][1]['pdt_id']" value="">{$good_info['skus'][0]['pdt_id']}</eq>" name="pdt_id" id="pdt_id" />			
+                        </dd>
+                    </dl>
+                    <p>
+						<if condition="$stat_time eq 3">
+							<php>if($buy_status == 0){</php>
+								<a href="javascript:void(0);" class="buyOver"></a>
+								<a href="javascript:void(0);" class="pastpay" ></a><!--团购结束按钮为灰色，class为pastpay-->
+							<php>}else{</php>
+								<a href="javascript:void(0);" onclick="addToOrder(1);" class="buyNow"></a>
+								<php>if($is_deposit == 1){</php>
+									<a href="javascript:void(0);" onclick="addToOrder(2);" class="pay" ></a>
+								<php>}else{</php>
+									<a href="javascript:void(0);" class="pastpay" ></a><!--团购结束按钮为灰色，class为pastpay-->
+								<php>}</php>
+							<php>}</php>
+						<else />
+							<a href="javascript:void(0);" class="buyOver"></a>
+							<a href="javascript:void(0);" class="pastpay" ></a><!--团购结束按钮为灰色，class为pastpay-->
+						</if>
+                    </p>
+                </div>
+                <div class="share">
+                	<!-- JiaThis Button BEGIN -->
+                    <div id="ckepop">
+                        <span class="jiathis_txt" style="font-family:\5b8b\4f53;">分享给好友：</span>
+                        <a class="jiathis_button_qzone"></a>
+                        <a class="jiathis_button_tsina"></a>
+                        <a class="jiathis_button_tqq"></a>
+                        <a class="jiathis_button_renren"></a>
+                        <a class="jiathis_button_kaixin001"></a>
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                    </div>
+                    <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+                    <!-- JiaThis Button END -->
+                </div>
+            </div><!--/details-->
+        </div><!--/proShow-->
+        <div class="detTwo" ><!--detTwo-->
+        	<div class="detTleft" style="width:1200px;"><!--detTleft-->
+                <div class="detCon"><!--detCon-->
+                	<h2>
+                    	<span class="on">团购说明</span>
+						<if condition="$gp_goodshow_status eq '1'">
+							<span>商品详情</span>
+						</if>
+                    </h2>
+                    
+                    <div class="tabCon"><!-- 商品详情开始 -->
+						{$gp_desc}
+                    </div><!-- 商品详情结束 -->
+                    <if condition="$gp_goodshow_status eq '1'">
+						<div class="tabCon"><!-- 售后服务开始 -->
+							{$good_info.gdesc}
+						</div><!-- 售后服务结束 -->
+                    </if>
+                </div><!--/detCon-->
+            </div><!--/detTleft-->
+        </div><!--/detTwo-->
+    </div>
+</div>
+<!--/wrap-->
+<input type="hidden" value="" name="cr_ids" id="cr_ids">
+<input type="hidden" value="{$gp_id}" name="gp_id" id="gp_id">
+<input type="hidden" value="{$good_info.gid}" name="item_id" id="item_id">
+<input type="hidden" value="{$gp_price}" name="yprice" id="yprice">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_1}" name="error_1" id="error_1">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_4}" name="error_4" id="error_4">
+<input type="hidden" name="no_login" value="{$Think.session.Members.m_name}" id="no_login" />

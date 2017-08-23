@@ -1,0 +1,262 @@
+<input type="hidden" value="{$IS_AUTO_CART|default=0}" id="is_auto_cart" />
+<script type="text/javascript" src="{$Think.config.DOMAIN_HOST}__PUBLIC__/Wap/js/cart.js"></script>
+
+<div class="container"><!--container-->
+	<a href="javascript:void(0);" onclick="window.history.back();" class="gob"><span>返回</span></a>
+    <div class="shopCart"> <!--detailTop-->
+		<p class="detailT"><a href="{:U('/Wap/Index/index')}">首页</a>/<a href="#">购物车</a></p>
+		<!--shopNav start-->
+		<div class="shopNav">
+			<div class="nav_list on">
+				
+					<img src="__IMAGES__icon/shop.png">
+					<p>我的购物车</p>
+				
+			</div>
+			<div class="nav_list">
+				
+					<img src="__IMAGES__icon/orderEdit.png">
+					<p>填写订单信息</p>
+				
+			</div>
+			<div class="nav_list">
+				
+					<img src="__IMAGES__icon/orderSuccess.png">
+					<p>支付并完成订单</p>
+				
+			</div>
+        </div>
+		<!--shopNav end-->
+		<!--shopCartL-->
+		<div class="shopCartL">
+			<h1>购物车</h1>
+			<form action="#" method="post" id="cartForm" name="cartForm">
+			<if condition="$cart_data neq null ">
+            <volist name="cart_data" id="item">
+				<php>
+				$is_free = 0;
+				$fc_id = 0;
+				if(!isset($item['type'])){
+					foreach($item as $tmp_item){
+						if(isset($tmp_item['type']) && $tmp_item['type'] == 4){
+							$is_free = 1;
+							$fc_id=$tmp_item['fc_id'];
+						}
+					}				
+				}
+				</php>
+			
+			<if condition="$is_free eq 1">
+				<volist name="item" id="sub_item">
+				<div class="shopL" <if condition="$i neq 1"> style="border:0px;"</if>>
+					<if condition="$i eq 1">
+					<label>
+						<input type="checkbox" value="free{$fc_id}"  name="pid[]">
+						<input type="hidden" value="4"  name="type[]">
+					</label>
+					<else/>
+					<label></label>
+					</if>
+					<a class="proImg" href="{:U('Wap/Products/detail')}?gid={$sub_item.g_id}"><img class="media-object" width="100px;" height="100px;" src="{$Think.config.DOMAIN_HOST}{$sub_item.g_picture|showImage=###,100,100}" /></a><br />								
+					<div class="proTitle">
+						<a href="{:U('Wap/Products/detail')}?gid={$sub_item.g_id}"><h4>{$sub_item.g_name}</h4></a>
+						<span>{$sub_item.pdt_spec}</span>
+						<p id="pdt_sale_price_{$sub_item.pdt_id}">&yen;{$sub_item.pdt_momery|sprintf='%.2f',###}</p>
+					</div>
+					<div class="proOperation">
+						<p class="do_nums">
+							{$sub_item.pdt_stock}
+						</p>
+						<if condition="$i eq 1">
+						<p>
+							<a href="javascript:void(0);" onclick="removePdtCart('free{$sub_item.fc_id}','{$sub_item.type}');">删除</a>
+						</p>
+						<else/>
+						<p></p>
+						</if>
+					</div>					
+				</div>
+				</volist>
+			<else/>
+			
+			<div class="shopL">
+				<label>
+					<input type="checkbox" value="{$item.pdt_id}"  name="pid[]">
+					<input type="hidden" value="0"  name="type[]">
+				</label>
+				<a class="proImg" href="{:U('Wap/Products/detail')}?gid={$item.g_id}">
+					<img class="media-object" src="{$Think.config.DOMAIN_HOST}{$item.g_picture|showImage=###,100,100}" />
+				</a>
+				<div class="proTitle">
+					<a href="{:U('Wap/Products/detail')}?gid={$item.g_id}"><h4>{$item.g_name}</h4>
+                    <span>{$item.pdt_spec}</span>
+					<p id="pdt_sale_price_{$item.pdt_id}">&yen;{$item.pdt_momery|sprintf='%.2f',###}</p>
+					<if condition="$item.pdt_rule_name neq ''">
+					<p><span class="red" id="proname{$item.pdt_id}">{$item.pdt_rule_name}</span></p>
+					</if>
+					</a>
+				</div>
+				<div class="proOperation">
+					<p class="do_nums">
+						<span>
+							<a href="javascript:void(0)" class="reduce addNums jian" pdt_id="{$item.pdt_id}" good_type="{$item.type}" stock="{$item.pdt_stock}" pdt_sale_price="{$item.pdt_sale_price}" type="1"></a>
+						</span>
+						<input type="text" value="{$item.pdt_nums}" id="pdt_num_{$item.pdt_id}" class="countNum1 inputNum" good_type="{$item.type}" pdt_id="{$item.pdt_id}" stock="{$item.pdt_stock}"/>
+						<input type="hidden" value="{$item.pdt_nums}" id="pdt_num_old_{$item.pdt_id}"/>
+						<input type="hidden" id="pdt_sale_price{$item.pdt_id}" value="{$item.pdt_sale_price}" />
+						<input type="hidden" id="xiao_price{$item.pdt_id}" value="{$item.pdt_market_price}" />
+						<input type="hidden" id="f_price_{$item.pdt_id}" value="{$item.f_price}" />
+						<input type="hidden" id="per_save_price_{$item.pdt_id}" value="{$item.pdt_per_save_price}" />
+						<span>
+							<a href="javascript:void(0);" class="add addNums" pdt_id="{$item.pdt_id}" good_type="{$item.type}" stock="{$item.pdt_stock}" pdt_sale_price="{$item.pdt_sale_price}" type="2"></a>
+						</span>
+					</p>
+					<p>
+						<a href="javascript:void(0);" onclick="removePdtCart('{$item.pdt_id}','{$item.type}');">删除</a>|<a href="javascript:void(0);" onclick="addToInterests('{$item.g_id}');">收藏</a>
+					</p>
+				</div>
+			</div>
+			</if>
+			</volist>
+			<div id="giftscartPdt">
+				<volist name="gifts_data"  id="gifts">
+				<div class="giftscartPdt shopL">
+					<label></label>
+					<a class='proImg' href="{:U('Wap/Products/detail')}?gid={$gifts.g_id}">
+						<img class="media-object" src="{$Think.config.DOMAIN_HOST}{$gifts.g_picture|showImage=###,100,100}" />
+					</a>
+					<div class="proTitle">
+						<a href="{:U('Wap/Products/detail')}?gid={$gifts.g_id}"><h4>{$gifts.g_name}</h4>
+                        <span>{$gifts.pdt_spec}</span>
+						<p id="pdt_sale_price_{$gifts.pdt_id}">&yen;{$gifts.pdt_momery|sprintf='%.2f',###}</p>
+						<p><span class="red" >赠品</span></p>
+						</a>
+					</div>
+					<div class="proOperation">
+						<p class="do_nums">
+							{$gifts.pdt_nums}
+						</p>
+					</div>
+				</div>			
+				</volist>
+			</div>
+			</if>
+			<input type="hidden" value="{$price_data['consumed_ratio']}" id="consumed_ratio">
+			<input type="hidden" value="{$price_data['all_pdt_price']}" pdt_price="{$price_data['all_pdt_price']}" id="all_pdt_price">
+			<input type="hidden" value="{$price_data['pre_price']}" id="all_price_dis">
+			<input type="hidden" value="{$num}" id="current_num">
+			<input type="text" value="{:U('Wap/Orders/addOrderPage/')}" id="post_url" style='display: none;'>
+			<div class="shopB">
+				<p>
+					<label><input type="checkbox" id="select_all2" name="select_all"/>全选 </label>
+					<span><a href="javascript:void(0);" id="delSelected" onclick="javascript:doDel();">X 删除选中商品</a></span>
+				</p>
+				<p class="btnP">
+					<a href="{:U('/Wap/Products/index')}" class="buyBtn">继续购物</a><a onclick="AddOrder();" class="goBtn">去结算</a>
+				</p>
+			</div>
+        </div>
+	</div>
+</div>
+<div id="ajax_check_order_error" style="display:none;text-align:center;">
+    <table style="margin-left:auto;margin-right:auto;">
+        <tr style="text-align:center;">
+            <td id="error_message"></td>
+        </tr>
+        <tr>
+            <td>确定要删除该商品吗!</td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    function del_gifts_tr() {
+		$('#giftscartPdt').html('');
+    }
+    function add_gifts_tr(cart_gifts_data) {
+        var tr_html = '';
+        $.each(cart_gifts_data, function(idx, items) { //alert(items.pdt_id);
+			tr_html += "<div class='giftscartPdt shopL'><label></label>";
+			tr_html += "<a class='proImg' href='/Wap/Products/detail?gid="+items.g_id+"'>";
+            tr_html += "<img class='media-object' width='100px' height='100px' src=" + items.g_picture + " /></a>";
+            tr_html += "<input type='hidden' value=" + items.pdt_sale_price + " id=" + 'pdt_price' + items.pdt_id + ">";
+			tr_html += "<div class='proTitle'><h4>"+items.g_name+"</h4>";
+			tr_html += "<p>&yen;"+items.pdt_momery.toFixed(2)+"</p>";
+			tr_html += "<p><span class='red'>赠品</span></p></div>";
+			tr_html += "<div class='proOperation'><p class='do_nums'>"+items.pdt_nums+"</p></div></div>";			
+        });
+        $("#giftscartPdt").append(tr_html);
+    }
+				
+    function doDel(){
+        var url = "{:U('Wap/Cart/doDel/')}";
+        var data = new Object();
+        data['pid'] = {};
+        data['type'] = {};
+        var j = 0;
+        $("input[name='pid[]']:checked").each(function(i){
+            data['pid'][i] = this.value;
+            data['type'][i] = $(this).next().val();j++;
+        });
+        if(j == 0){showAlert(false,'请选择删除的商品');return false;}
+        if(confirm('确认从购物车删除这些商品嘛?')){
+            $.get(url,data,function(result){
+                if(result.status == 1){
+					var back_url="{:U('Wap/Cart/pageCartList/')}";
+                    alert(result.info);
+                    window.location.href = back_url;
+                }else{
+                    alert(result.info);
+
+                }
+
+            },'json');
+        }
+    }
+    function AddOrder(){
+        var postUrl = $('#post_url').val();
+        var it = 0;
+        var id = '';
+        $("input[name='pid[]']:checked").each(function(){
+            it++;
+            id += $(this).val() + ',';
+        });
+        if(it == 0){
+            alert('请选择购物车商品后再提交订单');return false;
+        }
+        $.ajax({
+            url: "{:U('Wap/Orders/ajaxCheckOrder/')}",
+            cache:false,
+            dataType:'json',
+            data:{pid:id.substr(0,id.length-1)},
+            type:"POST",
+            success:function(msgObj){
+                if(msgObj.status == '1'){
+                    $("#cartForm").attr('action',postUrl);
+                    $("#cartForm").submit();
+                    //window.location.href=postUrl;
+                }else{
+                    /** ****** dialog 对话框展示开始 ******** */
+                    $('#error_message').html(msgObj.info);
+                    $("#ajax_check_order_error").dialog({
+                        // title:'错误!',
+                        width:'auto',
+                        height:'auto',
+                        modal: true,
+                        buttons:{
+                            '确定':function(){
+                                var type = $('.cartPdt'+msgObj.data).find('input[name^=type]').val();
+                                ajaxReturn('/Wap/Cart/doDel/pid/'+msgObj.data+'/type/'+type);
+                            },
+                            '取消':function(){
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                    /** ****** dialog 对话框展示结束 ******** */
+                    // showAlert(false,msgObj.info);
+                }
+            }
+        });
+    }
+</script>
+

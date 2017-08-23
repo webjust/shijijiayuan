@@ -1,0 +1,45 @@
+{__NOLAYOUT__}
+<style>
+    .tab .inputClass input{border: 1px solid #cecece;height: 25px;line-height: 25px;width: 220px;}  
+</style>
+<div style="width: 930px;">
+    <table class="tbForm" width="100%">
+        <tbody class="tab">
+            <tr>
+                <td class="first"><font color="red">*</font>客户名</td>
+                <td>
+                    <font color="blue"><input type="hidden" value="" id="m_id" name="m_id" validate="{ required:true}"/><span id="members" style="font-weight: bold;margin-right: 6px;color: #666;"></span><label class="showSelectedMember">选择会员</label></font>
+                </td>
+                <td class="last"></td>
+            </tr>
+            <tr id="memberBalan" style="display: none;">
+                <td class="first">客户余额</td>
+                <td>
+                    <font color="blue" id="balance">0.00</font>
+                </td>
+            </tr>
+            <tr class="inputClass">
+                <td align="right" width="145px"><font color="red">*</font>流水单号：</td>
+                <td class="inputClass">
+                    <input type="hidden" name="ci_type" id="ci_type" value="0">
+                    <input type="text" class="input01" name="ps_id" value="" id="ps_id" validate="{ required:true,remote:'{:U('Admin/CardsInfo/checkPsid')}',messages:{required:'流水单号不能为空'}}">
+                        <!--<input type="text" class="input01" name="ps_id" value="" id="ps_id" validate="{ required:true,maxlength:30}">-->
+                </td>
+                <td width="236px"></td>
+            </tr>
+            <tr class="inputClass">
+                <td align="right"><font color="red">*</font>充值金额：</td>
+                <td class="inputClass"><input type="text" class="input01 ci_moneys" name="ci_money" value="" id="ci_money" validate="{ required:true}"></td>
+                <td width="236px"></td>
+            </tr>
+            <tr class="inputClass">
+                <td align="right">备注：</td>
+                <td>
+                    <textarea name="ci_desc" id="ci_desc" validate="{ isCheck:true}" style="width: 400px;height: 100px;border: 1px solid #cecece;"></textarea>
+                    <!--<input type="text" class="input01" name="ci_desc" value="" id="ci_desc" validate="{ isCheck:true}">-->
+                </td>
+                <td width="236px"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

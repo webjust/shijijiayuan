@@ -1,0 +1,166 @@
+<!--中间内容 开始-->
+<link href="__CSS__presale.css" rel="stylesheet">
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<Gyfx:goodsinfo name="goods_detail" gid="$g_id" erpguid="$g_id"></Gyfx:goodsinfo>
+<div class="wrap wrapD">
+    <div class="pro_content w1180 bgfa">
+        <div class="path">
+            <a href="{:U('Home/Index/Index')}">首页</a>&gt;
+            <a href="{:U('Home/Presale/Index')}">所有产品</a>&gt;
+            <a href="javascript:void(0)">{$p_title}</a>
+        </div>
+        <div class="proDetail bgfff clearfix"><!--proDetail 开始-->
+            <div class="proDO"><!--proDO 开始-->
+                <div class="proDOL"><!--proDOL 开始-->
+                    <div class="proDOLL"><!--proDOLL 开始-->
+                        <div class="proDOLLT">
+                            <!-- 放大镜开始 -->
+                            <div class="promotionPic">
+                                <div id="examples">
+                                    <ul id="example3">
+                                        <li>
+                                            <img class="etalage_thumb_image" src="{$p_picture|showImage=###,415,415}" />
+                                            <img class="etalage_source_image" src="{$p_picture|showImage=###,415,415}" />
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bd_share jiathis_style">
+                                    <a class="share01" href="javascript:addToInterests('{$g_id}');"></a>收藏 |
+                                    <a class="jiathis_button_qzone"></a>
+                                    <a class="jiathis_button_tsina"></a>
+                                    <a class="jiathis_button_tqq"></a>
+                                    <a class="jiathis_button_weixin"></a>
+                                    <a class="jiathis_button_renren"></a>
+                                    <!--<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>-->
+                                    <a class="jiathis_counter_style"></a>
+                                </div>
+                                <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                            </div>
+                            <!-- 放大镜结束 -->
+                        </div>
+                    </div>
+                    <!--proDOLL 结束-->
+                    <div class="proDOLR"><!--proDOLR 开始-->
+                        <h2>{$p_title}</h2>
+                        <notempty name="goods_detail.gremark">
+                        <p class="p01">
+                            {$goods_detail.gremark}
+                        </p>
+                        </notempty>
+                        <div class="activityA activityC">
+                            <p>此商品正在参加预售，
+                                <span>
+                                    <label id="day">0</label>天
+                                    <label id="hours">0</label>小时
+                                    <label id="minutes">0</label>分
+                                    <label id="seconds">0</label>秒
+                                </span>后结束，请尽快购买！
+                                <script>setTuanGouTime('{$p_end_time}','day','hours','minutes','seconds',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                            </p>
+                        </div>
+                        <div class="proPrice">
+                            <div class="proPriceT"><span class="fleft">预售价:</span>
+                                <p class="p02">
+                                    <strong><i>&yen;</i><b>{$p_price|sprintf='%.2f',###}</b></strong>
+                                    销售价:<i>&yen;</i><del id="showMarketPrice">{$pdt_set_sale_price|sprintf='%.2f',###}</del>
+                                </p>
+                                <span class="fleft ml40">预定保证金:</span>
+                                <p class="p02"><strong><i>&yen;</i>{$p_deposit_price|sprintf='%.2f',###}</strong></p>
+
+                            </div>
+                            <ul class="presale_bot">
+								<!--<volist name="ary_range_price" id="arp">-->
+                                    <!--<eq name="p_tiered_pricing_type" value="1">-->
+                                        <!--<li>满{$arp['rgp_num']}人<br>减{$arp['rgp_price']|sprintf='%.2f',###}元</li>-->
+                                    <!--<else/>-->
+                                        <!--<li>满{$arp['rgp_num']}人<br>打{$arp['rgp_price']*10|sprintf='%.1f',###}折</li>-->
+                                    <!--</eq>-->
+								<!--</volist>-->
+
+                                <li class="presale_botcur">
+                                    {$p_now_number+$p_pre_number}人已预订<br>
+                                    {$page_detail.ary_goods_default_pdt.pdt_sale_price|sprintf='%.2f',###}元
+                                </li>
+                 
+                            </ul>
+                            <ul>
+                                <li id="showDetailSkus">
+                                    商品规格加载中......
+                                    <script type="text/javascript">
+                                        getDetailSkus('{$p_id}', 7);
+                                    </script>
+                                </li>
+                                <li>
+                                    <if condition="$buy_status eq 0">
+                                        <a class="j_gwc tg_btn2 ys_btn" title="您的购买数已用完" href="javascript:void(0);" >您的购买数已用完</a>
+                                        <elseif condition="$buy_status eq 1" />
+                                        <if condition="$is_deposit eq 1">
+                                            <!--启用定金支付-->
+                                            <a class="goTobuy tg_btn ys_btn" title="立即付定金" onclick="addToOrder(2);" href="javascript:void(0);">立即付定金</a>
+                                            <else/>
+                                            <!--未启用定金支付-->
+                                            <a class="j_gwc tg_btn ys_btn" title="立刻购买" onclick="addToOrder(1);" href="javascript:void(0);">立刻购买</a>
+                                        </if>
+                                        <elseif condition="$buy_status eq 2" />
+                                        <assign name="curUrl" value="__SELF__" />
+                                        <a type="button" class="j_gwc tg_btn2 ys_btn" title="请先登录" href="{:U('Home/User/Login')}?rquestUrl={$curUrl|urlencode}">请先登录</a>
+                                        <elseif condition="$buy_status eq 3" />
+                                        <a class="j_gwc tg_btn2 ys_btn" title="团购活动尚未开始" href="javascript:void(0);">团购活动尚未开始</a>
+                                        <elseif condition="$buy_status eq 4"/>
+                                        <a class="j_gwc tg_btn2 ys_btn" title="团购活动已结束" href="javascript:void(0);">团购活动已结束</a>
+                                        <elseif condition="$buy_status eq 5"/>
+                                        <a class="j_gwc tg_btn2 ys_btn" title="团购商品已售完" href="javascript:void(0);" >团购商品已售完</a>
+                                    </if>
+                                </li>
+
+                            </ul>
+                            <p class="lastM">尾款支付时间{$p_overdue_start_time}至{$p_overdue_end_time}</p>
+							
+                        </div>
+                        <!--proDOLR 结束--
+                    </div>
+                </div>
+                <!--proDOL 结束-->
+            </div>
+            <!--proDO 结束-->
+        </div>
+        <!--proDetail 结束-->
+        <div class="content clear">
+            <div class="fl procon" id="procon">
+                <div class="tagarea-wrap">
+                    <div class="tagarea clearfix">
+                        <ul id="left_menus">
+                            <li class="on"><a href="#procon">预购说明</a></li>
+                            <li><a href="#procon2">商品详情</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tagCon">
+                    <div class="ever">
+                        <div class="product-detail">
+                            {$p_desc}
+                        </div>
+                    </div>
+
+                    <div class="ever">
+                        <div class="product-detail">
+                            {$goods_detail.gdesc}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_4}" id="error_4">
+<input type="hidden" value="{$Think.lang.STOCK_ERROR_1}" id="error_1">
+<input type="hidden" value="{$p_id}" id="p_id">
+<script type="text/javascript">
+	var p_id = '{$p_id}';
+	var m_id = '{$Think.session.Members.m_id}';
+</script>
+<script src="__JS__presale.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<!--中间内容 结束-->

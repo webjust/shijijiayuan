@@ -1,0 +1,28 @@
+{__NOLAYOUT__}
+<gyfx:common name='commonInfo'  ></gyfx:common>
+	<if condition="$v_type eq 1" >
+	<a href="javascript:void(0)" class="is_sign"></a>
+	<else />
+	<a href="javascript:void(0)" class="no_sign" id="sign_on">签到赢积分</a>
+	</if>
+	<span class="mypoint">我的积分: <a href="/Ucenter/PointLog/pageList" style="color:#179CD9;">[{$member.total_point}]</a></span>
+<script type="text/javascript">
+$("#sign_on").click(function(){
+    $.ajax({
+        url:"/Ucenter/Index/doSignOn",
+        cache:false,
+        dataType:"json",
+        data:{},
+        type:"post",
+        success:function(msgObj){
+            if(msgObj.status == '1'){
+                $.ThinkBox.success(msgObj.info);
+				//异步获取首页会员登陆信息
+				ajaxLoadMemberInfo(1);
+            }else{
+                $.ThinkBox.error(msgObj.info);
+            }
+        }
+    })
+});
+</script>

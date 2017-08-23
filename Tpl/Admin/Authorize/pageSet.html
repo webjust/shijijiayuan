@@ -1,0 +1,128 @@
+<div class="rightInner">
+<!--<div style="padding:10px;text-align:right;">
+会员名称:<input type="text"
+	name="m_name" id="m_name" class="large" value="{$m_name}" style="width: 145px;"> <input
+	type="button" value="搜 索" id="searchMember" class="btnHeader inpButton">
+</div>-->
+<table width="100%" class="tbList">
+	<thead>
+		<tr class="title">
+			<th colspan="5">
+                            
+                            <p class="conOneP" style="float: left;">
+
+                <a href="{:U('Admin/Authorize/pageAdd')}" class="btnG ico_add">添加授权线</a>
+            </p>
+                        <ul class="conOneUl" style="width:210px;">
+                     <form name="searchMember" action="{:U('Admin/Authorize/pageSet')}">
+                    <li><input type="text" name="m_name" id="m_name" name="m_name" class="large" value="{$m_name}" style="width: 145px;"><input type="submit" value="搜 索" id="searchMember" class="btnA inpButton" style='margin:4px 5px 0px 0px;'></li>
+                    </form>
+            </ul>
+                        </th>
+		</tr>
+		<tr>
+			<th><input type="checkbox" class="checkAll"
+				data-checklist="checkSon_x" data-direction="x" /></th>
+			<th>操作</th>
+			<th>会员名称</th>
+			<th>已有授权线</th>
+			<th>添加授权</th>
+		</tr>
+	</thead>
+	<form name="authorize_set" id="authorize_set" method="get"
+	action="{:U('Admin/Authorize/doDelSet')}">
+	<tbody>
+		<volist name="list" id="member">
+		<tr>
+			<td><input type="checkbox" class="checkSon" name="mid[]"
+				value="{$member.m_id}" data-xid="checkSon_x" /></td>
+			<td><a
+				href='{:U("Admin/Authorize/doDelSet?mid=$member[m_id]&aid=-1")}'
+				class="confirm">清空授权</a></td>
+			<td>{$member.m_name}</td>
+			<td class="authorize left" style="width: 330px;"><volist
+				name="member.authorize" id="mAuthorize"> <span class="blue">{$mAuthorize.al_name}<a
+				href="javascript:void(0);" class="delete"
+				onclick="deleteAuthorize($(this),{$mAuthorize.al_id});"></a></span> </volist></td>
+			<td><select class="medium">
+				<option value="0">-请选择授权线-</option>
+				<volist name="authorize" id="al">
+				<option value="{$al.al_id}">{$al.al_name}</option>
+				</volist>
+			</select> <a href="javascript:void(0);" class="authorize_add"
+				mid="{$member.m_id}">添加</a></td>
+		</tr>
+		</volist>
+		<empty name="list">
+		<tr>
+			<td colspan="99" class="left">暂时没有数据!</td>
+		</tr>
+		</empty>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="99"><input type="hidden" name="aid" value="-1" />
+			<input type="submit" value="清空选中会员的授权线" class="btnA confirm"
+				id="delAll" />&nbsp; <!-- 
+                    <select class="small" id="authorize_config" title="全局关闭情况下，任何授权线均不起作用，会员拥有任意采购权。反之会员只能采购授权线所设置商品">
+                        <option value="1" <eq name="config.GLOBAL" value="1">selected="selected"</eq> >全局开启</option>
+                        <option value="0" <eq name="config.GLOBAL" value="0">selected="selected"</eq> >全局关闭</option>
+                    </select>
+                     --> <span class="right page">{$page}</span></td>
+		</tr>
+	</tfoot>
+</table>
+</form>
+<div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        /* 给会员添加授权线 */
+        $('.authorize_add').click(function(){
+            var obj = $(this);
+            var mid = obj.attr('mid');
+            var aid = obj.parent().find("select").val();
+
+            if(aid!=0){
+                var url = "{:U('Admin/Authorize/doSet')}";
+                $.get(url,{ 'mid':mid,'aid':aid},function(info){
+                    if(info=='false'){
+                        showAlert(false,'添加错误','添加错误或者已经添加过了！');
+                    }else{
+                        //obj.parents('tr').find("td.authorize").append(info);
+						window.location.reload();
+                    }
+                },'text');
+            }
+        });
+
+        /* 设置全局开关 */
+        $('#authorize_config').change(function(){
+            var GLOBAL = $(this).val();
+            var url = "{:U('Admin/Authorize/doSetCfg')}";
+            ajaxReturn(url,{ 'GLOBAL':GLOBAL});
+        });
+        $('#searchMember').click(function(){
+            var url = "{:U('Admin/Authorize/pageSet')}";
+            var m_name = $('#m_name').val();
+            if(m_name == ''){
+            	showAlert(false,'错误','搜索会员名称不能为空！');
+            }
+			location.href=url+"?m_name="+m_name;
+        });
+    });
+
+
+    function deleteAuthorize(obj,aid){
+        var mid = obj.parents('tr').find('.checkSon').val();
+        var url = "{:U('Admin/Authorize/doDelSet')}";
+        $.get(url,{ 'mid':mid,'aid':aid},function(info){
+            if(info.status){
+                obj.parent('span').remove();
+            }else{
+                showAlert(false,'删除错误');
+            }
+        },'json');
+    }
+</script>

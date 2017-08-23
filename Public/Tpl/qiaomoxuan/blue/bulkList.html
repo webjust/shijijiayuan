@@ -1,0 +1,91 @@
+<!--中间内容 开始-->
+<div class="HXwarp" id="main">
+	<div class="area">
+    	<div class="content960"><!--content960 col  start-->
+        	<div class="goodList_navtitle block">
+            	<a href="{:U('Home/Index/index')}">首页</a><span>></span><a href="javascript:void(0);">今日推荐</a>
+                <if condition="($get.cr_name neq '')">
+                <span>></span><a>{$get.cr_name}</a>
+                </if>
+            </div>
+            
+            <div class="goodList_nav tuanNav block"><!--goodList_nav  start-->
+            	<table>
+                	<tr>
+                    	<th width="100" valign="top" align="center"><h2><span>区域：</span></h2></th>
+                        <td>
+                        	<p>
+                                <a href="{:U('Home/Bulk/index')}?startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get.cr_id eq ''"> class="on" </if>>全部</a>
+                                <volist name="city" id="city_info">
+                                    <a href="{:U('Home/Bulk/index')}?cr_id={$city_info.cr_id}&startPrice={$get.startPrice}&endPrice={$get.endPrice}" <if condition="$get['cr_id'] eq $city_info['cr_id']">class="on"</if>>{$city_info['cr_name']}</a>
+                                </volist>
+                                
+                            </p>
+                        </td>
+                    </tr>
+  
+                    <tr>
+                    	<th valign="top" align="center"><h2><span class="price">价格：</span></h2></th>
+                        <td>
+                        	<p> 
+                                <a href="{:U('Home/Bulk/index')}?cr_id={$get.cr_id}" <if condition="($get.startPrice eq '') and  ($get.endPrice eq '')"> class="on"  </if>>全部</a>
+                                <a href="{:U('Home/Bulk/index')}?startPrice=0&endPrice={$priceSet.min_price}&cr_id={$get.cr_id}" <if condition="$get.endPrice eq $priceSet['min_price']" >class="on"</if>>0-{$priceSet.min_price}</a>
+                                <volist name="priceSet.price" id="price">
+                                <a href="{:U('Home/Bulk/index')}?startPrice={$price['from']}&endPrice={$price['to']}&cr_id={$get.cr_id}" <if condition="$get.endPrice eq $price['to']" >class="on"</if>>{$price['from']}-{$price['to']}</a>
+                                </volist>
+                                <a href="{:U('Home/Bulk/index')}?startPrice={$priceSet['max_price']}&cr_id={$get.cr_id}" <if condition="$get.startPrice eq $priceSet['max_price']" >class="on"</if>>{$priceSet['max_price']}以上</a>
+                            </p>
+                        </td>
+                    </tr>
+  
+                </table>
+            </div><!--goodList_nav  end-->
+            
+            <div class="goodList_con block"><!--goodList_con  start-->
+                <div class="gcUl tuan"><!--gcUl  start-->
+                	<ul>
+                    	
+                        <volist name="data" id="list">
+                        <li>
+                        	<a href="{:U('Home/Bulk/detail')}?gp_id={$list['gp_id']}" class="proP">
+                                <img src="{$Think.config.DOMAIN_HOST}{$list.gp_picture|showImage=###,300,300}" width="300" height="300">
+                                <h3>
+                                	<span>销量：{$list['gp_now_number']}件</span>
+                                    <span class="time">剩余时间：<label id="day{$list.gp_id}">3</label>天<label id="hours{$list.gp_id}">12</label>时<label id="minutes{$list.gp_id}">20</label>分<label id="seconds{$list.gp_id}">30</label>秒</span>
+                                    <i></i>
+                                    <script>setTuanGouTime('{$list.gp_end_time}','day{$list.gp_id}','hours{$list.gp_id}','minutes{$list.gp_id}','seconds{$list.gp_id}',"<php>echo date('Y-m-d H:i:s');</php>");</script>
+                                </h3>
+                            </a>
+                            <a href="{:U('Home/Bulk/detail')}?gp_id={$list['gp_id']}" class="proN">{$list.gp_title}</a>
+                            <strong><i>&yen;</i>{$list.gp_price|sprintf='%.2f',###}</strong>
+                            <p>原价：<del><i>&yen;</i> {$list.cust_price|sprintf='%.2f',###}</del> &nbsp;&nbsp;&nbsp;&nbsp;折扣：<php>echo sprintf('%.1f',$list['gp_price']/$list['cust_price']*10)</php>折</p>
+                            <a href="{:U('Home/Bulk/detail')}?gp_id={$list['gp_id']}" class="gotosee">去看看</a>
+                        </li>
+                        </volist>
+                    </ul>
+                </div><!--gcUl  end-->
+            </div><!--goodList_con  end-->
+            <div class="fenye block"><!--fenye  start-->
+                <php>if(!isset($pagearr['nowPage']) || $pagearr['nowPage'] == 1){</php>
+                <a href="javascript:void(0);" class="prev on">首页</a>
+                <a href="javascript:void(0);" class="prev on">上一页</a>
+                <php>}</php>
+                <php>if(isset($pagearr['nowPage']) && $pagearr['nowPage'] != 1){</php>
+                    <a href="<php>echo rtrim(substr($pagearr['upUrl'],0,-3),'/').'/';</php>" class="prev01">首页</a>
+                    <a href="{$pagearr.upUrl}" class="prev01">上一页</a>
+                <php>}</php>
+                {$pagearr.linkPage}
+                <php>if($pagearr['nowPage'] == $pagearr['totalPage']){</php>
+                    <a href="javascript:void(0);" class="prev on">下一页</a>
+                    <a href="javascript:void(0);" class="prev on">尾页</a>
+                <php>}</php>
+                <php>if($pagearr['nowPage'] < $pagearr['totalPage']){</php>
+                    <a href="{$pagearr.downUrl}" class="next">下一页</a>
+                    <a href="<php>echo rtrim(substr($pagearr['downUrl'],0,-3),'/').'/';</php>p/{$pagearr['totalPage']}" class="next">尾页</a>
+                <php>}</php> &nbsp;&nbsp;&nbsp;
+            </div><!--fenye  end-->
+            
+        </div><!--content960 col  start-->
+    </div>
+</div>
+<!--中间内容 结束-->

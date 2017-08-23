@@ -1,0 +1,26 @@
+{__NOLAYOUT__}
+<table>
+    <thead>
+    <tr>
+        <td>用户</td>
+        <td>抽得奖项</td>
+        <td>时间</td>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name='ary_lotterys' id="lottery">
+        <tr>
+            <td><span>{$lottery['m_name']}</span></td>
+            <td>
+                <if condition="$lottery['ul_type'] eq 1">
+                    <code>红包{$lottery['ul_bonus_money']}元</code>
+                </if>
+                <if condition="$lottery['ul_type'] eq 2">
+                    <code>{$lottery['ul_title']}</code>
+                </if>
+            </td>
+            <td><label>{$lottery['ul_confirm_time']}</label></td>
+        </tr>
+    </volist>
+    </tbody>
+</table>

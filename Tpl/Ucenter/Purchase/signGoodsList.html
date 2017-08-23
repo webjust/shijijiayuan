@@ -1,0 +1,186 @@
+<!-- 中间内容开始 -->
+<!-- 右侧主题内容开始 -->
+<link href="__PUBLIC__/Ucenter/css/User.css" type="text/css" rel="stylesheet"/>
+<link href="__PUBLIC__/Ucenter/css/My.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/Ucenter/js/jeditable.js"></script>
+
+<style>
+    .rightBox_content_title > a {
+        float: right;
+    }
+
+    .rightBox_content_title > div {
+        float: left;
+    }
+
+    .bold_size {
+        font-weight: bold;
+    }
+
+    .pink {
+        background: lightpink; /*选中当前行时，添加背景色*/
+    }
+</style>
+<div class="contentRightBox">
+    <div class="title"
+         style="width: 948px;height:30px;padding-left:10px;line-height: 30px;border:1px solid #d7d7d7;border-bottom:none; ">
+        商品识别表
+    </div>
+    <form id="orders_form" metdod="get" action='{:U("Ucenter/Purchase/signGoodsList")}'>
+        <div style="width:948px;padding-left:10px;height:30px;line-height: 30px;background:#ececec;border:1px solid #d7d7d7;border-top: none;">
+            品牌英文名：
+            <input type="text" id="brand" name="brand" class="form-controller" value="{$brand}">
+            <input type="button" id="searchOrderSubmit" value="查询"
+                   style="width: 65px;height:25px;background:#ff3366;color:white;margin-left:10px;margin-right: 5px;">
+        </div>
+    </form>
+    <div style="overflow-x:auto;height: 650px;padding-left: 10px;padding-top: 10px;border:1px solid #d7d7d7;border-top: none;">
+        <table width="100%" class="tbList">
+            <thead>
+            <tr class="title">
+                <th colspan="99">商品识别表</th>
+            </tr>
+            <tr>
+                <th>操作</th>
+                <th>id</th>
+                <th>品牌属国</th>
+                <th>进口</th>
+                <th>国货</th>
+                <th>中文名英文名</th>
+                <th>英文名</th>
+                <th>主要功效</th>
+                <th>功效一</th>
+                <th>功效二</th>
+                <th>功效三</th>
+                <th>颜色</th>
+                <th>用材</th>
+                <th>自命名</th>
+                <th>主分类</th>
+                <th>分类一</th>
+                <th>分类二</th>
+                <th>分类三</th>
+                <th>单位含量</th>
+                <th>单位包装数量</th>
+                <th>规格</th>
+                <th>使用部位</th>
+                <th>平台一销售价</th>
+                <th>平台二销售价</th>
+                <th>平台一URL</th>
+                <th>平台二URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="List" id="item">
+                <tr>
+                    <th><a onclick="javascript:delItem({$item.id});">删除</a></th>
+                    <th>{$item.id}</th>
+                    <th>{$item.country}</th>
+                    <th>{$item.importation}</th>
+                    <th>{$item.home_made}</th>
+                    <th>{$item.brand_cn}</th>
+                    <th>{$item.brand_en}</th>
+                    <th>
+                        <div class="edit" id="main_fun-{$item.id}">{$item.main_fun}</div>
+                    </th>
+                    <th>
+                        <div class="edit" id="fun1-{$item.id}">{$item.fun1}</div>
+                    </th>
+                    <th>{$item.fun2}</th>
+                    <th>{$item.fun3}</th>
+                    <th>{$item.color}</th>
+                    <th>
+                        <div class="edit" id="material-{$item.id}">{$item.material}
+                    </th>
+                    <th>
+                        <div class="edit" id="nomenclature-{$item.id}">{$item.nomenclature}
+                    </th>
+                    <th>
+                        <div class="edit" id="main_fun-{$item.id}">{$item.main_class}
+                    </th>
+                    <th>
+                        <div class="edit" id="class1-{$item.id}">{$item.class1}
+                    </th>
+                    <th>
+                        <div class="edit" id="class2-{$item.id}">{$item.class2}
+                    </th>
+                    <th>
+                        <div class="edit" id="class3-{$item.id}">{$item.class3}
+                    </th>
+                    <th>
+                        <div class="edit" id="unit-{$item.id}">{$item.unit}
+                    </th>
+                    <th>
+                        <div class="edit" id="package-{$item.id}">{$item.package}
+                    </th>
+                    <th>
+                        <div class="edit" id="spec-{$item.id}">{$item.spec}
+                    </th>
+                    <th>
+                        <div class="edit" id="partused-{$item.id}">{$item.partused}
+                    </th>
+                    <th>
+                        <div class="edit" id="tmall_price-{$item.id}">{$item.tmall_price}
+                    </th>
+                    <th>
+                        <div class="edit" id="jumei_price-{$item.id}">{$item.jumei_price}
+                    </th>
+                    <th>
+                        <div class="edit" id="tmall_url-{$item.id}">{$item.tmall_url}
+                    </th>
+                    <th>
+                        <div class="edit" id="jumei_url-{$item.id}">{$item.jumei_url}
+                    </th>
+                </tr>
+            </volist>
+            <empty name="List">
+                <tr>
+                    <td colspan="99" class="left">暂时没有数据!</td>
+                </tr>
+            </empty>
+            </tbody>
+        </table>
+    </div>
+    <div class="myOderBot"><!--myOderBot  start-->
+        <div class="myOderBotRight"><!--myOderBotRight  start-->
+            {$page}
+        </div><!--myOderBotRight  end-->
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#searchOrderSubmit").click(function () {
+            $('#orders_form').submit();
+        });
+        $('.edit').editable('/Ucenter/Purchase/TableEdit/table/in_goods');
+
+
+        // 选中当前行时，给当前行添加了背景色，其他行移除背景色
+        $('tr').click(function () {
+            $(this).siblings('tr').removeClass('pink');
+            $(this).addClass('pink');
+        });
+
+        $('.edit').click(function () {
+            $(this).parents('tr').siblings('tr').removeClass('pink');
+            $(this).parents('tr').addClass('pink');
+        });
+    });
+
+    // 删除
+    function delItem(id) {
+        if (confirm("确定要清空数据吗？")) {
+            var url = '/Ucenter/Purchase/ajaxDelGood';
+            $.post(url, {id: id}, function (data) {
+                if (data.result) {
+                    showAlert(true, '删除成功!');
+                    location.reload();
+                } else {
+                    showAlert(false, '删除失败!');
+                    return false;
+                }
+            }, 'json');
+        }
+    }
+
+
+</script>

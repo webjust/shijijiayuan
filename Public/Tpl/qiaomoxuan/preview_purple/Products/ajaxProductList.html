@@ -1,0 +1,11 @@
+{__NOLAYOUT__}
+<Gyfx:goodslist wap="1" name='showlist' bid="$ary_request['bid']" cid="$ary_request['cid']" pagesize="6" start="$ary_request[start]" gname="$ary_request[keyword]" order="$ary_request[order]" startprice="$ary_request[startPrice]" endPrice="$ary_request[endPrice]" >
+    <li class="clearfix">
+        <a href="{$showlist.gurl}" class="img"><img src="<php>$showlist['g_picture'] = '/'.ltrim($showlist['g_picture'],'/');</php>{$showlist.g_picture|showImage=###,100,100}" width="100" height="100" /></a>
+        <div class="proM">
+                <a href="{$showlist.gurl}"  title="{$showlist.gname}" class="proN">{$showlist.gname}</a>
+            <p><i>&yen;</i><strong>{$showlist.gprice|sprintf='%.2f',###}</strong></p>
+            <span>销量:<label>{$showlist.gsales}</label>件</span>
+        </div>
+    </li>
+</Gyfx:goodslist>

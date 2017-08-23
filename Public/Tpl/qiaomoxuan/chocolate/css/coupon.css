@@ -1,0 +1,23 @@
+/*优惠券  开始*/
+.coupon { padding:0 47px 80px; background:url(../images/cou-repeatx.png) repeat-y;}
+.cash { overflow:hidden;}
+.cash h2 { line-height:14px; font-size:14px; color:#333; padding-top:30px; font-weight:normal;}
+.cash ul { overflow:hidden; zoom:1; width:100%; margin-left:38px;}
+.cash ul li { display:inline; float:left; width:250px; height:275px; overflow:hidden; margin-right:19px; background:url(../images/coupon.png) no-repeat; margin-top:20px; position:relative;}
+.cash ul li.hReceive { background-position:0 -275px;}
+.cash ul li.hReceive p.price { color:#494949}
+.cash ul li i { position:absolute; background:url(../images/coupon.png) no-repeat 0 -828px; width:109px; height:34px; top:74px; left:69px;}
+.cash p.price,.cash p.con { padding-left:36px;}
+.cash p.price { font-size:24px; color:white; padding:27px 0 10px 36px}
+.cash p.price strong { font-size:48px; font-family:Arial, Helvetica, sans-serif; margin-left:3px}
+.cash p.con { color:white; font-family:宋体; line-height:20px; height:20px; overflow:hidden;}
+.cash p.bot { padding:0 20px; overflow:hidden; zoom:1; line-height:25px; margin-top:50px;}
+.cash p.bot span,.cash p.bot img { float:left;}
+.cash p.bot span { font-size:14px; color:#333;}
+.cash p.bot a { float:right; color:#006768;}
+.cash p.discount a { color:#533a5f}
+.cash p.bot label { float:right; color:#666}
+.cash p.yellowColor { color:#fffc00}
+.cash p.yellowColor strong { margin:0;}
+.cash p.yellowColor code { margin-left:5px; font-size:18px; font-weight:bold}
+/*优惠券  结束*/

@@ -1,0 +1,118 @@
+<script src="__PUBLIC__/Admin/js/stock.js"></script>
+<div class="rightInner">
+    <form id="brand_form" name="brand_form" method="post" action="{:U('Admin/Stock/doSet')}" onsubmit="return javascriptCheckBeforeSubmit();">
+        <table class="tbForm" width="100%">
+            <thead>
+                <tr class="title">
+                    <th colspan="99">库存设置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="first">库存显示类型：</td>
+                    <td colspan="2">
+                        <input id="Open" type="checkbox" value="1" name="Open" onclick="oncheck(this)" <if condition="$data[OPEN_STOCK] eq 1 ">  checked </if>> 模糊库存
+                    </td>                    
+                </tr>
+                
+                <tr id="stock_set" <if condition="$data[OPEN_STOCK] neq 1 ">  style="display: none;" </if> >
+                    <td class="first">警戒库存：</td>
+                    <td>
+                        <input type="text" name="stock_num" id="stock_num" class="medium" value="{$data.STOCK_NUM}"  /> 
+						<span style="border:0px solid #ff0000;background-color:#FFF8ED;display:none;font-size:15px;margin:3px;"></span>
+                    </td>
+                    <td class="last">如：该值为10，则＞0＜10时，显示库存紧张；≥10时，显示库存充足；≤0时，显示缺货</td>
+                </tr>
+                <tr id="user_check" <if condition="$data[OPEN_STOCK] neq 1 ">  style="display: none;" </if>>
+                    <td class="first"><span>选择会员:</span></td>
+                    <td class="checkmember" colspan="2">
+                        <input id="u10" name="user" type="radio" value="1" checked="true" onclick="usercheck(this)" <if condition="$data[USER_TYPE] eq 'all' ">  checked </if>> 全部会员
+                        <input id="u101111" name="user" type="radio" value="2" onclick="usercheck(this)" <if condition="$data[USER_TYPE] neq 'all' ">  checked </if>> 部分会员
+                    </td>                    
+                </tr>
+                <tr id="user_type" <if condition="$data[USER_TYPE] eq 'all' ">  style="display: none;" </if>>
+                    <td class="first"></td>
+                    <td colspan="2">
+                        <volist name="user_level"  id="vo">
+							<span style="margin-left:10px;">
+                            <input class="member_levels" type="checkbox" id="ml_id_{$vo.ml_id}" value="{$vo.ml_id}" name="level[]" <eq name="vo.check" value="true">checked</eq>>
+							<label for="ml_id_{$vo.ml_id}">{$vo.ml_name}</label>
+							</span>
+                        </volist>
+							<span style="margin-left:10px;">
+                            <input class="member_levels" type="checkbox" id="ml_id_0" value="0" name="level[]" <eq name="vo_0.check" value="true">checked</eq>>
+							<label for="ml_id_0">游客</label>
+							</span>
+                    </td>                    
+                </tr>
+				<!--
+                <tr>
+                    <td class="first">会员中心是否警戒库存：</td>
+                    <td colspan="2">
+                        <input id="" name="wat_stock" type="radio" value="1"  <if condition="$data[WAT_STOCK] eq '1' ">  checked </if>> 是
+                        <input id="" name="wat_stock" type="radio" value="0" <if condition="$data[WAT_STOCK] eq '0' ">  checked </if>> 否
+                    </td>                    
+                </tr>
+                -->
+                <tr id="is_wat_stock" <if condition="$data[OPEN_STOCK] neq 1 ">  style="display: none;" </if>>
+                    <td class="first">是否警戒库存：</td>
+                    <td colspan="2">
+                        <input id="" name="wat_stock" type="radio" value="1"  <if condition="$data[WAT_STOCK] eq '1' ">  checked </if>> 是
+                        <input id="" name="wat_stock" type="radio" value="0" <if condition="$data[WAT_STOCK] eq '0' ">  checked </if>> 否
+                    </td>                    
+                </tr>
+                <!-- 是否开启分销库存分配 start -->
+                <tr>
+                    <td class="first">是否开启库存分配：</td>
+                    <td colspan="2">
+                        <input id="" name="inventory_stock" type="radio" value="1"  <if condition="$data[INVENTORY_STOCK] eq '1' ">  checked </if>> 是
+                        <input id="" name="inventory_stock" type="radio" value="0" <if condition="$data[INVENTORY_STOCK] eq '0' ">  checked </if>> 否
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first">是否开启共享库存：</td>
+                    <td>
+                        <input id="" name="inventory_common" type="radio" value="1"  <if condition="$data[INVENTORY_COMMON] eq '1' ">  checked </if>> 是
+                        <input id="" name="inventory_common" type="radio" value="0" <if condition="$data[INVENTORY_COMMON] eq '0' ">  checked </if>> 否 
+                    </td>
+                    <td class="last">只有开启库存分配后,该设置才有效.</td>
+                </tr>
+                <!-- 是否开启分销库存分配 end -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="99">
+                        <input type="submit" value="提 交" class="btnA" >
+                        <input type="button" value="取 消" onClick="onUrl('{:U("Admin/GoodsBrand/pageList")}');" class="btnA" >
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <div class="clear"></div>
+</div>
+<!--Add Terry--------校验会员等级-->
+<script>
+    $(document).ready(function(){   
+        $("#brand_form").validate(); 
+
+		if($("#Open").attr('checked')) {
+			$("#stock_set").show();
+			$("#user_check").show();
+			$("#user_type").show();
+			$("#is_wat_stock").show();
+		}else{
+			$("#stock_set").hide();
+			$("#user_check").hide();
+			$("#user_type").hide();
+			$("#is_wat_stock").hide();
+		}
+		
+		//$("#Open").attr("checked",true)
+		
+        //$(".checkmember,span").hide();
+        //$("#Open").click(function(){
+       //     $(".checkmember,span").toggle();
+       // });
+    });
+</script>

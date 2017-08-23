@@ -1,0 +1,110 @@
+<style type="text/css">
+	td{
+		border: solid #e4e4e4;
+		border-width: 0px 1px 0px 0px;
+	}
+	.list-content-table tr td {
+		border-bottom: 1px solid #E4E4E4;
+	}
+</style>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/salepromotion.css" type="text/css">
+<div class="p-m-r-div-03">
+    <div class="p-m-r-div-0302">
+    	<ul class="pmr-ul-0302-left" style="line-height: 34px;">
+            <table cellspacing="0" cellpadding="0">
+                <tr>
+                	<td width="100px;">所有返利总金额 : </td>
+                	<td width="150px;">&nbsp;&nbsp;<if condition="$pbs_list neq 'namenull'">{$pbs_list.total_return_amount} <else/>0</if>(元) </td>
+                </tr>
+            </table>
+         </ul>
+        <ul class="pmr-ul-0302-right search_boxrt">
+            <table cellspacing="0" cellpadding="0" style="margin:10px;">
+                <tr>
+                    <td>推荐分销商 : </td>
+                    <td>
+                        <!-- <input type="text"  value="{$filter.m_name}"  name="m_name" id="m_name" /> -->
+                        <select name="m_name" id="m_name">
+                            <volist name="ary_member" id="member">
+                                <if condition="$member['m_name'] neq ''" >
+                                    <option value="{$member.m_name}" <if condition="$member['m_name'] eq $filter['m_name']">selected="selected"</if> >
+                                        <php>
+                                            $total = count(explode(',',$member['mr_path']));
+                                            if(!empty($total)){
+                                                for($i=0;$i < $total;$i++){
+                                                    echo "&nbsp;&nbsp;&nbsp;";
+                                                }
+                                                echo "|---";
+                                            }
+                                        </php>
+                                        {$member.m_name}
+                                    </option>
+                                </if>
+                            </volist>
+                        </select>
+                    </td>
+                    <td>年 : </td>
+                    <td><input type="text" value="{$filter.year}" name="year" id="year" /></td>
+                    <td>月 : </td>
+                    <td><input type="text" value="{$filter.month}" name="month" id="month" /></td>
+                    <td><button type="button" class="but-type-022" value="提交" onclick="doSearchPaybackStatements();">查询</button></td>
+                </tr>
+            </table>
+        </ul>
+    </div>
+    <div class="p-m-r-div-0303 list-head-div">
+        <ul>
+            <table cellspacing="0" cellpadding="0" class="list-head-table" style="margin:10px;">
+                <tr style=" border-left:1px solid #e4e4e4; border-right:1px solid #e4e4e4;">
+                    <td style="width: 100px;" class="aligncenter">被推荐分销商</td>
+                    <td style="width: 120px; padding-left:5px;">订单总数量（单）</td>
+                    <td style="width: 100px; padding-left:5px;">订单商品总金额（元）</td>
+                    <td style="width: 100px; padding-left:5px;">目标销售额（元）</td>
+                    <td style="width: 140px; padding-left:5px;">成交总金额（元）</td>
+                    <!--<td style="width: 120px; padding-left:5px;">业绩</td>-->
+                    <td style="width: 140px; padding-left:5px;">退款总金额（元）</td>
+                    <td style="width: 160px; padding-left:5px;">返利总金额（元）</td>
+                </tr>
+            </table>
+        </ul>
+    </div>
+    <div class="p-m-r-div-0304 list-content-div" style="border:1px solid #E4E4E4; border-top:none;">
+        <ul>
+            <table cellspacing="0" cellpadding="0" class="list-content-table" style="margin:10px;">
+     			<volist name="pbs_list.report" id="item">
+                <tr>
+                    <td style="width: 100px;" class="aligncenter">{$item.m_name}</td>
+                    <td style="width: 120px; line-height:18px; padding:5px 0px 5px 0px; text-align:left; padding-left:5px;">{$item.order_num}</td>
+                    <td style="width: 100px; padding-left:5px;"><!--订单总金额-->{$item.total_goods_amount}</td>
+                    <td style="width: 100px; padding-left:5px;"><!--目标销售额-->{$item.total_mss_sales}</td>
+                    <td style="width: 140px; padding-left:5px;"><!--成交总金额--><php>echo ($item[total_amount]-$item[return_order_amount]);</php>（元）</td>
+                    <td style="width: 140px; padding-left:5px;"><!--退款总金额-->{$item.return_order_amount}（元）</td>
+                    <td style="width: 160px; padding-left:5px;"><!--返利总金额-->{$item.m_p_amount}（元）</td>
+                </tr>
+                <tr class="member_list_info_data" style="display:none;">
+                    <td colspan="11"></td>
+                </tr>
+                </volist>
+                <empty name="pbs_list.report">
+                <tr>
+                    <td><if condition="$filter.m_name eq ''">请输入 推荐分销商<else />无搜索结果！</if></td>
+                </tr>
+                </empty>
+            </table>
+        </ul>
+    </div>
+	<div style="float:right;margin-right:20px;margin-top:10px;margin-bottom:10px;font-size:14px;">{$page}</div>
+</div>
+
+<script>
+function doSearchPaybackStatements(){
+    var m_name	= $("#m_name").val();
+	var year	= $("#year").val();
+	var month	= $("#month").val();
+	if(m_name == ''){
+		showAlert(false,"被推荐人不能为空");
+		return false;
+	}
+	location.href='{:U("Admin/Promotings/PBStatements")}'+'?m_name='+m_name+'&year='+year+'&month='+month;
+}
+</script>

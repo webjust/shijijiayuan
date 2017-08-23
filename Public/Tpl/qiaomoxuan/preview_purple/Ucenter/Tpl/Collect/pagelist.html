@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="__UCSS__global.css">
+<script src="__UJS__ucenter.js"></script>
+<!--content-->
+<div class="container">
+    <!--container-->
+    <div class="titleTop"> <!--titleTop-->
+        <p class="detailT"><a href="#">首页</a>/<a href="#">我的收藏</a></p>
+        <h1><span>我的收藏</span></h1>
+    </div>
+    <!--titleTop-->
+    <!--Ucenter-->
+    <div class="Ucenter">
+        <!--userInfo-->
+
+        <div class="userInfo" id="userInfo">
+            <script>
+                getcommoninfo();
+            </script>
+        </div>
+        <!--userInfo-->
+        <!--ucenter_S-->
+        <div class="ucenter_S">
+            <div class="selectort"><span class="select">收藏列表</span>
+                <ul style="display: none;">
+                    <li><a href="{:U('Wap/Collect/pagelist')}" selectid="6">收藏列表</a></li>
+                    <li><a href="{:U('Wap/Ucenter/index')}" selectid="1">个人信息</a></li>
+                    <li><a href="{:U('Wap/Orders/orderList')}"  selectid="2">我的订单</a></li>
+                    <li><a href="{:U('Wap/My/pageDeliver')}" selectid="4">我的地址</a></li>
+                    <li><a href="{:U('Wap/Message/pageMailBox')}" selectid="5">站内消息</a></li>
+
+                    <li><a href="{:U('Wap/PointLog/pagelist')}" selectid="8">我的积分</a></li>
+                    <li><a href="{:U('Wap/Coupon/couponList')}" selectid="9">我的优惠券</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--ucenter_S-->
+        <!--Message-->
+        <div class="SaveList">
+            <h1> 收藏列表</h1>
+            <volist name="ary_goodinfo" id="goods_info">
+                <div class="Details"><!-- 收藏列表-->
+                    <div class="Pr0Img"><a href="{:U('Wap/Products/detail','gid='.$goods_info['g_id'])}"><img src="<php>$goods_info['g_picture'] = '/'.ltrim($goods_info['g_picture'],'/');</php>{$goods_info.g_picture|showImage=###,70,70}" width="70" height="70"/></a></div>
+                    <div class="PrOdea">
+                        <p><span>商品：</span><span class="proR">{$goods_info.g_name}</span></p>
+
+                        <p><span>价格：</span><span class="proR">{$goods_info.g_price|sprintf='%.2f',###}元</span></p>
+                    </div>
+                    <div class="button">
+						<a href="{:U('Wap/Products/detail','gid='.$goods_info['g_id'])}">详情</a>
+						<a href="javascript:void(0);" class="delete favorite" id="del_{$goods_info.g_id}" gname="{$goods_info.g_name}" onclick="delCollect('{$goods_info.g_id}');">删除</a>
+					</div>
+                </div><!-- 收藏列表-->
+            </volist>
+        </div>
+        <!--Message-->
+    </div>
+    <!--Ucenter-->
+</div>
+<!--/container-->
+<script type="text/javascript">
+	function delCollect(gid){
+        var gname = $("#del_"+gid).attr("gname");
+        if(gid <= 0){
+            $.ThinkBox.error('商品不存在或者已下架');
+            return false;
+        }
+        var box = $.ThinkBox.confirm(
+                '确定取消对商品 ：<font color="red">'+gname+'</font>&nbsp;收藏吗？',
+                {
+                    'title' : '取消商品收藏',
+                    'ok' : function(){
+                        box.hide();
+                        $.post(
+                                '{:U("Wap/Collect/doDelCollect")}',
+                                {gid:gid},
+                                function(msgObj){
+                                    if(msgObj.status){
+                                        $("#list_"+gid).remove();
+                                        $.ThinkBox.success("取消收藏成功");
+                                        window.location = "{:U('Wap/Collect/pagelist')}";
+                                    }else{
+                                        $.ThinkBox.error(msgObj.info);
+                                    }
+                                },
+                                'json'
+                        );
+                    },
+                    'drag' : false,
+                    'unload'	: true,
+                    'cancel' : function(){box.hide();}
+                }
+        );
+    }
+</script>

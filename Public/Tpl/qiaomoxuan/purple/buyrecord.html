@@ -1,0 +1,51 @@
+{__NOLAYOUT__}
+<div class="cjjl">
+	<table style="    background: #efefef none repeat scroll 0 0;border: 1px solid #f1efec;width:1200px;margin:35px auto 0px">
+		<tr>
+			<th style="padding: 16px 0">买家</th>
+            <th style="padding: 16px 0">宝贝名称</th>
+            <eq name="buy_price" value="1">
+                <th style="padding: 16px 0">购买价</th>
+            </eq>
+            <th style="padding: 16px 0">购买数量</th>
+            <th width="200" style="padding: 16px 0">成交时间</th>
+		</tr>
+   		<volist name="data" id="list">
+			<tr>
+				<td style="padding: 16px 0"><span>{$list.m_name}</span></td>
+				<td style="padding: 16px 0"><div class="pName"><a>{$list.oi_g_name}</a></div></td>
+                <eq name="buy_price" value="1">
+				<td style="padding: 16px 0"><span>{$list.oi_price|sprintf='%.2f',###}</span></td>
+                </eq>
+				<td style="padding: 16px 0"><span>{$list.oi_nums}</span></td>
+				<td style="padding: 16px 0"><span>{$list.oi_create_time}</span></td>
+			</tr>
+         </volist>
+	</table>
+	<div class="fenyex">
+<if condition="$page['nowPage'] eq 1">
+<a><<上一页</a>
+<else />
+<a onclick="getBuyRecordPage('{$list[g_id]}','{$page[nowPage]-1}')"><<上一页</a>
+</if>
+<php>for($a=1;$a<=$page['totalPage'];$a++){</php>
+<if condition="$a eq $page['nowPage']">
+<a href="javascript:void(0);" class="on">{$a}</a>
+<else/>
+<a onclick="getBuyRecordPage('{$list[g_id]}','{$a}')">{$a}</a>
+</if>
+<php>}</php>
+<if condition="$page['nowPage'] eq $page['totalPage']">
+<a>下一页>></a>
+<else />
+<a onclick="getBuyRecordPage('{$list[g_id]}','{$page[nowPage]+1}')">下一页>></a>
+</if>
+</div>
+</div>
+<script>
+    $(function(){
+        if("{$buynums}"){
+            $('#show_sale_num').html("(" + "{$buynums|default=0}"+")");
+        }
+    });
+</script>

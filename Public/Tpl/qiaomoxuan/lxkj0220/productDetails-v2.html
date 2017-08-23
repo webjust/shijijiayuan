@@ -1,0 +1,589 @@
+<!--商品细节图-->
+<script src="__JS__js.js"></script>
+<script src="__JS__productsdetail.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.validate.1.9.js"></script>
+<script src="__PUBLIC__/Lib/validate/jquery.metadata.js"></script>
+<script src="__PUBLIC__/Lib/validate/messages_cn.js"></script>
+<script src="__PUBLIC__/Lib/jquery/js/jquery.etalage.min.js"></script>
+<link href="__PUBLIC__/Admin/css/etalage.css" rel="stylesheet">
+<link href="__PUBLIC__/Lib/thinkbox/css/style.css" rel="stylesheet">
+<script src="__PUBLIC__/Lib/thinkbox/js/jquery.ThinkBox.min.js"></script>
+<link href="__TPL__css/jqzoom-v2.css" rel="stylesheet">
+<script type="text/javascript" src="__JS__jquery.jqzoom-v2.js"></script>
+<script type="text/javascript" src="__JS__jqzoombase-v2.js"></script>
+
+<div class="productDetails_top">
+    <div class="productDetails_top_box">
+        <div class="productDetails_lg"><img src="{$gb_logo}"/></div>
+        <div class="productDetails_pd">
+            <div class="productDetails_pd_img">
+                <img src="__TPL__images/productDetail_top_pg.png" alt=""/>
+            </div>
+            <div class="productDetails_pd_text">
+                 <div class="productDetails_pd_title">
+                     <dl>
+                         <dt>晶透曜白1+1</dt>
+                         <dt>耀绽光感白皙</dt>
+                     </dl>
+                 </div>
+                <div class="productDetails_pd_btn">
+                    <a href="#">立即购买&nbsp;></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="productDetails_nav">
+    <div class="productDetails_nav_box">
+        <div class="productDetails_ul">
+            <ul>
+                <li><a href="#">首页</a></li>
+                <li><a href="#">全部宝贝</a></li>
+                <li><a href="#">热销</a></li>
+                <li><a href="#">新品</a></li>
+            </ul>
+        </div>
+        <div class="productDetails_search">
+            <div class="productDetails_search_box">
+                 <div class="productDetails_search_left">
+                     <div></div>
+                 </div>
+                <div class="productDetails_search_content">
+                    <input type="text" placeholder="神仙水"/>
+                </div>
+            </div>
+        </div>
+        <div class="productDetails_search_bg"></div>
+    </div>
+</div>
+<div class="productDetails_nav_bt">
+    <div class="productDetails_nav_title">
+        <div class="productDetails_nav_dh">
+            <a href="#">首页></a><a href="#">男士洗护></a><a href="#">曼秀伦敦旗舰店></a><a href="#">曼秀伦敦沐浴露</a>
+        </div>
+        <div class="productDetails_nav_right">
+            <div class="productDetails_nav_zp">
+                 <b></b>正品保证
+            </div>
+            <div class="productDetails_nav_logo">
+                <a href="#"><img src="__TPL__images/productDetails_nav_logo.png" alt=""/></a>
+                彩妆国际曼秀雷敦旗舰店
+            </div>
+        </div>
+    </div>
+</div>
+
+<Gyfx:goodsinfo name="detail" gid="$ary_request[gid]" erpguid="$ary_request[gid]"></Gyfx:goodsinfo>
+<gyfx:goodslist name="sale" gid="$ary_request[gid]"></gyfx:goodslist>
+<div class="detail_page">
+    <div class="top">
+        <div class="left">
+            <!--<div class="title">{$detail.gname}</div>-->
+            <div class="word">
+				<Gyfx:unsalespecs name="specgod" gid="$ary_request[gid]"   >
+					<eq name="specgod.gs_name" value="产品名称">{$specgod.gsd_aliases}</eq>
+				</Gyfx:unsalespecs>
+            </div>
+            <!--
+            	<volist name="unsalespecslist" id="pic">
+            			{$pic.gsd_aliases}
+            	</volist> -->
+			<php>
+				$gpicture = $detail['gpics'][0]['gp_picture'] ;
+			</php>
+            <div class="picFocus">
+                <div class="bd">
+                    <div class="boxImg_search"></div>
+                     <ul class="bigImg">
+						<volist name="detail.gpics" id="pic">
+							<li class="jqzoom">
+                                <img src="{$pic['gp_picture']|showImage=###,498,498}" jqimg="{$pic['gp_picture']}" id="bigImg"/>
+                            </li>
+						</volist>
+                    </ul>
+                </div>
+                <div class="smallScroll">
+                    <a class="sPrev" href="javascript:void(0)"></a>
+                    <div class="smallImg">
+                            <ul>
+								<volist name="detail.gpics" id="pic">
+									<li><img src="{$pic['gp_picture']|showImage=###,340,340}" /></li>
+								</volist>
+                            </ul>
+                    </div>
+                    <a class="sNext" href="javascript:void(0)"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="deal_right detChoose">
+			<form id="goodsForm" name="goodsForm" method="post" action="#">
+                <div class="r_first clearfix">
+                    <div class="r_country_logo">
+                        <a href="#"><img src="__TPL__images/kokea_ico.png" alt=""/></a>
+                        <div class="r_first_title">
+                            <div>KOKEA</div>
+                            <div>海外直邮</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="deal_right_text">
+                    <h1>曼秀伦敦&nbsp;男士沐浴露海洋精华&nbsp;500毫升/180瓶</h1>
+                    <p>打法的发送到发送到发送到发送到分</p>
+                </div>
+                <div class="r_second">
+                    <ul class="price_module clearfix">
+                    <!--非组合start-->
+                        <li class="market_price">价格：&nbsp;<span class="market_type"><em>¥</em>{$g_market_price|sprintf='%.2f',###}</span></li>
+                        <li class="jumei_price">促销价：&nbsp;<span><em class="jp_cur">¥</em>{$detail.gprice|sprintf='%.2f',###}</span><div><div></div><div></div></div></li>
+                    </ul>
+                    <div class="r_second_right">
+                        <div class="r_second_right_btn">
+                            使用优惠券<b>></b>
+                        </div>
+                        <div class="r_second_right_box">
+                            <ul>
+                                <li>优惠券1</li>
+                                <li>优惠券2</li>
+                                <li>优惠券3</li>
+                                <li>优惠券4</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="shipment">
+                    <ul>
+                        <li>运税费：</li>
+                        <li>
+                            <div>
+                                <input type="text"/><a href="#"></a>
+                            </div>
+                        </li>
+                        <li class="shipment_last">
+                            <a href="#"><b></b>-讨价宝-</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="shipment">
+                    <ul>
+                        <li>活&nbsp;&nbsp;&nbsp;动：</li>
+                        <li class="active_btn">
+                            <a href="#">活动内容</a>
+                        </li>
+                        <li>
+                            <span>未参加活动不显示</span>
+                        </li>
+                    </ul>
+                </div>
+                <!--<div class="people clearfix">-->
+                    <!--&lt;!&ndash;秒杀不显示心愿 购买人数&ndash;&gt;-->
+                    <!--<div class="num fl"><em>{$detail.comment_nums}</em>人已购买</div>-->
+                <!--</div>-->
+                <!--<div class="r_third">-->
+                    <!--<dl class="mail_policy clearfix">-->
+                        <!--<dt class="fl">服务政策：</dt>-->
+                        <!--<dd class="global_mail">-->
+                            <!--<span class="day"></span>本商品支持7天无条件退货-->
+                        <!--</dd>-->
+                    <!--</dl>-->
+                    <!--<notempty name="detail.gifts_point">-->
+	                    <!--<div class="r_third_bottom">-->
+	                        <!--<div class="fan">返</div>-->
+	                        <!--<div class="jifen">最高可返<span>{$detail.gifts_point}</span>积分</div>-->
+	                        <!--<div class="problem"><a href="javascript:void(0)">?</a></div>-->
+	                    <!--</div>-->
+                    <!--</notempty>-->
+                <!--</div>-->
+				<if condition="$detail['gname'] eq '商品不存在！'">
+					<div id="r_third" style="padding:20px 0;font-weight:bold;font-size:24px;">该商品已下柜，非常抱歉！</div>
+				<else/>
+	                <div id="showDetailSkus">商品规格加载中......</div>
+					<script>
+						var goods_url = new Array();
+						<volist name="detail.goods_url" id="da" key="k">
+							goods_url['{$key}'] = "{$da}";
+						</volist>
+					</script>
+                    <!--<div class="share_to">-->
+                        <!--<dl>-->
+                            <!--&lt;!&ndash; JiaThis Button BEGIN &ndash;&gt;-->
+                            <!--<dt>分享给好友</dt>-->
+                            <!--<dd id="ckepop">-->
+                                <!--<a class="jiathis_button_qzone" style="float: left;"></a>-->
+                                <!--<a class="jiathis_button_tsina" class="share_to1" style="float: left;"></a>-->
+                                <!--<a class="jiathis_button_tqq" class="share_to2" style="float: left;"></a>-->
+                                <!--<a class="jiathis_button_renren" class="share_to3" style="float: left;"></a>-->
+                                <!--<a class="jiathis_button_kaixin001" class="share_to4" style="float: left;"></a>-->
+                                <!--<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>-->
+                            <!--</dd>-->
+                            <!--&lt;!&ndash; JiaThis Button END &ndash;&gt;-->
+                        <!--</dl>-->
+                    <!--</div>-->
+                    <div class="shou_buy_box">
+                        <div class="sh_mark sh_mark_price" id="sh_mark_price" style="display: list-item;cursor: pointer;" onclick="addToInterests('{$ary_request[gid]}');">
+                            <span class="rmb_tax">收藏</span>
+                        </div>
+                        <div class="tb-action">
+                            <input type="hidden" name="way_type" value="" id="way_type"/>
+                            <div class="tb-btn-buy"><a href="javascript:void(0)" id="addToOrder" class="J_LinkBuy">立即购买</a></div>
+                            <div class="tb-btn-basket"><a href="javascript:void(0)" id="addToCart">加入购物车&gt</a></div>
+                        </div>
+                    </div>
+				</if>
+            </form>
+                <div class="deal_right_bottom">
+                    <div>
+                        <p><span>.</span>本产品支持7天无理由退货</p>
+                        <div>
+                            <div class="deal_right_star">
+                                <ul>
+                                    <li><a href="#"><img src="__TPL__images/pd_star_ico.png" alt=""/></a></li>
+                                    <li><a href="#"><img src="__TPL__images/pd_star_ico.png" alt=""/></a></li>
+                                    <li><a href="#"><img src="__TPL__images/pd_star_ico.png" alt=""/></a></li>
+                                    <li><a href="#"><img src="__TPL__images/pd_star_ico.png" alt=""/></a></li>
+                                    <li><a href="#"><img src="__TPL__images/pd_star_ico.png" alt=""/></a></li>
+                                </ul>
+                                <div>100%</div>
+                            </div>
+                            <div class="deal_right_pj">888人评价</div>
+                            <div class="deal_right_st">88人晒图</div>
+                        </div>
+                    </div>
+                    <div class="f_packages_right">
+                        <span>手机购买</span><b></b><a href="#"></a>
+                    </div>
+                    <div>
+                        <a id="toggle_payment_btn" href="#">支付方式 <b>></b></a>
+                        <div id="toggle_payment_box">
+                            <ul>
+                                <li><b></b>信用卡</li>
+                                <li><b class="b1"></b>快捷支付</li>
+                                <li><b class="b2"></b>微信支付</li>
+                                <li><b class="b3"></b>余额宝</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="clear: both;"></div>
+<div class="f_packages">
+    <div class="f_packages_left">
+        <a class="f_packages_left_btn">
+            精<br/>选<br/>套<br/>餐
+        </a>
+        <ul>
+            <li>
+                <div><a href="#"><img src="__TPL__images/test_11.jpg" alt=""/></a></div>
+                <div><input type="checkbox" />价格：￥120元</div>
+            </li>
+            <li>
+                <div><a href="#"><img src="__TPL__images/test_11.jpg" alt=""/></a></div>
+                <div><input type="checkbox" />价格：￥120元</div>
+            </li>
+            <li>
+                <div><a href="#"><img src="__TPL__images/test_11.jpg" alt=""/></a></div>
+                <div><input type="checkbox" />价格：￥120元</div>
+            </li>
+            <li>
+                <div><a href="#"><img src="__TPL__images/test_11.jpg" alt=""/></a></div>
+                <div><input type="checkbox" />价格：￥120元</div>
+            </li>
+        </ul>
+        <div>
+            <a href="#"></a>
+            <a href="#"></a>
+        </div>
+    </div>
+    <div class="f_packages_middle">
+        <div>
+            <dl>
+                <dt>
+                    套餐价：￥765.00
+                </dt>
+                <dd>
+                    价格：￥765.00
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a href="#">
+                立即购买
+            </a>
+            <a href="">
+                加入购物车
+            </a>
+        </div>
+    </div>
+</div>
+<div class="detail_page2">
+    <div class="deal_detail">
+        <!--品牌故事-->
+        <div class="pp_story" id="pp_story">
+            <div class="pp_story_title"></div>
+            <div class="pp_story_content">
+                <div class="pp_story_content_logo">
+                    <img src="{$gb_logo}"/>
+                </div>
+                <div class="pp_story_content_intro">
+                    {$gb_detail}
+                </div>
+            </div>
+            <div class="pp_common_picture">
+                <img src="__TPL__images/pd_common_bg.png" alt=""/>
+            </div>
+        </div>
+        <!--浮动导航-->
+        <div class="deal_tab_nav" id="anchorbar" style="">
+            <div class="inner">
+                <ul class="clearfix fl">
+                    <li><a href="#pd_parameter" class="">宝贝属性</a></li>
+                    <li><a href="#pp_details" class="">宝贝详情</a></li>
+                    <li><a href="#pp_picture" class="">宝贝靓照</a></li>
+                    <li><a href="#pp_send" class="">海外直邮说明</a></li>
+                    <li><a href="#pp_comment" class="">宝贝评价</a></li>
+                    <li class="last_li"><a href="#">立即购买</a></li>
+                </ul>
+                <div class="nav_fixed_pric fr" style="display: none;"> <span class="nav_fprice"> <strong class="jm_price">¥139</strong> <span class="nav_price">(<span class="market_price" style="display: none;"><em class="currency_arial">¥</em>159</span>)</span> </span> <span class="btn"><a href="javascript:;" id="anchorbarBuyBtn" class="fixed_buy_now">加入购物车</a></span> </div>
+            </div>
+        </div>
+        <!--宝贝属性-->
+        <div class="pd_parameter" id="pd_parameter">
+            <div class="pp_story_title pp_nature_title"></div>
+            <div class="pd_parameter_content">
+                <div>
+                    <div class="pd_parameter_left">
+                        <ul>
+                            <li>品牌：{$gb_brand}</li>
+                            <li>产品名称：{$detail.gname}</li>
+                            <Gyfx:unsalespecs name="spec" gid="$ary_request[gid]">
+                                <li>{$spec.gs_name}：{$spec.gsd_aliases}</li>
+                            </Gyfx:unsalespecs>
+                        </ul>
+                    </div>
+                    <div class="pd_parameter_right">
+                        <img src="{$gpicture}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="pd_nature_picture">
+                <img src="__TPL__images/pd_paramenter_bg.png" alt=""/>
+            </div>
+        </div>
+
+        <notempty name="detail.gauth">
+            <div class="content_nav_con content_book">
+                <div class="detail_content consumer_box"></div>
+                <div class="content_text">
+                    {$detail.gauth}
+                </div>
+              <!--授权书-->
+            </div>
+        </notempty>
+
+        <!--宝贝详情-->
+        <div class="pp_details" id="pp_details">
+            <div class="pp_story_title pp_details_title"></div>
+            <div class="pp_details_content">
+                <ul>
+                    <li>
+                        <div class="pp_details_content_left"><img src="__TPL__images/test101.png" alt=""/></div>
+                        <div class="pp_details_content_text">
+                            <h1>这是一个tilte</h1>
+                            <p>这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pp_details_content_left"><img src="__TPL__images/test102.png" alt=""/></div>
+                        <div class="pp_details_content_text">
+                            <h1>这是一个tilte</h1>
+                            <p>这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pp_details_content_left"><img src="__TPL__images/test103.png" alt=""/></div>
+                        <div class="pp_details_content_text">
+                            <h1>这是一个tilte</h1>
+                            <p>这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--宝贝靓照-->
+        <div class="pp_picture" id="pp_picture">
+            <div class="pp_story_title pp_picture_title"></div>
+            <div class="pp_picture_content">
+                <volist name="detail.gpics" id="pic">
+                    <img src="{$pic['gp_picture']}"/>
+                </volist>
+                <div class="content_nav_con" loaded="loaded">
+                    {$detail.gdesc}
+                </div>
+            </div>
+        </div>
+        <!--关于彩妆国季的海外直邮-->
+        <div class="pp_send" id="pp_send">
+            <div class="pp_story_title pp_send_title"></div>
+            <div class="pp_send_content">
+                <img src="__TPL__images/send_picture.png" alt=""/>
+            </div>
+        </div>
+        <!--评论-->
+        <div class="pp_comment" id="pp_comment">
+            <div class="pp_story_title pp_comment_title"></div>
+            <div class="pp_comment_content">
+                <if condition="$common['comments_switch'] eq 1">
+                    <div id="comments" class="content_nav_con" loaded="loaded">
+                        <div class="detail_content comments"></div>
+                        <div class="tabAbpCon" id="con_tabAbp_2"></div>
+                    </div>
+                </if>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="right_float_box">
+    <div class="right_float_title">
+        <div class="right_float_title_content">猜你喜欢</div>
+        <div class="right_float_title_dash"></div>
+    </div>
+    <div class="right_float_content">
+        <div class="right_float_btn">
+            <a class="prev"></a>
+            <a class="next"></a>
+        </div>
+        <div class="right_float_list">
+            <ul>
+                <gyfx:goodslist name='nav' guess='1' mod='3' num="6">
+                    <li><a href="{$nav.gurl}" target="_blank"><img alt="{$nav.gname}" src="{$nav.gpic}"></a></li>
+                </gyfx:goodslist>
+            </ul>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="error_1" value="{$Think.lang.STOCK_ERROR_1}" id="error_1" />
+<input type="hidden" name="error_2" value="{$Think.lang.STOCK_ERROR_2}" id="error_2" />
+<input type="hidden" name="error_3" value="{$Think.lang.STOCK_ERROR_3}" id="error_3" />
+<input type="hidden" name="error_4" value="{$Think.lang.STOCK_ERROR_4}" id="error_4" />
+<input type="hidden" value="{$detail.gid}" id="gid">
+<input type="hidden" name="open_stock" value="{$stock_data.OPEN_STOCK}" id="open_stock" />
+<input type="hidden" name="stock_num" value="{$stock_data.STOCK_NUM}" id="stock_num" />
+<input type="hidden" name="stock_level" value="{$stock_data['level']}" id="stock_level" />
+<form id="submitSkipFrom" name="submitSkipFrom" method="post" action="/Ucenter/Orders/pageAdd">
+<input type="hidden" name="pid[]" id="submitSkipItemPid" value="" />
+<input type="hidden" name="type[]" id="submitSkipItemtype" value=""/>
+</form>
+<script>
+    $(".right_float_list ul li").on("click","a",function(){
+        var details=$(this).attr("href");
+        re=new RegExp("/Home/Products/detail/","g");
+        var newStart=details.replace(re,"/Home/Products/detail/v/2/");
+        $(this).attr("href",newStart);
+    });
+    (function(){
+        var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?fb50cb3f17cb4f91d1ce3c1b7ecab15b":"https://jspassport.ssl.qhimg.com/11.0.1.js?fb50cb3f17cb4f91d1ce3c1b7ecab15b";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+    })();
+</script>
+<script type="text/javascript">
+$(function(){
+    $(window).scroll(function(e) {
+        var topH = $(window).scrollTop();
+        //$('title').html(topH)
+
+        //如果topH大于730px它要定位在上面，如果小于或等于，它还在box里面（标准流）
+        if(topH>1800){
+            $('.deal_tab_nav').css('position','fixed').css('top',0)
+        }else{
+            $('.deal_tab_nav').css('position','static')
+        }
+    });
+})
+//	var IS_ON_MULTIPLE = '{$is_on_mulitiple}';
+	getDetailSkus('{$ary_request.gid}','','-v2');
+	getGoodsAdvice('{$ary_request.gid}',1);
+	getCollGoodsPage('{$ary_request.gid}');
+	getRelateGoodsPage('{$ary_request.gid}');
+	<if condition="$common['comments_switch'] eq 1">
+	getCommentPage('{$ary_request.gid}');
+	</if>
+	//getBuyRecordPage('{$ary_request.gid}',20);
+	function setTabs(name, cursel, n){
+		for (i = 1; i <= n; i++){
+			var tab = document.getElementById(name + i);
+			var con = document.getElementById("con_" + name + "_" + i);
+			tab.className = i == cursel?"onHover":"";
+			con.style.display = i == cursel?"block":"none";
+		}
+	};
+</script>
+
+<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+<script type="text/javascript">
+    //大图切换
+    jQuery(".picFocus").slide({ titCell:".smallImg li", mainCell:".bigImg", effect:"fold", autoPlay:true,delayTime:200,
+        startFun:function(i,p){
+            //控制小图自动翻页
+            if(i==0){ jQuery(".picFocus .sPrev").click() } else if( i%5==0 ){ jQuery(".picFocus .sNext").click()}
+        }
+    });
+    //小图左滚动切换
+    jQuery(".picFocus .smallScroll").slide({ mainCell:"ul",delayTime:100,vis:4,scroll:4,effect:"top",autoPage:true,prevCell:".sPrev",nextCell:".sNext",pnLoop:false });
+    jQuery(".picFocus").slide({ mainCell:".bd ul",effect:"fade",autoPlay:false});
+    jQuery(".right_float_content").slide({titCell:".right_float_btn ul",mainCell:".right_float_list ul",autoPage:true,effect:"topLoop",autoPlay:true,vis:5});
+</script>
+<script>
+    $(document).ready(function(){
+        $("#toggle_payment_btn").toggle(function(){
+            $("#toggle_payment_btn>b").css('transform','rotate(-90deg)');
+            $(this).next().fadeIn(100);
+        },function(){
+            $("#toggle_payment_btn>b").css('transform','rotate(90deg)');
+            $(this).next().fadeOut(100);
+        });
+        $(".r_second_right_btn").toggle(function(){
+            $(".r_second_right_btn>b").css('transform','rotate(-90deg)');
+            $(this).next().fadeIn(100);
+        },function() {
+            $(".r_second_right_btn>b").css('transform', 'rotate(90deg)');
+            $(this).next().fadeOut(100);
+        });
+        $(function () {
+            //给猜你喜欢盒子添加定位
+            var right_float = $(window).width()/2+600;
+            if(right_float>0){
+                $("#right_float_box").css({"left":right_float});
+            }else{
+                $("#right_float_box").css({"left":"0"});
+            }
+            //绑定滚动条事件
+            $(window).bind("scroll", function () {
+                var sTop = $(window).scrollTop();
+                var sTop = parseInt(sTop);
+                if (sTop >=380) {
+                    if (!$("#right_float_box").is(":visible")) {
+                        try {
+                            $("#right_float_box").slideDown();
+                        } catch (e) {
+                            $("#scrollSearchDiv").show();
+                        }
+                    }
+                }else {
+                    if ($("#right_float_box").is(":visible")) {
+                        try {
+                            $("#right_float_box").slideUp();
+                        } catch (e) {
+                            $("#right_float_box").hide();
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
